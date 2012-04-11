@@ -1,32 +1,29 @@
-=== Plugin Name ===
+=== WP Glossary ===
 Contributors: tcbarrett
 Donate link: http://www.tcbarrett.com/donate/
+Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
-Tested up to: 3.2.1
-Stable tag: 0.1
+Tested up to: 3.3.1
+Stable tag: 1.0
 
-Build a glossary on your site, and link terms in your posts to it.
+Create your own glossary of hot-linked terms, right inside your own site!
 
 == Description ==
 
-This first version does two things:
-1. Adds a glossary custom post type for storing your glossary terms.
-1. Adds a glossary shortcode to allow you to link your content to your glossary terms.
+Build a glossary on your site, and link terms in your posts to it.
 
-Example syntax:
+Reasons for using wp-glossary plugin:
 
-Display and link to glossary with post ID 4
-[glossary id='4'] 
+* External glossary sites don't have all the words and terms you need.
+* You want to keep your visitors on your site (not send them to an external glossary site).
+* You don't want the adverts that the external site popups come with.
 
-Display and link to glossary with slug 'seo'
-[glossary slug='seo']
+Keep your visitors on your site, keep their experience consistent and pleasant using *your* theme.
 
-Auto search word for matching glossary term (e.g. 'seo')
-[glossary]SEO[/glossary]
+Once activated you add glossary terms (custom post type) and link to those terms from inside your own content using the powerful WordPress shortcode functionality.
 
-Apply glossary term with slug 'seo' to post content 'search engine optimisation'
-[glossary slug='seo']search engine optimisation[/glossary]
+[For further details visit my dedicated plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
 
 == Installation ==
 
@@ -45,13 +42,47 @@ Not yet, but this is another idea I have considered.
 
 = Will there be a nice tool-tip style hover mechanism? =
 
-Yes, that is the plan for the next release.
+Yes, that is the plan for a future release.
+
+= Further Information =
+
+[For further details visit my dedicated plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
 
 == Screenshots ==
 
-None yet. It'd just be some basic post admin screen shots. It's that simple!
+1. Edit glossary term
+2. Using glossary shortcode in post content
+3. Viewing glossary archive
 
 == Changelog ==
 
+= 1.0 =
+* Fix rewrite flush
+* Add archive
+* Fix readme
+* Added screenshots
+* Supported by [dedicated website section](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
+
 = 0.1 =
 * Inital version. Trivial functionality.
+
+== Upgrade Notice ==
+
+= 1.0 =
+Version 0.1 rewrite flush was for dev purposes only and may have broken other re-writes. Please save your permalinks after upgrading.
+
+== Example Syntax ==
+The WordPress shortcode syntax is really simple!
+
+= Display and link to glossary with post ID 4 =
+[glossary id='4'] 
+
+= Display and link to glossary with slug 'seo' =
+[glossary slug='seo']
+
+= Auto search word for matching glossary term (e.g. 'seo') =
+[glossary]SEO[/glossary]
+
+= Apply glossary term with slug 'seo' to post content 'search engine optimisation' =
+[glossary slug='seo']search engine optimisation[/glossary]
+

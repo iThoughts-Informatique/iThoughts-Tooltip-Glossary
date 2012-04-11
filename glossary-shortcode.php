@@ -4,15 +4,15 @@
  *
  * Links post content to glossary terms, using a varierty of glosssary attributes.
  */
-add_shortcode('glossary', 'tcb_glossary_handle_shortcode');
+add_shortcode( 'glossary', 'tcb_glossary_handle_shortcode' );
 function tcb_glossary_handle_shortcode( $atts, $content='' ){
   global $wpdb;
 
-  extract(shortcode_atts(array(
+  extract( shortcode_atts( array(
    'id'   => 0,
    'slug' => '',
    'text' => '',
-  ), $atts));
+  ), $atts) );
 
   // Set text to default content.
   if ( empty( $text ) ) $text = $content;
