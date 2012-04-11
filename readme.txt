@@ -48,11 +48,14 @@ Yes, that is the plan for a future release.
 
 [For further details visit my dedicated plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
 
+
 == Screenshots ==
+
 
 1. Edit glossary term
 2. Using glossary shortcode in post content
 3. Viewing glossary archive
+
 
 == Changelog ==
 
