@@ -6,7 +6,10 @@
  */
 add_shortcode( 'glossary', 'tcb_glossary_handle_shortcode' );
 function tcb_glossary_handle_shortcode( $atts, $content='' ){
-	global $wpdb;
+	global $wpdb, $post, $tcb_wpg_scripts;
+
+	// Global variable that tells WP to print related js files.
+	$tcb_wpg_scripts = true;
 
 	extract( shortcode_atts( array(
 	 'id'   => 0,
@@ -19,7 +22,7 @@ function tcb_glossary_handle_shortcode( $atts, $content='' ){
 
 	// Trivial case
 	if ( !empty( $id ) ){
-		$glossaryterm = get_post($id);
+		$post = get_post( $id );
 	}
 	else {
 		if ( empty( $slug ) ){
@@ -29,20 +32,27 @@ function tcb_glossary_handle_shortcode( $atts, $content='' ){
 			}
 			$slug = sanitize_title( $text );
 		}
-		$slug         = strtolower($slug);
-		$glossaryterm = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE post_name = %s AND post_type = 'glossary'", $slug ) );
+		$slug = strtolower($slug);
+		$id   = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s AND post_type = 'glossary' LIMIT 1", $slug ) );
+		$post = get_post( $id );
 	}
-	if ( empty( $glossaryterm ) ) return $text; // No glossary term found. Return the original text.
-	if ( empty( $text ) )         $text = $glossaryterm->post_title; // Glossary found, but no text supplied, so use the glossary term's title.
-	
-	$href    = get_permalink( $glossaryterm->ID );
-	$title   = $glossaryterm->post_title;
-	$excerpt = apply_filters( 'the_excerpt', $glossaryterm->post_excerpt );
-	$tooltip = strip_tags( $glossaryterm->post_content );
+	if ( empty( $post ) ) return $text; // No glossary term found. Return the original text.
 
-	//$link = '<span style="display:none;" class="glossary-tooltip">'.$excerpt.'</span><a class="glossary-hover" href="'.$href.'" title="'.$title.'">'.$text.'</a>';
+	setup_postdata( $post );
+	$title = get_the_title();
+
+	if ( empty( $text ) ) $text = $title; // Glossary found, but no text supplied, so use the glossary term's title.
+	
+	$href    = get_permalink();
+	//$excerpt = apply_filters( 'the_excerpt', $glossaryterm->post_excerpt );
+	$excerpt = get_the_excerpt();
+	$tooltip = $excerpt ? $excerpt : strip_tags( get_the_content() );
+
 	$link  = '<a class="glossary-hover" href="' . $href . '" title="' . esc_attr($tooltip) . '">' . $text . '</a>';
-	//$link  = '<a class="glossary-hover" href="' . $href . '" title="' . $title . '">' . $text . '</a>';
-	//$hover = '<span class="glossary-hover-text">' . apply_filters('the_content', $glossaryterm->post_content) . '</span>';
-	return '<span class="wp-glossary">' . $link . $hover . '</span>';
+	wp_reset_postdata();
+	return '<span class="wp-glossary">' . $link . $hover . '</span>'; // Homemade tooltips
+
+	// Homemade tooltips
+	//$link = '<span style="display:none;" class="glossary-tooltip">'.$excerpt.'</span><a class="glossary-hover" href="'.$href.'" title="'.$title.'">'.$text.'</a>';
+	//return $link;
 }

@@ -56,7 +56,10 @@ Not yet, but this is another idea I have considered.
 
 == Changelog ==
 
-= 1.1.1 =
+= 1.1.3 =
+* Made tooltip js conditionally load (only when shortcode used)
+
+= 1.1.2 =
 * Fixed some WordPress function syntax (dev)
 * Updated shortcode name to something sensible
 
