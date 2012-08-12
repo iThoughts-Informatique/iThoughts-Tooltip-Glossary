@@ -1,0 +1,28 @@
+.tooltip {
+    display:none;
+    background: #eee;
+    font-size:12px;
+    height:70px;
+    width:160px;
+    padding:25px;
+    color:#222;
+  }
+/*
+.glossary-hover-text{
+	display: none;
+ }
+.wp-glossary:hover .glossary-hover-text{
+	position: absolute;
+	display: block;
+	bottom: 20px;
+	left: 23px;
+	background: #fff;
+	color: #666;
+	border: 1px solid #ccc;
+	width: 310px;
+	padding: 5px;
+	border-radius: 9px;
+	border-bottom-left-radius: 0px;
+	z-index: 100;
+}
+*/
