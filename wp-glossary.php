@@ -13,7 +13,7 @@ define( 'TCBWPGPLUGINDIR', dirname( __FILE__ ) );
 
 include_once( TCBWPGPLUGINDIR . '/glossary-posttype.php' );
 include_once( TCBWPGPLUGINDIR . '/glossary-shortcode.php' );
-include_once( TCBWPGPLUGINDIR . '/glossaries-shortcode.php' );
+include_once( TCBWPGPLUGINDIR . 'glossary-term-list-shortcode.php' );
 
 add_action( 'wp_enqueue_scripts', 'tcb_wpg_enqueue_scripts' );
 function tcb_wpg_enqueue_scripts(){

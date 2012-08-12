@@ -4,8 +4,8 @@
  *
  * Lists all current glossary items, alphabetically.
  */
-add_shortcode( 'glossaries', 'tcb_glossaries_handle_shortcode' );
-function tcb_glossaries_handle_shortcode( $atts, $content='' ){
+add_shortcode( 'glossary_term_list', 'tcb_glossary_term_list_handle_shortcode' );
+function tcb_glossary_term_list_handle_shortcode( $atts, $content='' ){
 	global $post;
 	$args = array(
 		'post_type'           => 'glossary',

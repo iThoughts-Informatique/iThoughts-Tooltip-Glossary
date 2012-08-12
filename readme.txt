@@ -4,7 +4,7 @@ Donate link: http://www.tcbarrett.com/donate/
 Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
-Tested up to: 3.3.1
+Tested up to: 3.4.1
 Stable tag: 1.0
 
 Create your own glossary of hot-linked terms, right inside your own site!
@@ -32,17 +32,14 @@ Once activated you add glossary terms (custom post type) and link to those terms
 
 == Frequently Asked Questions ==
 
-= Can the plugin auto tag my glossary terms? =
+= Can the plugin auto tag glossary terms in my post content? =
 
-No. But if you want it to, let me know and I'll add it.
+No. However, when you add the glossary shortcode, it does it's best to find the right term. In a nice way.
 
 = Can I link it to an external glossary =
 
 Not yet, but this is another idea I have considered.
 
-= Will there be a nice tool-tip style hover mechanism? =
-
-Yes, that is the plan for a future release.
 
 = Further Information =
 
@@ -58,6 +55,14 @@ Yes, that is the plan for a future release.
 
 
 == Changelog ==
+
+= 1.1.1 =
+* Fixed some WordPress function syntax (dev)
+* Updated shortcode name to something sensible
+
+= 1.1 = 
+* Added basic jquery-tooltip based tooltip system
+* Added glossaries shortcode (makes an alphabetical list of terms)
 
 = 1.0 =
 * Fix rewrite flush
@@ -89,3 +94,5 @@ The WordPress shortcode syntax is really simple!
 = Apply glossary term with slug 'seo' to post content 'search engine optimisation' =
 [glossary slug='seo']search engine optimisation[/glossary]
 
+= Display a list of all your glossary terms (alphabetical) =
+[glossary_term_list]
