@@ -4,10 +4,11 @@ Donate link: http://www.tcbarrett.com/donate/
 Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
-Tested up to: 3.4.1
+Tested up to: 3.4.2
 Stable tag: 1.1.3
+License: GPLv2 or later
 
-Create your own glossary of hot-linked terms, right inside your own site!
+Create your own glossary of hot-linked terms, inside your own site!
 
 == Description ==
 
@@ -30,6 +31,8 @@ Once activated you add glossary terms (custom post type) and link to those terms
 1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
+If you create your own single template for glossary terms, don't forget to remove the reference filter.
+
 == Frequently Asked Questions ==
 
 = Can the plugin auto tag glossary terms in my post content? =
@@ -38,7 +41,7 @@ No. However, when you add the glossary shortcode, it does it's best to find the 
 
 = Can I link it to an external glossary =
 
-Not yet, but this is another idea I have considered.
+Yes. As of version 1.2 you can add a reference title and link.
 
 
 = Further Information =
@@ -52,9 +55,16 @@ Not yet, but this is another idea I have considered.
 1. Edit glossary term
 2. Using glossary shortcode in post content
 3. Viewing glossary archive
-
+4. Example A to Z
 
 == Changelog ==
+
+= 1.2 =
+* NEW - A to Z shortcode (inspired by Brandon Sawyer)
+* NEW - Reference meta (title + link)
+* NEW - Author support
+* UPDATE - Tooltip size updated
+* FIX - Tooltip overflow css
 
 = 1.1.3 =
 * Made tooltip js conditionally load (only when shortcode used)
@@ -79,6 +89,9 @@ Not yet, but this is another idea I have considered.
 
 == Upgrade Notice ==
 
+= 1.2 =
+Adds a the_content filter to glossary term single page
+
 = 1.0 =
 Version 0.1 rewrite flush was for dev purposes only and may have broken other re-writes. Please save your permalinks after upgrading.
 
@@ -99,3 +112,7 @@ The WordPress shortcode syntax is really simple!
 
 = Display a list of all your glossary terms (alphabetical) =
 [glossary_term_list]
+
+= Display a jQuery-powered A to Z list of your glossary terms =
+[glossary_atoz]
+
