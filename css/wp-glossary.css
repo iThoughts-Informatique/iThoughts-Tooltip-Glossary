@@ -1,3 +1,4 @@
+/* A-Z shortcode */
 .glossary-menu-atoz{
   text-transform: uppercase;
   list-style: none;
@@ -38,13 +39,17 @@
   display: none;
 }
 
-
+/* Popup tooltip */
 .tooltip {
-	display:none;
-	background: #eee;
-	font-size:12px;
-	height:70px;
-	width:160px;
-	padding:25px;
-	color:#222;
+	display:      none;
+	background:   #eee;
+	font-size:    0.8em;
+	height:       90px;
+	width:        220px;
+	padding:      15px;
+	color:        #222;
+	overflow:     hidden;
+	border-top:   1px dotted #333;
+	border-left:  1px dotted #333;
+	border-right: 1px dotted #333;
 }
