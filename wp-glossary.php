@@ -4,14 +4,15 @@ Plugin Name: WP Glossary
 Plugin URI: http://wordpress.org/extend/plugins/wp-glossary/
 Description: Build a glossary of terms and link your post content to it.
 Author: TCBarrett
-Version: 1.1.3
-Author URI: http://www.tcbarrett.com
+Version: 1.2-alpha
+Author URI: http://www.tcbarrett.com/
 */
 define( 'TCBWPGPLUGINDIR', dirname( __FILE__ ) );
 
 include_once( TCBWPGPLUGINDIR . '/glossary-posttype.php' );
 include_once( TCBWPGPLUGINDIR . '/glossary-shortcode.php' );
 include_once( TCBWPGPLUGINDIR . '/glossary-term-list-shortcode.php' );
+include_once( TCBWPGPLUGINDIR . '/glossary-atoz-shortcode.php' );
 
 // Register tooltip scripts
 add_action( 'init', 'tcb_wpg_register_scripts' );
@@ -39,10 +40,12 @@ function tcb_wpg_enqueue_scripts(){
 /** */
 register_activation_hook( __FILE__, 'tcb_glossary_activation_hook' );
 function tcb_glossary_activation_hook(){
-	flush_rewrite_rules( $hard=false );
+	// Some discussion about how rewrite rule flushing needs to be done twice.
+	flush_rewrite_rules();
+	flush_rewrite_rules();
 }
 /** */
 register_deactivation_hook( __FILE__, 'tcb_glossary_deactivation_hook' );
 function tcb_glossary_deactivation_hook(){
-	flush_rewrite_rules( $hard=false );
+	flush_rewrite_rules();
 }

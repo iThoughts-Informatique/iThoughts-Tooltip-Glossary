@@ -1,28 +1,50 @@
-.tooltip {
-    display:none;
-    background: #eee;
-    font-size:12px;
-    height:70px;
-    width:160px;
-    padding:25px;
-    color:#222;
-  }
-/*
-.glossary-hover-text{
-	display: none;
- }
-.wp-glossary:hover .glossary-hover-text{
-	position: absolute;
-	display: block;
-	bottom: 20px;
-	left: 23px;
-	background: #fff;
-	color: #666;
-	border: 1px solid #ccc;
-	width: 310px;
-	padding: 5px;
-	border-radius: 9px;
-	border-bottom-left-radius: 0px;
-	z-index: 100;
+.glossary-menu-atoz{
+  text-transform: uppercase;
+  list-style: none;
+  margin: auto;
+  padding: 0;
+  border-bottom: 2px solid #000;
+  width: 100%;
+  height: 25px;
 }
-*/
+.glossary-menu-item{
+  /* display: inline; */
+  float: left;
+  padding-left: 1%;
+  padding-right: 1%;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  height: 22px;
+}
+
+.glossary-menu-item a{
+  text-decoration: none;
+}
+
+.atozmenu-empty{
+  color: #ccc;
+}
+.atozmenu-off{
+  color: #333;
+}
+.atozmenu-off:hover{
+  background-color: #333;
+  color: #eee;
+}
+.atozmenu-on{
+  text-decoration: underline;
+}
+.atozitems-off{
+  display: none;
+}
+
+
+.tooltip {
+	display:none;
+	background: #eee;
+	font-size:12px;
+	height:70px;
+	width:160px;
+	padding:25px;
+	color:#222;
+}
