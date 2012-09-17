@@ -5,7 +5,7 @@ Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 1.2
+Stable tag: 1.2.0.1
 License: GPLv2 or later
 
 Create your own glossary of hot-linked terms, inside your own site!
