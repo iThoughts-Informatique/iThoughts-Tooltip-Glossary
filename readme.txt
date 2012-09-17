@@ -64,6 +64,7 @@ Yes. As of version 1.2 you can add a reference title and link.
 * NEW - Reference meta (title + link)
 * NEW - Author support
 * UPDATE - Tooltip size updated
+* UPDATE - Restrict term list to specific letters
 * FIX - Tooltip overflow css
 
 = 1.1.3 =
@@ -112,6 +113,9 @@ The WordPress shortcode syntax is really simple!
 
 = Display a list of all your glossary terms (alphabetical) =
 [glossary_term_list]
+
+= Display list of glossary terms beginning with a, b or c =
+[glossary_term_list alpha='a,b,c']
 
 = Display a jQuery-powered A to Z list of your glossary terms =
 [glossary_atoz]
