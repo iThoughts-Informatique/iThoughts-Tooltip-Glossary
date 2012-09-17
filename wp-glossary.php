@@ -4,7 +4,7 @@ Plugin Name: WP Glossary
 Plugin URI: http://wordpress.org/extend/plugins/wp-glossary/
 Description: Build a glossary of terms and link your post content to it.
 Author: TCBarrett
-Version: 1.2-alpha-2
+Version: 1.2.0.1
 Author URI: http://www.tcbarrett.com/
 */
 define( 'TCBWPGPLUGINDIR', dirname( __FILE__ ) );
