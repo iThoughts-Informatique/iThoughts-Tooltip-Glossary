@@ -4,7 +4,7 @@ Plugin Name: WP Glossary
 Plugin URI: http://wordpress.org/extend/plugins/wp-glossary/
 Description: Build a glossary of terms and link your post content to it.
 Author: TCBarrett
-Version: 1.2.0.1
+Version: 1.3
 Author URI: http://www.tcbarrett.com/
 */
 define( 'TCBWPGPLUGINDIR', dirname( __FILE__ ) );
@@ -13,6 +13,11 @@ include_once( TCBWPGPLUGINDIR . '/glossary-posttype.php' );
 include_once( TCBWPGPLUGINDIR . '/glossary-shortcode.php' );
 include_once( TCBWPGPLUGINDIR . '/glossary-term-list-shortcode.php' );
 include_once( TCBWPGPLUGINDIR . '/glossary-atoz-shortcode.php' );
+
+add_action( 'init', 'tcb_wpg_localisation' );
+function tcb_wpg_localisation() {
+	load_plugin_textdomain( 'wp-glossary', false, plugin_dir_path(__FILE__) . 'lang/' );
+}
 
 // Register tooltip scripts
 add_action( 'init', 'tcb_wpg_register_scripts' );

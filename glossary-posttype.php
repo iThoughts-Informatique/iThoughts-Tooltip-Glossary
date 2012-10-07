@@ -13,16 +13,16 @@ function tcb_glossary_register_posttype_glossary() {
 			'has_archive'          => true,
 			'supports'             => array( 'title', 'editor', 'thumbnail', 'author' ),
 			'labels' => array(
-				'name'               => __( 'Glossary Terms' ),
-				'singular_name'      => __( 'Glossary Term' ),
-				'add_new'            => __( 'Add New Term' ),
-				'add_new_item'       => __( 'Add New Glossary Term' ),
-				'edit_item'          => __( 'Edit Glossary Term' ),
-				'new_item'           => __( 'Add New Glossary Term' ),
-				'view_item'          => __( 'View Glossary Term' ),
-				'search_items'       => __( 'Search Glossary Terms' ),
-				'not_found'          => __( 'No Glossary Terms found' ),
-				'not_found_in_trash' => __( 'No Glossary Terms found in trash' )
+				'name'               => __( 'Glossary Terms',                   'wp-glossary' ),
+				'singular_name'      => __( 'Glossary Term',                    'wp-glossary' ),
+				'add_new'            => __( 'Add New Term',                     'wp-glossary' ),
+				'add_new_item'       => __( 'Add New Glossary Term',            'wp-glossary' ),
+				'edit_item'          => __( 'Edit Glossary Term',               'wp-glossary' ),
+				'new_item'           => __( 'Add New Glossary Term',            'wp-glossary' ),
+				'view_item'          => __( 'View Glossary Term',               'wp-glossary' ),
+				'search_items'       => __( 'Search Glossary Terms',            'wp-glossary' ),
+				'not_found'          => __( 'No Glossary Terms found',          'wp-glossary' ),
+				'not_found_in_trash' => __( 'No Glossary Terms found in trash', 'wp-glossary' )
 			),
 			'register_meta_box_cb' => 'tcb_glossary_meta_boxes'
 		)
@@ -30,7 +30,7 @@ function tcb_glossary_register_posttype_glossary() {
 }
 
 function tcb_glossary_meta_boxes(){
-	add_meta_box( 'tcbwpg_references', 'Glossary Term Reference', 'tcb_glossary_mb_references', 'glossary', 'normal', 'high' );
+	add_meta_box( 'tcbwpg_references', __('Glossary Term Reference', 'wp-glossary'),  'tcb_glossary_mb_references', 'glossary', 'normal', 'high' );
 }
 
 function tcb_glossary_mb_references(){
@@ -41,8 +41,8 @@ function tcb_glossary_mb_references(){
 		extract( shortcode_atts(array('title'=>'', 'link'=>''), $reference) );
 	endif;
 	
-	echo '<label class="tcbwpg-admin">Title: <input name="tcbwpg_reference_title" size="30" value="' . $title . '" /></label><br>';
-	echo '<label class="tcbwpg-admin">Link: <input name="tcbwpg_reference_link" size="50" value="' . $link . '" /></label>';
+	echo '<label class="tcbwpg-admin">' . __('Title','wp-glossary') . ': <input name="tcbwpg_reference_title" size="30" value="' . $title . '" /></label><br>';
+	echo '<label class="tcbwpg-admin">' . __('Link','wp-glossary') . ': <input name="tcbwpg_reference_link" size="50" value="' . $link . '" /></label>';
 	wp_nonce_field( plugin_basename(__FILE__), 'glossary_edit_nonce' );
 }
 
@@ -94,7 +94,7 @@ function tcb_wpg_term_references( $content ){
 				$title = $link;
 			if( $link ) 
 				$title = '<a class="glossary-reference-link" target="_blank" href="' . $link . '">' . $title . '</a>';
-			$content .= '<div class="glossary-references"><h4>Reference: ' . $title . '</div>';
+			$content .= '<div class="glossary-references"><h4>' . __('Reference', 'wp-glossary') . ': ' . $title . '</div>';
 		endif;
 	endif;
 	return $content;

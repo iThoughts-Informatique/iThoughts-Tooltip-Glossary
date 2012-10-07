@@ -6,10 +6,10 @@
  */
 add_shortcode( 'glossary_atoz', 'tcb_glossary_atoz_handle_shortcode' );
 function tcb_glossary_atoz_handle_shortcode( $atts, $content='' ){
-  global $post, $tcb_wpg_scripts;
+	global $post, $tcb_wpg_scripts;
 
-  // Global variable that tells WP to print related js files.
-  $tcb_wpg_scripts = true;
+	// Global variable that tells WP to print related js files.
+	$tcb_wpg_scripts = true;
 
 	$args = array(
 		'post_type'           => 'glossary',
@@ -19,7 +19,7 @@ function tcb_glossary_atoz_handle_shortcode( $atts, $content='' ){
 		'ignore_sticky_posts' => 1,
 	);
 
-	$list       = '<p>There are no glossary items.</p>';
+	$list       = '<p>' . __('There are no glossary items','wp-glossary') . '.</p>';
 	$glossaries = get_posts( $args );
 	if( !count($glossaries) ) return $list;
 
@@ -43,7 +43,7 @@ function tcb_glossary_atoz_handle_shortcode( $atts, $content='' ){
 			continue;
 		endif;
 		$count = count( $atoz[$alpha] );
-		$menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha . ' atoz-clickable atozmenu-off" title="Terms: ' . $count . '"  alpha="' . $alpha . '">';
+		$menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha . ' atoz-clickable atozmenu-off" title="' . esc_attr__('Terms','wp-glossary') . ': ' . $count . '"  alpha="' . $alpha . '">';
 		$menu .= '<a href="#' . $alpha . '">' . $alpha . '</a></li>';
 	endforeach;
 	$menu .= '</ul>';
