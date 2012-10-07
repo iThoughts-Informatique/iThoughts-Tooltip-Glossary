@@ -25,6 +25,8 @@ function tcb_glossary_register_posttype_glossary() {
 				'not_found_in_trash' => __( 'No Glossary Terms found in trash', 'wp-glossary' )
 			),
 			'register_meta_box_cb' => 'tcb_glossary_meta_boxes'
+			'rewrite'              => array('slug' => __('glossary', 'wp-glossary')), // Permalinks format
+
 		)
 	);
 }
