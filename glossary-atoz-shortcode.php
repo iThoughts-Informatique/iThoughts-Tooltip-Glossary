@@ -36,8 +36,9 @@ function tcb_glossary_atoz_handle_shortcode( $atts, $content='' ){
 		$atoz[$alpha][] = $item;
 	endforeach; wp_reset_postdata();
 
-	$menu = '<ul class="glossary-menu-atoz">';
-	foreach( range('a','z') as $alpha ) :
+	$menu  = '<ul class="glossary-menu-atoz">';
+	$range = apply_filters( 'tcb_wpg_atoz_range', range('a','z') );
+	foreach( $range as $alpha ) :
 		if( ! isset($atoz[$alpha]) ) :
 			$menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha . ' atozmenu-empty" title="none" alpha="' . $alpha . '">' . $alpha . '</li>';
 			continue;
