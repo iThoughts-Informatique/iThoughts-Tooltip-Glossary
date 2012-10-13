@@ -59,6 +59,11 @@ Yes. As of version 1.2 you can add a reference title and link.
 
 == Changelog ==
 
+= 1.3.3 =
+* NEW - Text domain and pot file
+* NEW - Support for i18n
+* NEW - A to Z range filter added
+
 = 1.2 =
 * NEW - A to Z shortcode (inspired by Brandon Sawyer)
 * NEW - Reference meta (title + link)
