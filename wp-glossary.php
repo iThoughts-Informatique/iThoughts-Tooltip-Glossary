@@ -41,6 +41,32 @@ function tcb_wpg_enqueue_scripts(){
 	wp_enqueue_style( 'wp-glossary-css', plugins_url('css/wp-glossary.css', __FILE__) );
 }
 
+// Check version update 
+add_action( 'init', 'tcb_wpg_version_update_check' );
+function tcb_wpg_version_update_check(){
+  $plugin          = get_plugin_data();
+  $in_file_version = $plugin->Version;
+  $optionkey       = "tcb_vesion_check_glossary";
+  $in_db_version   = get_option( $optionkey, 0 );
+
+
+  $version_diff = version_compare( $in_db_version, $in_file_version );
+  if( !$version_diff )
+		return; // No change
+
+  if( $version_diff == 1 ) :
+    error_log( "Plugin version has gone down. Doesn't compute. Not running update hook." );
+    return;
+  endif;
+
+  do_action( 'tcb_wpg_version_update', $in_file_version, $in_db_version );
+
+  update_option( $optionkey, $in_file_version );
+}
+add_action( 'tcb_wpg_version_update', 'tcb_wpg_flush_rewrite_rules' );
+function tcb_wpg_flush_rewrite_rules(){
+	flush_rewrite_rules();
+}
 
 /** */
 register_activation_hook( __FILE__, 'tcb_glossary_activation_hook' );
