@@ -42,9 +42,9 @@ function tcb_wpg_enqueue_scripts(){
 }
 
 // Check version update 
-add_action( 'init', 'tcb_wpg_version_update_check' );
+add_action( 'admin_init', 'tcb_wpg_version_update_check' );
 function tcb_wpg_version_update_check(){
-  $plugin          = get_plugin_data();
+  $plugin          = get_plugin_data( __FILE__ );
   $in_file_version = $plugin->Version;
   $optionkey       = "tcb_vesion_check_glossary";
   $in_db_version   = get_option( $optionkey, 0 );
@@ -53,11 +53,6 @@ function tcb_wpg_version_update_check(){
   $version_diff = version_compare( $in_db_version, $in_file_version );
   if( !$version_diff )
 		return; // No change
-
-  if( $version_diff == 1 ) :
-    error_log( "Plugin version has gone down. Doesn't compute. Not running update hook." );
-    return;
-  endif;
 
   do_action( 'tcb_wpg_version_update', $in_file_version, $in_db_version );
 
