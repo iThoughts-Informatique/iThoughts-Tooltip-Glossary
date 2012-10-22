@@ -19,7 +19,7 @@ function tcb_glossary_atoz_handle_shortcode( $atts, $content='' ){
 		'ignore_sticky_posts' => 1,
 	);
 
-	$list       = '<p>' . __('There are no glossary items','wp-glossary') . '.</p>';
+	$list       = '<p>' . __('There are no glossary items.','wp-glossary') . '</p>';
 	$glossaries = get_posts( $args );
 	if( !count($glossaries) ) return $list;
 

@@ -43,8 +43,8 @@ function tcb_glossary_mb_references(){
 		extract( shortcode_atts(array('title'=>'', 'link'=>''), $reference) );
 	endif;
 	
-	echo '<label class="tcbwpg-admin">' . __('Title','wp-glossary') . ': <input name="tcbwpg_reference_title" size="30" value="' . $title . '" /></label><br>';
-	echo '<label class="tcbwpg-admin">' . __('Link','wp-glossary') . ': <input name="tcbwpg_reference_link" size="50" value="' . $link . '" /></label>';
+	echo '<label class="tcbwpg-admin">' . __('Title:','wp-glossary') . ' <input name="tcbwpg_reference_title" size="30" value="' . $title . '" /></label><br>';
+	echo '<label class="tcbwpg-admin">' . __('Link:','wp-glossary') . ' <input name="tcbwpg_reference_link" size="50" value="' . $link . '" /></label>';
 	wp_nonce_field( plugin_basename(__FILE__), 'glossary_edit_nonce' );
 }
 
@@ -96,7 +96,7 @@ function tcb_wpg_term_references( $content ){
 				$title = $link;
 			if( $link ) 
 				$title = '<a class="glossary-reference-link" target="_blank" href="' . $link . '">' . $title . '</a>';
-			$content .= '<div class="glossary-references"><h4>' . __('Reference', 'wp-glossary') . ': ' . $title . '</div>';
+			$content .= '<div class="glossary-references"><h4>' . __('Reference:', 'wp-glossary') . ' ' . $title . '</div>';
 		endif;
 	endif;
 	return $content;

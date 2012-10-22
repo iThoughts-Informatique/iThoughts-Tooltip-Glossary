@@ -44,7 +44,6 @@ function tcb_glossary_handle_shortcode( $atts, $content='' ){
 	if ( empty( $text ) ) $text = $title; // Glossary found, but no text supplied, so use the glossary term's title.
 	
 	$href    = get_permalink();
-	//$excerpt = apply_filters( 'the_excerpt', $glossaryterm->post_excerpt );
 	$excerpt = get_the_excerpt();
 	$tooltip = $excerpt ? $excerpt : strip_tags( get_the_content() );
 
@@ -53,6 +52,4 @@ function tcb_glossary_handle_shortcode( $atts, $content='' ){
 	return '<span class="wp-glossary">' . $link . $hover . '</span>'; // Homemade tooltips
 
 	// Homemade tooltips
-	//$link = '<span style="display:none;" class="glossary-tooltip">'.$excerpt.'</span><a class="glossary-hover" href="'.$href.'" title="'.$title.'">'.$text.'</a>';
-	//return $link;
 }
