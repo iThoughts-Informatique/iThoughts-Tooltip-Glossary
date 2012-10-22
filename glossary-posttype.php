@@ -11,7 +11,7 @@ function tcb_glossary_register_posttype_glossary() {
 			'public'               => true,
 			'menu_position'        => 105,
 			'has_archive'          => true,
-			'supports'             => array( 'title', 'editor', 'thumbnail', 'author' ),
+			'supports'             => array( 'title', 'editor', 'thumbnail', 'author', 'excerpt' ),
 			'labels' => array(
 				'name'               => __( 'Glossary Terms',                   'wp-glossary' ),
 				'singular_name'      => __( 'Glossary Term',                    'wp-glossary' ),

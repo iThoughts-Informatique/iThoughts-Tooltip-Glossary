@@ -1,12 +1,14 @@
 <?php
-/*
-Plugin Name: WP Glossary
-Plugin URI: http://wordpress.org/extend/plugins/wp-glossary/
-Description: Build a glossary of terms and link your post content to it.
-Author: TCBarrett
-Version: 1.3.3
-Author URI: http://www.tcbarrett.com/
-*/
+/**
+ * Plugin Name: WP Glossary
+ * Plugin URI: http://wordpress.org/extend/plugins/wp-glossary/
+ * Description: Build a glossary of terms and link your post content to it.
+ * Author: TCBarrett
+ * Version: 1.4
+ * Author URI: http://www.tcbarrett.com/
+ * Text Domain: wp-glossary
+ * Domain Path: /lang/
+ */
 define( 'TCBWPGPLUGINDIR', dirname( __FILE__ ) );
 
 include_once( TCBWPGPLUGINDIR . '/glossary-posttype.php' );
