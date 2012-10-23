@@ -4,7 +4,7 @@ Donate link: http://www.tcbarrett.com/donate/
 Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
-Tested up to: 3.4.2
+Tested up to: 3.5
 Stable tag: 1.4.1
 License: GPLv2 or later
 
@@ -58,6 +58,12 @@ Yes. As of version 1.2 you can add a reference title and link.
 4. Example A to Z
 
 == Changelog ==
+
+= 1.4.2 =
+* FIX - At last - i18n works! Thanks Otto.
+
+= 1.4.1 =
+* FIX - Closing title tag
 
 = 1.4 =
 * NEW - Support for excerpt
