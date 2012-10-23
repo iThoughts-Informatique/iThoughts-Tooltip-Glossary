@@ -96,7 +96,7 @@ function tcb_wpg_term_references( $content ){
 				$title = $link;
 			if( $link ) 
 				$title = '<a class="glossary-reference-link" target="_blank" href="' . $link . '">' . $title . '</a>';
-			$content .= '<div class="glossary-references"><h4>' . __('Reference:', 'wp-glossary') . ' ' . $title . '</div>';
+			$content .= '<div class="glossary-references"><h4>' . __('Reference:', 'wp-glossary') . ' ' . $title . '</h4></div>';
 		endif;
 	endif;
 	return $content;
