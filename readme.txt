@@ -5,7 +5,7 @@ Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 1.4.2
+Stable tag: 1.5
 License: GPLv2 or later
 
 Create your own glossary of hot-linked terms, inside your own site!
@@ -58,6 +58,10 @@ Yes. As of version 1.2 you can add a reference title and link.
 4. Example A to Z
 
 == Changelog ==
+
+= 1.5 =
+* NEW - Glossary Groups taxonomy
+* NEW - Glossary options: tooltips + alphabetical archive
 
 = 1.4.2 =
 * FIX - At last - i18n works! Thanks Otto.

@@ -4,17 +4,33 @@
  * Plugin URI: http://wordpress.org/extend/plugins/wp-glossary/
  * Description: Build a glossary of terms and link your post content to it.
  * Author: TCBarrett
- * Version: 1.4.2
+ * Version: 1.5
  * Author URI: http://www.tcbarrett.com/
  * Text Domain: wp-glossary
  * Domain Path: /lang/
  */
 define( 'TCBWPGPLUGINDIR', dirname( __FILE__ ) );
 
+include_once( TCBWPGPLUGINDIR . '/glossary-library.php' );
 include_once( TCBWPGPLUGINDIR . '/glossary-posttype.php' );
+include_once( TCBWPGPLUGINDIR . '/glossary-taxonomies.php' );
 include_once( TCBWPGPLUGINDIR . '/glossary-shortcode.php' );
 include_once( TCBWPGPLUGINDIR . '/glossary-term-list-shortcode.php' );
 include_once( TCBWPGPLUGINDIR . '/glossary-atoz-shortcode.php' );
+include_once( TCBWPGPLUGINDIR . '/glossary-menu-options.php' );
+
+add_action( 'pre_get_posts', 'tcb_wpg_amend_archive_query' );
+function tcb_wpg_amend_archive_query( $query ){
+	if( is_post_type_archive('glossary') ):
+		$glossary_options = get_option( 'wp_glossary' );
+		$archive          = $glossary_options['alphaarchive'] ? $glossary_options['alphaarchive'] : 'standard';
+		if( $archive == 'alphabet' ):
+			$query->set( 'orderby', 'title' );
+			$query->set( 'order',   'ASC' );
+			return;
+		endif;
+	endif;
+}
 
 add_action( 'plugins_loaded', 'tcb_wpg_localisation' );
 function tcb_wpg_localisation() {
@@ -26,6 +42,7 @@ add_action( 'init', 'tcb_wpg_register_scripts' );
 function tcb_wpg_register_scripts(){
 	wp_register_script( 'jquery-tooltip', plugins_url('js/jquery.tools.min.js', __FILE__), array('jquery') );
 	wp_register_script( 'wp-glossary-js', plugins_url('js/wp-glossary.js',      __FILE__), array('jquery-tooltip') );
+	wp_register_script( 'simple-ajax',    plugins_url('js/simple-ajax-form.js', __FILE__), array('jquery-form') );
 }
 
 // Print tooltip scripts
@@ -41,6 +58,12 @@ function tcb_wpg_print_scripts(){
 add_action( 'wp_enqueue_scripts', 'tcb_wpg_enqueue_scripts' );
 function tcb_wpg_enqueue_scripts(){
 	wp_enqueue_style( 'wp-glossary-css', plugins_url('css/wp-glossary.css', __FILE__) );
+}
+
+// Admin scripts
+add_action( 'admin_enqueue_scripts', 'tcb_wpg_admin_enqueue_scripts' );
+function tcb_wpg_admin_enqueue_scripts(){
+	wp_enqueue_script( 'simple-ajax' );
 }
 
 // Check version update 
