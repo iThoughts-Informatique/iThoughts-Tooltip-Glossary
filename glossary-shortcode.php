@@ -63,7 +63,7 @@ function tcb_glossary_handle_shortcode( $atts, $content='' ){
 
 	$link  = '<a class="' . $class . '" href="' . $href . '" title="' . esc_attr($tooltip) . '">' . $text . '</a>';
 	wp_reset_postdata();
-	return '<span class="wp-glossary">' . $link . '</span>' . $tooltip_option; // Homemade tooltips
+	return '<span class="wp-glossary">' . $link . '</span>'; // Homemade tooltips
 
 	// Homemade tooltips
 }
