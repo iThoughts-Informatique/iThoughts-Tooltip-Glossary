@@ -76,18 +76,20 @@ class WPG{
 	}
 
 	public function wpg_vesion_check(){
-		$plugin          = get_plugin_data( __FILE__ );
-		$in_file_version = $plugin->Version;
-		$optionkey       = 'wpg_vesion_check';
-		$in_db_version   = get_option( $optionkey, 0 );
+		$plugin          = get_plugin_data( dirname(dirname(__FILE__)) . '/wp-glossary.php' );
+		if( $plugin && $plugin->Version ):
+			$in_file_version = $plugin->Version;
+			$optionkey       = 'wpg_vesion_check';
+			$in_db_version   = get_option( $optionkey, 0 );
 
-		$version_diff = version_compare( $in_db_version, $in_file_version );
-		if( !$version_diff )
-			return; // No change
+			$version_diff = version_compare( $in_db_version, $in_file_version );
+			if( !$version_diff )
+				return; // No change
 
- 		flush_rewrite_rules();
-		do_action( 'wpg_version_check', $in_file_version, $in_db_version );
- 		update_option( $optionkey, $in_file_version );
+ 			flush_rewrite_rules( $hard=true );
+			do_action( 'wpg_version_check', $in_file_version, $in_db_version );
+ 			update_option( $optionkey, $in_file_version );
+		endif;
 	}
 
 	public function order_core_archive_list( $query ){
