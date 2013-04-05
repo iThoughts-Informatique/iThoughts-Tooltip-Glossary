@@ -25,6 +25,7 @@ jQuery(document).ready(function($){
     $(window).scrollTop(lastPos);
     location.hash = alpha;
     $('.atoz-clickable').filter(function(i){return $(this).attr('alpha') == alpha;}).click();
+		$('.wpg-please-select').hide();
   });
 
   // Page load hash management:
@@ -34,10 +35,16 @@ jQuery(document).ready(function($){
   var myAlpha    = '';
   if( myLocation.match('#') )
     myAlpha = myLocation.split('#')[1];
-  if( ! myAlpha.length )
-    myAlpha = $('.atoz-clickable:eq(0)').attr('alpha');
-  if( myAlpha.length )
+  if( ! myAlpha.length ){
+    //myAlpha = $('.atoz-clickable:eq(0)').attr('alpha');
+		$('.atoz-clickable').removeClass('atozmenu-on').addClass('atozmenu-off');
+		$('.glossary-list').removeClass('atozitems-on').addClass('atozitems-off');
+		$('.wpg-please-select').show();
+	}
+  if( myAlpha.length ){
+		$('.wpg-please-select').hide();
     $('.atoz-clickable').filter(function(i){return $(this).attr('alpha') == myAlpha;}).click();
+	}
 
 	});
 })(jQuery);

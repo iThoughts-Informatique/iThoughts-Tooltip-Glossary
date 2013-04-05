@@ -1,7 +1,6 @@
 /* A-Z shortcode */
 .glossary-menu-atoz{
   text-transform: uppercase;
-  list-style: none;
   margin: auto;
   padding: 0;
   border-bottom: 2px solid #000;
@@ -10,6 +9,7 @@
 }
 .glossary-menu-item{
   /* display: inline; */
+  list-style: none;
   float: left;
   padding-left: 1%;
   padding-right: 1%;
