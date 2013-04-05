@@ -43,6 +43,14 @@ No. However, when you add the glossary shortcode, it does it's best to find the 
 
 Yes. As of version 1.2 you can add a reference title and link.
 
+= None of the details pages are working! =
+
+Please resave your rewrite rules: Settings > Permalinks > Save Changes (just click the button)
+
+= It doesn't do anything? =
+
+You have to add the terms (Glossary Terms > Add New Term) and then use SHORTCODES.
+
 
 = Further Information =
 
@@ -58,6 +66,11 @@ Yes. As of version 1.2 you can add a reference title and link.
 4. Example A to Z
 
 == Changelog ==
+
+= 2.0-beta =
+* Rewritten
+* Groups option added to AtoZ and TermList shortcodes
+* AtoZ jQuery modified slightly
 
 = 1.5.1 =
 * FIX - Debug statement removed

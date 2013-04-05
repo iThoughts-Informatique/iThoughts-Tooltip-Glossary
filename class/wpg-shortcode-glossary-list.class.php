@@ -65,9 +65,9 @@ class WPG_Shortcode_TERMLIST Extends WPG{
 		// Pass through list again, building HTML list
 		$termlist = '<ul class="glossary-list">';
 		foreach( $alphas as $letter ):
-			foreach( $alphalist[$letter] as $item ):
+			if( isset($alphalist[$letter]) ): foreach( $alphalist[$letter] as $item ):
 				$termlist .= $item;
-			endforeach;
+			endforeach; endif;
 		endforeach; 
 		$termlist .= '</ul>';
 		wp_reset_postdata();
