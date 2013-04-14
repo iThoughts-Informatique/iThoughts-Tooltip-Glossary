@@ -4,8 +4,8 @@ Donate link: http://www.tcbarrett.com/donate/
 Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
-Tested up to: 3.5
-Stable tag: 1.5.1
+Tested up to: 3.6-beta
+Stable tag: 2.0
 License: GPLv2 or later
 
 Create your own glossary of hot-linked terms, inside your own site!
@@ -67,10 +67,13 @@ You have to add the terms (Glossary Terms > Add New Term) and then use SHORTCODE
 
 == Changelog ==
 
-= 2.0-beta =
-* Rewritten
-* Groups option added to AtoZ and TermList shortcodes
-* AtoZ jQuery modified slightly
+= 2.0 =
+* NEW - Groups option added to glossary_atoz shortcode
+* NEW - Groups option added to glossary_term_list shortcode
+* NEW - Option to add excerpt and full description to atoz and term_list shortcodes
+* NEW - Columns added to term_list (this might change, depending on feedback)
+* UPD - AtoZ jQuery modified slightly
+* TECH - Rewritten to use classes (keep it tidier and avoid name collisions)
 
 = 1.5.1 =
 * FIX - Debug statement removed
