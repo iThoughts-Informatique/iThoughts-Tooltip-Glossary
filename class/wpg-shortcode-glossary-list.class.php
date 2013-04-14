@@ -6,7 +6,13 @@ class WPG_Shortcode_TERMLIST Extends WPG{
 
 	function glossary_term_list( $atts, $content='' ){
 		global $post;
-		extract( shortcode_atts(array('alpha'=>false,'group'=>false), $atts) );
+		$default = array(
+			'alpha' => false,
+			'group' => false,
+			'cols'  => false,
+			'desc'  => false,
+		);
+		extract( shortcode_atts($default, $atts) );
 
 		$args = array(
 			'post_type'           => 'glossary',
@@ -54,6 +60,10 @@ class WPG_Shortcode_TERMLIST Extends WPG{
 			$href  = get_permalink();
 			$item  = '<li class="glossary-item">';
 			$item .= '<a href="' . $href . '" title="' . esc_attr($title) . '">' . $title . '</a>';
+			if( $desc ):
+				$idesc = $desc == 'excerpt' ? get_the_excerpt() : get_the_content();	
+				$item .= '<br><span class="glossary-item-desc">' . $idesc . '</span>';
+			endif;
 			$item .= '</li>';
 			$alphalist[$titlealpha][] = $item;
 		endforeach; // glossaries
@@ -63,15 +73,29 @@ class WPG_Shortcode_TERMLIST Extends WPG{
 		endif;
 
 		// Pass through list again, building HTML list
-		$termlist = '<ul class="glossary-list">';
+		$termlist = array();
 		foreach( $alphas as $letter ):
-			if( isset($alphalist[$letter]) ): foreach( $alphalist[$letter] as $item ):
-				$termlist .= $item;
-			endforeach; endif;
+			if( isset($alphalist[$letter]) ): 
+				foreach( $alphalist[$letter] as $item ):
+					$termlist[] = $item;
+				endforeach;
+			endif;
 		endforeach; 
-		$termlist .= '</ul>';
 		wp_reset_postdata();
 
-		return $termlist;
+		if( $cols === false ):
+			$cols = count( $termlist ); // set col cise to all items
+		endif;
+		$termlist = array_chunk( $termlist, $cols );
+
+		$return = '<span class="glossary-list-details">';
+		foreach( $termlist as $col => $items ):
+			$return .= '<ul class="glossary-list">';
+			$return .= implode( '', $items );
+			$return .= '</ul>';
+		endforeach;
+		$return .= '</ul>';
+
+		return $return;
 	} // glossary_term_list
 }

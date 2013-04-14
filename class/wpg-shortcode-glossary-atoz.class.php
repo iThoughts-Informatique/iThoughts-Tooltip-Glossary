@@ -6,7 +6,7 @@ class WPG_Shortcode_ATOZ Extends WPG{
 
 	function glossary_atoz( $atts, $content='' ){
 		global $post, $tcb_wpg_scripts;
-    extract( shortcode_atts(array('group'=>false), $atts) );
+    extract( shortcode_atts(array('group'=>false,'desc'=>false), $atts) );
 
 
 		// Global variable that tells WP to print related js files.
@@ -44,6 +44,10 @@ class WPG_Shortcode_ATOZ Extends WPG{
 	
 			$item  = '<li class="glossary-item atoz-li atoz-li-' . $alpha . '">';
 			$item .= '<a href="' . $href . '" title="' . esc_attr($title) . '">' . $title . '</a>';
+			if( $desc ):
+				$idesc = $desc=='excerpt' ? get_the_excerpt() : get_the_content();
+				$item .= '<br><span class="glossary-item-desc">' . $idesc . '</span>';
+			endif;
 			$item .= '</li>';
 	
 			$atoz[$alpha][] = $item;
