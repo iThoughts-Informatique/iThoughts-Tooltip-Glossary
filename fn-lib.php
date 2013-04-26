@@ -17,8 +17,19 @@ function tcb_wpg_build_dropdown( $id, $args ){
 
   $dropdown  = '<select id="' . $id . '" name="' . $name . '" class="' . $class . '">';
   if( $allow_blank ) :
-    $title = is_string( $allow_blank ) ? $allow_blank : '- Please Select -';
-    $dropdown .= '<option value="none">' . $title . '</option>';
+		// Set default blank title.
+		if( $allow_blank === true ):
+			$allow_blank = '- Please Select -';
+		endif;
+
+		// Expand string into array
+		if( is_string($allow_blank) ):
+			$allow_blank = array(
+				'value' => 'none',
+				'title' => $allow_blank
+			);
+		endif;
+    $dropdown .= '<option value="' . $allow_blank['value'] . '">' . $allow_blank['title'] . '</option>';
   endif;
   foreach( $options as $value => $option ) :
     if( is_array($option) ) :

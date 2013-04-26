@@ -16,6 +16,7 @@ class WPG{
 		$this->register_post_types();
 		$this->register_taxonmies();
 		$this->add_shortcodes();
+		$this->add_widgets();
 		add_action( 'init',                  array($this, 'register_scripts_and_styles') );
 		add_action( 'wp_footer',             array($this, 'wp_footer')                   );
 		add_action( 'wp_enqueue_scripts',    array($this, 'wp_enqueue_scripts')          );
@@ -52,6 +53,15 @@ class WPG{
 		new WPG_Shortcode_ATOZ();
 		require_once( $this->base() . '/wpg-shortcode-glossary-list.class.php' );
 		new WPG_Shortcode_TERMLIST();
+	}
+
+	private function add_widgets(){
+		require_once( $this->base() . '/wpg-widget-random-term.class.php' );
+		add_action( 'widgets_init', array($this, 'widgets_init') );
+	}
+
+	public function widgets_init(){
+		register_widget( 'WPG_RandomTerm' );
 	}
 
 	public function register_scripts_and_styles(){

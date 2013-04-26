@@ -17,6 +17,7 @@ $wpg_glossary_count = 0;
 require_once( dirname(__FILE__) . '/class/wpg.class.php' );
 require_once( dirname(__FILE__) . '/class/wpg-admin.class.php' );
 require_once( dirname(__FILE__) . '/fn-lib.php' );
+//require_once( dirname(__FILE__) . '/class/wpg-widget-random-term.class.php' );
 
 new WPG( dirname(__FILE__) );
 new WPG_Admin();
