@@ -11,6 +11,9 @@
  */
 define( 'WPG_TEXTDOMAIN', 'wp-glossary' );
 
+global $wpg_glossary_count;
+$wpg_glossary_count = 0;
+
 require_once( dirname(__FILE__) . '/class/wpg.class.php' );
 require_once( dirname(__FILE__) . '/class/wpg-admin.class.php' );
 require_once( dirname(__FILE__) . '/fn-lib.php' );

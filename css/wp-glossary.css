@@ -41,6 +41,17 @@
 
 /* Popup tooltip */
 .tooltip {
+  display:     none;
+  background:  #f4f4f4;
+  font-size:   1.1em;
+  padding:     10px;
+  color:       #333;
+  border:      1px solid #ddd;
+  line-height: 1.5em;
+  width:       20%;
+}
+/*
+.tooltip {
 	display:      none;
 	background:   #eee;
 	font-size:    0.8em;
@@ -53,3 +64,4 @@
 	border-left:  1px dotted #333;
 	border-right: 1px dotted #333;
 }
+*/

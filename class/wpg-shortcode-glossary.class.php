@@ -1,11 +1,13 @@
 <?php
 class WPG_Shortcodes Extends WPG{
-	function __construct() {
+	public function __construct() {
 		add_shortcode( 'glossary', array($this, 'glossary') );
 	}
 
-	function glossary( $atts, $content='' ){
-		global $wpdb, $post, $tcb_wpg_scripts;
+	public function glossary( $atts, $content='' ){
+		global $wpdb, $tcb_wpg_scripts, $wpg_glossary_count;
+
+		$wpg_glossary_count++;
 
 		// Global variable that tells WP to print related js files.
 		$tcb_wpg_scripts = true;
@@ -21,10 +23,12 @@ class WPG_Shortcodes Extends WPG{
 
 		// Set text to default content.
 		if ( empty( $text ) ) $text = $content;
+
+		$glossary = false;
 	
 		// Trivial case
 		if ( !empty( $id ) ):
-			$post = get_post( $id );
+			$glossary = get_post( $id );
 		else :
 			if ( empty( $slug ) ):
 				if ( empty( $text ) ):
@@ -33,13 +37,16 @@ class WPG_Shortcodes Extends WPG{
 				endif;
 				$slug = sanitize_title( $text );
 			endif;
-			$slug = strtolower($slug);
-			$id   = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s AND post_type = 'glossary' LIMIT 1", $slug ) );
-			$post = get_post( $id );
+			$slug      = strtolower($slug);
+			$sqlstring = "SELECT ID FROM {$wpdb->posts} WHERE post_name='%s' AND post_type='glossary' LIMIT 1";
+			$id        = $wpdb->get_var( $wpdb->prepare( $sqlstring, $slug ) );
+			if( $id ):
+				$glossary = get_post( $id );
+			endif;
 		endif;
-		if ( empty( $post ) ) return $text; // No glossary term found. Return the original text.
+		if ( empty( $glossary ) ) return $text; // No glossary term found. Return the original text.
 
-		setup_postdata( $post );
+		setup_postdata( $glossary );
 		$title = get_the_title();
 
 		if ( empty( $text ) ) $text = $title; // Glossary found, but no text supplied, so use the glossary term's title.
@@ -49,20 +56,19 @@ class WPG_Shortcodes Extends WPG{
 		$class   = 'glossary-hover';
 		switch( $tooltip_option ):
 			case 'full':
-				$tooltip = strip_tags( get_the_content() );
+				$tooltip = apply_filters( 'the_content', get_the_content() );
+				//$tooltip = wpautop(get_the_content());
 				break;
 			case 'excerpt':
-				$tooltip = get_the_excerpt();
+				$tooltip = wpautop( get_the_excerpt() );
 				break;
 			case 'off':
 				$class = 'glossary-term';
 				break;
 		endswitch;
-	
+
 		$link  = '<a class="' . $class . '" href="' . $href . '" title="' . esc_attr($tooltip) . '">' . $text . '</a>';
 		wp_reset_postdata();
 		return '<span class="wp-glossary">' . $link . '</span>'; // Homemade tooltips
-
-		// Homemade tooltips
 	}
 }
