@@ -5,7 +5,7 @@ Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
 Tested up to: 3.6-beta
-Stable tag: 2.0
+Stable tag: 2.1
 License: GPLv2 or later
 
 Create your own glossary of hot-linked terms, inside your own site!
@@ -28,8 +28,11 @@ Once activated you add glossary terms (custom post type) and link to those terms
 
 == Installation ==
 
-1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
+Either install through admin panel (this is the eaiest way), or:
+
+1. Upload `wp-glossary.zip` to the `/wp-content/plugins/` directory
+2. Unzip the archive
+3. Activate the plugin through the 'Plugins' menu in WordPress
 
 If you create your own single template for glossary terms, don't forget to remove the reference filter.
 
@@ -59,13 +62,19 @@ You have to add the terms (Glossary Terms > Add New Term) and then use SHORTCODE
 
 == Screenshots ==
 
-
 1. Edit glossary term
 2. Using glossary shortcode in post content
 3. Viewing glossary archive
 4. Example A to Z
 
 == Changelog ==
+
+= 2.1 =
+* NEW Now uses qTip library for tooltips (http://craigsworks.com/projects/qtip/)
+* NEW Sidebar Widget: Random Term
+* NEW Glossary CSS can be completely over-written with theme file
+* UPD Default tooltip CSS updated
+* FIX Inifinite loop when term name misses in shortcode
 
 = 2.0 =
 * NEW - Groups option added to glossary_atoz shortcode
@@ -126,7 +135,11 @@ You have to add the terms (Glossary Terms > Add New Term) and then use SHORTCODE
 = 0.1 =
 * Inital version. Trivial functionality.
 
+
 == Upgrade Notice ==
+
+= 2.1 =
+Changes the default tooltip style (now used qTip)
 
 = 1.2 =
 Adds a the_content filter to glossary term single page
@@ -134,11 +147,10 @@ Adds a the_content filter to glossary term single page
 = 1.0 =
 Version 0.1 rewrite flush was for dev purposes only and may have broken other re-writes. Please save your permalinks after upgrading.
 
-== Example Syntax ==
-The WordPress shortcode syntax is really simple!
 
-= Display and link to glossary with post ID 4 =
-[glossary id='4'] 
+== Example Syntax ==
+
+The WordPress shortcode syntax is really simple!
 
 = Display and link to glossary with slug 'seo' =
 [glossary slug='seo']
@@ -158,3 +170,5 @@ The WordPress shortcode syntax is really simple!
 = Display a jQuery-powered A to Z list of your glossary terms =
 [glossary_atoz]
 
+= Further Examples =
+See the [dedicated website section](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
