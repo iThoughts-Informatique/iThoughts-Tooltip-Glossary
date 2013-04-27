@@ -16,8 +16,9 @@ class WPG_Admin{
 	public function options(){
 		$ajax         = admin_url( 'admin-ajax.php' );
 		$options      = get_option( 'wp_glossary', array() );
-		$tooltips     = isset( $options['tooltips'] ) ? $options['tooltips'] : 'excerpt';
+		$tooltips     = isset( $options['tooltips'] )     ? $options['tooltips']     : 'excerpt';
 		$alphaarchive = isset( $options['alphaarchive'] ) ? $options['alphaarchive'] : 'standard';
+		$qtipstyle    = isset( $options['qtipstyle'] )    ? $options['qtipstyle']    : 'cream';
 
 		// Tooptip DD
 		$ttddoptions = array(
@@ -39,6 +40,12 @@ class WPG_Admin{
 			'selected' => $alphaarchive,
 			'options'  => $aaddoptions,
 		) );
+
+		// qTipd syle options
+		$qtipdropdown = tcb_wpg_build_dropdown( 'qtipstyle', array(
+			'selected' => $qtipstyle,
+			'options'  => array('off'=>'Off', 'cream'=>'Cream', 'dark'=>'Dark', 'green'=>'Green', 'light'=>'Light', 'red'=>'Red', 'blue'=>'Blue'),
+		) );
 		
 		echo <<<HERE
 <div class="wrap">
@@ -49,10 +56,9 @@ class WPG_Admin{
 			</div>
 			<h2>WP Glossary Options</h2>
 			<form action="$ajax" method="post" class="simpleajaxform" target="update-response">
-				<p>
-					Tooltip: {$tooltipdropdown}
-				</p>
+				<p> Tooltip: {$tooltipdropdown} </p>
 				<p> Archive: {$archivedropdown} </p>
+				<p> Tooltip (qTip): {$qtipdropdown} </p>
 				<p>
 					<input type="hidden" name="action" value="wpg_update_options"/>
 					<input type="submit" name="submit" class="alignleft button-primary" value="Update Glossary Options"/>
@@ -68,7 +74,8 @@ HERE;
 	public function update_options(){
 		$defaults         = array(
 			'tooltips'     => 'excerpt',
-			'alphaarchive' => 'standard'
+			'alphaarchive' => 'standard',
+			'qtipstyle'    => 'cream',
 		);
 		$glossary_options = get_option( 'wp_glossary', $defaults );
 		foreach( $defaults as $key => $default ){

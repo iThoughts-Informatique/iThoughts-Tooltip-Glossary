@@ -1,9 +1,8 @@
 jQuery(document).ready(function($){
-	var ajaxurl = 'http://plugins.graq.co.uk/wp-admin/admin-ajax.php';
 	$('a.glossary-hover').each(function(){
 		$(this).qtip({
 			style: {
-				name: 'cream',
+				name: WPG.qtip_style,
 				tip:  'topLeft'
 			},
 			position: { 

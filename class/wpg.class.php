@@ -65,10 +65,16 @@ class WPG{
 	}
 
 	public function register_scripts_and_styles(){
-		$qtip = true;
-		if( $qtip ):
+		$options   = get_option( 'wp_glossary', array() );
+		$qtipstyle = isset( $options['qtipstyle'] ) ? $options['qtipstyle']: 'cream';
+		if( $qtip != 'off' ):
 			wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/qtip.js', array('jquery') );
 			wp_register_script( 'wp-glossary-js',  $this->base_url() . '/js/wp-glossary-qtip.js',      array('jquery-tooltip') );
+			// qTip localisation settings
+			wp_localize_script( 'wp-glossary-js', 'WPG', array(
+				'admin_ajax' => admin_url('admin-ajax.php'),
+				'qtip_style' => $qtipstyle,
+			) );
 		else:
 			wp_register_script( 'jquery-tooltip',  $this->base_url() . '/js/jquery.tools.min.js', array('jquery') );
 			wp_register_script( 'wp-glossary-js',  $this->base_url() . '/js/wp-glossary.js',      array('jquery-tooltip') );

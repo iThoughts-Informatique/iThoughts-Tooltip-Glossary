@@ -14,7 +14,9 @@ class WPG_Shortcodes Extends WPG{
 
 		// Get WP Glossary opions
 		$glossary_options = get_option( 'wp_glossary' );
-		$tooltip_option   = $glossary_options['tooltips'] ? $glossary_options['tooltips'] : 'excerpt';
+		$tooltip_option   = isset($glossary_options['tooltips'])  ? $glossary_options['tooltips']  : 'excerpt';
+    $qtipstyle        = isset($glossary_options['qtipstyle']) ? $glossary_options['qtipstyle'] : 'cream';
+
 		extract( shortcode_atts( array(
 			'id'   => 0,
 			'slug' => '',
@@ -56,11 +58,11 @@ class WPG_Shortcodes Extends WPG{
 		$class   = 'glossary-hover';
 		switch( $tooltip_option ):
 			case 'full':
-				$tooltip = apply_filters( 'the_content', get_the_content() );
+				$tooltip = ($qtipstyle=='off') ? strip_tags(get_the_content()) : apply_filters('the_content', get_the_content());
 				//$tooltip = wpautop(get_the_content());
 				break;
 			case 'excerpt':
-				$tooltip = wpautop( get_the_excerpt() );
+				$tooltip = ($qtipstyle=='off') ? get_the_excerpt() : wpautop(get_the_excerpt());
 				break;
 			case 'off':
 				$class = 'glossary-term';
