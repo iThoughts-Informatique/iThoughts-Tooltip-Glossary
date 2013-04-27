@@ -85,7 +85,11 @@ class WPG{
 	}
 
 	public function wp_enqueue_scripts(){
-		wp_enqueue_style( 'wp-glossary-css', $this->base_url() . '/css/wp-glossary.css' );
+		if( file_exists(get_stylesheet_directory() . '/wp-glossary.css') ):
+			wp_enqueue_style( 'wp-glossary-css', get_stylesheet_directory_uri() . '/wp-glossary.css' );
+		else :
+			wp_enqueue_style( 'wp-glossary-css', $this->base_url() . '/css/wp-glossary.css' );
+		endif;
 	}
 
 	public function admin_enqueue_scripts(){
@@ -93,8 +97,8 @@ class WPG{
 	}
 
 	public function wpg_vesion_check(){
-		$plugin          = get_plugin_data( dirname(dirname(__FILE__)) . '/wp-glossary.php' );
-		if( $plugin && $plugin->Version ):
+		$plugin = get_plugin_data( dirname(dirname(__FILE__)) . '/wp-glossary.php' );
+		if( $plugin && is_object($plugin) && $plugin->Version ):
 			$in_file_version = $plugin->Version;
 			$optionkey       = 'wpg_vesion_check';
 			$in_db_version   = get_option( $optionkey, 0 );
