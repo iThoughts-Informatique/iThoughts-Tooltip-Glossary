@@ -5,7 +5,7 @@ Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
 Tested up to: 3.6-beta
-Stable tag: 2.1
+Stable tag: 2.1.1
 License: GPLv2 or later
 
 Create your own glossary of hot-linked terms, inside your own site!
@@ -68,6 +68,9 @@ You have to add the terms (Glossary Terms > Add New Term) and then use SHORTCODE
 4. Example A to Z
 
 == Changelog ==
+
+= 2.1.1 =
+* FIX Glossary term url without tooltip (thanks Gwyneth Llewelyn and stephen451)
 
 = 2.1 =
 * NEW Now uses qTip library for tooltips (http://craigsworks.com/projects/qtip/)
