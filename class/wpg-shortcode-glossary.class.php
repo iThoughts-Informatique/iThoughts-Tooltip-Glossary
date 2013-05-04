@@ -12,11 +12,24 @@ class WPG_Shortcodes Extends WPG{
 		// Global variable that tells WP to print related js files.
 		$tcb_wpg_scripts = true;
 
-		// Get WP Glossary opions
+		// Get WP Glossary options
 		$glossary_options = get_option( 'wp_glossary' );
+
+		// JS data to pass through to jQuery libraries
+		$jsdata = array();
+
+		// Let shortcode attributes override general settings
+		foreach( $glossary_options as $k => $v ):
+			if( isset($atts[$k]) ):
+				$jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
+				$glossary_options[$k] = trim( $atts[$k] );
+			endif;
+		endforeach;
 		$tooltip_option   = isset($glossary_options['tooltips'])    ? $glossary_options['tooltips']    : 'excerpt';
 		$qtipstyle        = isset($glossary_options['qtipstyle'])   ? $glossary_options['qtipstyle']   : 'cream';
 		$linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
+
+		
 
 		extract( shortcode_atts( array(
 			'id'   => 0,
@@ -62,7 +75,8 @@ class WPG_Shortcodes Extends WPG{
 				$tooltip = ($qtipstyle=='off') ? strip_tags(get_the_content()) : apply_filters('the_content', get_the_content());
 				break;
 			case 'excerpt':
-				$tooltip = ($qtipstyle=='off') ? get_the_excerpt() : wpautop(get_the_excerpt());
+				$excerpt = apply_filters( 'get_the_excerpt', $glossary->post_excerpt );
+				$tooltip = ($qtipstyle=='off') ? $excerpt : wpautop($excerpt);
 				break;
 			case 'off':
 				$class = 'glossary-term';
@@ -72,7 +86,7 @@ class WPG_Shortcodes Extends WPG{
 		$target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
 		$href   = ($linkopt != 'none')  ? 'href="'.$href.'"' : '';
 
-		$link  = '<a class="' . $class . '" '.$target.' '.$href.' title="' . esc_attr($tooltip) . '">' . $text . '</a>';
+		$link  = '<a class="' . $class . '" '.$target.' '.$href.' title="' . esc_attr($tooltip) . '" '.implode(' ',$jsdata).'>' . $text . '</a>';
 		wp_reset_postdata();
 		return '<span class="wp-glossary">' . $link . '</span>'; 
 	}

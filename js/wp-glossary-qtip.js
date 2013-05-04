@@ -1,8 +1,11 @@
 jQuery(document).ready(function($){
 	$('a.glossary-hover').each(function(){
+		console.log( WPG );
+		console.log( $(this).data() );
+		var glossopt = $.extend( false, WPG, $(this).data() );
 		$(this).qtip({
 			style: {
-				name: WPG.qtip_style,
+				name: glossopt.qtipstyle,
 				tip:  'topLeft'
 			},
 			position: { 

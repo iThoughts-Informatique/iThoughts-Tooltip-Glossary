@@ -74,7 +74,7 @@ class WPG{
 			// qTip localisation settings
 			wp_localize_script( 'wp-glossary-js', 'WPG', array(
 				'admin_ajax' => admin_url('admin-ajax.php'),
-				'qtip_style' => $qtipstyle,
+				'qtipstyle'  => $qtipstyle,
 			) );
 		else:
 			wp_register_script( 'jquery-tooltip',  $this->base_url() . '/js/jquery.tools.min.js', array('jquery') );
