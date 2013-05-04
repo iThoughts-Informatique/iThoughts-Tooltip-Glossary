@@ -4,8 +4,8 @@ Donate link: http://www.tcbarrett.com/donate/
 Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
-Tested up to: 3.6-beta
-Stable tag: 2.1.1
+Tested up to: 3.6
+Stable tag: 2.2
 License: GPLv2 or later
 
 Create your own glossary of hot-linked terms, inside your own site!
@@ -54,7 +54,6 @@ Please resave your rewrite rules: Settings > Permalinks > Save Changes (just cli
 
 You have to add the terms (Glossary Terms > Add New Term) and then use SHORTCODES.
 
-
 = Further Information =
 
 [For further details visit my dedicated plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
@@ -68,6 +67,19 @@ You have to add the terms (Glossary Terms > Add New Term) and then use SHORTCODE
 4. Example A to Z
 
 == Changelog ==
+
+= 2.2 =
+* NEW Snazzy banner for plugin (thanks Gwyneth Llewelyn!)
+* NEW Link attribute option (from shortcode to details page): normal/disable/newtab
+* NEW General options can be over-written in shortcode
+* UPD Improved jQuery extenstion
+* UPD Language support improved [again!] (lot of thanks Gwyneth Llewelyn)
+* FIX Slug language rewrite
+
+TRANSLATIONS:
+* Portugese (by Gwyneth Llewelyn)
+* German (by Gwyneth Llewelyn)
+
 
 = 2.1.1 =
 * FIX Glossary term url without tooltip (thanks Gwyneth Llewelyn and stephen451)
