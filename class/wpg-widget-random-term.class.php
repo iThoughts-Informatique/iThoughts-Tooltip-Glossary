@@ -1,13 +1,12 @@
 <?php
 class WPG_RandomTerm extends WP_Widget {
-
 	public function __construct() {
 		parent::__construct(
 			'wpg-random-term',
 			'Random Term [WPGlossary]',
 			array( 
 				'classname'   => 'wpg_widget_random_term',
-				'description' => 'Add a random glossary term to your sidebar',
+				'description' => __('Add a random glossary term to your sidebar', WPG_TEXTDOMAIN),
 			)
 		); // parent::__construct
 	} // __construct
@@ -15,7 +14,7 @@ class WPG_RandomTerm extends WP_Widget {
 	// Admin form
  	public function form( $instance=array() ) {
 		$instance =  wp_parse_args( $instance, array(
-			'title' => 'Random Glossary term',
+			'title' => __('Random Glossary term', WPG_TEXTDOMAIN),
 			'group' => '',
 		) );
 
@@ -32,7 +31,7 @@ class WPG_RandomTerm extends WP_Widget {
 		$groupdd = tcb_wpg_build_dropdown( $this->get_field_id('group'), array(
 			'selected'    => $instance['group'],
 			'options'     => $groups,
-			'allow_blank' => array('value'=>'','title'=>'Any'),
+			'allow_blank' => array('value'=>'','title'=>__('Any', WPG_TEXTDOMAIN)),
 			'name'        => $this->get_field_name('group')
 		) );
 		echo '<p><label for="' . $this->get_field_id('group') . '"> ' . __('Group:'). ' </label>';
@@ -41,11 +40,15 @@ class WPG_RandomTerm extends WP_Widget {
 		// Display
 		$displaydd = tcb_wpg_build_dropdown( $this->get_field_id('display'), array(
 			'selected'   => $instance['display'],
-			'options'    => array( 'title'=>'Title Only', 'excerpt'=>'Excerpt', 'full'=>'Full' ),
 			'name'       => $this->get_field_name('display'),
+			'options'    => array( 
+				'title'   =>__('Title Only', WPG_TEXTDOMAIN), 
+				'excerpt' =>__('Excerpt',    WPG_TEXTDOMAIN), 
+				'full'    =>__('Full',       WPG_TEXTDOMAIN),
+			),
 		) );
 		echo '<p><label for="' . $this->get_field_id('display') . '"> ' . __('Display:'). ' </label>';
-    echo $displaydd . '</p>';
+		echo $displaydd . '</p>';
 	} // form
 
 	public function update( $new_instance, $old_instance ) {
@@ -97,7 +100,7 @@ class WPG_RandomTerm extends WP_Widget {
 			endforeach; wp_reset_postdata();
 			echo '</ul>';
 		else :
-			echo '<em>No terms available</em>';
+			echo '<em>' . __('No terms available', WPG_TEXTDOMAIN) . '</em>';
 		endif;
 
 		echo $after_widget;

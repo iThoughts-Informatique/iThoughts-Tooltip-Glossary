@@ -12,7 +12,7 @@ jQuery(document).ready(function($){
     lastPos = $(window).scrollTop();
     $('.atoz-clickable').removeClass('atozmenu-on').addClass('atozmenu-off');
     $(this).removeClass('atozmenu-off').addClass('atozmenu-on');
-    var alpha = $(this).attr('alpha');
+    var alpha = $(this).data('alpha');
     location.hash = alpha;
 
     $('.glossary-list').removeClass('atozitems-on').addClass('atozitems-off');
@@ -24,7 +24,7 @@ jQuery(document).ready(function($){
     var alpha = location.hash.replace('#','');
     $(window).scrollTop(lastPos);
     location.hash = alpha;
-    $('.atoz-clickable').filter(function(i){return $(this).attr('alpha') == alpha;}).click();
+    $('.atoz-clickable').filter(function(i){return $(this).data('alpha') == alpha;}).click();
 		$('.wpg-please-select').hide();
   });
 
@@ -36,14 +36,14 @@ jQuery(document).ready(function($){
   if( myLocation.match('#') )
     myAlpha = myLocation.split('#')[1];
   if( ! myAlpha.length ){
-    //myAlpha = $('.atoz-clickable:eq(0)').attr('alpha');
+    //myAlpha = $('.atoz-clickable:eq(0)').data('alpha');
 		$('.atoz-clickable').removeClass('atozmenu-on').addClass('atozmenu-off');
 		$('.glossary-list').removeClass('atozitems-on').addClass('atozitems-off');
 		$('.wpg-please-select').show();
 	}
   if( myAlpha.length ){
 		$('.wpg-please-select').hide();
-    $('.atoz-clickable').filter(function(i){return $(this).attr('alpha') == myAlpha;}).click();
+    $('.atoz-clickable').filter(function(i){return $(this).data('alpha') == myAlpha;}).click();
 	}
 
 	});

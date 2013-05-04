@@ -6,6 +6,7 @@
 
 class WPG{
 	public static $base;
+	public static $base_lang;
 	public static $base_url;
 
  	function __construct( $plugin_base ) {
@@ -33,7 +34,7 @@ class WPG{
 	}
 
 	public function localisation(){
-		load_plugin_textdomain( WPG_TEXTDOMAIN, false, self::$base . '/lang/' );
+		load_plugin_textdomain( WPG_TEXTDOMAIN, false, WPG_TEXTDOMAIN . '/lang/' );
 	}
 
 	private function register_post_types(){

@@ -1,25 +1,25 @@
 <?php
 /** */
 function tcb_wpg_build_dropdown( $id, $args ){
-  $defaults = array(
-    'selected'    => null,
-    'options'     => array('-no options-'),
-    'allow_blank' => false,
-    'class'       => null,
-    'name'        => null,
-  );
+	$defaults = array(
+		'selected'    => null,
+		'options'     => array(__('-no options-', WPG_TEXTDOMAIN)),
+		'allow_blank' => false,
+		'class'       => null,
+		'name'        => null,
+	);
 
-  $r = wp_parse_args( $args, $defaults );
-  extract( $r );
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
 
-  if( empty($class) ) $class = $id;
-  if( empty($name) )  $name  = $id;
+	if( empty($class) ) $class = $id;
+	if( empty($name) )  $name  = $id;
 
-  $dropdown  = '<select id="' . $id . '" name="' . $name . '" class="' . $class . '">';
-  if( $allow_blank ) :
+	$dropdown  = '<select id="' . $id . '" name="' . $name . '" class="' . $class . '">';
+	if( $allow_blank ) :
 		// Set default blank title.
 		if( $allow_blank === true ):
-			$allow_blank = '- Please Select -';
+			$allow_blank = __('- Please Select -', WPG_TEXTDOMAIN);
 		endif;
 
 		// Expand string into array
@@ -29,27 +29,27 @@ function tcb_wpg_build_dropdown( $id, $args ){
 				'title' => $allow_blank
 			);
 		endif;
-    $dropdown .= '<option value="' . $allow_blank['value'] . '">' . $allow_blank['title'] . '</option>';
-  endif;
-  foreach( $options as $value => $option ) :
-    if( is_array($option) ) :
-      $title    = $option['title'];
-      $attrs    = $option['attrs'];
-      $att_list = array();
-      foreach( $attrs as $k=>$v ) :
-        $att_list[] = $k . '="' . esc_attr($v) . '"';
-      endforeach;
-      $att_string = implode( ' ', $att_list );
-      $optclass = "dropdown-{$id}-{$value}";
-      $dropdown .= '<option class="' . $optclass . '" value="' . $value . '" ' . selected($selected, $value, false) . ' ' . $att_string . '>' . $title . '</option>';
-    else :
-      $title    = $option;
-      $optclass = "dropdown-{$id}-{$value}";
-      $dropdown .= '<option class="' . $optclass . '" value="' . $value . '" ' . selected($selected, $value, false) . '>' . $title . '</option>';
-    endif;
-  endforeach;
-  $dropdown .= '</select>';
+		$dropdown .= '<option value="' . $allow_blank['value'] . '">' . $allow_blank['title'] . '</option>';
+	endif;
+	foreach( $options as $value => $option ) :
+		if( is_array($option) ) :
+			$title    = $option['title'];
+			$attrs    = $option['attrs'];
+			$att_list = array();
+			foreach( $attrs as $k=>$v ) :
+				$att_list[] = $k . '="' . esc_attr($v) . '"';
+			endforeach;
+			$att_string = implode( ' ', $att_list );
+			$optclass = "dropdown-{$id}-{$value}";
+			$dropdown .= '<option class="' . $optclass . '" value="' . $value . '" ' . selected($selected, $value, false) . ' ' . $att_string . '>' . $title . '</option>';
+		else :
+			$title    = $option;
+			$optclass = "dropdown-{$id}-{$value}";
+			$dropdown .= '<option class="' . $optclass . '" value="' . $value . '" ' . selected($selected, $value, false) . '>' . $title . '</option>';
+		endif;
+	endforeach;
+	$dropdown .= '</select>';
 
-  return $dropdown;
+	return $dropdown;
 }
 

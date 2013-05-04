@@ -14,8 +14,9 @@ class WPG_Shortcodes Extends WPG{
 
 		// Get WP Glossary opions
 		$glossary_options = get_option( 'wp_glossary' );
-		$tooltip_option   = isset($glossary_options['tooltips'])  ? $glossary_options['tooltips']  : 'excerpt';
-    $qtipstyle        = isset($glossary_options['qtipstyle']) ? $glossary_options['qtipstyle'] : 'cream';
+		$tooltip_option   = isset($glossary_options['tooltips'])    ? $glossary_options['tooltips']    : 'excerpt';
+		$qtipstyle        = isset($glossary_options['qtipstyle'])   ? $glossary_options['qtipstyle']   : 'cream';
+		$linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
 
 		extract( shortcode_atts( array(
 			'id'   => 0,
@@ -24,16 +25,16 @@ class WPG_Shortcodes Extends WPG{
 		), $atts) );
 
 		// Set text to default content.
-		if ( empty( $text ) ) $text = $content;
+		if( empty($text) ) $text = $content;
 
 		$glossary = false;
 	
 		// Trivial case
-		if ( !empty( $id ) ):
+		if( !empty($id) ):
 			$glossary = get_post( $id );
 		else :
-			if ( empty( $slug ) ):
-				if ( empty( $text ) ):
+			if( empty($slug) ):
+				if( empty($text) ):
 					// No id, slug or text available to identify a glossary term, so return the original content.
 					return $content;
 				endif;
@@ -46,12 +47,12 @@ class WPG_Shortcodes Extends WPG{
 				$glossary = get_post( $id );
 			endif;
 		endif;
-		if ( empty( $glossary ) ) return $text; // No glossary term found. Return the original text.
+		if( empty($glossary) ) return $text; // No glossary term found. Return the original text.
 
 		setup_postdata( $glossary );
 		$title = get_the_title();
 
-		if ( empty( $text ) ) $text = $title; // Glossary found, but no text supplied, so use the glossary term's title.
+		if( empty($text) ) $text = $title; // Glossary found, but no text supplied, so use the glossary term's title.
 
 		$href    = get_permalink( $glossary->ID );
 		$tooltip = '';
@@ -59,7 +60,6 @@ class WPG_Shortcodes Extends WPG{
 		switch( $tooltip_option ):
 			case 'full':
 				$tooltip = ($qtipstyle=='off') ? strip_tags(get_the_content()) : apply_filters('the_content', get_the_content());
-				//$tooltip = wpautop(get_the_content());
 				break;
 			case 'excerpt':
 				$tooltip = ($qtipstyle=='off') ? get_the_excerpt() : wpautop(get_the_excerpt());
@@ -69,8 +69,11 @@ class WPG_Shortcodes Extends WPG{
 				break;
 		endswitch;
 
-		$link  = '<a class="' . $class . '" href="' . $href . '" title="' . esc_attr($tooltip) . '">' . $text . '</a>';
+		$target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
+		$href   = ($linkopt != 'none')  ? 'href="'.$href.'"' : '';
+
+		$link  = '<a class="' . $class . '" '.$target.' '.$href.' title="' . esc_attr($tooltip) . '">' . $text . '</a>';
 		wp_reset_postdata();
-		return '<span class="wp-glossary">' . $link . '</span>'; // Homemade tooltips
+		return '<span class="wp-glossary">' . $link . '</span>'; 
 	}
 }

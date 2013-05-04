@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Glossary 2.1\n"
 "POT-Creation-Date: 2013-04-30 02:24-0000\n"
-"PO-Revision-Date: 2013-04-30 02:24-0000\n"
+"PO-Revision-Date: 2013-04-30 02:50-0000\n"
 "Language-Team: Tom Barrett <tcbarrett@gmail.com>\n"
-"Language: English\n"
+"Language: Deutsch\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,53 +12,55 @@ msgstr ""
 "X-Poedit-KeywordsList: _e;__\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
+"Last-Translator: Gwyneth Llewelyn <gwyneth.llewelyn@gwynethllewelyn.net>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../fn-lib.php:6
 msgid "-no options-"
-msgstr ""
+msgstr "-keine Optionen-"
 
 #: ../fn-lib.php:22
 msgid "- Please Select -"
-msgstr ""
+msgstr "- Bitte Wählen -"
 
 #: ../class/wpg-admin.class.php:13
 msgid "Glossary Options"
-msgstr ""
+msgstr "Optionen des Wörterverzeichnis"
 
 #: ../class/wpg-admin.class.php:26
 #: ../class/wpg-widget-random-term.class.php:47
 msgid "Full"
-msgstr ""
+msgstr "Voll"
 
 #: ../class/wpg-admin.class.php:27
 msgid "Display full post content"
-msgstr ""
+msgstr "Ganzen Artikel anzeigen"
 
 #: ../class/wpg-admin.class.php:29
 #: ../class/wpg-widget-random-term.class.php:46
 msgid "Excerpt"
-msgstr ""
+msgstr "Auszug"
 
 #: ../class/wpg-admin.class.php:30
 msgid "Display shorter excerpt content"
-msgstr ""
+msgstr "Kurzer Auszug anzeigen"
 
 #: ../class/wpg-admin.class.php:32 ../class/wpg-admin.class.php:54
 msgid "Off"
-msgstr ""
+msgstr "Aus"
 
 #: ../class/wpg-admin.class.php:33
 msgid "Do not display tooltip at all"
-msgstr ""
+msgstr "Hinweise nicht anzeigen"
 
 #: ../class/wpg-admin.class.php:42
 msgid "Alphabetical"
-msgstr ""
+msgstr "Alphabetisch"
 
 #: ../class/wpg-admin.class.php:42
 msgid "Display glossary archive alphabetically"
-msgstr ""
+msgstr "Wörterverzeichnis-Archiv alphabetisch anzeigen"
 
 #: ../class/wpg-admin.class.php:43
 msgid "Standard"
@@ -66,104 +68,104 @@ msgstr ""
 
 #: ../class/wpg-admin.class.php:43
 msgid "No filtering, display as standard archive"
-msgstr ""
+msgstr "Keine Filterung, als normaler Archiv anzeigen"
 
 #: ../class/wpg-admin.class.php:55
 msgid "Cream"
-msgstr ""
+msgstr "Creme"
 
 #: ../class/wpg-admin.class.php:56
 msgid "Dark"
-msgstr ""
+msgstr "Dunkel"
 
 #: ../class/wpg-admin.class.php:57
 msgid "Green"
-msgstr ""
+msgstr "Grün"
 
 #: ../class/wpg-admin.class.php:58
 msgid "Light"
-msgstr ""
+msgstr "Hell"
 
 #: ../class/wpg-admin.class.php:59
 msgid "Red"
-msgstr ""
+msgstr "Rot"
 
 #: ../class/wpg-admin.class.php:60
 msgid "Blue"
-msgstr ""
+msgstr "Blau"
 
 #: ../class/wpg-admin.class.php:70
 msgid "WP Glossary Options"
-msgstr ""
+msgstr "Optionen von WP Glossary"
 
 #: ../class/wpg-admin.class.php:72
 msgid "Tooltip:"
-msgstr ""
+msgstr "Hinweise:"
 
 #: ../class/wpg-admin.class.php:73
 msgid "Archive:"
-msgstr ""
+msgstr "Archiv:"
 
 #: ../class/wpg-admin.class.php:74
 msgid "Tooltip (qTip):"
-msgstr ""
+msgstr "Hinweise (qTip):"
 
 #: ../class/wpg-admin.class.php:77
 msgid "Update Glossary Options"
-msgstr ""
+msgstr "Optionen des Wörterverzeichnis aktualisieren"
 
 #: ../class/wpg-admin.class.php:100
 msgid "Glossary options updated"
-msgstr ""
+msgstr "Optionen des Wörterverzeichnis aktualisiert"
 
 #: ../class/wpg-post-types.class.php:17
 msgid "Glossary Terms"
-msgstr ""
+msgstr "Begriffe des Wörterverzeichnis"
 
 #: ../class/wpg-post-types.class.php:18
 msgid "Glossary Term"
-msgstr ""
+msgstr "Begriff des Wörterverzeichnis"
 
 #: ../class/wpg-post-types.class.php:19
 msgid "Add New Term"
-msgstr ""
+msgstr "Neues Begriff hinzufügen"
 
 #: ../class/wpg-post-types.class.php:20 ../class/wpg-post-types.class.php:22
 msgid "Add New Glossary Term"
-msgstr ""
+msgstr "Neues Begriff hinzufügen"
 
 #: ../class/wpg-post-types.class.php:21
 msgid "Edit Glossary Term"
-msgstr ""
+msgstr "Begriff ändern"
 
 #: ../class/wpg-post-types.class.php:23
 msgid "View Glossary Term"
-msgstr ""
+msgstr "Begriff ansehen"
 
 #: ../class/wpg-post-types.class.php:24
 msgid "Search Glossary Terms"
-msgstr ""
+msgstr "Begriffe suchen"
 
 #: ../class/wpg-post-types.class.php:25
 msgid "No Glossary Terms found"
-msgstr ""
+msgstr "Keine Begriffe gefunden"
 
 #: ../class/wpg-post-types.class.php:26
 msgid "No Glossary Terms found in trash"
-msgstr ""
+msgstr "Keine Begriffe gefunden in der Mülle"
 
 #: ../class/wpg-post-types.class.php:29
 msgid "glossary"
-msgstr ""
+msgstr "Wörterverzeichnis"
 
 #: ../class/wpg-post-types.class.php:40
 msgid "Glossary Term Reference"
-msgstr ""
+msgstr "Referenz zum Begriff"
 
 #: ../class/wpg-post-types.class.php:51
 #: ../class/wpg-widget-random-term.class.php:23
 msgid "Title:"
-msgstr ""
+msgstr "Titel:"
 
 #: ../class/wpg-post-types.class.php:52
 msgid "Link:"
@@ -171,77 +173,77 @@ msgstr ""
 
 #: ../class/wpg-post-types.class.php:102
 msgid "Reference:"
-msgstr ""
+msgstr "Referenz:"
 
 #: ../class/wpg-shortcode-glossary-atoz.class.php:33
 #: ../class/wpg-shortcode-glossary-list.class.php:35
 msgid "There are no glossary items."
-msgstr ""
+msgstr "Keine Begriffe vorhanden."
 
 #: ../class/wpg-shortcode-glossary-atoz.class.php:74
 msgid "Please select from the menu above"
-msgstr ""
+msgstr "Bitte wählen Sie aus dem Menü oben"
 
 #: ../class/wpg-taxonomies.class.php:12
 msgid "Glossary Groups"
-msgstr ""
+msgstr "Begriffengruppe"
 
 #: ../class/wpg-taxonomies.class.php:13
 msgid "Glossary Group"
-msgstr ""
+msgstr "Begriffengruppe"
 
 #: ../class/wpg-taxonomies.class.php:14
 msgid "Search Glossary Groups"
-msgstr ""
+msgstr "Begriffengruppe suchen"
 
 #: ../class/wpg-taxonomies.class.php:15
 msgid "All Glossary Groups"
-msgstr ""
+msgstr "Alle Begriffengruppen"
 
 #: ../class/wpg-taxonomies.class.php:16
 msgid "Parent Glossary Group"
-msgstr ""
+msgstr "Vorläufer der Begriffengruppe"
 
 #: ../class/wpg-taxonomies.class.php:17
 msgid "Parent Glossary Group:"
-msgstr ""
+msgstr "Vorläufer der Begriffengruppe:"
 
 #: ../class/wpg-taxonomies.class.php:18
 msgid "Edit Glossary Group"
-msgstr ""
+msgstr "Begriffengruppe ändern"
 
 #: ../class/wpg-taxonomies.class.php:19
 msgid "Update Glossary Group"
-msgstr ""
+msgstr "Begriffengruppe aktualisieren"
 
 #: ../class/wpg-taxonomies.class.php:20
 msgid "Add New Glossary Group"
-msgstr ""
+msgstr "Neue Begriffengruppe einfügen"
 
 #: ../class/wpg-taxonomies.class.php:21
 msgid "New Glossary Group Name"
-msgstr ""
+msgstr "Namen der neuen Begriffengruppe"
 
 #: ../class/wpg-widget-random-term.class.php:10
 msgid "Add a random glossary term to your sidebar"
-msgstr ""
+msgstr "Zufälliger Begriff auf der Seitenleiste einfügen"
 
 #: ../class/wpg-widget-random-term.class.php:18
 msgid "Random Glossary term"
-msgstr ""
+msgstr "Zufälliger Begriff"
 
 #: ../class/wpg-widget-random-term.class.php:38
 msgid "Group:"
-msgstr ""
+msgstr "Gruppe:"
 
 #: ../class/wpg-widget-random-term.class.php:45
 msgid "Title Only"
-msgstr ""
+msgstr "Nur Titel"
 
 #: ../class/wpg-widget-random-term.class.php:51
 msgid "Display:"
-msgstr ""
+msgstr "Anzeigen:"
 
 #: ../class/wpg-widget-random-term.class.php:104
 msgid "No terms available"
-msgstr ""
+msgstr "Keine Begriffe vorhanden"

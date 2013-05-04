@@ -1,10 +1,10 @@
 <?php
 class WPG_Shortcode_TERMLIST Extends WPG{
-	function __construct() {
+	public function __construct() {
 		add_shortcode( 'glossary_term_list', array($this, 'glossary_term_list') );
 	}
 
-	function glossary_term_list( $atts, $content='' ){
+	public function glossary_term_list( $atts, $content='' ){
 		global $post;
 		$default = array(
 			'alpha' => false,
@@ -32,7 +32,7 @@ class WPG_Shortcode_TERMLIST Extends WPG{
 			$args['tax_query'] = array( $tax_query );
 		endif;
 
-		$list       = '<p>' . __( 'There are no glossary items.', 'wp-glossary') . '</p>';
+		$list       = '<p>' . __( 'There are no glossary items.', WPG_TEXTDOMAIN) . '</p>';
 		$glossaries = get_posts( $args );
 		if( !count($glossaries) )
 			return $list;
@@ -57,7 +57,7 @@ class WPG_Shortcode_TERMLIST Extends WPG{
 			if( count($alphas) && !in_array($titlealpha, $alphas) )
 				continue;
 	
-			$href  = get_permalink();
+			$href  = get_permalink( $post->ID );
 			$item  = '<li class="glossary-item">';
 			$item .= '<a href="' . $href . '" title="' . esc_attr($title) . '">' . $title . '</a>';
 			if( $desc ):
@@ -84,7 +84,7 @@ class WPG_Shortcode_TERMLIST Extends WPG{
 		wp_reset_postdata();
 
 		if( $cols === false ):
-			$cols = count( $termlist ); // set col cise to all items
+			$cols = count( $termlist ); // set col size to all items
 		endif;
 		$termlist = array_chunk( $termlist, $cols );
 
@@ -98,4 +98,4 @@ class WPG_Shortcode_TERMLIST Extends WPG{
 
 		return $return;
 	} // glossary_term_list
-}
+} // WPG_Shortcode_TERMLIST
