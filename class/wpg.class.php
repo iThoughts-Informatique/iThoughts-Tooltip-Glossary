@@ -81,7 +81,8 @@ class WPG{
 			wp_register_script( 'wp-glossary-js',  $this->base_url() . '/js/wp-glossary.js',      array('jquery-tooltip') );
 		endif;
 
- 		wp_register_script( 'simple-ajax',     $this->base_url() . '/js/simple-ajax-form.js', array('jquery-form') );
+ 		wp_register_script( 'simple-ajax', $this->base_url() . '/js/simple-ajax-form.js', array('jquery-form') );
+ 		//wp_register_script( 'simple-ajax',     $this->base_url() . '/js/jquery-simple-ajax-form.js', array('jquery-form') );
 	}
 
 	public function wp_footer(){
@@ -100,6 +101,7 @@ class WPG{
 	}
 
 	public function admin_enqueue_scripts(){
+		wp_enqueue_style( 'wp-glossary-admin', $this->base_url() . '/css/wp-glossary-admin.css' );
 		wp_enqueue_script( 'simple-ajax' );
 	}
 

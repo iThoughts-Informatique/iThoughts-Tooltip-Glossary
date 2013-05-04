@@ -77,9 +77,9 @@ class WPG_Admin{
 		$termlinkoptdropdown = tcb_wpg_build_dropdown( 'termlinkopt', array(
 			'selected' => $termlinkopt,
 			'options'  => array(
-				'standard' => array('title'=>__('Normal', WPG_TEXTDOMAIN),  'attrs'=>array('title'=>__('Normal link with no modifications', WPG_TEXTDOMAIN))),
-				'none'     => array('title'=>__('No link', WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__("Don't link to term", WPG_TEXTDOMAIN))),
-				'blank'    => array('title'=>__('New tab', WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__("Always open in a new tab", WPG_TEXTDOMAIN))),
+				'standard' => array('title'=>__('Normal',  WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__('Normal link with no modifications', WPG_TEXTDOMAIN))),
+				'none'     => array('title'=>__('No link', WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__("Don't link to term",                WPG_TEXTDOMAIN))),
+				'blank'    => array('title'=>__('New tab', WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__("Always open in a new tab",          WPG_TEXTDOMAIN))),
 			),
 		));
 		
@@ -91,11 +91,11 @@ class WPG_Admin{
 				<br>
 			</div>
 			<h2><?php _e('WP Glossary Options', WPG_TEXTDOMAIN); ?></h2>
-			<form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" target="update-response">
-				<p> <?php _e('Tooltip:', WPG_TEXTDOMAIN); echo "{$tooltipdropdown}" ?></p>
-				<p> <?php _e('Archive:', WPG_TEXTDOMAIN); echo "{$archivedropdown}" ?></p>
-				<p> <?php _e('Tooltip (qTip):', WPG_TEXTDOMAIN);  echo "{$qtipdropdown}" ?></p>
-				<p> <?php _e('Term link:', WPG_TEXTDOMAIN);  echo "{$termlinkoptdropdown}" ?></p>
+			<form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
+				<p><?php _e('Tooltip:', WPG_TEXTDOMAIN); echo "{$tooltipdropdown}" ?></p>
+				<p><?php _e('Archive:', WPG_TEXTDOMAIN); echo "{$archivedropdown}" ?></p>
+				<p><?php _e('Tooltip (qTip):', WPG_TEXTDOMAIN);  echo "{$qtipdropdown}" ?></p>
+				<p><?php _e('Term link:', WPG_TEXTDOMAIN);  echo "{$termlinkoptdropdown}" ?></p>
 				<p>
 					<input type="hidden" name="action" value="wpg_update_options"/>
 					<input type="submit" name="submit" class="alignleft button-primary" value="<?php _e('Update Glossary Options', WPG_TEXTDOMAIN); ?>"/>

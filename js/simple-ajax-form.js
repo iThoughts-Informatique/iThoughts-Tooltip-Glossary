@@ -1,58 +1,51 @@
 /**
- * Generic *SIMPLE* Ajax Form handling
+ * Simple jQuery extension to AjaxiFy a form
  */
 (function($){
-	//$.fn.extend
+	$.fn.extend({
+		simpleAjaxForm: function( opts ){
+			var defaults = { validate: false };
+			var options  = $.extend( defaults, opts );
+			return this.each(function(){
+				var $form = $(this);
+				var formopts = $.extend({
+					target:   $form.data('target'),
+					callback: $form.data('callback'),
+					validate: $form.data('validate')
+				}, options);
+				if( formopts.target && $('#'+formopts.target).length ){
+					$('#'+formopts.target).html('').hide();
+				}
+
+				$form.ajaxForm({
+					beforeSubmit: function(formData, jqForm, options) {
+						//if( !jqForm.valid() ) return false;
+						if( formopts.target && $('#'+formopts.target).length ){
+							$('#'+formopts.target).html('<p>Updating, please wait...</p>').removeClass('updated').addClass('updating').fadeTo(100,1);
+						}
+						return true;
+					},
+					success: function(responseText, statusText, xhr, jQForm){
+						if( typeof(jQForm) === 'undefined' )
+							jQForm = xhr;
+
+						if( typeof(jQForm) === 'undefined' ){
+							$form.append('<div class="error"><p>Cannot handle response properly</p></div>');
+							return;
+						}
+
+						if( formopts.target && $('#'+formopts.target).length ){
+							$('#'+formopts.target).removeClass('updating').addClass('updated').html(responseText);
+						}
+					}	
+				});
+			});
+		}
+	});
 })(jQuery);
 
-jQuery(document).ready(function($){
- $('.simpleajaxform').each(function(){
-  $(this).attr('method', 'post');
-  var target = $(this).attr('target');
-  var func   = $(this).attr('function');
-  options    = {};
-  if( target || func ){
-   if( target ) $('#'+target).html('').hide();
-   options = { success: simpleajaxform_success, beforeSubmit: simpleajaxform_submit };
-  }
-  $(this).ajaxForm(options);
- });
-});
-
-/**
- * On submit: clear any previous update and inform we're trying to update
- */
-function simpleajaxform_submit(formData, jqForm, options) {
- //if( !jqForm.valid() ) return false;
- target = jqForm.attr('target');
-
- if( target )
-  jQuery('#'+target).html('Updating, please wait...').removeClass('updated').addClass('updating').fadeTo(100,1);
- return true;
-}
-
-/**
- * Response: show message and fade it out
- */
-function simpleajaxform_success(responseText, statusText, xhr, jQForm){
- if( typeof(jQForm) === 'undefined' )
-  jQForm = xhr;
-
- if( typeof(jQForm) === 'undefined' ){
-  alert('Cannot handle response properly');
-  return;
- }
-
- target = jQForm.attr('target');
- if( target )
-  jQuery('#'+target).removeClass('updating').addClass('updated').html(responseText);
-
- hide = jQForm.attr('hide');
- if( hide )
-  jQuery('#'+hide).hide();
-
- handler = jQForm.attr('function');
- if( handler )
-  eval( handler+'(responseText, jQForm)' );
-}
-
+(function($){
+	$(document).ready(function(){
+		$('.simpleajaxform').simpleAjaxForm();
+	});
+})(jQuery);
