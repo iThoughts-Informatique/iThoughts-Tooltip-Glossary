@@ -26,6 +26,7 @@ class WPG_Taxonomies Extends WPG{
 			'labels'       => $labels,
 			'show_ui'      => true,
 			'query_var'    => true,
+			'show_admin_column' => true,
 			'rewrite'      => array( 'slug' => 'glossary-group' ),
 		) );
 	} // register_taxonomies

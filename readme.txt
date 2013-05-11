@@ -153,6 +153,9 @@ TRANSLATIONS:
 
 == Upgrade Notice ==
 
+= 2.3 =
+Glossary term details page now displays term usage
+
 = 2.1 =
 Changes the default tooltip style (now used qTip)
 

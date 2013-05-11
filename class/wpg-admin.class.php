@@ -28,6 +28,7 @@ class WPG_Admin{
 		$alphaarchive = isset( $options['alphaarchive'] ) ? $options['alphaarchive'] : 'standard';
 		$qtipstyle    = isset( $options['qtipstyle'] )    ? $options['qtipstyle']    : 'cream';
 		$termlinkopt  = isset( $options['termlinkopt'] )  ? $options['termlinkopt']  : 'standard';
+		$termusage    = isset( $options['termusage'] )    ? $options['termusage']    : 'on';
 
 		// Tooptip DD
 		$ttddoptions = array(
@@ -82,6 +83,15 @@ class WPG_Admin{
 				'blank'    => array('title'=>__('New tab', WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__("Always open in a new tab",          WPG_TEXTDOMAIN))),
 			),
 		));
+
+		// Term usage
+		$termusagedd = tcb_wpg_build_dropdown( 'termusage', array(
+			'selected' => $termusage,
+			'options'  => array(
+				'on'  => __('On',  WPG_TEXTDOMAIN),
+				'off' => __('Off', WPG_TEXTDOMAIN),
+			),
+		) );
 		
 ?>
 <div class="wrap">
@@ -96,6 +106,7 @@ class WPG_Admin{
 				<p><?php _e('Archive:', WPG_TEXTDOMAIN); echo "{$archivedropdown}" ?></p>
 				<p><?php _e('Tooltip (qTip):', WPG_TEXTDOMAIN);  echo "{$qtipdropdown}" ?></p>
 				<p><?php _e('Term link:', WPG_TEXTDOMAIN);  echo "{$termlinkoptdropdown}" ?></p>
+				<p><?php _e('Term usage:', WPG_TEXTDOMAIN);  echo "{$termusagedd}" ?></p>
 				<p>
 					<input type="hidden" name="action" value="wpg_update_options"/>
 					<input type="submit" name="submit" class="alignleft button-primary" value="<?php _e('Update Glossary Options', WPG_TEXTDOMAIN); ?>"/>
@@ -114,6 +125,7 @@ class WPG_Admin{
 			'alphaarchive' => 'standard',
 			'qtipstyle'    => 'cream',
 			'termlinkopt'  => 'standard',
+			'termusage'    => 'on',
 		);
 		$glossary_options = get_option( 'wp_glossary', $defaults );
 		foreach( $defaults as $key => $default ){

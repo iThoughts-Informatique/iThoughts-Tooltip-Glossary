@@ -93,7 +93,7 @@ class WPG_RandomTerm extends WP_Widget {
 				$desc    = '';
 				$display = $instance['display'];
 				if( $display && $display != 'title' ):
-					$desc = $display == 'full' ? apply_filters('the_content',get_the_content()) : wpautop(get_the_excerpt());
+					$desc = $display == 'full' ? apply_filters('the_content',get_the_content(),$main=false) : wpautop(get_the_excerpt());
 					$desc = '<br>' . $desc;
 				endif;
 				echo '<li>' . $title . $desc . '</li>';

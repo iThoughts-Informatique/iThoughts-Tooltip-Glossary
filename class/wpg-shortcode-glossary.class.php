@@ -1,11 +1,71 @@
 <?php
 class WPG_Shortcodes Extends WPG{
 	public function __construct() {
-		add_shortcode( 'glossary', array($this, 'glossary') );
+		// Shortcode
+		add_shortcode( 'glossary', array(&$this, 'glossary') );
+
+		// Help functions..
+		add_action( 'save_post',  array(&$this, 'save_post_check_for_glossary_usage'), 10, 2 );
+		add_action( 'get_header', array(&$this, 'glossary_usage_reset_for_post') );
+//		add_action( 'shutdown',   array(&$this, 'glossary_remove_update_marker') );
+		add_action( 'wp_footer',  array(&$this, 'glossary_remove_update_marker') );
 	}
 
+	/** 
+	 * If post has glossary shortcode in it when it is saved, mark the post as needing be updated
+	 */
+	public function save_post_check_for_glossary_usage( $post_id, $post ){
+		if( !wp_is_post_revision($post_id)  ):
+			if( strpos($post->post_content,'[glossary ') !== false):
+				update_post_meta( $post_id, 'wpg_update_term_usage', current_time('mysql') );
+			else :
+				if(get_post_meta( $post_id, 'wpg_has_terms', $single=true) ):
+					// Also posts that used to have terms should be updated.
+					delete_post_meta( $post_id, 'wpg_has_terms' );
+					update_post_meta( $post_id, 'wpg_update_term_usage', current_time('mysql') );
+				endif;
+			endif;
+		endif;
+	}
+
+	/** 
+	 * If current post (or page or whatever) has been marked as needing updating,
+	 *  then delete all the meta entries for this post.
+	 * These are stored on the glossary term meta
+	 */
+	public function glossary_usage_reset_for_post(){
+		global $post;
+		if( is_singular() && get_post_meta( $post->ID, 'wpg_update_term_usage') ):
+			// Find all glossary terms that have this post noted.
+			$args = array(
+				'post_type'   => 'glossary',
+				'numberposts' => -1,
+				'post_status' => 'publish',
+				'meta_query'  => array( array(
+					'key'   => 'wpg_term_used',
+					'value' => $post->ID,
+					'type'  => 'DECIMAL'
+				) )
+			);
+			$terms = get_posts( $args );
+			foreach( $terms as $term ):
+				// Delete the meta entry
+				delete_post_meta( $term->ID, 'wpg_term_used', $post->ID );
+			endforeach;
+		endif;
+	}
+
+	/** */
+	public function glossary_remove_update_marker(){
+		global $post;
+		if( is_singular() && get_post_meta( $post->ID, 'wpg_update_term_usage') ):
+			delete_post_meta( $post->ID, 'wpg_update_term_usage' );
+		endif;
+	}
+
+	/** */
 	public function glossary( $atts, $content='' ){
-		global $wpdb, $tcb_wpg_scripts, $wpg_glossary_count;
+		global $wpdb, $tcb_wpg_scripts, $wpg_glossary_count, $post;
 
 		$wpg_glossary_count++;
 
@@ -28,8 +88,6 @@ class WPG_Shortcodes Extends WPG{
 		$tooltip_option   = isset($glossary_options['tooltips'])    ? $glossary_options['tooltips']    : 'excerpt';
 		$qtipstyle        = isset($glossary_options['qtipstyle'])   ? $glossary_options['qtipstyle']   : 'cream';
 		$linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
-
-		
 
 		extract( shortcode_atts( array(
 			'id'   => 0,
@@ -62,8 +120,15 @@ class WPG_Shortcodes Extends WPG{
 		endif;
 		if( empty($glossary) ) return $text; // No glossary term found. Return the original text.
 
+		if( get_post_meta( $post->ID, 'wpg_update_term_usage') ):
+			// Note this post against the glossary
+      add_post_meta( $glossary->ID, 'wpg_term_used', $post->ID );
+			// Note this post/page has glossary terms
+			update_post_meta( $post->ID, 'wpg_has_terms', current_time('mysql') );
+    endif;
+
 		setup_postdata( $glossary );
-		$title = get_the_title();
+		$title = get_the_title( $glossary->ID );
 
 		if( empty($text) ) $text = $title; // Glossary found, but no text supplied, so use the glossary term's title.
 
