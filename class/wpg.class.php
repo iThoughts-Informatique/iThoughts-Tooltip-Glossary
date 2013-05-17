@@ -109,8 +109,8 @@ class WPG{
 
 	public function wpg_vesion_check(){
 		$plugin = get_plugin_data( dirname(dirname(__FILE__)) . '/wp-glossary.php' );
-		if( $plugin && is_object($plugin) && $plugin->Version ):
-			$in_file_version = $plugin->Version;
+		if( $plugin && is_array($plugin) && $plugin['Version'] ):
+			$in_file_version = $plugin['Version'];
 			$optionkey       = 'wpg_vesion_check';
 			$in_db_version   = get_option( $optionkey, 0 );
 
