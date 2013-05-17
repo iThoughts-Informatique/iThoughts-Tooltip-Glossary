@@ -132,7 +132,7 @@ class WPG_Shortcodes Extends WPG{
 
 		if( empty($text) ) $text = $title; // Glossary found, but no text supplied, so use the glossary term's title.
 
-		$href    = get_permalink( $glossary->ID );
+		$href    = apply_filters( 'wpg_term_link', get_post_permalink($glossary->ID) );
 		$tooltip = '';
 		$class   = 'glossary-hover';
 		switch( $tooltip_option ):

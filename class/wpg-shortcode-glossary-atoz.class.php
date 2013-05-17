@@ -36,7 +36,7 @@ class WPG_Shortcode_ATOZ Extends WPG{
 	
 		$atoz = array();
 		foreach( $glossaries as $post ) : setup_postdata( $post );
-			$href  = get_permalink();
+			$href  = apply_filters( 'wpg_term_link', get_post_permalink($post->ID) );
 			$title = get_the_title();
 			$alpha = strtolower( mb_substr($title, 0, 1, 'UTF-8') );
 	

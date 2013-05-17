@@ -4,7 +4,7 @@
  */
 class WPG_Taxonomies Extends WPG{
  	public function __construct() {
-		add_action( 'init', array($this, 'register_taxonomies'), 0 );
+		add_action( 'init', array(&$this, 'register_taxonomies'), 0 );
 	}
 
 	public function register_taxonomies(){
@@ -22,12 +22,12 @@ class WPG_Taxonomies Extends WPG{
 		);
 	
 		register_taxonomy( 'wpglossarygroup', array( 'glossary' ), array(
-			'hierarchical' => false,
-			'labels'       => $labels,
-			'show_ui'      => true,
-			'query_var'    => true,
+			'hierarchical'      => false,
+			'labels'            => $labels,
+			'show_ui'           => true,
+			'query_var'         => true,
 			'show_admin_column' => true,
-			'rewrite'      => array( 'slug' => 'glossary-group' ),
+			'rewrite'           => array( 'slug' => __('glossary/group', WPG_TEXTDOMAIN) ),
 		) );
 	} // register_taxonomies
 } // WPG_Taxonomies

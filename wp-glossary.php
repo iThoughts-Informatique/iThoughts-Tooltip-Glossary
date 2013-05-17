@@ -14,15 +14,16 @@ define( 'WPG_TEXTDOMAIN', 'wp-glossary' );
 global $wpg_glossary_count;
 $wpg_glossary_count = 0;
 
+//if( function_exists('add_action') ):
 require_once( dirname(__FILE__) . '/class/wpg.class.php' );
 require_once( dirname(__FILE__) . '/class/wpg-admin.class.php' );
 require_once( dirname(__FILE__) . '/fn-lib.php' );
-//require_once( dirname(__FILE__) . '/class/wpg-widget-random-term.class.php' );
 
 new WPG( dirname(__FILE__) );
 new WPG_Admin();
 
 add_action( 'admin_init', 'tcb_wpg_test' );
+//endif;
 function tcb_wpg_test(){
 	if( $prefix = $_GET['populate'] ):
 		for( $i = 1; $i < 30; $i++ ):

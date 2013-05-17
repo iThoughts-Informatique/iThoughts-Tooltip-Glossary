@@ -58,8 +58,8 @@ class WPG_Post_types Extends WPG{
 	/** */
 	public function manage_glossary_posts_columns( $columns ){
 		$newcolumns = array(
-			'usage'     => __( 'Usage',    WPG_TEXTDOMAIN ),
-			'reference' => __( 'Reference' WPG_TEXTDOMAIN ),,
+			'usage'     => __( 'Usage',     WPG_TEXTDOMAIN ),
+			'reference' => __( 'Reference', WPG_TEXTDOMAIN ),
 		);
 		$columns = array_slice( $columns, 0, -1, true ) 
 			+ $newcolumns 
@@ -77,7 +77,7 @@ class WPG_Post_types Extends WPG{
 					$col = array();
 					foreach( $usage as $post_id ):
 						$title = get_the_title( $post_id );
-						$url   = get_permalink( $post_id );
+						$url   = apply_filters( 'wpg_term_link', get_post_permalink($post_id) );
 						$col[] = '<a href="' . $url . '">' . $title . '</a>';
 					endforeach;
 					echo implode( ', ', $col );
@@ -159,7 +159,7 @@ class WPG_Post_types Extends WPG{
 					foreach( $usage as $post_id ):
 						$target   = get_post( $post_id );
 						$title    = get_the_title( $post_id );
-						$content .= '<li><a href="' . get_permalink($post_id) . '" title="' . esc_attr($title) . '">' . $title . '</a></li>';
+						$content .= '<li><a href="' . apply_filters('wpg_term_link', get_post_permalink($post_id)) . '" title="' . esc_attr($title) . '">' . $title . '</a></li>';
 					endforeach;
 					$content .= '</ul></div>';
 				endif; // usage loop

@@ -57,7 +57,7 @@ class WPG_Shortcode_TERMLIST Extends WPG{
 			if( count($alphas) && !in_array($titlealpha, $alphas) )
 				continue;
 	
-			$href  = get_permalink( $post->ID );
+			$href  = apply_filters( 'wpg_term_link', get_post_permalink($post->ID) );
 			$item  = '<li class="glossary-item">';
 			$item .= '<a href="' . $href . '" title="' . esc_attr($title) . '">' . $title . '</a>';
 			if( $desc ):

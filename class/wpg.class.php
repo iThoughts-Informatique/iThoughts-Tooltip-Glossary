@@ -18,12 +18,14 @@ class WPG{
 		$this->register_taxonmies();
 		$this->add_shortcodes();
 		$this->add_widgets();
-		add_action( 'init',                  array($this, 'register_scripts_and_styles') );
-		add_action( 'wp_footer',             array($this, 'wp_footer')                   );
-		add_action( 'wp_enqueue_scripts',    array($this, 'wp_enqueue_scripts')          );
-		add_action( 'admin_enqueue_scripts', array($this, 'admin_enqueue_scripts')       );
-		add_action( 'admin_init',            array($this, 'wpg_vesion_check')            );
-		add_action( 'pre_get_posts',         array($this, 'order_core_archive_list')     );
+		add_action( 'init',                  array(&$this, 'register_scripts_and_styles') );
+		add_action( 'wp_footer',             array(&$this, 'wp_footer')                   );
+		add_action( 'wp_enqueue_scripts',    array(&$this, 'wp_enqueue_scripts')          );
+		add_action( 'admin_enqueue_scripts', array(&$this, 'admin_enqueue_scripts')       );
+		add_action( 'admin_init',            array(&$this, 'wpg_vesion_check')            );
+		add_action( 'pre_get_posts',         array(&$this, 'order_core_archive_list')     );
+
+		add_filter( 'wpg_term_link',         array(&$this, 'wpg_term_link')               );
 	}
 
 	static function base() {
@@ -122,8 +124,11 @@ class WPG{
 		endif;
 	}
 
+	/**
+	 * Order post and taxonomy archives alphabetically
+	 */
 	public function order_core_archive_list( $query ){
-		if( is_post_type_archive('glossary') ):
+		if( is_post_type_archive('glossary') || is_taxonomy('wpglossarygroup') ):
 			$glossary_options = get_option( 'wp_glossary' );
 			$archive          = $glossary_options['alphaarchive'] ? $glossary_options['alphaarchive'] : 'standard';
 			if( $archive == 'alphabet' ):
@@ -132,5 +137,17 @@ class WPG{
 				return;
 			endif;
 		endif;
+	}
+
+	/** 
+   * Translation support
+	 */
+	public function wpg_term_link( $url ){
+		// qTranslate plugin
+		if( function_exists('qtrans_convertURL') ):
+			$url = qtrans_convertURL( $url );
+		endif;
+
+		return $url;
 	}
 }

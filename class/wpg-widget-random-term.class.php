@@ -89,7 +89,7 @@ class WPG_RandomTerm extends WP_Widget {
 		if( $terms && count($terms) ):
 			echo '<ul class="wpglossary widget-list">';
 			foreach( $terms as $term ): setup_postdata( $term );
-				$title   = '<a href="' . get_permalink($term->ID) . '">' . get_the_title($term->ID) . '</a>';
+				$title   = '<a href="' . apply_filters( 'wpg_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';
 				$desc    = '';
 				$display = $instance['display'];
 				if( $display && $display != 'title' ):
