@@ -5,7 +5,7 @@ Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 2.2
+Stable tag: 2.3
 License: GPLv2 or later
 
 Create your own glossary of hot-linked terms, inside your own site!
@@ -38,9 +38,9 @@ If you create your own single template for glossary terms, don't forget to remov
 
 == Frequently Asked Questions ==
 
-= Can the plugin auto tag glossary terms in my post content? =
+= Does this plugin create any new tables? =
 
-No. However, when you add the glossary shortcode, it does it's best to find the right term. In a nice way.
+No. It uses custom post types and taxonomies.
 
 = Can I link it to an external glossary =
 
@@ -52,7 +52,8 @@ Please resave your rewrite rules: Settings > Permalinks > Save Changes (just cli
 
 = It doesn't do anything? =
 
-You have to add the terms (Glossary Terms > Add New Term) and then use SHORTCODES.
+You have to add the terms (Glossary Terms > Add New Term) and then use [shortcodes](http://codex.wordpress.org/Shortcode).
+I've listed a bunch on my website: [WP Glossary - Basic Shortcde Usage](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/wp-glossary-basic-usage-of-the-glossary-shortcode/)
 
 = Further Information =
 
@@ -61,12 +62,26 @@ You have to add the terms (Glossary Terms > Add New Term) and then use SHORTCODE
 
 == Screenshots ==
 
-1. Edit glossary term
-2. Using glossary shortcode in post content
-3. Viewing glossary archive
-4. Example A to Z
+1. Example frontend hover tooltip
+2. Adding glossary term to page content using shortcode
+3. Editing a glossary term itself
+4. jQuery based Glossary term A to Z
+5. Default Glossary term archive
+6. Glossary term list front end (full)
+7. Backend adding term list with shortcode
+
 
 == Changelog ==
+
+= 2.3 =
+* NEW Glossary term usage (experimental)
+* NEW qTranslate compatibility (experimental)
+* NEW Glossary Term taxonomy admin columns added
+* NEW Content filter args to ignore in widget
+* UPD Taxonomy archive also alphabetical
+* UPD Glossary group taxonomy rewrite updated
+* FIX Shortcode anchor link
+* FIX Version check
 
 = 2.2 =
 * NEW Snazzy banner for plugin (thanks Gwyneth Llewelyn!)
@@ -77,9 +92,9 @@ You have to add the terms (Glossary Terms > Add New Term) and then use SHORTCODE
 * FIX Slug language rewrite
 
 TRANSLATIONS:
+
 * Portugese (by Gwyneth Llewelyn)
 * German (by Gwyneth Llewelyn)
-
 
 = 2.1.1 =
 * FIX Glossary term url without tooltip (thanks Gwyneth Llewelyn and stephen451)
@@ -154,7 +169,8 @@ TRANSLATIONS:
 == Upgrade Notice ==
 
 = 2.3 =
-Glossary term details page now displays term usage
+* Glossary term details page now displays term usage.
+* Glossary group taxonomy slug changed (make sure your permalinks are saved).
 
 = 2.1 =
 Changes the default tooltip style (now used qTip)
@@ -171,7 +187,7 @@ Version 0.1 rewrite flush was for dev purposes only and may have broken other re
 The WordPress shortcode syntax is really simple!
 
 = Display and link to glossary with slug 'seo' =
-[glossary slug='seo']
+[glossary slug='seo' /]
 
 = Auto search word for matching glossary term (e.g. 'seo') =
 [glossary]SEO[/glossary]
@@ -180,13 +196,13 @@ The WordPress shortcode syntax is really simple!
 [glossary slug='seo']search engine optimisation[/glossary]
 
 = Display a list of all your glossary terms (alphabetical) =
-[glossary_term_list]
+[glossary_term_list /]
 
 = Display list of glossary terms beginning with a, b or c =
-[glossary_term_list alpha='a,b,c']
+[glossary_term_list alpha='a,b,c' /]
 
 = Display a jQuery-powered A to Z list of your glossary terms =
-[glossary_atoz]
+[glossary_atoz /]
 
 = Further Examples =
 See the [dedicated website section](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
