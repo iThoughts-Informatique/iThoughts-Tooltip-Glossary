@@ -128,7 +128,7 @@ class WPG{
 	 * Order post and taxonomy archives alphabetically
 	 */
 	public function order_core_archive_list( $query ){
-		if( is_post_type_archive('glossary') || is_taxonomy('wpglossarygroup') ):
+		if( is_post_type_archive('glossary') || is_tax('wpglossarygroup') ):
 			$glossary_options = get_option( 'wp_glossary' );
 			$archive          = $glossary_options['alphaarchive'] ? $glossary_options['alphaarchive'] : 'standard';
 			if( $archive == 'alphabet' ):
