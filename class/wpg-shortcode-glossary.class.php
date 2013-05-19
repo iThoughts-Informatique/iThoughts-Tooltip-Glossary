@@ -15,6 +15,12 @@ class WPG_Shortcodes Extends WPG{
 	 * If post has glossary shortcode in it when it is saved, mark the post as needing be updated
 	 */
 	public function save_post_check_for_glossary_usage( $post_id, $post ){
+    $glossary_options = get_option( 'wp_glossary' );
+    $termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
+
+		if( $termusage != 'on' )
+			return $post_id;
+
 		if( !wp_is_post_revision($post_id)  ):
 			if( strpos($post->post_content,'[glossary ') !== false):
 				update_post_meta( $post_id, 'wpg_update_term_usage', current_time('mysql') );
@@ -65,7 +71,7 @@ class WPG_Shortcodes Extends WPG{
 
 	/** */
 	public function glossary( $atts, $content='' ){
-		global $wpdb, $tcb_wpg_scripts, $wpg_glossary_count, $post;
+		global $wpdb, $tcb_wpg_scripts, $wpg_glossary_count, $post, $wpg_doing_shortcode;
 
 		$wpg_glossary_count++;
 
@@ -88,6 +94,7 @@ class WPG_Shortcodes Extends WPG{
 		$tooltip_option   = isset($glossary_options['tooltips'])    ? $glossary_options['tooltips']    : 'excerpt';
 		$qtipstyle        = isset($glossary_options['qtipstyle'])   ? $glossary_options['qtipstyle']   : 'cream';
 		$linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
+		$termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
 		extract( shortcode_atts( array(
 			'id'   => 0,
@@ -112,22 +119,26 @@ class WPG_Shortcodes Extends WPG{
 				$slug = sanitize_title( $text );
 			endif;
 			$slug      = strtolower($slug);
-			$sqlstring = "SELECT ID FROM {$wpdb->posts} WHERE post_name='%s' AND post_type='glossary' LIMIT 1";
-			$id        = $wpdb->get_var( $wpdb->prepare( $sqlstring, $slug ) );
+			$sqlstring = "SELECT ID FROM {$wpdb->posts} WHERE post_name='%s' AND post_type='glossary' AND post_status='publish' LIMIT 1";
+			$id        = $wpdb->get_var( $wpdb->prepare($sqlstring, $slug) );
 			if( $id ):
 				$glossary = get_post( $id );
 			endif;
 		endif;
 		if( empty($glossary) ) return $text; // No glossary term found. Return the original text.
 
-		if( get_post_meta( $post->ID, 'wpg_update_term_usage') ):
-			// Note this post against the glossary
-      add_post_meta( $glossary->ID, 'wpg_term_used', $post->ID );
-			// Note this post/page has glossary terms
-			update_post_meta( $post->ID, 'wpg_has_terms', current_time('mysql') );
-    endif;
-
-		setup_postdata( $glossary );
+		if( $termusage && $termusage == 'on' ):
+			if( get_post_meta( $post->ID, 'wpg_update_term_usage') ):
+				if( !in_array($post->ID, get_post_meta($glossary->ID, 'wpg_term_used')) ):
+					// Note this post against the glossary
+					add_post_meta( $glossary->ID, 'wpg_term_used', $post->ID );
+					// Note this post/page has glossary terms
+					update_post_meta( $post->ID, 'wpg_has_terms', current_time('mysql') );
+				endif;
+ 	   endif;
+		endif;
+	
+		//setup_postdata( $glossary );
 		$title = get_the_title( $glossary->ID );
 
 		if( empty($text) ) $text = $title; // Glossary found, but no text supplied, so use the glossary term's title.
@@ -137,7 +148,12 @@ class WPG_Shortcodes Extends WPG{
 		$class   = 'glossary-hover';
 		switch( $tooltip_option ):
 			case 'full':
-				$tooltip = ($qtipstyle=='off') ? strip_tags(get_the_content()) : apply_filters('the_content', get_the_content());
+				if( !$wpg_doing_shortcode ):
+					$wpg_doing_shortcode = true;
+					//$tooltip = ($qtipstyle=='off') ? strip_tags($glossary->post_content) : wpautop( do_shortcode($glossary->post_content) );
+					$tooltip = ($qtipstyle=='off') ? strip_tags(get_the_content()) : apply_filters('the_content', get_the_content());
+					$wpg_doing_shortcode = false;
+				endif;
 				break;
 			case 'excerpt':
 				$excerpt = apply_filters( 'get_the_excerpt', $glossary->post_excerpt );
@@ -152,7 +168,7 @@ class WPG_Shortcodes Extends WPG{
 		$href   = ($linkopt != 'none')  ? 'href="'.$href.'"' : '';
 
 		$link  = '<a class="' . $class . '" '.$target.' '.$href.' title="' . esc_attr($tooltip) . '" '.implode(' ',$jsdata).'>' . $text . '</a>';
-		wp_reset_postdata();
+		//wp_reset_postdata();
 		return '<span class="wp-glossary">' . $link . '</span>'; 
 	}
 }
