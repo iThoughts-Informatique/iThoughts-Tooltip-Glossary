@@ -150,8 +150,7 @@ class WPG_Shortcodes Extends WPG{
 			case 'full':
 				if( !$wpg_doing_shortcode ):
 					$wpg_doing_shortcode = true;
-					//$tooltip = ($qtipstyle=='off') ? strip_tags($glossary->post_content) : wpautop( do_shortcode($glossary->post_content) );
-					$tooltip = ($qtipstyle=='off') ? strip_tags(get_the_content()) : apply_filters('the_content', get_the_content());
+					$tooltip = ($qtipstyle=='off') ? strip_tags($glossary->post_content) : apply_filters('the_content', $glossary->post_content);
 					$wpg_doing_shortcode = false;
 				endif;
 				break;
