@@ -127,7 +127,7 @@ class WPG_Shortcodes Extends WPG{
 		endif;
 		if( empty($glossary) ) return $text; // No glossary term found. Return the original text.
 
-		if( $termusage && $termusage == 'on' ):
+		if( $termusage && $termusage == 'on' && !$wpg_doing_shortcode ):
 			if( get_post_meta( $post->ID, 'wpg_update_term_usage') ):
 				if( !in_array($post->ID, get_post_meta($glossary->ID, 'wpg_term_used')) ):
 					// Note this post against the glossary
@@ -150,13 +150,21 @@ class WPG_Shortcodes Extends WPG{
 			case 'full':
 				if( !$wpg_doing_shortcode ):
 					$wpg_doing_shortcode = true;
+					setup_postdata( $glossary );
 					$tooltip = ($qtipstyle=='off') ? strip_tags($glossary->post_content) : apply_filters('the_content', $glossary->post_content);
+					wp_reset_postdata();
 					$wpg_doing_shortcode = false;
 				endif;
 				break;
 			case 'excerpt':
-				$excerpt = apply_filters( 'get_the_excerpt', $glossary->post_excerpt );
-				$tooltip = ($qtipstyle=='off') ? $excerpt : wpautop($excerpt);
+				if( !$wpg_doing_shortcode ):
+					$wpg_doing_shortcode = true;
+					setup_postdata( $glossary );
+					$excerpt = apply_filters( 'get_the_excerpt', $glossary->post_excerpt );
+					$tooltip = ($qtipstyle=='off') ? $excerpt : wpautop($excerpt);
+					wp_reset_postdata();
+					$wpg_doing_shortcode = false;
+				endif;
 				break;
 			case 'off':
 				$class = 'glossary-term';
