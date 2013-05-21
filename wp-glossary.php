@@ -4,7 +4,7 @@
  * Plugin URI: http://wordpress.org/extend/plugins/wp-glossary/
  * Description: Build a glossary of terms and link your post content to it.
  * Author: TCBarrett
- * Version: 2.3.3
+ * Version: 2.4
  * Author URI: http://www.tcbarrett.com/
  * Text Domain: wp-glossary
  * Domain Path: /lang/
