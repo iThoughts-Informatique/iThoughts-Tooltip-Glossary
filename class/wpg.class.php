@@ -140,7 +140,7 @@ class WPG{
 	}
 
 	/** 
-   * Translation support
+	 * Translation support
 	 */
 	public function wpg_term_link( $url ){
 		// qTranslate plugin

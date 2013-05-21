@@ -15,14 +15,14 @@ class WPG_Shortcodes Extends WPG{
 	 * If post has glossary shortcode in it when it is saved, mark the post as needing be updated
 	 */
 	public function save_post_check_for_glossary_usage( $post_id, $post ){
-    $glossary_options = get_option( 'wp_glossary' );
-    $termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
+		$glossary_options = get_option( 'wp_glossary' );
+		$termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
 		if( $termusage != 'on' )
 			return $post_id;
 
 		if( !wp_is_post_revision($post_id)  ):
-			if( strpos($post->post_content,'[glossary ') !== false):
+			if( strpos($post->post_content,'[glossary ') !== false || strpos($post->post_content,'[glossary]') !== false ):
 				update_post_meta( $post_id, 'wpg_update_term_usage', current_time('mysql') );
 			else :
 				if(get_post_meta( $post_id, 'wpg_has_terms', $single=true) ):

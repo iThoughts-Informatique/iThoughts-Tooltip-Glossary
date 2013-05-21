@@ -3,10 +3,57 @@
  * WP-Glossary Admin
  */
 class WPG_Admin{
+	static $base, $base_url;
+
  	public function __construct() {
-		add_action( 'admin_menu',                 array($this, 'options_submenu') );
-		add_action( 'wp_ajax_wpg_update_options', array($this, 'update_options') );
+		self::$base     = $plugin_base . '/class';
+		self::$base_url = plugins_url( '', dirname(__FILE__) );
+
+		add_action( 'admin_menu',                 array(&$this, 'options_submenu') );
+		add_action( 'wp_ajax_wpg_update_options', array(&$this, 'update_options') );
+		add_action( 'admin_head',                 array(&$this, 'add_tinymce_dropdown_hooks') );
+		add_action( 'admin_init',                 array(&$this, 'setup_localixed_dropdown_values') );
 	}
+
+	static function base() {
+		return self::$base;
+	}
+	static function base_url() {
+		return self::$base_url;
+	}
+
+	public function add_tinymce_dropdown_hooks() {
+		add_filter( 'mce_external_plugins', array(&$this, 'tinymce_add_dropdown_plugin') );
+		add_filter( 'mce_buttons',          array(&$this, 'tinymce_add_dropdown_button') );
+	}
+	public function tinymce_add_dropdown_plugin( $plugin_array ){
+		$plugin_array['wpglossary'] = $this->base_url() . '/js/tinymce-wpglossary-dropdown.js';
+		return $plugin_array;
+	}
+	public function tinymce_add_dropdown_button( $buttons ){
+		array_push( $buttons, 'wpglossary' );
+		return $buttons;
+	}
+
+	public function setup_localixed_dropdown_values(){
+		$args = array(
+			'post_type'   => 'glossary',
+			'numberposts' => -1,
+			'post_status' => 'publish',
+			'orderby'     => 'title',
+			'order'       => 'ASC',
+		);
+		$glossaryposts = get_posts( $args );
+		$glossaryterms = array();
+		foreach( $glossaryposts as $glossary ):
+			$glossaryterms[$glossary->post_title] = "[glossary id='{$glossary->ID}' slug='{$glossary->post_name}' /]";
+		endforeach;
+
+		wp_localize_script( 'jquery', 'WPG', array(
+			'tinymce_dropdown' => $glossaryterms,
+		) );
+	}
+
 
 	public function options_submenu(){
 		$slug             = __( 'glossary', WPG_TEXTDOMAIN ); 
