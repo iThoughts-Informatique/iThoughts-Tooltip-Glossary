@@ -70,7 +70,7 @@ class WPG{
 	public function register_scripts_and_styles(){
 		$options   = get_option( 'wp_glossary', array() );
 		$qtipstyle = isset( $options['qtipstyle'] ) ? $options['qtipstyle']: 'cream';
-		if( $qtip != 'off' ):
+		if( $qtipstyle != 'off' ):
 			wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/qtip.js', array('jquery') );
 			wp_register_script( 'wp-glossary-js',  $this->base_url() . '/js/wp-glossary-qtip.js',      array('jquery-tooltip') );
 			// qTip localisation settings

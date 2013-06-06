@@ -3,9 +3,10 @@
  * WP-Glossary Admin
  */
 class WPG_Admin{
-	static $base, $base_url;
+	static $base;
+	static $base_url;
 
- 	public function __construct() {
+ 	public function __construct( $plugin_base ) {
 		self::$base     = $plugin_base . '/class';
 		self::$base_url = plugins_url( '', dirname(__FILE__) );
 

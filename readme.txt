@@ -5,7 +5,7 @@ Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 2.4
+Stable tag: 2.4.1
 License: GPLv2 or later
 
 Create your own glossary of hot-linked terms, inside your own site!
@@ -72,6 +72,11 @@ I've listed a bunch on my website: [WP Glossary - Basic Shortcde Usage](http://w
 
 
 == Changelog ==
+
+= 2.4.1 =
+* NEW Language: French (Thank you Walid)
+* FIX Glossary tooltip 'off' (props Epema)
+* FIX Code warnings
 
 = 2.4 =
 * NEW Glossary term dropdown selector in editor (TinyMCE)

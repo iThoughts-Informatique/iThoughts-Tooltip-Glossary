@@ -79,7 +79,7 @@ class WPG_Shortcodes Extends WPG{
 		$tcb_wpg_scripts = true;
 
 		// Get WP Glossary options
-		$glossary_options = get_option( 'wp_glossary' );
+		$glossary_options = get_option( 'wp_glossary', array() );
 
 		// JS data to pass through to jQuery libraries
 		$jsdata = array();
