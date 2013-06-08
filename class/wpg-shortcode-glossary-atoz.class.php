@@ -8,6 +8,9 @@ class WPG_Shortcode_ATOZ Extends WPG{
 		global $post, $tcb_wpg_scripts;
 		extract( shortcode_atts(array('group'=>false,'desc'=>false), $atts) );
 
+		$glossary_options = get_option( 'wp_glossary', array() );
+		$linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
+
 
 		// Global variable that tells WP to print related js files.
 		$tcb_wpg_scripts = true;
@@ -41,7 +44,12 @@ class WPG_Shortcode_ATOZ Extends WPG{
 			$alpha = strtolower( mb_substr($title, 0, 1, 'UTF-8') );
 	
 			$item  = '<li class="glossary-item atoz-li atoz-li-' . $alpha . '">';
-			$item .= '<a href="' . $href . '" title="' . esc_attr($title) . '">' . $title . '</a>';
+			if( $linkopt != 'none' ):
+				$target = $linkopt == 'blank' ? ' target="_blank"' : '';
+				$item  .= '<a href="' . $href . '" title="' . esc_attr($title) . '"' . $target . '>' . $title . '</a>';
+			else :
+				$item .= '<span class="atoz-term-title">' . $title . '</span>';
+			endif;
 			if( $desc ):
 				$idesc = $desc=='excerpt' ? get_the_excerpt() : get_the_content();
 				$item .= '<br><span class="glossary-item-desc">' . $idesc . '</span>';

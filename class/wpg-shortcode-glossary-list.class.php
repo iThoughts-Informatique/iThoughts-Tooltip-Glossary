@@ -32,6 +32,9 @@ class WPG_Shortcode_TERMLIST Extends WPG{
 			$args['tax_query'] = array( $tax_query );
 		endif;
 
+		$glossary_options = get_option( 'wp_glossary', array() );
+		$linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
+
 		$list       = '<p>' . __( 'There are no glossary items.', WPG_TEXTDOMAIN) . '</p>';
 		$glossaries = get_posts( $args );
 		if( !count($glossaries) )
@@ -59,7 +62,12 @@ class WPG_Shortcode_TERMLIST Extends WPG{
 	
 			$href  = apply_filters( 'wpg_term_link', get_post_permalink($post->ID) );
 			$item  = '<li class="glossary-item">';
-			$item .= '<a href="' . $href . '" title="' . esc_attr($title) . '">' . $title . '</a>';
+			if( $linkopt == 'none' ):
+				$item .= $title;
+			else :
+				$target = ($linkopt == 'blank') ? 'target="_blank"' : '';
+				$item  .= '<a href="' . $href . '" title="' . esc_attr($title) . '" ' . $target .'>' . $title . '</a>';
+			endif;
 			if( $desc ):
 				$idesc = $desc == 'excerpt' ? get_the_excerpt() : get_the_content();	
 				$item .= '<br><span class="glossary-item-desc">' . $idesc . '</span>';
