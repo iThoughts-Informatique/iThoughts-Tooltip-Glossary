@@ -4,7 +4,7 @@
  * Plugin URI: http://wordpress.org/extend/plugins/wp-glossary/
  * Description: Build a glossary of terms and link your post content to it.
  * Author: TCBarrett
- * Version: 2.4.1
+ * Version: 3.0-alpha
  * Author URI: http://www.tcbarrett.com/
  * Text Domain: wp-glossary
  * Domain Path: /lang/
@@ -18,6 +18,7 @@ $wpg_glossary_count = 0;
 require_once( dirname(__FILE__) . '/class/wpg.class.php' );
 require_once( dirname(__FILE__) . '/class/wpg-admin.class.php' );
 require_once( dirname(__FILE__) . '/fn-lib.php' );
+require_once( dirname(__FILE__) . '/ajax.php' );
 
 new WPG( dirname(__FILE__) );
 new WPG_Admin( dirname(__FILE__) );

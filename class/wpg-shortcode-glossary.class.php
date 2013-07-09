@@ -7,7 +7,6 @@ class WPG_Shortcodes Extends WPG{
 		// Help functions..
 		add_action( 'save_post',  array(&$this, 'save_post_check_for_glossary_usage'), 10, 2 );
 		add_action( 'get_header', array(&$this, 'glossary_usage_reset_for_post') );
-//		add_action( 'shutdown',   array(&$this, 'glossary_remove_update_marker') );
 		add_action( 'wp_footer',  array(&$this, 'glossary_remove_update_marker') );
 	}
 
@@ -75,8 +74,6 @@ class WPG_Shortcodes Extends WPG{
 
 		$wpg_glossary_count++;
 
-		// Global variable that tells WP to print related js files.
-		$tcb_wpg_scripts = true;
 
 		// Get WP Glossary options
 		$glossary_options = get_option( 'wp_glossary', array() );
@@ -84,9 +81,11 @@ class WPG_Shortcodes Extends WPG{
 		// JS data to pass through to jQuery libraries
 		$jsdata = array();
 
+error_log( "slug={$atts['slug']}" );
 		// Let shortcode attributes override general settings
 		foreach( $glossary_options as $k => $v ):
 			if( isset($atts[$k]) ):
+error_log( "$k = {$atts[$k]}" );
 				$jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
 				$glossary_options[$k] = trim( $atts[$k] );
 			endif;
@@ -102,12 +101,13 @@ class WPG_Shortcodes Extends WPG{
 			'text' => '',
 		), $atts) );
 
-		// Set text to default content.
+		// Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
 		if( empty($text) ) $text = $content;
+error_log( "text=$text style={$qtipstyle} ttopt={$tooltip_option}" );
 
 		$glossary = false;
 	
-		// Trivial case
+		// Find the term in the database
 		if( !empty($id) ):
 			$glossary = get_post( $id );
 		else :
@@ -127,6 +127,7 @@ class WPG_Shortcodes Extends WPG{
 		endif;
 		if( empty($glossary) ) return $text; // No glossary term found. Return the original text.
 
+		// Term Usage
 		if( $termusage && $termusage == 'on' && !$wpg_doing_shortcode ):
 			if( get_post_meta( $post->ID, 'wpg_update_term_usage') ):
 				if( !in_array($post->ID, get_post_meta($glossary->ID, 'wpg_term_used')) ):
@@ -138,44 +139,32 @@ class WPG_Shortcodes Extends WPG{
  	   endif;
 		endif;
 	
-		//setup_postdata( $glossary );
+		// Get the term title, and use as default text to use for the shortcode
 		$title = get_the_title( $glossary->ID );
+		if( empty($text) ) 
+			$text = $title; 
 
-		if( empty($text) ) $text = $title; // Glossary found, but no text supplied, so use the glossary term's title.
+		$link = $text; // Set to just plain text (used if 'none' linkopt set in settings)
+		if( $linkopt != 'none' ):
+			$href   = apply_filters( 'wpg_term_link', get_post_permalink($glossary->ID) );
+			$target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
+			$link   = '<a href="' . $href . '" ' . $target . ' title="' . esc_attr($title) . '">' . $text . '</a>';
+		endif;
 
-		$href    = apply_filters( 'wpg_term_link', get_post_permalink($glossary->ID) );
-		$tooltip = '';
-		$class   = 'glossary-hover';
-		switch( $tooltip_option ):
-			case 'full':
-				if( !$wpg_doing_shortcode ):
-					$wpg_doing_shortcode = true;
-					setup_postdata( $glossary );
-					$tooltip = ($qtipstyle=='off') ? strip_tags($glossary->post_content) : apply_filters('the_content', $glossary->post_content);
-					wp_reset_postdata();
-					$wpg_doing_shortcode = false;
-				endif;
-				break;
-			case 'excerpt':
-				if( !$wpg_doing_shortcode ):
-					$wpg_doing_shortcode = true;
-					setup_postdata( $glossary );
-					$excerpt = apply_filters( 'get_the_excerpt', $glossary->post_excerpt );
-					$tooltip = ($qtipstyle=='off') ? $excerpt : wpautop($excerpt);
-					wp_reset_postdata();
-					$wpg_doing_shortcode = false;
-				endif;
-				break;
-			case 'off':
-				$class = 'glossary-term';
-				break;
-		endswitch;
+		$span = '<span class="wp-glossary">' . $link . '</span>'; // Trivial default when tooltips switched off.
+		if( $tooltip_option != 'off' ):
+			// Global variable that tells WP to print related js files.
+			$tcb_wpg_scripts = true;
 
-		$target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
-		$href   = ($linkopt != 'none')  ? 'href="'.$href.'"' : '';
+			// qtip jquery data
+			$jsdata[] = 'data-termid="' . $glossary->ID . '"';
+			$jsdata[] = 'data-content="' . $tooltip_option . '"';
+			$jsdata[] = 'data-qtipstyle="' . $qtipstyle . '"';
 
-		$link  = '<a class="' . $class . '" '.$target.' '.$href.' title="' . esc_attr($tooltip) . '" '.implode(' ',$jsdata).'>' . $text . '</a>';
-		//wp_reset_postdata();
-		return '<span class="wp-glossary">' . $link . '</span>'; 
+			// Span that qtip finds
+			$span = '<span class="wp-glossary wpg-tooltip" '.implode(' ',$jsdata).'>' . $link . '</span>';
+		endif;
+
+		return $span;
 	}
 }

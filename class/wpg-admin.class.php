@@ -112,13 +112,16 @@ class WPG_Admin{
 		$qtipdropdown = tcb_wpg_build_dropdown( 'qtipstyle', array(
 			'selected' => $qtipstyle,
 			'options'  => array(
-				'off'   => __('Off',   WPG_TEXTDOMAIN), 
-				'cream' => __('Cream', WPG_TEXTDOMAIN), 
-				'dark'  => __('Dark',  WPG_TEXTDOMAIN), 
-				'green' => __('Green', WPG_TEXTDOMAIN), 
-				'light' => __('Light', WPG_TEXTDOMAIN), 
-				'red'   => __('Red',   WPG_TEXTDOMAIN), 
-				'blue'  => __('Blue',  WPG_TEXTDOMAIN)
+				'cream'     => __('Cream',      WPG_TEXTDOMAIN), 
+				'dark'      => __('Dark',       WPG_TEXTDOMAIN), 
+				'green'     => __('Green',      WPG_TEXTDOMAIN), 
+				'light'     => __('Light',      WPG_TEXTDOMAIN), 
+				'red'       => __('Red',        WPG_TEXTDOMAIN), 
+				'blue'      => __('Blue',       WPG_TEXTDOMAIN),
+				'plain'     => __('Plain',      WPG_TEXTDOMAIN),
+				'bootstrap' => __('Bootstrap',  WPG_TEXTDOMAIN),
+				'youtube'   => __('YouTube',    WPG_TEXTDOMAIN),
+				'tipsy'     => __('Tipsy',      WPG_TEXTDOMAIN),
 			),
 		));
 
