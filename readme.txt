@@ -5,7 +5,7 @@ Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 2.4.1
+Stable tag: 3.0
 License: GPLv2 or later
 
 Create your own glossary of hot-linked terms, inside your own site!
@@ -72,6 +72,14 @@ I've listed a bunch on my website: [WP Glossary - Basic Shortcde Usage](http://w
 
 
 == Changelog ==
+
+= 3.0 =
+* NEW Now using qTip2
+* NEW Tooltips AJAX powered
+* NEW Support for private terms
+* NEW Support for overriding options with shortcode atts for list and atoz
+* FIX Handle nested shortcode terms
+* UPD Minor markup updates
 
 = 2.4.1 =
 * NEW Language: French (Thank you Walid)
@@ -186,6 +194,9 @@ TRANSLATIONS:
 
 
 == Upgrade Notice ==
+
+= 3.0 =
+* Tooltips handled very differently
 
 = 2.3 =
 * Glossary term details page now displays term usage.

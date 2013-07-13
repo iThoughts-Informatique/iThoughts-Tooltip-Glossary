@@ -9,18 +9,34 @@ class WPG_Shortcode_ATOZ Extends WPG{
 		extract( shortcode_atts(array('group'=>false,'desc'=>false), $atts) );
 
 		$glossary_options = get_option( 'wp_glossary', array() );
-		$linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
+    // Let shortcode attributes override general settings
+    foreach( $glossary_options as $k => $v ):
+      if( isset($atts[$k]) ):
+        $jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
+        $glossary_options[$k] = trim( $atts[$k] );
+      endif;
+    endforeach;
+    $tooltip_option   = isset($glossary_options['tooltips'])    ? $glossary_options['tooltips']    : 'excerpt';
+    $qtipstyle        = isset($glossary_options['qtipstyle'])   ? $glossary_options['qtipstyle']   : 'cream';
+    $linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
+    $termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
 
 		// Global variable that tells WP to print related js files.
 		$tcb_wpg_scripts = true;
-	
+
+		$statii = array( 'publish' );
+		if( current_user_can('read_private_posts') ):
+			$statii[] = 'private';
+		endif;
+
 		$args = array(
 			'post_type'           => 'glossary',
 			'posts_per_page'      => '-1',
 			'orderby'             => 'title',
 			'order'               => 'ASC',
 			'ignore_sticky_posts' => 1,
+			'post_status'         => $statii,
 		);
 	
 		// Restrict list to specific glossary group or groups
@@ -39,26 +55,27 @@ class WPG_Shortcode_ATOZ Extends WPG{
 	
 		$atoz = array();
 		foreach( $glossaries as $post ) : setup_postdata( $post );
-			$href  = apply_filters( 'wpg_term_link', get_post_permalink($post->ID) );
 			$title = get_the_title();
 			$alpha = strtolower( mb_substr($title, 0, 1, 'UTF-8') );
 	
-			$item  = '<li class="glossary-item atoz-li atoz-li-' . $alpha . '">';
+			$link  = '<span class="atoz-term-title">' . $title . '</span>'; // Default to text only
 			if( $linkopt != 'none' ):
-				$target = $linkopt == 'blank' ? ' target="_blank"' : '';
-				$item  .= '<a href="' . $href . '" title="' . esc_attr($title) . '"' . $target . '>' . $title . '</a>';
-			else :
-				$item .= '<span class="atoz-term-title">' . $title . '</span>';
+				$href   = apply_filters( 'wpg_term_link', get_post_permalink($post->ID) );
+				$target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
+				$link   = '<a href="' . $href . '" title="' . esc_attr($title) . '" ' . $target . '>' . $title . '</a>';
 			endif;
 			if( $desc ):
-				$idesc = $desc=='excerpt' ? get_the_excerpt() : get_the_content();
-				$item .= '<br><span class="glossary-item-desc">' . $idesc . '</span>';
+				$content = ($desc=='excerpt') ? get_the_excerpt() : apply_filters('the_content', get_the_content());
+				$content = '<span class="glossary-item-desc">' . $content . '</span>';
 			endif;
+			$item  = '<li class="glossary-item atoz-li atoz-li-' . $alpha . '">';
+			$item .= $link . '<br>' . $content;
 			$item .= '</li>';
 	
 			$atoz[$alpha][] = $item;
 		endforeach; wp_reset_postdata();
 	
+		// Menu
 		$menu  = '<ul class="glossary-menu-atoz">';
 		$range = apply_filters( 'wpg_atoz_range', array_keys($atoz) );
 		foreach( $range as $alpha ) :
@@ -68,9 +85,10 @@ class WPG_Shortcode_ATOZ Extends WPG{
 		endforeach;
 		$menu .= '</ul>';
 	
-		$list = '<div class="glossary-list-wrapper">';
+		// Items
+		$list = '<div class="glossary-atoz-wrapper">';
 		foreach( $atoz as $alpha => $items ) :
-			$list .= '<ul class="glossary-list glossary-list-' . $alpha . ' atozitems-off">';
+			$list .= '<ul class="glossary-atoz glossary-atoz-' . $alpha . ' atozitems-off">';
 			$list .= implode( '', $items );
 			$list .= '</ul>';
 		endforeach;

@@ -74,18 +74,15 @@ class WPG_Shortcodes Extends WPG{
 
 		$wpg_glossary_count++;
 
-
 		// Get WP Glossary options
 		$glossary_options = get_option( 'wp_glossary', array() );
 
 		// JS data to pass through to jQuery libraries
 		$jsdata = array();
 
-error_log( "slug={$atts['slug']}" );
 		// Let shortcode attributes override general settings
 		foreach( $glossary_options as $k => $v ):
 			if( isset($atts[$k]) ):
-error_log( "$k = {$atts[$k]}" );
 				$jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
 				$glossary_options[$k] = trim( $atts[$k] );
 			endif;
@@ -103,7 +100,6 @@ error_log( "$k = {$atts[$k]}" );
 
 		// Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
 		if( empty($text) ) $text = $content;
-error_log( "text=$text style={$qtipstyle} ttopt={$tooltip_option}" );
 
 		$glossary = false;
 	

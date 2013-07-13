@@ -71,10 +71,11 @@ class WPG{
 		$options   = get_option( 'wp_glossary', array() );
 		$qtipstyle = isset( $options['qtipstyle'] ) ? $options['qtipstyle']: 'cream';
 		//wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/qtip.js', array('jquery') );
-		wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/jquery.qtip.js', array('jquery') );
-		wp_register_script( 'wp-glossary-js',  $this->base_url() . '/js/wp-glossary-qtip2.js',      array('jquery-tooltip') );
+		wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/jquery.qtip.js',        array('jquery') );
+		wp_register_script( 'wp-glossary-qtip',  $this->base_url() . '/js/wp-glossary-qtip2.js', array('jquery-tooltip') );
+		wp_register_script( 'wp-glossary-atoz',  $this->base_url() . '/js/wp-glossary-atoz.js',  array('jquery') );
 		// qTip localisation settings
-		wp_localize_script( 'wp-glossary-js', 'WPG', array(
+		wp_localize_script( 'wp-glossary-qtip', 'WPG', array(
 			'admin_ajax' => admin_url('admin-ajax.php'),
 			'qtipstyle'  => $qtipstyle,
 		) );
@@ -87,7 +88,8 @@ class WPG{
 		global $tcb_wpg_scripts;
 		if( !$tcb_wpg_scripts ) return;
 
-		wp_print_scripts( 'wp-glossary-js' );
+		wp_print_scripts( 'wp-glossary-qtip' );
+		wp_print_scripts( 'wp-glossary-atoz' );
 	}
 
 	public function wp_enqueue_scripts(){
