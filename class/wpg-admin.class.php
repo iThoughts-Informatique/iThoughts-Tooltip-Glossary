@@ -57,7 +57,7 @@ class WPG_Admin{
 
 
 	public function options_submenu(){
-		$slug             = __( 'glossary', WPG_TEXTDOMAIN ); 
+		$slug             = 'glossary';
 		// Add menu page (capture page for adding admin style and javascript
 		$glossary_options = add_submenu_page( 
 			"edit.php?post_type=$slug", 
