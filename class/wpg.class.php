@@ -68,16 +68,18 @@ class WPG{
 	}
 
 	public function register_scripts_and_styles(){
-		$options   = get_option( 'wp_glossary', array() );
-		$qtipstyle = isset( $options['qtipstyle'] ) ? $options['qtipstyle']: 'cream';
+		$options     = get_option( 'wp_glossary', array() );
+		$qtipstyle   = isset( $options['qtipstyle'] )   ? $options['qtipstyle']:   'cream';
+		$qtiptrigger = isset( $options['qtiptrigger'] ) ? $options['qtiptrigger']: 'hover';
 		//wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/qtip.js', array('jquery') );
 		wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/jquery.qtip.js',        array('jquery') );
 		wp_register_script( 'wp-glossary-qtip',  $this->base_url() . '/js/wp-glossary-qtip2.js', array('jquery-tooltip') );
 		wp_register_script( 'wp-glossary-atoz',  $this->base_url() . '/js/wp-glossary-atoz.js',  array('jquery') );
 		// qTip localisation settings
 		wp_localize_script( 'wp-glossary-qtip', 'WPG', array(
-			'admin_ajax' => admin_url('admin-ajax.php'),
-			'qtipstyle'  => $qtipstyle,
+			'admin_ajax'  => admin_url('admin-ajax.php'),
+			'qtipstyle'   => $qtipstyle,
+			'qtiptrigger' => $qtiptrigger,
 		) );
 
  		wp_register_script( 'simple-ajax', $this->base_url() . '/js/simple-ajax-form.js', array('jquery-form') );

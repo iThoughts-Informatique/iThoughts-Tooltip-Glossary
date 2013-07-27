@@ -77,6 +77,7 @@ class WPG_Admin{
 		$qtipstyle    = isset( $options['qtipstyle'] )    ? $options['qtipstyle']    : 'cream';
 		$termlinkopt  = isset( $options['termlinkopt'] )  ? $options['termlinkopt']  : 'standard';
 		$termusage    = isset( $options['termusage'] )    ? $options['termusage']    : 'on';
+		$qtiptrigger  = isset( $options['qtiptrigger'] )  ? $options['qtiptrigger']  : 'hover';
 
 		// Tooptip DD
 		$ttddoptions = array(
@@ -125,6 +126,14 @@ class WPG_Admin{
 			),
 		));
 
+		$qtiptriggerdropdown = tcb_wpg_build_dropdown( 'qtiptrigger', array(
+			'selected' => $qtiptrigger,
+			'options'  => array(
+				'hover' => array('title'=>__('Hover', WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__('On mouseover (hover)', WPG_TEXTDOMAIN))),
+				'click' => array('title'=>__('Click', WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__('On click',             WPG_TEXTDOMAIN))),
+			),
+		));
+
 		// Term Link HREF target
 		$termlinkoptdropdown = tcb_wpg_build_dropdown( 'termlinkopt', array(
 			'selected' => $termlinkopt,
@@ -152,16 +161,44 @@ class WPG_Admin{
 				<br>
 			</div>
 			<h2><?php _e('WP Glossary Options', WPG_TEXTDOMAIN); ?></h2>
+ <div id="dashboard-widgets-wrap">
+  <div id="dashboard-widgets" class="metabox-holder">
+   <div class="postbox-container" style="width:98%">
+    <div id="normal-sortables" class="meta-box-sortables ui-sortable">
+
 			<form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
-				<p><?php _e('Tooltip:', WPG_TEXTDOMAIN); echo "{$tooltipdropdown}" ?></p>
+
+     <div id="wpglossary_options_1" class="postbox">
+      <h3 class="handle"><span>Term Options</span></h3>
+      <div class="inside">
 				<p><?php _e('Archive:', WPG_TEXTDOMAIN); echo "{$archivedropdown}" ?></p>
-				<p><?php _e('Tooltip (qTip):', WPG_TEXTDOMAIN);  echo "{$qtipdropdown}" ?></p>
 				<p><?php _e('Term link:', WPG_TEXTDOMAIN);  echo "{$termlinkoptdropdown}" ?></p>
+      </div>
+     </div>
+
+     <div id="wpglossary_options_2" class="postbox">
+      <h3 class="handle"><span>qTip2 Tooltip Options</span></h3>
+      <div class="inside">
+				<p>WP Glossary uses the jQuery based <a href="http://qtip2.com/">qTip2</a> library for tooltips</p>
+				<p><?php _e('Tooltip Content:', WPG_TEXTDOMAIN); echo "{$tooltipdropdown}" ?></p>
+				<p><?php _e('Tooltip Style (qTip):', WPG_TEXTDOMAIN);  echo "{$qtipdropdown}" ?></p>
+				<p><?php _e('Tooltip activation:', WPG_TEXTDOMAIN);  echo "{$qtiptriggerdropdown}" ?></p>
+      </div>
+     </div>
+
+
+     <div id="wpglossary_options_3" class="postbox">
+      <h3 class="handle"><span>Experimental Options</span></h3>
+      <div class="inside">
+				<p>Do not rely on these at all, I am experimenting with them</p>
 				<p><?php _e('Term usage:', WPG_TEXTDOMAIN);  echo "{$termusagedd}" ?></p>
+      </div>
+     </div>
 				<p>
 					<input type="hidden" name="action" value="wpg_update_options"/>
 					<input type="submit" name="submit" class="alignleft button-primary" value="<?php _e('Update Glossary Options', WPG_TEXTDOMAIN); ?>"/>
 	 	   </p>
+
 			</form>
 			<div id="update-response" class="clear confweb-update"></div>
 		</div>
@@ -177,6 +214,7 @@ class WPG_Admin{
 			'qtipstyle'    => 'cream',
 			'termlinkopt'  => 'standard',
 			'termusage'    => 'on',
+			'qtiptrigger'  => 'hover',
 		);
 		$glossary_options = get_option( 'wp_glossary', $defaults );
 		foreach( $defaults as $key => $default ){

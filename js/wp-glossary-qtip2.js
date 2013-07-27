@@ -3,6 +3,14 @@
 		$('span[class*=wpg-tooltip]').each(function(){
       var ajaxPostData = $.extend( {action: 'wpg_get_term_details'}, $(this).data() );
 			var qtipstyle    = $(this).data('qtipstyle');
+
+			// If set to click, disable glossary link
+			if( WPG.qtiptrigger == 'click' ){
+				$(this).children('a').click(function(e){
+					e.preventDefault();
+				});
+			}
+
 			$(this).qtip({
 				content: {
 					text: 'Loading glossary term',
@@ -11,11 +19,11 @@
 						type    : 'POST',
 						data    : ajaxPostData,
 						dataType: 'json',
-						success : function(data, status){
-							var response = data.success;
-							if( data.success ) {
-								this.set( 'content.title.text', data.data.title );
-								this.set( 'content.text',       data.data.content );
+						loading : false,
+						success : function(resp, status){
+							if( resp.success ) {
+								this.set( 'content.title', resp.data.title );
+								this.set( 'content.text',  resp.data.content );
 							} else {
 								this.set( 'content.text', 'Error' );
 							}
@@ -23,6 +31,7 @@
 					},
 					title: { text: 'Glossary Title' }
 				},
+				prerender: true,
 				position: {
 					at      : 'bottom center', // Position the tooltip above the link
 					my      : 'top center',
@@ -30,7 +39,8 @@
 					effect  : false            // Disable positioning animation
 				},
 				show: {
-					solo: true // Only show one tooltip at a time
+					event: WPG.qtiptrigger,
+					solo:  true // Only show one tooltip at a time
 				},
 				//hide: 'unfocus',
 				hide: 'mouseleave',
