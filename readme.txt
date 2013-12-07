@@ -73,7 +73,7 @@ I've listed a bunch on my website: [WP Glossary - Basic Shortcde Usage](http://w
 
 == Changelog ==
 
-= 3.1.1=
+= 3.1.1 =
 * UPD Added usage title filter
 * FIX save_post param check
 * FIX i18n (props @otto42)
