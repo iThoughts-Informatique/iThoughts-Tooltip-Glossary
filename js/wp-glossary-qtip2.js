@@ -39,7 +39,7 @@
 					effect  : false            // Disable positioning animation
 				},
 				show: {
-					event: WPG.qtiptrigger,
+					when: { event: WPG.qtiptrigger },
 					solo:  true // Only show one tooltip at a time
 				},
 				//hide: 'unfocus',
