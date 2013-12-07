@@ -26,12 +26,12 @@ function wp_ajax_nopriv_wpg_get_term_details(){
 
 	// Don't display private terms
 	if( $termob->post_status == 'private' && !current_user_can('read_private_posts') ):
-		wp_send_json_success( array('title'=>$title, 'content'=>'<p>'.__('Private glossary term',WPG_TEXTDOMAIN).'</p>') );
+		wp_send_json_success( array('title'=>$title, 'content'=>'<p>'.__('Private glossary term','wp-glossary').'</p>') );
 	endif;
 		
 	// Don't display password protected items.
 	if( post_password_required($termid) ):
-		wp_send_json_success( array('title'=>$title, 'content'=>'<p>'.__('Protected glossary term',WPG_TEXTDOMAIN).'</p>') );
+		wp_send_json_success( array('title'=>$title, 'content'=>'<p>'.__('Protected glossary term','wp-glossary').'</p>') );
 	endif;
 
 	// Content

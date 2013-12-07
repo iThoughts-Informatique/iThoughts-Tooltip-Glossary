@@ -6,7 +6,7 @@ class WPG_RandomTerm extends WP_Widget {
 			'Random Term [WPGlossary]',
 			array( 
 				'classname'   => 'wpg_widget_random_term',
-				'description' => __('Add a random glossary term to your sidebar', WPG_TEXTDOMAIN),
+				'description' => __('Add a random glossary term to your sidebar', 'wp-glossary'),
 			)
 		); // parent::__construct
 	} // __construct
@@ -14,7 +14,7 @@ class WPG_RandomTerm extends WP_Widget {
 	// Admin form
  	public function form( $instance=array() ) {
 		$instance =  wp_parse_args( $instance, array(
-			'title' => __('Random Glossary term', WPG_TEXTDOMAIN),
+			'title' => __('Random Glossary term', 'wp-glossary'),
 			'group' => '',
 		) );
 
@@ -31,7 +31,7 @@ class WPG_RandomTerm extends WP_Widget {
 		$groupdd = tcb_wpg_build_dropdown( $this->get_field_id('group'), array(
 			'selected'    => $instance['group'],
 			'options'     => $groups,
-			'allow_blank' => array('value'=>'','title'=>__('Any', WPG_TEXTDOMAIN)),
+			'allow_blank' => array('value'=>'','title'=>__('Any', 'wp-glossary')),
 			'name'        => $this->get_field_name('group')
 		) );
 		echo '<p><label for="' . $this->get_field_id('group') . '"> ' . __('Group:'). ' </label>';
@@ -42,9 +42,9 @@ class WPG_RandomTerm extends WP_Widget {
 			'selected'   => $instance['display'],
 			'name'       => $this->get_field_name('display'),
 			'options'    => array( 
-				'title'   =>__('Title Only', WPG_TEXTDOMAIN), 
-				'excerpt' =>__('Excerpt',    WPG_TEXTDOMAIN), 
-				'full'    =>__('Full',       WPG_TEXTDOMAIN),
+				'title'   =>__('Title Only', 'wp-glossary'), 
+				'excerpt' =>__('Excerpt',    'wp-glossary'), 
+				'full'    =>__('Full',       'wp-glossary'),
 			),
 		) );
 		echo '<p><label for="' . $this->get_field_id('display') . '"> ' . __('Display:'). ' </label>';
@@ -100,7 +100,7 @@ class WPG_RandomTerm extends WP_Widget {
 			endforeach; wp_reset_postdata();
 			echo '</ul>';
 		else :
-			echo '<em>' . __('No terms available', WPG_TEXTDOMAIN) . '</em>';
+			echo '<em>' . __('No terms available', 'wp-glossary') . '</em>';
 		endif;
 
 		echo $after_widget;

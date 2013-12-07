@@ -14,19 +14,19 @@ class WPG_Post_types Extends WPG{
 			'has_archive'          => true,
  			'supports'             => array( 'title', 'editor', 'thumbnail', 'author', 'excerpt' ),
 			'labels' => array(
-				'name'               => __( 'Glossary Terms',                   WPG_TEXTDOMAIN ),
-				'singular_name'      => __( 'Glossary Term',                    WPG_TEXTDOMAIN ),
-				'add_new'            => __( 'Add New Term',                     WPG_TEXTDOMAIN ),
-				'add_new_item'       => __( 'Add New Glossary Term',            WPG_TEXTDOMAIN ),
-				'edit_item'          => __( 'Edit Glossary Term',               WPG_TEXTDOMAIN ),
-				'new_item'           => __( 'Add New Glossary Term',            WPG_TEXTDOMAIN ),
-				'view_item'          => __( 'View Glossary Term',               WPG_TEXTDOMAIN ),
-				'search_items'       => __( 'Search Glossary Terms',            WPG_TEXTDOMAIN ),
-				'not_found'          => __( 'No Glossary Terms found',          WPG_TEXTDOMAIN ),
-				'not_found_in_trash' => __( 'No Glossary Terms found in trash', WPG_TEXTDOMAIN )
+				'name'               => __( 'Glossary Terms',                   'wp-glossary' ),
+				'singular_name'      => __( 'Glossary Term',                    'wp-glossary' ),
+				'add_new'            => __( 'Add New Term',                     'wp-glossary' ),
+				'add_new_item'       => __( 'Add New Glossary Term',            'wp-glossary' ),
+				'edit_item'          => __( 'Edit Glossary Term',               'wp-glossary' ),
+				'new_item'           => __( 'Add New Glossary Term',            'wp-glossary' ),
+				'view_item'          => __( 'View Glossary Term',               'wp-glossary' ),
+				'search_items'       => __( 'Search Glossary Terms',            'wp-glossary' ),
+				'not_found'          => __( 'No Glossary Terms found',          'wp-glossary' ),
+				'not_found_in_trash' => __( 'No Glossary Terms found in trash', 'wp-glossary' )
 			),
-			'register_meta_box_cb' => array($this, 'meta_boxes'),
-			'rewrite'              => array('slug' => __('glossary', WPG_TEXTDOMAIN)),
+			'register_meta_box_cb' => array( $this, 'meta_boxes' ),
+			'rewrite'              => array( 'slug' => sanitize_title( _x( 'glossary', 'rewrite slug', 'wp-glossary' ) ) ),
 		) );
 
 		add_filter( 'manage_glossary_posts_columns',       array($this, 'manage_glossary_posts_columns') );
@@ -38,7 +38,7 @@ class WPG_Post_types Extends WPG{
 
 	/** */
 	public function meta_boxes(){
-		add_meta_box( 'wpg_references', __('Glossary Term Reference', WPG_TEXTDOMAIN), array($this, 'mb_references'), 'glossary', 'normal', 'high' );
+		add_meta_box( 'wpg_references', __('Glossary Term Reference', 'wp-glossary'), array($this, 'mb_references'), 'glossary', 'normal', 'high' );
 	}
 
 	/** */
@@ -50,16 +50,16 @@ class WPG_Post_types Extends WPG{
 			extract( shortcode_atts(array('title'=>'', 'link'=>''), $reference) );
 		endif;
 
-		echo '<label class="tcbwpg-admin">' . __('Title:',WPG_TEXTDOMAIN) . ' <input name="tcbwpg_reference_title" size="30" value="' . $title . '" /></label><br>';
-		echo '<label class="tcbwpg-admin">' . __('Link:',WPG_TEXTDOMAIN) . ' <input name="tcbwpg_reference_link" size="50" value="' . $link . '" /></label>';
+		echo '<label class="tcbwpg-admin">' . __('Title:','wp-glossary') . ' <input name="tcbwpg_reference_title" size="30" value="' . $title . '" /></label><br>';
+		echo '<label class="tcbwpg-admin">' . __('Link:','wp-glossary') . ' <input name="tcbwpg_reference_link" size="50" value="' . $link . '" /></label>';
 		wp_nonce_field( plugin_basename(__FILE__), 'glossary_edit_nonce' );
 	} //mb_references
 
 	/** */
 	public function manage_glossary_posts_columns( $columns ){
 		$newcolumns = array(
-			'usage'     => __( 'Usage',     WPG_TEXTDOMAIN ),
-			'reference' => __( 'Reference', WPG_TEXTDOMAIN ),
+			'usage'     => __( 'Usage',     'wp-glossary' ),
+			'reference' => __( 'Reference', 'wp-glossary' ),
 		);
 		$columns = array_slice( $columns, 0, -1, true ) 
 			+ $newcolumns 
@@ -150,7 +150,7 @@ class WPG_Post_types Extends WPG{
 						$title = $link;
 					if( $link )
 						$title = '<a class="glossary-reference-link" target="_blank" href="' . $link . '">' . $title . '</a>';
-					$content .= '<div class="glossary-references"><h4>' . __('Reference:', WPG_TEXTDOMAIN) . ' ' . $title . '</h4></div>';
+					$content .= '<div class="glossary-references"><h4>' . __('Reference:', 'wp-glossary') . ' ' . $title . '</h4></div>';
 				endif;
 			endif; // $reference
 			
@@ -159,7 +159,7 @@ class WPG_Post_types Extends WPG{
 			if( $termusage == 'on' ):
 				$usage = get_post_meta( $post->ID, 'wpg_term_used' );
 				if( $usage ):
-					$usage_title = apply_filters( 'wpg_term_usage_title', __('WP Glossary Term Usage', WPG_TEXTDOMAIN) );
+					$usage_title = apply_filters( 'wpg_term_usage_title', __('WP Glossary Term Usage', 'wp-glossary') );
 					$content    .= '<div class="wpg-term-usage"><div class="header"><h4>' . $usage_title . '</h4></div><ul>';
 					foreach( $usage as $post_id ):
 						$target   = get_post( $post_id );

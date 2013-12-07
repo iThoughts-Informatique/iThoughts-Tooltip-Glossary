@@ -49,7 +49,7 @@ class WPG_Shortcode_ATOZ Extends WPG{
 			$args['tax_query'] = array( $tax_query );
 		endif;
 
-		$list       = '<p>' . __('There are no glossary items.', WPG_TEXTDOMAIN) . '</p>';
+		$list       = '<p>' . __('There are no glossary items.', 'wp-glossary') . '</p>';
 		$glossaries = get_posts( $args );
 		if( !count($glossaries) ) return $list;
 	
@@ -80,7 +80,7 @@ class WPG_Shortcode_ATOZ Extends WPG{
 		$range = apply_filters( 'wpg_atoz_range', array_keys($atoz) );
 		foreach( $range as $alpha ) :
 			$count = count( $atoz[$alpha] );
-			$menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha . ' atoz-clickable atozmenu-off" title="' . esc_attr__('Terms',WPG_TEXTDOMAIN) . ': ' . $count . '"  data-alpha="' . $alpha . '">';
+			$menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha . ' atoz-clickable atozmenu-off" title="' . esc_attr__('Terms','wp-glossary') . ': ' . $count . '"  data-alpha="' . $alpha . '">';
 			$menu .= '<a href="#' . $alpha . '">' . strtoupper($alpha) . '</a></li>';
 		endforeach;
 		$menu .= '</ul>';
@@ -95,7 +95,7 @@ class WPG_Shortcode_ATOZ Extends WPG{
 		$list .= '</div>';
 	
 		$clear    = '<div style="clear: both;"></div>';
-		$plsclick = apply_filters( 'wpg_please_select', '<div class="wpg-please-select"><p>' . __('Please select from the menu above', WPG_TEXTDOMAIN) . '</p></div>' );
+		$plsclick = apply_filters( 'wpg_please_select', '<div class="wpg-please-select"><p>' . __('Please select from the menu above', 'wp-glossary') . '</p></div>' );
 		return '<div class="glossary-atoz-wrapper">' . $menu . $clear . $plsclick . $clear . $list . '</div>';
 	} // glossary_atoz
 } // WPG_Shortcode_ATOZ

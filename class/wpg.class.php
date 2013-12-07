@@ -36,7 +36,7 @@ class WPG{
 	}
 
 	public function localisation(){
-		load_plugin_textdomain( WPG_TEXTDOMAIN, false, WPG_TEXTDOMAIN . '/lang/' );
+		load_plugin_textdomain( 'wp-glossary', false, 'wp-glossary' . '/lang/' );
 	}
 
 	private function register_post_types(){

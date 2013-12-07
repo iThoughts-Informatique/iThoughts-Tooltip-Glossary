@@ -52,7 +52,7 @@ class WPG_Shortcode_TERMLIST Extends WPG{
     $linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
     $termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
-		$list       = '<p>' . __( 'There are no glossary items.', WPG_TEXTDOMAIN) . '</p>';
+		$list       = '<p>' . __( 'There are no glossary items.', 'wp-glossary') . '</p>';
 		$glossaries = get_posts( $args );
 		if( !count($glossaries) )
 			return $list;

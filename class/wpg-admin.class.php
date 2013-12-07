@@ -61,8 +61,8 @@ class WPG_Admin{
 		// Add menu page (capture page for adding admin style and javascript
 		$glossary_options = add_submenu_page( 
 			"edit.php?post_type=$slug", 
-			__( 'Glossary Options', WPG_TEXTDOMAIN ), 
-			__( 'Glossary Options', WPG_TEXTDOMAIN ), 
+			__( 'Glossary Options', 'wp-glossary' ), 
+			__( 'Glossary Options', 'wp-glossary' ), 
 			'manage_options', 
 			'glossary-options', 
 			array($this, 'options')
@@ -82,16 +82,16 @@ class WPG_Admin{
 		// Tooptip DD
 		$ttddoptions = array(
 			'full' => array(
-				'title' => __('Full', WPG_TEXTDOMAIN),
-				'attrs' => array('title'=>__('Display full post content', WPG_TEXTDOMAIN))
+				'title' => __('Full', 'wp-glossary'),
+				'attrs' => array('title'=>__('Display full post content', 'wp-glossary'))
 			),
 			'excerpt' => array(
-				'title' => __('Excerpt', WPG_TEXTDOMAIN),
-				'attrs' => array('title'=>__('Display shorter excerpt content', WPG_TEXTDOMAIN))
+				'title' => __('Excerpt', 'wp-glossary'),
+				'attrs' => array('title'=>__('Display shorter excerpt content', 'wp-glossary'))
 			), 
 			'off' => array(
-				'title' => __('Off', WPG_TEXTDOMAIN),
-				'attrs' => array('title'=>__('Do not display tooltip at all', WPG_TEXTDOMAIN))
+				'title' => __('Off', 'wp-glossary'),
+				'attrs' => array('title'=>__('Do not display tooltip at all', 'wp-glossary'))
 			),
 		);
 		$tooltipdropdown = tcb_wpg_build_dropdown( 'tooltips', array(
@@ -101,8 +101,8 @@ class WPG_Admin{
 		
 		// Alpha Arrhive DD
 		$aaddoptions = array(
-			'alphabet' => array('title'=>__('Alphabetical', WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__('Display glossary archive alphabetically', WPG_TEXTDOMAIN))),
-			'standard' => array('title'=>__('Standard', WPG_TEXTDOMAIN),     'attrs'=>array('title'=>__('No filtering, display as standard archive', WPG_TEXTDOMAIN))),
+			'alphabet' => array('title'=>__('Alphabetical', 'wp-glossary'), 'attrs'=>array('title'=>__('Display glossary archive alphabetically', 'wp-glossary'))),
+			'standard' => array('title'=>__('Standard', 'wp-glossary'),     'attrs'=>array('title'=>__('No filtering, display as standard archive', 'wp-glossary'))),
 		);
 		$archivedropdown = tcb_wpg_build_dropdown( 'alphaarchive', array(
 			'selected' => $alphaarchive,
@@ -113,24 +113,24 @@ class WPG_Admin{
 		$qtipdropdown = tcb_wpg_build_dropdown( 'qtipstyle', array(
 			'selected' => $qtipstyle,
 			'options'  => array(
-				'cream'     => __('Cream',      WPG_TEXTDOMAIN), 
-				'dark'      => __('Dark',       WPG_TEXTDOMAIN), 
-				'green'     => __('Green',      WPG_TEXTDOMAIN), 
-				'light'     => __('Light',      WPG_TEXTDOMAIN), 
-				'red'       => __('Red',        WPG_TEXTDOMAIN), 
-				'blue'      => __('Blue',       WPG_TEXTDOMAIN),
-				'plain'     => __('Plain',      WPG_TEXTDOMAIN),
-				'bootstrap' => __('Bootstrap',  WPG_TEXTDOMAIN),
-				'youtube'   => __('YouTube',    WPG_TEXTDOMAIN),
-				'tipsy'     => __('Tipsy',      WPG_TEXTDOMAIN),
+				'cream'     => __('Cream',      'wp-glossary'), 
+				'dark'      => __('Dark',       'wp-glossary'), 
+				'green'     => __('Green',      'wp-glossary'), 
+				'light'     => __('Light',      'wp-glossary'), 
+				'red'       => __('Red',        'wp-glossary'), 
+				'blue'      => __('Blue',       'wp-glossary'),
+				'plain'     => __('Plain',      'wp-glossary'),
+				'bootstrap' => __('Bootstrap',  'wp-glossary'),
+				'youtube'   => __('YouTube',    'wp-glossary'),
+				'tipsy'     => __('Tipsy',      'wp-glossary'),
 			),
 		));
 
 		$qtiptriggerdropdown = tcb_wpg_build_dropdown( 'qtiptrigger', array(
 			'selected' => $qtiptrigger,
 			'options'  => array(
-				'hover' => array('title'=>__('Hover', WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__('On mouseover (hover)', WPG_TEXTDOMAIN))),
-				'click' => array('title'=>__('Click', WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__('On click',             WPG_TEXTDOMAIN))),
+				'hover' => array('title'=>__('Hover', 'wp-glossary'), 'attrs'=>array('title'=>__('On mouseover (hover)', 'wp-glossary'))),
+				'click' => array('title'=>__('Click', 'wp-glossary'), 'attrs'=>array('title'=>__('On click',             'wp-glossary'))),
 			),
 		));
 
@@ -138,9 +138,9 @@ class WPG_Admin{
 		$termlinkoptdropdown = tcb_wpg_build_dropdown( 'termlinkopt', array(
 			'selected' => $termlinkopt,
 			'options'  => array(
-				'standard' => array('title'=>__('Normal',  WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__('Normal link with no modifications', WPG_TEXTDOMAIN))),
-				'none'     => array('title'=>__('No link', WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__("Don't link to term",                WPG_TEXTDOMAIN))),
-				'blank'    => array('title'=>__('New tab', WPG_TEXTDOMAIN), 'attrs'=>array('title'=>__("Always open in a new tab",          WPG_TEXTDOMAIN))),
+				'standard' => array('title'=>__('Normal',  'wp-glossary'), 'attrs'=>array('title'=>__('Normal link with no modifications', 'wp-glossary'))),
+				'none'     => array('title'=>__('No link', 'wp-glossary'), 'attrs'=>array('title'=>__("Don't link to term",                'wp-glossary'))),
+				'blank'    => array('title'=>__('New tab', 'wp-glossary'), 'attrs'=>array('title'=>__("Always open in a new tab",          'wp-glossary'))),
 			),
 		));
 
@@ -148,8 +148,8 @@ class WPG_Admin{
 		$termusagedd = tcb_wpg_build_dropdown( 'termusage', array(
 			'selected' => $termusage,
 			'options'  => array(
-				'on'  => __('On',  WPG_TEXTDOMAIN),
-				'off' => __('Off', WPG_TEXTDOMAIN),
+				'on'  => __('On',  'wp-glossary'),
+				'off' => __('Off', 'wp-glossary'),
 			),
 		) );
 		
@@ -160,7 +160,7 @@ class WPG_Admin{
 			<div class="icon32" id="icon-options-general">
 				<br>
 			</div>
-			<h2><?php _e('WP Glossary Options', WPG_TEXTDOMAIN); ?></h2>
+			<h2><?php _e('WP Glossary Options', 'wp-glossary'); ?></h2>
  <div id="dashboard-widgets-wrap">
   <div id="dashboard-widgets" class="metabox-holder">
    <div class="postbox-container" style="width:98%">
@@ -171,8 +171,8 @@ class WPG_Admin{
      <div id="wpglossary_options_1" class="postbox">
       <h3 class="handle"><span>Term Options</span></h3>
       <div class="inside">
-				<p><?php _e('Archive:', WPG_TEXTDOMAIN); echo "{$archivedropdown}" ?></p>
-				<p><?php _e('Term link:', WPG_TEXTDOMAIN);  echo "{$termlinkoptdropdown}" ?></p>
+				<p><?php _e('Archive:', 'wp-glossary'); echo "{$archivedropdown}" ?></p>
+				<p><?php _e('Term link:', 'wp-glossary');  echo "{$termlinkoptdropdown}" ?></p>
       </div>
      </div>
 
@@ -180,9 +180,9 @@ class WPG_Admin{
       <h3 class="handle"><span>qTip2 Tooltip Options</span></h3>
       <div class="inside">
 				<p>WP Glossary uses the jQuery based <a href="http://qtip2.com/">qTip2</a> library for tooltips</p>
-				<p><?php _e('Tooltip Content:', WPG_TEXTDOMAIN); echo "{$tooltipdropdown}" ?></p>
-				<p><?php _e('Tooltip Style (qTip):', WPG_TEXTDOMAIN);  echo "{$qtipdropdown}" ?></p>
-				<p><?php _e('Tooltip activation:', WPG_TEXTDOMAIN);  echo "{$qtiptriggerdropdown}" ?></p>
+				<p><?php _e('Tooltip Content:', 'wp-glossary'); echo "{$tooltipdropdown}" ?></p>
+				<p><?php _e('Tooltip Style (qTip):', 'wp-glossary');  echo "{$qtipdropdown}" ?></p>
+				<p><?php _e('Tooltip activation:', 'wp-glossary');  echo "{$qtiptriggerdropdown}" ?></p>
       </div>
      </div>
 
@@ -191,12 +191,12 @@ class WPG_Admin{
       <h3 class="handle"><span>Experimental Options</span></h3>
       <div class="inside">
 				<p>Do not rely on these at all, I am experimenting with them</p>
-				<p><?php _e('Term usage:', WPG_TEXTDOMAIN);  echo "{$termusagedd}" ?></p>
+				<p><?php _e('Term usage:', 'wp-glossary');  echo "{$termusagedd}" ?></p>
       </div>
      </div>
 				<p>
 					<input type="hidden" name="action" value="wpg_update_options"/>
-					<input type="submit" name="submit" class="alignleft button-primary" value="<?php _e('Update Glossary Options', WPG_TEXTDOMAIN); ?>"/>
+					<input type="submit" name="submit" class="alignleft button-primary" value="<?php _e('Update Glossary Options', 'wp-glossary'); ?>"/>
 	 	   </p>
 
 			</form>
@@ -223,6 +223,6 @@ class WPG_Admin{
 		}
 		
 		update_option( 'wp_glossary', $glossary_options );
-		die( '<p>' . __('Glossary options updated', WPG_TEXTDOMAIN) . '</p>' );
+		die( '<p>' . __('Glossary options updated', 'wp-glossary') . '</p>' );
 	}
 }

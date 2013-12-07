@@ -3,7 +3,7 @@
 function tcb_wpg_build_dropdown( $id, $args ){
 	$defaults = array(
 		'selected'    => null,
-		'options'     => array(__('-no options-', WPG_TEXTDOMAIN)),
+		'options'     => array(__('-no options-', 'wp-glossary')),
 		'allow_blank' => false,
 		'class'       => null,
 		'name'        => null,
@@ -19,7 +19,7 @@ function tcb_wpg_build_dropdown( $id, $args ){
 	if( $allow_blank ) :
 		// Set default blank title.
 		if( $allow_blank === true ):
-			$allow_blank = __('- Please Select -', WPG_TEXTDOMAIN);
+			$allow_blank = __('- Please Select -', 'wp-glossary');
 		endif;
 
 		// Expand string into array
