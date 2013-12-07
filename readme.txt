@@ -4,8 +4,8 @@ Donate link: http://www.tcbarrett.com/donate/
 Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
 Requires at least: 3.0
-Tested up to: 3.6
-Stable tag: 3.1
+Tested up to: 3.7.1
+Stable tag: 3.1.1
 License: GPLv2 or later
 
 Create your own glossary of hot-linked terms, inside your own site!
@@ -73,6 +73,11 @@ I've listed a bunch on my website: [WP Glossary - Basic Shortcde Usage](http://w
 
 == Changelog ==
 
+= 3.1.1=
+* UPD Added usage title filter
+* FIX save_post param check
+* FIX i18n (props @otto42)
+
 = 3.1 =
 * NEW Option 'qtiptrigger' hover/click
 * UPD Updated to qTip 2.1.1
@@ -88,117 +93,6 @@ I've listed a bunch on my website: [WP Glossary - Basic Shortcde Usage](http://w
 * NEW Support for overriding options with shortcode atts for list and atoz
 * FIX Handle nested shortcode terms
 * UPD Minor markup updates
-
-= 2.4.1 =
-* NEW Language: French (Thank you Walid)
-* FIX Glossary tooltip 'off' (props Epema)
-* FIX Code warnings
-
-= 2.4 =
-* NEW Glossary term dropdown selector in editor (TinyMCE)
-* UPD Languages: Spanish (Thank you Joose) & Portugese (Thank you Gwyneth)
-* FIX Iterative usage loop in tooltips that reference glosary terms
-
-= 2.3.3 =
-* FIX glossary post content in tooltip
-
-= 2.3.2 =
-* FIX Recursive loop-referencing glossary terms
-
-= 2.3.1 =
-* FIX Taxonomy archive check
-
-= 2.3 =
-* NEW Glossary term usage (experimental)
-* NEW qTranslate compatibility (experimental)
-* NEW Glossary Term taxonomy admin columns added
-* NEW Content filter args to ignore in widget
-* UPD Taxonomy archive also alphabetical
-* UPD Glossary group taxonomy rewrite updated
-* FIX Shortcode anchor link
-* FIX Version check
-
-= 2.2 =
-* NEW Snazzy banner for plugin (thanks Gwyneth Llewelyn!)
-* NEW Link attribute option (from shortcode to details page): normal/disable/newtab
-* NEW General options can be over-written in shortcode
-* UPD Improved jQuery extenstion
-* UPD Language support improved [again!] (lot of thanks Gwyneth Llewelyn)
-* FIX Slug language rewrite
-
-TRANSLATIONS:
-
-* Portugese (by Gwyneth Llewelyn)
-* German (by Gwyneth Llewelyn)
-
-= 2.1.1 =
-* FIX Glossary term url without tooltip (thanks Gwyneth Llewelyn and stephen451)
-
-= 2.1 =
-* NEW Now uses qTip library for tooltips (http://craigsworks.com/projects/qtip/)
-* NEW Sidebar Widget: Random Term
-* NEW Glossary CSS can be completely over-written with theme file
-* UPD Default tooltip CSS updated
-* FIX Inifinite loop when term name misses in shortcode
-
-= 2.0 =
-* NEW - Groups option added to glossary_atoz shortcode
-* NEW - Groups option added to glossary_term_list shortcode
-* NEW - Option to add excerpt and full description to atoz and term_list shortcodes
-* NEW - Columns added to term_list (this might change, depending on feedback)
-* UPD - AtoZ jQuery modified slightly
-* TECH - Rewritten to use classes (keep it tidier and avoid name collisions)
-
-= 1.5.1 =
-* FIX - Debug statement removed
-
-= 1.5 =
-* NEW - Glossary Groups taxonomy
-* NEW - Glossary options: tooltips + alphabetical archive
-
-= 1.4.2 =
-* FIX - At last - i18n works! Thanks Otto.
-
-= 1.4.1 =
-* FIX - Closing title tag
-
-= 1.4 =
-* NEW - Support for excerpt
-
-= 1.3.3 =
-* NEW - Text domain and pot file
-* NEW - Support for i18n
-* NEW - A to Z range filter added
-* NEW - Version check hook
-
-= 1.2 =
-* NEW - A to Z shortcode (inspired by Brandon Sawyer)
-* NEW - Reference meta (title + link)
-* NEW - Author support
-* UPDATE - Tooltip size updated
-* UPDATE - Restrict term list to specific letters
-* FIX - Tooltip overflow css
-
-= 1.1.3 =
-* Made tooltip js conditionally load (only when shortcode used)
-
-= 1.1.2 =
-* Fixed some WordPress function syntax (dev)
-* Updated shortcode name to something sensible
-
-= 1.1 = 
-* Added basic jquery-tooltip based tooltip system
-* Added glossaries shortcode (makes an alphabetical list of terms)
-
-= 1.0 =
-* Fix rewrite flush
-* Add archive
-* Fix readme
-* Added screenshots
-* Supported by [dedicated website section](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
-
-= 0.1 =
-* Inital version. Trivial functionality.
 
 
 == Upgrade Notice ==
