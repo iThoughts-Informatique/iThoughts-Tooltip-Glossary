@@ -103,9 +103,6 @@ class WPG_Post_types Extends WPG{
 
 		$_POST += array( "{$slug}_edit_nonce"=>'' );
 
-		if( $slug != $_POST['post_type'] )
-			return;
-
 		if( !current_user_can('edit_post', $post_id) )
  			return;
 
@@ -113,6 +110,13 @@ class WPG_Post_types Extends WPG{
 			return;
 
 		if( !wp_verify_nonce($_POST["{$slug}_edit_nonce"], plugin_basename(__FILE__)) )
+			return;
+
+		if ( ! isset( $_POST['post_type'] ) ) {
+			return;
+		}
+
+		if( $slug != $_POST['post_type'] )
 			return;
 
 		$title = $_POST['tcbwpg_reference_title'];
@@ -155,7 +159,8 @@ class WPG_Post_types Extends WPG{
 			if( $termusage == 'on' ):
 				$usage = get_post_meta( $post->ID, 'wpg_term_used' );
 				if( $usage ):
-					$content .= '<div class="wpg-term-usage"><div class="header"><h4>' . __('WP Glossary Term Usage', WPG_TEXTDOMAIN) . '</h4></div><ul>';
+					$usage_title = apply_filters( 'wpg_term_usage_title', __('WP Glossary Term Usage', WPG_TEXTDOMAIN) );
+					$content    .= '<div class="wpg-term-usage"><div class="header"><h4>' . $usage_title . '</h4></div><ul>';
 					foreach( $usage as $post_id ):
 						$target   = get_post( $post_id );
 						$title    = get_the_title( $post_id );
