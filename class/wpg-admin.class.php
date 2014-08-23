@@ -76,6 +76,7 @@ class WPG_Admin{
 		$alphaarchive = isset( $options['alphaarchive'] ) ? $options['alphaarchive'] : 'standard';
 		$qtipstyle    = isset( $options['qtipstyle'] )    ? $options['qtipstyle']    : 'cream';
 		$termlinkopt  = isset( $options['termlinkopt'] )  ? $options['termlinkopt']  : 'standard';
+		$reflinkopt   = isset( $options['reflinkopt'] )   ? $options['reflinkopt']   : 'on';
 		$termusage    = isset( $options['termusage'] )    ? $options['termusage']    : 'on';
 		$qtiptrigger  = isset( $options['qtiptrigger'] )  ? $options['qtiptrigger']  : 'hover';
 
@@ -144,6 +145,15 @@ class WPG_Admin{
 			),
 		));
 
+		// Term Link HREF target
+		$reflinkoptdropdown = tcb_wpg_build_dropdown( 'reflinkopt', array(
+			'selected' => $reflinkopt,
+			'options'  => array(
+				'on'  => array('title'=>__('On',  'wp-glossary'), 'attrs'=>array('title'=>__('Reference link will be shown', 'wp-glossary'))),
+				'off' => array('title'=>__('Off', 'wp-glossary'), 'attrs'=>array('title'=>__("Don't link to reference",      'wp-glossary'))),
+			),
+		));
+
 		// Term usage
 		$termusagedd = tcb_wpg_build_dropdown( 'termusage', array(
 			'selected' => $termusage,
@@ -173,6 +183,7 @@ class WPG_Admin{
       <div class="inside">
 				<p><?php _e('Archive:', 'wp-glossary'); echo "{$archivedropdown}" ?></p>
 				<p><?php _e('Term link:', 'wp-glossary');  echo "{$termlinkoptdropdown}" ?></p>
+				<p><?php _e('Reference link:', 'wp-glossary');  echo "{$reflinkoptdropdown}" ?></p>
       </div>
      </div>
 
@@ -213,6 +224,7 @@ class WPG_Admin{
 			'alphaarchive' => 'standard',
 			'qtipstyle'    => 'cream',
 			'termlinkopt'  => 'standard',
+			'reflinkopt'   => 'on',
 			'termusage'    => 'on',
 			'qtiptrigger'  => 'hover',
 		);

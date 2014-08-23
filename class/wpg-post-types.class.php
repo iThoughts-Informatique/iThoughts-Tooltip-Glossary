@@ -139,8 +139,9 @@ class WPG_Post_types Extends WPG{
 	/** */
 	public function the_content( $content, $is_main_query=1 ){
 		global $post, $wp_query;
-
-		if( $is_main_query && is_single() && 'glossary'==get_post_type() ) :
+		$glossary_options = get_option( 'wp_glossary', array() );
+		$reflinkopt = ! isset($glossary_options['reflinkopt']) || $glossary_options['reflinkopt'] == 'on';
+		if( $reflinkopt && $is_main_query && is_single() && 'glossary'==get_post_type() ) :
 			$options = get_option( 'wp_glossary', array() );
 
 			if( $reference = get_post_meta($post->ID, 'tcbwpg_reference', $single=true) ):
