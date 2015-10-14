@@ -1,0 +1,18 @@
+/**
+ * Admin / Generic
+ */
+.updating{
+	background-color: #e0ffe0;
+	border-color: #00ff00;
+ 	border-radius: 3px 3px 3px 3px;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.updating p{
+	margin-top: 6px;
+	margin-bottom: 6px;
+	margin-left: 6px;
+	margin-right: 6px;
+	padding: 2px;
+}

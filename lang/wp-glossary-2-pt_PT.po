@@ -1,0 +1,305 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Glossary 2.1\n"
+"POT-Creation-Date: 2013-05-21 01:29-0000\n"
+"PO-Revision-Date: 2013-05-21 01:31-0000\n"
+"Last-Translator: Gwyneth Llewelyn <gwyneth.llewelyn@gwynethllewelyn.net>\n"
+"Language-Team: Tom Barrett <tcbarrett@gmail.com>\n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../fn-lib.php:6
+msgid "-no options-"
+msgstr "-sem opções-"
+
+#: ../fn-lib.php:22
+msgid "- Please Select -"
+msgstr "- Seleccione -"
+
+#: ../class/wpg2-admin.class.php:12 ../class/wpg2-post-types.class.php:29
+msgid "glossary"
+msgstr "glossario"
+
+#: ../class/wpg2-admin.class.php:16 ../class/wpg2-admin.class.php:17
+msgid "Glossary Options"
+msgstr "Opções do glossário"
+
+#: ../class/wpg2-admin.class.php:36
+#: ../class/wpg2-widget-random-term.class.php:47
+msgid "Full"
+msgstr "Completo"
+
+#: ../class/wpg2-admin.class.php:37
+msgid "Display full post content"
+msgstr "Mostrar o texto completo da entrada no glossário"
+
+#: ../class/wpg2-admin.class.php:40
+#: ../class/wpg2-widget-random-term.class.php:46
+msgid "Excerpt"
+msgstr "Excerto"
+
+#: ../class/wpg2-admin.class.php:41
+msgid "Display shorter excerpt content"
+msgstr "Mostrar um excerto mais curto do conteúdo"
+
+#: ../class/wpg2-admin.class.php:44 ../class/wpg2-admin.class.php:67
+#: ../class/wpg2-admin.class.php:92
+msgid "Off"
+msgstr "Desligado"
+
+#: ../class/wpg2-admin.class.php:45
+msgid "Do not display tooltip at all"
+msgstr "Não mostrar as dicas de todo"
+
+#: ../class/wpg2-admin.class.php:55
+msgid "Alphabetical"
+msgstr "Alfabeticamente"
+
+#: ../class/wpg2-admin.class.php:55
+msgid "Display glossary archive alphabetically"
+msgstr "Mostrar o glossário por ordem alfabética"
+
+#: ../class/wpg2-admin.class.php:56
+msgid "Standard"
+msgstr "Padrão"
+
+#: ../class/wpg2-admin.class.php:56
+msgid "No filtering, display as standard archive"
+msgstr "Sem filtragem, mostrar como um arquivo padrão"
+
+#: ../class/wpg2-admin.class.php:68
+msgid "Cream"
+msgstr "Creme"
+
+#: ../class/wpg2-admin.class.php:69
+msgid "Dark"
+msgstr "Escuro"
+
+#: ../class/wpg2-admin.class.php:70
+msgid "Green"
+msgstr "Verde"
+
+#: ../class/wpg2-admin.class.php:71
+msgid "Light"
+msgstr "Claro"
+
+#: ../class/wpg2-admin.class.php:72
+msgid "Red"
+msgstr "Vermelho"
+
+#: ../class/wpg2-admin.class.php:73
+msgid "Blue"
+msgstr "Azul"
+
+#: ../class/wpg2-admin.class.php:81
+msgid "Normal"
+msgstr ""
+
+#: ../class/wpg2-admin.class.php:81
+msgid "Normal link with no modifications"
+msgstr "Link normal sem modificações"
+
+#: ../class/wpg2-admin.class.php:82
+msgid "No link"
+msgstr "Sem link"
+
+#: ../class/wpg2-admin.class.php:82
+msgid "Don't link to term"
+msgstr "Não linkar ao termo"
+
+#: ../class/wpg2-admin.class.php:83
+msgid "New tab"
+msgstr "Nova aba"
+
+#: ../class/wpg2-admin.class.php:83
+msgid "Always open in a new tab"
+msgstr "Abrir sempre numa nova aba"
+
+#: ../class/wpg2-admin.class.php:91
+msgid "On"
+msgstr ""
+
+#: ../class/wpg2-admin.class.php:103
+msgid "WP Glossary Options"
+msgstr "Opções do WP Glossary"
+
+#: ../class/wpg2-admin.class.php:105
+msgid "Tooltip:"
+msgstr "Dicas:"
+
+#: ../class/wpg2-admin.class.php:106
+msgid "Archive:"
+msgstr "Arquivo:"
+
+#: ../class/wpg2-admin.class.php:107
+msgid "Tooltip (qTip):"
+msgstr "Dicas (usando qTip):"
+
+#: ../class/wpg2-admin.class.php:108
+msgid "Term link:"
+msgstr "Link para termo:"
+
+#: ../class/wpg2-admin.class.php:109
+msgid "Term usage:"
+msgstr "Utilização do termo:"
+
+#: ../class/wpg2-admin.class.php:112
+msgid "Update Glossary Options"
+msgstr "Actualizar opções do glossário"
+
+#: ../class/wpg2-admin.class.php:137
+msgid "Glossary options updated"
+msgstr "Opções do glossário guardadas"
+
+#: ../class/wpg2-post-types.class.php:17
+msgid "Glossary Terms"
+msgstr "Glossário"
+
+#: ../class/wpg2-post-types.class.php:18
+msgid "Glossary Term"
+msgstr "Termo do glossário"
+
+#: ../class/wpg2-post-types.class.php:19
+msgid "Add New Term"
+msgstr "Acrescentar termo novo"
+
+#: ../class/wpg2-post-types.class.php:20 ../class/wpg2-post-types.class.php:22
+msgid "Add New Glossary Term"
+msgstr "Acrescentar termo novo no glossário"
+
+#: ../class/wpg2-post-types.class.php:21
+msgid "Edit Glossary Term"
+msgstr "Editar termo do glossário"
+
+#: ../class/wpg2-post-types.class.php:23
+msgid "View Glossary Term"
+msgstr "Ver termo do glossário"
+
+#: ../class/wpg2-post-types.class.php:24
+msgid "Search Glossary Terms"
+msgstr "Pesquisar termos no glossário"
+
+#: ../class/wpg2-post-types.class.php:25
+msgid "No Glossary Terms found"
+msgstr "Não foram encontrados termos no glossário"
+
+#: ../class/wpg2-post-types.class.php:26
+msgid "No Glossary Terms found in trash"
+msgstr "Não foram encontrados termos no glossário no lixo"
+
+#: ../class/wpg2-post-types.class.php:41
+msgid "Glossary Term Reference"
+msgstr "Referência de termos no glossário"
+
+#: ../class/wpg2-post-types.class.php:53
+#: ../class/wpg2-widget-random-term.class.php:22
+msgid "Title:"
+msgstr "Título:"
+
+#: ../class/wpg2-post-types.class.php:54
+msgid "Link:"
+msgstr ""
+
+#: ../class/wpg2-post-types.class.php:61
+msgid "Usage"
+msgstr "Utilização"
+
+#: ../class/wpg2-post-types.class.php:62
+msgid "Reference"
+msgstr "Referência"
+
+#: ../class/wpg2-post-types.class.php:149
+msgid "Reference:"
+msgstr "Referência:"
+
+#: ../class/wpg2-post-types.class.php:158
+msgid "WP Glossary Term Usage"
+msgstr "Utilização no glossário"
+
+#: ../class/wpg2-shortcode-glossary-atoz.class.php:33
+#: ../class/wpg2-shortcode-glossary-list.class.php:35
+msgid "There are no glossary items."
+msgstr "Não há entradas no glossário."
+
+#: ../class/wpg2-shortcode-glossary-atoz.class.php:72
+msgid "Please select from the menu above"
+msgstr "Por favor seleccione uma opção do menu acima."
+
+#: ../class/wpg2-taxonomies.class.php:12
+msgid "Glossary Groups"
+msgstr "Grupos de termos do glossário"
+
+#: ../class/wpg2-taxonomies.class.php:13
+msgid "Glossary Group"
+msgstr "Grupo de termos do glossário"
+
+#: ../class/wpg2-taxonomies.class.php:14
+msgid "Search Glossary Groups"
+msgstr "Pesquisar grupos de termos do glossário"
+
+#: ../class/wpg2-taxonomies.class.php:15
+msgid "All Glossary Groups"
+msgstr "Todos os grupos de termos do glossário"
+
+#: ../class/wpg2-taxonomies.class.php:16
+msgid "Parent Glossary Group"
+msgstr "Parente do grupo de termos do glossário"
+
+#: ../class/wpg2-taxonomies.class.php:17
+msgid "Parent Glossary Group:"
+msgstr "Parente do grupo de termos do glossário:"
+
+#: ../class/wpg2-taxonomies.class.php:18
+msgid "Edit Glossary Group"
+msgstr "Editar grupo de termos do glossário"
+
+#: ../class/wpg2-taxonomies.class.php:19
+msgid "Update Glossary Group"
+msgstr "Actualizar grupo de termos do glossário"
+
+#: ../class/wpg2-taxonomies.class.php:20
+msgid "Add New Glossary Group"
+msgstr "Acrescentar grupo de termos do glossário novo"
+
+#: ../class/wpg2-taxonomies.class.php:21
+msgid "New Glossary Group Name"
+msgstr "Nome do novo grupo de termos do glossário"
+
+#: ../class/wpg2-taxonomies.class.php:30
+msgid "glossary/group"
+msgstr "glossario/grupo"
+
+#: ../class/wpg2-widget-random-term.class.php:9
+msgid "Add a random glossary term to your sidebar"
+msgstr "Acrescentar aleatoriamente um termo do glossário à barra lateral"
+
+#: ../class/wpg2-widget-random-term.class.php:17
+msgid "Random Glossary term"
+msgstr "Termo aleatório do glossário"
+
+#: ../class/wpg2-widget-random-term.class.php:34
+msgid "Any"
+msgstr "Qualquer"
+
+#: ../class/wpg2-widget-random-term.class.php:37
+msgid "Group:"
+msgstr "Grupo:"
+
+#: ../class/wpg2-widget-random-term.class.php:45
+msgid "Title Only"
+msgstr "Apenas título"
+
+#: ../class/wpg2-widget-random-term.class.php:50
+msgid "Display:"
+msgstr "Mostrar:"
+
+#: ../class/wpg2-widget-random-term.class.php:103
+msgid "No terms available"
+msgstr "Sem entradas disponíveis"

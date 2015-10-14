@@ -1,20 +1,21 @@
-=== WP Glossary ===
-Contributors: tcbarrett
-Donate link: http://www.tcbarrett.com/donate/
-Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
-Tags: glossary, wp-glossary, dictionary, gloss, appendix, technical terms
+=== WP Glossary 2 ===
+Contributors: tcbarrett, Nihilivin
+Plugin URL: http://www.gerkindevelopment.net/en/portfolio/wp-glossary-2/
+Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary-2/
+Tags: glossary, wp-glossary-2, dictionary, glossary, appendix, technical terms
 Requires at least: 3.0
-Tested up to: 3.7.1
-Stable tag: 3.1.1.2
+Tested up to: 4.3.1
+Stable tag: 3.1.1.2-1.0
 License: GPLv2 or later
 
 Create your own glossary of hot-linked terms, inside your own site!
+This plugin is a fork from the inactive plugin "WP Glossary" by tcbarrett. The whole base plugin is from him, I just did some improvements. For any bugs, please post on my blog's [WP Glossary 2 page](http://www.gerkindevelopment.net/en/portfolio/wp-glossary-2/), as I'll be able to bring corrections and improvements.
 
 == Description ==
 
 Build a glossary on your site, and link terms in your posts to it.
 
-Reasons for using wp-glossary plugin:
+Reasons for using wp-glossary-2 plugin:
 
 * External glossary sites don't have all the words and terms you need.
 * You want to keep your visitors on your site (not send them to an external glossary site).
@@ -24,13 +25,13 @@ Keep your visitors on your site, keep their experience consistent and pleasant u
 
 Once activated you add glossary terms (custom post type) and link to those terms from inside your own content using the powerful WordPress shortcode functionality.
 
-[For further details visit my dedicated plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
+[For further details visit my dedicated plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary-2/)
 
 == Installation ==
 
 Either install through admin panel (this is the eaiest way), or:
 
-1. Upload `wp-glossary.zip` to the `/wp-content/plugins/` directory
+1. Upload `wp-glossary-2.zip` to the `/wp-content/plugins/` directory
 2. Unzip the archive
 3. Activate the plugin through the 'Plugins' menu in WordPress
 
@@ -53,11 +54,11 @@ Please resave your rewrite rules: Settings > Permalinks > Save Changes (just cli
 = It doesn't do anything? =
 
 You have to add the terms (Glossary Terms > Add New Term) and then use [shortcodes](http://codex.wordpress.org/Shortcode).
-I've listed a bunch on my website: [WP Glossary - Basic Shortcde Usage](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/wp-glossary-basic-usage-of-the-glossary-shortcode/)
+I've listed a bunch on my website: [WP Glossary - Basic Shortcde Usage](http://www.tcbarrett.com/wordpress-plugins/wp-glossary-2/wp-glossary-2-basic-usage-of-the-glossary-shortcode/)
 
 = Further Information =
 
-[For further details visit my dedicated plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
+[For further details visit my dedicated plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary-2/)
 
 
 == Screenshots ==
@@ -72,6 +73,12 @@ I've listed a bunch on my website: [WP Glossary - Basic Shortcde Usage](http://w
 
 
 == Changelog ==
+
+= 3.1.1.2-1.0 =
+* NEW Added "Responsive" 'qtiptrigger', which is "hover" on computers, and "click" on touch devices.
+* NEW Added ability to set the main glossary page url, which is also the term prefix (http://www.yourblog.com/*whatever*/...)
+* NEW Added plugin templates for main glossary page, or glossary terms
+* UPD Clean some useless files
 
 = 3.1.1.2 =
 * NEW Slovak translation (thank you I J Kleban)
@@ -140,4 +147,4 @@ The WordPress shortcode syntax is really simple!
 [glossary_atoz /]
 
 = Further Examples =
-See the [dedicated website section](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
+See the [dedicated website section](http://www.tcbarrett.com/wordpress-plugins/wp-glossary-2/)
