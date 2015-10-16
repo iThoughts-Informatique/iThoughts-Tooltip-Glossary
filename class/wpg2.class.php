@@ -31,8 +31,6 @@ class wpg2{
         add_action( 'pre_get_posts',         array(&$this, 'order_core_archive_list')     );
 
         add_filter( 'wpg2_term_link',         array(&$this, 'wpg2_term_link')               );
-        add_filter( "single_template",     array(&$this, 'wpg2_single_glossary_template')       );
-        add_filter( "archive_template",     array(&$this, 'wpg2_glossary_template')       );
     }
 
     static function base() {
@@ -157,34 +155,5 @@ class wpg2{
         endif;
 
         return $url;
-    }
-
-    public function wpg2_single_glossary_template($template){
-        global $post;
-
-        if ($post->post_type == 'glossary') {
-            //$single_template = self::$base . '/../templates/wp-glossary-2-template-single.php';
-        }
-        return $template;
-    }
-
-    public function wpg2_glossary_template($template){
-        global $post;
-
-        if ($post->post_type == 'glossary') {
-            switch(self::$options["archivetype"]){
-                case "archive":
-                break;
-                
-                case 1:
-                $template = self::$base . '/../templates/wp-glossary-2-template-archive.php';
-                break;
-                
-                case "tilehead-tiles":
-                $template = self::$base . '/../templates/wp-glossary-2-template-archive-tiles.php';
-                break;
-            }
-        }
-        return $template;
     }
 }

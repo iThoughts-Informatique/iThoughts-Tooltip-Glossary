@@ -1,5 +1,19 @@
 <?php
 /** */
+function wpg2_unaccent( $text, $from, $to, $encoding = "UTF-8" ){
+    $l = mb_strlen($text, $encoding);
+    $out = "";
+    for($i = 0; $i < $l; $i++){
+        $c = mb_substr($text, $i, 1, $encoding);
+        $t = mb_strpos($from,$c,0,$encoding);
+        if($t === false)
+            $out .= $c;
+        else
+            $out .= mb_substr($to, $t, 1, $encoding);
+    }
+    return $out;
+}
+
 function wpg2_build_dropdown_multilevel( $id, $args ){
     $defaults = array(
         'selected'    => null,
