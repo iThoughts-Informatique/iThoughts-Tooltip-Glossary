@@ -75,9 +75,9 @@ I've listed a bunch on my website: [WP Glossary - Basic Shortcde Usage](http://w
 == Changelog ==
 
 = 3.1.1.2-1.0 =
-* NEW Added "Responsive" 'qtiptrigger', which is "hover" on computers, and "click" on touch devices.
+* NEW Added "Responsive" 'qtiptrigger', which is "hover"/"focus" on computers, and "click" on touch devices.
 * NEW Added ability to set the main glossary page url, which is also the term prefix (http://www.yourblog.com/*whatever*/...)
-* NEW Added plugin templates for main glossary page, or glossary terms
+* UPD Group terms in ATOZ even with accents. "ù" will be in "U" section.
 * UPD Clean some useless files
 
 = 3.1.1.2 =

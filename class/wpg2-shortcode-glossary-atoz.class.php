@@ -63,7 +63,6 @@ class wpg2_Shortcode_ATOZ Extends wpg2{
 		foreach( $glossaries as $post ) : setup_postdata( $post );
 			$title = get_the_title();
 			$alpha = strtoupper( wpg2_unaccent(mb_substr($title,0,1, "UTF-8"), $tofind, $replac, "UTF-8") );
-            var_dump($alpha);
 	
 			$link  = '<span class="atoz-term-title">' . $title . '</span>'; // Default to text only
 			if( $linkopt != 'none' ):

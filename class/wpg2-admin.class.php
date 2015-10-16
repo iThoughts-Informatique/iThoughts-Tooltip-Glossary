@@ -84,8 +84,6 @@ class wpg2_Admin{
         $termlinkopt  = isset( $options['termlinkopt'] )  ? $options['termlinkopt']  : 'standard';
         $termusage    = isset( $options['termusage'] )    ? $options['termusage']    : 'on';
         $qtiptrigger  = isset( $options['qtiptrigger'] )  ? $options['qtiptrigger']  : 'hover';
-        $singletemplate  = isset( $options['singletype'] )  ? $options['singletype']  : 'single';
-        $archivetemplate  = isset( $options['archivetype'] )  ? $options['archivetype']  : 'archive';
 
         // Tooptip DD
         $ttddoptions = array(
@@ -107,15 +105,6 @@ class wpg2_Admin{
             'options'  => $ttddoptions,
         ) );
 
-        // Alpha Arrhive DD
-        $aaddoptions = array(
-            'alphabet' => array('title'=>__('Alphabetical', 'wp-glossary-2'), 'attrs'=>array('title'=>__('Display glossary archive alphabetically', 'wp-glossary-2'))),
-            'standard' => array('title'=>__('Standard', 'wp-glossary-2'),     'attrs'=>array('title'=>__('No filtering, display as standard archive', 'wp-glossary-2'))),
-        );
-        $archivedropdown = wpg2_build_dropdown_multilevel( 'alphaarchive', array(
-            'selected' => $alphaarchive,
-            'options'  => $aaddoptions,
-        ) );
 
         // qTipd syle options
         $qtipdropdown = wpg2_build_dropdown_multilevel( 'qtipstyle', array(
@@ -162,21 +151,6 @@ class wpg2_Admin{
             ),
         ) );
 
-        //Template glossary
-        $archivetemplatedd = wpg2_build_dropdown_multilevel(
-            'archivetype',
-            array(
-                "selected" => $archivetemplate,
-                "options" => array(
-                    "archive" => "Default archive template",
-                    "With tile header" => array(
-                        "type" => "optgroup",
-                        "tilehead-tiles" => "Tiles"
-                    )
-                )
-            )
-        );
-
 ?>
 <div class="wrap">
     <div id="wp-glossary-2-options" class="meta-box meta-box-50" style="width: 50%;">
@@ -198,7 +172,6 @@ class wpg2_Admin{
                                         <p><?php _e('Archive:', 'wp-glossary-2'); echo "&nbsp;"; echo "{$archivedropdown}" ?></p>
                                         <p><?php _e('Term link:', 'wp-glossary-2'); echo "&nbsp;"; echo "{$termlinkoptdropdown}" ?></p>
                                         <p><?php _e('Glossary URL:', 'wp-glossary-2'); echo "&nbsp;"; ?><input type="text" value="<?php echo $termtype; ?>" name="termtype"/></p>
-                                        <p><?php _e('Glossary archive template:', 'wp-glossary-2'); echo "&nbsp;"; echo "{$archivetemplatedd}" ?></p>
                                     </div>
                                 </div>
 
@@ -241,9 +214,7 @@ class wpg2_Admin{
             'qtipstyle'    => 'cream',
             'termlinkopt'  => 'standard',
             'termusage'    => 'on',
-            'qtiptrigger'  => 'hover',
-            'singletype' => 'single',
-            'archivetype' => 'archive'
+            'qtiptrigger'  => 'hover'
         );
 
         $glossary_options = get_option( 'wp_glossary_2', $defaults );

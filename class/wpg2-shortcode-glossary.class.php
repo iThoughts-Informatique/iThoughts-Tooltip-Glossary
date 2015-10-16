@@ -75,8 +75,6 @@ class wpg2_Shortcodes Extends wpg2{
 	/** */
 	public function glossary( $atts, $content='' ){
 		global $wpdb, $tcb_wpg2_scripts, $wpg2_glossary_count, $post, $wpg2_doing_shortcode;
-/*var_dump($wpdb->posts);
-        die();*/
 		$wpg2_glossary_count++;
 
 		// Get WP Glossary options

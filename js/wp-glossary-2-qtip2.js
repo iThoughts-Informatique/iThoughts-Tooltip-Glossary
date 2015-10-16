@@ -42,7 +42,7 @@
                     self.triggerHandler("responsive");
                 }).mouseleave(function(e){
                     self.triggerHandler("responsiveout");
-                }).focusin(function(e){
+                }).focus(function(e){
                     self.triggerHandler("responsive");
                 }).focusout(function(e){
                     self.triggerHandler("responsiveout");
