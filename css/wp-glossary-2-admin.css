@@ -16,3 +16,8 @@
 	margin-right: 6px;
 	padding: 2px;
 }
+
+#tinymce a[data-wpg2-glossary-slug]{
+    font-style: italic;
+    text-decoration: overline underline;
+}
