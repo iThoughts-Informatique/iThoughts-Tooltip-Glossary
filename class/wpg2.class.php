@@ -74,6 +74,7 @@ class wpg2{
 
     public function register_scripts_and_styles(){
         $options     = get_option( 'wp_glossary_2', array() );
+
         $qtipstyle   = isset( $options['qtipstyle'] )   ? $options['qtipstyle']:   'cream';
         $qtiptrigger = isset( $options['qtiptrigger'] ) ? $options['qtiptrigger']: 'hover';
         //wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/qtip.js', array('jquery') );

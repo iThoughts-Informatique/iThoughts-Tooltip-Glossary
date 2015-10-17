@@ -24,7 +24,6 @@
                     if(!$(event.target).closest(self).length) {
                         self.data("expanded", false);
                         self.triggerHandler("responsiveout");
-
                     }
                 });
 

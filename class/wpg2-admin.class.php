@@ -27,19 +27,25 @@ class wpg2_Admin{
     static function base_url() {
         return self::$base_url;
     }
-
-    public function add_tinymce_dropdown_hooks() {
-        add_filter( 'mce_external_plugins', array(&$this, 'tinymce_add_dropdown_plugin') );
-        add_filter( 'mce_buttons',          array(&$this, 'tinymce_add_dropdown_button') );
+    
+    
+    
+    
+    public function add_tinymce_dropdown_hooks(){/**/
+        add_filter( "mce_external_plugins", array(&$this, "wpg2_tinymce_add_buttons") );
+        add_filter( 'mce_buttons', array(&$this, "wpg2_tinymce_register_buttons") );
     }
-    public function tinymce_add_dropdown_plugin( $plugin_array ){
-        $plugin_array['wpg2lossary'] = $this->base_url() . '/js/tinymce-wpg2lossary-dropdown.js';
-        return $plugin_array;
-    }
-    public function tinymce_add_dropdown_button( $buttons ){
-        array_push( $buttons, 'wpg2lossary' );
+    public function wpg2_tinymce_register_buttons( $buttons ) {
+        array_push( $buttons, 'glossaryitem', 'glossarylist' );
         return $buttons;
     }
+    public function wpg2_tinymce_add_buttons( $plugin_array ) {
+        $plugin_array['wpg2tinymce'] = self::$base_url . '/js/wpg2-tinymce.js';
+        return $plugin_array;
+    }/*/}/**/
+    
+    
+    
 
     public function setup_localixed_dropdown_values(){
         $args = array(
