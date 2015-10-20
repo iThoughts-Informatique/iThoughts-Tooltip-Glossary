@@ -17,7 +17,7 @@
 	padding: 2px;
 }
 
-#tinymce a[data-wpg2-glossary-slug]{
+#tinymce a[data-type="wp-glossary-2-term"]{
     font-style: italic;
     text-decoration: overline underline;
 }

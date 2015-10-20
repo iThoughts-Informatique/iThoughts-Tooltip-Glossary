@@ -36,7 +36,7 @@ class wpg2_Admin{
         add_filter( 'mce_buttons', array(&$this, "wpg2_tinymce_register_buttons") );
     }
     public function wpg2_tinymce_register_buttons( $buttons ) {
-        array_push( $buttons, 'glossaryitem', 'glossarylist' );
+        array_push( $buttons, 'glossaryterm', 'glossarylist' );
         return $buttons;
     }
     public function wpg2_tinymce_add_buttons( $plugin_array ) {
@@ -175,7 +175,6 @@ class wpg2_Admin{
                                 <div id="wpg2lossary_options_1" class="postbox">
                                     <h3 class="handle"><span>Term Options</span></h3>
                                     <div class="inside">
-                                        <p><?php _e('Archive:', 'wp-glossary-2'); echo "&nbsp;"; echo "{$archivedropdown}" ?></p>
                                         <p><?php _e('Term link:', 'wp-glossary-2'); echo "&nbsp;"; echo "{$termlinkoptdropdown}" ?></p>
                                         <p><?php _e('Glossary URL:', 'wp-glossary-2'); echo "&nbsp;"; ?><input type="text" value="<?php echo $termtype; ?>" name="termtype"/></p>
                                     </div>

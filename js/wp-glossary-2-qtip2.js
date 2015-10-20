@@ -6,6 +6,7 @@
                      || navigator.userAgent.match(/iPod/i)
                      || navigator.userAgent.match(/BlackBerry/i) ) ? 1 : 0;
     $(document).ready(function(){
+        console.log($('a[data-wpg2-glossary-slug]'));
         $('span[class*=wpg2-tooltip]').each(function(){
             var ajaxPostData = $.extend( {action: 'wpg2_get_term_details'}, $(this).data() );
             var qtipstyle    = $(this).data('qtipstyle');

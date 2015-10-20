@@ -18,6 +18,7 @@ class wpg2{
         self::$options["singletype"] = is_string(self::$options["singletype"]) ? self::$options["singletype"] : "single";
         self::$options["archivetype"] = is_string(self::$options["archivetype"]) ? self::$options["archivetype"] : "archive";
 
+        
         add_action( 'plugins_loaded', array($this, 'localisation') );
         $this->register_post_types();
         $this->register_taxonmies();
