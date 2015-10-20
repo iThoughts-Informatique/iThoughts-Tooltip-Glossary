@@ -1,7 +1,8 @@
 === WP Glossary 2 ===
 Contributors: tcbarrett, Nihilivin
-Plugin URL: http://www.gerkindevelopment.net/en/portfolio/wp-glossary-2/
-Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary-2/
+Plugin URL:     English:    http://www.gerkindevelopment.net/en/portfolio/wp-glossary-2/
+                French:     http://www.gerkindevelopment.net/portfolio/wp-glossary-2/
+Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: glossary, wp-glossary-2, dictionary, glossary, appendix, technical terms
 Requires at least: 3.0
 Tested up to: 4.3.1
@@ -13,7 +14,7 @@ This plugin is a fork from the inactive plugin "WP Glossary" by tcbarrett. The w
 
 == Description ==
 
-Build a glossary on your site, and link terms in your posts to it.
+Build a glossary on your site, and link terms in your posts to it with tooltips.
 
 Reasons for using wp-glossary-2 plugin:
 
@@ -21,11 +22,7 @@ Reasons for using wp-glossary-2 plugin:
 * You want to keep your visitors on your site (not send them to an external glossary site).
 * You don't want the adverts that the external site popups come with.
 
-Keep your visitors on your site, keep their experience consistent and pleasant using *your* theme.
-
-Once activated you add glossary terms (custom post type) and link to those terms from inside your own content using the powerful WordPress shortcode functionality.
-
-[For further details visit my dedicated plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary-2/)
+[For further details visit my dedicated plugin landing page](http://www.gerkindevelopment.net/en/portfolio/wp-glossary-2/)
 
 == Installation ==
 
@@ -53,12 +50,11 @@ Please resave your rewrite rules: Settings > Permalinks > Save Changes (just cli
 
 = It doesn't do anything? =
 
-You have to add the terms (Glossary Terms > Add New Term) and then use [shortcodes](http://codex.wordpress.org/Shortcode).
-I've listed a bunch on my website: [WP Glossary - Basic Shortcde Usage](http://www.tcbarrett.com/wordpress-plugins/wp-glossary-2/wp-glossary-2-basic-usage-of-the-glossary-shortcode/)
+You have to add the terms (Glossary Terms > Add New Term) and then use the appropriate TinyMCE button.
 
 = Further Information =
 
-[For further details visit my dedicated plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary-2/)
+[For further details visit my dedicated plugin landing page](http://www.gerkindevelopment.net/en/portfolio/wp-glossary-2/)
 
 
 == Screenshots ==
@@ -147,4 +143,4 @@ The WordPress shortcode syntax is really simple!
 [glossary_atoz /]
 
 = Further Examples =
-See the [dedicated website section](http://www.tcbarrett.com/wordpress-plugins/wp-glossary-2/)
+See the [dedicated website section](http://www.gerkindevelopment.net/en/portfolio/wp-glossary-2/)
