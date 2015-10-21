@@ -3,7 +3,7 @@ Contributors: tcbarrett, Gerkin
 Plugin URL:     English:    http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
                 French:     http://www.gerkindevelopment.net/portfolio/ithoughts-tooltip-glossary/
 Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
-Tags: glossary, ithoughts-tooltip-glossary, dictionary, glossary, appendix, technical terms
+Tags: tooltip, dictionary, glossary, appendix, technical terms, popup
 Requires at least: 3.0
 Tested up to: 4.3.1
 Stable tag: 3.1.1.2-1.0
