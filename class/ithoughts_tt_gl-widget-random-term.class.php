@@ -1,16 +1,16 @@
 <?php
-class wpg2_RandomTerm extends WP_Widget {
+class ithoughts_tt_gl_RandomTerm extends WP_Widget {
     public static $options;
     
 	public function __construct() {
         self::$options = get_option( 'wp_glossary_2' );
         self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
 		parent::__construct(
-			'wpg2-random-term',
-			'Random Term [wpg2lossary]',
+			'ithoughts_tt_gl-random-term',
+			'Random Term [ithoughts_tt_gllossary]',
 			array( 
-				'classname'   => 'wpg2_widget_random_term',
-				'description' => __('Add a random glossary term to your sidebar', 'wp-glossary-2'),
+				'classname'   => 'ithoughts_tt_gl_widget_random_term',
+				'description' => __('Add a random glossary term to your sidebar', 'ithoughts-tooltip-glossary'),
 			)
 		); // parent::__construct
 	} // __construct
@@ -18,7 +18,7 @@ class wpg2_RandomTerm extends WP_Widget {
 	// Admin form
  	public function form( $instance=array() ) {
 		$instance =  wp_parse_args( $instance, array(
-			'title' => __('Random Glossary term', 'wp-glossary-2'),
+			'title' => __('Random Glossary term', 'ithoughts-tooltip-glossary'),
 			'group' => '',
 		) );
 
@@ -28,27 +28,27 @@ class wpg2_RandomTerm extends WP_Widget {
 		echo '</p>';
 
 		// Group
-		$groupsraw = get_terms( 'wpg2lossarygroup', array('hide_empty'=>false) );
+		$groupsraw = get_terms( 'ithoughts_tt_gllossarygroup', array('hide_empty'=>false) );
 		$groups    = array();
 		foreach( $groupsraw as $group ): $groups[$group->slug] = $group->name; endforeach;
 
-		$groupdd = wpg2_build_dropdown_multilevel( $this->get_field_id('group'), array(
+		$groupdd = ithoughts_tt_gl_build_dropdown_multilevel( $this->get_field_id('group'), array(
 			'selected'    => $instance['group'],
 			'options'     => $groups,
-			'allow_blank' => array('value'=>'','title'=>__('Any', 'wp-glossary-2')),
+			'allow_blank' => array('value'=>'','title'=>__('Any', 'ithoughts-tooltip-glossary')),
 			'name'        => $this->get_field_name('group')
 		) );
 		echo '<p><label for="' . $this->get_field_id('group') . '"> ' . __('Group:'). ' </label>';
 		echo $groupdd . '</p>';
 
 		// Display
-		$displaydd = wpg2_build_dropdown_multilevel( $this->get_field_id('display'), array(
+		$displaydd = ithoughts_tt_gl_build_dropdown_multilevel( $this->get_field_id('display'), array(
 			'selected'   => $instance['display'],
 			'name'       => $this->get_field_name('display'),
 			'options'    => array( 
-				'title'   =>__('Title Only', 'wp-glossary-2'), 
-				'excerpt' =>__('Excerpt',    'wp-glossary-2'), 
-				'full'    =>__('Full',       'wp-glossary-2'),
+				'title'   =>__('Title Only', 'ithoughts-tooltip-glossary'), 
+				'excerpt' =>__('Excerpt',    'ithoughts-tooltip-glossary'), 
+				'full'    =>__('Full',       'ithoughts-tooltip-glossary'),
 			),
 		) );
 		echo '<p><label for="' . $this->get_field_id('display') . '"> ' . __('Display:'). ' </label>';
@@ -83,7 +83,7 @@ class wpg2_RandomTerm extends WP_Widget {
 		);
 		if( $group = $instance['group'] ):
 			$termargs['tax_query'] = array( array(
-				'taxonomy' => 'wpg2lossarygroup',
+				'taxonomy' => 'ithoughts_tt_gllossarygroup',
 				'field'    => 'slug',
 				'terms'    => $group
 			) );
@@ -91,9 +91,9 @@ class wpg2_RandomTerm extends WP_Widget {
 
 		$terms = get_posts( $termargs );
 		if( $terms && count($terms) ):
-			echo '<ul class="wpg2lossary widget-list">';
+			echo '<ul class="ithoughts_tt_gllossary widget-list">';
 			foreach( $terms as $term ): setup_postdata( $term );
-				$title   = '<a href="' . apply_filters( 'wpg2_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';
+				$title   = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';
 				$desc    = '';
 				$display = $instance['display'];
 				if( $display && $display != 'title' ):
@@ -104,10 +104,10 @@ class wpg2_RandomTerm extends WP_Widget {
 			endforeach; wp_reset_postdata();
 			echo '</ul>';
 		else :
-			echo '<em>' . __('No terms available', 'wp-glossary-2') . '</em>';
+			echo '<em>' . __('No terms available', 'ithoughts-tooltip-glossary') . '</em>';
 		endif;
 
 		echo $after_widget;
 	} //widget
 
-} // wpg2_RandomTerm
+} // ithoughts_tt_gl_RandomTerm

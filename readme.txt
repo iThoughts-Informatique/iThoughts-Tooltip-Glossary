@@ -1,34 +1,34 @@
-=== WP Glossary 2 ===
-Contributors: tcbarrett, Nihilivin
-Plugin URL:     English:    http://www.gerkindevelopment.net/en/portfolio/wp-glossary-2/
-                French:     http://www.gerkindevelopment.net/portfolio/wp-glossary-2/
+=== iThoughts Tooltip Glossary ===
+Contributors: tcbarrett, Gerkin
+Plugin URL:     English:    http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
+                French:     http://www.gerkindevelopment.net/portfolio/ithoughts-tooltip-glossary/
 Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
-Tags: glossary, wp-glossary-2, dictionary, glossary, appendix, technical terms
+Tags: glossary, ithoughts-tooltip-glossary, dictionary, glossary, appendix, technical terms
 Requires at least: 3.0
 Tested up to: 4.3.1
 Stable tag: 3.1.1.2-1.0
 License: GPLv2 or later
 
 Create your own glossary of hot-linked terms, inside your own site!
-This plugin is a fork from the inactive plugin "WP Glossary" by tcbarrett. The whole base plugin is from him, I just did some improvements. For any bugs, please post on my blog's [WP Glossary 2 page](http://www.gerkindevelopment.net/en/portfolio/wp-glossary-2/), as I'll be able to bring corrections and improvements.
+This plugin is a fork from the inactive plugin "WP Glossary" by tcbarrett. The whole base plugin is from him, I just did some improvements. For any bugs, please post on my blog's [iThoughts Tooltip Glossary page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/), as I'll be able to bring corrections and improvements.
 
 == Description ==
 
 Build a glossary on your site, and link terms in your posts to it with tooltips.
 
-Reasons for using wp-glossary-2 plugin:
+Reasons for using ithoughts-tooltip-glossary plugin:
 
 * External glossary sites don't have all the words and terms you need.
 * You want to keep your visitors on your site (not send them to an external glossary site).
 * You don't want the adverts that the external site popups come with.
 
-[For further details visit my dedicated plugin landing page](http://www.gerkindevelopment.net/en/portfolio/wp-glossary-2/)
+[For further details visit my dedicated plugin landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/)
 
 == Installation ==
 
 Either install through admin panel (this is the eaiest way), or:
 
-1. Upload `wp-glossary-2.zip` to the `/wp-content/plugins/` directory
+1. Upload `ithoughts-tooltip-glossary.zip` to the `/wp-content/plugins/` directory
 2. Unzip the archive
 3. Activate the plugin through the 'Plugins' menu in WordPress
 
@@ -54,7 +54,7 @@ You have to add the terms (Glossary Terms > Add New Term) and then use the appro
 
 = Further Information =
 
-[For further details visit my dedicated plugin landing page](http://www.gerkindevelopment.net/en/portfolio/wp-glossary-2/)
+[For further details visit my dedicated plugin landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/)
 
 
 == Screenshots ==
@@ -143,4 +143,4 @@ The WordPress shortcode syntax is really simple!
 [glossary_atoz /]
 
 = Further Examples =
-See the [dedicated website section](http://www.gerkindevelopment.net/en/portfolio/wp-glossary-2/)
+See the [dedicated website section](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/)

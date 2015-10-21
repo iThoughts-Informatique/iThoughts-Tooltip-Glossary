@@ -1,5 +1,5 @@
 <?php
-class wpg2_Shortcode_TERMLIST Extends wpg2{
+class ithoughts_tt_gl_Shortcode_TERMLIST Extends ithoughts_tt_gl{
     public function __construct() {
         add_shortcode( 'glossary_term_list', array($this, 'glossary_term_list') );
     }
@@ -31,7 +31,7 @@ class wpg2_Shortcode_TERMLIST Extends wpg2{
         // Restrict list to specific glossary group or groups
         if( $group ){
             $tax_query = array(
-                'taxonomy' => 'wpg2lossarygroup',
+                'taxonomy' => 'ithoughts_tt_gllossarygroup',
                 'field'    => 'slug',
                 'terms'    => $group,
             );
@@ -52,7 +52,7 @@ class wpg2_Shortcode_TERMLIST Extends wpg2{
         $linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
         $termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
-        $list       = '<p>' . __( 'There are no glossary items.', 'wp-glossary-2') . '</p>';
+        $list       = '<p>' . __( 'There are no glossary items.', 'ithoughts-tooltip-glossary') . '</p>';
         $glossaries = get_posts( $args );
         if( !count($glossaries) )
             return $list;
@@ -77,7 +77,7 @@ class wpg2_Shortcode_TERMLIST Extends wpg2{
             if( count($alphas) && !in_array($titlealpha, $alphas) )
                 continue;
 
-            $href  = apply_filters( 'wpg2_term_link', get_post_permalink($post->ID) );
+            $href  = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($post->ID) );
             $link  = $title;
             if( $linkopt != 'none' ){
                 $target = ($linkopt == 'blank') ? 'target="_blank"' : '';
@@ -123,4 +123,4 @@ class wpg2_Shortcode_TERMLIST Extends wpg2{
 
         return $return;
     } // glossary_term_list
-} // wpg2_Shortcode_TERMLIST
+} // ithoughts_tt_gl_Shortcode_TERMLIST

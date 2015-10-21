@@ -1,5 +1,5 @@
 <?php
-class wpg2_Shortcode_ATOZ Extends wpg2{
+class ithoughts_tt_gl_Shortcode_ATOZ Extends ithoughts_tt_gl{
     public static $options;
 
     public function __construct() {
@@ -9,7 +9,7 @@ class wpg2_Shortcode_ATOZ Extends wpg2{
     }
 
     public function glossary_atoz( $atts, $content='' ){
-        global $post, $tcb_wpg2_scripts;
+        global $post, $tcb_ithoughts_tt_gl_scripts;
         extract( shortcode_atts(array('group'=>false,'desc'=>false), $atts) );
 
         $glossary_options = get_option( 'wp_glossary_2', array() );
@@ -27,7 +27,7 @@ class wpg2_Shortcode_ATOZ Extends wpg2{
 
 
         // Global variable that tells WP to print related js files.
-        $tcb_wpg2_scripts = true;
+        $tcb_ithoughts_tt_gl_scripts = true;
 
         $statii = array( 'publish' );
         if( current_user_can('read_private_posts') ){
@@ -46,14 +46,14 @@ class wpg2_Shortcode_ATOZ Extends wpg2{
         // Restrict list to specific glossary group or groups
         if( $group ){
             $tax_query = array(
-                'taxonomy' => 'wpg2lossarygroup',
+                'taxonomy' => 'ithoughts_tt_gllossarygroup',
                 'field'    => 'slug',
                 'terms'    => $group,
             );
             $args['tax_query'] = array( $tax_query );
         }
 
-        $list       = '<p>' . __('There are no glossary items.', 'wp-glossary-2') . '</p>';
+        $list       = '<p>' . __('There are no glossary items.', 'ithoughts-tooltip-glossary') . '</p>';
         $glossaries = get_posts( $args );
         if( !count($glossaries) ) return $list;
 
@@ -63,11 +63,11 @@ class wpg2_Shortcode_ATOZ Extends wpg2{
         foreach( $glossaries as $post ) {
             setup_postdata( $post );
             $title = get_the_title();
-            $alpha = strtoupper( wpg2_unaccent(mb_substr($title,0,1, "UTF-8"), $tofind, $replac, "UTF-8") );
+            $alpha = strtoupper( ithoughts_tt_gl_unaccent(mb_substr($title,0,1, "UTF-8"), $tofind, $replac, "UTF-8") );
 
             $link  = '<span class="atoz-term-title">' . $title . '</span>'; // Default to text only
             if( $linkopt != 'none' ){
-                $href   = apply_filters( 'wpg2_term_link', get_post_permalink($post->ID) );
+                $href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($post->ID) );
                 $target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
                 $link   = '<a href="' . $href . '" title="' . esc_attr($title) . '" ' . $target . '>' . $title . '</a>';
             }
@@ -84,10 +84,10 @@ class wpg2_Shortcode_ATOZ Extends wpg2{
 
         // Menu
         $menu  = '<ul class="glossary-menu-atoz">';
-        $range = apply_filters( 'wpg2_atoz_range', array_keys($atoz) );
+        $range = apply_filters( 'ithoughts_tt_gl_atoz_range', array_keys($atoz) );
         foreach( $range as $alpha ) {
             $count = count( $atoz[$alpha] );
-            $menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha . ' atoz-clickable atozmenu-off" title="' . esc_attr__('Terms','wp-glossary-2') . ': ' . $count . '"  data-alpha="' . $alpha . '">';
+            $menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha . ' atoz-clickable atozmenu-off" title="' . esc_attr__('Terms','ithoughts-tooltip-glossary') . ': ' . $count . '"  data-alpha="' . $alpha . '">';
             $menu .= '<a href="#' . $alpha . '">' . strtoupper($alpha) . '</a></li>';
         }
         $menu .= '</ul>';
@@ -102,7 +102,7 @@ class wpg2_Shortcode_ATOZ Extends wpg2{
         $list .= '</div>';
 
         $clear    = '<div style="clear: both;"></div>';
-        $plsclick = apply_filters( 'wpg2_please_select', '<div class="wpg2-please-select"><p>' . __('Please select from the menu above', 'wp-glossary-2') . '</p></div>' );
+        $plsclick = apply_filters( 'ithoughts_tt_gl_please_select', '<div class="ithoughts_tt_gl-please-select"><p>' . __('Please select from the menu above', 'ithoughts-tooltip-glossary') . '</p></div>' );
         return '<div class="glossary-atoz-wrapper">' . $menu . $clear . $plsclick . $clear . $list . '</div>';
     } // glossary_atoz
-} // wpg2_Shortcode_ATOZ
+} // ithoughts_tt_gl_Shortcode_ATOZ

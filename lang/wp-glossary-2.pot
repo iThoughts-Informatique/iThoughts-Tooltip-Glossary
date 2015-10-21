@@ -2,8 +2,8 @@
 # This file is distributed under the same license as the WP Glossary package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Glossary 2.2\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-glossary-2\n"
+"Project-Id-Version: iThoughts Tooltip Glossary.2\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/ithoughts-tooltip-glossary\n"
 "POT-Creation-Date: 2013-05-17 19:57:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,285 +12,285 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: class/wpg2-admin.class.php:12 class/wpg2-post-types.class.php:29
+#: class/ithoughts_tt_gl-admin.class.php:12 class/ithoughts_tt_gl-post-types.class.php:29
 msgid "glossary"
 msgstr ""
 
-#: class/wpg2-admin.class.php:16 class/wpg2-admin.class.php:17
+#: class/ithoughts_tt_gl-admin.class.php:16 class/ithoughts_tt_gl-admin.class.php:17
 msgid "Glossary Options"
 msgstr ""
 
-#: class/wpg2-admin.class.php:36 class/wpg2-widget-random-term.class.php:47
+#: class/ithoughts_tt_gl-admin.class.php:36 class/ithoughts_tt_gl-widget-random-term.class.php:47
 msgid "Full"
 msgstr ""
 
-#: class/wpg2-admin.class.php:37
+#: class/ithoughts_tt_gl-admin.class.php:37
 msgid "Display full post content"
 msgstr ""
 
-#: class/wpg2-admin.class.php:40 class/wpg2-widget-random-term.class.php:46
+#: class/ithoughts_tt_gl-admin.class.php:40 class/ithoughts_tt_gl-widget-random-term.class.php:46
 msgid "Excerpt"
 msgstr ""
 
-#: class/wpg2-admin.class.php:41
+#: class/ithoughts_tt_gl-admin.class.php:41
 msgid "Display shorter excerpt content"
 msgstr ""
 
-#: class/wpg2-admin.class.php:44 class/wpg2-admin.class.php:67
-#: class/wpg2-admin.class.php:92
+#: class/ithoughts_tt_gl-admin.class.php:44 class/ithoughts_tt_gl-admin.class.php:67
+#: class/ithoughts_tt_gl-admin.class.php:92
 msgid "Off"
 msgstr ""
 
-#: class/wpg2-admin.class.php:45
+#: class/ithoughts_tt_gl-admin.class.php:45
 msgid "Do not display tooltip at all"
 msgstr ""
 
-#: class/wpg2-admin.class.php:55
+#: class/ithoughts_tt_gl-admin.class.php:55
 msgid "Alphabetical"
 msgstr ""
 
-#: class/wpg2-admin.class.php:55
+#: class/ithoughts_tt_gl-admin.class.php:55
 msgid "Display glossary archive alphabetically"
 msgstr ""
 
-#: class/wpg2-admin.class.php:56
+#: class/ithoughts_tt_gl-admin.class.php:56
 msgid "Standard"
 msgstr ""
 
-#: class/wpg2-admin.class.php:56
+#: class/ithoughts_tt_gl-admin.class.php:56
 msgid "No filtering, display as standard archive"
 msgstr ""
 
-#: class/wpg2-admin.class.php:68
+#: class/ithoughts_tt_gl-admin.class.php:68
 msgid "Cream"
 msgstr ""
 
-#: class/wpg2-admin.class.php:69
+#: class/ithoughts_tt_gl-admin.class.php:69
 msgid "Dark"
 msgstr ""
 
-#: class/wpg2-admin.class.php:70
+#: class/ithoughts_tt_gl-admin.class.php:70
 msgid "Green"
 msgstr ""
 
-#: class/wpg2-admin.class.php:71
+#: class/ithoughts_tt_gl-admin.class.php:71
 msgid "Light"
 msgstr ""
 
-#: class/wpg2-admin.class.php:72
+#: class/ithoughts_tt_gl-admin.class.php:72
 msgid "Red"
 msgstr ""
 
-#: class/wpg2-admin.class.php:73
+#: class/ithoughts_tt_gl-admin.class.php:73
 msgid "Blue"
 msgstr ""
 
-#: class/wpg2-admin.class.php:81
+#: class/ithoughts_tt_gl-admin.class.php:81
 msgid "Normal"
 msgstr ""
 
-#: class/wpg2-admin.class.php:81
+#: class/ithoughts_tt_gl-admin.class.php:81
 msgid "Normal link with no modifications"
 msgstr ""
 
-#: class/wpg2-admin.class.php:82
+#: class/ithoughts_tt_gl-admin.class.php:82
 msgid "No link"
 msgstr ""
 
-#: class/wpg2-admin.class.php:82
+#: class/ithoughts_tt_gl-admin.class.php:82
 msgid "Don't link to term"
 msgstr ""
 
-#: class/wpg2-admin.class.php:83
+#: class/ithoughts_tt_gl-admin.class.php:83
 msgid "New tab"
 msgstr ""
 
-#: class/wpg2-admin.class.php:83
+#: class/ithoughts_tt_gl-admin.class.php:83
 msgid "Always open in a new tab"
 msgstr ""
 
-#: class/wpg2-admin.class.php:91
+#: class/ithoughts_tt_gl-admin.class.php:91
 msgid "On"
 msgstr ""
 
-#: class/wpg2-admin.class.php:103
+#: class/ithoughts_tt_gl-admin.class.php:103
 msgid "WP Glossary Options"
 msgstr ""
 
-#: class/wpg2-admin.class.php:105
+#: class/ithoughts_tt_gl-admin.class.php:105
 msgid "Tooltip:"
 msgstr ""
 
-#: class/wpg2-admin.class.php:106
+#: class/ithoughts_tt_gl-admin.class.php:106
 msgid "Archive:"
 msgstr ""
 
-#: class/wpg2-admin.class.php:107
+#: class/ithoughts_tt_gl-admin.class.php:107
 msgid "Tooltip (qTip):"
 msgstr ""
 
-#: class/wpg2-admin.class.php:108
+#: class/ithoughts_tt_gl-admin.class.php:108
 msgid "Term link:"
 msgstr ""
 
-#: class/wpg2-admin.class.php:109
+#: class/ithoughts_tt_gl-admin.class.php:109
 msgid "Term usage:"
 msgstr ""
 
-#: class/wpg2-admin.class.php:112
+#: class/ithoughts_tt_gl-admin.class.php:112
 msgid "Update Glossary Options"
 msgstr ""
 
-#: class/wpg2-admin.class.php:137
+#: class/ithoughts_tt_gl-admin.class.php:137
 msgid "Glossary options updated"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:17
+#: class/ithoughts_tt_gl-post-types.class.php:17
 msgid "Glossary Terms"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:18
+#: class/ithoughts_tt_gl-post-types.class.php:18
 msgid "Glossary Term"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:19
+#: class/ithoughts_tt_gl-post-types.class.php:19
 msgid "Add New Term"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:20 class/wpg2-post-types.class.php:22
+#: class/ithoughts_tt_gl-post-types.class.php:20 class/ithoughts_tt_gl-post-types.class.php:22
 msgid "Add New Glossary Term"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:21
+#: class/ithoughts_tt_gl-post-types.class.php:21
 msgid "Edit Glossary Term"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:23
+#: class/ithoughts_tt_gl-post-types.class.php:23
 msgid "View Glossary Term"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:24
+#: class/ithoughts_tt_gl-post-types.class.php:24
 msgid "Search Glossary Terms"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:25
+#: class/ithoughts_tt_gl-post-types.class.php:25
 msgid "No Glossary Terms found"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:26
+#: class/ithoughts_tt_gl-post-types.class.php:26
 msgid "No Glossary Terms found in trash"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:41
+#: class/ithoughts_tt_gl-post-types.class.php:41
 msgid "Glossary Term Reference"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:53 class/wpg2-widget-random-term.class.php:22
+#: class/ithoughts_tt_gl-post-types.class.php:53 class/ithoughts_tt_gl-widget-random-term.class.php:22
 msgid "Title:"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:54
+#: class/ithoughts_tt_gl-post-types.class.php:54
 msgid "Link:"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:61
+#: class/ithoughts_tt_gl-post-types.class.php:61
 msgid "Usage"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:62
+#: class/ithoughts_tt_gl-post-types.class.php:62
 msgid "Reference"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:149
+#: class/ithoughts_tt_gl-post-types.class.php:149
 msgid "Reference:"
 msgstr ""
 
-#: class/wpg2-post-types.class.php:158
+#: class/ithoughts_tt_gl-post-types.class.php:158
 msgid "WP Glossary Term Usage"
 msgstr ""
 
-#: class/wpg2-shortcode-glossary-atoz.class.php:33
-#: class/wpg2-shortcode-glossary-list.class.php:35
+#: class/ithoughts_tt_gl-shortcode-glossary-atoz.class.php:33
+#: class/ithoughts_tt_gl-shortcode-glossary-list.class.php:35
 msgid "There are no glossary items."
 msgstr ""
 
-#: class/wpg2-shortcode-glossary-atoz.class.php:58
+#: class/ithoughts_tt_gl-shortcode-glossary-atoz.class.php:58
 msgid "Terms"
 msgstr ""
 
-#: class/wpg2-shortcode-glossary-atoz.class.php:72
+#: class/ithoughts_tt_gl-shortcode-glossary-atoz.class.php:72
 msgid "Please select from the menu above"
 msgstr ""
 
-#: class/wpg2-taxonomies.class.php:12
+#: class/ithoughts_tt_gl-taxonomies.class.php:12
 msgid "Glossary Groups"
 msgstr ""
 
-#: class/wpg2-taxonomies.class.php:13
+#: class/ithoughts_tt_gl-taxonomies.class.php:13
 msgid "Glossary Group"
 msgstr ""
 
-#: class/wpg2-taxonomies.class.php:14
+#: class/ithoughts_tt_gl-taxonomies.class.php:14
 msgid "Search Glossary Groups"
 msgstr ""
 
-#: class/wpg2-taxonomies.class.php:15
+#: class/ithoughts_tt_gl-taxonomies.class.php:15
 msgid "All Glossary Groups"
 msgstr ""
 
-#: class/wpg2-taxonomies.class.php:16
+#: class/ithoughts_tt_gl-taxonomies.class.php:16
 msgid "Parent Glossary Group"
 msgstr ""
 
-#: class/wpg2-taxonomies.class.php:17
+#: class/ithoughts_tt_gl-taxonomies.class.php:17
 msgid "Parent Glossary Group:"
 msgstr ""
 
-#: class/wpg2-taxonomies.class.php:18
+#: class/ithoughts_tt_gl-taxonomies.class.php:18
 msgid "Edit Glossary Group"
 msgstr ""
 
-#: class/wpg2-taxonomies.class.php:19
+#: class/ithoughts_tt_gl-taxonomies.class.php:19
 msgid "Update Glossary Group"
 msgstr ""
 
-#: class/wpg2-taxonomies.class.php:20
+#: class/ithoughts_tt_gl-taxonomies.class.php:20
 msgid "Add New Glossary Group"
 msgstr ""
 
-#: class/wpg2-taxonomies.class.php:21
+#: class/ithoughts_tt_gl-taxonomies.class.php:21
 msgid "New Glossary Group Name"
 msgstr ""
 
-#: class/wpg2-taxonomies.class.php:30
+#: class/ithoughts_tt_gl-taxonomies.class.php:30
 msgid "glossary/group"
 msgstr ""
 
-#: class/wpg2-widget-random-term.class.php:9
+#: class/ithoughts_tt_gl-widget-random-term.class.php:9
 msgid "Add a random glossary term to your sidebar"
 msgstr ""
 
-#: class/wpg2-widget-random-term.class.php:17
+#: class/ithoughts_tt_gl-widget-random-term.class.php:17
 msgid "Random Glossary term"
 msgstr ""
 
-#: class/wpg2-widget-random-term.class.php:34
+#: class/ithoughts_tt_gl-widget-random-term.class.php:34
 msgid "Any"
 msgstr ""
 
-#: class/wpg2-widget-random-term.class.php:37
+#: class/ithoughts_tt_gl-widget-random-term.class.php:37
 msgid "Group:"
 msgstr ""
 
-#: class/wpg2-widget-random-term.class.php:45
+#: class/ithoughts_tt_gl-widget-random-term.class.php:45
 msgid "Title Only"
 msgstr ""
 
-#: class/wpg2-widget-random-term.class.php:50
+#: class/ithoughts_tt_gl-widget-random-term.class.php:50
 msgid "Display:"
 msgstr ""
 
-#: class/wpg2-widget-random-term.class.php:103
+#: class/ithoughts_tt_gl-widget-random-term.class.php:103
 msgid "No terms available"
 msgstr ""
 
@@ -307,7 +307,7 @@ msgid "WP Glossary"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "http://wordpress.org/extend/plugins/wp-glossary-2/"
+msgid "http://wordpress.org/extend/plugins/ithoughts-tooltip-glossary/"
 msgstr ""
 
 #. Description of the plugin/theme

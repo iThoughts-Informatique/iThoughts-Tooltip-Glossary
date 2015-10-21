@@ -1,8 +1,8 @@
 <?php
 /**
- * wp-glossary-2 Post Types
+ * ithoughts-tooltip-glossary Post Types
  */
-class wpg2_Post_types Extends wpg2{
+class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
     public static $options;
 
     public function __construct() {
@@ -18,20 +18,20 @@ class wpg2_Post_types Extends wpg2{
             'has_archive'          => true,
             'supports'             => array( 'title', 'editor', 'thumbnail', 'author', 'excerpt' ),
             'labels' => array(
-                'name'               => __( 'Glossary Terms',                   'wp-glossary-2' ),
-                'singular_name'      => __( 'Glossary Term',                    'wp-glossary-2' ),
-                'add_new'            => __( 'Add New Term',                     'wp-glossary-2' ),
-                'add_new_item'       => __( 'Add New Glossary Term',            'wp-glossary-2' ),
-                'edit_item'          => __( 'Edit Glossary Term',               'wp-glossary-2' ),
-                'new_item'           => __( 'Add New Glossary Term',            'wp-glossary-2' ),
-                'view_item'          => __( 'View Glossary Term',               'wp-glossary-2' ),
-                'search_items'       => __( 'Search Glossary Terms',            'wp-glossary-2' ),
-                'not_found'          => __( 'No Glossary Terms found',          'wp-glossary-2' ),
-                'not_found_in_trash' => __( 'No Glossary Terms found in trash', 'wp-glossary-2' )
+                'name'               => __( 'Glossary Terms',                   'ithoughts-tooltip-glossary' ),
+                'singular_name'      => __( 'Glossary Term',                    'ithoughts-tooltip-glossary' ),
+                'add_new'            => __( 'Add New Term',                     'ithoughts-tooltip-glossary' ),
+                'add_new_item'       => __( 'Add New Glossary Term',            'ithoughts-tooltip-glossary' ),
+                'edit_item'          => __( 'Edit Glossary Term',               'ithoughts-tooltip-glossary' ),
+                'new_item'           => __( 'Add New Glossary Term',            'ithoughts-tooltip-glossary' ),
+                'view_item'          => __( 'View Glossary Term',               'ithoughts-tooltip-glossary' ),
+                'search_items'       => __( 'Search Glossary Terms',            'ithoughts-tooltip-glossary' ),
+                'not_found'          => __( 'No Glossary Terms found',          'ithoughts-tooltip-glossary' ),
+                'not_found_in_trash' => __( 'No Glossary Terms found in trash', 'ithoughts-tooltip-glossary' )
             ),
             'register_meta_box_cb' => array( $this, 'meta_boxes' ),
             'rewrite'              => /*/false/*/array(
-                'slug' => sanitize_title( _x( self::$options["termtype"], 'rewrite slug', 'wp-glossary-2' ) ),
+                'slug' => sanitize_title( _x( self::$options["termtype"], 'rewrite slug', 'ithoughts-tooltip-glossary' ) ),
                 'with_front' => false
             )/**/,
         ) );
@@ -50,28 +50,28 @@ class wpg2_Post_types Extends wpg2{
 
     /** */
     public function meta_boxes(){
-        add_meta_box( 'wpg2_references', __('Glossary Term Reference', 'wp-glossary-2'), array($this, 'mb_references'), self::$options["termtype"], 'normal', 'high' );
+        add_meta_box( 'ithoughts_tt_gl_references', __('Glossary Term Reference', 'ithoughts-tooltip-glossary'), array($this, 'mb_references'), self::$options["termtype"], 'normal', 'high' );
     }
 
     /** */
     public function mb_references(){
         global $post;
 
-        if( $reference = get_post_meta( $post->ID, 'tcbwpg2_reference', $single=true ) ) :
+        if( $reference = get_post_meta( $post->ID, 'tcbithoughts_tt_gl_reference', $single=true ) ) :
         if( empty($reference) ) $reference = array();
         extract( shortcode_atts(array('title'=>'', 'link'=>''), $reference) );
         endif;
 
-        echo '<label class="tcbwpg2-admin">' . __('Title:','wp-glossary-2') . ' <input name="tcbwpg2_reference_title" size="30" value="' . $title . '" /></label><br>';
-        echo '<label class="tcbwpg2-admin">' . __('Link:','wp-glossary-2') . ' <input name="tcbwpg2_reference_link" size="50" value="' . $link . '" /></label>';
+        echo '<label class="tcbithoughts_tt_gl-admin">' . __('Title:','ithoughts-tooltip-glossary') . ' <input name="tcbithoughts_tt_gl_reference_title" size="30" value="' . $title . '" /></label><br>';
+        echo '<label class="tcbithoughts_tt_gl-admin">' . __('Link:','ithoughts-tooltip-glossary') . ' <input name="tcbithoughts_tt_gl_reference_link" size="50" value="' . $link . '" /></label>';
         wp_nonce_field( plugin_basename(__FILE__), 'glossary_edit_nonce' );
     } //mb_references
 
     /** */
     public function manage_glossary_posts_columns( $columns ){
         $newcolumns = array(
-            'usage'     => __( 'Usage',     'wp-glossary-2' ),
-            'reference' => __( 'Reference', 'wp-glossary-2' ),
+            'usage'     => __( 'Usage',     'ithoughts-tooltip-glossary' ),
+            'reference' => __( 'Reference', 'ithoughts-tooltip-glossary' ),
         );
         $columns = array_slice( $columns, 0, -1, true ) 
             + $newcolumns 
@@ -84,19 +84,19 @@ class wpg2_Post_types Extends wpg2{
     public function manage_glossary_posts_custom_column( $column, $post_id ){
         switch( $column ):
         case 'usage':
-        $usage = get_post_meta( $post_id, 'wpg2_term_used' );
+        $usage = get_post_meta( $post_id, 'ithoughts_tt_gl_term_used' );
         if( $usage ):
         $col = array();
         foreach( $usage as $post_id ):
         $title = get_the_title( $post_id );
-        $url   = apply_filters( 'wpg2_term_link', get_post_permalink($post_id) );
+        $url   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($post_id) );
         $col[] = '<a href="' . $url . '">' . $title . '</a>';
         endforeach;
         echo implode( ', ', $col );
         endif;
         break;
         case 'reference':
-        $reference = get_post_meta( $post_id, 'tcbwpg2_reference', $single=true );
+        $reference = get_post_meta( $post_id, 'tcbithoughts_tt_gl_reference', $single=true );
         if( $reference ):
         extract( $reference );
         if( !(empty($title) && empty($url)) ):
@@ -131,8 +131,8 @@ class wpg2_Post_types Extends wpg2{
         if( $slug != $_POST['post_type'] )
             return;
 
-        $title = $_POST['tcbwpg2_reference_title'];
-        $link  = $_POST['tcbwpg2_reference_link'];
+        $title = $_POST['tcbithoughts_tt_gl_reference_title'];
+        $link  = $_POST['tcbithoughts_tt_gl_reference_link'];
 
         $title = trim( $title );
         $link  = trim( $link );
@@ -144,7 +144,7 @@ class wpg2_Post_types Extends wpg2{
         endif;
 
         $reference = array( 'title'=>$title, 'link'=>$link );
-        update_post_meta( $post_id, 'tcbwpg2_reference', $reference );
+        update_post_meta( $post_id, 'tcbithoughts_tt_gl_reference', $reference );
         return $post_id;
     } // save_glossary_post
 
@@ -155,28 +155,28 @@ class wpg2_Post_types Extends wpg2{
         if( $is_main_query && is_single() && "glossary"==get_post_type() ) :
         $options = get_option( 'wp_glossary_2', array() );
 
-        if( $reference = get_post_meta($post->ID, 'tcbwpg2_reference', $single=true) ):
+        if( $reference = get_post_meta($post->ID, 'tcbithoughts_tt_gl_reference', $single=true) ):
         extract( $reference );
         if( !empty($title) || !empty($link) ):
         if( empty($title) )
             $title = $link;
         if( $link )
             $title = '<a class="glossary-reference-link" target="_blank" href="' . $link . '">' . $title . '</a>';
-        $content .= '<div class="glossary-references"><h4>' . __('Reference:', 'wp-glossary-2') . ' ' . $title . '</h4></div>';
+        $content .= '<div class="glossary-references"><h4>' . __('Reference:', 'ithoughts-tooltip-glossary') . ' ' . $title . '</h4></div>';
         endif;
         endif; // $reference
 
         // Usage
         $termusage = isset( $options['termusage'] ) ? $options['termusage'] : 'on';
         if( $termusage == 'on' ):
-        $usage = get_post_meta( $post->ID, 'wpg2_term_used' );
+        $usage = get_post_meta( $post->ID, 'ithoughts_tt_gl_term_used' );
         if( $usage ):
-        $usage_title = apply_filters( 'wpg2_term_usage_title', __('WP Glossary Term Usage', 'wp-glossary-2') );
-        $content    .= '<div class="wpg2-term-usage"><div class="header"><h4>' . $usage_title . '</h4></div><ul>';
+        $usage_title = apply_filters( 'ithoughts_tt_gl_term_usage_title', __('WP Glossary Term Usage', 'ithoughts-tooltip-glossary') );
+        $content    .= '<div class="ithoughts_tt_gl-term-usage"><div class="header"><h4>' . $usage_title . '</h4></div><ul>';
         foreach( $usage as $post_id ):
         $target   = get_post( $post_id );
         $title    = get_the_title( $post_id );
-        $content .= '<li><a href="' . apply_filters('wpg2_term_link', get_post_permalink($post_id)) . '" title="' . esc_attr($title) . '">' . $title . '</a></li>';
+        $content .= '<li><a href="' . apply_filters('ithoughts_tt_gl_term_link', get_post_permalink($post_id)) . '" title="' . esc_attr($title) . '">' . $title . '</a></li>';
         endforeach;
         $content .= '</ul></div>';
         endif; // usage loop
@@ -185,4 +185,4 @@ class wpg2_Post_types Extends wpg2{
         endif; // Single ++ glossary
         return $content;
     } // the_content
-} // wpg2_Post_types
+} // ithoughts_tt_gl_Post_types

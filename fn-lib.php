@@ -1,6 +1,6 @@
 <?php
 /** */
-function wpg2_unaccent( $text, $from, $to, $encoding = "UTF-8" ){
+function ithoughts_tt_gl_unaccent( $text, $from, $to, $encoding = "UTF-8" ){
     $l = mb_strlen($text, $encoding);
     $out = "";
     for($i = 0; $i < $l; $i++){
@@ -14,10 +14,10 @@ function wpg2_unaccent( $text, $from, $to, $encoding = "UTF-8" ){
     return $out;
 }
 
-function wpg2_build_dropdown_multilevel( $id, $args ){
+function ithoughts_tt_gl_build_dropdown_multilevel( $id, $args ){
     $defaults = array(
         'selected'    => null,
-        'options'     => array(__('-no options-', 'wp-glossary-2')),
+        'options'     => array(__('-no options-', 'ithoughts-tooltip-glossary')),
         'allow_blank' => false,
         'class'       => null,
         'name'        => null,
@@ -33,7 +33,7 @@ function wpg2_build_dropdown_multilevel( $id, $args ){
     if( $allow_blank ) :
     // Set default blank title.
     if( $allow_blank === true ):
-    $allow_blank = __('- Please Select -', 'wp-glossary-2');
+    $allow_blank = __('- Please Select -', 'ithoughts-tooltip-glossary');
     endif;
 
     // Expand string into array

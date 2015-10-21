@@ -1,10 +1,10 @@
 <?php
 /**
- * wp-glossary-2 Core Class
+ * ithoughts-tooltip-glossary Core Class
  */
-//require_once( dirname(__FILE__).'/wpg2-post_typs.class.php' );
+//require_once( dirname(__FILE__).'/ithoughts_tt_gl-post_typs.class.php' );
 
-class wpg2{
+class ithoughts_tt_gl{
     public static $base;
     public static $base_lang;
     public static $base_url;
@@ -28,10 +28,10 @@ class wpg2{
         add_action( 'wp_footer',             array(&$this, 'wp_footer')                   );
         add_action( 'wp_enqueue_scripts',    array(&$this, 'wp_enqueue_scripts')          );
         add_action( 'admin_enqueue_scripts', array(&$this, 'admin_enqueue_scripts')       );
-        add_action( 'admin_init',            array(&$this, 'wpg2_vesion_check')            );
+        add_action( 'admin_init',            array(&$this, 'ithoughts_tt_gl_vesion_check')            );
         add_action( 'pre_get_posts',         array(&$this, 'order_core_archive_list')     );
 
-        add_filter( 'wpg2_term_link',         array(&$this, 'wpg2_term_link')               );
+        add_filter( 'ithoughts_tt_gl_term_link',         array(&$this, 'ithoughts_tt_gl_term_link')               );
     }
 
     static function base() {
@@ -42,35 +42,35 @@ class wpg2{
     }
 
     public function localisation(){
-        load_plugin_textdomain( 'wp-glossary-2', false, 'wp-glossary-2' . '/lang/' );
+        load_plugin_textdomain( 'ithoughts-tooltip-glossary', false, 'ithoughts-tooltip-glossary' . '/lang/' );
     }
 
     private function register_post_types(){
-        require_once( $this->base() . '/wpg2-post-types.class.php' );
-        new wpg2_Post_Types();
+        require_once( $this->base() . '/ithoughts_tt_gl-post-types.class.php' );
+        new ithoughts_tt_gl_Post_Types();
     }
 
     public function register_taxonmies(){
-        require_once( $this->base() . '/wpg2-taxonomies.class.php' );
-        new wpg2_Taxonomies();
+        require_once( $this->base() . '/ithoughts_tt_gl-taxonomies.class.php' );
+        new ithoughts_tt_gl_Taxonomies();
     }
 
     private function add_shortcodes(){
-        require_once( $this->base() . '/wpg2-shortcode-glossary.class.php' );
-        new wpg2_Shortcodes();
-        require_once( $this->base() . '/wpg2-shortcode-glossary-atoz.class.php' );
-        new wpg2_Shortcode_ATOZ();
-        require_once( $this->base() . '/wpg2-shortcode-glossary-list.class.php' );
-        new wpg2_Shortcode_TERMLIST();
+        require_once( $this->base() . '/ithoughts_tt_gl-shortcode-glossary.class.php' );
+        new ithoughts_tt_gl_Shortcodes();
+        require_once( $this->base() . '/ithoughts_tt_gl-shortcode-glossary-atoz.class.php' );
+        new ithoughts_tt_gl_Shortcode_ATOZ();
+        require_once( $this->base() . '/ithoughts_tt_gl-shortcode-glossary-list.class.php' );
+        new ithoughts_tt_gl_Shortcode_TERMLIST();
     }
 
     private function add_widgets(){
-        require_once( $this->base() . '/wpg2-widget-random-term.class.php' );
+        require_once( $this->base() . '/ithoughts_tt_gl-widget-random-term.class.php' );
         add_action( 'widgets_init', array($this, 'widgets_init') );
     }
 
     public function widgets_init(){
-        register_widget( 'wpg2_RandomTerm' );
+        register_widget( 'ithoughts_tt_gl_RandomTerm' );
     }
 
     public function register_scripts_and_styles(){
@@ -80,10 +80,10 @@ class wpg2{
         $qtiptrigger = isset( $options['qtiptrigger'] ) ? $options['qtiptrigger']: 'hover';
         //wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/qtip.js', array('jquery') );
         wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/jquery.qtip.js',        array('jquery') );
-        wp_register_script( 'wp-glossary-2-qtip',  $this->base_url() . '/js/wp-glossary-2-qtip2.js', array('jquery-tooltip') );
-        wp_register_script( 'wp-glossary-2-atoz',  $this->base_url() . '/js/wp-glossary-2-atoz.js',  array('jquery') );
+        wp_register_script( 'ithoughts-tooltip-glossary-qtip',  $this->base_url() . '/js/ithoughts-tooltip-glossary-qtip2.js', array('jquery-tooltip') );
+        wp_register_script( 'ithoughts-tooltip-glossary-atoz',  $this->base_url() . '/js/ithoughts-tooltip-glossary-atoz.js',  array('jquery') );
         // qTip localisation settings
-        wp_localize_script( 'wp-glossary-2-qtip', 'wpg2', array(
+        wp_localize_script( 'ithoughts-tooltip-glossary-qtip', 'ithoughts_tt_gl', array(
             'admin_ajax'  => admin_url('admin-ajax.php'),
             'qtipstyle'   => $qtipstyle,
             'qtiptrigger' => $qtiptrigger,
@@ -94,32 +94,32 @@ class wpg2{
     }
 
     public function wp_footer(){
-        global $tcb_wpg2_scripts;
-        if( !$tcb_wpg2_scripts ) return;
+        global $tcb_ithoughts_tt_gl_scripts;
+        if( !$tcb_ithoughts_tt_gl_scripts ) return;
 
-        wp_print_scripts( 'wp-glossary-2-qtip' );
-        wp_print_scripts( 'wp-glossary-2-atoz' );
+        wp_print_scripts( 'ithoughts-tooltip-glossary-qtip' );
+        wp_print_scripts( 'ithoughts-tooltip-glossary-atoz' );
     }
 
     public function wp_enqueue_scripts(){
-        if( file_exists(get_stylesheet_directory() . '/wp-glossary-2.css') ):
-        wp_enqueue_style( 'wp-glossary-2-css', get_stylesheet_directory_uri() . '/wp-glossary-2.css' );
+        if( file_exists(get_stylesheet_directory() . '/ithoughts-tooltip-glossary.css') ):
+        wp_enqueue_style( 'ithoughts-tooltip-glossary-css', get_stylesheet_directory_uri() . '/ithoughts-tooltip-glossary.css' );
         else :
-        wp_enqueue_style( 'wp-glossary-2-css', $this->base_url() . '/css/wp-glossary-2.css' );
+        wp_enqueue_style( 'ithoughts-tooltip-glossary-css', $this->base_url() . '/css/ithoughts-tooltip-glossary.css' );
         endif;
-        wp_enqueue_style( 'wp-glossary-2-qtip-css', $this->base_url() . '/ext/jquery.qtip.css' );
+        wp_enqueue_style( 'ithoughts-tooltip-glossary-qtip-css', $this->base_url() . '/ext/jquery.qtip.css' );
     }
 
     public function admin_enqueue_scripts(){
-        wp_enqueue_style( 'wp-glossary-2-admin', $this->base_url() . '/css/wp-glossary-2-admin.css' );
+        wp_enqueue_style( 'ithoughts-tooltip-glossary-admin', $this->base_url() . '/css/ithoughts-tooltip-glossary-admin.css' );
         wp_enqueue_script( 'simple-ajax' );
     }
 
-    public function wpg2_vesion_check(){
-        $plugin = get_plugin_data( dirname(dirname(__FILE__)) . '/wp-glossary-2.php' );
+    public function ithoughts_tt_gl_vesion_check(){
+        $plugin = get_plugin_data( dirname(dirname(__FILE__)) . '/ithoughts-tooltip-glossary.php' );
         if( $plugin && is_array($plugin) && $plugin['Version'] ):
         $in_file_version = $plugin['Version'];
-        $optionkey       = 'wpg2_vesion_check';
+        $optionkey       = 'ithoughts_tt_gl_vesion_check';
         $in_db_version   = get_option( $optionkey, 0 );
 
         $version_diff = version_compare( $in_db_version, $in_file_version );
@@ -127,7 +127,7 @@ class wpg2{
             return; // No change
 
         flush_rewrite_rules( $hard=true );
-        do_action( 'wpg2_version_check', $in_file_version, $in_db_version );
+        do_action( 'ithoughts_tt_gl_version_check', $in_file_version, $in_db_version );
         update_option( $optionkey, $in_file_version );
         endif;
     }
@@ -136,7 +136,7 @@ class wpg2{
 	 * Order post and taxonomy archives alphabetically
 	 */
     public function order_core_archive_list( $query ){
-        if( is_post_type_archive("glossary") || is_tax('wpg2lossarygroup') ):
+        if( is_post_type_archive("glossary") || is_tax('ithoughts_tt_gllossarygroup') ):
         $glossary_options = get_option( 'wp_glossary_2' );
         $archive          = $glossary_options['alphaarchive'] ? $glossary_options['alphaarchive'] : 'standard';
         if( $archive == 'alphabet' ):
@@ -150,7 +150,7 @@ class wpg2{
     /** 
 	 * Translation support
 	 */
-    public function wpg2_term_link( $url ){
+    public function ithoughts_tt_gl_term_link( $url ){
         // qTranslate plugin
         if( function_exists('qtrans_convertURL') ):
         $url = qtrans_convertURL( $url );

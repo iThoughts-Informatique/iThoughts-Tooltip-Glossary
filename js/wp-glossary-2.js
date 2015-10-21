@@ -25,7 +25,7 @@ jQuery(document).ready(function($){
     $(window).scrollTop(lastPos);
     location.hash = alpha;
     $('.atoz-clickable').filter(function(i){return $(this).data('alpha') == alpha;}).click();
-		$('.wpg2-please-select').hide();
+		$('.ithoughts_tt_gl-please-select').hide();
   });
 
   // Page load hash management:
@@ -39,10 +39,10 @@ jQuery(document).ready(function($){
     //myAlpha = $('.atoz-clickable:eq(0)').data('alpha');
 		$('.atoz-clickable').removeClass('atozmenu-on').addClass('atozmenu-off');
 		$('.glossary-list').removeClass('atozitems-on').addClass('atozitems-off');
-		$('.wpg2-please-select').show();
+		$('.ithoughts_tt_gl-please-select').show();
 	}
   if( myAlpha.length ){
-		$('.wpg2-please-select').hide();
+		$('.ithoughts_tt_gl-please-select').hide();
     $('.atoz-clickable').filter(function(i){return $(this).data('alpha') == myAlpha;}).click();
 	}
 

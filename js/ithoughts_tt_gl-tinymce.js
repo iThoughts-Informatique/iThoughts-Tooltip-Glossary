@@ -8,7 +8,7 @@
         };
     };
 
-    tinymce.PluginManager.add('wpg2tinymce', function(editor, url) {
+    tinymce.PluginManager.add('ithoughts_tt_gltinymce', function(editor, url) {
         // Add a button that opens a window
         editor.addButton('glossaryterm', {
             title : 'Add a Glossary Term',
@@ -25,7 +25,7 @@
         });
 
         //CSS
-        editor.contentCSS.push(url + "/../css/wp-glossary-2-admin.css");
+        editor.contentCSS.push(url + "/../css/ithoughts-tooltip-glossary-admin.css");
 
         eddd = editor;
         //fcts
@@ -48,7 +48,7 @@
             sel = editor.selection;
             if(sel.getStart() === sel.getEnd()){
                 console.log("Same");
-                if(sel.getStart().getAttribute("data-type") == "wp-glossary-2-atoz"){ // Is atoz
+                if(sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-atoz"){ // Is atoz
                     console.log("atoz");
                     mode = "complete";
                     values.type=1;
@@ -56,7 +56,7 @@
                         alpha: sel.getStart().getAttribute("data-alpha"),
                         group: sel.getStart().getAttribute("data-group")
                     };
-                } else if(sel.getStart().getAttribute("data-type") == "wp-glossary-2-term_list"){ // Is term_list
+                } else if(sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-term_list"){ // Is term_list
                     console.log("term_list");
                     mode = "complete";
                     values.type=0;
@@ -200,7 +200,7 @@
             var mode = "";
 
             sel = editor.selection;
-            if(sel.getStart() === sel.getEnd() && sel.getStart().getAttribute("data-type") == "wp-glossary-2-term"){ // On Glossary Term, load data
+            if(sel.getStart() === sel.getEnd() && sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-term"){ // On Glossary Term, load data
                 mode = "complete";
                 values = {content:sel.getStart().textContent, slug: sel.getStart().getAttribute("data-slug") || sel.getStart().textContent};
             } else { //Create new glossary term
@@ -271,11 +271,11 @@
         });
 
         editor.onNodeChange.add(function(ed, cm, e) {
-            if(e.getAttribute("data-type") == "wp-glossary-2-term")
+            if(e.getAttribute("data-type") == "ithoughts-tooltip-glossary-term")
                 editor.fire('glossaryterm', {active: true});
             else
                 editor.fire('glossaryterm', {active: false});
-            if(e.getAttribute("data-type") == "wp-glossary-2-term_list" || e.getAttribute("data-type") == "wp-glossary-2-atoz")
+            if(e.getAttribute("data-type") == "ithoughts-tooltip-glossary-term_list" || e.getAttribute("data-type") == "ithoughts-tooltip-glossary-atoz")
                 editor.fire('glossarylist', {active: true});
             else
                 editor.fire('glossarylist', {active: false});
@@ -292,7 +292,7 @@ replaceShortcodesEl = [
             while (matched = regex.exec(inner)) {
                 attrs[matched[1]] = matched[2];
             }
-            var ret = "<a data-type=\"wp-glossary-2-term\"";
+            var ret = "<a data-type=\"ithoughts-tooltip-glossary-term\"";
             for(var i in attrs){
                 ret += " data-"+window.encodeURIComponent(i)+"=\""+window.encodeURIComponent(attrs[i])+"\"";
             }
@@ -307,7 +307,7 @@ replaceShortcodesEl = [
             while (matched = regex.exec(attrStr)) {
                 attrs[matched[1]] = matched[2];
             }
-            var ret = "<span data-type=\"wp-glossary-2-"+type+"\"";
+            var ret = "<span data-type=\"ithoughts-tooltip-glossary-"+type+"\"";
             for(var i in attrs){
                 ret += " data-"+window.encodeURIComponent(i)+"=\""+window.encodeURIComponent(attrs[i])+"\"";
             }
@@ -317,7 +317,7 @@ replaceShortcodesEl = [
 ];
 restoreShortcodesEl = [
     function(content){ // For [glossary]
-        return content.replace( /<a\s+data-type="wp-glossary-2-term"(.*?)>(.*?)<\/a>/g, function( all,inner, text){
+        return content.replace( /<a\s+data-type="ithoughts-tooltip-glossary-term"(.*?)>(.*?)<\/a>/g, function( all,inner, text){
             var attrs = {};
             var regex = /data-([\w\d\-]+?)="(.+?)"/g;
             var matched = null;
@@ -332,7 +332,7 @@ restoreShortcodesEl = [
         });
     },
     function(content){ // For [glossary_(term_list|atoz)]
-        return content.replace( /<span\s+data-type="wp-glossary-2-(term_list|atoz)"(.*?)>.*<\/span>/g, function( all,type, attrStr){
+        return content.replace( /<span\s+data-type="ithoughts-tooltip-glossary-(term_list|atoz)"(.*?)>.*<\/span>/g, function( all,type, attrStr){
             var attrs = {};
             var regex = /data-([\w\d\-]+?)="(.+?)"/g;
             var matched = null;

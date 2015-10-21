@@ -6,17 +6,17 @@
                      || navigator.userAgent.match(/iPod/i)
                      || navigator.userAgent.match(/BlackBerry/i) ) ? 1 : 0;
     $(document).ready(function(){
-        console.log($('a[data-wpg2-glossary-slug]'));
-        $('span[class*=wpg2-tooltip]').each(function(){
-            var ajaxPostData = $.extend( {action: 'wpg2_get_term_details'}, $(this).data() );
+        console.log($('a[data-ithoughts_tt_gl-glossary-slug]'));
+        $('span[class*=ithoughts_tt_gl-tooltip]').each(function(){
+            var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details'}, $(this).data() );
             var qtipstyle    = $(this).data('qtipstyle');
 
             // If set to click, disable glossary link
-            if( wpg2.qtiptrigger == 'click' ){
+            if( ithoughts_tt_gl.qtiptrigger == 'click' ){
                 $(this).children('a').click(function(e){
                     e.preventDefault();
                 });
-            } else if( wpg2.qtiptrigger == 'responsive' ){
+            } else if( ithoughts_tt_gl.qtiptrigger == 'responsive' ){
                 var self = $(this);
                 self.touch = baseTouch;
 
@@ -53,7 +53,7 @@
                 content: {
                     text: 'Loading glossary term',
                     ajax: {
-                        url     : wpg2.admin_ajax,
+                        url     : ithoughts_tt_gl.admin_ajax,
                         type    : 'POST',
                         data    : ajaxPostData,
                         dataType: 'json',
@@ -77,11 +77,11 @@
                     effect  : false            // Disable positioning animation
                 },
                 show: {
-                    event: wpg2.qtiptrigger,
+                    event: ithoughts_tt_gl.qtiptrigger,
                     solo:  true // Only show one tooltip at a time
                 },
                 //hide: 'unfocus',
-                hide: (wpg2.qtiptrigger == 'responsive') ? "responsiveout" : 'mouseleave',
+                hide: (ithoughts_tt_gl.qtiptrigger == 'responsive') ? "responsiveout" : 'mouseleave',
                 style: { 
                     classes: 'qtip-'+qtipstyle+' qtip-shadow qtip-rounded'
                 }

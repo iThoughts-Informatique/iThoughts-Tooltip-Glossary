@@ -1,5 +1,5 @@
 <?php
-class wpg2_Shortcodes Extends wpg2{
+class ithoughts_tt_gl_Shortcodes Extends ithoughts_tt_gl{
     public static $options;
 
     public function __construct() {
@@ -17,13 +17,13 @@ class wpg2_Shortcodes Extends wpg2{
     }
 
     public function parse_pseudo_links_to_shortcode( $data ){
-        $data['post_content'] = preg_replace('/<a\s+?data-wpg2-glossary-slug=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[glossary slug="$1"]$2[/glossary]', $data['post_content']);
+        $data['post_content'] = preg_replace('/<a\s+?data-ithoughts_tt_gl-glossary-slug=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[glossary slug="$1"]$2[/glossary]', $data['post_content']);
         return $data;
     }
 
     public function convert_shortcodes($post_id){
         $post = get_post($post_id);
-        $post->post_content = preg_replace('/\[glossary(.*?)(?: slug="(.+?)")(.*?)\](.+?)\[\/glossary\]/', '<a data-wpg2-glossary-slug="$2" $1 $3>$4</a>', $post->post_content);
+        $post->post_content = preg_replace('/\[glossary(.*?)(?: slug="(.+?)")(.*?)\](.+?)\[\/glossary\]/', '<a data-ithoughts_tt_gl-glossary-slug="$2" $1 $3>$4</a>', $post->post_content);
         return $post;
     }
 
@@ -39,12 +39,12 @@ class wpg2_Shortcodes Extends wpg2{
 
         if( !wp_is_post_revision($post_id)  ):
         if( strpos($post->post_content,'[glossary ') !== false || strpos($post->post_content,'[glossary]') !== false ):
-        update_post_meta( $post_id, 'wpg2_update_term_usage', current_time('mysql') );
+        update_post_meta( $post_id, 'ithoughts_tt_gl_update_term_usage', current_time('mysql') );
         else :
-        if(get_post_meta( $post_id, 'wpg2_has_terms', $single=true) ):
+        if(get_post_meta( $post_id, 'ithoughts_tt_gl_has_terms', $single=true) ):
         // Also posts that used to have terms should be updated.
-        delete_post_meta( $post_id, 'wpg2_has_terms' );
-        update_post_meta( $post_id, 'wpg2_update_term_usage', current_time('mysql') );
+        delete_post_meta( $post_id, 'ithoughts_tt_gl_has_terms' );
+        update_post_meta( $post_id, 'ithoughts_tt_gl_update_term_usage', current_time('mysql') );
         endif;
         endif;
         endif;
@@ -58,14 +58,14 @@ class wpg2_Shortcodes Extends wpg2{
 	 */
     public function glossary_usage_reset_for_post(){
         global $post;
-        if( is_singular() && get_post_meta( $post->ID, 'wpg2_update_term_usage') ):
+        if( is_singular() && get_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage') ):
         // Find all glossary terms that have this post noted.
         $args = array(
             'post_type'   => self::$options["termtype"],
             'numberposts' => -1,
             'post_status' => 'publish',
             'meta_query'  => array( array(
-                'key'   => 'wpg2_term_used',
+                'key'   => 'ithoughts_tt_gl_term_used',
                 'value' => $post->ID,
                 'type'  => 'DECIMAL'
             ) )
@@ -73,7 +73,7 @@ class wpg2_Shortcodes Extends wpg2{
         $terms = get_posts( $args );
         foreach( $terms as $term ):
         // Delete the meta entry
-        delete_post_meta( $term->ID, 'wpg2_term_used', $post->ID );
+        delete_post_meta( $term->ID, 'ithoughts_tt_gl_term_used', $post->ID );
         endforeach;
         endif;
     }
@@ -81,15 +81,15 @@ class wpg2_Shortcodes Extends wpg2{
     /** */
     public function glossary_remove_update_marker(){
         global $post;
-        if( is_singular() && get_post_meta( $post->ID, 'wpg2_update_term_usage') ):
-        delete_post_meta( $post->ID, 'wpg2_update_term_usage' );
+        if( is_singular() && get_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage') ):
+        delete_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage' );
         endif;
     }
 
     /** */
     public function glossary( $atts, $content='' ){
-        global $wpdb, $tcb_wpg2_scripts, $wpg2_glossary_count, $post, $wpg2_doing_shortcode;
-        $wpg2_glossary_count++;
+        global $wpdb, $tcb_ithoughts_tt_gl_scripts, $ithoughts_tt_gl_glossary_count, $post, $ithoughts_tt_gl_doing_shortcode;
+        $ithoughts_tt_gl_glossary_count++;
 
         // Get WP Glossary options
         $glossary_options = get_option( 'wp_glossary_2', array() );
@@ -141,13 +141,13 @@ class wpg2_Shortcodes Extends wpg2{
         if( empty($glossary) ) return $text; // No glossary term found. Return the original text.
 
         // Term Usage
-        if( $termusage && $termusage == 'on' && !$wpg2_doing_shortcode ):
-        if( get_post_meta( $post->ID, 'wpg2_update_term_usage') ):
-        if( !in_array($post->ID, get_post_meta($glossary->ID, 'wpg2_term_used')) ):
+        if( $termusage && $termusage == 'on' && !$ithoughts_tt_gl_doing_shortcode ):
+        if( get_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage') ):
+        if( !in_array($post->ID, get_post_meta($glossary->ID, 'ithoughts_tt_gl_term_used')) ):
         // Note this post against the glossary
-        add_post_meta( $glossary->ID, 'wpg2_term_used', $post->ID );
+        add_post_meta( $glossary->ID, 'ithoughts_tt_gl_term_used', $post->ID );
         // Note this post/page has glossary terms
-        update_post_meta( $post->ID, 'wpg2_has_terms', current_time('mysql') );
+        update_post_meta( $post->ID, 'ithoughts_tt_gl_has_terms', current_time('mysql') );
         endif;
         endif;
         endif;
@@ -159,15 +159,15 @@ class wpg2_Shortcodes Extends wpg2{
 
         $link = $text; // Set to just plain text (used if 'none' linkopt set in settings)
         if( $linkopt != 'none' ):
-        $href   = apply_filters( 'wpg2_term_link', get_post_permalink($glossary->ID) );
+        $href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($glossary->ID) );
         $target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
         $link   = '<a href="' . $href . '" ' . $target . ' title="' . esc_attr($title) . '">' . $text . '</a>';
         endif;
 
-        $span = '<span class="wp-glossary-2">' . $link . '</span>'; // Trivial default when tooltips switched off.
+        $span = '<span class="ithoughts-tooltip-glossary">' . $link . '</span>'; // Trivial default when tooltips switched off.
         if( $tooltip_option != 'off' ):
         // Global variable that tells WP to print related js files.
-        $tcb_wpg2_scripts = true;
+        $tcb_ithoughts_tt_gl_scripts = true;
 
         // qtip jquery data
         $jsdata[] = 'data-termid="' . $glossary->ID . '"';
@@ -175,7 +175,7 @@ class wpg2_Shortcodes Extends wpg2{
         $jsdata[] = 'data-qtipstyle="' . $qtipstyle . '"';
 
         // Span that qtip finds
-        $span = '<span class="wp-glossary-2 wpg2-tooltip" '.implode(' ',$jsdata).'>' . $link . '</span>';
+        $span = '<span class="ithoughts-tooltip-glossary ithoughts_tt_gl-tooltip" '.implode(' ',$jsdata).'>' . $link . '</span>';
         endif;
 
         return $span;
