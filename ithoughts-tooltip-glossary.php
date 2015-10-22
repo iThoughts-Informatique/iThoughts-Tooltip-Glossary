@@ -1,5 +1,13 @@
 <?php
-
+/*
+Plugin Name: iThoughts Tooltip Glossary
+Plugin URI:  http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
+Description: Create beautiful tooltips for descriptions or glossary terms easily
+Version:     0.1
+Author:      Gerkin
+License:     GPLv2 or later
+Domain Path: /lang
+*/
 
 global $ithoughts_tt_gl_glossary_count, $ithoughts_tt_gl_doing_shortcode;
 $ithoughts_tt_gl_glossary_count = 0;
@@ -16,7 +24,7 @@ new ithoughts_tt_gl_Admin( dirname(__FILE__) );
 
 // add_action( 'admin_init', 'tcb_ithoughts_tt_gl_test' );
 function tcb_ithoughts_tt_gl_test(){
-        $options = get_option( 'wp_glossary_2' );
+        $options = get_option( 'ithoughts_tt_gl' );
         $options["termtype"] = $options["termtype"] || "glossary";
 	if( $prefix = $_GET['populate'] ):
 		for( $i = 1; $i < 99; $i++ ):

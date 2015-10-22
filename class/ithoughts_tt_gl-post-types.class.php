@@ -6,7 +6,7 @@ class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
     public static $options;
 
     public function __construct() {
-        self::$options = get_option( 'wp_glossary_2' );
+        self::$options = get_option( 'ithoughts_tt_gl' );
         self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
         add_action( 'init', array($this, 'register_post_types') );
     }
@@ -37,7 +37,7 @@ class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
         ) );
         if(self::$options["needflush"]){
             self::$options["needflush"] = false;
-            update_option( 'wp_glossary_2', self::$options );
+            update_option( 'ithoughts_tt_gl', self::$options );
             flush_rewrite_rules(false);
         }
 
@@ -153,7 +153,7 @@ class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
         global $post, $wp_query;
 
         if( $is_main_query && is_single() && "glossary"==get_post_type() ) :
-        $options = get_option( 'wp_glossary_2', array() );
+        $options = get_option( 'ithoughts_tt_gl', array() );
 
         if( $reference = get_post_meta($post->ID, 'tcbithoughts_tt_gl_reference', $single=true) ):
         extract( $reference );

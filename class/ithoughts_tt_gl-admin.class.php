@@ -11,6 +11,7 @@ class ithoughts_tt_gl_Admin{
         self::$base_url = plugins_url( '', dirname(__FILE__) );
 
 
+        add_action( 'admin_menu',                 array(&$this, 'get_menu') );
         add_action( 'admin_menu',                 array(&$this, 'options_submenu') );
 
         add_action( 'wp_ajax_ithoughts_tt_gl_update_options', array(&$this, 'update_options') );
@@ -67,13 +68,17 @@ class ithoughts_tt_gl_Admin{
     }
 
 
+    public function get_menu(){
+        $slug             = 'glossary';
+        add_menu_page("iThoughts Tooltip Glossary", "Tooltip Glossary", "None", "edit.php?post_type=$slug", "menu");
+    }
     public function options_submenu(){
         $slug             = 'glossary';
         // Add menu page (capture page for adding admin style and javascript
         $glossary_options = add_submenu_page( 
             "edit.php?post_type=$slug", 
-            __( 'Glossary Options', 'ithoughts-tooltip-glossary' ), 
-            __( 'Glossary Options', 'ithoughts-tooltip-glossary' ), 
+            __( 'iThoughts Tooltip Glossary', 'ithoughts-tooltip-glossary' ), 
+            __( 'Tooltip Glossary', 'ithoughts-tooltip-glossary' ), 
             'manage_options', 
             'glossary-options', 
             array($this, 'options')
@@ -82,7 +87,7 @@ class ithoughts_tt_gl_Admin{
 
     public function options(){
         $ajax         = admin_url( 'admin-ajax.php' );
-        $options      = get_option( 'wp_glossary_2', array() );
+        $options      = get_option( 'ithoughts_tt_gl', array() );
         $tooltips     = isset( $options['tooltips'] )     ? $options['tooltips']     : 'excerpt';
         $alphaarchive = isset( $options['alphaarchive'] ) ? $options['alphaarchive'] : 'standard';
         $termtype     = isset( $options['termtype'] )     ? $options['termtype']     : 'glossary';
@@ -222,7 +227,7 @@ class ithoughts_tt_gl_Admin{
             'qtiptrigger'  => 'hover'
         );
 
-        $glossary_options = get_option( 'wp_glossary_2', $defaults );
+        $glossary_options = get_option( 'ithoughts_tt_gl', $defaults );
 
         $glossary_options_old = $glossary_options;
         foreach( $defaults as $key => $default ){
@@ -238,7 +243,7 @@ class ithoughts_tt_gl_Admin{
             flush_rewrite_rules(false);
             $outtxt .= "<p>" . __( 'Rewrite rule flushed', 'ithoughts-tooltip-glossary' ) . "</p>";
         }
-        update_option( 'wp_glossary_2', $glossary_options );
+        update_option( 'ithoughts_tt_gl', $glossary_options );
 
         $outtxt .='<p>' . __('Glossary options updated', 'ithoughts-tooltip-glossary') . '</p>' ;
         die( $outtxt );

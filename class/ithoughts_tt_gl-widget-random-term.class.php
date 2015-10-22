@@ -3,7 +3,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
     public static $options;
     
 	public function __construct() {
-        self::$options = get_option( 'wp_glossary_2' );
+        self::$options = get_option( 'ithoughts_tt_gl' );
         self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
 		parent::__construct(
 			'ithoughts_tt_gl-random-term',

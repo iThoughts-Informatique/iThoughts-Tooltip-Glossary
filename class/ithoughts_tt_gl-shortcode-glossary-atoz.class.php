@@ -3,7 +3,7 @@ class ithoughts_tt_gl_Shortcode_ATOZ Extends ithoughts_tt_gl{
     public static $options;
 
     public function __construct() {
-        self::$options = get_option( 'wp_glossary_2' );
+        self::$options = get_option( 'ithoughts_tt_gl' );
         self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
         add_shortcode( 'glossary_atoz', array($this, 'glossary_atoz') );
     }
@@ -12,7 +12,7 @@ class ithoughts_tt_gl_Shortcode_ATOZ Extends ithoughts_tt_gl{
         global $post, $tcb_ithoughts_tt_gl_scripts;
         extract( shortcode_atts(array('group'=>false,'desc'=>false), $atts) );
 
-        $glossary_options = get_option( 'wp_glossary_2', array() );
+        $glossary_options = get_option( 'ithoughts_tt_gl', array() );
         // Let shortcode attributes override general settings
         foreach( $glossary_options as $k => $v ){
             if( isset($atts[$k]) ){

@@ -40,7 +40,7 @@ class ithoughts_tt_gl_Shortcode_TERMLIST Extends ithoughts_tt_gl{
 
         $jsdata = array(); // Not used yet
 
-        $glossary_options = get_option( 'wp_glossary_2', array() );
+        $glossary_options = get_option( 'ithoughts_tt_gl', array() );
         foreach( $glossary_options as $k => $v ){
             if( isset($atts[$k]) ){
                 $jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';

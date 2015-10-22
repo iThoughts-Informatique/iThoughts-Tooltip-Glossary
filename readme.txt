@@ -1,18 +1,18 @@
 === iThoughts Tooltip Glossary ===
-Contributors: tcbarrett, Gerkin
-Plugin URL:     English:    http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
-                French:     http://www.gerkindevelopment.net/portfolio/ithoughts-tooltip-glossary/
+Contributors: Gerkin, tcbarrett
+Plugin URL: http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup
 Requires at least: 3.0
 Tested up to: 4.3.1
-Stable tag: 3.1.1.2-1.0
+Stable tag: 0.1
 License: GPLv2 or later
 
-Create your own glossary of hot-linked terms, inside your own site!
-This plugin is a fork from the inactive plugin "WP Glossary" by tcbarrett. The whole base plugin is from him, I just did some improvements. For any bugs, please post on my blog's [iThoughts Tooltip Glossary page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/), as I'll be able to bring corrections and improvements.
+Create beautiful tooltips for descriptions or glossary terms easily
 
 == Description ==
+
+This plugin is a fork from the inactive plugin "WP Glossary v3.1.1.2" by tcbarrett. The whole base plugin is from him, I just did some improvements. For any bugs, please post on my blog's [iThoughts Tooltip Glossary page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/), as I'll be able to bring corrections and improvements.
 
 Build a glossary on your site, and link terms in your posts to it with tooltips.
 
@@ -70,55 +70,17 @@ You have to add the terms (Glossary Terms > Add New Term) and then use the appro
 
 == Changelog ==
 
-= 3.1.1.2-1.0 =
+= 0.1 =
 * NEW Added "Responsive" 'qtiptrigger', which is "hover"/"focus" on computers, and "click" on touch devices.
 * NEW Added ability to set the main glossary page url, which is also the term prefix (http://www.yourblog.com/*whatever*/...)
 * UPD Group terms in ATOZ even with accents. "ù" will be in "U" section.
 * UPD Clean some useless files
 
-= 3.1.1.2 =
-* NEW Slovak translation (thank you I J Kleban)
-
-= 3.1.1 =
-* UPD Added usage title filter
-* FIX save_post param check
-* FIX i18n (props @otto42)
-
-= 3.1 =
-* NEW Option 'qtiptrigger' hover/click
-* UPD Updated to qTip 2.1.1
-* UPD Tidied admin
-
-= 3.0.1 =
-* FIX Options menu
-
-= 3.0 =
-* NEW Now using qTip2
-* NEW Tooltips AJAX powered
-* NEW Support for private terms
-* NEW Support for overriding options with shortcode atts for list and atoz
-* FIX Handle nested shortcode terms
-* UPD Minor markup updates
+= 0.0 =
+* Please see previous changes from the old plugin [here](https://wordpress.org/plugins/wp-glossary/changelog/)
 
 
 == Upgrade Notice ==
-
-= 3.0 =
-* Tooltips handled very differently
-
-= 2.3 =
-* Glossary term details page now displays term usage.
-* Glossary group taxonomy slug changed (make sure your permalinks are saved).
-
-= 2.1 =
-Changes the default tooltip style (now used qTip)
-
-= 1.2 =
-Adds a the_content filter to glossary term single page
-
-= 1.0 =
-Version 0.1 rewrite flush was for dev purposes only and may have broken other re-writes. Please save your permalinks after upgrading.
-
 
 == Example Syntax ==
 

@@ -13,7 +13,7 @@ class ithoughts_tt_gl{
     function __construct( $plugin_base ) {
         self::$base     = $plugin_base . '/class';
         self::$base_url = plugins_url( '', dirname(__FILE__) );
-        self::$options = get_option( 'wp_glossary_2' );
+        self::$options = get_option( 'ithoughts_tt_gl' );
         self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
         self::$options["singletype"] = is_string(self::$options["singletype"]) ? self::$options["singletype"] : "single";
         self::$options["archivetype"] = is_string(self::$options["archivetype"]) ? self::$options["archivetype"] : "archive";
@@ -74,7 +74,7 @@ class ithoughts_tt_gl{
     }
 
     public function register_scripts_and_styles(){
-        $options     = get_option( 'wp_glossary_2', array() );
+        $options     = get_option( 'ithoughts_tt_gl', array() );
 
         $qtipstyle   = isset( $options['qtipstyle'] )   ? $options['qtipstyle']:   'cream';
         $qtiptrigger = isset( $options['qtiptrigger'] ) ? $options['qtiptrigger']: 'hover';
@@ -137,7 +137,7 @@ class ithoughts_tt_gl{
 	 */
     public function order_core_archive_list( $query ){
         if( is_post_type_archive("glossary") || is_tax('ithoughts_tt_gllossarygroup') ):
-        $glossary_options = get_option( 'wp_glossary_2' );
+        $glossary_options = get_option( 'ithoughts_tt_gl' );
         $archive          = $glossary_options['alphaarchive'] ? $glossary_options['alphaarchive'] : 'standard';
         if( $archive == 'alphabet' ):
         $query->set( 'orderby', 'title' );

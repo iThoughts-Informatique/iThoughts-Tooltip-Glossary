@@ -3,7 +3,7 @@ class ithoughts_tt_gl_Shortcodes Extends ithoughts_tt_gl{
     public static $options;
 
     public function __construct() {
-        self::$options = get_option( 'wp_glossary_2' );
+        self::$options = get_option( 'ithoughts_tt_gl' );
         self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
         // Shortcode
         add_shortcode( "glossary", array(&$this, "glossary") );
@@ -31,7 +31,7 @@ class ithoughts_tt_gl_Shortcodes Extends ithoughts_tt_gl{
 	 * If post has glossary shortcode in it when it is saved, mark the post as needing be updated
 	 */
     public function save_post_check_for_glossary_usage( $post_id, $post ){
-        $glossary_options = get_option( 'wp_glossary_2' );
+        $glossary_options = get_option( 'ithoughts_tt_gl' );
         $termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
         if( $termusage != 'on' )
@@ -92,7 +92,7 @@ class ithoughts_tt_gl_Shortcodes Extends ithoughts_tt_gl{
         $ithoughts_tt_gl_glossary_count++;
 
         // Get WP Glossary options
-        $glossary_options = get_option( 'wp_glossary_2', array() );
+        $glossary_options = get_option( 'ithoughts_tt_gl', array() );
 
         // JS data to pass through to jQuery libraries
         $jsdata = array();

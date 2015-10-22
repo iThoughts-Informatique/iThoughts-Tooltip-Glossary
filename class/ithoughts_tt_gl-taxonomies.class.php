@@ -6,7 +6,7 @@ class ithoughts_tt_gl_Taxonomies Extends ithoughts_tt_gl{
     public static $options;
     
  	public function __construct() {
-        self::$options = get_option( 'wp_glossary_2' );
+        self::$options = get_option( 'ithoughts_tt_gl' );
         self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
 		add_action( 'init', array(&$this, 'register_taxonomies'), 0 );
 	}
@@ -25,13 +25,13 @@ class ithoughts_tt_gl_Taxonomies Extends ithoughts_tt_gl{
 			'new_item_name'     => __( 'New Glossary Group Name', 'ithoughts-tooltip-glossary' ),
 		);
 	
-		register_taxonomy( 'ithoughts_tt_gllossarygroup', array( self::$options["termtype"] ), array(
+		register_taxonomy( 'ithoughts_tt_gl', array( self::$options["termtype"] ), array(
 			'hierarchical'      => false,
 			'labels'            => $labels,
 			'show_ui'           => true,
 			'query_var'         => true,
 			'show_admin_column' => true,
-			'rewrite'           => array( 'slug' => __('glossary/group', 'ithoughts-tooltip-glossary') ),
+			'rewrite'           => array( 'slug' => __(self::$options["termtype"].'/group', 'ithoughts-tooltip-glossary') ),
 		) );
 	} // register_taxonomies
 } // ithoughts_tt_gl_Taxonomies
