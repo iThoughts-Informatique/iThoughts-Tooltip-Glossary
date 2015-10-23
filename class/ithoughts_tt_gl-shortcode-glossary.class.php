@@ -91,7 +91,7 @@ class ithoughts_tt_gl_Shortcodes Extends ithoughts_tt_gl{
         global $wpdb, $tcb_ithoughts_tt_gl_scripts, $ithoughts_tt_gl_glossary_count, $post, $ithoughts_tt_gl_doing_shortcode;
         $ithoughts_tt_gl_glossary_count++;
 
-        // Get WP Glossary options
+        // Get iThoughts Tooltip Glossary options
         $glossary_options = get_option( 'ithoughts_tt_gl', array() );
 
         // JS data to pass through to jQuery libraries

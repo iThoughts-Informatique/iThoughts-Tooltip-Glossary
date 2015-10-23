@@ -12,7 +12,6 @@ class ithoughts_tt_gl_Admin{
 
 
         add_action( 'admin_menu',                 array(&$this, 'get_menu') );
-        add_action( 'admin_menu',                 array(&$this, 'options_submenu') );
 
         add_action( 'wp_ajax_ithoughts_tt_gl_update_options', array(&$this, 'update_options') );
 
@@ -69,20 +68,66 @@ class ithoughts_tt_gl_Admin{
 
 
     public function get_menu(){
-        $slug             = 'glossary';
-        add_menu_page("iThoughts Tooltip Glossary", "Tooltip Glossary", "None", "edit.php?post_type=$slug", "menu");
-    }
-    public function options_submenu(){
-        $slug             = 'glossary';
-        // Add menu page (capture page for adding admin style and javascript
-        $glossary_options = add_submenu_page( 
-            "edit.php?post_type=$slug", 
-            __( 'iThoughts Tooltip Glossary', 'ithoughts-tooltip-glossary' ), 
-            __( 'Tooltip Glossary', 'ithoughts-tooltip-glossary' ), 
-            'manage_options', 
-            'glossary-options', 
-            array($this, 'options')
+        $menu = add_menu_page("iThoughts Tooltip Glossary", "Tooltip Glossary", "edit_others_posts", "ithought-tooltip-glossary", null, "icon");
+        $submenu_pages = array(
+            // Options
+            array(
+                'parent_slug'   => 'ithought-tooltip-glossary',
+                'page_title'    => __( 'Options', 'ithoughts-tooltip-glossary' ),
+                'menu_title'    => __( 'Options', 'ithoughts-tooltip-glossary' ),
+                'capability'    => 'manage_options',
+                'menu_slug'     => 'ithought-tooltip-glossary',
+                'function'      => array($this, 'options'),
+            ),
+
+            // Post Type :: View All Posts
+            array(
+                'parent_slug'   => 'ithought-tooltip-glossary',
+                'page_title'    => __('Glossary Terms', 'ithoughts-tooltip-glossary' ),
+                'menu_title'    => __('Glossary Terms', 'ithoughts-tooltip-glossary' ),
+                'capability'    => 'edit_others_posts',
+                'menu_slug'     => 'edit.php?post_type=glossary',
+                'function'      => null,// Doesn't need a callback function.
+            ),
+
+            // Post Type :: Add New Post
+            array(
+                'parent_slug'   => 'ithought-tooltip-glossary',
+                'page_title'    => __('Add a Term', 'ithoughts-tooltip-glossary' ),
+                'menu_title'    => __('Add a Term', 'ithoughts-tooltip-glossary' ),
+                'capability'    => 'edit_others_posts',
+                'menu_slug'     => 'post-new.php?post_type=glossary',
+                'function'      => null,// Doesn't need a callback function.
+            ),
+
+            // Taxonomy :: Manage News Categories
+            array(
+                'parent_slug'   => 'ithought-tooltip-glossary',
+                'page_title'    => __('Glossary Groups', 'ithoughts-tooltip-glossary' ),
+                'menu_title'    => __('Glossary Groups', 'ithoughts-tooltip-glossary' ),
+                'capability'    => 'manage_categories',
+                'menu_slug'     => 'edit-tags.php?taxonomy=glossary_group&post_type=glossary',
+                'function'      => null,// Doesn't need a callback function.
+            ),
+
+
         );
+
+        // Add each submenu item to custom admin menu.
+        foreach($submenu_pages as $submenu){
+
+            add_submenu_page(
+                $submenu['parent_slug'],
+                $submenu['page_title'],
+                $submenu['menu_title'],
+                $submenu['capability'],
+                $submenu['menu_slug'],
+                $submenu['function']
+            );
+
+        }
+        
+        // Add menu page (capture page for adding admin style and javascript
     }
 
     public function options(){
@@ -169,7 +214,7 @@ class ithoughts_tt_gl_Admin{
             <div class="icon32" id="icon-options-general">
                 <br>
             </div>
-            <h2><?php _e('WP Glossary Options', 'ithoughts-tooltip-glossary'); ?></h2>
+            <h2><?php _e('Options', 'ithoughts-tooltip-glossary'); ?></h2>
             <div id="dashboard-widgets-wrap">
                 <div id="dashboard-widgets" class="metabox-holder">
                     <div class="postbox-container" style="width:98%">
@@ -178,29 +223,29 @@ class ithoughts_tt_gl_Admin{
                             <form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
 
                                 <div id="ithoughts_tt_gllossary_options_1" class="postbox">
-                                    <h3 class="handle"><span>Term Options</span></h3>
+                                    <h3 class="handle"><span><?php _e('Term Options', 'ithoughts-tooltip-glossary'); ?></span></h3>
                                     <div class="inside">
-                                        <p><?php _e('Term link:', 'ithoughts-tooltip-glossary'); echo "&nbsp;"; echo "{$termlinkoptdropdown}" ?></p>
-                                        <p><?php _e('Glossary URL:', 'ithoughts-tooltip-glossary'); echo "&nbsp;"; ?><input type="text" value="<?php echo $termtype; ?>" name="termtype"/></p>
+                                        <p><?php _e('Term link', 'ithoughts-tooltip-glossary'); echo ":&nbsp;"; echo "{$termlinkoptdropdown}" ?></p>
+                                        <p><?php _e('Base Permalink', 'ithoughts-tooltip-glossary'); echo ":&nbsp;"; ?><input type="text" value="<?php echo $termtype; ?>" name="termtype"/></p>
                                     </div>
                                 </div>
 
                                 <div id="ithoughts_tt_gllossary_options_2" class="postbox">
-                                    <h3 class="handle"><span>qTip2 Tooltip Options</span></h3>
+                                    <h3 class="handle"><span><?php _e('qTip2 Tooltip Options', 'ithoughts-tooltip-glossary'); ?></span></h3>
                                     <div class="inside">
-                                        <p>WP Glossary uses the jQuery based <a href="http://qtip2.com/">qTip2</a> library for tooltips</p>
-                                        <p><?php _e('Tooltip Content:', 'ithoughts-tooltip-glossary'); echo "{$tooltipdropdown}" ?></p>
-                                        <p><?php _e('Tooltip Style (qTip):', 'ithoughts-tooltip-glossary');  echo "{$qtipdropdown}" ?></p>
-                                        <p><?php _e('Tooltip activation:', 'ithoughts-tooltip-glossary');  echo "{$qtiptriggerdropdown}" ?></p>
+                                        <p><?php _e('iThoughts Tooltip Glossary uses the jQuery based <a href="http://qtip2.com/">qTip2</a> library for tooltips', 'ithoughts-tooltip-glossary'); ?></p>
+                                        <p><?php _e('Tooltip Content', 'ithoughts-tooltip-glossary'); echo ":&nbsp;{$tooltipdropdown}" ?></p>
+                                        <p><?php _e('Tooltip Style (qTip)', 'ithoughts-tooltip-glossary');  echo ":&nbsp;{$qtipdropdown}" ?></p>
+                                        <p><?php _e('Tooltip activation', 'ithoughts-tooltip-glossary');  echo ":&nbsp;{$qtiptriggerdropdown}" ?></p>
                                     </div>
                                 </div>
 
 
                                 <div id="ithoughts_tt_gllossary_options_3" class="postbox">
-                                    <h3 class="handle"><span>Experimental Options</span></h3>
+                                    <h3 class="handle"><span><?php _e('Experimental Options', 'ithoughts-tooltip-glossary'); ?></span></h3>
                                     <div class="inside">
-                                        <p>Do not rely on these at all, I am experimenting with them</p>
-                                        <p><?php _e('Term usage:', 'ithoughts-tooltip-glossary');  echo "{$termusagedd}" ?></p>
+                                        <p><?php _e('Do not rely on these at all, I am experimenting with them', 'ithoughts-tooltip-glossary'); ?></p>
+                                        <p><?php _e('Term usage', 'ithoughts-tooltip-glossary');  echo ":&nbsp;{$termusagedd}" ?></p>
                                     </div>
                                 </div>
                                 <p>

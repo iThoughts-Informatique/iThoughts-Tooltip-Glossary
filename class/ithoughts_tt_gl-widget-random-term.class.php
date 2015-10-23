@@ -23,7 +23,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
 		) );
 
 		// Title
-		echo '<p><label for="' . $this->get_field_id('title') . '">' . __('Title:') . ' </label>';
+		echo '<p><label for="' . $this->get_field_id('title') . '">' . __('Title') . ' </label>';
 		echo '<input class="widefat" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . esc_attr( $instance['title'] ) . '" />';
 		echo '</p>';
 
@@ -38,7 +38,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
 			'allow_blank' => array('value'=>'','title'=>__('Any', 'ithoughts-tooltip-glossary')),
 			'name'        => $this->get_field_name('group')
 		) );
-		echo '<p><label for="' . $this->get_field_id('group') . '"> ' . __('Group:'). ' </label>';
+		echo '<p><label for="' . $this->get_field_id('group') . '"> ' . __('Group'). ' </label>';
 		echo $groupdd . '</p>';
 
 		// Display
@@ -51,7 +51,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
 				'full'    =>__('Full',       'ithoughts-tooltip-glossary'),
 			),
 		) );
-		echo '<p><label for="' . $this->get_field_id('display') . '"> ' . __('Display:'). ' </label>';
+		echo '<p><label for="' . $this->get_field_id('display') . '"> ' . __('Display'). ' </label>';
 		echo $displaydd . '</p>';
 	} // form
 
