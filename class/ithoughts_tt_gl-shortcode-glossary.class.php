@@ -1,10 +1,8 @@
 <?php
-class ithoughts_tt_gl_Shortcodes Extends ithoughts_tt_gl{
+class ithoughts_tt_gl_Shortcodes_glossary Extends ithoughts_tt_gl{
     public static $options;
 
     public function __construct() {
-        self::$options = get_option( 'ithoughts_tt_gl' );
-        self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
         // Shortcode
         add_shortcode( "glossary", array(&$this, "glossary") );
 
@@ -61,7 +59,7 @@ class ithoughts_tt_gl_Shortcodes Extends ithoughts_tt_gl{
         if( is_singular() && get_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage') ):
         // Find all glossary terms that have this post noted.
         $args = array(
-            'post_type'   => self::$options["termtype"],
+            'post_type'   => "glossary",
             'numberposts' => -1,
             'post_status' => 'publish',
             'meta_query'  => array( array(
@@ -175,7 +173,7 @@ class ithoughts_tt_gl_Shortcodes Extends ithoughts_tt_gl{
         $jsdata[] = 'data-qtipstyle="' . $qtipstyle . '"';
 
         // Span that qtip finds
-        $span = '<span class="ithoughts-tooltip-glossary ithoughts_tt_gl-tooltip" '.implode(' ',$jsdata).'>' . $link . '</span>';
+        $span = '<span class="ithoughts_tt_gl-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';
         endif;
 
         return $span;

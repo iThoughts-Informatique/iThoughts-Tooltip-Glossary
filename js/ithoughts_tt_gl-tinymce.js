@@ -25,7 +25,7 @@
         });
 
         //CSS
-        editor.contentCSS.push(url + "/../css/ithoughts-tooltip-glossary-admin.css");
+        editor.contentCSS.push(url + "/../css/ithoughts_tooltip_glossary-admin.css");
 
         eddd = editor;
         //fcts

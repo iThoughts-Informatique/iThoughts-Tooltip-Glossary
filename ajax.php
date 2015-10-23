@@ -48,6 +48,9 @@ function wp_ajax_nopriv_ithoughts_tt_gl_get_term_details(){
 	// No content found, assume due to clash in settings and fetch full post content just in case.
 	if( empty($content) )
 		$content = apply_filters( 'the_content', $term->post_content );
+	if( empty($content) )
+		$content = '<p>'.__('No content','ithoughts-tooltip-glossary').'...</p>';
+    
 			
 	wp_send_json_success( array('title'=>$title, 'content'=>$content) );
 }

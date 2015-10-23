@@ -68,7 +68,7 @@ class ithoughts_tt_gl_Admin{
 
 
     public function get_menu(){
-        $menu = add_menu_page("iThoughts Tooltip Glossary", "Tooltip Glossary", "edit_others_posts", "ithought-tooltip-glossary", null, "icon");
+        $menu = add_menu_page("iThoughts Tooltip Glossary", "Tooltip Glossary", "edit_others_posts", "ithought-tooltip-glossary", null, self::$base_url."/js/icon/logo16.png");
         $submenu_pages = array(
             // Options
             array(

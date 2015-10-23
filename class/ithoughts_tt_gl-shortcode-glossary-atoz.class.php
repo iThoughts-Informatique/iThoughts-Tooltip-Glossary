@@ -69,7 +69,7 @@ class ithoughts_tt_gl_Shortcode_ATOZ Extends ithoughts_tt_gl{
             if( $linkopt != 'none' ){
                 $href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($post->ID) );
                 $target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
-                $link   = '<a href="' . $href . '" title="' . esc_attr($title) . '" ' . $target . '>' . $title . '</a>';
+                $link   = '<a href="' . $href . '" title="" alt="' . esc_attr($title) . '" ' . $target . '>' . $title . '</a>';
             }
             if( $desc ){
                 $content = ($desc=='excerpt') ? get_the_excerpt() : apply_filters('the_content', get_the_content());
@@ -87,7 +87,7 @@ class ithoughts_tt_gl_Shortcode_ATOZ Extends ithoughts_tt_gl{
         $range = apply_filters( 'ithoughts_tt_gl_atoz_range', array_keys($atoz) );
         foreach( $range as $alpha ) {
             $count = count( $atoz[$alpha] );
-            $menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha . ' atoz-clickable atozmenu-off" title="' . esc_attr__('Terms','ithoughts-tooltip-glossary') . ': ' . $count . '"  data-alpha="' . $alpha . '">';
+            $menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha . ' atoz-clickable atozmenu-off" title="" alt="' . esc_attr__('Terms','ithoughts-tooltip-glossary') . ': ' . $count . '"  data-alpha="' . $alpha . '">';
             $menu .= '<a href="#' . $alpha . '">' . strtoupper($alpha) . '</a></li>';
         }
         $menu .= '</ul>';

@@ -2,10 +2,10 @@
 Contributors: Gerkin, tcbarrett
 Plugin URL: http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
-Tags: tooltip, dictionary, glossary, appendix, technical terms, popup
+Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, 
 Requires at least: 3.0
 Tested up to: 4.3.1
-Stable tag: 0.1
+Stable tag: 0.2.2
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -55,6 +55,7 @@ You have to add the terms (Glossary Terms > Add New Term) and then use the appro
 = Further Information =
 
 [For further details visit my dedicated plugin landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/)
+[Or see the original plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
 
 
 == Screenshots ==
@@ -70,6 +71,18 @@ You have to add the terms (Glossary Terms > Add New Term) and then use the appro
 
 == Changelog ==
 
+= 0.2.2 =
+* NEW Add plugin basic icon
+* UPD fixed dead links
+
+= 0.2.1 =
+* UPD clean dirty release
+
+= 0.2 =
+* NEW Added fr_FR translation
+* UPD Clean old unused translations
+* UPD Admin menu
+
 = 0.1 =
 * NEW Added "Responsive" 'qtiptrigger', which is "hover"/"focus" on computers, and "click" on touch devices.
 * NEW Added ability to set the main glossary page url, which is also the term prefix (http://www.yourblog.com/*whatever*/...)
@@ -81,6 +94,15 @@ You have to add the terms (Glossary Terms > Add New Term) and then use the appro
 
 
 == Upgrade Notice ==
+
+= 0.2.2 =
+Dead links killed tooltips.
+
+= 0.2.1 =
+New version to force update from dirty release
+
+= 0.2 =
+The menu of the plugin is now complete and clean, not dirty as it was until now. French users will be pleased to see the plugin in their language.
 
 == Example Syntax ==
 

@@ -6,8 +6,8 @@
                      || navigator.userAgent.match(/iPod/i)
                      || navigator.userAgent.match(/BlackBerry/i) ) ? 1 : 0;
     $(document).ready(function(){
-        console.log($('a[data-ithoughts_tt_gl-glossary-slug]'));
-        $('span[class*=ithoughts_tt_gl-tooltip]').each(function(){
+        $('span[class^=ithoughts_tt_gl-]').each(function(){
+            console.log(this.className);
             var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details'}, $(this).data() );
             var qtipstyle    = $(this).data('qtipstyle');
 
@@ -49,8 +49,9 @@
                 });
             }
 
-            $(this).qtip({
-                content: {
+            var content;
+            if($(this).hasClass("ithoughts_tt_gl-glossary"))
+                content = {
                     text: 'Loading glossary term',
                     ajax: {
                         url     : ithoughts_tt_gl.admin_ajax,
@@ -68,7 +69,15 @@
                         }
                     },
                     title: { text: 'Glossary Title' }
-                },
+                };
+            else if($(this).hasClass("ithoughts_tt_gl-tooltip"))
+                content = {
+                    text: this.getAttribute("data-tooltip-content"),
+                    title: { text: $(this).text() }
+                };
+
+            $(this).qtip({
+                content: content,
                 prerender: true,
                 position: {
                     at      : 'bottom center', // Position the tooltip above the link
@@ -87,6 +96,9 @@
                 }
             })
         });
+
+        //Remove title for tooltip, causing double tooltip
+        $(this).find("a[title]").removeAttr("title");
 
 
         glossaryIndex = $("#glossary-index");

@@ -81,7 +81,7 @@ class ithoughts_tt_gl_Shortcode_TERMLIST Extends ithoughts_tt_gl{
             $link  = $title;
             if( $linkopt != 'none' ){
                 $target = ($linkopt == 'blank') ? 'target="_blank"' : '';
-                $link   = '<a href="' . $href . '" title="' . esc_attr($title) . '" ' . $target .'>' . $title . '</a>';
+                $link   = '<a href="' . $href . '" title="" alt="' . esc_attr($title) . '" ' . $target .'>' . $title . '</a>';
             }
             if( $desc ){
                 $content = ($desc == 'excerpt') ? get_the_excerpt() : apply_filters('the_content', get_the_content());	

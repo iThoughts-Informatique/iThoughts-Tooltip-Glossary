@@ -184,7 +184,7 @@ class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
         foreach( $usage as $post_id ):
         $target   = get_post( $post_id );
         $title    = get_the_title( $post_id );
-        $content .= '<li><a href="' . apply_filters('ithoughts_tt_gl_term_link', get_post_permalink($post_id)) . '" title="' . esc_attr($title) . '">' . $title . '</a></li>';
+        $content .= '<li><a href="' . apply_filters('ithoughts_tt_gl_term_link', get_post_permalink($post_id)) . '" title="" alt="' . esc_attr($title) . '">' . $title . '</a></li>';
         endforeach;
         $content .= '</ul></div>';
         endif; // usage loop
