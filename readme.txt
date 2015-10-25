@@ -5,7 +5,7 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, 
 Requires at least: 3.0
 Tested up to: 4.3.1
-Stable tag: 0.2.2
+Stable tag: 0.2.3
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -71,6 +71,9 @@ You have to add the terms (Glossary Terms > Add New Term) and then use the appro
 
 == Changelog ==
 
+= 0.2.3 =
+* NEW Added inline tooltips
+
 = 0.2.2 =
 * NEW Add plugin basic icon
 * UPD fixed dead links
@@ -94,6 +97,9 @@ You have to add the terms (Glossary Terms > Add New Term) and then use the appro
 
 
 == Upgrade Notice ==
+
+= 0.2.3 =
+Inline tooltips are now available through shortcode [tooltip content="foo"]bar[/tooltip]. They allow you to define tooltips not linked to a specific post.
 
 = 0.2.2 =
 Dead links killed tooltips.
