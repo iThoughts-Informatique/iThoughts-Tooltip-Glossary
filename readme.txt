@@ -72,6 +72,9 @@ You have to add the terms (Glossary Terms > Add New Term) and then use the appro
 == Changelog ==
 
 = 0.2.3 =
+_
+
+= 0.2.3 =
 * NEW Added inline tooltips
 
 = 0.2.2 =
@@ -97,6 +100,9 @@ You have to add the terms (Glossary Terms > Add New Term) and then use the appro
 
 
 == Upgrade Notice ==
+
+= 0.2.3 =
+_
 
 = 0.2.3 =
 Inline tooltips are now available through shortcode [tooltip content="foo"]bar[/tooltip]. They allow you to define tooltips not linked to a specific post.
