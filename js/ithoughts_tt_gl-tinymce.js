@@ -47,7 +47,6 @@
 
             sel = editor.selection;
             if(sel.getStart() === sel.getEnd()){
-                console.log("Same");
                 if(sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-atoz"){ // Is atoz
                     console.log("atoz");
                     mode = "complete";
@@ -68,7 +67,7 @@
                     };
                 }
             }
-            listtab = values.type;
+            listtabI = values.type;
 
             console.log(values);
             editor.windowManager.open({
@@ -86,7 +85,7 @@
                         onclick: function(e){
                             try{
                                 if(e.originalTarget.id.match(/^mceu_\d+-t(\d+)$/)){
-                                    listtab = e.originalTarget.id.replace(/^mceu_\d+-t(\d+)$/, "$1");
+                                    listtabI = e.originalTarget.id.replace(/^mceu_\d+-t(\d+)$/, "$1");
                                 }
                             } catch(e){}// Nothing to do, private
                         },
@@ -196,13 +195,36 @@
         }
 
         function glossarytermfct(event){
-            var values = {content:"",slug:""};
+            //var values = {content:"",slug:""};
+            var values = {
+                tt: {
+                    t: "",
+                    c: ""
+                },
+                gl: {
+                    t: "",
+                    s: "",
+                },
+                type: 0
+            };
             var mode = "";
 
             sel = editor.selection;
-            if(sel.getStart() === sel.getEnd() && sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-term"){ // On Glossary Term, load data
-                mode = "complete";
-                values = {content:sel.getStart().textContent, slug: sel.getStart().getAttribute("data-slug") || sel.getStart().textContent};
+            if(sel.getStart() === sel.getEnd()){
+                if(sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-term" || sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-tooltip"){ // On Glossary Term or Tooltip, load data
+                    mode = "complete";
+                    values= {
+                        tt: {
+                            t:sel.getStart().textContent,
+                            c: window.decodeURIComponent(sel.getStart().getAttribute("data-content")) || sel.getStart().textContent
+                        },
+                        gl: {
+                            t:sel.getStart().textContent,
+                            s: sel.getStart().getAttribute("data-slug") || sel.getStart().textContent
+                        },
+                        type: (sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-term") ? 0 : 1
+                    }
+                }
             } else { //Create new glossary term
                 var content = sel.getContent({format: 'text'});
                 if(content && content.length > 0){ // If something is selected
@@ -216,7 +238,7 @@
                     //Find immediate next && previous chars
                     var txt = rng.commonAncestorContainer.textContent;
                     var char = /[\w\d]/;
-                    var txtl = txt.length;
+                    var txtl = txt.length;/*
                     if(txtl > rng.startOffset && txt[rng.startOffset - 1].match(char) && txt[rng.startOffset].match(char)){ // If in a word, extend to whole 
                         // console.log("No content, extend");
                         /*var start = rng.startOffset;
@@ -229,14 +251,141 @@
                         // find for first & last char of word-;
                         var subtxt = txt.slice(start, end);
                         values.content = subtxt;
-                        values.slug = subtxt;*/
+                        values.slug = subtxt;
                     } else {
                         // console.log("No content, new");
-                    }
+                    }*/
                 }
             }
-            //Todo find glossary posts via AJAX
-            editor.windowManager.open({
+
+            console.log("Mode:", mode);
+            //Retrieve list of glossary terms
+            jQuery.ajax({
+                url: "/wp-admin/admin-ajax.php",
+                contentType:"json",
+                data:{action: "ithoughts_tt_gl_get_terms_list"},
+                complete: function(res){
+                    var resJson = res.responseJSON
+                    if(resJson.success != true)
+                        throw "Error while retrieving list of terms";
+                    else {
+                        console.log(resJson);
+                        listtabT = values.type;
+
+                        //Todo find glossary posts via AJAX
+                        editor.windowManager.open({
+                            title: 'Insert Tooltip',
+                            name:"tooltip",
+                            margin: "0 0 0 0",
+                            padding: "0 0 0 0",
+                            border: "0 0 0 0",
+                            body: [
+                                new tinyMCE.ui.TabPanel({
+                                    title: "Tooltip",
+                                    margin: "0 0 0 0",
+                                    padding: "0 0 0 0",
+                                    border: "0 0 0 0",
+                                    onclick: function(e){
+                                        try{
+                                            if(e.originalTarget.id.match(/^mceu_\d+-t(\d+)$/)){
+                                                listtabT = e.originalTarget.id.replace(/^mceu_\d+-t(\d+)$/, "$1");
+                                            }
+                                        } catch(e){}// Nothing to do, private
+                                    },
+                                    items:[
+                                        new tinyMCE.ui.Factory.create({
+                                            type:"form",
+                                            title:"Glossary Term",
+                                            items: [
+                                                {
+                                                    type:"textbox",
+                                                    label:"Text",
+                                                    name:"gt",
+                                                    value: values.gl.t,
+                                                    tooltip:"Text to display"
+                                                },/*
+                                                {
+                                                    type:"textbox",
+                                                    label:"Slug",
+                                                    name:"ag",
+                                                    value: values.gl.s,
+                                                    tooltip:"Slug of term"
+                                                },*/
+                                                {
+                                                    type: "listbox",
+                                                    label: "Term",
+                                                    name: "gs",
+                                                    value: values.gl.s,
+                                                    values: [{text: "", value: "", tooltip: "Empty"}].concat(
+                                                        Object.keys(resJson.data).map(function(key){
+                                                            console.log(key);
+                                                            var obj = resJson.data[key];
+                                                            return {
+                                                                text: key,
+                                                                value: obj["slug"],
+                                                                tooltip: obj["content"]
+                                                            };
+                                                        })
+                                                    )
+                                                }
+                                            ]
+                                        }),
+                                        new tinyMCE.ui.Factory.create({
+                                            type:"form",
+                                            title: "Tooltip",
+                                            items:[
+                                                {
+                                                    type:"textbox",
+                                                    label:"Text",
+                                                    name:"tt",
+                                                    value: values.tt.t,
+                                                    tooltip:"Text to display"
+                                                },
+                                                {
+                                                    type:"textbox",
+                                                    label:"Content",
+                                                    name:"tc",
+                                                    value: values.tt.c,
+                                                    tooltip:"Text into the tooltip"
+                                                }
+                                            ]
+                                        })
+                                    ],
+                                    activeTab:values.type
+                                })
+                            ],
+                            onsubmit: function(e) {
+                                console.log(e.data);
+                                // Insert content when the window form is submitted
+                                if(mode == "complete")
+                                    sel.select(sel.getStart());
+                                else if(mode.indexOf("extend") > -1){
+                                    rng = sel.getRng(true);
+                                    var arr = JSON.parse(mode.match(/extend(.*)$/)[1]);
+                                    var text = rng.commonAncestorContainer.textContent;
+                                    rng.commonAncestorContainer.textContent = text.slice(0, arr[0]) + text.slice(arr[1], text.length - 1);
+                                    console.log(rng, arr);
+                                    editor.fire("DblClick");
+                                }
+                                if(listtabT == 0){
+                                    if(e.data.gt.trim() == "" || e.data.gs == "")
+                                        return;
+                                    else
+                                        editor.insertContent('[glossary slug="'+e.data.gs+'"]'+e.data.gt.trim()+"[/glossary] ");
+                                } else {
+                                    if(e.data.tc.trim() == "" || e.data.tt.trim() == "")
+                                        return;
+                                    else
+                                        editor.insertContent('[tooltip content="'+e.data.tc.trim()+'"]'+e.data.tt.trim()+"[/tooltip] ");
+                                }
+                            }
+                        });
+                    }
+                }
+            });/*
+
+
+
                 title: 'Insert Glossary Term',
                 body: [
                     {type: 'textbox', name: 'text', label: 'Text', value: values.content},
@@ -255,10 +404,10 @@
                         rng.commonAncestorContainer.textContent = text.slice(0, arr[0]) + text.slice(arr[1], text.length - 1);
                         console.log(rng, arr);
                         editor.fire("DblClick");
-                    }*/
+                    }/**//*
                     editor.insertContent('[glossary slug="'+e.data.slug+'"]'+e.data.text+"[/glossary] ");
                 }
-            });
+            });*/
         }
 
         //replace from shortcode to displayable html content
@@ -271,7 +420,7 @@
         });
 
         editor.onNodeChange.add(function(ed, cm, e) {
-            if(e.getAttribute("data-type") == "ithoughts-tooltip-glossary-term")
+            if(e.getAttribute("data-type") == "ithoughts-tooltip-glossary-term" || e.getAttribute("data-type") == "ithoughts-tooltip-glossary-tooltip")
                 editor.fire('glossaryterm', {active: true});
             else
                 editor.fire('glossaryterm', {active: false});
@@ -285,14 +434,14 @@
 
 replaceShortcodesEl = [
     function(content){ // For [glossary]
-        return content.replace( /\[glossary(?!_)(.*?)\](.*?)\[\/glossary\]/g, function( all,inner, text){
+        return content.replace( /\[(glossary|tooltip)(?!_)(.*?)\](.*?)\[\/(glossary|tooltip)\]/g, function( all,balise,inner, text){
             var attrs = {};
             var regex = /([\w\d\-]+?)="(.+?)"/g;
             var matched = null;
             while (matched = regex.exec(inner)) {
                 attrs[matched[1]] = matched[2];
             }
-            var ret = "<a data-type=\"ithoughts-tooltip-glossary-term\"";
+            var ret = "<a data-type=\"ithoughts-tooltip-glossary-"+((balise=="glossary") ? "term" : "tooltip") + "\"";
             for(var i in attrs){
                 ret += " data-"+window.encodeURIComponent(i)+"=\""+window.encodeURIComponent(attrs[i])+"\"";
             }
@@ -317,18 +466,19 @@ replaceShortcodesEl = [
 ];
 restoreShortcodesEl = [
     function(content){ // For [glossary]
-        return content.replace( /<a\s+data-type="ithoughts-tooltip-glossary-term"(.*?)>(.*?)<\/a>/g, function( all,inner, text){
+        return content.replace( /<a\s+data-type="ithoughts-tooltip-glossary-(term|tooltip)"(.*?)>(.*?)<\/a>/g, function( all,type,inner, text){
             var attrs = {};
             var regex = /data-([\w\d\-]+?)="(.+?)"/g;
             var matched = null;
             while (matched = regex.exec(inner)) {
                 attrs[matched[1]] = matched[2];
             }
-            var ret = "[glossary";
+            var b = ((type == "term") ? "glossary" : "tooltip");
+            var ret = "[" + b;
             for(var i in attrs){
                 ret += " "+window.decodeURIComponent(i)+"=\""+window.decodeURIComponent(attrs[i])+"\"";
             }
-            return ret + "]" + text + "[/glossary]";
+            return ret + "]" + text + "[/"+b+"]";
         });
     },
     function(content){ // For [glossary_(term_list|atoz)]

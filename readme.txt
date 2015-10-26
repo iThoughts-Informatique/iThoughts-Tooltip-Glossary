@@ -5,7 +5,7 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, 
 Requires at least: 3.0
 Tested up to: 4.3.1
-Stable tag: 0.2.3
+Stable tag: 1.0
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -71,8 +71,10 @@ You have to add the terms (Glossary Terms > Add New Term) and then use the appro
 
 == Changelog ==
 
-= 0.2.3 =
-_
+= 1.0 =
+* NEW Added select for glossary terms
+* UPD Inline tooltips now integrated to TinyMCE Glossary button
+* UPD TinyMCE now recognize tooltips as like glossary terms
 
 = 0.2.3 =
 * NEW Added inline tooltips
@@ -101,8 +103,8 @@ _
 
 == Upgrade Notice ==
 
-= 0.2.3 =
-_
+= 1.0 =
+A big improvement to glossary terms tooltips have been made, to allow you to directly select the term you wish to link. Tooltips are now editable with the same button as glossary terms.
 
 = 0.2.3 =
 Inline tooltips are now available through shortcode [tooltip content="foo"]bar[/tooltip]. They allow you to define tooltips not linked to a specific post.

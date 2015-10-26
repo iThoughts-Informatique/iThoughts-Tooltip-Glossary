@@ -80,16 +80,6 @@ class ithoughts_tt_gl_Admin{
                 'function'      => array($this, 'options'),
             ),
 
-            // Post Type :: View All Posts
-            array(
-                'parent_slug'   => 'ithought-tooltip-glossary',
-                'page_title'    => __('Glossary Terms', 'ithoughts-tooltip-glossary' ),
-                'menu_title'    => __('Glossary Terms', 'ithoughts-tooltip-glossary' ),
-                'capability'    => 'edit_others_posts',
-                'menu_slug'     => 'edit.php?post_type=glossary',
-                'function'      => null,// Doesn't need a callback function.
-            ),
-
             // Post Type :: Add New Post
             array(
                 'parent_slug'   => 'ithought-tooltip-glossary',
@@ -97,6 +87,16 @@ class ithoughts_tt_gl_Admin{
                 'menu_title'    => __('Add a Term', 'ithoughts-tooltip-glossary' ),
                 'capability'    => 'edit_others_posts',
                 'menu_slug'     => 'post-new.php?post_type=glossary',
+                'function'      => null,// Doesn't need a callback function.
+            ),
+            
+            // Post Type :: View All Posts
+            array(
+                'parent_slug'   => 'ithought-tooltip-glossary',
+                'page_title'    => __('Glossary Terms', 'ithoughts-tooltip-glossary' ),
+                'menu_title'    => __('Glossary Terms', 'ithoughts-tooltip-glossary' ),
+                'capability'    => 'edit_others_posts',
+                'menu_slug'     => 'edit.php?post_type=glossary',
                 'function'      => null,// Doesn't need a callback function.
             ),
 
