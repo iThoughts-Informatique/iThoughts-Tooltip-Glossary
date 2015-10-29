@@ -13,16 +13,16 @@ class ithoughts_tt_gl_Taxonomies Extends ithoughts_tt_gl{
 
     public function register_taxonomies(){
         $labels = array(
-            'name'              => __( 'Glossary Groups',         'ithoughts-tooltip-glossary' ),
-            'singular_name'     => __( 'Glossary Group',          'ithoughts-tooltip-glossary' ),
-            'search_items'      => __( 'Search Glossary Groups',  'ithoughts-tooltip-glossary' ),
-            'all_items'         => __( 'All Glossary Groups',     'ithoughts-tooltip-glossary' ),
-            'parent_item'       => __( 'Parent Glossary Group',   'ithoughts-tooltip-glossary' ),
-            'edit_item'         => __( 'Edit Glossary Group',     'ithoughts-tooltip-glossary' ),
-            'update_item'       => __( 'Update Glossary Group',   'ithoughts-tooltip-glossary' ),
-            'add_new_item'      => __( 'Add New Glossary Group',  'ithoughts-tooltip-glossary' ),
-            'new_item_name'     => __( 'New Glossary Group Name', 'ithoughts-tooltip-glossary' ),
-            'menu_name' => __('Glossary Groups', 'ithoughts-tooltip-glossary')
+            'name'              => __( 'Glossary Groups',         'ithoughts_tooltip_glossary' ),
+            'singular_name'     => __( 'Glossary Group',          'ithoughts_tooltip_glossary' ),
+            'search_items'      => __( 'Search Glossary Groups',  'ithoughts_tooltip_glossary' ),
+            'all_items'         => __( 'All Glossary Groups',     'ithoughts_tooltip_glossary' ),
+            'parent_item'       => __( 'Parent Glossary Group',   'ithoughts_tooltip_glossary' ),
+            'edit_item'         => __( 'Edit Glossary Group',     'ithoughts_tooltip_glossary' ),
+            'update_item'       => __( 'Update Glossary Group',   'ithoughts_tooltip_glossary' ),
+            'add_new_item'      => __( 'Add New Glossary Group',  'ithoughts_tooltip_glossary' ),
+            'new_item_name'     => __( 'New Glossary Group Name', 'ithoughts_tooltip_glossary' ),
+            'menu_name' => __('Glossary Groups', 'ithoughts_tooltip_glossary')
         );
 
         register_taxonomy( 'glossary_group', "glossary", array(

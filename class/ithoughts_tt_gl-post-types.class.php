@@ -18,20 +18,20 @@ class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
             'has_archive'          => true,
             'supports'             => array( 'title', 'editor', 'thumbnail', 'author', 'excerpt' ),
             'labels' => array(
-                'name'               => __( 'Glossary Terms',                   'ithoughts-tooltip-glossary' ),
-                'singular_name'      => __( 'Glossary Term',                    'ithoughts-tooltip-glossary' ),
-                'add_new'            => __( 'Add New Term',                     'ithoughts-tooltip-glossary' ),
-                'add_new_item'       => __( 'Add New Glossary Term',            'ithoughts-tooltip-glossary' ),
-                'edit_item'          => __( 'Edit Glossary Term',               'ithoughts-tooltip-glossary' ),
-                'new_item'           => __( 'Add New Glossary Term',            'ithoughts-tooltip-glossary' ),
-                'view_item'          => __( 'View Glossary Term',               'ithoughts-tooltip-glossary' ),
-                'search_items'       => __( 'Search Glossary Terms',            'ithoughts-tooltip-glossary' ),
-                'not_found'          => __( 'No Glossary Terms found',          'ithoughts-tooltip-glossary' ),
-                'not_found_in_trash' => __( 'No Glossary Terms found in trash', 'ithoughts-tooltip-glossary' )
+                'name'               => __( 'Glossary Terms',                   'ithoughts_tooltip_glossary' ),
+                'singular_name'      => __( 'Glossary Term',                    'ithoughts_tooltip_glossary' ),
+                'add_new'            => __( 'Add New Term',                     'ithoughts_tooltip_glossary' ),
+                'add_new_item'       => __( 'Add New Glossary Term',            'ithoughts_tooltip_glossary' ),
+                'edit_item'          => __( 'Edit Glossary Term',               'ithoughts_tooltip_glossary' ),
+                'new_item'           => __( 'Add New Glossary Term',            'ithoughts_tooltip_glossary' ),
+                'view_item'          => __( 'View Glossary Term',               'ithoughts_tooltip_glossary' ),
+                'search_items'       => __( 'Search Glossary Terms',            'ithoughts_tooltip_glossary' ),
+                'not_found'          => __( 'No Glossary Terms found',          'ithoughts_tooltip_glossary' ),
+                'not_found_in_trash' => __( 'No Glossary Terms found in trash', 'ithoughts_tooltip_glossary' )
             ),
             'register_meta_box_cb' => array( $this, 'meta_boxes' ),
             'rewrite'              => /*/false/*/array(
-                'slug' => sanitize_title( _x( self::$options["termtype"], 'rewrite slug', 'ithoughts-tooltip-glossary' ) ),
+                'slug' => sanitize_title( _x( self::$options["termtype"], 'rewrite slug', 'ithoughts_tooltip_glossary' ) ),
                 'with_front' => false
             )/**/,
             'show_ui'       => true,
@@ -58,7 +58,7 @@ class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
 
     /** */
     public function meta_boxes(){
-        add_meta_box( 'ithoughts_tt_gl_references', __('Glossary Term Reference', 'ithoughts-tooltip-glossary'), array($this, 'mb_references'), self::$options["termtype"], 'normal', 'high' );
+        add_meta_box( 'ithoughts_tt_gl_references', __('Glossary Term Reference', 'ithoughts_tooltip_glossary'), array($this, 'mb_references'), self::$options["termtype"], 'normal', 'high' );
     }
 
     /** */
@@ -70,16 +70,16 @@ class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
         extract( shortcode_atts(array('title'=>'', 'link'=>''), $reference) );
         endif;
 
-        echo '<label class="tcbithoughts_tt_gl-admin">' . __('Title','ithoughts-tooltip-glossary') . ' <input name="tcbithoughts_tt_gl_reference_title" size="30" value="' . $title . '" /></label><br>';
-        echo '<label class="tcbithoughts_tt_gl-admin">' . __('Link','ithoughts-tooltip-glossary') . ' <input name="tcbithoughts_tt_gl_reference_link" size="50" value="' . $link . '" /></label>';
+        echo '<label class="tcbithoughts_tt_gl-admin">' . __('Title','ithoughts_tooltip_glossary') . ' <input name="tcbithoughts_tt_gl_reference_title" size="30" value="' . $title . '" /></label><br>';
+        echo '<label class="tcbithoughts_tt_gl-admin">' . __('Link','ithoughts_tooltip_glossary') . ' <input name="tcbithoughts_tt_gl_reference_link" size="50" value="' . $link . '" /></label>';
         wp_nonce_field( plugin_basename(__FILE__), 'glossary_edit_nonce' );
     } //mb_references
 
     /** */
     public function manage_glossary_posts_columns( $columns ){
         $newcolumns = array(
-            'usage'     => __( 'Usage',     'ithoughts-tooltip-glossary' ),
-            'reference' => __( 'Reference', 'ithoughts-tooltip-glossary' ),
+            'usage'     => __( 'Usage',     'ithoughts_tooltip_glossary' ),
+            'reference' => __( 'Reference', 'ithoughts_tooltip_glossary' ),
         );
         $columns = array_slice( $columns, 0, -1, true ) 
             + $newcolumns 
@@ -170,7 +170,7 @@ class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
             $title = $link;
         if( $link )
             $title = '<a class="glossary-reference-link" target="_blank" href="' . $link . '">' . $title . '</a>';
-        $content .= '<div class="glossary-references"><h4>' . __('Reference', 'ithoughts-tooltip-glossary') . ' ' . $title . '</h4></div>';
+        $content .= '<div class="glossary-references"><h4>' . __('Reference', 'ithoughts_tooltip_glossary') . ' ' . $title . '</h4></div>';
         endif;
         endif; // $reference
 
@@ -179,7 +179,7 @@ class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
         if( $termusage == 'on' ):
         $usage = get_post_meta( $post->ID, 'ithoughts_tt_gl_term_used' );
         if( $usage ):
-        $usage_title = apply_filters( 'ithoughts_tt_gl_term_usage_title', __('Glossary Term Usage', 'ithoughts-tooltip-glossary') );
+        $usage_title = apply_filters( 'ithoughts_tt_gl_term_usage_title', __('Glossary Term Usage', 'ithoughts_tooltip_glossary') );
         $content    .= '<div class="ithoughts_tt_gl-term-usage"><div class="header"><h4>' . $usage_title . '</h4></div><ul>';
         foreach( $usage as $post_id ):
         $target   = get_post( $post_id );

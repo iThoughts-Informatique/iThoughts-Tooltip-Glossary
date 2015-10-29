@@ -17,7 +17,7 @@ function ithoughts_tt_gl_unaccent( $text, $from, $to, $encoding = "UTF-8" ){
 function ithoughts_tt_gl_build_dropdown_multilevel( $id, $args ){
     $defaults = array(
         'selected'    => null,
-        'options'     => array(__('-no options-', 'ithoughts-tooltip-glossary')),
+        'options'     => array(__('- No Options -', 'ithoughts_tooltip_glossary')),
         'allow_blank' => false,
         'class'       => null,
         'name'        => null,
@@ -33,7 +33,7 @@ function ithoughts_tt_gl_build_dropdown_multilevel( $id, $args ){
     if( $allow_blank ) :
     // Set default blank title.
     if( $allow_blank === true ):
-    $allow_blank = __('- Please Select -', 'ithoughts-tooltip-glossary');
+    $allow_blank = __('- Please Select -', 'ithoughts_tooltip_glossary');
     endif;
 
     // Expand string into array

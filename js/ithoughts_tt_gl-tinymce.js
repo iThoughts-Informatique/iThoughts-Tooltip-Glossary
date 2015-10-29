@@ -8,17 +8,17 @@
         };
     };
 
-    tinymce.PluginManager.add('ithoughts_tt_gltinymce', function(editor, url) {
+    tinymce.PluginManager.add('ithoughts_tt_gl_tinymce', function(editor, url) {
         // Add a button that opens a window
         editor.addButton('glossaryterm', {
-            title : 'Add a Glossary Term',
+            title : editor.getLang('ithoughts_tt_gl_tinymce.add_tooltip'),
             image : url + '/icon/glossaryterm.png',
             onclick: glossarytermfct,
             onPostRender: tinymce.setToggleable('glossaryterm', editor)
         });
         var listtab = 0;
         editor.addButton('glossarylist', {
-            title : 'Add a Glossary Index',
+            title :editor.getLang('ithoughts_tt_gl_tinymce.add_index'),
             image : url + '/icon/glossaryindex.png',
             onPostRender: tinymce.setToggleable('glossarylist', editor),
             onclick: glossarylistfct
@@ -71,8 +71,7 @@
 
             console.log(values);
             editor.windowManager.open({
-                title: 'Insert Glossary Index',
-                name:"Hellp",
+                title: editor.getLang('ithoughts_tt_gl_tinymce.insert_index'),
                 margin: "0 0 0 0",
                 padding: "0 0 0 0",
                 border: "0 0 0 0",
@@ -92,25 +91,25 @@
                         items:[
                             new tinyMCE.ui.Factory.create({
                                 type:"form",
-                                title: "List",
+                                title: editor.getLang('ithoughts_tt_gl_tinymce.list'),
                                 items:[
                                     {
                                         type:"textbox",
-                                        label:"Letters",
+                                        label:editor.getLang('ithoughts_tt_gl_tinymce.letters'),
                                         name:"ll",
                                         value: values.list.alpha,
                                         tooltip:"Letters to be displayed in the list. If not specified, all letters will be displayed"
                                     },
                                     {
                                         type:"textbox",
-                                        label:"Columns",
+                                        label:editor.getLang('ithoughts_tt_gl_tinymce.columns'),
                                         name:"lc",
                                         value: values.list.cols,
                                         tooltip:"Number of columns to show for list"
                                     },
                                     {
                                         type:"listbox",
-                                        label:"Description:",
+                                        label:editor.getLang('ithoughts_tt_gl_tinymce.description'),
                                         name:"ld",
                                         values:[
                                             {
@@ -118,11 +117,11 @@
                                                 value:""
                                             },
                                             {
-                                                text:"Excerpt",
+                                                text:editor.getLang('ithoughts_tt_gl_tinymce.excerpt'),
                                                 value:"excerpt"
                                             },
                                             {
-                                                text:"Full",
+                                                text:editor.getLang('ithoughts_tt_gl_tinymce.full'),
                                                 value:"full"
                                             }
                                         ],
@@ -131,7 +130,7 @@
                                     },
                                     {
                                         type:"textbox",
-                                        label:"Group",
+                                        label:editor.getLang('ithoughts_tt_gl_tinymce.group'),
                                         name:"lg",
                                         value: values.list.group,
                                         tooltip:"Group(s) to list"
@@ -140,18 +139,18 @@
                             }),
                             new tinyMCE.ui.Factory.create({
                                 type:"form",
-                                title:"A to Z",
+                                title:editor.getLang('ithoughts_tt_gl_tinymce.atoz'),
                                 items: [
                                     {
                                         type:"textbox",
-                                        label:"Letters",
+                                        label:editor.getLang('ithoughts_tt_gl_tinymce.letters'),
                                         name:"al",
                                         value: values.atoz.alpha,
                                         tooltip:"Letters to be displayed in the list. If not specified, all letters will be displayed"
                                     },
                                     {
                                         type:"textbox",
-                                        label:"Group",
+                                        label:editor.getLang('ithoughts_tt_gl_tinymce.group'),
                                         name:"ag",
                                         value: values.atoz.group,
                                         tooltip:"Group(s) to list"
@@ -163,7 +162,7 @@
                     })
                 ],
                 onsubmit: function(e) {
-                    console.log(e.data, listtab);
+                    console.log(e.data, listtab, mode);
                     if(mode == "complete")
                         sel.select(sel.getStart());
                     switch(listtab){
@@ -224,21 +223,27 @@
                         },
                         type: (sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-term") ? 0 : 1
                     }
-                }
-            } else { //Create new glossary term
-                var content = sel.getContent({format: 'text'});
-                if(content && content.length > 0){ // If something is selected
-                    console.log("Content");
-                    values = {
-                        content: content,
-                        slug: content
-                    }
-                } else { // If no selection
-                    var rng = sel.getRng();
-                    //Find immediate next && previous chars
-                    var txt = rng.commonAncestorContainer.textContent;
-                    var char = /[\w\d]/;
-                    var txtl = txt.length;/*
+                } else { //Create new glossary term
+                    var content = sel.getContent({format: 'text'});
+                    if(content && content.length > 0){ // If something is selected
+                        console.log("Content");
+                        values = {
+                            tt: {
+                                t:content,
+                                c:content
+                            },
+                            gl: {
+                                t:content,
+                                s:content
+                            },
+                            type:1
+                        }
+                    } else { // If no selection
+                        var rng = sel.getRng();
+                        //Find immediate next && previous chars
+                        var txt = rng.commonAncestorContainer.textContent;
+                        var char = /[\w\d]/;
+                        var txtl = txt.length;/*
                     if(txtl > rng.startOffset && txt[rng.startOffset - 1].match(char) && txt[rng.startOffset].match(char)){ // If in a word, extend to whole 
                         // console.log("No content, extend");
                         /*var start = rng.startOffset;
@@ -255,20 +260,22 @@
                     } else {
                         // console.log("No content, new");
                     }*/
+                    }
                 }
             }
 
             console.log("Mode:", mode);
             //Retrieve list of glossary terms
             jQuery.ajax({
-                url: "/wp-admin/admin-ajax.php",
+                url: ithoughts_tt_gl.admin_ajax,
                 contentType:"json",
                 data:{action: "ithoughts_tt_gl_get_terms_list"},
                 complete: function(res){
                     var resJson = res.responseJSON
-                    if(resJson.success != true)
+                    if(typeof resJson == "undefined" || resJson.success != true){
+                        console.error(ithoughts_tt_gl.admin_ajax, res);
                         throw "Error while retrieving list of terms";
-                    else {
+                    } else {
                         console.log(resJson);
                         listtabT = values.type;
 
@@ -299,7 +306,7 @@
                                             items: [
                                                 {
                                                     type:"textbox",
-                                                    label:"Text",
+                                                    label:editor.getLang('ithoughts_tt_gl_tinymce.text'),
                                                     name:"gt",
                                                     value: values.gl.t,
                                                     tooltip:"Text to display"
@@ -313,7 +320,7 @@
                                                 },*/
                                                 {
                                                     type: "listbox",
-                                                    label: "Term",
+                                                    label: editor.getLang('ithoughts_tt_gl_tinymce.term'),
                                                     name: "gs",
                                                     value: values.gl.s,
                                                     values: [{text: "", value: "", tooltip: "Empty"}].concat(
@@ -336,14 +343,14 @@
                                             items:[
                                                 {
                                                     type:"textbox",
-                                                    label:"Text",
+                                                    label:editor.getLang('ithoughts_tt_gl_tinymce.text'),
                                                     name:"tt",
                                                     value: values.tt.t,
                                                     tooltip:"Text to display"
                                                 },
                                                 {
                                                     type:"textbox",
-                                                    label:"Content",
+                                                    label:editor.getLang('ithoughts_tt_gl_tinymce.content'),
                                                     name:"tc",
                                                     value: values.tt.c,
                                                     tooltip:"Text into the tooltip"
@@ -460,7 +467,7 @@ replaceShortcodesEl = [
             for(var i in attrs){
                 ret += " data-"+window.encodeURIComponent(i)+"=\""+window.encodeURIComponent(attrs[i])+"\"";
             }
-            return ret + ">Glossary Index</span>";
+            return ret + ">Glossary " + ((type == "term_list") ? "List" : "A-to-Z") + "</span>";
         });
     }
 ];
@@ -482,7 +489,7 @@ restoreShortcodesEl = [
         });
     },
     function(content){ // For [glossary_(term_list|atoz)]
-        return content.replace( /<span\s+data-type="ithoughts-tooltip-glossary-(term_list|atoz)"(.*?)>.*<\/span>/g, function( all,type, attrStr){
+        return content.replace( /<span\s+data-type="ithoughts-tooltip-glossary-(term_list|atoz)"(.*?)>.*?<\/span>/g, function( all,type, attrStr){
             var attrs = {};
             var regex = /data-([\w\d\-]+?)="(.+?)"/g;
             var matched = null;

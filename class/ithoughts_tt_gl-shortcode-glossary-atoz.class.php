@@ -53,7 +53,7 @@ class ithoughts_tt_gl_Shortcode_ATOZ Extends ithoughts_tt_gl{
             $args['tax_query'] = array( $tax_query );
         }
 
-        $list       = '<p>' . __('There are no glossary items.', 'ithoughts-tooltip-glossary') . '</p>';
+        $list       = '<p>' . __('There are no glossary items.', 'ithoughts_tooltip_glossary') . '</p>';
         $glossaries = get_posts( $args );
         if( !count($glossaries) ) return $list;
 
@@ -87,7 +87,7 @@ class ithoughts_tt_gl_Shortcode_ATOZ Extends ithoughts_tt_gl{
         $range = apply_filters( 'ithoughts_tt_gl_atoz_range', array_keys($atoz) );
         foreach( $range as $alpha ) {
             $count = count( $atoz[$alpha] );
-            $menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha . ' atoz-clickable atozmenu-off" title="" alt="' . esc_attr__('Terms','ithoughts-tooltip-glossary') . ': ' . $count . '"  data-alpha="' . $alpha . '">';
+            $menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha . ' atoz-clickable atozmenu-off" title="" alt="' . esc_attr__('Terms','ithoughts_tooltip_glossary') . ': ' . $count . '"  data-alpha="' . $alpha . '">';
             $menu .= '<a href="#' . $alpha . '">' . strtoupper($alpha) . '</a></li>';
         }
         $menu .= '</ul>';
@@ -102,7 +102,7 @@ class ithoughts_tt_gl_Shortcode_ATOZ Extends ithoughts_tt_gl{
         $list .= '</div>';
 
         $clear    = '<div style="clear: both;"></div>';
-        $plsclick = apply_filters( 'ithoughts_tt_gl_please_select', '<div class="ithoughts_tt_gl-please-select"><p>' . __('Please select from the menu above', 'ithoughts-tooltip-glossary') . '</p></div>' );
+        $plsclick = apply_filters( 'ithoughts_tt_gl_please_select', '<div class="ithoughts_tt_gl-please-select"><p>' . __('Please select from the menu above', 'ithoughts_tooltip_glossary') . '</p></div>' );
         return '<div class="glossary-atoz-wrapper">' . $menu . $clear . $plsclick . $clear . $list . '</div>';
     } // glossary_atoz
 } // ithoughts_tt_gl_Shortcode_ATOZ

@@ -10,7 +10,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
 			'Random Term [ithoughts_tt_gllossary]',
 			array( 
 				'classname'   => 'ithoughts_tt_gl_widget_random_term',
-				'description' => __('Add a random glossary term to your sidebar', 'ithoughts-tooltip-glossary'),
+				'description' => __('Add a random glossary term to your sidebar', 'ithoughts_tooltip_glossary'),
 			)
 		); // parent::__construct
 	} // __construct
@@ -18,7 +18,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
 	// Admin form
  	public function form( $instance=array() ) {
 		$instance =  wp_parse_args( $instance, array(
-			'title' => __('Random Glossary term', 'ithoughts-tooltip-glossary'),
+			'title' => __('Random Glossary term', 'ithoughts_tooltip_glossary'),
 			'group' => '',
 		) );
 
@@ -35,7 +35,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
 		$groupdd = ithoughts_tt_gl_build_dropdown_multilevel( $this->get_field_id('group'), array(
 			'selected'    => $instance['group'],
 			'options'     => $groups,
-			'allow_blank' => array('value'=>'','title'=>__('Any', 'ithoughts-tooltip-glossary')),
+			'allow_blank' => array('value'=>'','title'=>__('Any', 'ithoughts_tooltip_glossary')),
 			'name'        => $this->get_field_name('group')
 		) );
 		echo '<p><label for="' . $this->get_field_id('group') . '"> ' . __('Group'). ' </label>';
@@ -46,9 +46,9 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
 			'selected'   => $instance['display'],
 			'name'       => $this->get_field_name('display'),
 			'options'    => array( 
-				'title'   =>__('Title Only', 'ithoughts-tooltip-glossary'), 
-				'excerpt' =>__('Excerpt',    'ithoughts-tooltip-glossary'), 
-				'full'    =>__('Full',       'ithoughts-tooltip-glossary'),
+				'title'   =>__('Title Only', 'ithoughts_tooltip_glossary'), 
+				'excerpt' =>__('Excerpt',    'ithoughts_tooltip_glossary'), 
+				'full'    =>__('Full',       'ithoughts_tooltip_glossary'),
 			),
 		) );
 		echo '<p><label for="' . $this->get_field_id('display') . '"> ' . __('Display'). ' </label>';
@@ -104,7 +104,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
 			endforeach; wp_reset_postdata();
 			echo '</ul>';
 		else :
-			echo '<em>' . __('No terms available', 'ithoughts-tooltip-glossary') . '</em>';
+			echo '<em>' . __('No terms available', 'ithoughts_tooltip_glossary') . '</em>';
 		endif;
 
 		echo $after_widget;

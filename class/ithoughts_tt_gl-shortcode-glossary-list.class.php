@@ -52,7 +52,7 @@ class ithoughts_tt_gl_Shortcode_TERMLIST Extends ithoughts_tt_gl{
         $linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
         $termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
-        $list       = '<p>' . __( 'There are no glossary items.', 'ithoughts-tooltip-glossary') . '</p>';
+        $list       = '<p>' . __( 'There are no glossary items.', 'ithoughts_tooltip_glossary') . '</p>';
         $glossaries = get_posts( $args );
         if( !count($glossaries) )
             return $list;

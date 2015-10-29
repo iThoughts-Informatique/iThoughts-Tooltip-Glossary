@@ -22,3 +22,20 @@
     font-style: italic;
     text-decoration: overline underline;
 }
+
+#tinymce span[data-type="ithoughts-tooltip-glossary-atoz"],
+#tinymce span[data-type="ithoughts-tooltip-glossary-term_list"]{
+    
+}
+#tinymce span[data-type="ithoughts-tooltip-glossary-atoz"]::after,
+#tinymce span[data-type="ithoughts-tooltip-glossary-term_list"]::after{
+    content: "]";
+    font-size: 1.5em;
+vertical-align: baseline;
+}
+#tinymce span[data-type="ithoughts-tooltip-glossary-atoz"]::before,
+#tinymce span[data-type="ithoughts-tooltip-glossary-term_list"]::before{
+    content: "[";
+    font-size: 1.5em;
+vertical-align: baseline;
+}

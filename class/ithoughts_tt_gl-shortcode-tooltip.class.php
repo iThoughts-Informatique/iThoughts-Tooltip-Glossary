@@ -11,7 +11,6 @@ class ithoughts_tt_gl_Shortcodes_tooltip Extends ithoughts_tt_gl{
         // Help functions..
         add_action( 'wp_insert_post_data',  array(&$this, 'parse_pseudo_links_to_shortcode'));
         add_action( 'edit_post',  array(&$this, 'convert_shortcodes'));
-        add_action( 'wp_footer',  array(&$this, 'glossary_remove_update_marker') );
     }
 
     public function parse_pseudo_links_to_shortcode( $data ){

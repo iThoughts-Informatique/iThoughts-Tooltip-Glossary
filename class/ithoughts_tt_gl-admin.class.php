@@ -27,25 +27,30 @@ class ithoughts_tt_gl_Admin{
     static function base_url() {
         return self::$base_url;
     }
-    
-    
-    
-    
+
+
+
+
     public function add_tinymce_dropdown_hooks(){/**/
         add_filter( "mce_external_plugins", array(&$this, "ithoughts_tt_gl_tinymce_add_buttons") );
         add_filter( 'mce_buttons', array(&$this, "ithoughts_tt_gl_tinymce_register_buttons") );
+        add_filter( 'mce_external_languages', array(&$this, 'tinymce_add_translations') );
     }
     public function ithoughts_tt_gl_tinymce_register_buttons( $buttons ) {
         array_push( $buttons, 'glossaryterm', 'glossarylist' );
         return $buttons;
     }
     public function ithoughts_tt_gl_tinymce_add_buttons( $plugin_array ) {
-        $plugin_array['ithoughts_tt_gltinymce'] = self::$base_url . '/js/ithoughts_tt_gl-tinymce.js';
+        $plugin_array['ithoughts_tt_gl_tinymce'] = self::$base_url . '/js/ithoughts_tt_gl-tinymce.js';
         return $plugin_array;
     }/*/}/**/
-    
-    
-    
+    public function tinymce_add_translations($locales){
+        $locales ['ithoughts_tt_gl_tinymce'] = self::$base . '/../lang/ithoughts_tt_gl_tinymce_lang.php';
+        return $locales;
+    }
+
+
+
 
     public function setup_localixed_dropdown_values(){
         $args = array(
@@ -63,18 +68,20 @@ class ithoughts_tt_gl_Admin{
 
         wp_localize_script( 'jquery', 'ithoughts_tt_gl', array(
             'tinymce_dropdown' => $glossaryterms,
+            'admin_ajax' => admin_url('admin-ajax.php'),
         ) );
     }
 
 
     public function get_menu(){
-        $menu = add_menu_page("iThoughts Tooltip Glossary", "Tooltip Glossary", "edit_others_posts", "ithought-tooltip-glossary", null, self::$base_url."/js/icon/logo16.png");
+        $menu = add_menu_page("iThoughts Tooltip Glossary", "Tooltip Glossary", "edit_others_posts", "ithought-tooltip-glossary", null, self::$base_url."/js/icon/icon.svg");
+
         $submenu_pages = array(
             // Options
             array(
                 'parent_slug'   => 'ithought-tooltip-glossary',
-                'page_title'    => __( 'Options', 'ithoughts-tooltip-glossary' ),
-                'menu_title'    => __( 'Options', 'ithoughts-tooltip-glossary' ),
+                'page_title'    => __( 'Options', 'ithoughts_tooltip_glossary' ),
+                'menu_title'    => __( 'Options', 'ithoughts_tooltip_glossary' ),
                 'capability'    => 'manage_options',
                 'menu_slug'     => 'ithought-tooltip-glossary',
                 'function'      => array($this, 'options'),
@@ -83,18 +90,18 @@ class ithoughts_tt_gl_Admin{
             // Post Type :: Add New Post
             array(
                 'parent_slug'   => 'ithought-tooltip-glossary',
-                'page_title'    => __('Add a Term', 'ithoughts-tooltip-glossary' ),
-                'menu_title'    => __('Add a Term', 'ithoughts-tooltip-glossary' ),
+                'page_title'    => __('Add a Term', 'ithoughts_tooltip_glossary' ),
+                'menu_title'    => __('Add a Term', 'ithoughts_tooltip_glossary' ),
                 'capability'    => 'edit_others_posts',
                 'menu_slug'     => 'post-new.php?post_type=glossary',
                 'function'      => null,// Doesn't need a callback function.
             ),
-            
+
             // Post Type :: View All Posts
             array(
                 'parent_slug'   => 'ithought-tooltip-glossary',
-                'page_title'    => __('Glossary Terms', 'ithoughts-tooltip-glossary' ),
-                'menu_title'    => __('Glossary Terms', 'ithoughts-tooltip-glossary' ),
+                'page_title'    => __('Glossary Terms', 'ithoughts_tooltip_glossary' ),
+                'menu_title'    => __('Glossary Terms', 'ithoughts_tooltip_glossary' ),
                 'capability'    => 'edit_others_posts',
                 'menu_slug'     => 'edit.php?post_type=glossary',
                 'function'      => null,// Doesn't need a callback function.
@@ -103,8 +110,8 @@ class ithoughts_tt_gl_Admin{
             // Taxonomy :: Manage News Categories
             array(
                 'parent_slug'   => 'ithought-tooltip-glossary',
-                'page_title'    => __('Glossary Groups', 'ithoughts-tooltip-glossary' ),
-                'menu_title'    => __('Glossary Groups', 'ithoughts-tooltip-glossary' ),
+                'page_title'    => __('Glossary Groups', 'ithoughts_tooltip_glossary' ),
+                'menu_title'    => __('Glossary Groups', 'ithoughts_tooltip_glossary' ),
                 'capability'    => 'manage_categories',
                 'menu_slug'     => 'edit-tags.php?taxonomy=glossary_group&post_type=glossary',
                 'function'      => null,// Doesn't need a callback function.
@@ -126,7 +133,7 @@ class ithoughts_tt_gl_Admin{
             );
 
         }
-        
+
         // Add menu page (capture page for adding admin style and javascript
     }
 
@@ -144,16 +151,16 @@ class ithoughts_tt_gl_Admin{
         // Tooptip DD
         $ttddoptions = array(
             'full' => array(
-                'title' => __('Full', 'ithoughts-tooltip-glossary'),
-                'attrs' => array('title'=>__('Display full post content', 'ithoughts-tooltip-glossary'))
+                'title' => __('Full', 'ithoughts_tooltip_glossary'),
+                'attrs' => array('title'=>__('Display full post content', 'ithoughts_tooltip_glossary'))
             ),
             'excerpt' => array(
-                'title' => __('Excerpt', 'ithoughts-tooltip-glossary'),
-                'attrs' => array('title'=>__('Display shorter excerpt content', 'ithoughts-tooltip-glossary'))
+                'title' => __('Excerpt', 'ithoughts_tooltip_glossary'),
+                'attrs' => array('title'=>__('Display shorter excerpt content', 'ithoughts_tooltip_glossary'))
             ), 
             'off' => array(
-                'title' => __('Off', 'ithoughts-tooltip-glossary'),
-                'attrs' => array('title'=>__('Do not display tooltip at all', 'ithoughts-tooltip-glossary'))
+                'title' => __('Off', 'ithoughts_tooltip_glossary'),
+                'attrs' => array('title'=>__('Do not display tooltip at all', 'ithoughts_tooltip_glossary'))
             ),
         );
         $tooltipdropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'tooltips', array(
@@ -166,25 +173,25 @@ class ithoughts_tt_gl_Admin{
         $qtipdropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'qtipstyle', array(
             'selected' => $qtipstyle,
             'options'  => array(
-                'cream'     => __('Cream',      'ithoughts-tooltip-glossary'), 
-                'dark'      => __('Dark',       'ithoughts-tooltip-glossary'), 
-                'green'     => __('Green',      'ithoughts-tooltip-glossary'), 
-                'light'     => __('Light',      'ithoughts-tooltip-glossary'), 
-                'red'       => __('Red',        'ithoughts-tooltip-glossary'), 
-                'blue'      => __('Blue',       'ithoughts-tooltip-glossary'),
-                'plain'     => __('Plain',      'ithoughts-tooltip-glossary'),
-                'bootstrap' => __('Bootstrap',  'ithoughts-tooltip-glossary'),
-                'youtube'   => __('YouTube',    'ithoughts-tooltip-glossary'),
-                'tipsy'     => __('Tipsy',      'ithoughts-tooltip-glossary'),
+                'cream'     => __('Cream',      'ithoughts_tooltip_glossary'), 
+                'dark'      => __('Dark',       'ithoughts_tooltip_glossary'), 
+                'green'     => __('Green',      'ithoughts_tooltip_glossary'), 
+                'light'     => __('Light',      'ithoughts_tooltip_glossary'), 
+                'red'       => __('Red',        'ithoughts_tooltip_glossary'), 
+                'blue'      => __('Blue',       'ithoughts_tooltip_glossary'),
+                'plain'     => __('Plain',      'ithoughts_tooltip_glossary'),
+                'bootstrap' => __('Bootstrap',  'ithoughts_tooltip_glossary'),
+                'youtube'   => __('YouTube',    'ithoughts_tooltip_glossary'),
+                'tipsy'     => __('Tipsy',      'ithoughts_tooltip_glossary'),
             ),
         ));
 
         $qtiptriggerdropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'qtiptrigger', array(
             'selected' => $qtiptrigger,
             'options'  => array(
-                'hover' => array('title'=>__('Hover', 'ithoughts-tooltip-glossary'), 'attrs'=>array('title'=>__('On mouseover (hover)', 'ithoughts-tooltip-glossary'))),
-                'click' => array('title'=>__('Click', 'ithoughts-tooltip-glossary'), 'attrs'=>array('title'=>__('On click',             'ithoughts-tooltip-glossary'))),
-                'responsive' => array('title'=>__('Responsive', 'ithoughts-tooltip-glossary'), 'attrs'=>array('title'=>__('Hover (on computer) and click (touch devices)',             'ithoughts-tooltip-glossary'))),
+                'hover' => array('title'=>__('Hover', 'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__('On mouseover (hover)', 'ithoughts_tooltip_glossary'))),
+                'click' => array('title'=>__('Click', 'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__('On click',             'ithoughts_tooltip_glossary'))),
+                'responsive' => array('title'=>__('Responsive', 'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__('Hover (on computer) and click (touch devices)',             'ithoughts_tooltip_glossary'))),
             ),
         ));
 
@@ -192,9 +199,9 @@ class ithoughts_tt_gl_Admin{
         $termlinkoptdropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'termlinkopt', array(
             'selected' => $termlinkopt,
             'options'  => array(
-                'standard' => array('title'=>__('Normal',  'ithoughts-tooltip-glossary'), 'attrs'=>array('title'=>__('Normal link with no modifications', 'ithoughts-tooltip-glossary'))),
-                'none'     => array('title'=>__('No link', 'ithoughts-tooltip-glossary'), 'attrs'=>array('title'=>__("Don't link to term",                'ithoughts-tooltip-glossary'))),
-                'blank'    => array('title'=>__('New tab', 'ithoughts-tooltip-glossary'), 'attrs'=>array('title'=>__("Always open in a new tab",          'ithoughts-tooltip-glossary'))),
+                'standard' => array('title'=>__('Normal',  'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__('Normal link with no modifications', 'ithoughts_tooltip_glossary'))),
+                'none'     => array('title'=>__('No link', 'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__("Don't link to term",                'ithoughts_tooltip_glossary'))),
+                'blank'    => array('title'=>__('New tab', 'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__("Always open in a new tab",          'ithoughts_tooltip_glossary'))),
             ),
         ));
 
@@ -202,8 +209,8 @@ class ithoughts_tt_gl_Admin{
         $termusagedd = ithoughts_tt_gl_build_dropdown_multilevel( 'termusage', array(
             'selected' => $termusage,
             'options'  => array(
-                'on'  => __('On',  'ithoughts-tooltip-glossary'),
-                'off' => __('Off', 'ithoughts-tooltip-glossary'),
+                'on'  => __('On',  'ithoughts_tooltip_glossary'),
+                'off' => __('Off', 'ithoughts_tooltip_glossary'),
             ),
         ) );
 
@@ -214,7 +221,7 @@ class ithoughts_tt_gl_Admin{
             <div class="icon32" id="icon-options-general">
                 <br>
             </div>
-            <h2><?php _e('Options', 'ithoughts-tooltip-glossary'); ?></h2>
+            <h2><?php _e('Options', 'ithoughts_tooltip_glossary'); ?></h2>
             <div id="dashboard-widgets-wrap">
                 <div id="dashboard-widgets" class="metabox-holder">
                     <div class="postbox-container" style="width:98%">
@@ -223,34 +230,34 @@ class ithoughts_tt_gl_Admin{
                             <form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
 
                                 <div id="ithoughts_tt_gllossary_options_1" class="postbox">
-                                    <h3 class="handle"><span><?php _e('Term Options', 'ithoughts-tooltip-glossary'); ?></span></h3>
+                                    <h3 class="handle"><span><?php _e('Term Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
                                     <div class="inside">
-                                        <p><?php _e('Term link', 'ithoughts-tooltip-glossary'); echo ":&nbsp;"; echo "{$termlinkoptdropdown}" ?></p>
-                                        <p><?php _e('Base Permalink', 'ithoughts-tooltip-glossary'); echo ":&nbsp;"; ?><input type="text" value="<?php echo $termtype; ?>" name="termtype"/></p>
+                                        <p><?php _e('Term link', 'ithoughts_tooltip_glossary'); echo ":&nbsp;"; echo "{$termlinkoptdropdown}" ?></p>
+                                        <p><?php _e('Base Permalink', 'ithoughts_tooltip_glossary'); echo ":&nbsp;"; ?><input type="text" value="<?php echo $termtype; ?>" name="termtype"/></p>
                                     </div>
                                 </div>
 
                                 <div id="ithoughts_tt_gllossary_options_2" class="postbox">
-                                    <h3 class="handle"><span><?php _e('qTip2 Tooltip Options', 'ithoughts-tooltip-glossary'); ?></span></h3>
+                                    <h3 class="handle"><span><?php _e('qTip2 Tooltip Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
                                     <div class="inside">
-                                        <p><?php _e('iThoughts Tooltip Glossary uses the jQuery based <a href="http://qtip2.com/">qTip2</a> library for tooltips', 'ithoughts-tooltip-glossary'); ?></p>
-                                        <p><?php _e('Tooltip Content', 'ithoughts-tooltip-glossary'); echo ":&nbsp;{$tooltipdropdown}" ?></p>
-                                        <p><?php _e('Tooltip Style (qTip)', 'ithoughts-tooltip-glossary');  echo ":&nbsp;{$qtipdropdown}" ?></p>
-                                        <p><?php _e('Tooltip activation', 'ithoughts-tooltip-glossary');  echo ":&nbsp;{$qtiptriggerdropdown}" ?></p>
+                                        <p><?php _e('iThoughts Tooltip Glossary uses the jQuery based <a href="http://qtip2.com/">qTip2</a> library for tooltips', 'ithoughts_tooltip_glossary'); ?></p>
+                                        <p><?php _e('Tooltip Content', 'ithoughts_tooltip_glossary'); echo ":&nbsp;{$tooltipdropdown}" ?></p>
+                                        <p><?php _e('Tooltip Style (qTip)', 'ithoughts_tooltip_glossary');  echo ":&nbsp;{$qtipdropdown}" ?></p>
+                                        <p><?php _e('Tooltip activation', 'ithoughts_tooltip_glossary');  echo ":&nbsp;{$qtiptriggerdropdown}" ?></p>
                                     </div>
                                 </div>
 
 
                                 <div id="ithoughts_tt_gllossary_options_3" class="postbox">
-                                    <h3 class="handle"><span><?php _e('Experimental Options', 'ithoughts-tooltip-glossary'); ?></span></h3>
+                                    <h3 class="handle"><span><?php _e('Experimental Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
                                     <div class="inside">
-                                        <p><?php _e('Do not rely on these at all, I am experimenting with them', 'ithoughts-tooltip-glossary'); ?></p>
-                                        <p><?php _e('Term usage', 'ithoughts-tooltip-glossary');  echo ":&nbsp;{$termusagedd}" ?></p>
+                                        <p><?php _e('Do not rely on these at all, I am experimenting with them', 'ithoughts_tooltip_glossary'); ?></p>
+                                        <p><?php _e('Term usage', 'ithoughts_tooltip_glossary');  echo ":&nbsp;{$termusagedd}" ?></p>
                                     </div>
                                 </div>
                                 <p>
                                     <input type="hidden" name="action" value="ithoughts_tt_gl_update_options"/>
-                                    <input type="submit" name="submit" class="alignleft button-primary" value="<?php _e('Update Glossary Options', 'ithoughts-tooltip-glossary'); ?>"/>
+                                    <input type="submit" name="submit" class="alignleft button-primary" value="<?php _e('Update Options', 'ithoughts_tooltip_glossary'); ?>"/>
                                 </p>
 
                             </form>
@@ -286,11 +293,11 @@ class ithoughts_tt_gl_Admin{
         if($glossary_options_old["termtype"] != $glossary_options["termtype"]){
             $glossary_options["needflush"] = true;
             flush_rewrite_rules(false);
-            $outtxt .= "<p>" . __( 'Rewrite rule flushed', 'ithoughts-tooltip-glossary' ) . "</p>";
+            $outtxt .= "<p>" . __( 'Rewrite rule flushed', 'ithoughts_tooltip_glossary' ) . "</p>";
         }
         update_option( 'ithoughts_tt_gl', $glossary_options );
 
-        $outtxt .='<p>' . __('Glossary options updated', 'ithoughts-tooltip-glossary') . '</p>' ;
+        $outtxt .='<p>' . __('Options updated', 'ithoughts_tooltip_glossary') . '</p>' ;
         die( $outtxt );
     }
 }

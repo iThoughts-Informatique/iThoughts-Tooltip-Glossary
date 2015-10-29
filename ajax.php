@@ -27,12 +27,12 @@ function wp_ajax_nopriv_ithoughts_tt_gl_get_term_details(){
 
     // Don't display private terms
     if( $termob->post_status == 'private' && !current_user_can('read_private_posts') ):
-    wp_send_json_success( array('title'=>$title, 'content'=>'<p>'.__('Private glossary term','ithoughts-tooltip-glossary').'</p>') );
+    wp_send_json_success( array('title'=>$title, 'content'=>'<p>'.__('Private glossary term','ithoughts_tooltip_glossary').'</p>') );
     endif;
 
     // Don't display password protected items.
     if( post_password_required($termid) ):
-    wp_send_json_success( array('title'=>$title, 'content'=>'<p>'.__('Protected glossary term','ithoughts-tooltip-glossary').'</p>') );
+    wp_send_json_success( array('title'=>$title, 'content'=>'<p>'.__('Protected glossary term','ithoughts_tooltip_glossary').'</p>') );
     endif;
 
     // Content
@@ -49,7 +49,7 @@ function wp_ajax_nopriv_ithoughts_tt_gl_get_term_details(){
     if( empty($content) )
         $content = apply_filters( 'the_content', $term->post_content );
     if( empty($content) )
-        $content = '<p>'.__('No content','ithoughts-tooltip-glossary').'...</p>';
+        $content = '<p>'.__('No content','ithoughts_tooltip_glossary').'...</p>';
 
 
     wp_send_json_success( array('title'=>$title, 'content'=>$content) );
