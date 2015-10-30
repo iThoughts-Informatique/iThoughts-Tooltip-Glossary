@@ -71,6 +71,9 @@ You have to add the terms (Tooltip Glossary > Add New Term) and then use the app
 == Changelog ==
 
 = 1.0.2 =
+Re
+
+= 1.0.2 =
 * FIX Random Term Widget
 
 = 1.0.1 =
@@ -109,6 +112,9 @@ You have to add the terms (Tooltip Glossary > Add New Term) and then use the app
 
 
 == Upgrade Notice ==
+
+= 1.0.2 =
+Re
 
 = 1.0.2 =
 Fixed an issue with Random Term Widget.
