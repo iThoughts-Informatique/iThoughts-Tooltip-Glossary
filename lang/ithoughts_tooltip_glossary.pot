@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: iThoughts Tooltip Glossary\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue Oct 27 2015 11:54:04 GMT-1000 (TAHT)\n"
-"POT-Revision-Date: Wed Oct 28 2015 22:29:13 GMT-1000 (TAHT)\n"
+"POT-Revision-Date: Thu Oct 29 2015 16:20:29 GMT-1000 (TAHT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -118,17 +118,17 @@ msgid "Description"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:29 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:41
+#: random-term.class.php:45
 msgid "Group"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:30 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:51 ../class/ithoughts_tt_gl-admin.class.php:154
+#: random-term.class.php:55 ../class/ithoughts_tt_gl-admin.class.php:154
 msgid "Full"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:31 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:50 ../class/ithoughts_tt_gl-admin.class.php:158
+#: random-term.class.php:54 ../class/ithoughts_tt_gl-admin.class.php:158
 msgid "Excerpt"
 msgstr ""
 
@@ -183,6 +183,10 @@ msgstr ""
 msgid "Please select from the menu above"
 msgstr ""
 
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:10
+msgid "Random Term From Glossary"
+msgstr ""
+
 #: ../class/ithoughts_tt_gl-widget-random-term.class.php:13
 msgid "Add a random glossary term to your sidebar"
 msgstr ""
@@ -196,19 +200,19 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:38
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:43
 msgid "Any"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:49
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:53
 msgid "Title Only"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:54
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:58
 msgid "Display"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:107
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:111
 msgid "No terms available"
 msgstr ""
 

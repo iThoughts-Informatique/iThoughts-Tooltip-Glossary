@@ -2,10 +2,10 @@
 Contributors: Gerkin, tcbarrett
 Plugin URL: http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
-Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations
+Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, 
 Requires at least: 3.0
 Tested up to: 4.3.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -70,6 +70,9 @@ You have to add the terms (Tooltip Glossary > Add New Term) and then use the app
 
 == Changelog ==
 
+= 1.0.2 =
+* FIX Random Term Widget
+
 = 1.0.1 =
 * UPD improved French translation
 * UPD correction to remove an error message
@@ -107,6 +110,9 @@ You have to add the terms (Tooltip Glossary > Add New Term) and then use the app
 
 == Upgrade Notice ==
 
+= 1.0.2 =
+Fixed an issue with Random Term Widget.
+
 = 1.0.1 =
 Removed an error message that appeared sometimes in the footer
 
@@ -125,35 +131,8 @@ New version to force update from dirty release
 = 0.2 =
 The menu of the plugin is now complete and clean, not dirty as it was until now. French users will be pleased to see the plugin in their language.
 
-== Example Syntax ==
-
-The WordPress shortcode syntax is really simple!
-
-= Display and link to glossary with slug 'seo' =
-[glossary slug='seo' /]
-
-= Auto search word for matching glossary term (e.g. 'seo') =
-[glossary]SEO[/glossary]
-
-= Inline tooltip =
-[tooltip content="My text content"]content[/tooltip]
-
-= Apply glossary term with slug 'seo' to post content 'search engine optimisation' =
-[glossary slug='seo']search engine optimisation[/glossary]
-
-= Display a list of all your glossary terms (alphabetical) =
-[glossary_term_list /]
-
-= Display list of glossary terms beginning with a, b or c =
-[glossary_term_list alpha='a,b,c' /]
-
-= Display a jQuery-powered A to Z list of your glossary terms =
-[glossary_atoz /]
-
-= Further Examples =
-See the [dedicated website section](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/)
-
 == Thanks to & Resources ==
 
 Icon from [allur.co](http://allur.co/minimalist-edit-icon-tooltip-psd-ai/)
 TCBarrett for his [WP Glossary plugin](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
+[Laurent Pelleray](http://lpelleray.wix.com/laurent-pelleray#!infographie/c1vmr) for graphical elements

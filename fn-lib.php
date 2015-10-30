@@ -39,11 +39,11 @@ function ithoughts_tt_gl_build_dropdown_multilevel( $id, $args ){
     // Expand string into array
     if( is_string($allow_blank) ):
     $allow_blank = array(
-        'value' => 'none',
+        'value' => '',
         'title' => $allow_blank
     );
     endif;
-    $dropdown .= '<option value="' . $allow_blank['value'] . '">' . $allow_blank['title'] . '</option>';
+    $dropdown .= '<option value="' . $allow_blank['value'] . '" '.selected($selected, "", true).'>' . $allow_blank['title'] . '</option>';
     endif;
     foreach( $options as $value => $option ) {
         if( is_array($option) ) {
