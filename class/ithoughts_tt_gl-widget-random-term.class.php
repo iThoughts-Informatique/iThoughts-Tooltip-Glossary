@@ -4,7 +4,6 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
 
     public function __construct() {
         self::$options = get_option( 'ithoughts_tt_gl' );
-        self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
         parent::__construct(
             'ithoughts_tt_gl-random-term',
             __('Random Term From Glossary', 'ithoughts_tooltip_glossary'),
@@ -80,7 +79,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
         $numberposts = isset($instance['numberposts']) ? $instance['numberposts'] : 1;
 
         $termargs = array(
-            'post_type'   => self::$options["termtype"],
+            'post_type'   => "glossary",
             'post_status' => 'publish',
             'numberposts' => $numberposts,
             'orderby'     => 'rand',

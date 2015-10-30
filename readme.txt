@@ -5,7 +5,7 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, 
 Requires at least: 3.0
 Tested up to: 4.3.1
-Stable tag: 1.0.2
+Stable tag: 1.0.2.1
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -70,6 +70,9 @@ You have to add the terms (Tooltip Glossary > Add New Term) and then use the app
 
 == Changelog ==
 
+= 1.0.2.1 =
+* FIX Kick out parasyte option
+
 = 1.0.2 =
 Re
 
@@ -112,6 +115,9 @@ Re
 
 
 == Upgrade Notice ==
+
+= 1.0.2.1 =
+Fixed parasite option
 
 = 1.0.2 =
 Re
