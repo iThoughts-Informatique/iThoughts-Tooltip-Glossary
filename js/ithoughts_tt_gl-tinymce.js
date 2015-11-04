@@ -77,7 +77,6 @@
                 border: "0 0 0 0",
                 body: [
                     new tinyMCE.ui.TabPanel({
-                        title: "Hello",
                         margin: "0 0 0 0",
                         padding: "0 0 0 0",
                         border: "0 0 0 0",
@@ -98,14 +97,14 @@
                                         label:editor.getLang('ithoughts_tt_gl_tinymce.letters'),
                                         name:"ll",
                                         value: values.list.alpha,
-                                        tooltip:"Letters to be displayed in the list. If not specified, all letters will be displayed"
+                                        tooltip:editor.getLang('ithoughts_tt_gl_tinymce.letters_explain')
                                     },
                                     {
                                         type:"textbox",
                                         label:editor.getLang('ithoughts_tt_gl_tinymce.columns'),
                                         name:"lc",
                                         value: values.list.cols,
-                                        tooltip:"Number of columns to show for list"
+                                        tooltip:editor.getLang('ithoughts_tt_gl_tinymce.columns_explain')
                                     },
                                     {
                                         type:"listbox",
@@ -126,14 +125,14 @@
                                             }
                                         ],
                                         value: values.list.desc,
-                                        tooltip:"Description mode: Excerpt/Full"
+                                        tooltip:editor.getLang('ithoughts_tt_gl_tinymce.description_explain')
                                     },
                                     {
                                         type:"textbox",
                                         label:editor.getLang('ithoughts_tt_gl_tinymce.group'),
                                         name:"lg",
                                         value: values.list.group,
-                                        tooltip:"Group(s) to list"
+                                        tooltip:editor.getLang('ithoughts_tt_gl_tinymce.group_explain')
                                     }
                                 ]
                             }),
@@ -146,14 +145,14 @@
                                         label:editor.getLang('ithoughts_tt_gl_tinymce.letters'),
                                         name:"al",
                                         value: values.atoz.alpha,
-                                        tooltip:"Letters to be displayed in the list. If not specified, all letters will be displayed"
+                                        tooltip:editor.getLang('ithoughts_tt_gl_tinymce.letters_explain')
                                     },
                                     {
                                         type:"textbox",
                                         label:editor.getLang('ithoughts_tt_gl_tinymce.group'),
                                         name:"ag",
                                         value: values.atoz.group,
-                                        tooltip:"Group(s) to list"
+                                        tooltip:editor.getLang('ithoughts_tt_gl_tinymce.group_explain')
                                     }
                                 ]
                             })
@@ -196,48 +195,49 @@
         function glossarytermfct(event){
             //var values = {content:"",slug:""};
             var values = {
-                tt: {
-                    t: "",
-                    c: ""
+                glossary: "",
+                tooltip: "",
+                mediatip: {
+                    image: "",
+                    id: "",
+                    link: ""
                 },
-                gl: {
-                    t: "",
-                    s: "",
-                },
+                text: "",
                 type: 0
             };
             var mode = "";
 
             sel = editor.selection;
+            var types = ["ithoughts-tooltip-glossary-term", "ithoughts-tooltip-glossary-tooltip", "ithoughts-tooltip-glossary-mediatip"]
             if(sel.getStart() === sel.getEnd()){
-                if(sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-term" || sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-tooltip"){ // On Glossary Term or Tooltip, load data
+                if(types.indexOf(sel.getStart().getAttribute("data-type")) > -1){ // On Glossary Term or Tooltip or Mediatip, load data
                     mode = "complete";
                     values= {
-                        tt: {
-                            t:sel.getStart().textContent,
-                            c: window.decodeURIComponent(sel.getStart().getAttribute("data-content")) || sel.getStart().textContent
+                        text: sel.getStart().textContent,
+                        content: ((sel.getStart().getAttribute("data-content")) ? window.decodeURIComponent(sel.getStart().getAttribute("data-content")) : null) || sel.getStart().textContent,
+                        glossary: sel.getStart().getAttribute("data-slug") || sel.getStart().textContent,
+                        mediatip: {
+                            image: sel.getStart().getAttribute("data-image"),
+                            id: sel.getStart().getAttribute("data-imageid"),
+                            link: sel.getStart().getAttribute("data-link")
                         },
-                        gl: {
-                            t:sel.getStart().textContent,
-                            s: sel.getStart().getAttribute("data-slug") || sel.getStart().textContent
-                        },
-                        type: (sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-term") ? 0 : 1
-                    }
+                        type: types.indexOf(sel.getStart().getAttribute("data-type"))
+                    };
                 } else { //Create new glossary term
                     var content = sel.getContent({format: 'text'});
                     if(content && content.length > 0){ // If something is selected
                         console.log("Content");
-                        values = {
-                            tt: {
-                                t:content,
-                                c:content
+                        values= {
+                            text: content,
+                            content: content,
+                            glossary: content,
+                            mediatip: {
+                                image: "",
+                                id: "",
+                                link: ""
                             },
-                            gl: {
-                                t:content,
-                                s:content
-                            },
-                            type:1
-                        }
+                            type: 1
+                        };
                     } else { // If no selection
                         var rng = sel.getRng();
                         //Find immediate next && previous chars
@@ -265,6 +265,7 @@
             }
 
             console.log("Mode:", mode);
+            console.log("Values:",values);
             //Retrieve list of glossary terms
             jQuery.ajax({
                 url: ithoughts_tt_gl.admin_ajax,
@@ -278,17 +279,17 @@
                     } else {
                         console.log(resJson);
                         listtabT = values.type;
+                        var myurl = "/media-upload.php?type=audio&height=700&width=600";/*&TB_iframe=true*/
 
                         //Todo find glossary posts via AJAX
                         editor.windowManager.open({
-                            title: 'Insert Tooltip',
+                            title: editor.getLang('ithoughts_tt_gl_tinymce.insert_tooltip'),
                             name:"tooltip",
                             margin: "0 0 0 0",
                             padding: "0 0 0 0",
                             border: "0 0 0 0",
                             body: [
                                 new tinyMCE.ui.TabPanel({
-                                    title: "Tooltip",
                                     margin: "0 0 0 0",
                                     padding: "0 0 0 0",
                                     border: "0 0 0 0",
@@ -302,27 +303,20 @@
                                     items:[
                                         new tinyMCE.ui.Factory.create({
                                             type:"form",
-                                            title:"Glossary Term",
+                                            title:editor.getLang('ithoughts_tt_gl_tinymce.glossary_term'),
                                             items: [
                                                 {
                                                     type:"textbox",
                                                     label:editor.getLang('ithoughts_tt_gl_tinymce.text'),
                                                     name:"gt",
-                                                    value: values.gl.t,
-                                                    tooltip:"Text to display"
-                                                },/*
-                                                {
-                                                    type:"textbox",
-                                                    label:"Slug",
-                                                    name:"ag",
-                                                    value: values.gl.s,
-                                                    tooltip:"Slug of term"
-                                                },*/
+                                                    value: values.text,
+                                                    tooltip:editor.getLang('ithoughts_tt_gl_tinymce.text_explain') || "Text to display"
+                                                },
                                                 {
                                                     type: "listbox",
                                                     label: editor.getLang('ithoughts_tt_gl_tinymce.term'),
                                                     name: "gs",
-                                                    value: values.gl.s,
+                                                    value: values.glossary,
                                                     values: [{text: "", value: "", tooltip: "Empty"}].concat(
                                                         Object.keys(resJson.data).map(function(key){
                                                             console.log(key);
@@ -339,22 +333,109 @@
                                         }),
                                         new tinyMCE.ui.Factory.create({
                                             type:"form",
-                                            title: "Tooltip",
+                                            title: editor.getLang('ithoughts_tt_gl_tinymce.tooltip'),
                                             items:[
                                                 {
                                                     type:"textbox",
                                                     label:editor.getLang('ithoughts_tt_gl_tinymce.text'),
                                                     name:"tt",
-                                                    value: values.tt.t,
-                                                    tooltip:"Text to display"
+                                                    value: values.text,
+                                                    tooltip:editor.getLang('ithoughts_tt_gl_tinymce.text_explain') || "Text to display"
                                                 },
                                                 {
                                                     type:"textbox",
                                                     label:editor.getLang('ithoughts_tt_gl_tinymce.content'),
                                                     name:"tc",
-                                                    value: values.tt.c,
-                                                    tooltip:"Text into the tooltip"
+                                                    value: values.content,
+                                                    tooltip:editor.getLang('ithoughts_tt_gl_tinymce.content_explain') || "Text into the tooltip"
                                                 }
+                                            ]
+                                        }),
+                                        new tinyMCE.ui.Factory.create({
+                                            type:"form",
+                                            title: editor.getLang('ithoughts_tt_gl_tinymce.mediatip'),
+                                            items:[
+                                                {
+                                                    type:"textbox",
+                                                    label:editor.getLang('ithoughts_tt_gl_tinymce.text'),
+                                                    name:"mt",
+                                                    value: values.text,
+                                                    tooltip:editor.getLang('ithoughts_tt_gl_tinymce.text_explain') || "Text to display"
+                                                },
+                                                {
+                                                    type: "container",
+                                                    onpostrender: function(){
+                                                        if(values.mediatip.image != "" && values.mediatip.link != "" && values.mediatip.id != "" && values.mediatip.image && values.mediatip.link && values.mediatip.id)
+                                                            jQuery('#image-box-body')[0].innerHTML = '<img src="' + window.decodeURIComponent(values.mediatip.image) + '"/>';
+                                                    },
+                                                    id: "image-box",
+                                                    minHeight: "150",
+                                                    maxHeight: "150",
+                                                    maxWidth: "300",
+                                                    style: "text-align: center;margin:0 auto"
+                                                },
+                                                {
+                                                    type: "textbox",
+                                                    value: (function(){
+                                                        if(values.mediatip.image != "" && values.mediatip.link != "" && values.mediatip.id != "" && values.mediatip.image && values.mediatip.link && values.mediatip.id)
+                                                            return JSON.stringify({
+                                                                url:values.mediatip.image,
+                                                                id: values.mediatip.id,
+                                                                link:values.mediatip.link
+                                                            });
+                                                        else
+                                                            return "";
+                                                    })(),
+                                                    hidden: true,
+                                                    name:"mc",
+                                                    id: "image-box-id"
+
+                                                },
+                                                {
+                                                    type: 'button',
+                                                    name: 'select-image',
+                                                    text: editor.getLang('ithoughts_tt_gl_tinymce.select_image'),
+                                                    onclick: function() {
+                                                        onclickEntryPoint = this;
+                                                        console.log(onclickEntryPoint);
+
+                                                        window.mb = window.mb || {};
+
+                                                        window.mb.frame = wp.media({
+                                                            frame: 'post',
+                                                            state: 'insert',
+                                                            library : {
+                                                                type : ["audio", "video",'image']
+                                                            },
+                                                            multiple: false
+                                                        });
+
+                                                        window.mb.frame.on('insert', function() {
+                                                            var json = window.mb.frame.state().get('selection').first().toJSON();
+                                                            console.log(json);
+
+                                                            if (0 > jQuery.trim(json.url.length)) {
+                                                                return;
+                                                            }
+
+                                                            jQuery("#image-box-id").val(JSON.stringify({
+                                                                url:json.url,
+                                                                id: json.id,
+                                                                link: json.link
+                                                            }));
+                                                            jQuery('#image-box-body')[0].innerHTML = '<img src="' + json.url + '"/>';
+                                                        });
+
+                                                        window.mb.frame.open();
+                                                    }
+                                                }/*
+                                                {
+                                                    type:"textbox",
+                                                    label:editor.getLang('ithoughts_tt_gl_tinymce.mediatip'),
+                                                    name:"mc",
+                                                    value: values.mediatip,
+                                                    tooltip:"Media content of the tooltip"
+                                                }*/
                                             ]
                                         })
                                     ],
@@ -362,7 +443,7 @@
                                 })
                             ],
                             onsubmit: function(e) {
-                                console.log(e.data);
+                                console.log(e.data, listtabT);
                                 // Insert content when the window form is submitted
                                 if(mode == "complete")
                                     sel.select(sel.getStart());
@@ -374,16 +455,34 @@
                                     console.log(rng, arr);
                                     editor.fire("DblClick");
                                 }
-                                if(listtabT == 0){
-                                    if(e.data.gt.trim() == "" || e.data.gs == "")
-                                        return;
-                                    else
-                                        editor.insertContent('[glossary slug="'+e.data.gs+'"]'+e.data.gt.trim()+"[/glossary] ");
-                                } else {
-                                    if(e.data.tc.trim() == "" || e.data.tt.trim() == "")
-                                        return;
-                                    else
-                                        editor.insertContent('[tooltip content="'+e.data.tc.trim()+'"]'+e.data.tt.trim()+"[/tooltip] ");
+                                switch(parseInt(listtabT)){
+                                    case 0: {
+                                        if(e.data.gt.trim() == "" || e.data.gs == "")
+                                            return;
+                                        else
+                                            editor.insertContent('[glossary slug="'+e.data.gs+'"]'+e.data.gt.trim()+"[/glossary] ");
+                                    } break;
+
+                                    case 1: {
+                                        if(e.data.tc.trim() == "" || e.data.tt.trim() == "")
+                                            return;
+                                        else
+                                            editor.insertContent('[tooltip content="'+e.data.tc.trim()+'"]'+e.data.tt.trim()+"[/tooltip] ");
+                                    } break;
+
+                                    case 2: {
+                                        try{
+                                            console.log(e.data);
+                                            if(e.data.mc.trim() == "" || e.data.mt.trim() == "")
+                                                return;
+                                            var imgdata = JSON.parse(e.data.mc);
+                                            console.log(imgdata);
+                                            editor.insertContent('[mediatip link="'+imgdata.link+'" image="'+imgdata.url+'" imageid="'+imgdata.id+'"]'+e.data.mt.trim()+"[/tooltip] ");
+                                        } catch(e){
+                                            console.error("Error with serialized data", e);
+                                            return;
+                                        }
+                                    } break;
                                 }
                             }
                         });
@@ -427,7 +526,7 @@
         });
 
         editor.onNodeChange.add(function(ed, cm, e) {
-            if(e.getAttribute("data-type") == "ithoughts-tooltip-glossary-term" || e.getAttribute("data-type") == "ithoughts-tooltip-glossary-tooltip")
+            if(e.getAttribute("data-type") == "ithoughts-tooltip-glossary-term" || e.getAttribute("data-type") == "ithoughts-tooltip-glossary-tooltip" || e.getAttribute("data-type") == "ithoughts-tooltip-glossary-mediatip")
                 editor.fire('glossaryterm', {active: true});
             else
                 editor.fire('glossaryterm', {active: false});
@@ -441,14 +540,14 @@
 
 replaceShortcodesEl = [
     function(content){ // For [glossary]
-        return content.replace( /\[(glossary|tooltip)(?!_)(.*?)\](.*?)\[\/(glossary|tooltip)\]/g, function( all,balise,inner, text){
+        return content.replace( /\[(glossary|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/(glossary|tooltip|mediatip)\]/g, function( all,balise,inner, text){
             var attrs = {};
             var regex = /([\w\d\-]+?)="(.+?)"/g;
             var matched = null;
             while (matched = regex.exec(inner)) {
                 attrs[matched[1]] = matched[2];
             }
-            var ret = "<a data-type=\"ithoughts-tooltip-glossary-"+((balise=="glossary") ? "term" : "tooltip") + "\"";
+            var ret = "<a data-type=\"ithoughts-tooltip-glossary-"+["term","tooltip","mediatip"][["glossary","tooltip","mediatip"].indexOf(balise)]+ "\"";
             for(var i in attrs){
                 ret += " data-"+window.encodeURIComponent(i)+"=\""+window.encodeURIComponent(attrs[i])+"\"";
             }
@@ -473,14 +572,14 @@ replaceShortcodesEl = [
 ];
 restoreShortcodesEl = [
     function(content){ // For [glossary]
-        return content.replace( /<a\s+data-type="ithoughts-tooltip-glossary-(term|tooltip)"(.*?)>(.*?)<\/a>/g, function( all,type,inner, text){
+        return content.replace( /<a\s+data-type="ithoughts-tooltip-glossary-(term|tooltip|mediatip)"(.*?)>(.*?)<\/a>/g, function( all,type,inner, text){
             var attrs = {};
             var regex = /data-([\w\d\-]+?)="(.+?)"/g;
             var matched = null;
             while (matched = regex.exec(inner)) {
                 attrs[matched[1]] = matched[2];
             }
-            var b = ((type == "term") ? "glossary" : "tooltip");
+            var b = ["glossary","tooltip","mediatip"][["term","tooltip","mediatip"].indexOf(type)];
             var ret = "[" + b;
             for(var i in attrs){
                 ret += " "+window.decodeURIComponent(i)+"=\""+window.decodeURIComponent(attrs[i])+"\"";

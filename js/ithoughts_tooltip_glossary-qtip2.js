@@ -49,41 +49,74 @@
                 });
             }
 
-            var content;
-            if($(this).hasClass("ithoughts_tt_gl-glossary"))
-                content = {
-                    text: 'Loading glossary term',
-                    ajax: {
-                        url     : ithoughts_tt_gl.admin_ajax,
-                        type    : 'POST',
-                        data    : ajaxPostData,
-                        dataType: 'json',
-                        loading : false,
-                        success : function(resp, status){
-                            if( resp.success ) {
-                                this.set( 'content.title', resp.data.title );
-                                this.set( 'content.text',  resp.data.content );
-                            } else {
-                                this.set( 'content.text', 'Error' );
+            var tipClass = 'qtip-'+qtipstyle+' qtip-shadow qtip-rounded ';
+            var specific;
+            if($(this).hasClass("ithoughts_tt_gl-glossary")){
+                specific = {
+                    content: {
+                        text: 'Loading glossary term',
+                        ajax: {
+                            url     : ithoughts_tt_gl.admin_ajax,
+                            type    : 'POST',
+                            data    : ajaxPostData,
+                            dataType: 'json',
+                            loading : false,
+                            success : function(resp, status){
+                                if( resp.success ) {
+                                    this.set( 'content.title', resp.data.title );
+                                    this.set( 'content.text',  resp.data.content );
+                                } else {
+                                    this.set( 'content.text', 'Error' );
+                                }
                             }
+                        },
+                        title: { text: 'Glossary Title' }
+                    },
+                    style: {
+                        classes: tipClass + "ithoughts_tt_gl-glossary"
+                    }
+                };
+            } else if($(this).hasClass("ithoughts_tt_gl-tooltip")){
+                specific = {
+                    style: {
+                        classes: tipClass + "ithoughts_tt_gl-tooltip"
+                    },
+                    content: {
+                        text: this.getAttribute("data-tooltip-content"),
+                        title: { text: $(this).text() }
+                    }
+                };
+            } else if($(this).hasClass("ithoughts_tt_gl-mediatip")){
+                specific = {
+                    style: {
+                        classes: tipClass + "ithoughts_tt_gl-mediatip",
+                        //width:"350px"
+                    },
+                    position:{
+                        adjust: {
+                            scroll: false
                         }
                     },
-                    title: { text: 'Glossary Title' }
+                    content: {
+                        text: "<img src=\"" + this.getAttribute("data-mediatip-image") + "\" alt=\"" + $(this).text() + "\">",
+                        title: { text: $(this).text() }
+                    },
+                    events:{
+                        show: function(){
+                            $(this).qtip().reposition();
+                        }
+                    }
                 };
-            else if($(this).hasClass("ithoughts_tt_gl-tooltip"))
-                content = {
-                    text: this.getAttribute("data-tooltip-content"),
-                    title: { text: $(this).text() }
-                };
+            } else
+                return;
 
-            $(this).qtip({
-                content: content,
+            var opts = $.extend(true, {
                 prerender: true,
                 position: {
                     at      : 'bottom center', // Position the tooltip above the link
                     my      : 'top center',
                     viewport: $("body"),       // Keep the tooltip on-screen at all times
-                    effect  : false            // Disable positioning animation
+                    effect  : false,           // Disable positioning animation
                 },
                 show: {
                     event: ithoughts_tt_gl.qtiptrigger,
@@ -91,45 +124,45 @@
                 },
                 //hide: 'unfocus',
                 hide: (ithoughts_tt_gl.qtiptrigger == 'responsive') ? "responsiveout" : 'mouseleave',
-                style: { 
-                    classes: 'qtip-'+qtipstyle+' qtip-shadow qtip-rounded'
-                }
-            })
-        });
+                style: tipClass
+            }, specific);
+            console.log(opts);
+            $(this).qtip(opts);
 
-        //Remove title for tooltip, causing double tooltip
-        $(this).find("a[title]").removeAttr("title");
+            //Remove title for tooltip, causing double tooltip
+            $(this).find("a[title]").removeAttr("title");
 
 
-        glossaryIndex = $("#glossary-index");
-        // Tile-based glossary
-        // TODO: add resize
-        if(glossaryIndex){
-            var bodydiv = glossaryIndex.find("#glossary-container");
-            switch(glossaryIndex.data("type")){
-                case "tile":{
-                    console.log("Tile mode");
-                    var headTiles = glossaryIndex.find("header p[data-empty=\"false\"]");
-                    console.log(headTiles);
-                    headTiles.click(function(e){
-                        glossaryIndex.find('article[data-active="true"]').attr("data-active", false);
-                        var newDisplayed = glossaryIndex.find('article[data-chartype="' + $(e.target).data("chartype") + '"]');
-                        newDisplayed.attr("data-active", "true");
-                        bodydiv.animate({
-                            height: newDisplayed.outerHeight(true)
-                        },{
-                            duration: 500,
-                            queue: false,
-                            step:function(){
-                                bodydiv.css("overflow","visible");
-                            },
-                            complete: function() {
-                                bodydiv.css("overflow","visible");
-                            }
+            glossaryIndex = $("#glossary-index");
+            // Tile-based glossary
+            // TODO: add resize
+            if(glossaryIndex){
+                var bodydiv = glossaryIndex.find("#glossary-container");
+                switch(glossaryIndex.data("type")){
+                    case "tile":{
+                        console.log("Tile mode");
+                        var headTiles = glossaryIndex.find("header p[data-empty=\"false\"]");
+                        console.log(headTiles);
+                        headTiles.click(function(e){
+                            glossaryIndex.find('article[data-active="true"]').attr("data-active", false);
+                            var newDisplayed = glossaryIndex.find('article[data-chartype="' + $(e.target).data("chartype") + '"]');
+                            newDisplayed.attr("data-active", "true");
+                            bodydiv.animate({
+                                height: newDisplayed.outerHeight(true)
+                            },{
+                                duration: 500,
+                                queue: false,
+                                step:function(){
+                                    bodydiv.css("overflow","visible");
+                                },
+                                complete: function() {
+                                    bodydiv.css("overflow","visible");
+                                }
+                            });
                         });
-                    });
-                } break;
+                    } break;
+                }
             }
-        }
+        });
     });
 })(jQuery);

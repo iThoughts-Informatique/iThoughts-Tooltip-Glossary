@@ -18,7 +18,7 @@ class ithoughts_tt_gl{
         self::$options["singletype"] = is_string(self::$options["singletype"]) ? self::$options["singletype"] : "single";
         self::$options["archivetype"] = is_string(self::$options["archivetype"]) ? self::$options["archivetype"] : "archive";
 
-        
+
         add_action( 'plugins_loaded', array($this, 'localisation') );
         $this->register_post_types();
         $this->register_taxonmies();
@@ -58,6 +58,8 @@ class ithoughts_tt_gl{
     private function add_shortcodes(){
         require_once( $this->base() . '/ithoughts_tt_gl-shortcode-tooltip.class.php' );
         new ithoughts_tt_gl_Shortcodes_tooltip();
+        require_once( $this->base() . '/ithoughts_tt_gl-shortcode-mediatip.class.php' );
+        new ithoughts_tt_gl_Shortcodes_mediatip();
         require_once( $this->base() . '/ithoughts_tt_gl-shortcode-glossary.class.php' );
         new ithoughts_tt_gl_Shortcodes_glossary();
         require_once( $this->base() . '/ithoughts_tt_gl-shortcode-glossary-atoz.class.php' );
@@ -81,8 +83,9 @@ class ithoughts_tt_gl{
         $qtipstyle   = isset( $options['qtipstyle'] )   ? $options['qtipstyle']:   'cream';
         $qtiptrigger = isset( $options['qtiptrigger'] ) ? $options['qtiptrigger']: 'hover';
         //wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/qtip.js', array('jquery') );
-        wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/jquery.qtip.js',        array('jquery') );
-        wp_register_script( 'ithoughts-tooltip-glossary-qtip',  $this->base_url() . '/js/ithoughts_tooltip_glossary-qtip2.js', array('jquery-tooltip') );
+        wp_enqueue_script('imagesloaded', $this->base_url() . '/ext/imagesloaded.min.js', null, false, true);
+        wp_enqueue_script('qtip', $this->base_url() . '/ext/jquery.qtip.js', array('jquery', 'imagesloaded'), false, true);
+        wp_register_script( 'ithoughts-tooltip-glossary-qtip',  $this->base_url() . '/js/ithoughts_tooltip_glossary-qtip2.js', array('qtip') );
         wp_register_script( 'ithoughts-tooltip-glossary-atoz',  $this->base_url() . '/js/ithoughts_tooltip_glossary-atoz.js',  array('jquery') );
         // qTip localisation settings
         wp_localize_script( 'ithoughts-tooltip-glossary-qtip', 'ithoughts_tt_gl', array(

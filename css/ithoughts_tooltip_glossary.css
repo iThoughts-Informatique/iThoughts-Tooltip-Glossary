@@ -125,3 +125,19 @@ border-right: 1px dotted #333;
     border: 1px solid grey;
     background: #ffffff;
 }
+
+
+
+
+/****************************************************
+Specific styles for tip
+****************************************************/
+.qtip.ithoughts_tt_gl-mediatip{
+    max-width: 350px;
+}
+.ithoughts_tt_gl-mediatip .qtip-content{
+    padding: 0px;
+}
+.ithoughts_tt_gl-mediatip .qtip-content img{
+    max-height: 75vh!important;
+}

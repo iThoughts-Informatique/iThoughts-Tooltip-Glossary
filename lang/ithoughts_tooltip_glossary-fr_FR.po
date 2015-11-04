@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: iThoughts Tooltip Glossary\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue Oct 27 2015 11:54:04 GMT-1000 (TAHT)\n"
-"PO-Revision-Date: Thu Oct 29 2015 16:20:51 GMT-1000 (TAHT)\n"
+"PO-Revision-Date: Tue Nov 03 2015 17:35:52 GMT-1000 (TAHT)\n"
 "Last-Translator: admin <agermain@gerkindevelopment.net>\n"
 "Language-Team: \n"
 "Language: French (France)\n"
@@ -12,19 +12,57 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Loco-Source-Locale: fr_FR\n"
+"X-Loco-Parser: loco_parse_po\n"
+"X-Loco-Target-Locale: fr_FR\n"
+"X-Generator: Loco - https://localise.biz/\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 "X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
 "__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
 "_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
 "esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
-"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
-"X-Generator: Loco - https://localise.biz/\n"
-"X-Loco-Target-Locale: fr_FR"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2"
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:10
-msgid "Random Term From Glossary"
-msgstr "Terme aléatoire depuis le glossaire"
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:16
+msgid "Text to display as link"
+msgstr "Texte à afficher en tant que lien"
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:21
+msgid "Content to display into the tooltip"
+msgstr "Contenu à afficher dans l'infobulle"
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:22
+msgid "Mediatip"
+msgstr "Médiabulle"
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:23
+msgid "Select an image"
+msgstr "Sélectionnez une image"
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:31
+msgid ""
+"Letters to be displayed in the list. If not specified, all letters will be "
+"displayed"
+msgstr ""
+"Lettres à afficher dans la liste. Si rien n'est indiqué, toutes les lettres "
+"seront affichées"
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:33
+msgid "Number of columns to show for list"
+msgstr "Nombre de colonnes à afficher dans la liste"
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:35
+msgid "Group(s) to list"
+msgstr "Groupe(s) de termes à lister"
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:37
+msgid "Description mode: Full/Excerpt/None"
+msgstr "Mode de description: Complet/Extrait/Aucun"
+
+#. Name of the plugin
+msgid "iThoughts Tooltip Glossary"
+msgstr "iThoughts Tooltip Glossary"
 
 #: ../ajax.php:30
 msgid "Private glossary term"
@@ -45,10 +83,6 @@ msgstr "- Pas d'Options -"
 #: ../fn-lib.php:36
 msgid "- Please Select -"
 msgstr "- Sélectionnez -"
-
-#. Name of the plugin
-msgid "iThoughts Tooltip Glossary"
-msgstr "iThoughts Tooltip Glossary"
 
 #. URI of the plugin
 msgid "http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary"
@@ -72,67 +106,67 @@ msgstr "Ajouter une infobulle"
 msgid "Insert Tooltip"
 msgstr "Insérer une infobulle"
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:15 ../class/ithoughts_tt_gl-post-
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:15
+msgid "Text"
+msgstr "Texte"
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:17 ../class/ithoughts_tt_gl-post-
 #: types.class.php:22
 msgid "Glossary Term"
 msgstr "Termes du glossaire"
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:16
-msgid "Tooltip"
-msgstr "Infobulle"
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:17
-msgid "Text"
-msgstr "Texte"
-
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:18
-msgid "Content"
-msgstr "Contenu"
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:19
 msgid "Term"
 msgstr "Terme"
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:22
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:19
+msgid "Tooltip"
+msgstr "Infobulle"
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:20
+msgid "Content"
+msgstr "Contenu"
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:26
 msgid "Add a Glossary Index"
 msgstr "Ajouter un index de glossaire"
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:23
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:27
 msgid "Insert Glossary Index"
 msgstr "Insérer un index de glossaire"
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:24
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:28
 msgid "List"
 msgstr "Liste"
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:25
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:29
 msgid "A to Z"
 msgstr "A à Z"
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:26
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:30
 msgid "Letters"
 msgstr "Lettres"
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:27
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:32
 msgid "Columns"
 msgstr "Colonnes"
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:28
-msgid "Description"
-msgstr "Description"
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:29 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:45
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:34 ../class/ithoughts_tt_gl-widget-
+#: random-term.class.php:47
 msgid "Group"
 msgstr "Groupe"
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:30 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:55 ../class/ithoughts_tt_gl-admin.class.php:154
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:36
+msgid "Description"
+msgstr "Description"
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:38 ../class/ithoughts_tt_gl-widget-
+#: random-term.class.php:57 ../class/ithoughts_tt_gl-admin.class.php:154
 msgid "Full"
 msgstr "Complet"
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:31 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:54 ../class/ithoughts_tt_gl-admin.class.php:158
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:39 ../class/ithoughts_tt_gl-widget-
+#: random-term.class.php:56 ../class/ithoughts_tt_gl-admin.class.php:158
 msgid "Excerpt"
 msgstr "Extrait"
 
@@ -187,32 +221,36 @@ msgstr "Termes"
 msgid "Please select from the menu above"
 msgstr "Veuillez sélectionner un élément"
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:13
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:9
+msgid "Random Term From Glossary"
+msgstr "Terme aléatoire depuis le glossaire"
+
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:12
 msgid "Add a random glossary term to your sidebar"
 msgstr "Ajoute un terme aléatoire du glossaire à votre barre latérale"
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:21
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:20
 msgid "Random Glossary term"
 msgstr "Terme du glossaire aléatoire"
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:26 ..
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:25 ..
 #: class/ithoughts_tt_gl-post-types.class.php:73
 msgid "Title"
 msgstr "Titre"
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:43
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:44
 msgid "Any"
 msgstr "Tous"
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:53
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:55
 msgid "Title Only"
 msgstr "Titre seulement"
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:58
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:60
 msgid "Display"
 msgstr "Affichage"
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:111
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:115
 msgid "No terms available"
 msgstr "Pas de termes disponibles"
 

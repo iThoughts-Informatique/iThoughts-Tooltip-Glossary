@@ -43,7 +43,7 @@ function ithoughts_tt_gl_build_dropdown_multilevel( $id, $args ){
         'title' => $allow_blank
     );
     endif;
-    $dropdown .= '<option value="' . $allow_blank['value'] . '" '.selected($selected, "", true).'>' . $allow_blank['title'] . '</option>';
+    $dropdown .= '<option value="' . $allow_blank['value'] . '" '.selected($selected, "", false).'>' . $allow_blank['title'] . '</option>';
     endif;
     foreach( $options as $value => $option ) {
         if( is_array($option) ) {
@@ -52,7 +52,7 @@ function ithoughts_tt_gl_build_dropdown_multilevel( $id, $args ){
                 $dropdown.='<optgroup label="'.$value.'">';
                 foreach($option as $subkey => $suboption){
                     if($subkey != "type"){
-                $dropdown .= '<option class="' . $optclass . '" value="' . $subkey . '" ' . selected($selected, $subkey, false) . ' ' . $att_string . '>' . $suboption . '</option>';
+                        $dropdown .= '<option class="' . $optclass . '" value="' . $subkey . '" ' . selected($selected, $subkey, false) . ' ' . $att_string . '>' . $suboption . '</option>';
                     }
                 }
                 $dropdown.='</optgroup>';

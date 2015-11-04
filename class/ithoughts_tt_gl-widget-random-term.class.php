@@ -35,12 +35,15 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
             }
         }
 
-        $groupdd = ithoughts_tt_gl_build_dropdown_multilevel( $this->get_field_id('group'), array(
-            'selected'    => $instance['group'],
-            'options'     => $groups,
-            'name'        => $this->get_field_name('group'),
-            'allow_blank' => __('Any', 'ithoughts_tooltip_glossary')
-        ) );
+        $groupdd = ithoughts_tt_gl_build_dropdown_multilevel(
+            $this->get_field_id('group'),
+            array(
+                'selected'    => $instance['group'],
+                'options'     => $groups,
+                'name'        => $this->get_field_name('group'),
+                'allow_blank' => __('Any', 'ithoughts_tooltip_glossary')
+            )
+        );
         echo '<p><label for="' . $this->get_field_id('group') . '"> ' . __('Group', 'ithoughts_tooltip_glossary'). ' </label>';
         echo $groupdd . '</p>';
 
@@ -93,22 +96,24 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
         endif;
 
         $terms = get_posts( $termargs );
-        if( $terms && count($terms) ):
-        echo '<ul class="ithoughts_tt_gl widget-list">';
-        foreach( $terms as $term ): setup_postdata( $term );
-        $title   = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';
-        $desc    = '';
-        $display = $instance['display'];
-        if( $display && $display != 'title' ):
-        $desc = $display == 'full' ? apply_filters('the_content',get_the_content(),$main=false) : wpautop(get_the_excerpt());
-        $desc = '<br>' . $desc;
-        endif;
-        echo '<li>' . $title . $desc . '</li>';
-        endforeach; wp_reset_postdata();
-        echo '</ul>';
-        else :
-        echo '<em>' . __('No terms available', 'ithoughts_tooltip_glossary') . '</em>';
-        endif;
+        if( $terms && count($terms) ){
+            echo '<ul class="ithoughts_tt_gl widget-list">';
+            foreach( $terms as $term ){
+                setup_postdata( $term );
+                $title   = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';
+                $desc    = '';
+                $display = $instance['display'];
+                if( $display && $display != 'title' ){
+                    $desc = $display == 'full' ? apply_filters('the_content',get_the_content(),$main=false) : wpautop(get_the_excerpt());
+                    $desc = '<br>' . $desc;
+                }
+                echo '<li>' . $title . $desc . '</li>';
+            }
+            wp_reset_postdata();
+            echo '</ul>';
+        } else {
+            echo '<em>' . __('No terms available', 'ithoughts_tooltip_glossary') . '</em>';
+        }
 
         echo $after_widget;
     } //widget

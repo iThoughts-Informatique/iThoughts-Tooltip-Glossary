@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: iThoughts Tooltip Glossary\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue Oct 27 2015 11:54:04 GMT-1000 (TAHT)\n"
-"POT-Revision-Date: Thu Oct 29 2015 16:20:29 GMT-1000 (TAHT)\n"
+"POT-Revision-Date: Tue Nov 03 2015 17:26:03 GMT-1000 (TAHT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -68,67 +68,101 @@ msgstr ""
 msgid "Insert Tooltip"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:15 ../class/ithoughts_tt_gl-post-
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:15
+msgid "Text"
+msgstr ""
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:16
+msgid "Text to display as link"
+msgstr ""
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:17 ../class/ithoughts_tt_gl-post-
 #: types.class.php:22
 msgid "Glossary Term"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:16
-msgid "Tooltip"
-msgstr ""
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:17
-msgid "Text"
-msgstr ""
-
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:18
-msgid "Content"
-msgstr ""
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:19
 msgid "Term"
 msgstr ""
 
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:19
+msgid "Tooltip"
+msgstr ""
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:20
+msgid "Content"
+msgstr ""
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:21
+msgid "Content to display into the tooltip"
+msgstr ""
+
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:22
-msgid "Add a Glossary Index"
+msgid "Mediatip"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:23
-msgid "Insert Glossary Index"
-msgstr ""
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:24
-msgid "List"
-msgstr ""
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:25
-msgid "A to Z"
+msgid "Select an image"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:26
-msgid "Letters"
+msgid "Add a Glossary Index"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:27
-msgid "Columns"
+msgid "Insert Glossary Index"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:28
-msgid "Description"
+msgid "List"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:29 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:45
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:29
+msgid "A to Z"
+msgstr ""
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:30
+msgid "Letters"
+msgstr ""
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:31
+msgid ""
+"Letters to be displayed in the list. If not specified, all letters will be "
+"displayed"
+msgstr ""
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:32
+msgid "Columns"
+msgstr ""
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:33
+msgid "Number of columns to show for list"
+msgstr ""
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:34 ../class/ithoughts_tt_gl-widget-
+#: random-term.class.php:47
 msgid "Group"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:30 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:55 ../class/ithoughts_tt_gl-admin.class.php:154
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:35
+msgid "Group(s) to list"
+msgstr ""
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:36
+msgid "Description"
+msgstr ""
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:37
+msgid "Description mode: Full/Excerpt/None"
+msgstr ""
+
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:38 ../class/ithoughts_tt_gl-widget-
+#: random-term.class.php:57 ../class/ithoughts_tt_gl-admin.class.php:154
 msgid "Full"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:31 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:54 ../class/ithoughts_tt_gl-admin.class.php:158
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:39 ../class/ithoughts_tt_gl-widget-
+#: random-term.class.php:56 ../class/ithoughts_tt_gl-admin.class.php:158
 msgid "Excerpt"
 msgstr ""
 
@@ -183,36 +217,36 @@ msgstr ""
 msgid "Please select from the menu above"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:10
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:9
 msgid "Random Term From Glossary"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:13
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:12
 msgid "Add a random glossary term to your sidebar"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:21
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:20
 msgid "Random Glossary term"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:26 ..
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:25 ..
 #: /class/ithoughts_tt_gl-post-types.class.php:73
 msgid "Title"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:43
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:44
 msgid "Any"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:53
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:55
 msgid "Title Only"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:58
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:60
 msgid "Display"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:111
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:115
 msgid "No terms available"
 msgstr ""
 
