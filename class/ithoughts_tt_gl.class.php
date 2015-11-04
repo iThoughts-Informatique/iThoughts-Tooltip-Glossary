@@ -11,9 +11,10 @@ class ithoughts_tt_gl{
     public static $options;
 
     function __construct( $plugin_base ) {
-        self::$base     = $plugin_base . '/class';
-        self::$base_url = plugins_url( '', dirname(__FILE__) );
-        self::$options = get_option( 'ithoughts_tt_gl' );
+        self::$base         = $plugin_base . '/class';
+        self::$base_lang    = $plugin_base . '/lang';
+        self::$base_url     = plugins_url( '', dirname(__FILE__) );
+        self::$options      = get_option( 'ithoughts_tt_gl' );
         self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
         self::$options["singletype"] = is_string(self::$options["singletype"]) ? self::$options["singletype"] : "single";
         self::$options["archivetype"] = is_string(self::$options["archivetype"]) ? self::$options["archivetype"] : "archive";
@@ -42,7 +43,7 @@ class ithoughts_tt_gl{
     }
 
     public function localisation(){
-        load_plugin_textdomain( 'ithoughts_tooltip_glossary', false, 'ithoughts_tooltip_glossary' . '/lang/' );
+        load_plugin_textdomain( 'ithoughts_tooltip_glossary', false, plugin_basename( dirname( __FILE__ ) )."/../lang" );
     }
 
     private function register_post_types(){
