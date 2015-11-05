@@ -18,7 +18,7 @@ function my_custom_tinymce_plugin_translation() {
         "term" => __('Term','ithoughts_tooltip_glossary'),
         "tooltip" => __('Tooltip','ithoughts_tooltip_glossary'),
         "content" => __('Content','ithoughts_tooltip_glossary'),
-        "content_explain" => __('Content to display into the tooltip','ithoughts_tooltip_glossary'),
+        "content_explain" => __('Content to display into the tooltip. Supports HTML Markup','ithoughts_tooltip_glossary'),
         "mediatip" => __('Mediatip','ithoughts_tooltip_glossary'),
         "select_image" => __('Select an image','ithoughts_tooltip_glossary'),
         

@@ -103,7 +103,6 @@ class ithoughts_tt_gl_Shortcodes_glossary Extends ithoughts_tt_gl{
         endif;
         endforeach;
         $tooltip_option   = isset($glossary_options['tooltips'])    ? $glossary_options['tooltips']    : 'excerpt';
-        $qtipstyle        = isset($glossary_options['qtipstyle'])   ? $glossary_options['qtipstyle']   : 'cream';
         $linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
         $termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
@@ -170,7 +169,6 @@ class ithoughts_tt_gl_Shortcodes_glossary Extends ithoughts_tt_gl{
         // qtip jquery data
         $jsdata[] = 'data-termid="' . $glossary->ID . '"';
         $jsdata[] = 'data-content="' . $tooltip_option . '"';
-        $jsdata[] = 'data-qtipstyle="' . $qtipstyle . '"';
 
         // Span that qtip finds
         $span = '<span class="ithoughts_tt_gl-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';

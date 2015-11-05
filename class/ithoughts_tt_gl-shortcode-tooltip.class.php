@@ -42,10 +42,6 @@ class ithoughts_tt_gl_Shortcodes_tooltip Extends ithoughts_tt_gl{
         $opts[$k] = trim( $atts[$k] );
         endif;
         endforeach;
-        $tooltip_option   = isset($opts['tooltips'])    ? $opts['tooltips']    : 'excerpt';
-        $qtipstyle        = isset($opts['qtipstyle'])   ? $opts['qtipstyle']   : 'cream';
-        $linkopt          = isset($opts['termlinkopt']) ? $opts['termlinkopt'] : 'standard';
-        $termusage        = isset($opts['termusage'] )  ? $opts['termusage']   : 'on';
 
         extract( shortcode_atts( array(
             'tooltip' => '',
@@ -59,7 +55,6 @@ class ithoughts_tt_gl_Shortcodes_tooltip Extends ithoughts_tt_gl{
 
         // qtip jquery data
         $jsdata[] = 'data-tooltip-content="' . str_replace('"', '\\"', $content) . '"';
-        $jsdata[] = 'data-qtipstyle="' . $qtipstyle . '"';
 
         $link   = '<a href="javascript:void(0)" title="' . esc_attr($title) . '">' . $text . '</a>';
         // Span that qtip finds

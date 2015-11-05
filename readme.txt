@@ -12,18 +12,18 @@ Create beautiful tooltips for descriptions or glossary terms easily
 
 == Description ==
 
-This plugin is a fork from the inactive plugin "WP Glossary v3.1.1.2" by tcbarrett. The whole base plugin is from him, I just did some improvements. For further informations, please visit my blog's [iThoughts Tooltip Glossary page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/).
 
-Build a glossary on your site, and link terms in your posts to it with tooltips. You can also create unlinked tooltips, to bring some precision to a term or expression in a single post.
+This plugin is a fork of the inactive plugin "WP Glossary v3.1.1.2" by tcbarrett. The whole base plugin is his; I just made some improvements for responsive web design, SEO, usability, and more. 
 
-Reasons for using ithoughts-tooltip-glossary plugin:
+Reasons for using iThoughts Tooltip Glossary plugin:
 
+* You use the old and unsupported WP Glossary plugin from TCBarrett
 * External glossary sites don't have all the words and terms you need.
-* You want to keep your visitors on your site (not send them to an external glossary site).
-* You don't want the adverts that the external site popups come with.
-* You have to be optionnaly more precise for some of your readers
+* You want to keep your visitors on your site, not send them to an external glossary site.
+* You don't want the adverts that external site popups come with.
+* You need greater precision for some of your readers.
 
-[For further details visit my dedicated plugin landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/)
+For further information, please visit the [iThoughts Tooltip Glossary dedicated landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/).
 
 == Installation ==
 
@@ -32,8 +32,6 @@ Either install through admin panel (this is the eaiest way), or:
 1. Upload `ithoughts-tooltip-glossary.zip` to the `/wp-content/plugins/` directory
 2. Unzip the archive
 3. Activate the plugin through the 'Plugins' menu in WordPress
-
-If you create your own single template for glossary terms, don't forget to remove the reference filter.
 
 == Frequently Asked Questions ==
 
@@ -57,7 +55,7 @@ You have to add the terms (Tooltip Glossary > Add New Term) and then use the app
 
 [For further details visit my dedicated plugin landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/)
 [Or see the original plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
-
+For bug repports or unexpected behaviors, please see the dedicated [WordPress support forum](https://wordpress.org/support/plugin/ithoughts-tooltip-glossary)
 
 == Screenshots ==
 

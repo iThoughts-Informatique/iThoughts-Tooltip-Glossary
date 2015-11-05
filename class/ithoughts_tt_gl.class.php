@@ -83,6 +83,9 @@ class ithoughts_tt_gl{
 
         $qtipstyle   = isset( $options['qtipstyle'] )   ? $options['qtipstyle']:   'cream';
         $qtiptrigger = isset( $options['qtiptrigger'] ) ? $options['qtiptrigger']: 'hover';
+        $qtipshadow   = isset( $options['qtipshadow'] )   ? $options['qtipshadow']   : true;
+        $qtiprounded  = isset( $options['qtiprounded'] )  ? $options['qtiprounded']  : true;
+        
         //wp_register_script( 'jquery-tooltip',  $this->base_url() . '/ext/qtip.js', array('jquery') );
         wp_enqueue_script('imagesloaded', $this->base_url() . '/ext/imagesloaded.min.js', null, false, true);
         wp_enqueue_script('qtip', $this->base_url() . '/ext/jquery.qtip.js', array('jquery', 'imagesloaded'), false, true);
@@ -92,7 +95,9 @@ class ithoughts_tt_gl{
         wp_localize_script( 'ithoughts-tooltip-glossary-qtip', 'ithoughts_tt_gl', array(
             'admin_ajax'    => admin_url('admin-ajax.php'),
             'qtipstyle'     => $qtipstyle,
-            'qtiptrigger'   => $qtiptrigger
+            'qtiptrigger'   => $qtiptrigger,
+            'qtipshadow'    => $qtipshadow,
+            'qtiprounded'   => $qtiprounded
         ) );
 
         wp_register_script( 'simple-ajax', $this->base_url() . '/js/simple-ajax-form.js', array('jquery-form') );

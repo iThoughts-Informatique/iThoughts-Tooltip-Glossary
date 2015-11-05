@@ -9,7 +9,8 @@
         $('span[class^=ithoughts_tt_gl-]').each(function(){
             console.log(this.className);
             var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details'}, $(this).data() );
-            var qtipstyle    = $(this).data('qtipstyle');
+            var qtipstyle    = ($(this).data('qtipstyle')) ? $(this).data('qtipstyle') : ithoughts_tt_gl.qtipstyle;
+            console.log(qtipstyle);
 
             // If set to click, disable glossary link
             if( ithoughts_tt_gl.qtiptrigger == 'click' ){
@@ -49,7 +50,7 @@
                 });
             }
 
-            var tipClass = 'qtip-'+qtipstyle+' qtip-shadow qtip-rounded ';
+            var tipClass = 'qtip-' + qtipstyle + ((ithoughts_tt_gl.qtipshadow === "1") ? " qtip-shadow" : "" ) + ((ithoughts_tt_gl.qtiprounded === "1") ? " qtip-rounded" : "" ) + " " ;
             var specific;
             if($(this).hasClass("ithoughts_tt_gl-glossary")){
                 specific = {
@@ -82,7 +83,7 @@
                         classes: tipClass + "ithoughts_tt_gl-tooltip"
                     },
                     content: {
-                        text: this.getAttribute("data-tooltip-content"),
+                        text: window.decodeURIComponent(this.getAttribute("data-tooltip-content")),
                         title: { text: $(this).text() }
                     }
                 };
@@ -109,6 +110,15 @@
                 };
             } else
                 return;
+            
+            if(this.getAttribute("data-tooltip-autoshow") == "true")
+                specific["show"] = $.extend(true, specific["show"], {ready: true});
+            if(this.getAttribute("data-tooltip-nosolo") == "true")
+                specific["show"] = $.extend(true, specific["show"], {solo: false});
+            if(this.getAttribute("data-tooltip-nohide") == "true")
+                specific = $.extend(true, specific, {hide: "someevent", show: {event: "someevent"}});
+            if(this.getAttribute("data-tooltip-id"))
+                specific = $.extend(true, specific, {id: this.getAttribute("data-tooltip-id")});
 
             var opts = $.extend(true, {
                 prerender: true,

@@ -14,13 +14,13 @@ class ithoughts_tt_gl_Shortcodes_mediatip Extends ithoughts_tt_gl{
     }
 
     public function parse_pseudo_links_to_shortcode( $data ){
-        $data['post_content'] = preg_replace('/<a\s+?data-tooltip-content=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[tooltip content="$1"]$2[/tooltip]', $data['post_content']);
+        $data['post_content'] = preg_replace('/<a(?=[^>]*data-type="ithoughts-tooltip-glossary-mediatip")(.*?)(?:(?:(?:data-type="([^"]*)")|(?:data-link="([^"]*)")|(?:data-image="([^"]*)")|(?:data-imageid="([^"]*)"))\s*)+(.*?)>(.*?)<\/a>/', '  [mediatip link="$3" image="$4" imageid="$5" $1 $6]$7[/mediatip]', $data['post_content']);
         return $data;
     }
 
     public function convert_shortcodes($post_id){
         $post = get_post($post_id);
-        $post->post_content = preg_replace('/\[tooltip(.*?)(?: content="(.+?)")(.*?)\](.+?)\[\/tooltip\]/', '<a data-tooltip-content="$2" $1 $3>$4</a>', $post->post_content);
+        $post->post_content = preg_replace('/\[mediatip(.*?)(?:(?:(?:link="([^"]*)")|(?:image="([^"]*)")|(?:imageid="([^"]*)"))\s*)+(.*?)\](.*?)\[\/mediatip\]/', '<a data-type="ithoughts-tooltip-glossary-mediatip" data-link="$2" data-image="$3" data-imageid="$4" $1 $5]$6</a>', $post->post_content);
         return $post;
     }
 
@@ -42,10 +42,7 @@ class ithoughts_tt_gl_Shortcodes_mediatip Extends ithoughts_tt_gl{
         $opts[$k] = trim( $atts[$k] );
         endif;
         endforeach;
-        $tooltip_option   = isset($opts['tooltips'])    ? $opts['tooltips']    : 'excerpt';
-        $qtipstyle        = isset($opts['qtipstyle'])   ? $opts['qtipstyle']   : 'cream';
         $linkopt          = isset($opts['termlinkopt']) ? $opts['termlinkopt'] : 'standard';
-        $termusage        = isset($opts['termusage'] )  ? $opts['termusage']   : 'on';
 
         extract( shortcode_atts( array(
             'imageid' => '',
@@ -61,7 +58,6 @@ class ithoughts_tt_gl_Shortcodes_mediatip Extends ithoughts_tt_gl{
 
         // qtip jquery data
         $jsdata[] = 'data-mediatip-image="' . str_replace('"', '\\"', $image) . '"';
-        $jsdata[] = 'data-qtipstyle="' . $qtipstyle . '"';
 
         $linkElement   = '<a href="' . $link . '" title="' . esc_attr($text) . '">' . $text . '</a>';
         // Span that qtip finds

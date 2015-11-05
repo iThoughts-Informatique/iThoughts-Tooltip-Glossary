@@ -147,6 +147,36 @@ class ithoughts_tt_gl_Admin{
         $termlinkopt  = isset( $options['termlinkopt'] )  ? $options['termlinkopt']  : 'standard';
         $termusage    = isset( $options['termusage'] )    ? $options['termusage']    : 'on';
         $qtiptrigger  = isset( $options['qtiptrigger'] )  ? $options['qtiptrigger']  : 'hover';
+        $qtipshadow   = isset( $options['qtipshadow'] )   ? $options['qtipshadow']   : true;
+        $qtiprounded  = isset( $options['qtiprounded'] )  ? $options['qtiprounded']  : true;
+
+
+
+        //Preview required resources
+        wp_enqueue_script('imagesloaded', $this->base_url() . '/ext/imagesloaded.min.js', null, false, true);
+        wp_enqueue_script('qtip', $this->base_url() . '/ext/jquery.qtip.js', array('jquery', 'imagesloaded'), false, true);
+        wp_register_script( 'ithoughts-tooltip-glossary-qtip',  $this->base_url() . '/js/ithoughts_tooltip_glossary-qtip2.js', array('qtip') );
+        wp_localize_script( 'ithoughts-tooltip-glossary-qtip', 'ithoughts_tt_gl', array(
+            'admin_ajax'    => admin_url('admin-ajax.php'),
+            'qtipstyle'     => $qtipstyle,
+            'qtiptrigger'   => $qtiptrigger,
+            'qtipshadow'    => $qtipshadow,
+            'qtiprounded'   => $qtiprounded
+        ) );
+        wp_print_scripts( 'ithoughts-tooltip-glossary-qtip' );
+        wp_register_script( 'ithoughts-tooltip-glossary-admin',  $this->base_url() . '/js/ithoughts_tooltip_glossary-admin.js', array('qtip') );
+        wp_localize_script( 'ithoughts-tooltip-glossary-admin', 'ithoughts_tt_gl_admin', array(
+        ) );
+        wp_print_scripts( 'ithoughts-tooltip-glossary-admin' );
+        if( file_exists(get_stylesheet_directory() . '/ithoughts_tooltip_glossary.css') ):
+        wp_enqueue_style( 'ithoughts-tooltip-glossary-css', get_stylesheet_directory_uri() . '/ithoughts_tooltip_glossary.css' );
+        else :
+        wp_enqueue_style( 'ithoughts-tooltip-glossary-css', $this->base_url() . '/css/ithoughts_tooltip_glossary.css' );
+        endif;
+        wp_enqueue_style( 'ithoughts-tooltip-glossary-qtip-css', $this->base_url() . '/ext/jquery.qtip.css' );
+
+
+
 
         // Tooptip DD
         $ttddoptions = array(
@@ -216,7 +246,7 @@ class ithoughts_tt_gl_Admin{
 
 ?>
 <div class="wrap">
-    <div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50" style="width: 50%;">
+    <div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50">
         <div class="meta-box-inside admin-help">
             <div class="icon32" id="icon-options-general">
                 <br>
@@ -224,7 +254,7 @@ class ithoughts_tt_gl_Admin{
             <h2><?php _e('Options', 'ithoughts_tooltip_glossary'); ?></h2>
             <div id="dashboard-widgets-wrap">
                 <div id="dashboard-widgets" class="metabox-holder">
-                    <div class="postbox-container" style="width:98%">
+                    <div c_lass="postbox-container">
                         <div id="normal-sortables" class="meta-box-sortables ui-sortable">
 
                             <form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
@@ -237,13 +267,29 @@ class ithoughts_tt_gl_Admin{
                                     </div>
                                 </div>
 
-                                <div id="ithoughts_tt_gllossary_options_2" class="postbox">
-                                    <h3 class="handle"><span><?php _e('qTip2 Tooltip Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
-                                    <div class="inside">
-                                        <p><?php _e('iThoughts Tooltip Glossary uses the jQuery based <a href="http://qtip2.com/">qTip2</a> library for tooltips', 'ithoughts_tooltip_glossary'); ?></p>
-                                        <p><?php _e('Tooltip Content', 'ithoughts_tooltip_glossary'); echo ":&nbsp;{$tooltipdropdown}" ?></p>
-                                        <p><?php _e('Tooltip Style (qTip)', 'ithoughts_tooltip_glossary');  echo ":&nbsp;{$qtipdropdown}" ?></p>
-                                        <p><?php _e('Tooltip activation', 'ithoughts_tooltip_glossary');  echo ":&nbsp;{$qtiptriggerdropdown}" ?></p>
+                                <div id="ithoughts_tt_gllossary_options_2" class="" style="display:flex;flex-direction:row;flex-wrap:wrap;">
+                                    <div style="flex:1 1 auto;" class="postbox">
+                                        <h3 class="handle"><span><?php _e('qTip2 Tooltip Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
+                                        <div class="inside">
+                                            <p><?php _e('iThoughts Tooltip Glossary uses the jQuery based <a href="http://qtip2.com/">qTip2</a> library for tooltips', 'ithoughts_tooltip_glossary'); ?></p>
+                                            <p><?php _e('Tooltip Content', 'ithoughts_tooltip_glossary'); echo " ("; _e('Only for glossary terms', 'ithoughts_tooltip_glossary'); echo ")"; echo ":&nbsp;{$tooltipdropdown}" ?></p>
+                                            <p><?php _e('Tooltip activation', 'ithoughts_tooltip_glossary');  echo ":&nbsp;{$qtiptriggerdropdown}" ?></p>
+                                            <p><?php _e('Tooltip Style (qTip)', 'ithoughts_tooltip_glossary');  echo ":&nbsp;{$qtipdropdown}" ?></p>
+                                            <p><?php _e('Tooltip shadow', 'ithoughts_tooltip_glossary');  echo ":&nbsp;<input type=\"checkbox\" name=\"qtipshadow\" id=\"qtipshadow\" value=\"enabled\"".($qtipshadow ? " checked" : "")."/>" ?></p>
+                                            <p><?php _e('Rounded corners', 'ithoughts_tooltip_glossary');  echo ":&nbsp;<input type=\"checkbox\" name=\"qtiprounded\" id=\"qtiprounded\" value=\"enabled\"".($qtiprounded ? " checked" : "")."/>" ?></p>
+                                        </div>
+                                    </div>
+                                    <div style="flex:0 0 20px;"></div>
+                                    <div style="flex:1 1 auto;" class="postbox">
+                                        <h3 class="handle"><span><?php _e('Preview', 'ithoughts_tooltip_glossary'); ?></span></h3>
+                                        <div class="inside">
+                                            <p style="float:left">
+                                                <span class="ithoughts_tt_gl-tooltip" data-tooltip-nosolo="true" data-tooltip-id="exampleActivate" data-tooltip-content="<?php echo rawurlencode(__('The <b>tooltip</b> or <b>infotip</b> or a <b>hint</b> is a common <a href="/wiki/Graphical_user_interface" title="Graphical user interface">graphical user interface</a> element. It is used in conjunction with a <a href="/wiki/Cursor_(computers)" title="Cursor (computers)" class="mw-redirect">cursor</a>, usually a <a href="/wiki/Pointer_(graphical_user_interfaces)" title="Pointer (graphical user interfaces)">pointer</a>. The user hovers the pointer over an item, without clicking it, and a tooltip may appear—a small "<a href="/wiki/Hoverbox" title="Hoverbox">hover box</a>" with information about the item being hovered over.<sup id="cite_ref-1" class="reference"><a href="#cite_note-1"><span>[</span>1<span>]</span></a></sup> <sup id="cite_ref-2" class="reference"><a href="#cite_note-2"><span>[</span>2<span>]</span></a></sup>Tooltips do not usually appear on <a href="/wiki/Mobile_operating_system" title="Mobile operating system">mobile operating systems</a>, because there is no cursor (though tooltips may be displayed when using a <a href="/wiki/Mouse_(computing)" title="Mouse (computing)">mouse</a>).', 'ithoughts_tooltip_glossary')); ?>"><a href="javascript:void(0)" title=""><?php _e('Activate me', 'ithoughts_tooltip_glossary'); ?></a></span>
+                                            </p>
+                                            <p style="float:right">
+                                                <span class="ithoughts_tt_gl-tooltip" data-tooltip-autoshow="true" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php _e('This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts_tooltip_glossary'); ?>"><a href="javascript:void(0)" title=""><?php _e('Example Tooltip', 'ithoughts_tooltip_glossary'); ?></a></span>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -252,7 +298,7 @@ class ithoughts_tt_gl_Admin{
                                     <h3 class="handle"><span><?php _e('Experimental Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
                                     <div class="inside">
                                         <p><?php _e('Do not rely on these at all, I am experimenting with them', 'ithoughts_tooltip_glossary'); ?></p>
-                                        <p><?php _e('Term usage', 'ithoughts_tooltip_glossary');  echo ":&nbsp;{$termusagedd}" ?></p>
+                                        <p><?php _e('Term usage listing', 'ithoughts_tooltip_glossary');  echo ":&nbsp;{$termusagedd}" ?></p>
                                     </div>
                                 </div>
                                 <p>
@@ -276,7 +322,9 @@ class ithoughts_tt_gl_Admin{
             'qtipstyle'    => 'cream',
             'termlinkopt'  => 'standard',
             'termusage'    => 'on',
-            'qtiptrigger'  => 'hover'
+            'qtiptrigger'  => 'hover',
+            'qtipshadow'   => false,
+            'qtiprounded'  => false
         );
 
         $glossary_options = get_option( 'ithoughts_tt_gl', $defaults );
@@ -286,6 +334,9 @@ class ithoughts_tt_gl_Admin{
             $value                  = $_POST[$key] ? $_POST[$key] : $default;
             $glossary_options[$key] = $value;
         }
+
+        $glossary_options['qtipshadow']  = ithoughts_tt_gl_toggleable_to_bool($glossary_options['qtipshadow'],  "enabled");
+        $glossary_options['qtiprounded'] = ithoughts_tt_gl_toggleable_to_bool($glossary_options['qtiprounded'], "enabled");
 
         $outtxt = "";
 

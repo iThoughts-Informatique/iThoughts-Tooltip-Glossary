@@ -78,3 +78,8 @@ function ithoughts_tt_gl_build_dropdown_multilevel( $id, $args ){
     return $dropdown;
 }
 
+function ithoughts_tt_gl_toggleable_to_bool($value, $truevalue){
+    if($value === true)
+        return true;
+    return $value === $truevalue;
+}
