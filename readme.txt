@@ -12,6 +12,7 @@ Create beautiful tooltips for descriptions or glossary terms easily
 
 == Description ==
 
+Build a glossary on your site that link terms in your posts to it via tooltips. You can also create unlinked tooltips to bring some precision to a term or expression in a single post.
 
 This plugin is a fork of the inactive plugin "WP Glossary v3.1.1.2" by tcbarrett. The whole base plugin is his; I just made some improvements for responsive web design, SEO, usability, and more. 
 
