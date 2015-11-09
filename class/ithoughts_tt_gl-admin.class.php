@@ -166,8 +166,7 @@ class ithoughts_tt_gl_Admin{
         ) );
         wp_print_scripts( 'ithoughts-tooltip-glossary-qtip' );
         wp_register_script( 'ithoughts-tooltip-glossary-admin',  $this->base_url() . '/js/ithoughts_tooltip_glossary-admin.js', array('qtip') );
-        wp_localize_script( 'ithoughts-tooltip-glossary-admin', 'ithoughts_tt_gl_admin', array(
-        ) );
+        
         wp_print_scripts( 'ithoughts-tooltip-glossary-admin' );
         if( file_exists(get_stylesheet_directory() . '/ithoughts_tooltip_glossary.css') ):
         wp_enqueue_style( 'ithoughts-tooltip-glossary-css', get_stylesheet_directory_uri() . '/ithoughts_tooltip_glossary.css' );

@@ -5,7 +5,7 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, 
 Requires at least: 3.0
 Tested up to: 4.3.1
-Stable tag: 1.1.3
+Stable tag: 1.1.3.1
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -150,3 +150,4 @@ The menu of the plugin is now complete and clean, not dirty as it was until now.
 Icon from [allur.co](http://allur.co/minimalist-edit-icon-tooltip-psd-ai/)
 TCBarrett for his [WP Glossary plugin](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
 [Laurent Pelleray](http://lpelleray.wix.com/laurent-pelleray#!infographie/c1vmr) for graphical elements
+Tammi Coles for corrections to readme description
