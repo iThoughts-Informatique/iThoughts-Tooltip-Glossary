@@ -8,6 +8,7 @@ class ithoughts_tt_gl_Taxonomies Extends ithoughts_tt_gl{
     public function __construct() {
         self::$options = get_option( 'ithoughts_tt_gl' );
         self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
+        self::$options["grouptype"] = is_string(self::$options["grouptype"]) ? self::$options["grouptype"] : "group";
         add_action( 'init', array(&$this, 'register_taxonomies'), 0 );
     }
 
@@ -31,7 +32,7 @@ class ithoughts_tt_gl_Taxonomies Extends ithoughts_tt_gl{
             'show_ui'           => true,
             'query_var'         => true,
             'show_admin_column' => true,
-            'rewrite'           => array( 'slug' => self::$options["termtype"].'/group'),
+            'rewrite'           => array( 'slug' => self::$options["termtype"].'/'.self::$options["grouptype"]),
         ) );
     } // register_taxonomies
 } // ithoughts_tt_gl_Taxonomies

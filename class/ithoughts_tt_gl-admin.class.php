@@ -143,6 +143,7 @@ class ithoughts_tt_gl_Admin{
         $tooltips     = isset( $options['tooltips'] )     ? $options['tooltips']     : 'excerpt';
         $alphaarchive = isset( $options['alphaarchive'] ) ? $options['alphaarchive'] : 'standard';
         $termtype     = isset( $options['termtype'] )     ? $options['termtype']     : 'glossary';
+        $grouptype    = isset( $options["grouptype"] )    ? $options["grouptype"]    : "group";
         $qtipstyle    = isset( $options['qtipstyle'] )    ? $options['qtipstyle']    : 'cream';
         $termlinkopt  = isset( $options['termlinkopt'] )  ? $options['termlinkopt']  : 'standard';
         $termusage    = isset( $options['termusage'] )    ? $options['termusage']    : 'on';
@@ -174,6 +175,11 @@ class ithoughts_tt_gl_Admin{
         wp_enqueue_style( 'ithoughts-tooltip-glossary-css', $this->base_url() . '/css/ithoughts_tooltip_glossary.css' );
         endif;
         wp_enqueue_style( 'ithoughts-tooltip-glossary-qtip-css', $this->base_url() . '/ext/jquery.qtip.css' );
+
+
+        /* Add required scripts for WordPress Spoilers (AKA PostBox) */
+        wp_enqueue_script('postbox');
+        wp_enqueue_script('post');
 
 
 
@@ -246,79 +252,200 @@ class ithoughts_tt_gl_Admin{
 
 ?>
 <div class="wrap">
-    <div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50">
+    <div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">
         <div class="meta-box-inside admin-help">
             <div class="icon32" id="icon-options-general">
                 <br>
             </div>
             <h2><?php _e('Options', 'ithoughts_tooltip_glossary'); ?></h2>
             <div id="dashboard-widgets-wrap">
-                <div id="dashboard-widgets" class="metabox-holder">
-                    <div c_lass="postbox-container">
-                        <div id="normal-sortables" class="meta-box-sortables ui-sortable">
+                <div id="dashboard-widgets">
+                    <div id="normal-sortables" class=""><!--Old removed classes: "meta-box-sortables ui-sortable"-->
 
-                            <form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
+                        <form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
 
-                                <div id="ithoughts_tt_gllossary_options_1" class="postbox">
-                                    <h3 class="handle"><span><?php _e('Term Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
-                                    <div class="inside">
-                                        <p><?php _e('Term link', 'ithoughts_tooltip_glossary'); echo ":&nbsp;"; echo "{$termlinkoptdropdown}" ?></p>
-                                        <p><?php _e('Base Permalink', 'ithoughts_tooltip_glossary'); echo ":&nbsp;"; ?><input type="text" value="<?php echo $termtype; ?>" name="termtype"/></p>
-                                    </div>
+                            <div id="ithoughts_tt_gllossary_options_1" class="postbox">
+                                <div class="handlediv" title="Cliquer pour inverser."><br></div><h3 class="hndle ui-sortable-handle"><span><?php _e('Term Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
+                                <div class="inside">
+                                    <table class="form-table">
+                                        <tbody>
+                                            <tr>
+                                                <th>
+                                                    <label for="termlinkopt"><?php _e('Term link', 'ithoughts_tooltip_glossary'); ?>:</label>
+                                                </th>
+                                                <td>
+                                                    <?php echo $termlinkoptdropdown ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label for="termtype"><?php _e('Base Permalink', 'ithoughts_tooltip_glossary'); ?>:</label>
+                                                </th>
+                                                <td>
+                                                    <code>/</code><input type="text" value="<?php echo $termtype; ?>" name="termtype" id="termtype"/><code>/</code>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label for="grouptype"><?php _e('Taxonomy group prefix', 'ithoughts_tooltip_glossary'); ?>:</label>
+                                                </th>
+                                                <td>
+                                                    <code>/<?php echo $termtype; ?>/</code><input type="text" value="<?php echo $grouptype; ?>" name="grouptype" id="grouptype"/><code>/</code>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
+                            </div>
 
-                                <div id="ithoughts_tt_gllossary_options_2" class="" style="display:flex;flex-direction:row;flex-wrap:wrap;">
-                                    <div style="flex:1 1 auto;" class="postbox">
-                                        <h3 class="handle"><span><?php _e('qTip2 Tooltip Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
-                                        <div class="inside">
+                            <div class="postbox" id="ithoughts_tt_gllossary_options_2">
+                                <div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat(this);"><br></div><h3 onclick="window.refloat(this);" class="hndle ui-sortable-handle"><span><?php _e('qTip2 Tooltip Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
+                                <div class="inside">
+                                    <div style="display:flex;flex-direction:row;flex-wrap:wrap;">
+                                        <div style="flex:1 1 auto;">
+
+
                                             <p><?php _e('iThoughts Tooltip Glossary uses the jQuery based <a href="http://qtip2.com/">qTip2</a> library for tooltips', 'ithoughts_tooltip_glossary'); ?></p>
-                                            <p><?php _e('Tooltip Content', 'ithoughts_tooltip_glossary'); echo " ("; _e('Only for glossary terms', 'ithoughts_tooltip_glossary'); echo ")"; echo ":&nbsp;{$tooltipdropdown}" ?></p>
-                                            <p><?php _e('Tooltip activation', 'ithoughts_tooltip_glossary');  echo ":&nbsp;{$qtiptriggerdropdown}" ?></p>
-                                            <p><?php _e('Tooltip Style (qTip)', 'ithoughts_tooltip_glossary');  echo ":&nbsp;{$qtipdropdown}" ?></p>
-                                            <p><?php _e('Tooltip shadow', 'ithoughts_tooltip_glossary');  echo ":&nbsp;<input type=\"checkbox\" name=\"qtipshadow\" id=\"qtipshadow\" value=\"enabled\"".($qtipshadow ? " checked" : "")."/>" ?></p>
-                                            <p><?php _e('Rounded corners', 'ithoughts_tooltip_glossary');  echo ":&nbsp;<input type=\"checkbox\" name=\"qtiprounded\" id=\"qtiprounded\" value=\"enabled\"".($qtiprounded ? " checked" : "")."/>" ?></p>
+                                            <table class="form-table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th>
+                                                            <label for="tooltips"><?php _e('Tooltip Content', 'ithoughts_tooltip_glossary'); ?> (<?php _e('Only for glossary terms', 'ithoughts_tooltip_glossary'); ?>):</label>
+                                                        </th>
+                                                        <td>
+                                                            <?php echo $tooltipdropdown ?>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            <label for="qtiptrigger"><?php _e('Tooltip activation', 'ithoughts_tooltip_glossary'); ?>:</label>
+                                                        </th>
+                                                        <td>
+                                                            <?php echo $qtiptriggerdropdown ?>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            <label for="qtipstyle"><?php _e('Tooltip Style (qTip)', 'ithoughts_tooltip_glossary'); ?>:</label>
+                                                        </th>
+                                                        <td>
+                                                            <?php echo $qtipdropdown ?>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            <label for="qtipshadow"><?php _e('Tooltip shadow', 'ithoughts_tooltip_glossary'); ?>&nbsp;<span class="ithoughts_tt_gl-tooltip" data-tooltip-nosolo="true" data-tooltip-content="<?php echo rawurlencode(__('This option can be overriden by some tooltip styles.', 'ithoughts_tooltip_glossary')); ?>"><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts_tooltip_glossary'); ?>)</a></span>:</label>
+                                                        </th>
+                                                        <td>
+                                                            <input type="checkbox" name="qtipshadow" id="qtipshadow" value="enabled" <?php echo ($qtipshadow ? " checked" : ""); ?>/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            <label for="qtiprounded"><?php _e('Rounded corners', 'ithoughts_tooltip_glossary'); ?>&nbsp;<span class="ithoughts_tt_gl-tooltip" data-tooltip-nosolo="true" data-tooltip-content="<?php echo rawurlencode(__('This option can be overriden by some tooltip styles.', 'ithoughts_tooltip_glossary')); ?>"><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts_tooltip_glossary'); ?>)</a></span>:</label>
+                                                        </th>
+                                                        <td>
+                                                            <input type="checkbox" name="qtiprounded" id="qtiprounded" value="enabled" <?php echo ($qtiprounded ? " checked" : ""); ?>/>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+
+                                            <!--
+<div id="ithoughts_tt_gllossary_options_customstype" class="postbox closed">
+<div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat();"><br></div><h3 onclick="window.refloat();" class="hndle ui-sortable-handle"><span><?php _e('Style editor', 'ithoughts_tooltip_glossary'); ?></span></h3>
+<div class="inside">
+<p><?php _e('Use this editor to fully customize the look of your tooltips', 'ithoughts_tooltip_glossary'); ?></p>
+<table class="form-table">
+<thead>
+<tr>
+<td></td>
+<th><?php _e('Background', 'ithoughts_tooltip_glossary'); ?></th>
+<th><?php _e('Text size', 'ithoughts_tooltip_glossary'); ?></th>
+<th><?php _e('Text color', 'ithoughts_tooltip_glossary'); ?></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th><?php _e('Global', 'ithoughts_tooltip_glossary'); ?></th>
+<td></td>
+<td></td>
+<td><input type="text" value="#bada55" class="color-field" data-default-color="#effeff" name="g_tc"/></td>
+</tr>
+<tr>
+<th><?php _e('Title Bar', 'ithoughts_tooltip_glossary'); ?></th>
+<td></td>
+<td></td>
+<td><input type="text" value="#bada55" class="color-field" data-default-color="#effeff" name="t_tc"/></td>
+</tr>
+<tr>
+<th><?php _e('Content', 'ithoughts_tooltip_glossary'); ?></th>
+<td></td>
+<td></td>
+<td><input type="text" value="#bada55" class="color-field" data-default-color="#effeff" name="c_tc"/></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+</div>
+-->
+
+
                                         </div>
-                                    </div>
-                                    <div style="flex:0 0 20px;"></div>
-                                    <div style="flex:1 1 auto;" class="postbox">
-                                        <h3 class="handle"><span><?php _e('Preview', 'ithoughts_tooltip_glossary'); ?></span></h3>
-                                        <div class="inside">
-                                            <p style="float:left">
-                                                <span class="ithoughts_tt_gl-tooltip" data-tooltip-nosolo="true" data-tooltip-id="exampleActivate" data-tooltip-content="<?php echo rawurlencode(__('The <b>tooltip</b> or <b>infotip</b> or a <b>hint</b> is a common <a href="/wiki/Graphical_user_interface" title="Graphical user interface">graphical user interface</a> element. It is used in conjunction with a <a href="/wiki/Cursor_(computers)" title="Cursor (computers)" class="mw-redirect">cursor</a>, usually a <a href="/wiki/Pointer_(graphical_user_interfaces)" title="Pointer (graphical user interfaces)">pointer</a>. The user hovers the pointer over an item, without clicking it, and a tooltip may appear—a small "<a href="/wiki/Hoverbox" title="Hoverbox">hover box</a>" with information about the item being hovered over.<sup id="cite_ref-1" class="reference"><a href="#cite_note-1"><span>[</span>1<span>]</span></a></sup> <sup id="cite_ref-2" class="reference"><a href="#cite_note-2"><span>[</span>2<span>]</span></a></sup>Tooltips do not usually appear on <a href="/wiki/Mobile_operating_system" title="Mobile operating system">mobile operating systems</a>, because there is no cursor (though tooltips may be displayed when using a <a href="/wiki/Mouse_(computing)" title="Mouse (computing)">mouse</a>).', 'ithoughts_tooltip_glossary')); ?>"><a href="javascript:void(0)" title=""><?php _e('Activate me', 'ithoughts_tooltip_glossary'); ?></a></span>
-                                            </p>
-                                            <p style="float:right">
-                                                <span class="ithoughts_tt_gl-tooltip" data-tooltip-autoshow="true" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php _e('This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts_tooltip_glossary'); ?>"><a href="javascript:void(0)" title=""><?php _e('Example Tooltip', 'ithoughts_tooltip_glossary'); ?></a></span>
-                                            </p>
+                                        <div style="flex:1 1 auto;;position:relative;">
+                                            <div id="floater" style="display:flex;flex-direction:row;width:100%;">
+                                                <!--<p style="flex:1 1 auto;text-align:center">
+<span class="ithoughts_tt_gl-tooltip" data-tooltip-nosolo="true" data-tooltip-id="exampleActivate" data-tooltip-content="<?php echo rawurlencode(__('The <b>tooltip</b> or <b>infotip</b> or a <b>hint</b> is a common <a href="/wiki/Graphical_user_interface" title="Graphical user interface">graphical user interface</a> element. It is used in conjunction with a <a href="/wiki/Cursor_(computers)" title="Cursor (computers)" class="mw-redirect">cursor</a>, usually a <a href="/wiki/Pointer_(graphical_user_interfaces)" title="Pointer (graphical user interfaces)">pointer</a>. The user hovers the pointer over an item, without clicking it, and a tooltip may appear—a small "<a href="/wiki/Hoverbox" title="Hoverbox">hover box</a>" with information about the item being hovered over.<sup id="cite_ref-1" class="reference"><a href="#cite_note-1"><span>[</span>1<span>]</span></a></sup> <sup id="cite_ref-2" class="reference"><a href="#cite_note-2"><span>[</span>2<span>]</span></a></sup>Tooltips do not usually appear on <a href="/wiki/Mobile_operating_system" title="Mobile operating system">mobile operating systems</a>, because there is no cursor (though tooltips may be displayed when using a <a href="/wiki/Mouse_(computing)" title="Mouse (computing)">mouse</a>).', 'ithoughts_tooltip_glossary')); ?>"><a href="javascript:void(0)" title=""><?php _e('Activate me', 'ithoughts_tooltip_glossary'); ?></a></span>
+</p>-->
+                                                <p style="flex:1 1 auto;text-align:center">
+                                                    <span class="ithoughts_tt_gl-tooltip" data-tooltip-autoshow="true" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php _e('This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts_tooltip_glossary'); ?>"><a href="javascript:void(0)" title=""><?php _e('Example Tooltip', 'ithoughts_tooltip_glossary'); ?></a></span>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-
-                                <div id="ithoughts_tt_gllossary_options_3" class="postbox">
-                                    <h3 class="handle"><span><?php _e('Experimental Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
-                                    <div class="inside">
-                                        <p><?php _e('Do not rely on these at all, I am experimenting with them', 'ithoughts_tooltip_glossary'); ?></p>
-                                        <p><?php _e('Term usage listing', 'ithoughts_tooltip_glossary');  echo ":&nbsp;{$termusagedd}" ?></p>
-                                    </div>
+                            <div id="ithoughts_tt_gllossary_options_3" class="postbox">
+                                <div class="handlediv" title="Cliquer pour inverser."><br></div><h3 class="hndle ui-sortable-handle"><span><?php _e('Experimental Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
+                                <div class="inside">
+                                    <p><?php _e('Do not rely on these at all, I am experimenting with them', 'ithoughts_tooltip_glossary'); ?></p>
+                                    <table class="form-table">
+                                        <tbody>
+                                            <tr>
+                                                <th>
+                                                    <label for="termusage"><?php _e('Term usage listing', 'ithoughts_tooltip_glossary'); ?>:</label>
+                                                </th>
+                                                <td>
+                                                    <?php echo $termusagedd ?>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <p>
-                                    <input type="hidden" name="action" value="ithoughts_tt_gl_update_options"/>
-                                    <input type="submit" name="submit" class="alignleft button-primary" value="<?php _e('Update Options', 'ithoughts_tooltip_glossary'); ?>"/>
-                                </p>
+                            </div>
+                            <p>
+                                <input type="hidden" name="action" value="ithoughts_tt_gl_update_options"/>
+                                <input type="submit" name="submit" class="alignleft button-primary" value="<?php _e('Update Options', 'ithoughts_tooltip_glossary'); ?>"/>
+                            </p>
 
-                            </form>
-                            <div id="update-response" class="clear confweb-update"></div>
-                        </div>
+                        </form>
+                        <div id="update-response" class="clear confweb-update"></div>
                     </div>
                 </div>
                 <?php
     }
 
     public function update_options(){
+        $reload = false;
+
         $defaults = array(
             'tooltips'     => 'excerpt',
             'alphaarchive' => 'standard',
             'termtype'     => 'glossary',
+            'grouptype'    => 'group',
             'qtipstyle'    => 'cream',
             'termlinkopt'  => 'standard',
             'termusage'    => 'on',
@@ -331,7 +458,7 @@ class ithoughts_tt_gl_Admin{
 
         $glossary_options_old = $glossary_options;
         foreach( $defaults as $key => $default ){
-            $value                  = $_POST[$key] ? $_POST[$key] : $default;
+            $value                  = isset($_POST[$key]) ? $_POST[$key] : $default;
             $glossary_options[$key] = $value;
         }
 
@@ -339,16 +466,38 @@ class ithoughts_tt_gl_Admin{
         $glossary_options['qtiprounded'] = ithoughts_tt_gl_toggleable_to_bool($glossary_options['qtiprounded'], "enabled");
 
         $outtxt = "";
+        $valid = true;
 
+        $glossary_options["termtype"] = urlencode( $glossary_options["termtype"] );
+        $glossary_options["grouptype"] = urlencode( $glossary_options["grouptype"] );
 
-        if($glossary_options_old["termtype"] != $glossary_options["termtype"]){
-            $glossary_options["needflush"] = true;
-            flush_rewrite_rules(false);
-            $outtxt .= "<p>" . __( 'Rewrite rule flushed', 'ithoughts_tooltip_glossary' ) . "</p>";
+        if(strlen($glossary_options["termtype"]) < 1){
+            $outtxt .= ('<p>' . __('Invalid input for', 'ithoughts_tooltip_glossary') . " \"" . __('Base Permalink', 'ithoughts_tooltip_glossary') . '"</p>') ;
+            $valid = false;
         }
-        update_option( 'ithoughts_tt_gl', $glossary_options );
+        if(strlen($glossary_options["grouptype"]) < 1){
+            $outtxt .= ('<p>' . __('Invalid input for', 'ithoughts_tooltip_glossary') . " \"" . __('Taxonomy group prefix', 'ithoughts_tooltip_glossary') . '"</p>') ;
+            $valid = false;
+        }
 
-        $outtxt .='<p>' . __('Options updated', 'ithoughts_tooltip_glossary') . '</p>' ;
-        die( $outtxt );
+        if($valid){
+            if(
+                $glossary_options_old["termtype"] != $glossary_options["termtype"] ||
+                $glossary_options_old["grouptype"] != $glossary_options["grouptype"]
+            ){
+                $reload = true;
+                $glossary_options["needflush"] = true;
+                flush_rewrite_rules(false);
+                $outtxt .= "<p>" . __( 'Rewrite rule flushed', 'ithoughts_tooltip_glossary' ) . "</p>";
+            }
+            update_option( 'ithoughts_tt_gl', $glossary_options );
+            $outtxt .= ('<p>' . __('Options updated', 'ithoughts_tooltip_glossary') . '</p>') ;
+        }
+
+        die( json_encode(array(
+            "reload" => $reload,
+            "text" =>$outtxt,
+            "valid" => $valid
+        )));
     }
 }

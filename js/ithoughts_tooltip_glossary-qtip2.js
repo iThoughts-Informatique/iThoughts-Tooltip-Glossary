@@ -7,10 +7,8 @@
                      || navigator.userAgent.match(/BlackBerry/i) ) ? 1 : 0;
     $(document).ready(function(){
         $('span[class^=ithoughts_tt_gl-]').each(function(){
-            console.log(this.className);
             var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details'}, $(this).data() );
             var qtipstyle    = ($(this).data('qtipstyle')) ? $(this).data('qtipstyle') : ithoughts_tt_gl.qtipstyle;
-            console.log(qtipstyle);
 
             // If set to click, disable glossary link
             if( ithoughts_tt_gl.qtiptrigger == 'click' ){
@@ -136,7 +134,6 @@
                 hide: (ithoughts_tt_gl.qtiptrigger == 'responsive') ? "responsiveout" : 'mouseleave',
                 style: tipClass
             }, specific);
-            console.log(opts);
             $(this).qtip(opts);
 
             //Remove title for tooltip, causing double tooltip
@@ -150,9 +147,7 @@
                 var bodydiv = glossaryIndex.find("#glossary-container");
                 switch(glossaryIndex.data("type")){
                     case "tile":{
-                        console.log("Tile mode");
                         var headTiles = glossaryIndex.find("header p[data-empty=\"false\"]");
-                        console.log(headTiles);
                         headTiles.click(function(e){
                             glossaryIndex.find('article[data-active="true"]').attr("data-active", false);
                             var newDisplayed = glossaryIndex.find('article[data-chartype="' + $(e.target).data("chartype") + '"]');

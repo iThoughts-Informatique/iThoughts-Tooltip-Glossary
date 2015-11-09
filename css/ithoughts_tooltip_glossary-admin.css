@@ -16,6 +16,21 @@
     margin-right: 6px;
     padding: 2px;
 }
+.wp-picker-container{
+    position: relative;
+    width: 100%;
+}
+.wp-picker-input-wrap{
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    top: 2em;
+}
+.wp-picker-holder{
+    position: absolute;
+    z-index: 1;
+    top: 3.5em;
+}
 
 
 

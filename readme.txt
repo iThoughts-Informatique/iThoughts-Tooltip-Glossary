@@ -5,7 +5,7 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, 
 Requires at least: 3.0
 Tested up to: 4.3.1
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -69,6 +69,11 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Changelog ==
 
+= 1.1.3 =
+* UPD Added security checks on url-related options
+* NEW Added style previews for tooltips
+* UPD Admin layout
+
 = 1.1 =
 * NEW added mediatip
 * FIX tooltips flickered on small screen
@@ -112,6 +117,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+See in real-time what your tooltips will look like!
 
 = 1.1 =
 A new type of tooltip is available! The Mediatip is perfect for you if you want to show an image describing what you want. Thanks to Doremdou for the suggestion of this feature!
