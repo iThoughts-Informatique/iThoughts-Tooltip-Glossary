@@ -4,6 +4,7 @@ class ithoughts_tt_gl_Shortcodes_glossary Extends ithoughts_tt_gl{
 
     public function __construct() {
         // Shortcode
+        add_shortcode( "ithoughts_tooltip_glossary-glossary", array(&$this, "glossary") );
         add_shortcode( "glossary", array(&$this, "glossary") );
 
         // Help functions..
@@ -15,13 +16,13 @@ class ithoughts_tt_gl_Shortcodes_glossary Extends ithoughts_tt_gl{
     }
 
     public function parse_pseudo_links_to_shortcode( $data ){
-        $data['post_content'] = preg_replace('/<a\s+?data-ithoughts_tt_gl-glossary-slug=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[glossary slug="$1"]$2[/glossary]', $data['post_content']);
+        $data['post_content'] = preg_replace('/<a\s+?data-ithoughts_tt_gl-glossary-slug=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[ithoughts_tooltip_glossary-glossary slug="$1"]$2[/ithoughts_tooltip_glossary-glossary]', $data['post_content']);
         return $data;
     }
 
     public function convert_shortcodes($post_id){
         $post = get_post($post_id);
-        $post->post_content = preg_replace('/\[glossary(.*?)(?: slug="(.+?)")(.*?)\](.+?)\[\/glossary\]/', '<a data-ithoughts_tt_gl-glossary-slug="$2" $1 $3>$4</a>', $post->post_content);
+        $post->post_content = preg_replace('/\[ithoughts_tooltip_glossary-glossary(.*?)(?: slug="(.+?)")(.*?)\](.+?)\[\/ithoughts_tooltip_glossary-glossary\]/', '<a data-ithoughts_tt_gl-glossary-slug="$2" $1 $3>$4</a>', $post->post_content);
         return $post;
     }
 
@@ -36,7 +37,7 @@ class ithoughts_tt_gl_Shortcodes_glossary Extends ithoughts_tt_gl{
             return $post_id;
 
         if( !wp_is_post_revision($post_id)  ):
-        if( strpos($post->post_content,'[glossary ') !== false || strpos($post->post_content,'[glossary]') !== false ):
+        if( strpos($post->post_content,'[ithoughts_tooltip_glossary-glossary ') !== false || strpos($post->post_content,'[ithoughts_tooltip_glossary-glossary]') !== false ):
         update_post_meta( $post_id, 'ithoughts_tt_gl_update_term_usage', current_time('mysql') );
         else :
         if(get_post_meta( $post_id, 'ithoughts_tt_gl_has_terms', $single=true) ):
@@ -171,7 +172,7 @@ class ithoughts_tt_gl_Shortcodes_glossary Extends ithoughts_tt_gl{
         $jsdata[] = 'data-content="' . $tooltip_option . '"';
 
         // Span that qtip finds
-        $span = '<span class="ithoughts_tt_gl-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';
+        $span = '<span class="ithoughts_tooltip_glossary-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';
         endif;
 
         return $span;

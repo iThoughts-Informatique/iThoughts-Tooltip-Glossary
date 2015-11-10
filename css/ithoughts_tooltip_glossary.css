@@ -132,12 +132,12 @@ border-right: 1px dotted #333;
 /****************************************************
 Specific styles for tip
 ****************************************************/
-.qtip.ithoughts_tt_gl-mediatip{
+.qtip.ithoughts_tooltip_glossary-mediatip{
     max-width: 350px;
 }
-.ithoughts_tt_gl-mediatip .qtip-content{
+.ithoughts_tooltip_glossary-mediatip .qtip-content{
     padding: 0px;
 }
-.ithoughts_tt_gl-mediatip .qtip-content img{
+.ithoughts_tooltip_glossary-mediatip .qtip-content img{
     max-height: 75vh!important;
 }

@@ -6,7 +6,7 @@
                      || navigator.userAgent.match(/iPod/i)
                      || navigator.userAgent.match(/BlackBerry/i) ) ? 1 : 0;
     $(document).ready(function(){
-        $('span[class^=ithoughts_tt_gl-]').each(function(){
+        $('span[class^=ithoughts_tooltip_glossary-]').each(function(){
             var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details'}, $(this).data() );
             var qtipstyle    = ($(this).data('qtipstyle')) ? $(this).data('qtipstyle') : ithoughts_tt_gl.qtipstyle;
 
@@ -50,7 +50,7 @@
 
             var tipClass = 'qtip-' + qtipstyle + ((ithoughts_tt_gl.qtipshadow === "1") ? " qtip-shadow" : "" ) + ((ithoughts_tt_gl.qtiprounded === "1") ? " qtip-rounded" : "" ) + " " ;
             var specific;
-            if($(this).hasClass("ithoughts_tt_gl-glossary")){
+            if($(this).hasClass("ithoughts_tooltip_glossary-glossary")){
                 specific = {
                     content: {
                         text: 'Loading glossary term',
@@ -69,26 +69,26 @@
                                 }
                             }
                         },
-                        title: { text: 'Glossary Title' }
+                        title: { text: 'Please wait' }
                     },
                     style: {
-                        classes: tipClass + "ithoughts_tt_gl-glossary"
+                        classes: tipClass + "ithoughts_tooltip_glossary-glossary"
                     }
                 };
-            } else if($(this).hasClass("ithoughts_tt_gl-tooltip")){
+            } else if($(this).hasClass("ithoughts_tooltip_glossary-tooltip")){
                 specific = {
                     style: {
-                        classes: tipClass + "ithoughts_tt_gl-tooltip"
+                        classes: tipClass + "ithoughts_tooltip_glossary-tooltip"
                     },
                     content: {
                         text: window.decodeURIComponent(this.getAttribute("data-tooltip-content")),
                         title: { text: $(this).text() }
                     }
                 };
-            } else if($(this).hasClass("ithoughts_tt_gl-mediatip")){
+            } else if($(this).hasClass("ithoughts_tooltip_glossary-mediatip")){
                 specific = {
                     style: {
-                        classes: tipClass + "ithoughts_tt_gl-mediatip",
+                        classes: tipClass + "ithoughts_tooltip_glossary-mediatip",
                         //width:"350px"
                     },
                     position:{

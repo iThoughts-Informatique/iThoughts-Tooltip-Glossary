@@ -2,10 +2,10 @@
 Contributors: Gerkin, tcbarrett
 Plugin URL: http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
-Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, 
+Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments
 Requires at least: 3.0
 Tested up to: 4.3.1
-Stable tag: 1.1.3.1
+Stable tag: 1.1.4
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -50,7 +50,8 @@ Please resave your rewrite rules: Settings > Permalinks > Save Changes (just cli
 
 = It doesn't do anything? =
 
-You have to add the terms (Tooltip Glossary > Add New Term) and then use the appropriate TinyMCE button to link the post with that glossary term
+Check if jQuery is loaded.
+For glossary terms only, you have to add the terms (Tooltip Glossary > Add New Term) and then use the appropriate TinyMCE button to link the text with that glossary term
 
 = Further Information =
 
@@ -68,6 +69,12 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Changelog ==
+
+= 1.1.4 =
+* FIX Renamed shortcode Tooltip for Divi compatibility [(see this issue)](https://wordpress.org/support/topic/error-displaying-tooltip?replies=10#post-7644816)
+* UPD Transition to prefixed shortcodes
+* UPD Changed some plugin prefixes
+* FIX Change hook for loading TinyMCE plugin [(see this issue)](https://wordpress.org/support/topic/compatibility-with-siteorigin-page-builder?replies=8#post-7645307)
 
 = 1.1.3 =
 * UPD Added security checks on url-related options
@@ -117,6 +124,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Upgrade Notice ==
+
+= 1.1.4 =
+Compatibility fixes
 
 = 1.1.3 =
 See in real-time what your tooltips will look like!

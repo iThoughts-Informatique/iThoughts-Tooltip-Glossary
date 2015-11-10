@@ -19,6 +19,11 @@ class ithoughts_tt_gl_Admin{
 
         add_action( 'admin_init',                 array(&$this, 'setup_localixed_dropdown_values') );
 
+        add_filter( 'mce_buttons', array(&$this, "ithoughts_tt_gl_tinymce_register_buttons") );
+        
+        add_filter( "mce_external_plugins", array(&$this, "ithoughts_tt_gl_tinymce_add_buttons") );
+        
+        add_filter( 'mce_external_languages', array(&$this, 'tinymce_add_translations') );
     }
 
     static function base() {
@@ -32,9 +37,6 @@ class ithoughts_tt_gl_Admin{
 
 
     public function add_tinymce_dropdown_hooks(){/**/
-        add_filter( "mce_external_plugins", array(&$this, "ithoughts_tt_gl_tinymce_add_buttons") );
-        add_filter( 'mce_buttons', array(&$this, "ithoughts_tt_gl_tinymce_register_buttons") );
-        add_filter( 'mce_external_languages', array(&$this, 'tinymce_add_translations') );
     }
     public function ithoughts_tt_gl_tinymce_register_buttons( $buttons ) {
         array_push( $buttons, 'glossaryterm', 'glossarylist' );

@@ -460,14 +460,14 @@
                                         if(e.data.gt.trim() == "" || e.data.gs == "")
                                             return;
                                         else
-                                            editor.insertContent('[glossary slug="'+e.data.gs+'"]'+e.data.gt.trim()+"[/glossary] ");
+                                            editor.insertContent('[ithoughts_tooltip_glossary-glossary slug="'+e.data.gs+'"]'+e.data.gt.trim()+"[/ithoughts_tooltip_glossary-glossary] ");
                                     } break;
 
                                     case 1: {
                                         if(e.data.tc.trim() == "" || e.data.tt.trim() == "")
                                             return;
                                         else
-                                            editor.insertContent('[tooltip content="'+e.data.tc.trim()+'"]'+e.data.tt.trim()+"[/tooltip] ");
+                                            editor.insertContent('[ithoughts_tooltip_glossary-tooltip content="'+e.data.tc.trim()+'"]'+e.data.tt.trim()+"[/ithoughts_tooltip_glossary-tooltip] ");
                                     } break;
 
                                     case 2: {
@@ -477,7 +477,7 @@
                                                 return;
                                             var imgdata = JSON.parse(e.data.mc);
                                             console.log(imgdata);
-                                            editor.insertContent('[mediatip link="'+imgdata.link+'" image="'+imgdata.url+'" imageid="'+imgdata.id+'"]'+e.data.mt.trim()+"[/tooltip] ");
+                                            editor.insertContent('[ithoughts_tooltip_glossary-mediatip link="'+imgdata.link+'" image="'+imgdata.url+'" imageid="'+imgdata.id+'"]'+e.data.mt.trim()+"[/ithoughts_tooltip_glossary-tooltip] ");
                                         } catch(e){
                                             console.error("Error with serialized data", e);
                                             return;
@@ -540,7 +540,7 @@
 
 replaceShortcodesEl = [
     function(content){ // For [glossary]
-        return content.replace( /\[(glossary|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/(glossary|tooltip|mediatip)\]/g, function( all,balise,inner, text){
+        return content.replace( /\[(?:ithoughts_tooltip_glossary-)?(glossary|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/(?:ithoughts_tooltip_glossary-)?(glossary|tooltip|mediatip)\]/g, function( all,balise,inner, text){
             var attrs = {};
             var regex = /([\w\d\-]+?)="(.+?)"/g;
             var matched = null;
@@ -580,11 +580,11 @@ restoreShortcodesEl = [
                 attrs[matched[1]] = matched[2];
             }
             var b = ["glossary","tooltip","mediatip"][["term","tooltip","mediatip"].indexOf(type)];
-            var ret = "[" + b;
+            var ret = "[ithoughts_tooltip_glossary-" + b;
             for(var i in attrs){
                 ret += " "+window.decodeURIComponent(i)+"=\""+window.decodeURIComponent(attrs[i])+"\"";
             }
-            return ret + "]" + text + "[/"+b+"]";
+            return ret + "]" + text + "[/ithoughts_tooltip_glossary-"+b+"]";
         });
     },
     function(content){ // For [glossary_(term_list|atoz)]

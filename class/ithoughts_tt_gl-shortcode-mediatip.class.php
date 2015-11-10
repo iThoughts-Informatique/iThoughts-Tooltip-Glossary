@@ -6,6 +6,7 @@ class ithoughts_tt_gl_Shortcodes_mediatip Extends ithoughts_tt_gl{
 
     public function __construct() {
         // Shortcode
+        add_shortcode( "ithoughts_tooltip_glossary-mediatip", array(&$this, "mediatip") );
         add_shortcode( "mediatip", array(&$this, "mediatip") );
 
         // Help functions..
@@ -14,13 +15,13 @@ class ithoughts_tt_gl_Shortcodes_mediatip Extends ithoughts_tt_gl{
     }
 
     public function parse_pseudo_links_to_shortcode( $data ){
-        $data['post_content'] = preg_replace('/<a(?=[^>]*data-type="ithoughts-tooltip-glossary-mediatip")(.*?)(?:(?:(?:data-type="([^"]*)")|(?:data-link="([^"]*)")|(?:data-image="([^"]*)")|(?:data-imageid="([^"]*)"))\s*)+(.*?)>(.*?)<\/a>/', '  [mediatip link="$3" image="$4" imageid="$5" $1 $6]$7[/mediatip]', $data['post_content']);
+        $data['post_content'] = preg_replace('/<a(?=[^>]*data-type="ithoughts-tooltip-glossary-mediatip")(.*?)(?:(?:(?:data-type="([^"]*)")|(?:data-link="([^"]*)")|(?:data-image="([^"]*)")|(?:data-imageid="([^"]*)"))\s*)+(.*?)>(.*?)<\/a>/', '  [ithoughts_tooltip_glossary-mediatip link="$3" image="$4" imageid="$5" $1 $6]$7[/ithoughts_tooltip_glossary-mediatip]', $data['post_content']);
         return $data;
     }
 
     public function convert_shortcodes($post_id){
         $post = get_post($post_id);
-        $post->post_content = preg_replace('/\[mediatip(.*?)(?:(?:(?:link="([^"]*)")|(?:image="([^"]*)")|(?:imageid="([^"]*)"))\s*)+(.*?)\](.*?)\[\/mediatip\]/', '<a data-type="ithoughts-tooltip-glossary-mediatip" data-link="$2" data-image="$3" data-imageid="$4" $1 $5]$6</a>', $post->post_content);
+        $post->post_content = preg_replace('/\[ithoughts_tooltip_glossary-mediatip(.*?)(?:(?:(?:link="([^"]*)")|(?:image="([^"]*)")|(?:imageid="([^"]*)"))\s*)+(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-mediatip\]/', '<a data-type="ithoughts-tooltip-glossary-mediatip" data-link="$2" data-image="$3" data-imageid="$4" $1 $5]$6</a>', $post->post_content);
         return $post;
     }
 
@@ -61,7 +62,7 @@ class ithoughts_tt_gl_Shortcodes_mediatip Extends ithoughts_tt_gl{
 
         $linkElement   = '<a href="' . $link . '" title="' . esc_attr($text) . '">' . $text . '</a>';
         // Span that qtip finds
-        $span = '<span class="ithoughts_tt_gl-mediatip" '.implode(' ',$jsdata).'>' . $linkElement . '</span>';
+        $span = '<span class="ithoughts_tooltip_glossary-mediatip" '.implode(' ',$jsdata).'>' . $linkElement . '</span>';
 
         return $span;
     }

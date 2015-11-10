@@ -6,6 +6,7 @@ class ithoughts_tt_gl_Shortcodes_tooltip Extends ithoughts_tt_gl{
 
     public function __construct() {
         // Shortcode
+        add_shortcode( "ithoughts_tooltip_glossary-tooltip", array(&$this, "tooltip") );
         add_shortcode( "tooltip", array(&$this, "tooltip") );
 
         // Help functions..
@@ -14,13 +15,13 @@ class ithoughts_tt_gl_Shortcodes_tooltip Extends ithoughts_tt_gl{
     }
 
     public function parse_pseudo_links_to_shortcode( $data ){
-        $data['post_content'] = preg_replace('/<a\s+?data-tooltip-content=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[tooltip content="$1"]$2[/tooltip]', $data['post_content']);
+        $data['post_content'] = preg_replace('/<a\s+?data-tooltip-content=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[ithoughts_tooltip_glossary-tooltip content="$1"]$2[/ithoughts_tooltip_glossary-tooltip]', $data['post_content']);
         return $data;
     }
 
     public function convert_shortcodes($post_id){
         $post = get_post($post_id);
-        $post->post_content = preg_replace('/\[tooltip(.*?)(?: content="(.+?)")(.*?)\](.+?)\[\/tooltip\]/', '<a data-tooltip-content="$2" $1 $3>$4</a>', $post->post_content);
+        $post->post_content = preg_replace('/\[ithoughts_tooltip_glossary-tooltip(.*?)(?: content="(.+?)")(.*?)\](.+?)\[\/ithoughts_tooltip_glossary-tooltip\]/', '<a data-tooltip-content="$2" $1 $3>$4</a>', $post->post_content);
         return $post;
     }
 
@@ -58,7 +59,7 @@ class ithoughts_tt_gl_Shortcodes_tooltip Extends ithoughts_tt_gl{
 
         $link   = '<a href="javascript:void(0)" title="' . esc_attr($title) . '">' . $text . '</a>';
         // Span that qtip finds
-        $span = '<span class="ithoughts_tt_gl-tooltip" '.implode(' ',$jsdata).'>' . $link . '</span>';
+        $span = '<span class="ithoughts_tooltip_glossary-tooltip" '.implode(' ',$jsdata).'>' . $link . '</span>';
 
         return $span;
     }
