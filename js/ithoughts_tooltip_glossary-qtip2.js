@@ -121,8 +121,8 @@
             var opts = $.extend(true, {
                 prerender: true,
                 position: {
-                    at      : 'bottom center', // Position the tooltip above the link
-                    my      : 'top center',
+                    at      : 'top center', // Position the tooltip above the link
+                    my      : 'bottom center',
                     viewport: $("body"),       // Keep the tooltip on-screen at all times
                     effect  : false,           // Disable positioning animation
                 },

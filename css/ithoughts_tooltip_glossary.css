@@ -140,4 +140,8 @@ Specific styles for tip
 }
 .ithoughts_tooltip_glossary-mediatip .qtip-content img{
     max-height: 75vh!important;
+    vertical-align: middle;
+}
+.qtip-content{
+
 }

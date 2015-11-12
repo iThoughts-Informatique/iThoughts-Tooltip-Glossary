@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: iThoughts Tooltip Glossary\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue Oct 27 2015 11:54:04 GMT-1000 (TAHT)\n"
-"POT-Revision-Date: Sun Nov 08 2015 12:19:51 GMT-1000 (TAHT)\n"
+"POT-Revision-Date: Sun Nov 08 2015 16:01:42 GMT-1000 (TAHT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -433,11 +433,13 @@ msgstr ""
 msgid "Term link"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:282
+#: ../class/ithoughts_tt_gl-admin.class.php:282 ../class/ithoughts_tt_gl-admin.
+#: class.php:475
 msgid "Base Permalink"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:290
+#: ../class/ithoughts_tt_gl-admin.class.php:290 ../class/ithoughts_tt_gl-admin.
+#: class.php:479
 msgid "Taxonomy group prefix"
 msgstr ""
 
@@ -565,10 +567,15 @@ msgstr ""
 msgid "Update Options"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:475
+#: ../class/ithoughts_tt_gl-admin.class.php:475 ../class/ithoughts_tt_gl-admin.
+#: class.php:479
+msgid "Invalid input for"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:491
 msgid "Rewrite rule flushed"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:479
+#: ../class/ithoughts_tt_gl-admin.class.php:494
 msgid "Options updated"
 msgstr ""

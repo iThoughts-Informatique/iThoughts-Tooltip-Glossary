@@ -122,6 +122,10 @@
                                             {
                                                 text:editor.getLang('ithoughts_tt_gl_tinymce.full'),
                                                 value:"full"
+                                            },
+                                            {
+                                                text:editor.getLang('ithoughts_tt_gl_tinymce.glossarytips'),
+                                                value:"glossarytips"
                                             }
                                         ],
                                         value: values.list.desc,
@@ -217,9 +221,9 @@
                         content: ((sel.getStart().getAttribute("data-content")) ? window.decodeURIComponent(sel.getStart().getAttribute("data-content")) : null) || sel.getStart().textContent,
                         glossary: sel.getStart().getAttribute("data-slug") || sel.getStart().textContent,
                         mediatip: {
-                            image: sel.getStart().getAttribute("data-image"),
+                            image: window.decodeURIComponent(sel.getStart().getAttribute("data-image")),
                             id: sel.getStart().getAttribute("data-imageid"),
-                            link: sel.getStart().getAttribute("data-link")
+                            link: window.decodeURIComponent(sel.getStart().getAttribute("data-link"))
                         },
                         type: types.indexOf(sel.getStart().getAttribute("data-type"))
                     };
