@@ -1,3 +1,19 @@
+makeSortString = (function() {
+    var translate_re = /[¹²³áàâãäåaaaÀÁÂÃÄÅAAAÆccç©CCÇÐÐèéê?ëeeeeeÈÊË?EEEEE€gGiìíîïìiiiÌÍÎÏ?ÌIIIlLnnñNNÑòóôõöoooøÒÓÔÕÖOOOØŒr®Ršs?ßŠS?ùúûüuuuuÙÚÛÜUUUUýÿÝŸžzzŽZZ]/g;
+    var translate = {
+"¹":"1","²":"2","³":"3","á":"a","à":"a","â":"a","ã":"a","ä":"a","å":"a","a":"a","a":"a","a":"a","À":"a","Á":"a","Â":"a","Ã":"a","Ä":"a","Å":"a","A":"a","A":"a",
+"A":"a","Æ":"a","c":"c","c":"c","ç":"c","©":"c","C":"c","C":"c","Ç":"c","Ð":"d","Ð":"d","è":"e","é":"e","ê":"e","?":"e","ë":"e","e":"e","e":"e","e":"e","e":"e",
+"e":"e","È":"e","Ê":"e","Ë":"e","?":"e","E":"e","E":"e","E":"e","E":"e","E":"e","€":"e","g":"g","G":"g","i":"i","ì":"i","í":"i","î":"i","ï":"i","ì":"i","i":"i",
+"i":"i","i":"i","Ì":"i","Í":"i","Î":"i","Ï":"i","?":"i","Ì":"i","I":"i","I":"i","I":"i","l":"l","L":"l","n":"n","n":"n","ñ":"n","N":"n","N":"n","Ñ":"n","ò":"o",
+"ó":"o","ô":"o","õ":"o","ö":"o","o":"o","o":"o","o":"o","ø":"o","Ò":"o","Ó":"o","Ô":"o","Õ":"o","Ö":"o","O":"o","O":"o","O":"o","Ø":"o","Œ":"o","r":"r","®":"r",
+"R":"r","š":"s","s":"s","?":"s","ß":"s","Š":"s","S":"s","?":"s","ù":"u","ú":"u","û":"u","ü":"u","u":"u","u":"u","u":"u","u":"u","Ù":"u","Ú":"u","Û":"u","Ü":"u",
+"U":"u","U":"u","U":"u","U":"u","ý":"y","ÿ":"y","Ý":"y","Ÿ":"y","ž":"z","z":"z","z":"z","Ž":"z","Z":"z","Z":"z"
+    };
+    return function(s) {
+        return(s.replace(translate_re, function(match){return translate[match];}) );
+    }
+})();
+
 (function() {
     tinyMCE.setToggleable = function(element, editor) {
         return function(){
@@ -27,7 +43,6 @@
         //CSS
         editor.contentCSS.push(url + "/../css/ithoughts_tooltip_glossary-admin.css");
 
-        eddd = editor;
         //fcts
         function glossarylistfct(event){
             var values = {
@@ -282,8 +297,18 @@
                         throw "Error while retrieving list of terms";
                     } else {
                         console.log(resJson);
+                        var terms = Object.keys(resJson.data).sort(function(a,b){
+                            a = makeSortString(a.toLowerCase());
+                            b = makeSortString(b.toLowerCase());
+                            if(a < b){
+                                return -1;
+                            } else if(a > b){
+                                return 1;
+                            }
+                            return 0;
+                        });
+                        console.log(terms);
                         listtabT = values.type;
-                        var myurl = "/media-upload.php?type=audio&height=700&width=600";/*&TB_iframe=true*/
 
                         //Todo find glossary posts via AJAX
                         editor.windowManager.open({
@@ -322,9 +347,13 @@
                                                     name: "gs",
                                                     value: values.glossary,
                                                     values: [{text: "", value: "", tooltip: "Empty"}].concat(
-                                                        Object.keys(resJson.data).map(function(key){
-                                                            console.log(key);
+                                                        terms.map(function(key){
                                                             var obj = resJson.data[key];
+                                                            console.log({
+                                                                text: key,
+                                                                value: obj["slug"],
+                                                                tooltip: obj["content"]
+                                                            });
                                                             return {
                                                                 text: key,
                                                                 value: obj["slug"],

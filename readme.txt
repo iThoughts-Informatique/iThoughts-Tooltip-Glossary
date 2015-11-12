@@ -3,9 +3,9 @@ Contributors: Gerkin, tcbarrett
 Plugin URL: http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments
-Requires at least: 3.0
+Requires at least: 3.3
 Tested up to: 4.3.1
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -70,6 +70,11 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Changelog ==
 
+= 1.1.5 =
+* UPD Change default tooltip position ([see this post](https://wordpress.org/support/topic/media-tip?replies=6#post-7650176))
+* FIX Added base container on top of Divi header and wpadminbar
+* UPD Sort terms alphabetically into TinyMCE form ([see this thread](https://wordpress.org/support/topic/insert-tooltip-glossary-term-sort-alphabetically))
+
 = 1.1.4 =
 * FIX Renamed shortcode Tooltip for Divi compatibility [(see this issue)](https://wordpress.org/support/topic/error-displaying-tooltip?replies=10#post-7644816)
 * UPD Transition to prefixed shortcodes
@@ -124,6 +129,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Upgrade Notice ==
+
+= 1.1.5 =
+Corrections for better readability of tooltips and pages
 
 = 1.1.4 =
 Compatibility fixes

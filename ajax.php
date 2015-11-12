@@ -69,7 +69,7 @@ function wp_ajax_ithoughts_tt_gl_get_terms_list(){
     foreach($posts as $post){
         $output[$post->post_title] = array(
             "slug" => $post->post_name,
-            "content" => $post->post_content,
+            "content" => wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
             "id" => $post->ID,
         );
     }

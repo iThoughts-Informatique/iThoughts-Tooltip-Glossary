@@ -6,6 +6,9 @@
                      || navigator.userAgent.match(/iPod/i)
                      || navigator.userAgent.match(/BlackBerry/i) ) ? 1 : 0;
     $(document).ready(function(){
+        //Create container
+        tooltipsContainer = $($.parseHTML('<div id="ithoughts_tooltip_glossary-tipsContainer"></div>'));
+        $(document.body).append(tooltipsContainer);
         $('span[class^=ithoughts_tooltip_glossary-]').each(function(){
             var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details'}, $(this).data() );
             var qtipstyle    = ($(this).data('qtipstyle')) ? $(this).data('qtipstyle') : ithoughts_tt_gl.qtipstyle;
@@ -125,6 +128,7 @@
                     my      : 'bottom center',
                     viewport: $("body"),       // Keep the tooltip on-screen at all times
                     effect  : false,           // Disable positioning animation
+                    container: tooltipsContainer
                 },
                 show: {
                     event: ithoughts_tt_gl.qtiptrigger,
