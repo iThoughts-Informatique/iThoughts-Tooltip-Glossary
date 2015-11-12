@@ -172,3 +172,6 @@ Icon from [allur.co](http://allur.co/minimalist-edit-icon-tooltip-psd-ai/)
 TCBarrett for his [WP Glossary plugin](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
 [Laurent Pelleray](http://lpelleray.wix.com/laurent-pelleray#!infographie/c1vmr) for graphical elements
 Tammi Coles for corrections to readme description
+
+https://github.com/23r9i0/wp-color-picker-alpha
+http://codologic.com/page/gradx-jquery-javascript-gradient-selector-library
