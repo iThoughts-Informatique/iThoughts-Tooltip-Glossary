@@ -37,6 +37,7 @@ function my_custom_tinymce_plugin_translation() {
         "description_explain" => __("Description mode: Full/Excerpt/None",'ithoughts_tooltip_glossary'),
         "full" => __('Full','ithoughts_tooltip_glossary'),
         "excerpt" => __('Excerpt','ithoughts_tooltip_glossary'),
+        "glossarytips" => __('Glossary Tooltips','ithoughts_tooltip_glossary'),
     );
     $locale = _WP_Editors::$mce_locale;
     $translated = 'tinyMCE.addI18n("' . $locale . '.ithoughts_tt_gl_tinymce", ' . json_encode( $strings ) . ");\n";

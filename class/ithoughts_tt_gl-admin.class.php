@@ -1,6 +1,6 @@
 <?php
 /**
- * ithoughts-tooltip-glossary Admin
+ * ithoughts_tooltip_glossary Admin
  */
 class ithoughts_tt_gl_Admin{
     static $base;
@@ -20,9 +20,9 @@ class ithoughts_tt_gl_Admin{
         add_action( 'admin_init',                 array(&$this, 'setup_localixed_dropdown_values') );
 
         add_filter( 'mce_buttons', array(&$this, "ithoughts_tt_gl_tinymce_register_buttons") );
-        
+
         add_filter( "mce_external_plugins", array(&$this, "ithoughts_tt_gl_tinymce_add_buttons") );
-        
+
         add_filter( 'mce_external_languages', array(&$this, 'tinymce_add_translations') );
     }
 
@@ -87,6 +87,15 @@ class ithoughts_tt_gl_Admin{
                 'capability'    => 'manage_options',
                 'menu_slug'     => 'ithought-tooltip-glossary',
                 'function'      => array($this, 'options'),
+            ),
+
+            array(
+                'parent_slug'   => 'ithought-tooltip-glossary',
+                'page_title'    => __( 'Test', 'ithoughts_tooltip_glossary' ),
+                'menu_title'    => __( 'Test', 'ithoughts_tooltip_glossary' ),
+                'capability'    => 'manage_options',
+                'menu_slug'     => 'test',
+                'function'      => array($this, 'test'),
             ),
 
             // Post Type :: Add New Post
@@ -158,29 +167,43 @@ class ithoughts_tt_gl_Admin{
         //Preview required resources
         wp_enqueue_script('imagesloaded', $this->base_url() . '/ext/imagesloaded.min.js', null, false, true);
         wp_enqueue_script('qtip', $this->base_url() . '/ext/jquery.qtip.js', array('jquery', 'imagesloaded'), false, true);
-        wp_register_script( 'ithoughts-tooltip-glossary-qtip',  $this->base_url() . '/js/ithoughts_tooltip_glossary-qtip2.js', array('qtip') );
-        wp_localize_script( 'ithoughts-tooltip-glossary-qtip', 'ithoughts_tt_gl', array(
+        wp_register_script( 'ithoughts_tooltip_glossary-qtip',  $this->base_url() . '/js/ithoughts_tooltip_glossary-qtip2.js', array('qtip') );
+        wp_localize_script( 'ithoughts_tooltip_glossary-qtip', 'ithoughts_tt_gl', array(
             'admin_ajax'    => admin_url('admin-ajax.php'),
             'qtipstyle'     => $qtipstyle,
             'qtiptrigger'   => $qtiptrigger,
             'qtipshadow'    => $qtipshadow,
             'qtiprounded'   => $qtiprounded
         ) );
-        wp_print_scripts( 'ithoughts-tooltip-glossary-qtip' );
-        wp_register_script( 'ithoughts-tooltip-glossary-admin',  $this->base_url() . '/js/ithoughts_tooltip_glossary-admin.js', array('qtip') );
-        
-        wp_print_scripts( 'ithoughts-tooltip-glossary-admin' );
+        wp_enqueue_script( 'ithoughts_tooltip_glossary-qtip' );
+        wp_enqueue_script( 'ithoughts_tooltip_glossary-admin',  $this->base_url() . '/js/ithoughts_tooltip_glossary-admin.js', array('qtip') );
+
         if( file_exists(get_stylesheet_directory() . '/ithoughts_tooltip_glossary.css') ):
-        wp_enqueue_style( 'ithoughts-tooltip-glossary-css', get_stylesheet_directory_uri() . '/ithoughts_tooltip_glossary.css' );
+        wp_enqueue_style( 'ithoughts_tooltip_glossary-css', get_stylesheet_directory_uri() . '/ithoughts_tooltip_glossary.css' );
         else :
-        wp_enqueue_style( 'ithoughts-tooltip-glossary-css', $this->base_url() . '/css/ithoughts_tooltip_glossary.css' );
+        wp_enqueue_style( 'ithoughts_tooltip_glossary-css', $this->base_url() . '/css/ithoughts_tooltip_glossary.css' );
         endif;
-        wp_enqueue_style( 'ithoughts-tooltip-glossary-qtip-css', $this->base_url() . '/ext/jquery.qtip.css' );
+        wp_enqueue_style( 'ithoughts_tooltip_glossary-qtip-css', $this->base_url() . '/ext/jquery.qtip.css' );
 
 
         /* Add required scripts for WordPress Spoilers (AKA PostBox) */
         wp_enqueue_script('postbox');
         wp_enqueue_script('post');
+
+
+
+        /* Add required resources for wpColorPicker */
+        wp_enqueue_style( 'wp-color-picker');
+        wp_enqueue_script( 'wp-color-picker');
+        wp_enqueue_script( 'wp-color-picker-alpha', $this->base_url() . '/ext/colorpicker-alpha.min.js', array( 'wp-color-picker' ), NULL, $in_footer );
+
+        /* Gradx */
+        wp_enqueue_script( 'ithoughts_tooltip_glossary-gradx-dom', $this->base_url() . '/ext/gradx/dom-drag.js', array('jquery') );
+        wp_enqueue_script( 'ithoughts_tooltip_glossary-colorpicker', $this->base_url() . '/ext/gradx/colorpicker/colorpicker.min.js', array('jquery') );
+        wp_enqueue_script( 'ithoughts_tooltip_glossary-gradx', $this->base_url() . '/ext/gradx/gradX.js', array('ithoughts_tooltip_glossary-gradx-dom', 'ithoughts_tooltip_glossary-colorpicker') );
+
+        wp_enqueue_style( 'ithoughts_tooltip_glossary-colorpicker', $this->base_url() . '/ext/gradx/colorpicker/colorpicker.css' );
+        wp_enqueue_style( 'ithoughts_tooltip_glossary-gradx', $this->base_url() . '/ext/gradx/gradX.css' );
 
 
 
@@ -266,7 +289,7 @@ class ithoughts_tt_gl_Admin{
                         <form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
 
                             <div id="ithoughts_tt_gllossary_options_1" class="postbox">
-                                <div class="handlediv" title="Cliquer pour inverser."><br></div><h3 class="hndle ui-sortable-handle"><span><?php _e('Term Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
+                                <div class="handlediv" title="Cliquer pour inverser."><br></div><h3 class="hndle"><span><?php _e('Term Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
                                 <div class="inside">
                                     <table class="form-table">
                                         <tbody>
@@ -300,7 +323,7 @@ class ithoughts_tt_gl_Admin{
                             </div>
 
                             <div class="postbox" id="ithoughts_tt_gllossary_options_2">
-                                <div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat(this);"><br></div><h3 onclick="window.refloat(this);" class="hndle ui-sortable-handle"><span><?php _e('qTip2 Tooltip Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
+                                <div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat(this);"><br></div><h3 onclick="window.refloat(this);" class="hndle"><span><?php _e('qTip2 Tooltip Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
                                 <div class="inside">
                                     <div style="display:flex;flex-direction:row;flex-wrap:wrap;">
                                         <div style="flex:1 1 auto;">
@@ -353,45 +376,119 @@ class ithoughts_tt_gl_Admin{
                                             </table>
 
 
-                                            <!--
-<div id="ithoughts_tt_gllossary_options_customstype" class="postbox closed">
-<div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat();"><br></div><h3 onclick="window.refloat();" class="hndle ui-sortable-handle"><span><?php _e('Style editor', 'ithoughts_tooltip_glossary'); ?></span></h3>
-<div class="inside">
-<p><?php _e('Use this editor to fully customize the look of your tooltips', 'ithoughts_tooltip_glossary'); ?></p>
-<table class="form-table">
-<thead>
-<tr>
-<td></td>
-<th><?php _e('Background', 'ithoughts_tooltip_glossary'); ?></th>
-<th><?php _e('Text size', 'ithoughts_tooltip_glossary'); ?></th>
-<th><?php _e('Text color', 'ithoughts_tooltip_glossary'); ?></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th><?php _e('Global', 'ithoughts_tooltip_glossary'); ?></th>
-<td></td>
-<td></td>
-<td><input type="text" value="#bada55" class="color-field" data-default-color="#effeff" name="g_tc"/></td>
-</tr>
-<tr>
-<th><?php _e('Title Bar', 'ithoughts_tooltip_glossary'); ?></th>
-<td></td>
-<td></td>
-<td><input type="text" value="#bada55" class="color-field" data-default-color="#effeff" name="t_tc"/></td>
-</tr>
-<tr>
-<th><?php _e('Content', 'ithoughts_tooltip_glossary'); ?></th>
-<td></td>
-<td></td>
-<td><input type="text" value="#bada55" class="color-field" data-default-color="#effeff" name="c_tc"/></td>
-</tr>
-</tbody>
-</table>
-<hr>
-</div>
-</div>
--->
+                                            <div id="ithoughts_tt_gllossary_options_customstype" class="postbox closed">
+                                                <div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat();"><br></div><h3 onclick="window.refloat();" class="hndle"><span><?php _e('Style editor', 'ithoughts_tooltip_glossary'); ?></span></h3>
+                                                <div class="inside">
+                                                    <p><?php _e('Use this editor to fully customize the look of your tooltips', 'ithoughts_tooltip_glossary'); ?></p>
+                                                    <table class="form-table stripped">
+                                                        <thead>
+                                                            <tr>
+                                                                <td></td>
+                                                                <th><?php _e('Global', 'ithoughts_tooltip_glossary'); ?></th>
+                                                                <th><?php _e('Title Bar', 'ithoughts_tooltip_glossary'); ?></th>
+                                                                <th><?php _e('Content', 'ithoughts_tooltip_glossary'); ?></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th><?php _e('Background', 'ithoughts_tooltip_glossary'); ?></th>
+                                                                <td>
+                                                                    <label for="t_bt" class="block"><?php _e('Type', 'ithoughts_tooltip_glossary'); ?>&nbsp;
+                                                                        <select name="t_bt" value="plain" id="t_bt" class="modeswitcher">
+                                                                            <option value="plain"><?php _ex('Plain', 'A plain color', 'ithoughts_tooltip_glossary'); ?></option>
+                                                                            <option value="gradient"><?php _e('Gradient', 'ithoughts_tooltip_glossary'); ?></option>
+                                                                        </select>
+                                                                    </label>
+                                                                    <div data-switcher-mode="plain">
+                                                                        <input type="text" value="" class="color-field" data-alpha="true" name="t_bc"/>
+                                                                    </div>
+
+                                                                    <div id="ithoughts_tt_gllossary_options_customstype" class="postbox closed" data-switcher-mode="gradient">
+                                                                        <div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat();"><br></div><h3 onclick="window.refloat();" class="hndle"><span><?php _e('Gradient editor', 'ithoughts_tooltip_glossary'); ?></span></h3>
+                                                                        <div class="inside">
+                                                                            <div class="gradient-picker"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <label for="c_bt" class="block"><?php _e('Type', 'ithoughts_tooltip_glossary'); ?>&nbsp;
+                                                                        <select name="c_bt" value="plain" id="c_bt" class="modeswitcher">
+                                                                            <option value="plain"><?php _ex('Plain', 'A plain color', 'ithoughts_tooltip_glossary'); ?></option>
+                                                                            <option value="gradient"><?php _e('Gradient', 'ithoughts_tooltip_glossary'); ?></option>
+                                                                        </select>
+                                                                    </label>
+                                                                    <div data-switcher-mode="plain">
+                                                                        <input type="text" value="" class="color-field" data-alpha="true" name="c_bc"/>
+                                                                    </div>
+
+                                                                    <div id="ithoughts_tt_gllossary_options_customstype" class="postbox closed" data-switcher-mode="gradient">
+                                                                        <div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat();"><br></div><h3 onclick="window.refloat();" class="hndle"><span><?php _e('Gradient editor', 'ithoughts_tooltip_glossary'); ?></span></h3>
+                                                                        <div class="inside">
+                                                                            <div class="gradient-picker"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <label for="g_bt" class="block"><?php _e('Type', 'ithoughts_tooltip_glossary'); ?>&nbsp;
+                                                                        <select name="g_bt" value="plain" id="g_bt" class="modeswitcher">
+                                                                            <option value="plain"><?php _ex('Plain', 'A plain color', 'ithoughts_tooltip_glossary'); ?></option>
+                                                                            <option value="gradient"><?php _e('Gradient', 'ithoughts_tooltip_glossary'); ?></option>
+                                                                        </select>
+                                                                    </label>
+                                                                    <div data-switcher-mode="plain">
+                                                                        <input type="text" value="" class="color-field" data-alpha="true" name="g_bc"/>
+                                                                    </div>
+
+                                                                    <div id="ithoughts_tt_gllossary_options_customstype" class="postbox closed" data-switcher-mode="gradient">
+                                                                        <div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat();"><br></div><h3 onclick="window.refloat();" class="hndle"><span><?php _e('Gradient editor', 'ithoughts_tooltip_glossary'); ?></span></h3>
+                                                                        <div class="inside">
+                                                                            <div class="gradient-picker"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th><?php _e('Padding', 'ithoughts_tooltip_glossary'); ?></th>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th><?php _e('Shadow', 'ithoughts_tooltip_glossary'); ?></th>
+                                                                <td colspan="3"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th><?php _e('Outline border', 'ithoughts_tooltip_glossary'); ?></th>
+                                                                <td colspan="3"></td>
+                                                            </tr>
+                                                            <tr class="new-section">
+                                                                <th><?php _e('Text size', 'ithoughts_tooltip_glossary'); ?></th>
+                                                                <td><input type="text" value="" name="t_ts"/></td>
+                                                                <td><input type="text" value="" name="c_ts"/></td>
+                                                                <td><input type="text" value="" name="g_ts"/></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th><?php _e('Text color', 'ithoughts_tooltip_glossary'); ?></th>
+                                                                <td><input type="text" value="" class="color-field" data-alpha="true" name="t_tc"/></td>
+                                                                <td><input type="text" value="" class="color-field" data-alpha="true" name="c_tc"/></td>
+                                                                <td><input type="text" value="" class="color-field" data-alpha="true" name="g_tc"/></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th><?php _e('Text align', 'ithoughts_tooltip_glossary'); ?></th>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th><?php _e('Text font', 'ithoughts_tooltip_glossary'); ?></th>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
 
 
                                         </div>
@@ -401,7 +498,7 @@ class ithoughts_tt_gl_Admin{
 <span class="ithoughts_tt_gl-tooltip" data-tooltip-nosolo="true" data-tooltip-id="exampleActivate" data-tooltip-content="<?php echo rawurlencode(__('The <b>tooltip</b> or <b>infotip</b> or a <b>hint</b> is a common <a href="/wiki/Graphical_user_interface" title="Graphical user interface">graphical user interface</a> element. It is used in conjunction with a <a href="/wiki/Cursor_(computers)" title="Cursor (computers)" class="mw-redirect">cursor</a>, usually a <a href="/wiki/Pointer_(graphical_user_interfaces)" title="Pointer (graphical user interfaces)">pointer</a>. The user hovers the pointer over an item, without clicking it, and a tooltip may appear—a small "<a href="/wiki/Hoverbox" title="Hoverbox">hover box</a>" with information about the item being hovered over.<sup id="cite_ref-1" class="reference"><a href="#cite_note-1"><span>[</span>1<span>]</span></a></sup> <sup id="cite_ref-2" class="reference"><a href="#cite_note-2"><span>[</span>2<span>]</span></a></sup>Tooltips do not usually appear on <a href="/wiki/Mobile_operating_system" title="Mobile operating system">mobile operating systems</a>, because there is no cursor (though tooltips may be displayed when using a <a href="/wiki/Mouse_(computing)" title="Mouse (computing)">mouse</a>).', 'ithoughts_tooltip_glossary')); ?>"><a href="javascript:void(0)" title=""><?php _e('Activate me', 'ithoughts_tooltip_glossary'); ?></a></span>
 </p>-->
                                                 <p style="flex:1 1 auto;text-align:center">
-                                                    <span class="ithoughts_tt_gl-tooltip" data-tooltip-autoshow="true" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php _e('This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts_tooltip_glossary'); ?>"><a href="javascript:void(0)" title=""><?php _e('Example Tooltip', 'ithoughts_tooltip_glossary'); ?></a></span>
+                                                    <span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-autoshow="true" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php _e('This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts_tooltip_glossary'); ?>"><a href="javascript:void(0)" title=""><?php _e('Example Tooltip', 'ithoughts_tooltip_glossary'); ?></a></span>
                                                 </p>
                                             </div>
                                         </div>
@@ -410,7 +507,7 @@ class ithoughts_tt_gl_Admin{
                             </div>
 
                             <div id="ithoughts_tt_gllossary_options_3" class="postbox">
-                                <div class="handlediv" title="Cliquer pour inverser."><br></div><h3 class="hndle ui-sortable-handle"><span><?php _e('Experimental Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
+                                <div class="handlediv" title="Cliquer pour inverser."><br></div><h3 class="hndle"><span><?php _e('Experimental Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
                                 <div class="inside">
                                     <p><?php _e('Do not rely on these at all, I am experimenting with them', 'ithoughts_tooltip_glossary'); ?></p>
                                     <table class="form-table">

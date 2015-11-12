@@ -31,7 +31,22 @@
     z-index: 1;
     top: 3.5em;
 }
-
+.form-table.stripped > tr:nth-child(odd), .form-table.stripped tbody tr:nth-child(even), .form-table.stripped thead tr{
+    background-color: rgba(0,0,0,0.025);
+}
+.form-table.stripped td,.form-table.stripped th{
+    padding: 5px;
+    vertical-align: middle;
+}
+.form-table.stripped th{
+    text-align: center;
+}
+.form-table.stripped .new-section, .form-table.stripped tbody{
+    border-top: 2px solid #ddd;
+}
+.form-table.stripped thead{
+    border-bottom: 2px solid #ddd;
+}
 
 
 #tinymce a[data-type="ithoughts-tooltip-glossary-term"],

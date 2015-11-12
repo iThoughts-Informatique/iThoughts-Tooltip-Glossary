@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: iThoughts Tooltip Glossary\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue Oct 27 2015 11:54:04 GMT-1000 (TAHT)\n"
-"POT-Revision-Date: Tue Nov 10 2015 15:27:58 GMT-1000 (TAHT)\n"
+"POT-Revision-Date: Sun Nov 08 2015 16:01:42 GMT-1000 (TAHT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -90,7 +90,7 @@ msgid "Tooltip"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:20 ../class/ithoughts_tt_gl-admin.
-#: class.php:402
+#: class.php:383
 msgid "Content"
 msgstr ""
 
@@ -141,7 +141,7 @@ msgid "Number of columns to show for list"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:34 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:48
+#: random-term.class.php:47
 msgid "Group"
 msgstr ""
 
@@ -158,17 +158,13 @@ msgid "Description mode: Full/Excerpt/None"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:38 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:58 ../class/ithoughts_tt_gl-admin.class.php:206
+#: random-term.class.php:57 ../class/ithoughts_tt_gl-admin.class.php:190
 msgid "Full"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:39 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:57 ../class/ithoughts_tt_gl-admin.class.php:210
+#: random-term.class.php:56 ../class/ithoughts_tt_gl-admin.class.php:194
 msgid "Excerpt"
-msgstr ""
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:40
-msgid "Glossary Tooltips"
 msgstr ""
 
 #: ../class/ithoughts_tt_gl-shortcode-glossary-list.class.php:55 ..
@@ -177,8 +173,8 @@ msgid "There are no glossary items."
 msgstr ""
 
 #: ../class/ithoughts_tt_gl-taxonomies.class.php:17 ../class/ithoughts_tt_gl-
-#: taxonomies.class.php:26 ../class/ithoughts_tt_gl-admin.class.php:124 ..
-#: /class/ithoughts_tt_gl-admin.class.php:125
+#: taxonomies.class.php:26 ../class/ithoughts_tt_gl-admin.class.php:113 ..
+#: /class/ithoughts_tt_gl-admin.class.php:114
 msgid "Glossary Groups"
 msgstr ""
 
@@ -234,37 +230,29 @@ msgstr ""
 msgid "Random Glossary term"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:26 ..
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:25 ..
 #: /class/ithoughts_tt_gl-post-types.class.php:73
 msgid "Title"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:45
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:44
 msgid "Any"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:56
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:55
 msgid "Title Only"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:59
-msgid "Glossary Tooltip"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:62
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:60
 msgid "Display"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:67
-msgid "Number of terms"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-widget-random-term.class.php:136
+#: ../class/ithoughts_tt_gl-widget-random-term.class.php:115
 msgid "No terms available"
 msgstr ""
 
 #: ../class/ithoughts_tt_gl-post-types.class.php:21 ../class/ithoughts_tt_gl-
-#: admin.class.php:114 ../class/ithoughts_tt_gl-admin.class.php:115
+#: admin.class.php:103 ../class/ithoughts_tt_gl-admin.class.php:104
 msgid "Glossary Terms"
 msgstr ""
 
@@ -318,230 +306,216 @@ msgstr ""
 msgid "Glossary Term Usage"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:85 ../class/ithoughts_tt_gl-admin.
-#: class.php:86 ../class/ithoughts_tt_gl-admin.class.php:276
+#: ../class/ithoughts_tt_gl-admin.class.php:83 ../class/ithoughts_tt_gl-admin.
+#: class.php:84 ../class/ithoughts_tt_gl-admin.class.php:260
 msgid "Options"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:94 ../class/ithoughts_tt_gl-admin.
-#: class.php:95
-msgid "Test"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:104 ../class/ithoughts_tt_gl-admin.
-#: class.php:105
+#: ../class/ithoughts_tt_gl-admin.class.php:93 ../class/ithoughts_tt_gl-admin.
+#: class.php:94
 msgid "Add a Term"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:207
+#: ../class/ithoughts_tt_gl-admin.class.php:191
 msgid "Display full post content"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:211
+#: ../class/ithoughts_tt_gl-admin.class.php:195
 msgid "Display shorter excerpt content"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:214 ../class/ithoughts_tt_gl-admin.
-#: class.php:265
+#: ../class/ithoughts_tt_gl-admin.class.php:198 ../class/ithoughts_tt_gl-admin.
+#: class.php:249
 msgid "Off"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:215
+#: ../class/ithoughts_tt_gl-admin.class.php:199
 msgid "Do not display tooltip at all"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:228
+#: ../class/ithoughts_tt_gl-admin.class.php:212
 msgid "Cream"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:229
+#: ../class/ithoughts_tt_gl-admin.class.php:213
 msgid "Dark"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:230
+#: ../class/ithoughts_tt_gl-admin.class.php:214
 msgid "Green"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:231
+#: ../class/ithoughts_tt_gl-admin.class.php:215
 msgid "Light"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:232
+#: ../class/ithoughts_tt_gl-admin.class.php:216
 msgid "Red"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:233
+#: ../class/ithoughts_tt_gl-admin.class.php:217
 msgid "Blue"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:234
+#: ../class/ithoughts_tt_gl-admin.class.php:218
 msgid "Plain"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:235
+#: ../class/ithoughts_tt_gl-admin.class.php:219
 msgid "Bootstrap"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:236
+#: ../class/ithoughts_tt_gl-admin.class.php:220
 msgid "YouTube"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:237
+#: ../class/ithoughts_tt_gl-admin.class.php:221
 msgid "Tipsy"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:244
+#: ../class/ithoughts_tt_gl-admin.class.php:228
 msgid "Hover"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:244
+#: ../class/ithoughts_tt_gl-admin.class.php:228
 msgid "On mouseover (hover)"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:245
+#: ../class/ithoughts_tt_gl-admin.class.php:229
 msgid "Click"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:245
+#: ../class/ithoughts_tt_gl-admin.class.php:229
 msgid "On click"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:246
+#: ../class/ithoughts_tt_gl-admin.class.php:230
 msgid "Responsive"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:246
+#: ../class/ithoughts_tt_gl-admin.class.php:230
 msgid "Hover (on computer) and click (touch devices)"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:254
+#: ../class/ithoughts_tt_gl-admin.class.php:238
 msgid "Normal"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:254
+#: ../class/ithoughts_tt_gl-admin.class.php:238
 msgid "Normal link with no modifications"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:255
+#: ../class/ithoughts_tt_gl-admin.class.php:239
 msgid "No link"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:255
+#: ../class/ithoughts_tt_gl-admin.class.php:239
 msgid "Don't link to term"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:256
+#: ../class/ithoughts_tt_gl-admin.class.php:240
 msgid "New tab"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:256
+#: ../class/ithoughts_tt_gl-admin.class.php:240
 msgid "Always open in a new tab"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:264
+#: ../class/ithoughts_tt_gl-admin.class.php:248
 msgid "On"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:284
+#: ../class/ithoughts_tt_gl-admin.class.php:268
 msgid "Term Options"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:290
+#: ../class/ithoughts_tt_gl-admin.class.php:274
 msgid "Term link"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:298 ../class/ithoughts_tt_gl-admin.
-#: class.php:493
+#: ../class/ithoughts_tt_gl-admin.class.php:282 ../class/ithoughts_tt_gl-admin.
+#: class.php:475
 msgid "Base Permalink"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:306 ../class/ithoughts_tt_gl-admin.
-#: class.php:497
+#: ../class/ithoughts_tt_gl-admin.class.php:290 ../class/ithoughts_tt_gl-admin.
+#: class.php:479
 msgid "Taxonomy group prefix"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:318
+#: ../class/ithoughts_tt_gl-admin.class.php:302
 msgid "qTip2 Tooltip Options"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:324
+#: ../class/ithoughts_tt_gl-admin.class.php:308
 msgid ""
 "iThoughts Tooltip Glossary uses the jQuery based <a href=\"http://qtip2."
 "com/\">qTip2</a> library for tooltips"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:329
+#: ../class/ithoughts_tt_gl-admin.class.php:313
 msgid "Tooltip Content"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:329
+#: ../class/ithoughts_tt_gl-admin.class.php:313
 msgid "Only for glossary terms"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:337
+#: ../class/ithoughts_tt_gl-admin.class.php:321
 msgid "Tooltip activation"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:345
+#: ../class/ithoughts_tt_gl-admin.class.php:329
 msgid "Tooltip Style (qTip)"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:353
+#: ../class/ithoughts_tt_gl-admin.class.php:337
 msgid "Tooltip shadow"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:353 ../class/ithoughts_tt_gl-admin.
-#: class.php:361
+#: ../class/ithoughts_tt_gl-admin.class.php:337 ../class/ithoughts_tt_gl-admin.
+#: class.php:345
 msgid "This option can be overriden by some tooltip styles."
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:353 ../class/ithoughts_tt_gl-admin.
-#: class.php:361
+#: ../class/ithoughts_tt_gl-admin.class.php:337 ../class/ithoughts_tt_gl-admin.
+#: class.php:345
 msgid "infos"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:361
+#: ../class/ithoughts_tt_gl-admin.class.php:345
 msgid "Rounded corners"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:372
+#: ../class/ithoughts_tt_gl-admin.class.php:357
 msgid "Style editor"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:374
+#: ../class/ithoughts_tt_gl-admin.class.php:359
 msgid "Use this editor to fully customize the look of your tooltips"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:379
+#: ../class/ithoughts_tt_gl-admin.class.php:364
 msgid "Background"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:380
+#: ../class/ithoughts_tt_gl-admin.class.php:365
 msgid "Text size"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:381
+#: ../class/ithoughts_tt_gl-admin.class.php:366
 msgid "Text color"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:386
+#: ../class/ithoughts_tt_gl-admin.class.php:371
 msgid "Global"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:387
-msgid "Type"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:389
-msgctxt "A plain color"
-msgid "Plain"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:396
+#: ../class/ithoughts_tt_gl-admin.class.php:377
 msgid "Title Bar"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:418
+#: ../class/ithoughts_tt_gl-admin.class.php:400
 msgid ""
 "The <b>tooltip</b> or <b>infotip</b> or a <b>hint</b> is a common <a "
 "href=\"/wiki/Graphical_user_interface\" title=\"Graphical user "
@@ -562,46 +536,46 @@ msgid ""
 "title=\"Mouse (computing)\">mouse</a>)."
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:418
+#: ../class/ithoughts_tt_gl-admin.class.php:400
 msgid "Activate me"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:421
+#: ../class/ithoughts_tt_gl-admin.class.php:403
 msgid ""
 "This is an example tooltip, with content such as <a>a tag for link</a>, "
 "<em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for "
 "italic</i>"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:421
+#: ../class/ithoughts_tt_gl-admin.class.php:403
 msgid "Example Tooltip"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:430
+#: ../class/ithoughts_tt_gl-admin.class.php:412
 msgid "Experimental Options"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:432
+#: ../class/ithoughts_tt_gl-admin.class.php:414
 msgid "Do not rely on these at all, I am experimenting with them"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:437
+#: ../class/ithoughts_tt_gl-admin.class.php:419
 msgid "Term usage listing"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:449
+#: ../class/ithoughts_tt_gl-admin.class.php:431
 msgid "Update Options"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:493 ../class/ithoughts_tt_gl-admin.
-#: class.php:497
+#: ../class/ithoughts_tt_gl-admin.class.php:475 ../class/ithoughts_tt_gl-admin.
+#: class.php:479
 msgid "Invalid input for"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:509
+#: ../class/ithoughts_tt_gl-admin.class.php:491
 msgid "Rewrite rule flushed"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:512
+#: ../class/ithoughts_tt_gl-admin.class.php:494
 msgid "Options updated"
 msgstr ""

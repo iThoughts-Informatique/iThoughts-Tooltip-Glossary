@@ -19,6 +19,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
         $instance =  wp_parse_args( $instance, array(
             'title' => __('Random Glossary term', 'ithoughts_tooltip_glossary'),
             'group' => '',
+            'numberposts' => 1
         ) );
 
         // Title
@@ -44,7 +45,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
                 'allow_blank' => __('Any', 'ithoughts_tooltip_glossary')
             )
         );
-        echo '<p><label for="' . $this->get_field_id('group') . '"> ' . __('Group', 'ithoughts_tooltip_glossary'). ' </label>';
+        echo '<p><label for="' . $this->get_field_id('group') . '">' . __('Group', 'ithoughts_tooltip_glossary'). '</label>';
         echo $groupdd . '</p>';
 
         // Display
@@ -52,13 +53,18 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
             'selected'   => $instance['display'],
             'name'       => $this->get_field_name('display'),
             'options'    => array( 
-                'title'   =>__('Title Only', 'ithoughts_tooltip_glossary'), 
-                'excerpt' =>__('Excerpt',    'ithoughts_tooltip_glossary'), 
-                'full'    =>__('Full',       'ithoughts_tooltip_glossary'),
+                'title'   =>__('Title Only',        'ithoughts_tooltip_glossary'), 
+                'excerpt' =>__('Excerpt',           'ithoughts_tooltip_glossary'), 
+                'full'    =>__('Full',              'ithoughts_tooltip_glossary'),
+                'tooltip' =>__('Glossary Tooltip', 'ithoughts_tooltip_glossary'),
             ),
         ) );
         echo '<p><label for="' . $this->get_field_id('display') . '"> ' . __('Display', 'ithoughts_tooltip_glossary'). ' </label>';
         echo $displaydd . '</p>';
+        
+        
+        // Count
+        echo '<p><label for="' . $this->get_field_id('numberposts') . '">' . __('Number of terms', 'ithoughts_tooltip_glossary'). '</label><input type="number" value="' . $instance['numberposts'] . '" min="1" name="' . $this->get_field_name("numberposts") . '" id="' . $this->get_field_id('numberposts') . '"/></p>';
     } // form
 
     public function update( $new_instance, $old_instance ) {
@@ -66,6 +72,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
         $instance['title']   = strip_tags( $new_instance['title'] );
         $instance['group']   = $new_instance['group'];
         $instance['display'] = $new_instance['display'];
+        $instance['numberposts'] = $new_instance['numberposts'];
 
         return $instance;
     } // update
@@ -100,14 +107,28 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
             echo '<ul class="ithoughts_tt_gl widget-list">';
             foreach( $terms as $term ){
                 setup_postdata( $term );
-                $title   = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';
-                $desc    = '';
+                $content;
                 $display = $instance['display'];
-                if( $display && $display != 'title' ){
-                    $desc = $display == 'full' ? apply_filters('the_content',get_the_content(),$main=false) : wpautop(get_the_excerpt());
-                    $desc = '<br>' . $desc;
+                switch($display){
+                    case "title":{
+                        $content = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';
+                    } break;
+                    case "full":{
+                        $content = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';
+                        $content .= '<br>' . apply_filters('the_content',get_the_content(),$main=false);
+                    } break;
+                    case "excerpt":{
+                        $content = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';
+                        $content .= '<br>' . wpautop(get_the_excerpt());
+                    } break;
+                    case "tooltip":{
+                        $jsdata[] = 'data-termid="' . $term->ID . '"';
+                        $link   = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '" target="_blank" title="' . esc_attr(get_the_title($term->ID)) . '">' . get_the_title($term->ID) . '</a>';
+                        $content = '<span class="ithoughts_tooltip_glossary-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';
+                        //$content = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';
+                    } break;
                 }
-                echo '<li>' . $title . $desc . '</li>';
+                echo '<li>' . $content . '</li>';
             }
             wp_reset_postdata();
             echo '</ul>';
