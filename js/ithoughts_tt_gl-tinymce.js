@@ -1,13 +1,13 @@
 makeSortString = (function() {
     var translate_re = /[¹²³áàâãäåaaaÀÁÂÃÄÅAAAÆccç©CCÇÐÐèéê?ëeeeeeÈÊË?EEEEE€gGiìíîïìiiiÌÍÎÏ?ÌIIIlLnnñNNÑòóôõöoooøÒÓÔÕÖOOOØŒr®Ršs?ßŠS?ùúûüuuuuÙÚÛÜUUUUýÿÝŸžzzŽZZ]/g;
     var translate = {
-"¹":"1","²":"2","³":"3","á":"a","à":"a","â":"a","ã":"a","ä":"a","å":"a","a":"a","a":"a","a":"a","À":"a","Á":"a","Â":"a","Ã":"a","Ä":"a","Å":"a","A":"a","A":"a",
-"A":"a","Æ":"a","c":"c","c":"c","ç":"c","©":"c","C":"c","C":"c","Ç":"c","Ð":"d","Ð":"d","è":"e","é":"e","ê":"e","?":"e","ë":"e","e":"e","e":"e","e":"e","e":"e",
-"e":"e","È":"e","Ê":"e","Ë":"e","?":"e","E":"e","E":"e","E":"e","E":"e","E":"e","€":"e","g":"g","G":"g","i":"i","ì":"i","í":"i","î":"i","ï":"i","ì":"i","i":"i",
-"i":"i","i":"i","Ì":"i","Í":"i","Î":"i","Ï":"i","?":"i","Ì":"i","I":"i","I":"i","I":"i","l":"l","L":"l","n":"n","n":"n","ñ":"n","N":"n","N":"n","Ñ":"n","ò":"o",
-"ó":"o","ô":"o","õ":"o","ö":"o","o":"o","o":"o","o":"o","ø":"o","Ò":"o","Ó":"o","Ô":"o","Õ":"o","Ö":"o","O":"o","O":"o","O":"o","Ø":"o","Œ":"o","r":"r","®":"r",
-"R":"r","š":"s","s":"s","?":"s","ß":"s","Š":"s","S":"s","?":"s","ù":"u","ú":"u","û":"u","ü":"u","u":"u","u":"u","u":"u","u":"u","Ù":"u","Ú":"u","Û":"u","Ü":"u",
-"U":"u","U":"u","U":"u","U":"u","ý":"y","ÿ":"y","Ý":"y","Ÿ":"y","ž":"z","z":"z","z":"z","Ž":"z","Z":"z","Z":"z"
+        "¹":"1","²":"2","³":"3","á":"a","à":"a","â":"a","ã":"a","ä":"a","å":"a","a":"a","a":"a","a":"a","À":"a","Á":"a","Â":"a","Ã":"a","Ä":"a","Å":"a","A":"a","A":"a",
+        "A":"a","Æ":"a","c":"c","c":"c","ç":"c","©":"c","C":"c","C":"c","Ç":"c","Ð":"d","Ð":"d","è":"e","é":"e","ê":"e","?":"e","ë":"e","e":"e","e":"e","e":"e","e":"e",
+        "e":"e","È":"e","Ê":"e","Ë":"e","?":"e","E":"e","E":"e","E":"e","E":"e","E":"e","€":"e","g":"g","G":"g","i":"i","ì":"i","í":"i","î":"i","ï":"i","ì":"i","i":"i",
+        "i":"i","i":"i","Ì":"i","Í":"i","Î":"i","Ï":"i","?":"i","Ì":"i","I":"i","I":"i","I":"i","l":"l","L":"l","n":"n","n":"n","ñ":"n","N":"n","N":"n","Ñ":"n","ò":"o",
+        "ó":"o","ô":"o","õ":"o","ö":"o","o":"o","o":"o","o":"o","ø":"o","Ò":"o","Ó":"o","Ô":"o","Õ":"o","Ö":"o","O":"o","O":"o","O":"o","Ø":"o","Œ":"o","r":"r","®":"r",
+        "R":"r","š":"s","s":"s","?":"s","ß":"s","Š":"s","S":"s","?":"s","ù":"u","ú":"u","û":"u","ü":"u","u":"u","u":"u","u":"u","u":"u","Ù":"u","Ú":"u","Û":"u","Ü":"u",
+        "U":"u","U":"u","U":"u","U":"u","ý":"y","ÿ":"y","Ý":"y","Ÿ":"y","ž":"z","z":"z","z":"z","Ž":"z","Z":"z","Z":"z"
     };
     return function(s) {
         return(s.replace(translate_re, function(match){return translate[match];}) );
@@ -58,21 +58,19 @@ makeSortString = (function() {
                 },
                 type: 0
             };
-            var mode = "";
+            var mode = "insert_content";
 
             sel = editor.selection;
             if(sel.getStart() === sel.getEnd()){
                 if(sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-atoz"){ // Is atoz
-                    console.log("atoz");
-                    mode = "complete";
+                    mode = "load";
                     values.type=1;
                     values.atoz = {
                         alpha: sel.getStart().getAttribute("data-alpha"),
                         group: sel.getStart().getAttribute("data-group")
                     };
                 } else if(sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-term_list"){ // Is term_list
-                    console.log("term_list");
-                    mode = "complete";
+                    mode = "load";
                     values.type=0;
                     values.list = {
                         alpha: sel.getStart().getAttribute("data-alpha"),
@@ -84,7 +82,8 @@ makeSortString = (function() {
             }
             listtabI = values.type;
 
-            console.log(values);
+            console.log("Mode:", mode);
+            console.log("Values:",values);
             editor.windowManager.open({
                 title: editor.getLang('ithoughts_tt_gl_tinymce.insert_index'),
                 margin: "0 0 0 0",
@@ -97,8 +96,8 @@ makeSortString = (function() {
                         border: "0 0 0 0",
                         onclick: function(e){
                             try{
-                                if(e.originalTarget.id.match(/^mceu_\d+-t(\d+)$/)){
-                                    listtabI = e.originalTarget.id.replace(/^mceu_\d+-t(\d+)$/, "$1");
+                                if(e.target.id.match(/^mceu_\d+-t(\d+)$/)){
+                                    listtabI = e.target.id.replace(/^mceu_\d+-t(\d+)$/, "$1");
                                 }
                             } catch(e){}// Nothing to do, private
                         },
@@ -137,6 +136,10 @@ makeSortString = (function() {
                                             {
                                                 text:editor.getLang('ithoughts_tt_gl_tinymce.full'),
                                                 value:"full"
+                                            },
+                                            {
+                                                text:editor.getLang('ithoughts_tt_gl_tinymce.glossarytips'),
+                                                value:"glossarytips"
                                             }
                                         ],
                                         value: values.list.desc,
@@ -176,10 +179,10 @@ makeSortString = (function() {
                     })
                 ],
                 onsubmit: function(e) {
-                    console.log(e.data, listtab, mode);
-                    if(mode == "complete")
+                    console.log(e.data, listtab);
+                    if(mode == "load")
                         sel.select(sel.getStart());
-                    switch(listtab){
+                    switch(parseInt(listtab)){
                         case 0:{
                             var opts = [];
                             if(!!e.data['ll'])
@@ -190,7 +193,6 @@ makeSortString = (function() {
                                 opts.push('cols="' + e.data['lc'] + '"');
                             if(!!e.data['ld'])
                                 opts.push('desc="' + e.data['ld'] + '"');
-                            console.log(opts);
                             editor.insertContent('[glossary_term_list' + ((opts.length > 0) ? ' ' + opts.join(' ') : '') + ' /]');
                         } break;
                         case 1:{
@@ -199,7 +201,6 @@ makeSortString = (function() {
                                 opts.push('alpha="' + e.data['al'] + '"');
                             if(!!e.data['ag'])
                                 opts.push('group="' + e.data['ag'] + '"');
-                            console.log(opts);
                             editor.insertContent('[glossary_atoz' + ((opts.length > 0) ? ' ' + opts.join(' ') : '') + ' /]');
                         } break;
                     }
@@ -226,22 +227,22 @@ makeSortString = (function() {
             var types = ["ithoughts-tooltip-glossary-term", "ithoughts-tooltip-glossary-tooltip", "ithoughts-tooltip-glossary-mediatip"]
             if(sel.getStart() === sel.getEnd()){
                 if(types.indexOf(sel.getStart().getAttribute("data-type")) > -1){ // On Glossary Term or Tooltip or Mediatip, load data
-                    mode = "complete";
+                    mode = "load";
                     values= {
                         text: sel.getStart().textContent,
                         content: ((sel.getStart().getAttribute("data-content")) ? window.decodeURIComponent(sel.getStart().getAttribute("data-content")) : null) || sel.getStart().textContent,
                         glossary: sel.getStart().getAttribute("data-slug") || sel.getStart().textContent,
                         mediatip: {
-                            image: sel.getStart().getAttribute("data-image"),
+                            image: window.decodeURIComponent(sel.getStart().getAttribute("data-image")),
                             id: sel.getStart().getAttribute("data-imageid"),
-                            link: sel.getStart().getAttribute("data-link")
+                            link: window.decodeURIComponent(sel.getStart().getAttribute("data-link"))
                         },
                         type: types.indexOf(sel.getStart().getAttribute("data-type"))
                     };
                 } else { //Create new glossary term
                     var content = sel.getContent({format: 'text'});
                     if(content && content.length > 0){ // If something is selected
-                        console.log("Content");
+                        mode = "insert_content"
                         values= {
                             text: content,
                             content: content,
@@ -292,7 +293,6 @@ makeSortString = (function() {
                         console.error(ithoughts_tt_gl.admin_ajax, res);
                         throw "Error while retrieving list of terms";
                     } else {
-                        console.log(resJson);
                         var terms = Object.keys(resJson.data).sort(function(a,b){
                             a = makeSortString(a.toLowerCase());
                             b = makeSortString(b.toLowerCase());
@@ -303,7 +303,6 @@ makeSortString = (function() {
                             }
                             return 0;
                         });
-                        console.log(terms);
                         listtabT = values.type;
 
                         //Todo find glossary posts via AJAX
@@ -320,8 +319,8 @@ makeSortString = (function() {
                                     border: "0 0 0 0",
                                     onclick: function(e){
                                         try{
-                                            if(e.originalTarget.id.match(/^mceu_\d+-t(\d+)$/)){
-                                                listtabT = e.originalTarget.id.replace(/^mceu_\d+-t(\d+)$/, "$1");
+                                            if(e.target.id.match(/^mceu_\d+-t(\d+)$/)){
+                                                listtabT = e.target.id.replace(/^mceu_\d+-t(\d+)$/, "$1");
                                             }
                                         } catch(e){}// Nothing to do, private
                                     },
@@ -345,11 +344,6 @@ makeSortString = (function() {
                                                     values: [{text: "", value: "", tooltip: "Empty"}].concat(
                                                         terms.map(function(key){
                                                             var obj = resJson.data[key];
-                                                            console.log({
-                                                                text: key,
-                                                                value: obj["slug"],
-                                                                tooltip: obj["content"]
-                                                            });
                                                             return {
                                                                 text: key,
                                                                 value: obj["slug"],
@@ -426,7 +420,6 @@ makeSortString = (function() {
                                                     text: editor.getLang('ithoughts_tt_gl_tinymce.select_image'),
                                                     onclick: function() {
                                                         onclickEntryPoint = this;
-                                                        console.log(onclickEntryPoint);
 
                                                         window.mb = window.mb || {};
 
@@ -474,14 +467,13 @@ makeSortString = (function() {
                             onsubmit: function(e) {
                                 console.log(e.data, listtabT);
                                 // Insert content when the window form is submitted
-                                if(mode == "complete")
+                                if(mode == "load")
                                     sel.select(sel.getStart());
                                 else if(mode.indexOf("extend") > -1){
                                     rng = sel.getRng(true);
                                     var arr = JSON.parse(mode.match(/extend(.*)$/)[1]);
                                     var text = rng.commonAncestorContainer.textContent;
                                     rng.commonAncestorContainer.textContent = text.slice(0, arr[0]) + text.slice(arr[1], text.length - 1);
-                                    console.log(rng, arr);
                                     editor.fire("DblClick");
                                 }
                                 switch(parseInt(listtabT)){
@@ -501,12 +493,11 @@ makeSortString = (function() {
 
                                     case 2: {
                                         try{
-                                            console.log(e.data);
                                             if(e.data.mc.trim() == "" || e.data.mt.trim() == "")
                                                 return;
                                             var imgdata = JSON.parse(e.data.mc);
                                             console.log(imgdata);
-                                            editor.insertContent('[ithoughts_tooltip_glossary-mediatip link="'+imgdata.link+'" image="'+imgdata.url+'" imageid="'+imgdata.id+'"]'+e.data.mt.trim()+"[/ithoughts_tooltip_glossary-tooltip] ");
+                                            editor.insertContent('[ithoughts_tooltip_glossary-mediatip link="'+imgdata.link+'" image="'+imgdata.url+'" imageid="'+imgdata.id+'"]'+e.data.mt.trim()+"[/ithoughts_tooltip_glossary-mediatip] ");
                                         } catch(e){
                                             console.error("Error with serialized data", e);
                                             return;
@@ -580,7 +571,7 @@ replaceShortcodesEl = [
             for(var i in attrs){
                 ret += " data-"+window.encodeURIComponent(i)+"=\""+window.encodeURIComponent(attrs[i])+"\"";
             }
-            return ret + ">" + text + "</a>";
+            return ret + ">" + text + "</a> ";
         });
     },
     function(content){ // For [glossary_(term_list|atoz)]
@@ -595,7 +586,7 @@ replaceShortcodesEl = [
             for(var i in attrs){
                 ret += " data-"+window.encodeURIComponent(i)+"=\""+window.encodeURIComponent(attrs[i])+"\"";
             }
-            return ret + ">Glossary " + ((type == "term_list") ? "List" : "A-to-Z") + "</span>";
+            return ret + ">Glossary " + ((type == "term_list") ? "List" : "A-to-Z") + "</span> ";
         });
     }
 ];
