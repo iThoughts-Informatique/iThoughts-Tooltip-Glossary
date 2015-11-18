@@ -1,19 +1,3 @@
-makeSortString = (function() {
-    var translate_re = /[¹²³áàâãäåaaaÀÁÂÃÄÅAAAÆccç©CCÇÐÐèéê?ëeeeeeÈÊË?EEEEE€gGiìíîïìiiiÌÍÎÏ?ÌIIIlLnnñNNÑòóôõöoooøÒÓÔÕÖOOOØŒr®Ršs?ßŠS?ùúûüuuuuÙÚÛÜUUUUýÿÝŸžzzŽZZ]/g;
-    var translate = {
-        "¹":"1","²":"2","³":"3","á":"a","à":"a","â":"a","ã":"a","ä":"a","å":"a","a":"a","a":"a","a":"a","À":"a","Á":"a","Â":"a","Ã":"a","Ä":"a","Å":"a","A":"a","A":"a",
-        "A":"a","Æ":"a","c":"c","c":"c","ç":"c","©":"c","C":"c","C":"c","Ç":"c","Ð":"d","Ð":"d","è":"e","é":"e","ê":"e","?":"e","ë":"e","e":"e","e":"e","e":"e","e":"e",
-        "e":"e","È":"e","Ê":"e","Ë":"e","?":"e","E":"e","E":"e","E":"e","E":"e","E":"e","€":"e","g":"g","G":"g","i":"i","ì":"i","í":"i","î":"i","ï":"i","ì":"i","i":"i",
-        "i":"i","i":"i","Ì":"i","Í":"i","Î":"i","Ï":"i","?":"i","Ì":"i","I":"i","I":"i","I":"i","l":"l","L":"l","n":"n","n":"n","ñ":"n","N":"n","N":"n","Ñ":"n","ò":"o",
-        "ó":"o","ô":"o","õ":"o","ö":"o","o":"o","o":"o","o":"o","ø":"o","Ò":"o","Ó":"o","Ô":"o","Õ":"o","Ö":"o","O":"o","O":"o","O":"o","Ø":"o","Œ":"o","r":"r","®":"r",
-        "R":"r","š":"s","s":"s","?":"s","ß":"s","Š":"s","S":"s","?":"s","ù":"u","ú":"u","û":"u","ü":"u","u":"u","u":"u","u":"u","u":"u","Ù":"u","Ú":"u","Û":"u","Ü":"u",
-        "U":"u","U":"u","U":"u","U":"u","ý":"y","ÿ":"y","Ý":"y","Ÿ":"y","ž":"z","z":"z","z":"z","Ž":"z","Z":"z","Z":"z"
-    };
-    return function(s) {
-        return(s.replace(translate_re, function(match){return translate[match];}) );
-    }
-})();
-
 (function() {
     tinyMCE.setToggleable = function(element, editor) {
         return function(){
@@ -25,6 +9,7 @@ makeSortString = (function() {
     };
 
     tinymce.PluginManager.add('ithoughts_tt_gl_tinymce', function(editor, url) {
+        editorG = editor;
         // Add a button that opens a window
         editor.addButton('glossaryterm', {
             title : editor.getLang('ithoughts_tt_gl_tinymce.add_tooltip'),
@@ -186,27 +171,76 @@ makeSortString = (function() {
                         case 0:{
                             var opts = [];
                             if(!!e.data['ll'])
-                                opts.push('alpha="' + e.data['ll'] + '"');
+                                opts.push('alpha="' + stripQuotes(e.data['ll'], true) + '"');
                             if(!!e.data['lg'])
-                                opts.push('group="' + e.data['lg'] + '"');
+                                opts.push('group="' + stripQuotes(e.data['lg'], true) + '"');
                             if(!!e.data['lc'])
-                                opts.push('cols="' + e.data['lc'] + '"');
+                                opts.push('cols="' + stripQuotes(e.data['lc'], true) + '"');
                             if(!!e.data['ld'])
-                                opts.push('desc="' + e.data['ld'] + '"');
+                                opts.push('desc="' + stripQuotes(e.data['ld'], true) + '"');
                             editor.insertContent('[glossary_term_list' + ((opts.length > 0) ? ' ' + opts.join(' ') : '') + ' /]');
                         } break;
                         case 1:{
                             var opts = [];
                             if(!!e.data['al'])
-                                opts.push('alpha="' + e.data['al'] + '"');
+                                opts.push('alpha="' + stripQuotes(e.data['al'], true) + '"');
                             if(!!e.data['ag'])
-                                opts.push('group="' + e.data['ag'] + '"');
+                                opts.push('group="' + stripQuotes(e.data['ag'], true) + '"');
                             editor.insertContent('[glossary_atoz' + ((opts.length > 0) ? ' ' + opts.join(' ') : '') + ' /]');
                         } break;
                     }
                 }
             });
         }
+
+        function glossarytermfct2(event){
+            field_name = "test";
+            editor.windowManager.open(
+                {
+                    title: "Insert a Tooltip",
+                    url: ithoughts_tt_gl.admin_ajax + "?action=ithoughts_tt_gl_get_tinymce_tooltip_form",
+                    width: 400,
+                    height: 300,
+                    popup_css: "no",
+                    resizable: true,
+                    buttons: [
+                        {
+                            text: 'Insert',
+                            classes: 'widget btn primary first abs-layout-item',
+                            disabled: false,
+                            onclick: function(){
+        console.log(top.tinymce.activeEditor.windowManager.getParams());
+                            },
+                            id: 'insertButton'
+                        },
+                        {
+                            text: 'Close',
+                            onclick: 'close',
+                            window : window,
+                            input : field_name
+                        }
+                    ]
+                },
+                {
+                    oninsert: function(url) {
+                        console.log(url);
+                        window.document.getElementById(field_name).value = url; 
+                    },
+                    onselect: function() {
+                        // 
+                    },
+                }
+            );
+        }
+        
+        window.setDropdownAtPosition = function(coords, data){
+            var elem = jQuery(jQuery.parseHTML('<div style="width:10px;height:10px, background-color:#ff0"></div>'));
+            jQuery(document).append(elem);
+            console.log(coords, data);
+            //console.log(coords.window.offset());
+            console.log(coords.window.offsetParent());
+        }
+
 
         function glossarytermfct(event){
             //var values = {content:"",slug:""};
@@ -294,8 +328,8 @@ makeSortString = (function() {
                         throw "Error while retrieving list of terms";
                     } else {
                         var terms = Object.keys(resJson.data).sort(function(a,b){
-                            a = makeSortString(a.toLowerCase());
-                            b = makeSortString(b.toLowerCase());
+                            a = removeAccents(a.toLowerCase());
+                            b = removeAccents(b.toLowerCase());
                             if(a < b){
                                 return -1;
                             } else if(a > b){
@@ -481,14 +515,14 @@ makeSortString = (function() {
                                         if(e.data.gt.trim() == "" || e.data.gs == "")
                                             return;
                                         else
-                                            editor.insertContent('[ithoughts_tooltip_glossary-glossary slug="'+e.data.gs+'"]'+e.data.gt.trim()+"[/ithoughts_tooltip_glossary-glossary] ");
+                                            editor.insertContent('[ithoughts_tooltip_glossary-glossary slug="'+stripQuotes(e.data.gs, true)+'"]'+e.data.gt.trim()+"[/ithoughts_tooltip_glossary-glossary] ");
                                     } break;
 
                                     case 1: {
                                         if(e.data.tc.trim() == "" || e.data.tt.trim() == "")
                                             return;
                                         else
-                                            editor.insertContent('[ithoughts_tooltip_glossary-tooltip content="'+e.data.tc.trim()+'"]'+e.data.tt.trim()+"[/ithoughts_tooltip_glossary-tooltip] ");
+                                            editor.insertContent('[ithoughts_tooltip_glossary-tooltip content="'+stripQuotes(e.data.tc.trim(), true)+'"]'+e.data.tt.trim()+"[/ithoughts_tooltip_glossary-tooltip] ");
                                     } break;
 
                                     case 2: {
@@ -497,7 +531,7 @@ makeSortString = (function() {
                                                 return;
                                             var imgdata = JSON.parse(e.data.mc);
                                             console.log(imgdata);
-                                            editor.insertContent('[ithoughts_tooltip_glossary-mediatip link="'+imgdata.link+'" image="'+imgdata.url+'" imageid="'+imgdata.id+'"]'+e.data.mt.trim()+"[/ithoughts_tooltip_glossary-mediatip] ");
+                                            editor.insertContent('[ithoughts_tooltip_glossary-mediatip link="'+stripQuotes(imgdata.link, true)+'" image="'+stripQuotes(imgdata.url, true)+'" imageid="'+stripQuotes(imgdata.id, true)+'"]'+e.data.mt.trim()+"[/ithoughts_tooltip_glossary-mediatip] ");
                                         } catch(e){
                                             console.error("Error with serialized data", e);
                                             return;
@@ -558,6 +592,12 @@ makeSortString = (function() {
     });
 })();
 
+function stripQuotes(string, encode){
+    if(encode)
+        return string.replace(/"/g, "&quot;");
+    else
+        return string.replace(/&quot;/g, '"');
+}
 replaceShortcodesEl = [
     function(content){ // For [glossary]
         return content.replace( /\[(?:ithoughts_tooltip_glossary-)?(glossary|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/(?:ithoughts_tooltip_glossary-)?(glossary|tooltip|mediatip)\]/g, function( all,balise,inner, text){
@@ -569,7 +609,7 @@ replaceShortcodesEl = [
             }
             var ret = "<a data-type=\"ithoughts-tooltip-glossary-"+["term","tooltip","mediatip"][["glossary","tooltip","mediatip"].indexOf(balise)]+ "\"";
             for(var i in attrs){
-                ret += " data-"+window.encodeURIComponent(i)+"=\""+window.encodeURIComponent(attrs[i])+"\"";
+                ret += " data-"+i+"=\""+stripQuotes(attrs[i], true)+"\"";
             }
             return ret + ">" + text + "</a> ";
         });
@@ -584,7 +624,7 @@ replaceShortcodesEl = [
             }
             var ret = "<span data-type=\"ithoughts-tooltip-glossary-"+type+"\"";
             for(var i in attrs){
-                ret += " data-"+window.encodeURIComponent(i)+"=\""+window.encodeURIComponent(attrs[i])+"\"";
+                ret += " data-"+i+"=\""+stripQuotes(attrs[i], true)+"\"";
             }
             return ret + ">Glossary " + ((type == "term_list") ? "List" : "A-to-Z") + "</span> ";
         });

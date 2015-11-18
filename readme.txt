@@ -1,5 +1,5 @@
 === iThoughts Tooltip Glossary ===
-Contributors: Gerkin, tcbarrett
+Contributors: Gerkin
 Plugin URL: http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments
@@ -25,6 +25,8 @@ Reasons for using iThoughts Tooltip Glossary plugin:
 * You need greater precision for some of your readers.
 
 For further information, please visit the [iThoughts Tooltip Glossary dedicated landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/).
+
+** Please, don't annoy TCBarrett with questions about iThoughts Tooltip Glossary. I mention him only to give him credits and give you some infos, but all of the new code don't concern him. You can read, but you should not post. **
 
 == Installation ==
 
@@ -55,6 +57,7 @@ For glossary terms only, you have to add the terms (Tooltip Glossary > Add New T
 
 = Further Information =
 
+** Please, don't annoy TCBarrett with questions about that plugin. The original plugin links given are for reading ONLY **
 [For further details visit my dedicated plugin landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/)
 [Or see the original plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
 For bug repports or unexpected behaviors, please see the dedicated [WordPress support forum](https://wordpress.org/support/plugin/ithoughts-tooltip-glossary)

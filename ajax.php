@@ -62,7 +62,9 @@ function wp_ajax_ithoughts_tt_gl_get_terms_list(){
     $args=array(
         'post_type' => $type,
         'post_status' => 'publish',
-        'posts_per_page' => -1
+        'posts_per_page' => -1,
+        'orderby'       => 'title',
+        'order'         => 'ASC'
     );
     $posts = get_posts($args);
     $output = array();
@@ -75,5 +77,63 @@ function wp_ajax_ithoughts_tt_gl_get_terms_list(){
     }
     wp_send_json_success($output);
     return;
-    wp_send_json_success( array('Coucou'=>"Mec") );
+}
+
+if ( is_admin() ) {
+    add_action( 'wp_ajax_ithoughts_tt_gl_get_customizing_form', 'get_customizing_form' );
+    add_action( 'wp_ajax_ithoughts_tt_gl_get_tinymce_tooltip_form', 'get_tinymce_tooltip_form' );
+}
+
+function get_customizing_form(){
+    $prefixs = ["t", "c", "g"]; // Used in style editor loop
+    ob_start();
+    include "templates/customizing_form.php";
+    $output = ob_get_clean();
+    wp_send_json_success($output);
+}
+
+function get_tinymce_tooltip_form(){
+    wp_enqueue_style("ithoughts_tooltip_glossary-tinymce_form", plugins_url( 'css/ithoughts_tooltip_glossary-tinymce-forms.css', __FILE__ ), null, false);
+    wp_enqueue_script("ithoughts_tooltip_glossary-utils", plugins_url( 'js/ithoughts_tooltip_glossary-utils.js', __FILE__ ), null, false);
+    wp_enqueue_script("ithoughts_tooltip_glossary-tinymce_form", plugins_url( 'js/ithoughts_tooltip_glossary-tinymce-forms.js', __FILE__ ), null, array("jquery", "ithoughts_tooltip_glossary-utils"));
+
+    // Retrieve terms
+    $args = array(
+        "post_type"     => "glossary",
+        'post_status'   => 'publish',
+        'orderby'       => 'title',
+        'order'         => 'ASC',
+        'numberposts'   => 25,
+    );
+    $data = array(
+        "admin_ajax" => admin_url('admin-ajax.php')
+    );
+    $query = new WP_Query($args);
+    if ( $query->have_posts() ) {
+        global $post;
+        $datas = array();
+        // Start looping over the query results.
+        while ( $query->have_posts() ) {
+            $query->the_post();
+            $datas[] = array(
+                "slug"      => $post->post_name,
+                "content"   => wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
+                "title"     => $post->post_title,
+                "id"        => $post->ID
+            );
+        }
+        $data['terms'] = $datas;
+    }
+    wp_localize_script( "ithoughts_tooltip_glossary-tinymce_form", "ithoughts_tt_gl_tinymce_form", $data );
+
+
+
+    ob_start();
+    include "templates/tinymce-tooltip-form.php";
+
+    wp_reset_postdata();
+
+    $output = ob_get_clean();
+    echo $output;
+    wp_die();
 }
