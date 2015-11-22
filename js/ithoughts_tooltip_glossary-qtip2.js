@@ -119,6 +119,17 @@
 					specific.content["text"] = "<img src=\"" + this.getAttribute("data-mediatip-image") + "\" alt=\"" + $(this).text() + "\">"
 				} else if(this.getAttribute("data-mediatip-html")){
 					specific.content["text"] = this.getAttribute("data-mediatip-html").replace('&quot;', '"');
+					specific.events["render"] = function(event, api) {
+						// Grab the tooltip element from the API elements object
+						var tooltip = api.elements.tooltip;
+
+						// Notice the 'tooltip' prefix of the event name!
+						tooltip.bind('click', function(event, api) {
+							// Update our other plugin and pass our event object
+							console.log("CLICKED!");
+						});
+
+					}
 				}
 			} else
 				return;
