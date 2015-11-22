@@ -61,7 +61,7 @@ function ithoughts_tt_gl_version_transition_switcher($data){
 
 		case 0:{
 			global $post;
-			$maxCount = 1;
+			$maxCount = 20;
 
 			if($data["progression"] == -1){
 				$count_posts = wp_count_posts();
@@ -107,7 +107,6 @@ function ithoughts_tt_gl_version_transition_switcher($data){
 				if(preg_match_all('/\[glossary(.*?)(slug="(.*?)"(.*?))?\](.+?)\[\/glossary\]/', $postUpdateArray ['post_content'], $matches)){
 					foreach($matches[0] as $index => $matched){
 						$slug = $matches[3][$index] != "" ? $matches[3][$index] : $matches[5][$index];
-						echo '<pre style="color:#0f0">'.$slug.'</pre>';
 						$args = array(
 							'posts_per_page'   => 1,
 							'post_type'        => 'glossary',

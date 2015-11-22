@@ -10,7 +10,6 @@
 				progression: progression
 			}
 		}, function(out){
-			console.log(out);
 			progress.value = out.data.progression;
 			text.innerHTML = progress.value + '/' + initData.max + ' (<em>' + (parseInt((progress.value / initData.max) * 100) + "").slice(0,3) + '%</em>)';
 			if(out.data.progression != initData.max){
@@ -38,7 +37,6 @@
 			}
 		}, function(out){
 			var updaterSection = jQuery("#ithoughts_tt_gl_updater");
-			console.log(out);
 			if(out.data.Ended){
 				updaterSection.append(jQuery.parseHTML('<article data-version="ended"><h3>' + out.data.title + '</h3><p class="updatedescription">' + out.data.text + '</p>'));
 			} else {
