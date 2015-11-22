@@ -14,7 +14,7 @@
         editor.addButton('glossaryterm', {
             title : editor.getLang('ithoughts_tt_gl_tinymce.add_tooltip'),
             image : url + '/icon/glossaryterm.png',
-            onclick: glossarytermfct,
+            onclick: glossarytermfct2,
             onPostRender: tinymce.setToggleable('glossaryterm', editor)
         });
         var listtab = 0;
@@ -193,100 +193,36 @@
             });
         }
 
-        function glossarytermfct2(event){
-            field_name = "test";
-            editor.windowManager.open(
-                {
-                    title: "Insert a Tooltip",
-                    url: ithoughts_tt_gl.admin_ajax + "?action=ithoughts_tt_gl_get_tinymce_tooltip_form",
-                    width: 400,
-                    height: 300,
-                    popup_css: "no",
-                    resizable: true,
-                    buttons: [
-                        {
-                            text: 'Insert',
-                            classes: 'widget btn primary first abs-layout-item',
-                            disabled: false,
-                            onclick: function(){
-        console.log(top.tinymce.activeEditor.windowManager.getParams());
-                            },
-                            id: 'insertButton'
-                        },
-                        {
-                            text: 'Close',
-                            onclick: 'close',
-                            window : window,
-                            input : field_name
-                        }
-                    ]
-                },
-                {
-                    oninsert: function(url) {
-                        console.log(url);
-                        window.document.getElementById(field_name).value = url; 
-                    },
-                    onselect: function() {
-                        // 
-                    },
-                }
-            );
-        }
-        
-        window.setDropdownAtPosition = function(coords, data){
-            var elem = jQuery(jQuery.parseHTML('<div style="width:10px;height:10px, background-color:#ff0"></div>'));
-            jQuery(document).append(elem);
-            console.log(coords, data);
-            //console.log(coords.window.offset());
-            console.log(coords.window.offsetParent());
-        }
-
-
-        function glossarytermfct(event){
-            //var values = {content:"",slug:""};
+        function glossarytermfct2(event){/**/
             var values = {
-                glossary: "",
-                tooltip: "",
-                mediatip: {
-                    image: "",
-                    id: "",
-                    link: ""
-                },
-                text: "",
-                type: 0
             };
+            var sel = editor.selection;
             var mode = "";
-
-            sel = editor.selection;
             var types = ["ithoughts-tooltip-glossary-term", "ithoughts-tooltip-glossary-tooltip", "ithoughts-tooltip-glossary-mediatip"]
             if(sel.getStart() === sel.getEnd()){
+                var content = sel.getContent({format: 'text'});
                 if(types.indexOf(sel.getStart().getAttribute("data-type")) > -1){ // On Glossary Term or Tooltip or Mediatip, load data
                     mode = "load";
                     values= {
-                        text: sel.getStart().textContent,
-                        content: ((sel.getStart().getAttribute("data-content")) ? window.decodeURIComponent(sel.getStart().getAttribute("data-content")) : null) || sel.getStart().textContent,
-                        glossary: sel.getStart().getAttribute("data-slug") || sel.getStart().textContent,
-                        mediatip: {
-                            image: window.decodeURIComponent(sel.getStart().getAttribute("data-image")),
-                            id: sel.getStart().getAttribute("data-imageid"),
-                            link: window.decodeURIComponent(sel.getStart().getAttribute("data-link"))
-                        },
-                        type: types.indexOf(sel.getStart().getAttribute("data-type"))
+                        text: content,
+                        tooltip_content: ((sel.getStart().getAttribute("data-tooltip-content")) ? window.decodeURIComponent(sel.getStart().getAttribute("data-tooltip-content")) : null) || content,
+                        glossary_id: sel.getStart().getAttribute("data-glossary-id"),
+                        term_search: removeAccents(content.toLowerCase()),
+                        mediatip_type: sel.getStart().getAttribute("data-mediatip-type"),
+                        mediatip_content: sel.getStart().getAttribute("data-mediatip-content"),
+                        type: ["glossary", "tooltip", "mediatip"][types.indexOf(sel.getStart().getAttribute("data-type"))]
                     };
                 } else { //Create new glossary term
-                    var content = sel.getContent({format: 'text'});
                     if(content && content.length > 0){ // If something is selected
                         mode = "insert_content"
                         values= {
                             text: content,
-                            content: content,
-                            glossary: content,
-                            mediatip: {
-                                image: "",
-                                id: "",
-                                link: ""
-                            },
-                            type: 1
+                            tooltip_content: content,
+                            glossary_id: null,
+                            term_search: removeAccents(content.toLowerCase()),
+                            mediatip_type: "",
+                            mediatip_content: "",
+                            type: "tooltip"
                         };
                     } else { // If no selection
                         var rng = sel.getRng();
@@ -313,6 +249,105 @@
                     }
                 }
             }
+
+
+
+            jQuery.post(ithoughts_tt_gl.admin_ajax, {action: "ithoughts_tt_gl_get_tinymce_tooltip_form", data: values}, function(out){
+                //console.log(out);
+                var newDom = jQuery(jQuery.parseHTML(out, true)).css({zIndex: 1000, position: "absolute",opacity: 0});
+                var h = 300;
+                var w = 455;
+                var popupTooltip = newDom.find("#ithoughts_tt_gl-tooltip-form");
+                jQuery(window).on("resize", function(){
+                    popupTooltip.css({width:w + "px", height:h+"px", left: (jQuery(window).width() - w)/2 + "px", top: (jQuery(window).height() - h)/2 + "px"});
+                }).resize();
+                jQuery('body').append(newDom.animate({opacity:1}, 500));
+                newDom[0].finish = (function(){
+                    var domC = newDom;
+                    return function(data){
+                        domC.animate({opacity:0}, 500, function(){
+                            domC.remove();
+                        });
+                        if(typeof data == "undefined")
+                            return;
+                        // Insert content when the window form is submitted
+                        if(mode == "load")
+                            sel.select(sel.getStart());
+                        else if(mode.indexOf("extend") > -1){
+                            rng = sel.getRng(true);
+                            var arr = JSON.parse(mode.match(/extend(.*)$/)[1]);
+                            var text = rng.commonAncestorContainer.textContent;
+                            rng.commonAncestorContainer.textContent = text.slice(0, arr[0]) + text.slice(arr[1], text.length - 1);
+                            editor.fire("DblClick");
+                        }
+                        switch(data.type){
+                            case "glossary": {
+                                if(data.term_id == "" || data.text == "")
+                                    return;
+                                else
+                                    editor.insertContent('[ithoughts_tooltip_glossary-glossary glossary-id="'+data.term_id+'"]'+data.text+"[/ithoughts_tooltip_glossary-glossary]" + ((mode != "load") ? " " : ""));
+                            } break;
+
+                            case "tooltip": {
+                                if(data.tooltip_content == "" || data.text == "")
+                                    return;
+                                else
+                                    editor.insertContent('[ithoughts_tooltip_glossary-tooltip tooltip-content="'+stripQuotes(data.tooltip_content.trim(), true)+'"]'+data.text+"[/ithoughts_tooltip_glossary-tooltip]" + ((mode != "load") ? " " : ""));
+                            } break;
+
+                            case "mediatip": {
+                                if(data.mediatip_type == "" || data.mediatip_content == "" || data.text == "")
+                                    return;
+                                else
+                                    editor.insertContent('[ithoughts_tooltip_glossary-mediatip mediatip-type="' + data.mediatip_type + '" mediatip-content="' + stripQuotes(data.mediatip_content, true) + '"]'+data.text+"[/ithoughts_tooltip_glossary-mediatip]" + ((mode != "load") ? " " : ""));
+                            } break;
+                        }
+                    }
+                })();
+            });
+            /*/
+            var field_name="test";
+            editor.windowManager.open(
+                {
+                    title: "Insert a Tooltip",
+                    url: ithoughts_tt_gl.admin_ajax + "?action=ithoughts_tt_gl_get_tinymce_tooltip_form",
+                    width: 400,
+                    height: 300,
+                    popup_css: "no",
+                    resizable: true,
+                    buttons: [
+                        {
+                            text: 'Insert',
+                            classes: 'widget btn primary first abs-layout-item',
+                            disabled: false,
+                            onclick: function(){
+                                console.log(top.tinymce.activeEditor.windowManager.getParams());
+                            },
+                            id: 'insertButton'
+                        },
+                        {
+                            text: 'Close',
+                            onclick: 'close',
+                            window : window,
+                            input : field_name
+                        }
+                    ]
+                },
+                {
+                    oninsert: function(url) {
+                        console.log(url);
+                        window.document.getElementById(field_name).value = url; 
+                    },
+                    onselect: function() {
+                        // 
+                    },
+                }
+            );/**/
+        }
+
+
+        function glossarytermfct(event){
+            //var values = {content:"",slug:""};
 
             console.log("Mode:", mode);
             console.log("Values:",values);
@@ -611,7 +646,7 @@ replaceShortcodesEl = [
             for(var i in attrs){
                 ret += " data-"+i+"=\""+stripQuotes(attrs[i], true)+"\"";
             }
-            return ret + ">" + text + "</a> ";
+            return ret + ">" + text + "</a>";
         });
     },
     function(content){ // For [glossary_(term_list|atoz)]
@@ -626,7 +661,7 @@ replaceShortcodesEl = [
             for(var i in attrs){
                 ret += " data-"+i+"=\""+stripQuotes(attrs[i], true)+"\"";
             }
-            return ret + ">Glossary " + ((type == "term_list") ? "List" : "A-to-Z") + "</span> ";
+            return ret + ">Glossary " + ((type == "term_list") ? "List" : "A-to-Z") + "</span>";
         });
     }
 ];

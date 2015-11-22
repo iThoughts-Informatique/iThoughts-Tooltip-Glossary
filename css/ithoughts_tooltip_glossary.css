@@ -148,6 +148,12 @@ Specific styles for tip
     max-height: 75vh!important;
     vertical-align: middle;
 }
-.qtip-content{
 
+
+.qtip-content p{
+	padding-bottom: 1em;
+    line-height: 1.5em;
+}
+.qtip-content a{
+	color: inherit;
 }

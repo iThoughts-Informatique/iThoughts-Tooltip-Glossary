@@ -27,7 +27,7 @@ class ithoughts_tt_gl_Shortcodes_tooltip Extends ithoughts_tt_gl{
 
     /** */
     public function tooltip( $atts, $text='' ){
-        global $wpdb, $tcb_ithoughts_tt_gl_scripts, $ithoughts_tt_gl_tooltip_count, $post, $ithoughts_tt_gl_doing_shortcode;
+        global $wpdb, $ithoughts_tt_gl_scritpts, $ithoughts_tt_gl_tooltip_count, $post, $ithoughts_tt_gl_doing_shortcode;
         $ithoughts_tt_gl_tooltip_count++;
 
         // Get iThoughts Tooltip Glossary options
@@ -52,7 +52,7 @@ class ithoughts_tt_gl_Shortcodes_tooltip Extends ithoughts_tt_gl{
         // Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
         if( empty($content) ) $content = $text;
 
-        $tcb_ithoughts_tt_gl_scripts = true;
+            $ithoughts_tt_gl_scritpts['qtip'] = true;
 
         // qtip jquery data
         $jsdata[] = 'data-tooltip-content="' . str_replace('"', '\\"', $content) . '"';

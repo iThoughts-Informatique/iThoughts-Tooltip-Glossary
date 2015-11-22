@@ -83,3 +83,10 @@ function ithoughts_tt_gl_toggleable_to_bool($value, $truevalue){
         return true;
     return $value === $truevalue;
 }
+
+function ithoughts_tt_gl_decode_json_attr($attr){
+    return json_decode(str_replace('\\"', '"', html_entity_decode($attr) ?: ""), true);
+}
+function ithoughts_tt_gl_encode_json_attr($attr){
+    return htmlentities(str_replace('\\"', '"', $attr));
+}

@@ -5,7 +5,7 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments
 Requires at least: 3.3
 Tested up to: 4.3.1
-Stable tag: 1.1.6
+Stable tag: 2.0
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -73,6 +73,14 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Changelog ==
 
+= 2.0 =
+* NEW Now support images from an URL
+* NEW Support of YouTube videos
+* UPD Delay hide of mediatips
+* UPD Detached Tooltip form
+* UPD Tooltip with custom content now use TinyMCE
+* NEW Ajax Updater
+
 = 1.1.6 =
 * FIX TinyMCE change tab detection => mode switching
 
@@ -136,6 +144,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Upgrade Notice ==
 
+= 2.0 =
+This update is the first of a serie to allow you to fully customize EACH of your tooltips. Thanks to Rikengct for his suggestions.
+
 = 1.1.5 =
 Corrections for better readability of tooltips and pages
 
@@ -175,6 +186,7 @@ Icon from [allur.co](http://allur.co/minimalist-edit-icon-tooltip-psd-ai/)
 TCBarrett for his [WP Glossary plugin](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
 [Laurent Pelleray](http://lpelleray.wix.com/laurent-pelleray#!infographie/c1vmr) for graphical elements
 Tammi Coles for corrections to readme description
+Rikengct for a LOT of usefull suggestions
 
 https://github.com/23r9i0/wp-color-picker-alpha
 http://codologic.com/page/gradx-jquery-javascript-gradient-selector-library

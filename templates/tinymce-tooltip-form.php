@@ -1,114 +1,184 @@
-<!DOCTYPE html>
-<div class="mce-reset" role="application">
-    <div class="mce-window-head">
-        <div class="mce-title">
-            Insérer une infobulle
-        </div>
-        <button aria-hidden="true" class="mce-close" type="button">×</button>
-        <div class="mce-dragh">
-        </div>
+<div id="ithoughts_tt_gl-tooltip-form-container">
+    <div id="pseudohead">
+        <?php wp_print_styles("ithoughts_tooltip_glossary-tinymce_form"); ?>
+        <?php wp_print_scripts("ithoughts_tooltip_glossary-utils"); ?>
+        <?php wp_print_scripts("ithoughts_tooltip_glossary-tinymce_form"); ?>
     </div>
+    <pre><?php print_r($data); ?></pre>
+    <div aria-label="Insert a Tooltip" role="dialog" style="border-width: 1px; z-index: 100101;" class="mce-container mce-panel mce-floatpanel mce-window mce-in" hidefocus="1" id="ithoughts_tt_gl-tooltip-form">
+        <div class="mce-reset" role="application">
+            <div class="mce-window-head">
+                <div class="mce-title">
+                    <?php _e("Insert a Tooltip", "ithoughts_tooltip_glossary"); ?>
+                </div>
+                <button aria-hidden="true" class="mce-close ithoughts_tt_gl-tinymce-discard" type="button">×</button>
+            </div>
 
 
-    <div class="mce-container-body mce-window-body">
-        <div class="mce-container mce-form mce-first mce-last">
-            <div class="mce-container-body mce-abs-layout">
-
-
-
-
-
-
-
-                <form>
-                    <div>
-                        <label for="tooltip_text">Texte</label>
-                        <input type="text" value="" id="tooltip_text">
-                    </div>
-
-                    <div class="tab-container">
-                        <ul class="tabs" role="tablist">
-                            <li class="active" role="tab" tabindex="-1">
-                                <?php _e("Glossary term", "ithoughts_tooltip_glossary"); ?>
-                            </li>
-
-
-                            <li role="tab" tabindex="-1">
-                                <?php _e("Tooltip", "ithoughts_tooltip_glossary"); ?>
-                            </li>
-
-
-                            <li role="tab" tabindex="-1">
-                                <?php _e("Mediatip", "ithoughts_tooltip_glossary"); ?>
-                            </li>
-                        </ul>
+            <div class="mce-container-body mce-window-body">
+                <div class="mce-container mce-form mce-first mce-last">
+                    <div class="mce-container-body" style="height: 100%;">
 
 
 
-                        <div class="tab active">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <label for="glossary_term">Terme</label>
-                                    </td>
-                                    <td>
-                                        <input type="text" id="glossary_term" name="glossary_term" value="" class="completed"/>
-                                        <div id="glossary_term_completer" class="completer hidden">
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
 
 
 
-                        <div class="tab">
-                            <label class="mce-widget mce-label mce-abs-layout-item mce-first" for="mceu_69" id="mceu_69-l" style="line-height: 20.1667px; left: 0px; top: 5px; width: 85px; height: 20.1667px;">Texte</label><input aria-label="Texte à afficher en tant que lien" aria-labelledby="mceu_69-l" class="mce-textbox mce-abs-layout-item mce-last" id="mceu_69" style="left: 85px; top: 0px; width: 178.167px; height: 28.1667px;" value="">
-                            <label class="mce-widget mce-label mce-abs-layout-item mce-first" for="mceu_70" id="mceu_70-l" style="line-height: 20.1667px; left: 0px; top: 5px; width: 85px; height: 20.1667px;">Contenu</label><input aria-label="Contenu à afficher dans l'infobulle. Supporte le balisage HTML" aria-labelledby="mceu_70-l" class="mce-textbox mce-abs-layout-item mce-last" id="mceu_70" style="left: 85px; top: 0px; width: 178.167px; height: 28.1667px;" value="">
-                        </div>
+
+                        <form>
+                            <div style="padding:10px;flex:0 0 auto;">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label for="itghouts_tt_gl_text">
+                                                <?php _e("Text", "ithoughts_tooltip_glossary"); ?>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="itghouts_tt_gl_text" name="itghouts_tt_gl_text" value="<?php echo $data["text"]; ?>">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="tab-container">
+                                <ul class="tabs" role="tablist">
+                                    <li class="<?php echo ("glossary" === $data['type']) ? "active" : ""; ?>" role="tab" tabindex="-1">
+                                        <?php _e("Glossary term", "ithoughts_tooltip_glossary"); ?>
+                                    </li>
+
+
+                                    <li class="<?php echo ("tooltip" === $data['type']) ? "active" : ""; ?>" role="tab" tabindex="-1">
+                                        <?php _e("Tooltip", "ithoughts_tooltip_glossary"); ?>
+                                    </li>
+
+
+                                    <li class="<?php echo ("mediatip" === $data['type']) ? "active" : ""; ?>" role="tab" tabindex="-1">
+                                        <?php _e("Mediatip", "ithoughts_tooltip_glossary"); ?>
+                                    </li>
+                                </ul>
 
 
 
-                        <div class="tab">
-                            <label class="mce-widget mce-label mce-abs-layout-item mce-first" for="mceu_72" id="mceu_72-l" style="line-height: 20.1667px; left: 0px; top: 5px; width: 66px; height: 20.1667px;">Texte</label><input aria-label="Texte à afficher en tant que lien" aria-labelledby="mceu_72-l" class="mce-textbox mce-abs-layout-item mce-last" id="mceu_72" style="left: 66px; top: 0px; width: 197.167px; height: 28.1667px;" value="">
-                            <div class="mce-container mce-abs-layout-item" id="image-box" style="text-align: center; margin: 0px auto; left: 20px; top: 60px; width: 273px; height: 150px;">
-                                <div class="mce-container-body" id="image-box-body" style="width: 273px; height: 150px;">
+                                <div class="tab<?php echo ("glossary" === $data['type']) ? " active" : ""; ?>">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <label for="glossary_term">
+                                                    <?php _e("Term", "ithoughts_tooltip_glossary"); ?>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input type="text" id="glossary_term" name="glossary_term" value="<?php echo (isset($data["term_title"])) ? $data["term_title"] : $data["term_search"]; ?>" class="completed"/>
+                                                <div id="glossary_term_completer" class="completer hidden">
+                                                </div>
+                                                <input type="hidden" name="glossary_term_id" value="<?php echo $data["glossary_id"]; ?>">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+
+                                <div class="tab<?php echo ("tooltip" === $data['type']) ? " active" : ""; ?>">
+                                    <table>
+                                        <tr>
+                                            <td colspan="2">
+                                                <label class="mce-widget mce-label mce-first" for="ithoughts_tt_gl-tooltip-content">
+                                                    <?php _e("Content", "ithoughts_tooltip_glossary"); ?>
+                                                </label>
+                                                <div style="margin:0 -11px;">
+                                                    <textarea class="tinymce" id="ithoughts_tt_gl-tooltip-content"><?php echo $data['tooltip_content']; ?></textarea>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+
+                                <div class="tab<?php echo ("mediatip" === $data['type']) ? " active" : ""; ?>">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <label for="mediatip_type">
+                                                    <?php _e("Mediatip type", "ithoughts_tooltip_glossary"); ?>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <?php echo $mediatipdropdown ?>
+                                            </td>
+                                        </tr>
+                                        <tr data-mediatip_type="mediatip-localimage-type">
+                                            <td colspan="2">
+                                                <div class="mce-container " id="image-box">
+                                                    <img src="<?php echo $data["mediatip_content"]['url']; ?>"/>
+                                                </div>
+                                                <input class="mce-textbox " id="image-box-data" style="display: none;" value="<?php echo $data["mediatip_content_json"]; ?>">
+                                                <div class="mce-widget mce-btn mce-last mce-btn-has-text" role="button" style="width: 100%; height: 30px;" tabindex="-1">
+                                                    <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl_select_image">
+                                                        <?php _e("Select an image", "ithoughts_tooltip_glossary"); ?>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr data-mediatip_type="mediatip-webimage-type">
+                                            <td>
+                                                <label for="mediatip_url_image">
+                                                    <?php _e("Image url", "ithoughts_tooltip_glossary"); ?>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input type="url" name="mediatip_url_image" id="mediatip_url_image" value="<?php echo (($data["mediatip_type"] == "webimage") ? $data["mediatip_content_json"] : ""); ?>"/>
+                                            </td>
+                                        </tr>
+                                        <tr data-mediatip_type="mediatip-webvideo-type">
+                                            <td>
+                                                <label for="mediatip_url_video">
+                                                    <?php _e("Video integration code", "ithoughts_tooltip_glossary"); ?>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="mediatip_url_video" id="mediatip_url_video" pattern="<iframe.*src=\u0022https:\/\/www.youtube.com\/embed\/.*\u0022.*><\/iframe>" value="<?php echo (($data["mediatip_type"] == "webvideo") ? $data["mediatip_content_json"] : ""); ?>"/>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
-                            <input class="mce-textbox mce-abs-layout-item" id="image-box-id" style="display: none;" value="">
+                        </form>
 
-                            <div aria-labelledby="mceu_73" class="mce-widget mce-btn mce-abs-layout-item mce-last mce-btn-has-text" id="mceu_73" role="button" style="left: 20px; top: 220px; width: 271.167px; height: 28.1667px;" tabindex="-1">
-                                <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button">Sélectionnez une image</button>
-                            </div>
-                        </div>
+
+
+
+
+
                     </div>
-                </form>
+                </div>
+            </div>
 
 
+            <div class="mce-container mce-panel mce-foot"tabindex="-1">
+                <div class="mce-container-body">
+                    <div>
+                    </div>
 
 
+                    <div aria-labelledby="mceu_78" class="mce-widget mce-btn mce-primary mce-first mce-btn-has-text" role="button" tabindex="-1">
+                        <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl-tinymce-validate">
+                            <?php _e("Ok", "ithoughts_tooltip_glossary"); ?>
+                        </button>
+                    </div>
 
 
+                    <div aria-labelledby="mceu_79" class="mce-widget mce-btn mce-last mce-btn-has-text" role="button" tabindex="-1">
+                        <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" class="ithoughts_tt_gl-tinymce-discard">
+                            <?php _e("Discard", "ithoughts_tooltip_glossary"); ?>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-
-    <div class="mce-container mce-panel mce-foot"tabindex="-1">
-        <div class="mce-container-body">
-            <div class="mce-abs-end">
-            </div>
-
-
-            <div aria-labelledby="mceu_78" class="mce-widget mce-btn mce-primary mce-abs-layout-item mce-first mce-btn-has-text" id="mceu_78" role="button" style="left: 218.833px; top: 10px; width: 50.1667px; height: 28.1667px;" tabindex="-1">
-                <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button">OK</button>
-            </div>
-
-
-            <div aria-labelledby="mceu_79" class="mce-widget mce-btn mce-abs-layout-item mce-last mce-btn-has-text" id="mceu_79" role="button" style="left: 273.833px; top: 10px; width: 67.3333px; height: 28.1667px;" tabindex="-1">
-                <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button">Annuler</button>
-            </div>
-        </div>
+    <div style="z-index: 100100;" id="mce-modal-block" class="mce-reset mce-fade mce-in">
     </div>
 </div>
-</body>

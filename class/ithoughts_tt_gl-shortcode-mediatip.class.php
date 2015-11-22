@@ -1,7 +1,7 @@
 <?php
 
 class ithoughts_tt_gl_Shortcodes_mediatip Extends ithoughts_tt_gl{
-    
+
     public static $options;
 
     public function __construct() {
@@ -27,7 +27,7 @@ class ithoughts_tt_gl_Shortcodes_mediatip Extends ithoughts_tt_gl{
 
     /** */
     public function mediatip( $atts, $text='' ){
-        global $wpdb, $tcb_ithoughts_tt_gl_scripts, $ithoughts_tt_gl_tooltip_count, $post, $ithoughts_tt_gl_doing_shortcode;
+        global $wpdb, $ithoughts_tt_gl_scritpts, $ithoughts_tt_gl_tooltip_count, $post, $ithoughts_tt_gl_doing_shortcode;
         $ithoughts_tt_gl_tooltip_count++;
 
         // Get iThoughts Tooltip Glossary options
@@ -37,33 +37,50 @@ class ithoughts_tt_gl_Shortcodes_mediatip Extends ithoughts_tt_gl{
         $jsdata = array();
 
         // Let shortcode attributes override general settings
-        foreach( $opts as $k => $v ):
-        if( isset($atts[$k]) ):
-        $jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
-        $opts[$k] = trim( $atts[$k] );
-        endif;
-        endforeach;
+        foreach( $opts as $k => $v ){
+            if( isset($atts[$k]) ){
+                $jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
+                $opts[$k] = trim( $atts[$k] );
+            }
+        }
         $linkopt          = isset($opts['termlinkopt']) ? $opts['termlinkopt'] : 'standard';
 
-        extract( shortcode_atts( array(
-            'imageid' => '',
-            'image' => '',
-            'link' => '',
-        ), $atts) );
+        $mediatipType = $atts["mediatip-type"];
+		$mediatipTypes = array("localimage","webimage","webvideo");
+		if(array_search($mediatipType, $mediatipTypes) != false)
+            $ithoughts_tt_gl_scritpts['qtip'] = true;
+        switch($mediatipType){
+            case $mediatipTypes[0]:{
+                $dat = ithoughts_tt_gl_decode_json_attr($atts["mediatip-content"]);
+                $jsdata[] = 'data-mediatip-image="' . htmlentities($dat['url']) . '"';
 
-        /*
-        // Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
-        if( empty($content) ) $content = $text;*/
+                $linkElement   = '<a href="' . $dat['link']. '" title="' . esc_attr($text) . '">' . $text . '</a>';
+                // Span that qtip finds
+                $span = '<span class="ithoughts_tooltip_glossary-mediatip" '.implode(' ',$jsdata).'>' . $linkElement . '</span>';
+                return $span;
+            } break;
+            
+            case $mediatipTypes[1]:{
+                $jsdata[] = 'data-mediatip-image="' . htmlentities($atts["mediatip-content"]) . '"';
 
-        $tcb_ithoughts_tt_gl_scripts = true;
+                $linkElement   = '<a href="javascript:void(0);" title="' . esc_attr($text) . '">' . $text . '</a>';
+                // Span that qtip finds
+                $span = '<span class="ithoughts_tooltip_glossary-mediatip" '.implode(' ',$jsdata).'>' . $linkElement . '</span>';
+                return $span;
+            } break;
+            
+            case $mediatipTypes[2]:{
+                $jsdata[] = 'data-mediatip-html="' . str_replace('"', '&quot;', $atts["mediatip-content"]) . '"';
 
-        // qtip jquery data
-        $jsdata[] = 'data-mediatip-image="' . str_replace('"', '\\"', $image) . '"';
-
-        $linkElement   = '<a href="' . $link . '" title="' . esc_attr($text) . '">' . $text . '</a>';
-        // Span that qtip finds
-        $span = '<span class="ithoughts_tooltip_glossary-mediatip" '.implode(' ',$jsdata).'>' . $linkElement . '</span>';
-
-        return $span;
+                $linkElement   = '<a href="javascript:void(0);" title="' . esc_attr($text) . '">' . $text . '</a>';
+                // Span that qtip finds
+                $span = '<span class="ithoughts_tooltip_glossary-mediatip" '.implode(' ',$jsdata).'>' . $linkElement . '</span>';
+                return $span;
+            } break;
+            
+            default:{
+                return $text;
+            }break;
+        }
     }
 }

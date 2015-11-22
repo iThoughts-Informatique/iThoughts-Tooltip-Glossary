@@ -79,15 +79,16 @@ class ithoughts_tt_gl_Shortcodes_glossary Extends ithoughts_tt_gl{
 
     /** */
     public function glossary_remove_update_marker(){
+        /*
         global $post;
         if( is_singular() && get_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage') ):
         delete_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage' );
-        endif;
+        endif;*/
     }
 
     /** */
     public function glossary( $atts, $content='' ){
-        global $wpdb, $tcb_ithoughts_tt_gl_scripts, $ithoughts_tt_gl_glossary_count, $post, $ithoughts_tt_gl_doing_shortcode;
+        global $wpdb, $ithoughts_tt_gl_scritpts, $post, $ithoughts_tt_gl_doing_shortcode;
         $ithoughts_tt_gl_glossary_count++;
 
         // Get iThoughts Tooltip Glossary options
@@ -97,75 +98,63 @@ class ithoughts_tt_gl_Shortcodes_glossary Extends ithoughts_tt_gl{
         $jsdata = array();
 
         // Let shortcode attributes override general settings
-        foreach( $glossary_options as $k => $v ):
-        if( isset($atts[$k]) ):
-        $jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
-        $glossary_options[$k] = trim( $atts[$k] );
-        endif;
-        endforeach;
+        foreach( $glossary_options as $k => $v ){
+            if( isset($atts[$k]) ){
+                $jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
+                $glossary_options[$k] = trim( $atts[$k] );
+            }
+        }
         $tooltip_option   = isset($glossary_options['tooltips'])    ? $glossary_options['tooltips']    : 'excerpt';
         $linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
         $termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
-        extract( shortcode_atts( array(
-            'id'   => 0,
-            'slug' => '',
-            'text' => '',
-        ), $atts) );
+        $id = $atts['glossary-id'];
 
         // Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
-        if( empty($text) ) $text = $content;
+        if( empty($text) ){
+            $text = $content;
+        }
 
         $glossary = false;
 
         // Find the term in the database
-        if( !empty($id) ):
-        $glossary = get_post( $id );
-        else :
-        if( empty($slug) ):
-        if( empty($text) ):
-        // No id, slug or text available to identify a glossary term, so return the original content.
-        return $content;
-        endif;
-        $slug = sanitize_title( $text );
-        endif;
-        $slug      = strtolower($slug);
-        $sqlstring = "SELECT ID FROM {$wpdb->posts} WHERE post_name='%s' AND post_type='glossary' AND post_status='publish' LIMIT 1";
-        $id        = $wpdb->get_var( $wpdb->prepare($sqlstring, $slug) );
-        if( $id ):
-        $glossary = get_post( $id );
-        endif;
-        endif;
-        if( empty($glossary) ) return $text; // No glossary term found. Return the original text.
+        if( !empty($id) ){
+            $glossary = get_post( $id );
+        }
+        if( empty($glossary) ){
+            return $text; // No glossary term found. Return the original text.
+        }
 
         // Term Usage
-        if( $termusage && $termusage == 'on' && !$ithoughts_tt_gl_doing_shortcode ):
-        if( get_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage') ):
-        if( !in_array($post->ID, get_post_meta($glossary->ID, 'ithoughts_tt_gl_term_used')) ):
-        // Note this post against the glossary
-        add_post_meta( $glossary->ID, 'ithoughts_tt_gl_term_used', $post->ID );
-        // Note this post/page has glossary terms
-        update_post_meta( $post->ID, 'ithoughts_tt_gl_has_terms', current_time('mysql') );
-        endif;
-        endif;
-        endif;
+        if( $termusage && $termusage == 'on' && !$ithoughts_tt_gl_doing_shortcode ){
+            if( get_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage') ){
+                if( !in_array($post->ID, get_post_meta($glossary->ID, 'ithoughts_tt_gl_term_used')) ){
+                    // Note this post against the glossary
+                    add_post_meta( $glossary->ID, 'ithoughts_tt_gl_term_used', $post->ID );
+                    // Note this post/page has glossary terms
+                    update_post_meta( $post->ID, 'ithoughts_tt_gl_has_terms', current_time('mysql') );
+                }
+            }
+        }
 
         // Get the term title, and use as default text to use for the shortcode
         $title = get_the_title( $glossary->ID );
-        if( empty($text) ) 
-            $text = $title; 
+        if( empty($text) ){
+            $text = $title;
+        }
 
         $link = $text; // Set to just plain text (used if 'none' linkopt set in settings)
-        if( $linkopt != 'none' ):
-        $href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($glossary->ID) );
-        $target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
-        $link   = '<a href="' . $href . '" ' . $target . ' title="' . esc_attr($title) . '">' . $text . '</a>';
-        endif;
+        if( $linkopt != 'none' ){
+            $href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($glossary->ID) );
+            $target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
+            $link   = '<a href="' . $href . '" ' . $target . ' title="' . esc_attr($title) . '">' . $text . '</a>';
+        }
 
         $span = '<span class="ithoughts-tooltip-glossary">' . $link . '</span>'; // Trivial default when tooltips switched off.
-        if( $tooltip_option != 'off' ):
-        // Global variable that tells WP to print related js files.
-        $tcb_ithoughts_tt_gl_scripts = true;
+        if( $tooltip_option != 'off' ){
+            // Global variable that tells WP to print related js files.
+            $ithoughts_tt_gl_scritpts['qtip'] = true;
+        }
 
         // qtip jquery data
         $jsdata[] = 'data-termid="' . $glossary->ID . '"';
@@ -173,8 +162,7 @@ class ithoughts_tt_gl_Shortcodes_glossary Extends ithoughts_tt_gl{
 
         // Span that qtip finds
         $span = '<span class="ithoughts_tooltip_glossary-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';
-        endif;
-
         return $span;
     }
+
 }
