@@ -12,7 +12,7 @@
 		}, function(out){
 			progress.value = out.data.progression;
 			text.innerHTML = progress.value + '/' + initData.max + ' (<em>' + (parseInt((progress.value / initData.max) * 100) + "").slice(0,3) + '%</em>)';
-			if(out.data.progression != initData.max){
+			if(out.data.progression >= initData.max){
 				runUpdate(out.data.progression);
 			} else {
 				ithoughts_tt_gl_updater.from = initData.targetversion;
