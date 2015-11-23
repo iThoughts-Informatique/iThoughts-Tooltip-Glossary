@@ -150,9 +150,6 @@ function get_tinymce_tooltip_form(){
 	}
 
 	// Ok go
-	wp_register_style("ithoughts_tooltip_glossary-tinymce_form", plugins_url( 'css/ithoughts_tooltip_glossary-tinymce-forms.css', __FILE__ ), null, false);
-	wp_register_script("ithoughts_tooltip_glossary-utils", plugins_url( 'js/ithoughts_tooltip_glossary-utils.js', __FILE__ ), null, false);
-	wp_register_script("ithoughts_tooltip_glossary-tinymce_form", plugins_url( 'js/ithoughts_tooltip_glossary-tinymce-forms.js', __FILE__ ), array("jquery", "ithoughts_tooltip_glossary-utils"), "2.0.4");
 
 	// Retrieve terms
 	$args;

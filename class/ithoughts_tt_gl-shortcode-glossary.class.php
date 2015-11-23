@@ -1,7 +1,5 @@
 <?php
-class ithoughts_tt_gl_Shortcodes_glossary Extends ithoughts_tt_gl{
-	public static $options;
-
+class ithoughts_tt_gl_Shortcodes_glossary extends ithoughts_tt_gl_interface{
 	public function __construct() {
 		// Shortcode
 		add_shortcode( "ithoughts_tooltip_glossary-glossary", array(&$this, "glossary") );

@@ -1,5 +1,5 @@
 <?php
-class ithoughts_tt_gl_Shortcode_TERMLIST Extends ithoughts_tt_gl{
+class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 	public function __construct() {
 		add_shortcode( 'glossary_term_list', array($this, 'glossary_term_list') );
 	}

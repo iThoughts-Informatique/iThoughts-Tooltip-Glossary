@@ -69,7 +69,7 @@
 												</label>
 											</td>
 											<td>
-												<input type="text" id="glossary_term" name="glossary_term" value="<?php echo (isset($data["term_title"])) ? $data["term_title"] : $data["term_search"]; ?>" class="completed"/>
+												<input autocomplete="off" type="text" id="glossary_term" name="glossary_term" value="<?php echo (isset($data["term_title"])) ? $data["term_title"] : $data["term_search"]; ?>" class="completed"/>
 												<div id="glossary_term_completer" class="completer hidden">
 												</div>
 												<input type="hidden" name="glossary_term_id" value="<?php echo $data["glossary_id"]; ?>">
@@ -135,7 +135,7 @@ endif;
 												</label>
 											</td>
 											<td>
-												<input type="url" name="mediatip_url_image" id="mediatip_url_image" value="<?php echo (($data["mediatip_type"] == "webimage") ? $data["mediatip_content_json"] : ""); ?>"/>
+												<input autocomplete="off" type="url" name="mediatip_url_image" id="mediatip_url_image" value="<?php echo (($data["mediatip_type"] == "webimage") ? $data["mediatip_content_json"] : ""); ?>"/>
 											</td>
 										</tr>
 										<tr data-mediatip_type="mediatip-webvideo-type">
@@ -145,9 +145,9 @@ endif;
 												</label>
 											</td>
 											<td>
-												<input type="text" name="mediatip_url_video_link" id="mediatip_url_video_link" value="<?php echo (($data["mediatip_type"] == "webvideo") ? $data["mediatip_link"] : ""); ?>"/>
-												<input type="hidden" name="mediatip_url_video_embed" id="mediatip_url_video_embed" value="<?php echo (($data["mediatip_type"] == "webvideo") ? $data["mediatip_content"] : ""); ?>"/>
-												<input type="hidden" name="mediatip_url_video_link" id="mediatip_url_video_link" value="<?php echo (($data["mediatip_type"] == "webvideo") ? $data["mediatip_link"] : ""); ?>"/>
+												<input autocomplete="off" type="text" name="mediatip_url_video_link" id="mediatip_url_video_link" value="<?php echo (($data["mediatip_type"] == "webvideo") ? $data["mediatip_link"] : ""); ?>"/>
+												<input autocomplete="off" type="hidden" name="mediatip_url_video_embed" id="mediatip_url_video_embed" value="<?php echo (($data["mediatip_type"] == "webvideo") ? $data["mediatip_content"] : ""); ?>"/>
+												<input autocomplete="off" type="hidden" name="mediatip_url_video_link" id="mediatip_url_video_link" value="<?php echo (($data["mediatip_type"] == "webvideo") ? $data["mediatip_link"] : ""); ?>"/>
 											</td>
 										</tr>
 									</table>

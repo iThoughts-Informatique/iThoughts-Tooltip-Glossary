@@ -1,9 +1,7 @@
 <?php
 class ithoughts_tt_gl_RandomTerm extends WP_Widget {
-	public static $options;
-
 	public function __construct() {
-		self::$options = get_option( 'ithoughts_tt_gl' );
+		$this->basePlugin = $parent;
 		parent::__construct(
 			'ithoughts_tt_gl-random-term',
 			__('Random Term From Glossary', 'ithoughts_tooltip_glossary'),
@@ -24,7 +22,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
 
 		// Title
 		echo '<p><label for="' . $this->get_field_id('title') . '">' . __('Title', 'ithoughts_tooltip_glossary') . ' </label>';
-		echo '<input class="widefat" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . esc_attr( $instance['title'] ) . '" />';
+		echo '<input autocomplete="off" class="widefat" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . esc_attr( $instance['title'] ) . '" />';
 		echo '</p>';
 
 		// Group
@@ -64,7 +62,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget {
 
 
 		// Count
-		echo '<p><label for="' . $this->get_field_id('numberposts') . '">' . __('Number of terms', 'ithoughts_tooltip_glossary'). '</label><input type="number" value="' . $instance['numberposts'] . '" min="1" name="' . $this->get_field_name("numberposts") . '" id="' . $this->get_field_id('numberposts') . '"/></p>';
+		echo '<p><label for="' . $this->get_field_id('numberposts') . '">' . __('Number of terms', 'ithoughts_tooltip_glossary'). '</label><input autocomplete="off" type="number" value="' . $instance['numberposts'] . '" min="1" name="' . $this->get_field_name("numberposts") . '" id="' . $this->get_field_id('numberposts') . '"/></p>';
 	} // form
 
 	public function update( $new_instance, $old_instance ) {

@@ -2,12 +2,8 @@
 /**
  * ithoughts-tooltip-glossary Post Types
  */
-class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
-    public static $options;
-
-    public function __construct() {
-        self::$options = get_option( 'ithoughts_tt_gl' );
-        self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
+class ithoughts_tt_gl_Post_types extends ithoughts_tt_gl_interface{
+	public function __construct( &$parent ) {
         add_action( 'init', array($this, 'register_post_types') );
     }
 
@@ -31,7 +27,7 @@ class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
             ),
             'register_meta_box_cb' => array( $this, 'meta_boxes' ),
             'rewrite'              => /*/false/*/array(
-                'slug' => sanitize_title( _x( self::$options["termtype"], 'rewrite slug', 'ithoughts_tooltip_glossary' ) ),
+                'slug' => sanitize_title( _x( parent::$options["termtype"], 'rewrite slug', 'ithoughts_tooltip_glossary' ) ),
                 'with_front' => false
             )/**/,
             'show_ui'       => true,
@@ -43,9 +39,9 @@ class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
                 'glossary_group'
             )
         ) );
-        if(self::$options["needflush"]){
-            self::$options["needflush"] = false;
-            update_option( 'ithoughts_tt_gl', self::$options );
+        if(parent::$options["needflush"]){
+            parent::$options["needflush"] = false;
+            update_option( 'ithoughts_tt_gl', parent::$options );
             flush_rewrite_rules(false);
         }
 
@@ -58,7 +54,7 @@ class ithoughts_tt_gl_Post_types Extends ithoughts_tt_gl{
 
     /** */
     public function meta_boxes(){
-        add_meta_box( 'ithoughts_tt_gl_references', __('Glossary Term Reference', 'ithoughts_tooltip_glossary'), array($this, 'mb_references'), self::$options["termtype"], 'normal', 'high' );
+        add_meta_box( 'ithoughts_tt_gl_references', __('Glossary Term Reference', 'ithoughts_tooltip_glossary'), array($this, 'mb_references'), parent::$options["termtype"], 'normal', 'high' );
     }
 
     /** */

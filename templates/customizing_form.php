@@ -19,7 +19,7 @@
                     </select>
                 </label>
                 <div data-switcher-mode="plain">
-                    <input type="text" value="" class="color-field" data-alpha="true" name="t_bc"/>
+                    <input autocomplete="off" type="text" value="" class="color-field" data-alpha="true" name="t_bc"/>
                 </div>
 
                 <div id="ithoughts_tt_gllossary_options_customstype" class="postbox closed" data-switcher-mode="gradient">
@@ -37,7 +37,7 @@
                     </select>
                 </label>
                 <div data-switcher-mode="plain">
-                    <input type="text" value="" class="color-field" data-alpha="true" name="c_bc"/>
+                    <input autocomplete="off" type="text" value="" class="color-field" data-alpha="true" name="c_bc"/>
                 </div>
 
                 <div id="ithoughts_tt_gllossary_options_customstype" class="postbox closed" data-switcher-mode="gradient">
@@ -55,7 +55,7 @@
                     </select>
                 </label>
                 <div data-switcher-mode="plain">
-                    <input type="text" value="" class="color-field" data-alpha="true" name="g_bc"/>
+                    <input autocomplete="off" type="text" value="" class="color-field" data-alpha="true" name="g_bc"/>
                 </div>
 
                 <div id="ithoughts_tt_gllossary_options_customstype" class="postbox closed" data-switcher-mode="gradient">
@@ -71,7 +71,7 @@
             <?php
 foreach($prefixs as $prefix){
             ?>
-            <td><input type="text" value="" name="<?php echo $prefix; ?>_pd" pattern="^((\d*(\.\d+)?(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max)) ?){1,4}|initial|inherit|)$" data-pattern-infos="<?php _e('Valid font-size value: inherit, initial, or 1 to 4 values in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax', 'ithoughts_tooltip_glossary'); ?>"/></td>
+            <td><input autocomplete="off" type="text" value="" name="<?php echo $prefix; ?>_pd" pattern="^((\d*(\.\d+)?(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max)) ?){1,4}|initial|inherit|)$" data-pattern-infos="<?php _e('Valid font-size value: inherit, initial, or 1 to 4 values in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax', 'ithoughts_tooltip_glossary'); ?>"/></td>
             <?php
 }
             ?>
@@ -82,7 +82,7 @@ foreach($prefixs as $prefix){
                 <table style="margin:0px auto;">
                     <tr>
                         <td style="padding:0;">
-                            <input type="number" name="sh_w" />
+                            <input autocomplete="off" type="number" name="sh_w" />
                         </td>
                         <td style="padding:0;">
                         </td>
@@ -97,16 +97,16 @@ foreach($prefixs as $prefix){
                             </div>
                         </td>
                         <td style="padding:0;">
-                            <input type="number" name="sh_h" />
+                            <input autocomplete="off" type="number" name="sh_h" />
                         </td>
                         <td style="padding:0;">
                             <label for="sh_s">
                                 <?php _e('Shadow spread', 'ithoughts_tooltip_glossary'); ?>
-                                <input type="number" id="sh_s" name="sh_s" />
+                                <input autocomplete="off" type="number" id="sh_s" name="sh_s" />
                             </label><br/>
                             <label for="sh_c">
                                 <?php _e('Shadow color', 'ithoughts_tooltip_glossary'); ?>
-                                <input type="text" id="sh_c" value="" class="color-field" data-alpha="true" name="sh_c"/>
+                                <input autocomplete="off" type="text" id="sh_c" value="" class="color-field" data-alpha="true" name="sh_c"/>
                             </label>
                         </td>
                     </tr>
@@ -122,7 +122,7 @@ foreach($prefixs as $prefix){
             <?php
 foreach($prefixs as $prefix){
             ?>
-            <td><input type="text" value="" name="<?php echo $prefix; ?>_ts" pattern="^(medium|xx-small|x-small|small|large|x-large|xx-large|smaller|larger|\d*(\.\d+)?(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max))|initial|inherit|)$" data-pattern-infos="<?php _e('Valid font-size value: xx-small, x-small, smaller, small, medium, large, larger, x-large, xx-large, or a value in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax', 'ithoughts_tooltip_glossary'); ?>"/></td>
+            <td><input autocomplete="off" type="text" value="" name="<?php echo $prefix; ?>_ts" pattern="^(medium|xx-small|x-small|small|large|x-large|xx-large|smaller|larger|\d*(\.\d+)?(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max))|initial|inherit|)$" data-pattern-infos="<?php _e('Valid font-size value: xx-small, x-small, smaller, small, medium, large, larger, x-large, xx-large, or a value in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax', 'ithoughts_tooltip_glossary'); ?>"/></td>
             <?php
 }
             ?>
@@ -132,7 +132,7 @@ foreach($prefixs as $prefix){
             <?php
 foreach($prefixs as $prefix){
             ?>
-            <td><input type="text" value="" class="color-field" data-alpha="true" name="<?php echo $prefix; ?>_tc"/></td>
+            <td><input autocomplete="off" type="text" value="" class="color-field" data-alpha="true" name="<?php echo $prefix; ?>_tc"/></td>
             <?php
 }
             ?>

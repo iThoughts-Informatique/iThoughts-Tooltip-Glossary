@@ -1,10 +1,6 @@
 <?php
-class ithoughts_tt_gl_Shortcode_ATOZ Extends ithoughts_tt_gl{
-	public static $options;
-
+class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 	public function __construct() {
-		self::$options = get_option( 'ithoughts_tt_gl' );
-		self::$options["termtype"] = is_string(self::$options["termtype"]) ? self::$options["termtype"] : "glossary";
 		add_shortcode( 'glossary_atoz', array($this, 'glossary_atoz') );
 	}
 

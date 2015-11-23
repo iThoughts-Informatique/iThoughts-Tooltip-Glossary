@@ -1,10 +1,7 @@
 <?php
 
-class ithoughts_tt_gl_Shortcodes_mediatip Extends ithoughts_tt_gl{
-
-    public static $options;
-
-    public function __construct() {
+class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
+	public function __construct() {
         // Shortcode
         add_shortcode( "ithoughts_tooltip_glossary-mediatip", array(&$this, "mediatip") );
         add_shortcode( "mediatip", array(&$this, "mediatip") );
