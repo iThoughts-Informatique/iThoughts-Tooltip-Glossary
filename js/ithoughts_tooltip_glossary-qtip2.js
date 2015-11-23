@@ -53,31 +53,43 @@
 			var tipClass = 'qtip-' + qtipstyle + ((ithoughts_tt_gl.qtipshadow === "1") ? " qtip-shadow" : "" ) + ((ithoughts_tt_gl.qtiprounded === "1") ? " qtip-rounded" : "" ) + " " ;
 			var specific;
 			if($(this).hasClass("ithoughts_tooltip_glossary-glossary")){
-				var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details'}, $(this).data() );
-				specific = {
-					content: {
-						text: 'Loading glossary term',
-						ajax: {
-							url     : ithoughts_tt_gl.admin_ajax,
-							type    : 'POST',
-							data    : ajaxPostData,
-							dataType: 'json',
-							loading : false,
-							success : function(resp, status){
-								if( resp.success ) {
-									this.set( 'content.title', resp.data.title );
-									this.set( 'content.text',  resp.data.content );
-								} else {
-									this.set( 'content.text', 'Error' );
+				if(this.getAttribute("data-termid")){
+					var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details'}, $(this).data() );
+					specific = {
+						content: {
+							text: 'Loading glossary term',
+							ajax: {
+								url     : ithoughts_tt_gl.admin_ajax,
+								type    : 'POST',
+								data    : ajaxPostData,
+								dataType: 'json',
+								loading : false,
+								success : function(resp, status){
+									if( resp.success ) {
+										this.set( 'content.title', resp.data.title );
+										this.set( 'content.text',  resp.data.content );
+									} else {
+										this.set( 'content.text', 'Error' );
+									}
 								}
-							}
+							},
+							title: { text: 'Please wait' }
 						},
-						title: { text: 'Please wait' }
-					},
-					style: {
-						classes: tipClass + "ithoughts_tooltip_glossary-glossary"
-					}
-				};
+						style: {
+							classes: tipClass + "ithoughts_tooltip_glossary-glossary"
+						}
+					};
+				} else if (this.getAttribute("data-term-content") && this.getAttribute("data-term-title")){
+					specific = {
+						content: {
+							title: {text: this.getAttribute("data-term-title")},
+							text: this.getAttribute("data-term-content")
+						},
+						style: {
+							classes: tipClass + "ithoughts_tooltip_glossary-glossary"
+						}
+					};
+				}
 			} else if($(this).hasClass("ithoughts_tooltip_glossary-tooltip")){
 				specific = {
 					style: {
@@ -102,7 +114,7 @@
 					content: {
 						text: "",
 						title: {
-							text: $(this).text() + '<a style="line-height:1.5em;" class="qtip-close qtip-icon" title="×" aria-label="×" role="button"><span class="ui-icon ui-icon-close">×</span></a>'
+							text: $(this).text()
 						}
 					},
 					hide: {
@@ -119,15 +131,14 @@
 					specific.content["text"] = "<img src=\"" + this.getAttribute("data-mediatip-image") + "\" alt=\"" + $(this).text() + "\">"
 				} else if(this.getAttribute("data-mediatip-html")){
 					specific.content["text"] = this.getAttribute("data-mediatip-html").replace('&quot;', '"');
+					specific.content.title.text += '<span class="ithoughts_tooltip_glossary_pin_container"><svg viewBox="0 0 26 26" class="ithoughts_tooltip_glossary_pin"><use xlink:href="#icon-pin"></use></svg></span>';
 					specific.events["render"] = function(event, api) {
 						// Grab the tooltip element from the API elements object
-						var tooltip = api.elements.tooltip;
-
 						// Notice the 'tooltip' prefix of the event name!
-						tooltip.bind('click', function(event, api) {
-							// Update our other plugin and pass our event object
-							console.log("CLICKED!");
-						});
+						api.elements.title.find(".ithoughts_tooltip_glossary_pin_container").click(function(){
+							$(this).toggleClass("pined");
+							api.disable();
+						})
 
 					}
 				}

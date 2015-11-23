@@ -210,6 +210,7 @@
                         term_search: removeAccents(content.toLowerCase()),
                         mediatip_type: sel.getStart().getAttribute("data-mediatip-type"),
                         mediatip_content: sel.getStart().getAttribute("data-mediatip-content"),
+                        mediatip_link: sel.getStart().getAttribute("data-mediatip-link"),
                         type: ["glossary", "tooltip", "mediatip"][types.indexOf(sel.getStart().getAttribute("data-type"))]
                     };
                 } else { //Create new glossary term
@@ -299,7 +300,7 @@
                                 if(data.mediatip_type == "" || data.mediatip_content == "" || data.text == "")
                                     return;
                                 else
-                                    editor.insertContent('[ithoughts_tooltip_glossary-mediatip mediatip-type="' + data.mediatip_type + '" mediatip-content="' + stripQuotes(data.mediatip_content, true) + '"]'+data.text+"[/ithoughts_tooltip_glossary-mediatip]" + ((mode != "load") ? " " : ""));
+                                    editor.insertContent('[ithoughts_tooltip_glossary-mediatip mediatip-type="' + data.mediatip_type + '" mediatip-content="' + stripQuotes(data.mediatip_content, true) + '" mediatip-link="' + data.mediatip_link + '"]'+data.text+"[/ithoughts_tooltip_glossary-mediatip]" + ((mode != "load") ? " " : ""));
                             } break;
                         }
                     }

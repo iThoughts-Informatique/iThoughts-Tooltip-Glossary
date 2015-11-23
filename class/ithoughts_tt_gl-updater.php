@@ -44,6 +44,8 @@ function getLastVUp($from, $max = NULL){
 			break;
 		$versionIndex++;
 	} while ($versionIndex < count($versionsNeedingUpdate));
+	if($versionIndex == count($versionsNeedingUpdate))
+		return -1;
 	return $versionIndex;
 }
 

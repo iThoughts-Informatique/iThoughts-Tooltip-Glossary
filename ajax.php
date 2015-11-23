@@ -36,7 +36,12 @@ function wp_ajax_nopriv_ithoughts_tt_gl_get_term_details(){
 	endif;
 
 	// Content
+	// Merge with static shortcode method 
 	switch( $_POST['content'] ){
+		case 'full':{
+			$content = $termob->post;
+		}break;
+		
 		case 'excerpt':{
 			if( has_excerpt($termid) ){
 				$content = wp_trim_words($termob->post_excerpt, 50, '...');
@@ -44,6 +49,10 @@ function wp_ajax_nopriv_ithoughts_tt_gl_get_term_details(){
 			} else {
 				$content = wp_trim_words($termob->post, 50, '...');
 			}
+		}break;
+		
+		case 'off':{
+			$content = "";
 		}break;
 	}
 
@@ -143,7 +152,7 @@ function get_tinymce_tooltip_form(){
 	// Ok go
 	wp_register_style("ithoughts_tooltip_glossary-tinymce_form", plugins_url( 'css/ithoughts_tooltip_glossary-tinymce-forms.css', __FILE__ ), null, false);
 	wp_register_script("ithoughts_tooltip_glossary-utils", plugins_url( 'js/ithoughts_tooltip_glossary-utils.js', __FILE__ ), null, false);
-	wp_register_script("ithoughts_tooltip_glossary-tinymce_form", plugins_url( 'js/ithoughts_tooltip_glossary-tinymce-forms.js', __FILE__ ), null, array("jquery", "ithoughts_tooltip_glossary-utils"));
+	wp_register_script("ithoughts_tooltip_glossary-tinymce_form", plugins_url( 'js/ithoughts_tooltip_glossary-tinymce-forms.js', __FILE__ ), array("jquery", "ithoughts_tooltip_glossary-utils"), "2.0.4");
 
 	// Retrieve terms
 	$args;

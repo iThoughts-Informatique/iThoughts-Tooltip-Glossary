@@ -5,7 +5,7 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments
 Requires at least: 3.3
 Tested up to: 4.3.1
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -72,6 +72,12 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Changelog ==
+
+= 2.0.4 =
+* FIX incompatibility with PHP5.3
+* UPD Web video now allow mp4, YouTube and Dailymotion videos
+* FIX Force reload for new scripts
+* NEW Static terms to display glossary terms without Ajax
 
 = 2.0.2 =
 * FIX Update routine
@@ -146,6 +152,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Upgrade Notice ==
+
+= 2.0.4 =
+Important fix for PHP5.3, video improvements, and static terms to allow use of the glossary system without Ajax (thanks to rikengct for this suggestion)
 
 = 2.0 =
 This update is the first of a serie to allow you to fully customize EACH of your tooltips. Thanks to Rikengct for his suggestions.

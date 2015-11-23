@@ -44,7 +44,7 @@ class ithoughts_tt_gl_Admin{
 	}
 	public function ithoughts_tt_gl_tinymce_add_buttons( $plugin_array ) {
 		wp_enqueue_script("ithoughts_tooltip_glossary-utils", plugins_url( 'js/ithoughts_tooltip_glossary-utils.js', dirname(__FILE__) ), null, false);
-		$plugin_array['ithoughts_tt_gl_tinymce'] = self::$base_url . '/js/ithoughts_tt_gl-tinymce.js?t=1447402034072';
+		$plugin_array['ithoughts_tt_gl_tinymce'] = self::$base_url . '/js/ithoughts_tt_gl-tinymce.js?t=2.0.4';
 		return $plugin_array;
 	}/*/}/**/
 	public function tinymce_add_translations($locales){
@@ -160,7 +160,7 @@ class ithoughts_tt_gl_Admin{
 </div>
 <?php
 							   } else {
-				wp_enqueue_script('ithoughts_tooltip_glossary-updater', $this->base_url() . '/js/ithoughts_tt_gl-updater.js', null, false, true);
+				wp_enqueue_script('ithoughts_tooltip_glossary-updater', $this->base_url() . '/js/ithoughts_tt_gl-updater.js', null, "2.0.4", true);
 				wp_localize_script('ithoughts_tooltip_glossary-updater', "ithoughts_tt_gl_updater", array(
 					"from"	=>	$in_db_version,
 					"to"	=>	$in_file_version
@@ -183,28 +183,39 @@ class ithoughts_tt_gl_Admin{
 		}
 	}
 
+	private function getOptions($onlyDefaults = false){
+		$defaults = array(
+			'tooltips'		=> 'excerpt',
+			'alphaarchive'	=> 'standard',
+			'termtype'		=> 'glossary',
+			'grouptype'		=> 'group',
+			'qtipstyle'		=> 'cream',
+			'termlinkopt'	=> 'standard',
+			'termusage'		=> 'on',
+			'qtiptrigger'	=> 'hover',
+			'qtipshadow'	=> false,
+			'qtiprounded'	=> false,
+			'staticterms'	=> false
+		);
+
+		if($onlyDefaults)
+			return $defaults;
+
+		return get_option( 'ithoughts_tt_gl', $defaults );
+	}
+
 	public function options(){
 		$ajax         = admin_url( 'admin-ajax.php' );
-		$options      = get_option( 'ithoughts_tt_gl', array() );
-		$tooltips     = isset( $options['tooltips'] )     ? $options['tooltips']     : 'excerpt';
-		$alphaarchive = isset( $options['alphaarchive'] ) ? $options['alphaarchive'] : 'standard';
-		$termtype     = isset( $options['termtype'] )     ? $options['termtype']     : 'glossary';
-		$grouptype    = isset( $options["grouptype"] )    ? $options["grouptype"]    : "group";
-		$qtipstyle    = isset( $options['qtipstyle'] )    ? $options['qtipstyle']    : 'cream';
-		$termlinkopt  = isset( $options['termlinkopt'] )  ? $options['termlinkopt']  : 'standard';
-		$termusage    = isset( $options['termusage'] )    ? $options['termusage']    : 'on';
-		$qtiptrigger  = isset( $options['qtiptrigger'] )  ? $options['qtiptrigger']  : 'hover';
-		$qtipshadow   = isset( $options['qtipshadow'] )   ? $options['qtipshadow']   : true;
-		$qtiprounded  = isset( $options['qtiprounded'] )  ? $options['qtiprounded']  : true;
-
-
+		$options      = self::getOptions(false);
+		extract($options);
 
 		//Preview required resources
 		wp_enqueue_script('imagesloaded', $this->base_url() . '/ext/imagesloaded.min.js', null, false, true);
 		wp_enqueue_script('qtip', $this->base_url() . '/ext/jquery.qtip.js', array('jquery', 'imagesloaded'), false, true);
-		wp_register_script( 'ithoughts_tooltip_glossary-qtip',  $this->base_url() . '/js/ithoughts_tooltip_glossary-qtip2.js', array('qtip'), "2.0" );
+		wp_register_script( 'ithoughts_tooltip_glossary-qtip',  $this->base_url() . '/js/ithoughts_tooltip_glossary-qtip2.js', array('qtip'), "2.0.4" );
 		wp_localize_script( 'ithoughts_tooltip_glossary-qtip', 'ithoughts_tt_gl', array(
 			'admin_ajax'    => admin_url('admin-ajax.php'),
+			'baseurl'		=> self::$base_url, 
 			'qtipstyle'     => $qtipstyle,
 			'qtiptrigger'   => $qtiptrigger,
 			'qtipshadow'    => $qtipshadow,
@@ -320,7 +331,6 @@ class ithoughts_tt_gl_Admin{
 			<div id="dashboard-widgets-wrap">
 				<div id="dashboard-widgets">
 					<div id="normal-sortables" class=""><!--Old removed classes: "meta-box-sortables ui-sortable"-->
-
 						<form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
 
 							<div id="ithoughts_tt_gllossary_options_1" class="postbox">
@@ -334,6 +344,14 @@ class ithoughts_tt_gl_Admin{
 												</th>
 												<td>
 													<?php echo $termlinkoptdropdown ?>
+												</td>
+											</tr>
+											<tr>
+												<th>
+													<label for="staticterms"><?php _e('Static terms', 'ithoughts_tooltip_glossary'); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" data-tooltip-content="<?php echo rawurlencode(__('Include term content directly into the pages to avoid use of Ajax. This can slow down your page generation.', 'ithoughts_tooltip_glossary')); ?>"><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts_tooltip_glossary'); ?>)</a></span>:</label>
+												</th>
+												<td>
+													<input type="checkbox" name="staticterms" id="staticterms" value="enabled" <?php echo ($staticterms ? " checked" : ""); ?>/>
 												</td>
 											</tr>
 											<tr>
@@ -352,6 +370,14 @@ class ithoughts_tt_gl_Admin{
 													<code>/<?php echo $termtype; ?>/</code><input type="text" value="<?php echo $grouptype; ?>" name="grouptype" id="grouptype"/><code>/</code>
 												</td>
 											</tr>
+											<tr>
+												<th>
+													<label for="tooltips"><?php _e('Tooltip Content', 'ithoughts_tooltip_glossary'); ?>:</label>
+												</th>
+												<td>
+													<?php echo $tooltipdropdown ?>
+												</td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -367,14 +393,6 @@ class ithoughts_tt_gl_Admin{
 											<p><?php _e('iThoughts Tooltip Glossary uses the jQuery based <a href="http://qtip2.com/">qTip2</a> library for tooltips', 'ithoughts_tooltip_glossary'); ?></p>
 											<table class="form-table">
 												<tbody>
-													<tr>
-														<th>
-															<label for="tooltips"><?php _e('Tooltip Content', 'ithoughts_tooltip_glossary'); ?> (<?php _e('Only for glossary terms', 'ithoughts_tooltip_glossary'); ?>):</label>
-														</th>
-														<td>
-															<?php echo $tooltipdropdown ?>
-														</td>
-													</tr>
 													<tr>
 														<th>
 															<label for="qtiptrigger"><?php _e('Tooltip activation', 'ithoughts_tooltip_glossary'); ?>:</label>
@@ -466,34 +484,20 @@ class ithoughts_tt_gl_Admin{
 	}
 
 	public function update_options(){
-		$reload = false;
-
-		$defaults = array(
-			'tooltips'     => 'excerpt',
-			'alphaarchive' => 'standard',
-			'termtype'     => 'glossary',
-			'grouptype'    => 'group',
-			'qtipstyle'    => 'cream',
-			'termlinkopt'  => 'standard',
-			'termusage'    => 'on',
-			'qtiptrigger'  => 'hover',
-			'qtipshadow'   => false,
-			'qtiprounded'  => false
-		);
-
-		$glossary_options = get_option( 'ithoughts_tt_gl', $defaults );
+		$glossary_options = self::getOptions( false );
 
 		$glossary_options_old = $glossary_options;
-		foreach( $defaults as $key => $default ){
-			$value                  = isset($_POST[$key]) ? $_POST[$key] : $default;
-			$glossary_options[$key] = $value;
+		foreach( $glossary_options as $key => $value ){
+			$glossary_options[$key] = isset($_POST[$key]) ? $_POST[$key] : false;
 		}
 
 		$glossary_options['qtipshadow']  = ithoughts_tt_gl_toggleable_to_bool($glossary_options['qtipshadow'],  "enabled");
 		$glossary_options['qtiprounded'] = ithoughts_tt_gl_toggleable_to_bool($glossary_options['qtiprounded'], "enabled");
+		$glossary_options['staticterms'] = ithoughts_tt_gl_toggleable_to_bool($glossary_options['staticterms'], "enabled");
 
 		$outtxt = "";
 		$valid = true;
+		$reload = false;
 
 		$glossary_options["termtype"] = urlencode( $glossary_options["termtype"] );
 		$glossary_options["grouptype"] = urlencode( $glossary_options["grouptype"] );
