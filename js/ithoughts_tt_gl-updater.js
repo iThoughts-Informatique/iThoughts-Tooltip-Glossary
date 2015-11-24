@@ -7,7 +7,8 @@
 		jQuery.post(ithoughts_tt_gl.admin_ajax, {
 			action: "ithoughts_tt_gl_update", data: {
 				versions: ithoughts_tt_gl_updater,
-				progression: progression
+				progression: progression,
+				maxAdvandement: initData.max
 			}
 		}, function(out){
 			progress.value = out.data.progression;
@@ -33,7 +34,8 @@
 		jQuery.post(ithoughts_tt_gl.admin_ajax, {
 			action: "ithoughts_tt_gl_update", data: {
 				versions: versions,
-				progression: -1
+				progression: -1,
+				maxAdvandement: -1
 			}
 		}, function(out){
 			var updaterSection = jQuery("#ithoughts_tt_gl_updater");

@@ -3,12 +3,17 @@
  * ithoughts_tooltip_glossary Admin
  */
 class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
+	private $currentVersion;
+	private $updater;
+
 	public function __construct() {
+		//Trigger version change function ?
+		add_action( 'admin_init',								array(&$this, 'setVersion') );
+		add_action( 'admin_init',								array(&$this, 'ajaxHooks') );
+
 		add_action( 'admin_menu',								array(&$this, 'get_menu') );
 
 		add_action( 'wp_ajax_ithoughts_tt_gl_update_options',	array(&$this, 'update_options') );
-
-		add_action( 'admin_init',								array(&$this, 'setup_js_ithoughts_tt_gl') );
 
 		add_filter( 'mce_buttons',								array(&$this, "ithoughts_tt_gl_tinymce_register_buttons") );
 
@@ -16,14 +21,46 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 
 		add_filter( 'mce_external_languages',					array(&$this, 'tinymce_add_translations') );
 
-		//Trigger version change function ?
-		add_action( 'admin_init',								array(&$this,	'version_check')	);
 		add_action( 'admin_init',								array(&$this,	'register_scripts_and_styles')	);
 
 		add_action( 'admin_enqueue_scripts',					array(&$this,	'enqueue_scripts_and_styles')		);
 	}
-
-
+	public function getOptions(){
+		return parent::$options;
+	}
+	public function setVersion(){
+		try{
+			$plugindata = get_plugin_data( parent::$plugin_base . '/ithoughts_tooltip_glossary.php' );
+			if( $plugindata && is_array($plugindata) && $plugindata['Version'] ){
+				$this->currentVersion = $plugindata['Version'];
+			} else {
+				throw new Exception("unreadable_plugin_error");
+			}
+			if( $this->isUnderVersionned() ){
+				require_once(parent::$base . "/ithoughts_tt_gl-updater.class.php");
+				$this->updater = new ithoughts_tt_gl_Updater(parent::$options['version'], $this->currentVersion, $this);
+				if(parent::$options['version'] != "-1" && ithoughts_tt_gl_Updater::requiresUpdate(parent::$options['version'], $this->currentVersion)){
+					$this->updater->addAdminNotice();
+				} else {
+					parent::$options['version'] = $this->currentVersion;
+					update_option( 'ithoughts_tt_gl', parent::$options );
+				}
+			}
+		} catch(Exception $e){
+			add_action( 'admin_notices', array(&$this,'unreadable_plugin_error') );
+		}
+	}
+	public function unreadable_plugin_error(){
+?>
+<div class="error form-invalid">
+	<p><?php _e( "Can't read plugin version", "my_textdomain" ); ?></p>
+</div>
+<?php
+											 }
+	public function ajaxHooks(){
+		add_action( 'wp_ajax_ithoughts_tt_gl_get_tinymce_tooltip_form', array(&$this, 'getTinyMCETooltipFormAjax') );
+		add_action( 'wp_ajax_ithoughts_tt_gl_get_customizing_form', array(&$this, 'getCustomizingFormAjax') );
+	}
 	public function register_scripts_and_styles(){
 		wp_register_script(
 			'simple-ajax',
@@ -45,7 +82,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 			"ithoughts_tooltip_glossary-tinymce_form",
 			parent::$base_url . '/js/ithoughts_tooltip_glossary-tinymce-forms.js',
 			array("jquery", "ithoughts_tooltip_glossary-utils"),
-			"2.0.4"
+			"2.0.5"
 		);
 		wp_register_script(
 			'wp-color-picker-alpha',
@@ -78,44 +115,19 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 			'ithoughts_tooltip_glossary-updater',
 			parent::$base_url . '/js/ithoughts_tt_gl-updater.js',
 			array("jquery"),
-			"2.0.4"
+			"2.0.5"
 		);
 
 
 		wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	parent::$base_url . '/css/ithoughts_tooltip_glossary-tinymce-forms.css', null, false);
 		wp_register_style( 'ithoughts_tooltip_glossary-colorpicker',	parent::$base_url . '/ext/gradx/colorpicker/colorpicker.css' );
 		wp_register_style( 'ithoughts_tooltip_glossary-gradx',			parent::$base_url . '/ext/gradx/gradX.css' );
-		wp_register_style( 'ithoughts-tooltip-glossary-admin',			parent::$base_url . '/css/ithoughts_tooltip_glossary-admin.css' );
+		wp_register_style( 'ithoughts_tooltip_glossary-admin',			parent::$base_url . '/css/ithoughts_tooltip_glossary-admin.css' );
 	}
-
 	public function enqueue_scripts_and_styles(){
 		wp_enqueue_script( 'simple-ajax' );
-		wp_enqueue_style( 'ithoughts-tooltip-glossary-admin');
+		wp_enqueue_style( 'ithoughts_tooltip_glossary-admin');
 	}
-	public function version_check(){
-		$plugin = get_plugin_data( dirname(dirname(__FILE__)) . '/ithoughts_tooltip_glossary.php' );
-		if( $plugin && is_array($plugin) && $plugin['Version'] ){
-			$in_file_version = $plugin['Version'];
-			$optionkey       = 'ithoughts_tt_gl_version_check';
-			$in_db_version   = get_option( $optionkey, 0 );
-
-			$version_diff = version_compare( $in_db_version, $in_file_version );
-			if( !$version_diff ) return; // No change
-
-			wp_localize_script('ithoughts_tooltip_glossary-updater', "ithoughts_tt_gl_updater", array(
-				"from"	=>	$in_db_version,
-				"to"	=>	$in_file_version
-			));
-
-			require_once( parent::$base . '/ithoughts_tt_gl-updater.php' );
-			addActionAdminNotice($in_db_version);
-			/*
-			do_action( 'ithoughts_tt_gl_version_transition', $in_file_version, $in_db_version );
-			update_option( $optionkey, $in_file_version );
-			*/
-		}
-	}
-
 	public function ithoughts_tt_gl_tinymce_register_buttons( $buttons ) {
 		array_push( $buttons, 'glossaryterm', 'glossarylist' );
 		return $buttons;
@@ -124,23 +136,18 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		wp_enqueue_script("ithoughts_tooltip_glossary-utils", plugins_url( 'js/ithoughts_tooltip_glossary-utils.js', dirname(__FILE__) ), null, false);
 		$plugin_array['ithoughts_tt_gl_tinymce'] = $this->parent->base_url() . '/js/ithoughts_tt_gl-tinymce.js?t=2.0.4';
 		return $plugin_array;
-	}/*/}/**/
+	}
 	public function tinymce_add_translations($locales){
 		$locales ['ithoughts_tt_gl_tinymce'] = self::$base . '/../lang/ithoughts_tt_gl_tinymce_lang.php';
 		return $locales;
 	}
-
-
-
-
-	public function setup_js_ithoughts_tt_gl(){
-		wp_localize_script( 'jquery', 'ithoughts_tt_gl', array(
-			'admin_ajax' => admin_url('admin-ajax.php'),
-		) );
-	}
-
-
 	public function get_menu(){
+		$plugindata = get_plugin_data( parent::$plugin_base . '/ithoughts_tooltip_glossary.php' );
+		if( $plugindata && is_array($plugindata) && $plugindata['Version'] ){
+			$this->currentVersion = $plugindata['Version'];
+		} else {
+			$currentVersion = "0.0";
+		}
 		$menu = add_menu_page("iThoughts Tooltip Glossary", "Tooltip Glossary", "edit_others_posts", "ithought-tooltip-glossary", null, parent::$base_url."/js/icon/icon.svg");
 
 		$submenu_pages = array(
@@ -183,17 +190,23 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 				'menu_slug'     => 'edit-tags.php?taxonomy=glossary_group&post_type=glossary',
 				'function'      => null,// Doesn't need a callback function.
 			),
-
-			// Updater :: Hidden but entry point for update actions
-			array(
-				'parent_slug'   => 'ithought-tooltip-glossary',
-				'page_title'    => NULL,
-				'menu_title'    => NULL,
-				'capability'    => 'manage_options',
-				'menu_slug'     => 'ithoughts_tt_gl_update',
-				'function'      => array($this, 'updater'),// Doesn't need a callback function.
-			),
 		);
+
+
+		if( $this->isUnderVersionned() ){
+			require_once(parent::$base . "/ithoughts_tt_gl-updater.class.php");
+			if(ithoughts_tt_gl_Updater::requiresUpdate(parent::$options['version'], $this->currentVersion)){
+				// Updater :: Hidden but entry point for update actions
+				$submenu_pages[] = array(
+					'parent_slug'   => 'ithought-tooltip-glossary',
+					'page_title'    => __("Update", 'ithoughts_tooltip_glossary'),
+					'menu_title'    => __("Update", 'ithoughts_tooltip_glossary'),
+					'capability'    => 'manage_options',
+					'menu_slug'     => 'ithoughts_tt_gl_update',
+					'function'      => array(&$this->updater, 'updater'),// Doesn't need a callback function.
+				);
+			}
+		}
 
 		// Add each submenu item to custom admin menu.
 		foreach($submenu_pages as $submenu){
@@ -212,53 +225,15 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		// Add menu page (capture page for adding admin style and javascript
 	}
 
+	public function isUnderVersionned(){
+		$currentVersion;
 
-	public function updater(){
-		$plugin = get_plugin_data( dirname(dirname(__FILE__)) . '/ithoughts_tooltip_glossary.php' );
-		if( $plugin && is_array($plugin) && $plugin['Version'] ){
-			$in_file_version = $plugin['Version'];
-			$optionkey       = 'ithoughts_tt_gl_version_check';
-			$in_db_version   = get_option( $optionkey, 0 );
-
-			$version_diff = version_compare( $in_db_version, $in_file_version );
-			if( !$version_diff){
-?>
-<div class="wrap">
-	<div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">
-		<div class="meta-box-inside admin-help">
-			<div class="icon32" id="icon-options-general">
-				<br>
-			</div>
-			<section id="ithoughts_tt_gl_updater">
-				<h2><?php _e("Updating iThoughts Tooltip Glossary", "ithoughts_tooltip_glossary"); ?></h2>
-				<p><?php _e("No update required.", "ithoughts_tooltip_glossary"); ?></p>
-			</section>
-		</div>
-	</div>
-</div>
-<?php
-							   } else {
-				wp_enqueue_script('ithoughts_tooltip_glossary-updater');
-?>
-<div class="wrap">
-	<div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">
-		<div class="meta-box-inside admin-help">
-			<div class="icon32" id="icon-options-general">
-				<br>
-			</div>
-			<section id="ithoughts_tt_gl_updater">
-				<h2><?php _e("Updating iThoughts Tooltip Glossary", "ithoughts_tooltip_glossary"); ?></h2>
-			</section>
-		</div>
-	</div>
-</div>
-<?php
-			}
-		}
+		$version_diff = version_compare( parent::$options['version'], $this->currentVersion );
+		return $version_diff == -1;
 	}
 
 	public function options(){
-		wp_enqueue_script('ithoughts-tooltip-glossary-qtip');
+		wp_enqueue_script('ithoughts_tooltip_glossary-qtip');
 		wp_enqueue_style('ithoughts_tooltip_glossary-css');
 		wp_enqueue_style('ithoughts_tooltip_glossary-qtip-css');
 
@@ -331,7 +306,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		$qtiptriggerdropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'qtiptrigger', array(
 			'selected' => $qtiptrigger,
 			'options'  => array(
-				'hover' => array('title'=>__('Hover', 'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__('On mouseover (hover)', 'ithoughts_tooltip_glossary'))),
+				'mouseenter' => array('title'=>__('Hover', 'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__('On mouseover (hover)', 'ithoughts_tooltip_glossary'))),
 				'click' => array('title'=>__('Click', 'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__('On click',             'ithoughts_tooltip_glossary'))),
 				'responsive' => array('title'=>__('Responsive', 'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__('Hover (on computer) and click (touch devices)',             'ithoughts_tooltip_glossary'))),
 			),
@@ -527,10 +502,12 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		$postValues['staticterms'] = ithoughts_tt_gl_toggleable_to_bool($postValues['staticterms'], "enabled");
 
 		$glossary_options_old = $glossary_options;
-		foreach( $glossary_options as $key => $value ){
-			$glossary_options[$key] = isset($postValues[$key]) ? $postValues[$key] : $value;
+		$glossary_options = array_merge($glossary_options, $postValues);
+		$defaults = parent::getPluginOptions(true);
+		foreach($glossary_options as $optkey => $optvalue){
+			if(!isset($defaults[$optkey]))
+				unset($glossary_options[$optkey]);
 		}
-
 
 		$outtxt = "";
 		$valid = true;
@@ -568,5 +545,128 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 			"text" =>$outtxt,
 			"valid" => $valid
 		)));
+	}
+
+	public function getTinyMCETooltipFormAjax(){
+		$data = array();
+
+		$mediatiptypes = array(
+			'localimage' => array(
+				'title' => __('Local image', 'ithoughts_tooltip_glossary'),
+				'attrs' => array('title'=>__('Image from site library', 'ithoughts_tooltip_glossary'))
+			), 
+			'webimage' => array(
+				'title' => __('Image on the web', 'ithoughts_tooltip_glossary'),
+				'attrs' => array('title'=>__('Image referenced by url, not on the site', 'ithoughts_tooltip_glossary'))
+			),
+			'webvideo' => array(
+				'title' => __('Video on the web', 'ithoughts_tooltip_glossary'),
+				'attrs' => array('title'=>__('Video hosted online. Only Youtube', 'ithoughts_tooltip_glossary'))
+			),
+		);
+
+		isset($_POST['data']) && $data=$_POST['data'];
+
+		// Set defaults
+		$types = array("glossary", "tooltip", "mediatip");
+		$data["type"] = $data["type"] && array_search($data["type"], $types) !== false ? $data["type"] : "tooltip";
+		$data["text"] = $data["text"] ?: "";
+		$data["glossary_id"] = $data["glossary_id"] ?: NULL;
+		$data["term_search"] = $data["term_search"] ?: "";
+		$data["mediatip_type"] = $data["mediatip_type"] && isset($mediatiptypes[$data["mediatip_type"]]) ? $data["mediatip_type"] : $mediatiptypes[0];
+		$data["mediatip_content_json"] = ithoughts_tt_gl_encode_json_attr($data["mediatip_content"]);
+		$data["mediatip_content"] = ithoughts_tt_gl_decode_json_attr($data["mediatip_content"]);
+		$data["mediatip_content_json_error"] = json_last_error_msg();
+		switch($data["type"]){
+			case "glossary":{
+			} break;
+
+			case "tooltip":{
+				$data["tooltip_content"] = $data["tooltip_content"] ?: "";
+			} break;
+
+			case "mediatip":{
+			} break;
+		}
+
+		// Ok go
+
+		// Retrieve terms
+		$args;
+		if($data["term_id"] == NULL){
+			$args= array(
+				"post_type"     => "glossary",
+				'post_status'   => 'publish',
+				'orderby'       => 'title',
+				'order'         => 'ASC',
+				'posts_per_page'   => 25,
+				's'             => $data['term_search'],
+			);
+		} else {
+			$args= array(
+				"post_type"     => "glossary",
+				'post_status'   => 'publish',
+				'orderby'       => 'title',
+				'order'         => 'ASC',
+				'posts_per_page'   => 25,
+				'post__in'      => array($data["glossary_id"]),
+			);
+		}
+		$form_data = array(
+			"admin_ajax"    => admin_url('admin-ajax.php'),
+			"base_tinymce"  => plugins_url( 'js/tinymce', __FILE__ ),
+			"terms"         => array(),
+		);
+		$query = new WP_Query($args);
+		if ( $query->have_posts() ) {
+			global $post;
+			if($data["glossary_id"] == NULL){
+				$datas = array();
+				// Start looping over the query results.
+				while ( $query->have_posts() ) {
+					$query->the_post();
+					$datas[] = array(
+						"slug"      => $post->post_name,
+						"content"   => wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
+						"title"     => $post->post_title,
+						"id"        => $post->ID
+					);
+				}
+				$form_data['terms'] = $datas;
+			} else {
+				$query->the_post();
+				$data["term_title"] = $post->post_title;
+				$datas[] = array(
+					"slug"      => $post->post_name,
+					"content"   => wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
+					"title"     => $post->post_title,
+					"id"        => $post->ID
+				);
+			}
+		}
+		wp_localize_script( "ithoughts_tooltip_glossary-tinymce_form", "ithoughts_tt_gl_tinymce_form", $form_data );
+
+
+		$mediatipdropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'mediatip_type', array(
+			'selected' => $data["mediatip_type"],
+			'options'  => $mediatiptypes,
+			"class"     => "modeswitcher"
+		) );
+
+		ob_start();
+		include parent::$base."/templates/tinymce-tooltip-form.php";
+
+		wp_reset_postdata();
+
+		$output = ob_get_clean();
+		echo $output;
+		wp_die();
+	}
+	public function getCustomizingFormAjax(){
+		$prefixs = ["t", "c", "g"]; // Used in style editor loop
+		ob_start();
+		include parent::$base."/templates/customizing_form.php";
+		$output = ob_get_clean();
+		wp_send_json_success($output);
 	}
 }

@@ -3,7 +3,7 @@
  * ithoughts-tooltip-glossary Post Types
  */
 class ithoughts_tt_gl_Post_types extends ithoughts_tt_gl_interface{
-	public function __construct( &$parent ) {
+	public function __construct() {
         add_action( 'init', array($this, 'register_post_types') );
     }
 

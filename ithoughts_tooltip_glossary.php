@@ -3,7 +3,7 @@
 Plugin Name: iThoughts Tooltip Glossary
 Plugin URI:  http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Description: Create beautiful tooltips for descriptions or glossary terms easily
-Version:     2.0.4
+Version:     2.0.5
 Author:      Gerkin
 License:     GPLv2 or later
 Text Domain: ithoughts_tooltip_glossary
@@ -16,7 +16,6 @@ $ithoughts_tt_gl_glossary_count = 0;
 
 //if( function_exists('add_action') ):
 require_once( dirname(__FILE__) . '/fn-lib.php' );
-require_once( dirname(__FILE__) . '/ajax.php' );
 require_once( dirname(__FILE__) . '/class/ithoughts_tt_gl.class.php' );
 new ithoughts_tt_gl( dirname(__FILE__) );
 if(is_admin()){
@@ -25,8 +24,8 @@ if(is_admin()){
 }
 
 
-// add_action( 'admin_init', 'tcb_ithoughts_tt_gl_test' );
-function tcb_ithoughts_tt_gl_test(){
+// add_action( 'admin_init', 'ithoughts_tt_gl_test' );
+function ithoughts_tt_gl_test(){
 	$options = get_option( 'ithoughts_tt_gl' );
 	$options["termtype"] = $options["termtype"] || "glossary";
 	if( $prefix = $_GET['populate'] ){

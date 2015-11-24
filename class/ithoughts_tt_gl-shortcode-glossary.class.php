@@ -150,6 +150,7 @@ class ithoughts_tt_gl_Shortcodes_glossary extends ithoughts_tt_gl_interface{
 					$content = "";
 				}break;
 			}
+				$content = str_replace("\n", "<br>", str_replace('"', '&quot;',$content));
 			$jsdata[] = 'data-term-content="' . esc_attr($content) . '"';
 		} else {
 			$jsdata[] = 'data-termid="' . $id . '"';

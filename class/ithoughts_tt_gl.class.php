@@ -5,22 +5,40 @@
 //require_once( dirname(__FILE__).'/ithoughts_tt_gl-post_typs.class.php' );
 class ithoughts_tt_gl_interface{
 	static protected $basePlugin;
+	static protected $plugin_base;
 	static protected $options;
 	static protected $base_url;
 	static protected $base_lang;
 	static protected $base;
-	
+
 	public function getPluginOptions($defaultsOnly = false){
 		return self::$basePlugin->getOptions($defaultsOnly);
 	}
 }
 class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
+	private $defaults;
 
 	function __construct($plugin_base) {
 		parent::$basePlugin = &$this;
+		parent::$plugin_base = $plugin_base;
 		parent::$base         = $plugin_base . '/class';
 		parent::$base_lang	= $plugin_base . '/lang';
 		parent::$base_url		= plugins_url( '', dirname(__FILE__) );
+
+		$this->defaults = array(
+			'version'		=> '-1',
+			'tooltips'		=> 'excerpt',
+			'alphaarchive'	=> 'standard',
+			'termtype'		=> 'glossary',
+			'grouptype'		=> 'group',
+			'qtipstyle'		=> 'cream',
+			'termlinkopt'	=> 'standard',
+			'termusage'		=> 'on',
+			'qtiptrigger'	=> 'mouseenter',
+			'qtipshadow'	=> true,
+			'qtiprounded'	=> false,
+			'staticterms'	=> false
+		);
 		parent::$options		= get_option( 'ithoughts_tt_gl', $this->getOptions(true) );
 
 
@@ -29,13 +47,22 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		$this->add_shortcodes();
 		$this->add_widgets();
 		add_action( 'init',                  		array(&$this,	'register_scripts_and_styles')	);
+		add_action( 'init',                  		array(&$this,	'ajaxHooks')					);
 		add_action( 'wp_footer',             		array(&$this,	'wp_footer')					);
-		add_action( 'wp_enqueue_scripts',    		array(&$this,	'wp_enqueue_scripts')			);
+		add_action( 'wp_enqueue_scripts',    		array(&$this,	'wp_enqueue_styles')			);
 		add_action( 'pre_get_posts',         		array(&$this,	'order_core_archive_list')     	);
 
 		add_filter( 'ithoughts_tt_gl_term_link',	array(&$this,	'ithoughts_tt_gl_term_link')	);
 
 		add_action( 'plugins_loaded',				array($this,	'localisation')					);
+	}
+
+	public function ajaxHooks(){
+		add_action( 'wp_ajax_ithoughts_tt_gl_get_terms_list',			array(&$this, 'getTermsListAjax') );
+		add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_terms_list',	array(&$this, 'getTermsListAjax') );
+
+		add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_term_details', array(&$this, 'getTermDetailsAjax') );
+		add_action( 'wp_ajax_ithoughts_tt_gl_get_term_details',        array(&$this, 'getTermDetailsAjax') );
 	}
 
 	protected function base() {
@@ -47,19 +74,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 
 	public function getOptions($onlyDefaults = false){
 		if($onlyDefaults)
-			return array(
-			'tooltips'		=> 'excerpt',
-			'alphaarchive'	=> 'standard',
-			'termtype'		=> 'glossary',
-			'grouptype'		=> 'group',
-			'qtipstyle'		=> 'cream',
-			'termlinkopt'	=> 'standard',
-			'termusage'		=> 'on',
-			'qtiptrigger'	=> 'hover',
-			'qtipshadow'	=> false,
-			'qtiprounded'	=> false,
-			'staticterms'	=> false
-		);
+			return $this->defaults;
 
 		return $this->options;
 	}
@@ -70,7 +85,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 
 	private function register_post_types(){
 		require_once( parent::$base . '/ithoughts_tt_gl-post-types.class.php' );
-		new ithoughts_tt_gl_Post_Types($this);
+		new ithoughts_tt_gl_Post_Types();
 	}
 
 	private function register_taxonmies(){
@@ -113,8 +128,8 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 
 		wp_register_script('imagesloaded', parent::$base_url . '/ext/imagesloaded.min.js', null, false, true);
 		wp_register_script('qtip', parent::$base_url . '/ext/jquery.qtip.js', array('jquery', 'imagesloaded'), false, true);
-		wp_register_script( 'ithoughts-tooltip-glossary-qtip',  parent::$base_url . '/js/ithoughts_tooltip_glossary-qtip2.js', array('qtip'), "2.0.4" );
-		wp_localize_script( 'ithoughts-tooltip-glossary-qtip', 'ithoughts_tt_gl', array(
+		wp_register_script( 'ithoughts_tooltip_glossary-qtip',  parent::$base_url . '/js/ithoughts_tooltip_glossary-qtip2.js', array('qtip'), "2.0.5" );
+		wp_localize_script( 'ithoughts_tooltip_glossary-qtip', 'ithoughts_tt_gl', array(
 			'admin_ajax'    => admin_url('admin-ajax.php'),
 			'baseurl'		=> parent::$base_url,
 			'qtipstyle'     => $qtipstyle,
@@ -122,8 +137,8 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 			'qtipshadow'    => $qtipshadow,
 			'qtiprounded'   => $qtiprounded
 		) );
-		wp_register_script( 'ithoughts-tooltip-glossary-atoz',  parent::$base_url . '/js/ithoughts_tooltip_glossary-atoz.js',  array('jquery') );
-		
+		wp_register_script( 'ithoughts_tooltip_glossary-atoz',  parent::$base_url . '/js/ithoughts_tooltip_glossary-atoz.js',  array('jquery') );
+
 
 		if( file_exists(get_stylesheet_directory() . '/ithoughts_tooltip_glossary.css') ){
 			wp_register_style( 'ithoughts_tooltip_glossary-css', get_stylesheet_directory_uri() . '/ithoughts_tooltip_glossary.css' );
@@ -133,7 +148,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		wp_register_style( 'ithoughts_tooltip_glossary-qtip-css', parent::$base_url . '/ext/jquery.qtip.css' );
 	}
 
-	private function wp_footer(){
+	public function wp_footer(){
 		global $ithoughts_tt_gl_scritpts;
 		if( !$ithoughts_tt_gl_scritpts )
 			return;
@@ -149,15 +164,15 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 	</defs>
 </svg>
 <?php
-			wp_print_scripts( 'ithoughts-tooltip-glossary-qtip' );
+			wp_enqueue_script( 'ithoughts_tooltip_glossary-qtip' );
 		}
 		if($ithoughts_tt_gl_scritpts['atoz'])
-			wp_print_scripts( 'ithoughts-tooltip-glossary-atoz' );
+			wp_enqueue_script( 'ithoughts_tooltip_glossary-atoz' );
 	}
 
-	public function wp_enqueue_scripts(){
-		wp_enqueue_style( 'ithoughts-tooltip-glossary-css' );
-		wp_enqueue_style( 'ithoughts-tooltip-glossary-qtip-css' );
+	public function wp_enqueue_styles(){
+		wp_enqueue_style( 'ithoughts_tooltip_glossary-css' );
+		wp_enqueue_style( 'ithoughts_tooltip_glossary-qtip-css' );
 	}
 
 	/**
@@ -178,12 +193,98 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 	/** 
 	 * Translation support
 	 */
-	private function ithoughts_tt_gl_term_link( $url ){
+	public function ithoughts_tt_gl_term_link( $url ){
 		// qTranslate plugin
 		if( function_exists('qtrans_convertURL') ):
 		$url = qtrans_convertURL( $url );
 		endif;
 
 		return $url;
+	}
+
+	public function getTermsListAjax(){
+		$type = 'glossary';
+		$args=array(
+			'post_type' => $type,
+			'post_status' => 'publish',
+			'posts_per_page' => 25,
+			'orderby'       => 'title',
+			'order'         => 'ASC',
+			's'             => $_POST["search"]
+		);
+		$posts = get_posts($args);
+		$output = array("terms" => array(), "searched" => $_POST["search"]);
+		foreach($posts as $post){
+			$output["terms"][] = array(
+				"slug" => $post->post_name,
+				"content" => wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
+				"title"     => $post->post_title,
+				"id" => $post->ID,
+			);
+		}
+		wp_send_json_success($output);
+		return;
+	}
+	public function getTermDetailsAjax(){
+		// Sanity and security checks:
+		//  - we have a termid (post id)
+		//  - it is post of type 'glossary' (don't display other post types!)
+		//  - it has a valid post status and current user can read it.
+		$statii = array( 'publish', 'private' );
+		$term   = null;
+		if( isset($_POST['termid']) && $termid=$_POST['termid'] ){
+			$termid = intval( $termid );
+			$termob = get_post( $termid );
+			if( get_post_type($termob) && get_post_type($termob) == "glossary" && in_array($termob->post_status, $statii) ){
+				$term = $termob;
+			}
+		}
+
+		// Fail if no term found (either due to bad set up, or someone trying to be sneaky!)
+		if( !$term )
+			wp_send_json_error();
+
+		// Title
+		$title = $term->post_title;
+
+		// Don't display private terms
+		if( $termob->post_status == 'private' && !current_user_can('read_private_posts') ){
+			wp_send_json_success( array('title'=>$title, 'content'=>'<p>'.__('Private glossary term','ithoughts_tooltip_glossary').'</p>') );
+		}
+
+		// Don't display password protected items.
+		if( post_password_required($termid) ){
+			wp_send_json_success( array('title'=>$title, 'content'=>'<p>'.__('Protected glossary term','ithoughts_tooltip_glossary').'</p>') );
+		}
+
+		// Content
+		// Merge with static shortcode method 
+		switch( $_POST['content'] ){
+			case 'full':{
+				$content = $termob->post;
+			}break;
+
+			case 'excerpt':{
+				if( has_excerpt($termid) ){
+					$content = wp_trim_words($termob->post_excerpt, 50, '...');
+					$content = wpautop( $content );
+				} else {
+					$content = wp_trim_words($termob->post, 50, '...');
+				}
+			}break;
+
+			case 'off':{
+				$content = "";
+			}break;
+		}
+
+		// No content found, assume due to clash in settings and fetch full post content just in case.
+		if( empty($content) )
+			$content = apply_filters( 'the_content', $term->post_content );
+		if( empty($content) )
+			$content = '<p>'.__('No content','ithoughts_tooltip_glossary').'...</p>';
+
+
+		wp_send_json_success( array('title'=>$title, 'content'=>$content) );
 	}
 }
