@@ -133,8 +133,9 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		return $buttons;
 	}
 	public function ithoughts_tt_gl_tinymce_add_buttons( $plugin_array ) {
-		wp_enqueue_script("ithoughts_tooltip_glossary-utils", plugins_url( 'js/ithoughts_tooltip_glossary-utils.js', dirname(__FILE__) ), null, false);
-		$plugin_array['ithoughts_tt_gl_tinymce'] = parent::$base_url . '/js/ithoughts_tt_gl-tinymce.js?t=2.0.4';
+		wp_enqueue_script("ithoughts_tooltip_glossary-utils");
+		wp_enqueue_script("ithoughts_tooltip_glossary-qtip");
+		$plugin_array['ithoughts_tt_gl_tinymce'] = parent::$base_url . '/js/ithoughts_tt_gl-tinymce.js?t=2.0.8';
 		return $plugin_array;
 	}
 	public function tinymce_add_translations($locales){
@@ -654,7 +655,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		) );
 
 		ob_start();
-		include parent::$base."/templates/tinymce-tooltip-form.php";
+		include parent::$plugin_base."/templates/tinymce-tooltip-form.php";
 
 		wp_reset_postdata();
 
@@ -665,7 +666,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 	public function getCustomizingFormAjax(){
 		$prefixs = ["t", "c", "g"]; // Used in style editor loop
 		ob_start();
-		include parent::$base."/templates/customizing_form.php";
+		include parent::$plugin_base."/templates/customizing_form.php";
 		$output = ob_get_clean();
 		wp_send_json_success($output);
 	}
