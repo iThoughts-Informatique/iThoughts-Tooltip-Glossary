@@ -134,7 +134,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 	}
 	public function ithoughts_tt_gl_tinymce_add_buttons( $plugin_array ) {
 		wp_enqueue_script("ithoughts_tooltip_glossary-utils", plugins_url( 'js/ithoughts_tooltip_glossary-utils.js', dirname(__FILE__) ), null, false);
-		$plugin_array['ithoughts_tt_gl_tinymce'] = $this->parent->base_url() . '/js/ithoughts_tt_gl-tinymce.js?t=2.0.4';
+		$plugin_array['ithoughts_tt_gl_tinymce'] = parent::$base_url . '/js/ithoughts_tt_gl-tinymce.js?t=2.0.4';
 		return $plugin_array;
 	}
 	public function tinymce_add_translations($locales){
