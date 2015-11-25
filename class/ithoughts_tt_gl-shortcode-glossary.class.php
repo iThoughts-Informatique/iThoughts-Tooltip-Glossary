@@ -85,12 +85,11 @@ class ithoughts_tt_gl_Shortcodes_glossary extends ithoughts_tt_gl_interface{
 	}
 
 	/** */
-	public function glossary( $atts, $content='' ){
-		global $wpdb, $ithoughts_tt_gl_scritpts, $post, $ithoughts_tt_gl_doing_shortcode;
-		$ithoughts_tt_gl_glossary_count++;
+	public function glossary( $atts, $text='' ){
+		global $ithoughts_tt_gl_scritpts;
 
 		// Get iThoughts Tooltip Glossary options
-		$glossary_options = get_option( 'ithoughts_tt_gl', array() );
+		$glossary_options = parent::$options;
 
 		// JS data to pass through to jQuery libraries
 		$jsdata = array();
@@ -107,12 +106,11 @@ class ithoughts_tt_gl_Shortcodes_glossary extends ithoughts_tt_gl_interface{
 		$termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 		$staticterms        = isset($glossary_options['staticterms'] )  ? $glossary_options['staticterms']   : false;
 
+		if(!isset($atts['glossary-id']) || !$atts['glossary-id'])
+			return $text;
 		$id = $atts['glossary-id'];
 
 		// Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
-		if( empty($text) ){
-			$text = $content;
-		}
 
 		/*
 		// Term Usage
@@ -138,12 +136,7 @@ class ithoughts_tt_gl_Shortcodes_glossary extends ithoughts_tt_gl_interface{
 				}break;
 
 				case 'excerpt':{
-					if( has_excerpt($id) ){
-						$content = wp_trim_words($post->post_excerpt, 50, '...');
-						$content = wpautop( $content );
-					} else {
-						$content = wp_trim_words($post->post_content, 50, '...');
-					}
+					$content = apply_filters("ithoughts_tt_gl-term-excerpt", $post);
 				}break;
 
 				case 'off':{
@@ -161,7 +154,7 @@ class ithoughts_tt_gl_Shortcodes_glossary extends ithoughts_tt_gl_interface{
 		if( $linkopt != 'none' ){
 			$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($id) );
 			$target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
-			$link   = '<a href="' . $href . '" ' . $target . ' title="' . $content . '">' . $text . '</a>';
+			$link   = '<a href="' . $href . '" ' . $target . ' title="' . $text . '">' . $text . '</a>';
 		}
 
 //		$span = '<span class="ithoughts-tooltip-glossary">' . $link . '</span>'; // Trivial default when tooltips switched off.

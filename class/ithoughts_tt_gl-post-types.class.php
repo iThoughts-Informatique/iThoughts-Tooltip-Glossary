@@ -39,7 +39,7 @@ class ithoughts_tt_gl_Post_types extends ithoughts_tt_gl_interface{
                 'glossary_group'
             )
         ) );
-        if(parent::$options["needflush"]){
+        if(isset(parent::$options["needflush"]) && parent::$options["needflush"]){
             parent::$options["needflush"] = false;
             update_option( 'ithoughts_tt_gl', parent::$options );
             flush_rewrite_rules(false);

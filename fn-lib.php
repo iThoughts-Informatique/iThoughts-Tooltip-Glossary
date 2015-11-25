@@ -1,5 +1,5 @@
 <?php
-/** */
+
 function ithoughts_tt_gl_unaccent( $text, $from, $to, $encoding = "UTF-8" ){
     $l = mb_strlen($text, $encoding);
     $out = "";
@@ -47,8 +47,7 @@ function ithoughts_tt_gl_build_dropdown_multilevel( $id, $args ){
     endif;
     foreach( $options as $value => $option ) {
         if( is_array($option) ) {
-            $type = $option['type'];
-            if($type === "optgroup"){
+            if(isset($option['type']) && $option['type'] === "optgroup"){
                 $dropdown.='<optgroup label="'.$value.'">';
                 foreach($option as $subkey => $suboption){
                     if($subkey != "type"){
@@ -78,10 +77,19 @@ function ithoughts_tt_gl_build_dropdown_multilevel( $id, $args ){
     return $dropdown;
 }
 
-function ithoughts_tt_gl_toggleable_to_bool($value, $truevalue){
-    if($value === true)
+function ithoughts_tt_gl_toggleable_to_bool($array,$key, $truevalue){
+	if(!isset($array[$key]))
+		return false;
+    if($array[$key] === true)
         return true;
-    return $value === $truevalue;
+    return $array[$key] === $truevalue;
+}
+
+function ithoughts_tt_gl_stipQuotes($string, $encode){
+	if($encode)
+		return str_replace('"', '&quot;', $string);
+	else
+		return str_replace('&quot;', '"', $string);
 }
 
 function ithoughts_tt_gl_decode_json_attr($attr){

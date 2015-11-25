@@ -41,10 +41,7 @@ class ithoughts_tt_gl_Shortcodes_tooltip extends ithoughts_tt_gl_interface{
         endif;
         endforeach;
 
-        extract( shortcode_atts( array(
-            'tooltip' => '',
-            'content' => '',
-        ), $atts) );
+		$content = $atts["tooltip-content"];
 
         // Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
         if( empty($content) ) $content = $text;
@@ -54,7 +51,7 @@ class ithoughts_tt_gl_Shortcodes_tooltip extends ithoughts_tt_gl_interface{
         // qtip jquery data
         $jsdata[] = 'data-tooltip-content="' . str_replace('"', '\\"', $content) . '"';
 
-        $link   = '<a href="javascript:void(0)" title="' . esc_attr($title) . '">' . $text . '</a>';
+        $link   = '<a href="javascript:void(0)" title="' . esc_attr($text) . '">' . $text . '</a>';
         // Span that qtip finds
         $span = '<span class="ithoughts_tooltip_glossary-tooltip" '.implode(' ',$jsdata).'>' . $link . '</span>';
 

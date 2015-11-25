@@ -244,7 +244,6 @@
 						break;
 					}
 				}
-				console.log("Video data: ", videodata);
 				if(videodata){
 					$("#mediatip_url_video_embed").val(videodata.embed);
 					$("#mediatip_url_video_link").val(videodata.video);

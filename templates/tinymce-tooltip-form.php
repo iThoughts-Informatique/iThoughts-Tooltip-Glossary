@@ -1,10 +1,10 @@
 <div id="ithoughts_tt_gl-tooltip-form-container">
+	<pre style="display:none;"><?php var_dump($data); ?></pre>
 	<div id="pseudohead">
 		<?php wp_print_styles("ithoughts_tooltip_glossary-tinymce_form"); ?>
 		<?php wp_print_scripts("ithoughts_tooltip_glossary-utils"); ?>
 		<?php wp_print_scripts("ithoughts_tooltip_glossary-tinymce_form"); ?>
 	</div>
-	<pre><?php print_r($data); ?></pre>
 	<div aria-label="Insert a Tooltip" role="dialog" style="border-width: 1px; z-index: 100101;" class="mce-container mce-panel mce-floatpanel mce-window mce-in" hidefocus="1" id="ithoughts_tt_gl-tooltip-form">
 		<div class="mce-reset" role="application">
 			<div class="mce-window-head">
