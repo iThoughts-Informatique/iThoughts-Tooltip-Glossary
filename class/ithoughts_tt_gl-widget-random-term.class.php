@@ -118,7 +118,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 					} break;
 					case "full":{
 						$content = '<article><h4><a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_permalink($term) ) . '">' . $term->post_title . '</a></h4>';
-						$content .= '<p>' . apply_filters('the_content',$term->post_content)."</p></article>";
+						$content .= '<p>' . $term->post_content . "</p></article>";
 					} break;
 					case "excerpt":{
 						$content = '<article><h4><a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_permalink($term) ) . '">' . $term->post_title . '</a></h4>';

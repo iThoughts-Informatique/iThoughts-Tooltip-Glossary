@@ -68,7 +68,7 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 				$link   = '<span class="'.((!$desc) ? 'ithoughts_tooltip_glossary-glossary" data-termid="' . get_the_ID() : '' ).'"><a href="' . $href . '" title="" alt="' . esc_attr($title) . '" ' . $target . '>' . $title . '</a></span>';
 			}
 			if( $desc ){
-				$content = ($desc=='excerpt') ? get_the_excerpt() : apply_filters('the_content', get_the_content());
+				$content = ($desc=='excerpt') ? get_the_excerpt() : get_the_content();
 				$content = '<span class="glossary-item-desc">' . $content . '</span>';
 			}
 			$item  = '<li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-' . $alpha . '">';

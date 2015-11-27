@@ -38,7 +38,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 			'qtiprounded'	=> false,
 			'staticterms'	=> false
 		);
-		parent::$options		= get_option( 'ithoughts_tt_gl', $this->getOptions(true) );
+		parent::$options		= $this->initOptions();
 
 
 		$this->register_post_types();
@@ -57,6 +57,9 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		add_action( 'plugins_loaded',				array($this,	'localisation')					);
 	}
 
+	private function initOptions(){
+		return array_merge($this->getOptions(true), get_option( 'ithoughts_tt_gl', $this->getOptions(true) ));
+	}
 	public function add_filters(){
 		require_once( parent::$base . '/ithoughts_tt_gl-filters.class.php' );
 		new ithoughts_tt_gl_filters();
@@ -248,7 +251,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		// Merge with static shortcode method 
 		switch( $_POST['content'] ){
 			case 'full':{
-				$content = $termob->post;
+				$content = $termob->post_content;
 			}break;
 
 			case 'excerpt':{
@@ -262,7 +265,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 
 		// No content found, assume due to clash in settings and fetch full post content just in case.
 		if( empty($content) )
-			$content = apply_filters( 'the_content', $term->post_content );
+			$content = $term->post_content ;
 		if( empty($content) )
 			$content = '<p>'.__('No content','ithoughts_tooltip_glossary').'...</p>';
 
