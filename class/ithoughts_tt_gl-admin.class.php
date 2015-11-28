@@ -651,7 +651,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		wp_die();
 	}
 	public function getCustomizingFormAjax(){
-		$prefixs = array("t", "c", "g"); // Used in style editor loop
+		$prefixs = array("t", "c",  "g"); // Used in style editor loop
 		ob_start();
 		include parent::$plugin_base."/templates/customizing_form.php";
 		$output = ob_get_clean();
