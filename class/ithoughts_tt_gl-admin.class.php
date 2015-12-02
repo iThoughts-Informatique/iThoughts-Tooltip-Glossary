@@ -557,24 +557,34 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 
 		// Set defaults
 		$types = array("glossary", "tooltip", "mediatip");
-		$data["type"] = isset($data["type"]) && $data["type"] && array_search($data["type"], $types) !== false ? $data["type"] : "tooltip";
-		$data["text"] = isset($data["text"]) ? $data["text"] : "";
-		$data["glossary_id"] = isset($data["glossary_id"]) ? $data["glossary_id"] : NULL;
-		$data["term_search"] = isset($data["term_search"]) ? $data["term_search"] : "";
-		$data["mediatip_type"] = isset($data["mediatip_type"]) && $data["mediatip_type"] && isset($mediatiptypes[$data["mediatip_type"]]) ? $data["mediatip_type"] : $mediatiptypes_keys[0];
-		$data["mediatip_content_json"] = ithoughts_tt_gl_encode_json_attr(isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
-		$data["mediatip_content"] = ithoughts_tt_gl_decode_json_attr(isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
-		$data["mediatip_content_json_error"] = json_last_error_msg();
-		switch($data["type"]){
-			case "glossary":{
-			} break;
+		try{
+			$data["type"] = isset($data["type"]) && $data["type"] && array_search($data["type"], $types) !== false ? $data["type"] : "tooltip";
+			$data["text"] = isset($data["text"]) ? $data["text"] : "";
+			$data["glossary_id"] = isset($data["glossary_id"]) ? $data["glossary_id"] : NULL;
+			$data["term_search"] = isset($data["term_search"]) ? $data["term_search"] : "";
+			$data["mediatip_type"] = isset($data["mediatip_type"]) && $data["mediatip_type"] && isset($mediatiptypes[$data["mediatip_type"]]) ? $data["mediatip_type"] : $mediatiptypes_keys[0];
+			$data["mediatip_content_json"] = ithoughts_tt_gl_encode_json_attr(isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
+			$data["mediatip_content"] = ithoughts_tt_gl_decode_json_attr(isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
+			switch($data["type"]){
+				case "glossary":{
+				} break;
 
-			case "tooltip":{
-				$data["tooltip_content"] = str_replace('\"', '"', isset($data["tooltip_content"]) ? $data["tooltip_content"] : "");
-			} break;
+				case "tooltip":{
+					$data["tooltip_content"] = str_replace('\"', '"', isset($data["tooltip_content"]) ? $data["tooltip_content"] : "");
+				} break;
 
-			case "mediatip":{
-			} break;
+				case "mediatip":{
+				} break;
+			}
+		} catch(Exception $e){
+			$data["type"] = "tooltip";
+			$data["text"] = "";
+			$data["glossary_id"] = NULL;
+			$data["term_search"] = "";
+			$data["mediatip_type"] = $mediatiptypes_keys[0];
+			$data["mediatip_content_json"] = "";
+			$data["mediatip_content"] = "";
+			$data["tooltip_content"] = "";
 		}
 
 		// Ok go

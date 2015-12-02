@@ -7,6 +7,7 @@ class ithoughts_tt_gl_interface{
 	static protected $base_url;
 	static protected $base_lang;
 	static protected $base;
+	static protected $scripts;
 
 	public function getPluginOptions($defaultsOnly = false){
 		return self::$basePlugin->getOptions($defaultsOnly);
@@ -40,6 +41,8 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		);
 		parent::$options		= $this->initOptions();
 
+		parent::$scripts = array();
+
 
 		$this->register_post_types();
 		$this->register_taxonmies();
@@ -63,6 +66,9 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 	public function add_filters(){
 		require_once( parent::$base . '/ithoughts_tt_gl-filters.class.php' );
 		new ithoughts_tt_gl_filters();
+	}
+	public function addScript($newArray){
+		parent::$scripts = array_merge(parent::$scripts, $newArray);
 	}
 	public function ajaxHooks(){
 		add_action( 'wp_ajax_ithoughts_tt_gl_get_terms_list',			array(&$this, 'getTermsListAjax') );
@@ -132,18 +138,18 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 
 		if( file_exists(get_stylesheet_directory() . '/ithoughts_tooltip_glossary.css') ){
 			wp_register_style( 'ithoughts_tooltip_glossary-css', get_stylesheet_directory_uri() . '/ithoughts_tooltip_glossary.css' );
-		}else{
+		} else {
 			wp_register_style( 'ithoughts_tooltip_glossary-css', parent::$base_url . '/css/ithoughts_tooltip_glossary.css' );
 		}
 		wp_register_style( 'ithoughts_tooltip_glossary-qtip-css', parent::$base_url . '/ext/jquery.qtip.css' );
 	}
 
 	public function wp_footer(){
-		global $ithoughts_tt_gl_scritpts;
-		if( !$ithoughts_tt_gl_scritpts )
+		var_dump(parent::$scripts);
+		if( !parent::$scripts )
 			return;
 
-		if(isset($ithoughts_tt_gl_scritpts['qtip']) && $ithoughts_tt_gl_scritpts['qtip']){
+		if(isset(parent::$scripts['qtip']) && parent::$scripts['qtip']){
 ?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: none;">
 	<defs>
@@ -156,7 +162,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 <?php
 			wp_enqueue_script( 'ithoughts_tooltip_glossary-qtip' );
 		}
-		if(isset($ithoughts_tt_gl_scritpts['atoz']) && $ithoughts_tt_gl_scritpts['atoz'])
+		if(isset(parent::$scripts['atoz']) && parent::$scripts['atoz'])
 			wp_enqueue_script( 'ithoughts_tooltip_glossary-atoz' );
 	}
 

@@ -17,7 +17,7 @@
 			onclick: glossarytermfct,
 			onPostRender: tinymce.setToggleable('glossaryterm', editor)
 		});
-		var listtab = 0;
+		var listtabI = 0;
 		editor.addButton('glossarylist', {
 			title :editor.getLang('ithoughts_tt_gl_tinymce.add_index'),
 			image : url + '/icon/glossaryindex.png',
@@ -164,10 +164,10 @@
 					})
 				],
 				onsubmit: function(e) {
-					console.log(e.data, listtab);
+					console.log(e.data, listtabI);
 					if(mode == "load")
 						sel.select(sel.getStart());
-					switch(parseInt(listtab)){
+					switch(parseInt(listtabI)){
 						case 0:{
 							var opts = [];
 							if(!!e.data['ll'])

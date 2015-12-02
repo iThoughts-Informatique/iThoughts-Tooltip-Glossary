@@ -10,7 +10,6 @@ Text Domain: ithoughts_tooltip_glossary
 Domain Path: /lang
 */
 
-$ithoughts_tt_gl_scritpts = array();
 require_once( dirname(__FILE__) . '/fn-lib.php' );
 require_once( dirname(__FILE__) . '/class/ithoughts_tt_gl.class.php' );
 new ithoughts_tt_gl( dirname(__FILE__) );

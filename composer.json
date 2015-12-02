@@ -1,0 +1,55 @@
+{
+	"name": "iThoughts-Informatique/iThoughts-Tooltip-Glossary",
+	"type": "wordpress-plugin",
+	"license": "GPLv2.0",
+	"description": "Create beautiful tooltips for descriptions or glossary terms easily",
+	"homepage": "https://wordpress.org/plugins/ithoughts-tooltip-glossary/",
+	"authors": [
+		{
+			"name": "Alexandre Germain",
+			"homepage": "http://www.gerkindevelopment.net/",
+			"email": "agermain@gerkindevelopment.net",
+			"role": "Developer"
+		},
+		{
+			"name": "Tom Barrett",
+			"homepage": "http://www.tcbarrett.com/"
+		}
+	],
+	"keywords": [
+		"wordpress",
+		"tooltip",
+		"dictionary",
+		"glossary",
+		"appendix",
+		"technical terms",
+		"popup",
+		"tooltips",
+		"infobulle",
+		"definition",
+		"definitions",
+		"définition",
+		"définitions",
+		"dictionnaire",
+		"dictionnaires",
+		"dictionnaries",
+		"precision",
+		"information",
+		"informations",
+		"widget",
+		"widgets",
+		"shortocde",
+		"shortcodes",
+		"images",
+		"image",
+		"comment",
+		"comments" 
+	],
+	"support": {
+		"issues": "https://wordpress.org/support/plugin/ithoughts-tooltip-glossary"
+	},
+	"require": {
+		"php": ">=5.3",
+		"composer/installers": "~1.0"
+	}
+}

@@ -48,7 +48,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 
 		// Display
 		$displaydd = ithoughts_tt_gl_build_dropdown_multilevel( $this->get_field_id('display'), array(
-			'selected'   => $instance['display'],
+			'selected'   => isset($instance['display']) ? $instance['display'] : "tooltip",
 			'name'       => $this->get_field_name('display'),
 			'options'    => array( 
 				'title'   =>__('Title Only',        'ithoughts_tooltip_glossary'), 
@@ -76,8 +76,6 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 	} // update
 
 	public function widget( $args, $instance ) {
-		global $ithoughts_tt_gl_scritpts;
-
 		extract( $args );
 		$title = apply_filters( 'widget_title', $instance['title'] );
 
@@ -105,7 +103,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 		$terms = get_posts( $termargs );
 		$numItems = count($terms);
 		if( $terms && $numItems ){
-			$ithoughts_tt_gl_scritpts['qtip'] = true;
+			ithoughts_tt_gl_interface::getiThoughtsTooltipGlossary()->addScript(array("qtip" => true));
 			echo '<ul class="ithoughts_tt_gl widget-list">';
 			$i = 0;
 			foreach( $terms as $term ){

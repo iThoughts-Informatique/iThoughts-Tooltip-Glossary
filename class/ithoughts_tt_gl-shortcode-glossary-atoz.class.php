@@ -5,10 +5,9 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 	}
 
 	public function glossary_atoz( $atts, $content='' ){
-		global $post, $ithoughts_tt_gl_scritpts;
 		extract( shortcode_atts(array('group'=>false,'desc'=>false), $atts) );
 
-		$glossary_options = get_option( 'ithoughts_tt_gl', array() );
+		$glossary_options = parent::$options;
 		// Let shortcode attributes override general settings
 		foreach( $glossary_options as $k => $v ){
 			if( isset($atts[$k]) ){
@@ -16,14 +15,10 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 				$glossary_options[$k] = trim( $atts[$k] );
 			}
 		}
-		$tooltip_option   = isset($glossary_options['tooltips'])    ? $glossary_options['tooltips']    : 'excerpt';
-		$qtipstyle        = isset($glossary_options['qtipstyle'])   ? $glossary_options['qtipstyle']   : 'cream';
-		$linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
-		$termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
 
 		// Global variable that tells WP to print related js files.
-		$ithoughts_tt_gl_scritpts['atoz'] = true;
+		parent::$scripts['atoz'] = true;
 
 		$statii = array( 'publish' );
 		if( current_user_can('read_private_posts') ){
@@ -52,23 +47,35 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 		$list       = '<p>' . __('There are no glossary items.', 'ithoughts_tooltip_glossary') . '</p>';
 		$glossaries = get_posts( $args );
 		if( !count($glossaries) ) return $list;
-		
+
 		$atoz = array();
 		$tofind = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ";
 		$replac = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
+		
 		foreach( $glossaries as $post ) {
 			setup_postdata( $post );
-			$title = get_the_title();
+			$title = $post->post_title;
 			$alpha = strtoupper( ithoughts_tt_gl_unaccent(mb_substr($title,0,1, "UTF-8"), $tofind, $replac, "UTF-8") );
 
 			$link  = '<span class="atoz-term-title'.((!$desc) ? ' ithoughts-tooltip-glossary-glossary" data-termid="' . get_the_ID() : '' ).'">' . $title . '</span>'; // Default to text only
-			if( $linkopt != 'none' ){
+			if( $glossary_options["termlinkopt"] != 'none' ){
 				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($post->ID) );
-				$target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
-				$link   = '<span class="'.((!$desc) ? 'ithoughts_tooltip_glossary-glossary" data-termid="' . get_the_ID() : '' ).'"><a href="' . $href . '" title="" alt="' . esc_attr($title) . '" ' . $target . '>' . $title . '</a></span>';
+				$target = ($glossary_options["termlinkopt"] == 'blank') ? 'target="_blank"'  : '';
+				$link   = '<span class="'.((!$desc) ? 'ithoughts_tooltip_glossary-glossary" data-termid="' . $post->ID : '' ).'" data-content="' . $glossary_options["tooltips"] . '"><a href="' . $href . '" title="" alt="' . esc_attr($title) . '" ' . $target . '>' . $title . '</a></span>';
 			}
 			if( $desc ){
-				$content = ($desc=='excerpt') ? get_the_excerpt() : get_the_content();
+				$content;
+				switch($desc){
+					case "excerpt":{
+						$content = $post->post_excerpt;
+					}break;
+					case "standard":{
+						$content = $post->post_content;
+					}break;
+					case "glossarytips":{
+						$content = "";
+					}break;
+				}
 				$content = '<span class="glossary-item-desc">' . $content . '</span>';
 			}
 			$item  = '<li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-' . $alpha . '">';

@@ -68,6 +68,9 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 			} //alpha_list
 		}
 		$alphas = array_unique( $alphas );
+		if($desc === "glossarytips"){
+			parent::$scripts['qtip'] = true;
+		}
 
 		// Go through all glossaries, and restrict to alpha list if supplied.
 		foreach( $glossaries as $post ) {
@@ -92,7 +95,7 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 						$content = '<span class="glossary-item-desc">' . get_the_content() . '</span>';
 					} break;
 					case 'glossarytips':{
-						$link = '<span class="ithoughts_tooltip_glossary-glossary" data-termid="' . get_the_ID().'">'.$link.'</span>';
+						$link = '<span class="ithoughts_tooltip_glossary-glossary" data-content="' . $tooltip_option . '" data-termid="' . get_the_ID().'">'.$link.'</span>';
 					} break;
 				}
 			}

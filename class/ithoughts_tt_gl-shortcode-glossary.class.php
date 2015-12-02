@@ -86,7 +86,6 @@ class ithoughts_tt_gl_Shortcodes_glossary extends ithoughts_tt_gl_interface{
 
 	/** */
 	public function glossary( $atts, $text='' ){
-		global $ithoughts_tt_gl_scritpts;
 
 		// Get iThoughts Tooltip Glossary options
 		$glossary_options = parent::$options;
@@ -159,7 +158,7 @@ class ithoughts_tt_gl_Shortcodes_glossary extends ithoughts_tt_gl_interface{
 
 //		$span = '<span class="ithoughts-tooltip-glossary">' . $link . '</span>'; // Trivial default when tooltips switched off.
 		// Global variable that tells WP to print related js files.
-		$ithoughts_tt_gl_scritpts['qtip'] = true;
+		parent::$scripts['qtip'] = true;
 
 		// qtip jquery data
 
