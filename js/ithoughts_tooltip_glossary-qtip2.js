@@ -54,7 +54,7 @@
 			var specific;
 			if($(this).hasClass("ithoughts_tooltip_glossary-glossary")){
 				if(this.getAttribute("data-termid")){
-					var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details'}, $(this).data() );
+					var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details', content: ithoughts_tt_gl.termcontent}, $(this).data() );
 					specific = {
 						content: {
 							text: 'Loading glossary term',

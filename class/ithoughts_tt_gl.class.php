@@ -106,6 +106,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		new ithoughts_tt_gl_Shortcodes_mediatip();
 		require_once( parent::$base . '/ithoughts_tt_gl-shortcode-glossary.class.php' );
 		new ithoughts_tt_gl_Shortcodes_glossary();
+		new ithoughts_tt_gl_glossary_filters();
 		require_once( parent::$base . '/ithoughts_tt_gl-shortcode-glossary-atoz.class.php' );
 		new ithoughts_tt_gl_Shortcode_ATOZ();
 		require_once( parent::$base . '/ithoughts_tt_gl-shortcode-glossary-list.class.php' );
@@ -131,7 +132,8 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 			'qtipstyle'     => parent::$options["qtipstyle"],
 			'qtiptrigger'   => parent::$options["qtiptrigger"],
 			'qtipshadow'    => parent::$options["qtipshadow"],
-			'qtiprounded'   => parent::$options["qtiprounded"]
+			'qtiprounded'   => parent::$options["qtiprounded"],
+			'termcontent'	=> parent::$options["tooltips"]
 		) );
 		wp_register_script( 'ithoughts_tooltip_glossary-atoz',  parent::$base_url . '/js/ithoughts_tooltip_glossary-atoz.js',  array('jquery') );
 
@@ -145,7 +147,6 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 	}
 
 	public function wp_footer(){
-		var_dump(parent::$scripts);
 		if( !parent::$scripts )
 			return;
 

@@ -127,6 +127,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 
 
 						$options = ithoughts_tt_gl_interface::getiThoughtsTooltipGlossary()->getOptions();
+						$content = apply_filters("get_glossary_term_element", $term);/*
 						if($options['staticterms']){
 							$jsdata[] = 'data-term-title="' . esc_attr($term->post_title) .  '"';
 							$content;
@@ -152,7 +153,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 
 						$link   = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '" target="_blank" title="' . esc_attr(get_the_title($term->ID)) . '">' . get_the_title($term->ID) . '</a>';
 						$content = '<span class="ithoughts_tooltip_glossary-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';
-
+*/
 
 
 						//$content = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';

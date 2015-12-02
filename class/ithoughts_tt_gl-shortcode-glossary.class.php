@@ -1,4 +1,5 @@
 <?php
+
 class ithoughts_tt_gl_Shortcodes_glossary extends ithoughts_tt_gl_interface{
 	public function __construct() {
 		// Shortcode
@@ -87,84 +88,88 @@ class ithoughts_tt_gl_Shortcodes_glossary extends ithoughts_tt_gl_interface{
 	/** */
 	public function glossary( $atts, $text='' ){
 
-		// Get iThoughts Tooltip Glossary options
-		$glossary_options = parent::$options;
-
-		// JS data to pass through to jQuery libraries
-		$jsdata = array();
-
-		// Let shortcode attributes override general settings
-		foreach( $glossary_options as $k => $v ){
-			if( isset($atts[$k]) ){
-				$jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
-				$glossary_options[$k] = trim( $atts[$k] );
-			}
-		}
-		$tooltip_option   = isset($glossary_options['tooltips'])    ? $glossary_options['tooltips']    : 'excerpt';
-		$linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
-		$termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
-		$staticterms        = isset($glossary_options['staticterms'] )  ? $glossary_options['staticterms']   : false;
-
 		if(!isset($atts['glossary-id']) || !$atts['glossary-id'])
 			return $text;
 		$id = $atts['glossary-id'];
+		return apply_filters("get_glossary_term_element", $id, $text, $atts);
+	}
+}
 
-		// Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
+class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
+	public function __construct(){
+		add_filter("get_glossary_term_element", array($this, "get_glossary_term_element"), 10, 3);
+	}
 
-		/*
-		// Term Usage
-		if( $termusage && $termusage == 'on' && !$ithoughts_tt_gl_doing_shortcode ){
-			if( get_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage') ){
-				if( !in_array($post->ID, get_post_meta($id, 'ithoughts_tt_gl_term_used')) ){
-					// Note this post against the glossary
-					add_post_meta( $glossary->ID, 'ithoughts_tt_gl_term_used', $post->ID );
-					// Note this post/page has glossary terms
-					update_post_meta( $post->ID, 'ithoughts_tt_gl_has_terms', current_time('mysql') );
-				}
+	public function get_glossary_term_element($term, $text = null, $options = array()){
+		// Overridable options
+		$opts = array_merge(parent::$options, $options);
+
+		$jsdata = array();
+
+		if($opts['staticterms']){
+			if(is_numeric($term)){
+				$term = get_post($term);
+			} else if(!is_a($term, "WP_Post")){
+				// Error
+				return $text;
 			}
-		}*/
+			if(is_null($text))
+				$text = $term->post_title;
 
-		if($glossary_options['staticterms']){
-			$post = get_post($id);
-			$jsdata[] = 'data-term-title="' . esc_attr($post->post_title) .  '"';
+			$jsdata[] = 'data-term-title="' . esc_attr($term->post_title) .  '"';
 
 			$content;
-			switch( $tooltip_option ){
+			switch( $opts["tooltips"] ){
 				case 'full':{
-					$content = $post->post_content;
+					$content = $term->post_content;
 				}break;
 
 				case 'excerpt':{
-					$content = apply_filters("ithoughts_tt_gl-term-excerpt", $post);
+					$content = apply_filters("ithoughts_tt_gl-term-excerpt", $term);
 				}break;
 
 				case 'off':{
 					$content = "";
 				}break;
 			}
-				$content = str_replace("\n", "<br>", str_replace('"', '&quot;',$content));
+			$content = str_replace("\n", "<br>", str_replace('"', '&quot;',$content));
 			$jsdata[] = 'data-term-content="' . esc_attr($content) . '"';
 		} else {
-			$jsdata[] = 'data-termid="' . $id . '"';
-			$jsdata[] = 'data-content="' . $tooltip_option . '"';
+			if(is_a($term, "WP_Post")){
+				$jsdata[] = 'data-termid="' . $term->ID . '"';
+				if(is_null($text))
+					$text = get_the_title($term);
+			} else if(is_numeric($term)){
+				$jsdata[] = 'data-termid="' . $term . '"';
+				if(is_null($text))
+					$text = $term->post_title;
+			}
 		}
-		
-		$link = $text; // Set to just plain text (used if 'none' linkopt set in settings)
-		if( $linkopt != 'none' ){
-			$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($id) );
-			$target = ($linkopt == 'blank') ? 'target="_blank"'  : '';
-			$link   = '<a href="' . $href . '" ' . $target . ' title="' . $text . '">' . $text . '</a>';
+
+		$href="javascript::void(0)";
+		if(is_a($term, "WP_Post")){
+			if($opts["termlinkopt"] != "none")// If theere need a link
+				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_permalink($term) );
+		} else if(is_int($term)){
+			if($opts["termlinkopt"] != "none")// If theere need a link
+				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term) );
 		}
 
-//		$span = '<span class="ithoughts-tooltip-glossary">' . $link . '</span>'; // Trivial default when tooltips switched off.
-		// Global variable that tells WP to print related js files.
-		parent::$scripts['qtip'] = true;
 
-		// qtip jquery data
+		$link;
+		switch($opts["termlinkopt"]){
+			case "blank":{
+				$link = '<a href="' . $href . '" target="blank" title="' . $text . '">' . $text . '</a>';
+			}break;
+			case "none":{
+				$link = '<a href="javascript::void(0)" target="blank" title="' . $text . '">' . $text . '</a>';
+			}break;
+			case "standard":{
+				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term) );
+				$link = '<a href="' . $href . '" title="' . $text . '">' . $text . '</a>';
+			}break;
+		}
 
-		// Span that qtip finds
-		$span = '<span class="ithoughts_tooltip_glossary-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';
-		return $span;
+		return '<span class="ithoughts_tooltip_glossary-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';
 	}
-
 }

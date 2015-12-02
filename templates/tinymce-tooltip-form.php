@@ -1,5 +1,5 @@
 <div id="ithoughts_tt_gl-tooltip-form-container">
-	<pre style="display:none;"><?php var_dump($data); ?></pre>
+	<!--<pre style="display:none;"><?php var_dump($data); ?></pre>-->
 	<div id="pseudohead">
 		<?php wp_print_styles("ithoughts_tooltip_glossary-tinymce_form"); ?>
 		<?php wp_print_scripts("ithoughts_tooltip_glossary-utils"); ?>

@@ -12,7 +12,8 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 			'cols'  => false,
 			'desc'  => false,
 		);
-		extract( shortcode_atts($default, $atts) );
+
+		$opts = array_merge(parent::$options, shortcode_atts($default, $atts));
 
 		$statii = array( 'publish' );
 		if( current_user_can('read_private_posts') ){
@@ -29,28 +30,17 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 		);
 
 		// Restrict list to specific glossary group or groups
-		if( $group ){
+		if( $opts["group"] ){
 			$tax_query = array(
 				'taxonomy' => 'ithoughts_tt_gllossarygroup',
 				'field'    => 'slug',
-				'terms'    => $group,
+				'terms'    => $opts["group"],
 			);
 			$args['tax_query'] = array( $tax_query );
 		}
 
 		$jsdata = array(); // Not used yet
 
-		$glossary_options = get_option( 'ithoughts_tt_gl', array() );
-		foreach( $glossary_options as $k => $v ){
-			if( isset($atts[$k]) ){
-				$jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
-				$glossary_options[$k] = trim( $atts[$k] );
-			}
-		}
-		$tooltip_option   = isset($glossary_options['tooltips'])    ? $glossary_options['tooltips']    : 'excerpt';
-		$qtipstyle        = isset($glossary_options['qtipstyle'])   ? $glossary_options['qtipstyle']   : 'cream';
-		$linkopt          = isset($glossary_options['termlinkopt']) ? $glossary_options['termlinkopt'] : 'standard';
-		$termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
 		$list       = '<p>' . __( 'There are no glossary items.', 'ithoughts_tooltip_glossary') . '</p>';
 		$glossaries = get_posts( $args );
@@ -59,8 +49,8 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 
 		// Sanity check the list of letters (if set by user).
 		$alphas = array();
-		if( $alpha ) {
-			$alpha_list = array_map( 'trim', explode(',', $alpha) );
+		if( $opts["alpha"] ) {
+			$alpha_list = array_map( 'trim', explode(',', $opts["alpha"]) );
 			foreach( $alpha_list as $alpha_item ) {
 				$alpha = strtolower( mb_substr($alpha_item, 0, 1, 'UTF-8') );
 				if( $alpha && (is_numeric($alpha) || ctype_lower($alpha)) )
@@ -68,39 +58,48 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 			} //alpha_list
 		}
 		$alphas = array_unique( $alphas );
-		if($desc === "glossarytips"){
+		if($opts["desc"] === "glossarytips"){
 			parent::$scripts['qtip'] = true;
 		}
 
 		// Go through all glossaries, and restrict to alpha list if supplied.
 		foreach( $glossaries as $post ) {
-			setup_postdata( $post );
-			$title      = get_the_title();
+			$title      = $post->post_title;
 			$titlealpha = strtolower( mb_substr($title, 0, 1, 'UTF-8') );
 			if( count($alphas) && !in_array($titlealpha, $alphas) )
 				continue;
 
-			$href  = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($post->ID) );
-			$link  = $title;
-			if( $linkopt != 'none' ){
-				$target = ($linkopt == 'blank') ? 'target="_blank"' : '';
-				$link   = '<a href="' . $href . '" title="" alt="' . esc_attr($title) . '" ' . $target .'>' . $title . '</a>';
-			}
-			if( $desc ){
-				switch($desc){
-					case 'excerpt':{
-						$content = '<span class="glossary-item-desc">' . get_the_excerpt() . '</span>';
-					} break;
-					case 'full':{
-						$content = '<span class="glossary-item-desc">' . get_the_content() . '</span>';
-					} break;
-					case 'glossarytips':{
-						$link = '<span class="ithoughts_tooltip_glossary-glossary" data-content="' . $tooltip_option . '" data-termid="' . get_the_ID().'">'.$link.'</span>';
-					} break;
-				}
+			$link = "";
+			switch($opts["desc"]){
+				case 'excerpt':{
+					$href  = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($post->ID) );
+					if( $opts["termlinkopt"] != 'none' ){
+						$target = ($opts["termlinkopt"] == 'blank') ? 'target="_blank"' : '';
+					}
+					$link   = '<a href="' . $href . '" title="" alt="' . esc_attr($title) . '" ' . $target .'>' . $title . '</a>';
+					$content = '<br>' . '<span class="glossary-item-desc">' . apply_filters("ithoughts_tt_gl-term-excerpt", $post) . '</span>';
+				} break;
+				case 'full':{
+					$href  = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($post->ID) );
+					if( $opts["termlinkopt"] != 'none' ){
+						$target = ($opts["termlinkopt"] == 'blank') ? 'target="_blank"' : '';
+					}
+					$link   = '<a href="' . $href . '" title="" alt="' . esc_attr($title) . '" ' . $target .'>' . $title . '</a>';
+					$content = '<br>' . '<span class="glossary-item-desc">' . $post->post_content . '</span>';
+				} break;
+				case 'glossarytips':{
+					$link = apply_filters("get_glossary_term_element", $post, null);
+				} break;
+				case "":{
+					$href  = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($post->ID) );
+					if( $opts["termlinkopt"] != 'none' ){
+						$target = ($opts["termlinkopt"] == 'blank') ? 'target="_blank"' : '';
+					}
+					$link   = '<a href="' . $href . '" title="" alt="' . esc_attr($title) . '" ' . $target .'>' . $title . '</a>';
+				}break;
 			}
 			$item  = '<li class="glossary-item">';
-			$item .= $link . '<br>' . $content;
+			$item .= $link . $content;
 			$item .= '</li>';
 			$alphalist[$titlealpha][] = $item;
 		} // glossaries
@@ -118,12 +117,11 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 				}
 			}
 		} 
-		wp_reset_postdata();
 
-		if( $cols === false ){
-			$cols = count( $termlist ); // set col size to all items
+		if( $opts["cols"] === false ){
+			$opts["cols"] = count( $termlist ); // set col size to all items
 		}
-		$termlist = array_chunk( $termlist, $cols );
+		$termlist = array_chunk( $termlist, $opts["cols"] );
 
 		$return = '<span class="glossary-list-details">';
 		foreach( $termlist as $col => $items ){
