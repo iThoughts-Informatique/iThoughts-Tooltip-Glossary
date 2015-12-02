@@ -127,7 +127,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 
 
 						$options = ithoughts_tt_gl_interface::getiThoughtsTooltipGlossary()->getOptions();
-						$content = apply_filters("get_glossary_term_element", $term);/*
+						$content = apply_filters("ithoughts_tt_gl_get_glossary_term_element", $term);/*
 						if($options['staticterms']){
 							$jsdata[] = 'data-term-title="' . esc_attr($term->post_title) .  '"';
 							$content;

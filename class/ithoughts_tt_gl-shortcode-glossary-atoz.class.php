@@ -56,7 +56,7 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 			$title = $post->post_title;
 			$alpha = strtoupper( ithoughts_tt_gl_unaccent(mb_substr($title,0,1, "UTF-8"), $tofind, $replac, "UTF-8") );
 
-			$link = apply_filters("get_glossary_term_element", $post, null);
+			$link = apply_filters("ithoughts_tt_gl_get_glossary_term_element", $post, null);
 			$item  = '<li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-' . $alpha . '">';
 			$item .= $link;
 			$item .= '</li>';

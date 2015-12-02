@@ -13,7 +13,7 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 			'desc'  => false,
 		);
 
-		$opts = array_merge(parent::$options, shortcode_atts($default, $atts));
+		$opts = apply_filters("ithoughts_tt_gl_get_overriden_opts", shortcode_atts($default, $atts), false);
 
 		$statii = array( 'publish' );
 		if( current_user_can('read_private_posts') ){
@@ -73,6 +73,7 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 			switch($opts["desc"]){
 				case 'excerpt':{
 					$href  = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($post->ID) );
+					$target = "";
 					if( $opts["termlinkopt"] != 'none' ){
 						$target = ($opts["termlinkopt"] == 'blank') ? 'target="_blank"' : '';
 					}
@@ -81,6 +82,7 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 				} break;
 				case 'full':{
 					$href  = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($post->ID) );
+					$target = "";
 					if( $opts["termlinkopt"] != 'none' ){
 						$target = ($opts["termlinkopt"] == 'blank') ? 'target="_blank"' : '';
 					}
@@ -88,10 +90,11 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 					$content = '<br>' . '<span class="glossary-item-desc">' . $post->post_content . '</span>';
 				} break;
 				case 'glossarytips':{
-					$link = apply_filters("get_glossary_term_element", $post, null);
+					$link = apply_filters("ithoughts_tt_gl_get_glossary_term_element", $post, null);
 				} break;
 				case "":{
 					$href  = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($post->ID) );
+					$target = "";
 					if( $opts["termlinkopt"] != 'none' ){
 						$target = ($opts["termlinkopt"] == 'blank') ? 'target="_blank"' : '';
 					}

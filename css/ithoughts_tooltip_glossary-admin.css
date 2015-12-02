@@ -51,7 +51,9 @@
     max-width:1160px;
 }
 
-
+tr.nonoverridable label, .nonoverridable:not(tr){
+	color: #B73535;
+}
 #tinymce a[data-type="ithoughts-tooltip-glossary-term"],
 #tinymce a[data-type="ithoughts-tooltip-glossary-tooltip"],
 #tinymce a[data-type="ithoughts-tooltip-glossary-mediatip"]{

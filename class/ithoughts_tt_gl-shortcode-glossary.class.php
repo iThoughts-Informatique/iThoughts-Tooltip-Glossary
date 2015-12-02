@@ -91,20 +91,19 @@ class ithoughts_tt_gl_Shortcodes_glossary extends ithoughts_tt_gl_interface{
 		if(!isset($atts['glossary-id']) || !$atts['glossary-id'])
 			return $text;
 		$id = $atts['glossary-id'];
-		return apply_filters("get_glossary_term_element", $id, $text, $atts);
+		return apply_filters("ithoughts_tt_gl_get_glossary_term_element", $id, $text, $atts);
 	}
 }
 
 class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 	public function __construct(){
-		add_filter("get_glossary_term_element", array($this, "get_glossary_term_element"), 10, 3);
+		add_filter("ithoughts_tt_gl_get_glossary_term_element", array($this, "ithoughts_tt_gl_get_glossary_term_element"), 10, 3);
 	}
 
-	public function get_glossary_term_element($term, $text = null, $options = array()){
+	public function ithoughts_tt_gl_get_glossary_term_element($term, $text = null, $options = array()){
 		// Overridable options
-		$opts = array_merge(parent::$options, $options);
-
-		$jsdata = array();
+		$opts = apply_filters("ithoughts_tt_gl_get_overriden_opts", $options, false);
+		$jsdata = apply_filters("ithoughts_tt_gl_get_overriden_opts", $options);
 
 		if($opts['staticterms']){
 			if(is_numeric($term)){
@@ -159,10 +158,10 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 		$link;
 		switch($opts["termlinkopt"]){
 			case "blank":{
-				$link = '<a href="' . $href . '" target="blank" title="' . $text . '">' . $text . '</a>';
+				$link = '<a href="' . $href . '" target="_blank" title="' . $text . '">' . $text . '</a>';
 			}break;
 			case "none":{
-				$link = '<a href="javascript::void(0)" target="blank" title="' . $text . '">' . $text . '</a>';
+				$link = '<a href="javascript::void(0)" title="' . $text . '">' . $text . '</a>';
 			}break;
 			case "standard":{
 				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term) );

@@ -8,6 +8,7 @@ class ithoughts_tt_gl_interface{
 	static protected $base_lang;
 	static protected $base;
 	static protected $scripts;
+	static protected $optionsConfig;
 
 	public function getPluginOptions($defaultsOnly = false){
 		return self::$basePlugin->getOptions($defaultsOnly);
@@ -18,6 +19,8 @@ class ithoughts_tt_gl_interface{
 }
 class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 	private $defaults;
+	private $overridesjsdat;
+	private $overridesopts;
 
 	function __construct($plugin_base) {
 		parent::$basePlugin		= &$this;
@@ -26,20 +29,117 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		parent::$base_lang		= $plugin_base . '/lang';
 		parent::$base_url		= plugins_url( '', dirname(__FILE__) );
 
-		$this->defaults = array(
-			'version'		=> '-1',
-			'tooltips'		=> 'excerpt',
-			'alphaarchive'	=> 'standard',
-			'termtype'		=> 'glossary',
-			'grouptype'		=> 'group',
-			'qtipstyle'		=> 'cream',
-			'termlinkopt'	=> 'standard',
-			'qtiptrigger'	=> 'mouseenter',
-			'qtipshadow'	=> true,
-			'qtiprounded'	=> false,
-			'staticterms'	=> false
+		parent::$optionsConfig = array(
+			'version'		=> array(
+				"default"		=> '-1',
+				"overrideopt"	=> false,
+				"overridejsdat"	=> false,
+			),
+			'tooltips'		=> array(
+				"default"		=> 'excerpt',
+				"overrideopt"	=> false,
+				"overridejsdat"	=> true,
+				"accepted"		=> array(
+					'full',
+					'excerpt', 
+					'off',
+				),
+			),
+			'termtype'		=> array(
+				"default"		=> 'glossary',
+				"overrideopt"	=> false,
+				"overridejsdat"	=> false,
+			),
+			'grouptype'		=> array(
+				"default"		=> 'group',
+				"overrideopt"	=> false,
+				"overridejsdat"	=> false,
+			),
+			'qtipstyle'		=> array(
+				"default"		=> 'cream',
+				"overrideopt"	=> false,
+				"overridejsdat"	=> true,
+				"accepted"		=> array(
+					'cream', 
+					'dark', 
+					'green', 
+					'light', 
+					'red', 
+					'blue',
+					'plain',
+					'bootstrap',
+					'youtube',
+					'tipsy',
+				),
+			),
+			'termlinkopt'	=> array(
+				"default"		=> 'standard',
+				"overrideopt"	=> true,
+				"overridejsdat"	=> false,
+				"accepted"		=> array(
+					'standard',
+					'none',
+					'blank',
+				),
+			),
+			'qtiptrigger'	=> array(
+				"default"		=> 'mouseenter',
+				"overrideopt"	=> false,
+				"overridejsdat"	=> true,
+				"accepted"		=> array(
+					'mouseenter',
+					'click',
+					'responsive',
+				),
+			),
+			'qtipshadow'	=> array(
+				"default"		=> true,
+				"overrideopt"	=> false,
+				"overridejsdat"	=> true,
+				"accepted"		=> array(
+					true,
+					false,
+				),
+			),
+			'qtiprounded'	=> array(
+				"default"		=> false,
+				"overrideopt"	=> false,
+				"overridejsdat"	=> true,
+				"accepted"		=> array(
+					true,
+					false,
+				),
+			),
+			'staticterms'	=> array(
+				"default"		=> false,
+				"overrideopt"	=> false,
+				"overridejsdat"	=> false,
+				"accepted"		=> array(
+					true,
+					false,
+				),
+			),
 		);
+
+
+		$this->defaults = array();
+		foreach(parent::$optionsConfig as $opt => $val){
+			$this->defaults[$opt] = $val["default"];
+		}
+		$this->overridesjsdat = array();
+		foreach(parent::$optionsConfig as $opt => $val){
+			if($val["overridejsdat"])
+				$this->overridesjsdat[] = $opt;
+		}
+		$this->overridesopt = array();
+		foreach(parent::$optionsConfig as $opt => $val){
+			if(!$val["overrideopt"])
+				$this->overridesopt[] = $opt;
+		}
+
 		parent::$options		= $this->initOptions();
+
+
 
 		parent::$scripts = array();
 
@@ -56,6 +156,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		add_action( 'pre_get_posts',         		array(&$this,	'order_core_archive_list')     	);
 
 		add_filter( 'ithoughts_tt_gl_term_link',	array(&$this,	'ithoughts_tt_gl_term_link')	);
+		add_filter( 'ithoughts_tt_gl_get_overriden_opts',	array(&$this,	'ithoughts_tt_gl_override'), 10, 2	);
 
 		add_action( 'plugins_loaded',				array($this,	'localisation')					);
 	}
@@ -197,6 +298,21 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		endif;
 
 		return $url;
+	}
+	public function ithoughts_tt_gl_override($data, $jsdat = true){
+		$overridden = array();
+		if($jsdat){
+			foreach($this->overridesjsdat as $overrideable){
+				if(isset($data[$overrideable]) && $data[$overrideable] != parent::$options[$overrideable])
+					$overridden["data-".$overrideable] = $data[$overrideable];
+			}
+		} else {
+			$overridden = array_merge(parent::$options, $data);
+			foreach($this->overridesopt as $overrideable){
+				$overridden[$overrideable] = parent::$options[$overrideable];
+			}
+		}
+		return $overridden;
 	}
 
 	public function getTermsListAjax(){

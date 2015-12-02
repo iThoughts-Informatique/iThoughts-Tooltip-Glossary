@@ -343,6 +343,8 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 				<div id="dashboard-widgets">
 					<div id="normal-sortables" class=""><!--Old removed classes: "meta-box-sortables ui-sortable"-->
 						<form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
+							
+							<p><strong><?php _e("Note", 'ithoughts_tooltip_glossary'); ?>:</strong>&nbsp;<?php _e("Labels in <span class=\"nonoverridable\">red</span> indicate global options, not overridable by tips.", 'ithoughts_tooltip_glossary'); ?></p>
 
 							<div id="ithoughts_tt_gllossary_options_1" class="postbox">
 								<div class="handlediv" title="Cliquer pour inverser."><br></div><h3 class="hndle"><span><?php _e('Term Options', 'ithoughts_tooltip_glossary'); ?></span></h3>
@@ -357,7 +359,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 													<?php echo $termlinkoptdropdown ?>
 												</td>
 											</tr>
-											<tr>
+											<tr class="nonoverridable">
 												<th>
 													<label for="staticterms"><?php _e('Static terms', 'ithoughts_tooltip_glossary'); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" data-tooltip-content="<?php echo rawurlencode(__('Include term content directly into the pages to avoid use of Ajax. This can slow down your page generation.', 'ithoughts_tooltip_glossary')); ?>"><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts_tooltip_glossary'); ?>)</a></span>:</label>
 												</th>
@@ -365,7 +367,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 													<input autocomplete="off" type="checkbox" name="staticterms" id="staticterms" value="enabled" <?php echo ($staticterms ? " checked" : ""); ?>/>
 												</td>
 											</tr>
-											<tr>
+											<tr class="nonoverridable">
 												<th>
 													<label for="termtype"><?php _e('Base Permalink', 'ithoughts_tooltip_glossary'); ?>:</label>
 												</th>
@@ -373,7 +375,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 													<code>/</code><input autocomplete="off" type="text" value="<?php echo $termtype; ?>" name="termtype" id="termtype"/><code>/</code>
 												</td>
 											</tr>
-											<tr>
+											<tr class="nonoverridable">
 												<th>
 													<label for="grouptype"><?php _e('Taxonomy group prefix', 'ithoughts_tooltip_glossary'); ?>:</label>
 												</th>
@@ -548,7 +550,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 			),
 			'webvideo' => array(
 				'title' => __('Video on the web', 'ithoughts_tooltip_glossary'),
-				'attrs' => array('title'=>__('Video hosted online. Only Youtube', 'ithoughts_tooltip_glossary'))
+				'attrs' => array('title'=>__('Video hosted online. Only Youtube, Dailymotion or .mp4 videos', 'ithoughts_tooltip_glossary'))
 			),
 		);
 		$mediatiptypes_keys = array_keys($mediatiptypes);
