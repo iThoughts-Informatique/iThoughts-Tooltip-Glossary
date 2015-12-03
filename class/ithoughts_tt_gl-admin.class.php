@@ -37,7 +37,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 			if( $this->isUnderVersionned() ){
 				require_once(parent::$base . "/ithoughts_tt_gl-updater.class.php");
 				$this->updater = new ithoughts_tt_gl_Updater(parent::$options['version'], $this->currentVersion, $this);
-				if(parent::$options['version'] != "-1" && ithoughts_tt_gl_Updater::requiresUpdate(parent::$options['version'], $this->currentVersion)){
+				if(ithoughts_tt_gl_Updater::requiresUpdate(parent::$options['version'], $this->currentVersion)){
 					$this->updater->addAdminNotice();
 				} else {
 					parent::$options['version'] = $this->currentVersion;

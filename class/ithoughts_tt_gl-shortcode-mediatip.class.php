@@ -42,8 +42,13 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 		}
 		$linkopt          = isset($opts['termlinkopt']) ? $opts['termlinkopt'] : 'standard';
 
-		$mediatipType = $atts["mediatip-type"];
 		$mediatipTypes = array("localimage","webimage","webvideo");
+		if(!isset($atts["mediatip-type"]))
+			return $text;
+		if(!in_array($atts["mediatip-type"], $mediatipTypes))
+			return $text;
+		
+		$mediatipType = $atts["mediatip-type"];
 		if(array_search($mediatipType, $mediatipTypes) !== false)
 			parent::$scripts['qtip'] = true;
 		switch($mediatipType){

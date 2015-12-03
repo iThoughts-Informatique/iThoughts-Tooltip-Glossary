@@ -123,16 +123,23 @@ class ithoughts_tt_gl_Updater{
 			case 0:{
 				global $post;
 				$maxCount = 20;
+				$updatedStatus = array('publish', 'pending', 'draft', 'future', 'private', 'inherit');
 
 				if($data["progression"] == -1){
 					$count_posts = wp_count_posts();
-					$updatedStatus = array('publish', 'pending', 'draft', 'future', 'private', 'inherit');
 					$totalCount = 0;
 					foreach($count_posts as $postType => $count){
 						if(array_search($postType, $updatedStatus) !== false)
 							$totalCount += intval($count);
 					}
-					wp_send_json_success(array("max" => $totalCount, "targetversion" => self::getVersions()[$this->versionIndex], "text" => __("Applying new format.",'ithoughts_tooltip_glossary')));
+					$versions = self::getVersions();
+					wp_send_json_success(
+						array(
+							"max" => $totalCount,
+							"targetversion" => $versions[$this->versionIndex],
+							"text" => __("Applying new format.",'ithoughts_tooltip_glossary')
+						)
+					);
 					wp_die();
 				}
 
@@ -174,7 +181,8 @@ class ithoughts_tt_gl_Updater{
 								'post_status'      => 'publish',
 								'name'				=> $slug
 							);
-							$post_array = get_posts( $args )[0];
+							$posts_array = get_posts( $args );
+							$post_array = $posts_array[0];
 							$id = "";
 							if($post_array)
 								$id = $post_array->ID;
@@ -222,7 +230,7 @@ class ithoughts_tt_gl_Updater{
 		}
 
 		if($data["maxAdvandement"] > -1){
-			if($return["progression" >= $data["maxAdvandement"]]){
+			if($return["progression"] >= $data["maxAdvandement"]){
 				$return = array_merge(array("Ended" => true, "title" => __("Update finished!",'ithoughts_tooltip_glossary'), "text" => __("The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)",'ithoughts_tooltip_glossary')), $return);
 				wp_send_json_success($return);
 				wp_die();
