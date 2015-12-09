@@ -26,7 +26,7 @@
 		});
 
 		//CSS
-		editor.contentCSS.push(url + "/../css/ithoughts_tooltip_glossary-admin.css");
+		editor.contentCSS.push(url + "/../css/ithoughts_tooltip_glossary-admin.css?v=2.1.5");
 
 		//fcts
 		function glossarylistfct(event){
@@ -252,7 +252,7 @@
 			}
 			jQuery.post(ithoughts_tt_gl.admin_ajax, {action: "ithoughts_tt_gl_get_tinymce_tooltip_form", data: values}, function(out){
 				//console.log(out);
-				var newDom = jQuery(jQuery.parseHTML(out, true)).css({zIndex: 1000, position: "absolute",opacity: 0});
+				var newDom = jQuery(jQuery.parseHTML(out, true)).css({opacity: 0});
 				var h = 400;
 				var w = 455;
 				var popupTooltip = newDom.find("#ithoughts_tt_gl-tooltip-form");

@@ -19,6 +19,27 @@
 	margin: 0 0 0 0.5em;
 }
 
+.glossary-list-details{
+	display: flex;
+	flex-direction: row;
+}
+.glossary-list-details .glossary-list{
+	flex: 0 1 100%;
+	padding: 0 10px;
+}
+.glossary-list-details .glossary-list li{
+	list-style: none;
+	padding-left: 0;
+}
+.glossary-list-details .glossary-list li.glossary-item-header{
+	text-align: center;
+	text-transform: uppercase;
+	border-bottom: 1px solid #eee;
+}
+.glossary-list-details .glossary-list li.glossary-item{
+	text-align: justify;
+}
+
 .glossary-menu-item a{
 	text-decoration: none;
 }

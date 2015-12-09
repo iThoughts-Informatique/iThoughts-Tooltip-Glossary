@@ -107,24 +107,39 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 			$alphalist[$titlealpha][] = $item;
 		} // glossaries
 		// Default to the alphabetical order in the get_post args
+
 		if( empty($alphas) ){
 			$alphas = array_keys( $alphalist );
 		}
 
 		// Pass through list again, building HTML list
+		$count = 0;
+		foreach( $alphas as $letter ){
+			if( isset($alphalist[$letter]) ){ 
+				foreach( $alphalist[$letter] as $item){
+					$count++;
+				}
+			}
+		}
+		$count += count($alphas);
+
+		if( $opts["cols"] === false ){
+			$opts["cols"] = 1; // set col size to all items
+		}
+		$termsPerChunkFloat = $count / $opts["cols"];
+		$termsPerChunk = intval($termsPerChunkFloat);
+		if($termsPerChunkFloat != $termsPerChunk)
+			$termsPerChunk++;
+
+
 		$termlist = array();
 		foreach( $alphas as $letter ){
 			if( isset($alphalist[$letter]) ){ 
-				foreach( $alphalist[$letter] as $item ){
-					$termlist[] = $item;
-				}
+				array_unshift($alphalist[$letter], '<li class="glossary-item-header">' . $letter . '</li>');
+				$termlist = array_merge($termlist,$alphalist[$letter]);
 			}
-		} 
-
-		if( $opts["cols"] === false ){
-			$opts["cols"] = count( $termlist ); // set col size to all items
 		}
-		$termlist = array_chunk( $termlist, $opts["cols"] );
+		$termlist = array_chunk($termlist, $termsPerChunk);
 
 		$return = '<span class="glossary-list-details">';
 		foreach( $termlist as $col => $items ){
@@ -132,7 +147,7 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 			$return .= implode( '', $items );
 			$return .= '</ul>';
 		}
-		$return .= '</ul>';
+		$return .= '</span>';
 
 		return $return;
 	} // glossary_term_list

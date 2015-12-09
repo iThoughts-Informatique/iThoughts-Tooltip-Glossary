@@ -279,7 +279,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 	public function order_core_archive_list( $query ){
 		if( is_post_type_archive("glossary") || is_tax('ithoughts_tt_gllossarygroup') ):
 		$glossary_options = get_option( 'ithoughts_tt_gl' );
-		$archive          = $glossary_options['alphaarchive'] ? $glossary_options['alphaarchive'] : 'standard';
+		$archive          = isset($glossary_options['alphaarchive']) && $glossary_options['alphaarchive'] ? $glossary_options['alphaarchive'] : 'standard';
 		if( $archive == 'alphabet' ):
 		$query->set( 'orderby', 'title' );
 		$query->set( 'order',   'ASC' );

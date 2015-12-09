@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) )
 if ( ! class_exists( '_WP_Editors' ) )
     require( ABSPATH . WPINC . '/class-wp-editor.php' );
 
-function my_custom_tinymce_plugin_translation() {
+function ithoughts_tt_gl_tinymce_plugin_translation() {
     $strings = array(
         "add_tooltip" => __('Add a Tooltip','ithoughts_tooltip_glossary'),
         "insert_tooltip" => __('Insert Tooltip','ithoughts_tooltip_glossary'),
@@ -45,5 +45,5 @@ function my_custom_tinymce_plugin_translation() {
      return $translated;
 }
 
-$strings = my_custom_tinymce_plugin_translation();
+$strings = ithoughts_tt_gl_tinymce_plugin_translation();
 
