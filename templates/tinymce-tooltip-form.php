@@ -5,7 +5,7 @@
 		<?php wp_print_scripts("ithoughts_tooltip_glossary-utils"); ?>
 		<?php wp_print_scripts("ithoughts_tooltip_glossary-tinymce_form"); ?>
 	</div>
-	<div aria-label="Insert a Tooltip" role="dialog" style="border-width: 1px; z-index: 100101;" class="mce-container mce-panel mce-floatpanel mce-window mce-in" hidefocus="1" id="ithoughts_tt_gl-tooltip-form">
+	<div aria-label="Insert a Tooltip" role="dialog" style="border-width: 1px; z-index: 999999;" class="mce-container mce-panel mce-floatpanel mce-window mce-in" hidefocus="1" id="ithoughts_tt_gl-tooltip-form">
 		<div class="mce-reset" role="application">
 			<div class="mce-window-head">
 				<div class="mce-title">

@@ -108,7 +108,7 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 		if($opts['staticterms']){
 			if(is_numeric($term)){
 				$term = get_post($term);
-			} else if(!is_a($term, "WP_Post")){
+			} else if(!($term instanceof WP_Post)){
 				// Error
 				return $text;
 			}
@@ -134,7 +134,7 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 			$content = str_replace("\n", "<br>", str_replace('"', '&quot;',$content));
 			$jsdata[] = 'data-term-content="' . esc_attr($content) . '"';
 		} else {
-			if(is_a($term, "WP_Post")){
+			if($term instanceof WP_Post){
 				$jsdata[] = 'data-termid="' . $term->ID . '"';
 				if(is_null($text))
 					$text = get_the_title($term);
@@ -146,10 +146,10 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 		}
 
 		$href="javascript::void(0)";
-		if(is_a($term, "WP_Post")){
+		if($term instanceof WP_Post){
 			if($opts["termlinkopt"] != "none")// If theere need a link
 				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_permalink($term) );
-		} else if(is_int($term)){
+		} else if(is_numeric($term)){
 			if($opts["termlinkopt"] != "none")// If theere need a link
 				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term) );
 		}

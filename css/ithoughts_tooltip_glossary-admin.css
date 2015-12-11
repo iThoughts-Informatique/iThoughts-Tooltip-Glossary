@@ -78,9 +78,9 @@ tr.nonoverridable label, .nonoverridable:not(tr){
 	vertical-align: baseline;
 }
 
-#ithoughts_tt_gl-tooltip-form-container{admi
-	z-index: 99999999999;
-	position: "absolute";
+#ithoughts_tt_gl-tooltip-form-container{
+	z-index: 150000;
+	position: absolute;
 }
 #image-box,#image-box-body{
 	text-align: center;

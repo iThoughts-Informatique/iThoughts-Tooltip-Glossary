@@ -41,7 +41,7 @@ class ithoughts_tt_gl_Shortcodes_tooltip extends ithoughts_tt_gl_interface{
 		endif;
 		endforeach;
 
-		$content = $atts["tooltip-content"];
+		$content = (isset($atts["tooltip-content"]) && $atts["tooltip-content"]) ? $atts["tooltip-content"] : "";
 
 		// Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
 		if( empty($content) ) $content = $text;

@@ -8,16 +8,16 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 
 	public function __construct() {
 		//Trigger version change function ?
-		add_action( 'admin_init',								array(&$this, 'setVersion') );
-		add_action( 'admin_init',								array(&$this, 'ajaxHooks') );
+		add_action( 'admin_init',								array(&$this,	'setVersion') );
+		add_action( 'admin_init',								array(&$this,	'ajaxHooks') );
 
-		add_action( 'admin_menu',								array(&$this, 'get_menu') );
+		add_action( 'admin_menu',								array(&$this,	'get_menu') );
 
-		add_filter( 'mce_buttons',								array(&$this, "ithoughts_tt_gl_tinymce_register_buttons") );
+		add_filter( 'mce_buttons',								array(&$this,	"ithoughts_tt_gl_tinymce_register_buttons") );
 
-		add_filter( "mce_external_plugins",						array(&$this, "ithoughts_tt_gl_tinymce_add_buttons") );
+		add_filter( "mce_external_plugins",						array(&$this,	"ithoughts_tt_gl_tinymce_add_buttons") );
 
-		add_filter( 'mce_external_languages',					array(&$this, 'tinymce_add_translations') );
+		add_filter( 'mce_external_languages',					array(&$this,	'tinymce_add_translations') );
 
 		add_action( 'admin_init',								array(&$this,	'register_scripts_and_styles')	);
 
@@ -316,7 +316,6 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		$qtiptriggerdropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'qtiptrigger', array(
 			'selected' => $qtiptrigger,
 			'options'  => array(
-				'mouseenter' => array('title'=>__('Hover', 'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__('On mouseover (hover)', 'ithoughts_tooltip_glossary'))),
 				'click' => array('title'=>__('Click', 'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__('On click',             'ithoughts_tooltip_glossary'))),
 				'responsive' => array('title'=>__('Responsive', 'ithoughts_tooltip_glossary'), 'attrs'=>array('title'=>__('Hover (on computer) and click (touch devices)',             'ithoughts_tooltip_glossary'))),
 			),

@@ -5,7 +5,7 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments
 Requires at least: 3.3
 Tested up to: 4.3.1
-Stable tag: 2.1.5
+Stable tag: 2.1.6
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -72,6 +72,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Changelog ==
+
+= 2.1.6 =
+* FIX PHP potential issues
 
 = 2.1.5 =
 * FIX z-index problem with SiteOrigin page builder
@@ -177,6 +180,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Upgrade Notice ==
+
+= 2.1.6 =
+Uniformization of behaviors depending on PHP versions
 
 = 2.1.4 =
 Compatibility with older PHP versions, overridable options, refactoring for mutualization
