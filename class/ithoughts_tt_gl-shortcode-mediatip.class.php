@@ -24,59 +24,63 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 
 	/** */
 	public function mediatip( $atts, $text='' ){
-		global $wpdb, $ithoughts_tt_gl_tooltip_count, $post, $ithoughts_tt_gl_doing_shortcode;
-		$ithoughts_tt_gl_tooltip_count++;
 
-		// Get iThoughts Tooltip Glossary options
-		$opts = get_option( 'ithoughts_tt_gl', array() );
-
-		// JS data to pass through to jQuery libraries
-		$jsdata = array();
-
-		// Let shortcode attributes override general settings
-		foreach( $opts as $k => $v ){
-			if( isset($atts[$k]) ){
-				$jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
-				$opts[$k] = trim( $atts[$k] );
-			}
-		}
+		$datas = apply_filters("ithoughts-split-args", $atts, array(
+			"tooltip-content",
+			"glossary-id",
+			"mediatip-type",
+			"mediatip-content",
+			"mediatip-link"
+		), parent::$optionsOverridable);
+		
+		echo "<pre>";
+		var_dump($datas);
+		echo "</pre>";
 		$linkopt          = isset($opts['termlinkopt']) ? $opts['termlinkopt'] : 'standard';
 
 		$mediatipTypes = array("localimage","webimage","webvideo");
-		if(!isset($atts["mediatip-type"]))
+		if(!isset($datas["handled"]["mediatip-type"]))
 			return $text;
-		if(!in_array($atts["mediatip-type"], $mediatipTypes))
+		if(!in_array($datas["handled"]["mediatip-type"], $mediatipTypes))
 			return $text;
-		
+
 		$mediatipType = $atts["mediatip-type"];
 		if(array_search($mediatipType, $mediatipTypes) !== false)
 			parent::$scripts['qtip'] = true;
+
+		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-mediatip".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
 		switch($mediatipType){
 			case $mediatipTypes[0]:{
-				$dat = ithoughts_tt_gl_decode_json_attr($atts["mediatip-content"]);
-				$jsdata[] = 'data-mediatip-image="' . htmlentities($dat['url']) . '"';
+				$dat = ithoughts_tt_gl_decode_json_attr($datas["handled"]["mediatip-content"]);
+				$datas["attributes"]['data-mediatip-image'] = htmlentities($dat['url']);
 
 				$linkElement   = '<a href="' . $dat['link']. '" title="' . esc_attr($text) . '">' . $text . '</a>';
+				
+				$args = apply_filters("ithoughts-join-args", $datas["attributes"]);
 				// Span that qtip finds
-				$span = '<span class="ithoughts_tooltip_glossary-mediatip" '.implode(' ',$jsdata).'>' . $linkElement . '</span>';
+				$span = '<span '.$args.'>' . $linkElement . '</span>';
 				return $span;
 			} break;
 
 			case $mediatipTypes[1]:{
-				$jsdata[] = 'data-mediatip-image="' . htmlentities($atts["mediatip-content"]) . '"';
+				$datas["attributes"]['data-mediatip-image'] = htmlentities($datas["handled"]["mediatip-content"]);
 
 				$linkElement   = '<a href="javascript:void(0);" title="' . esc_attr($text) . '">' . $text . '</a>';
+				
+				$args = apply_filters("ithoughts-join-args", $datas["attributes"]);
 				// Span that qtip finds
-				$span = '<span class="ithoughts_tooltip_glossary-mediatip" '.implode(' ',$jsdata).'>' . $linkElement . '</span>';
+				$span = '<span '.$args.'>' . $linkElement . '</span>';
 				return $span;
 			} break;
 
 			case $mediatipTypes[2]:{
-				$jsdata[] = 'data-mediatip-html="' . str_replace('"', '&quot;', $atts["mediatip-content"]) . '"';
+				$datas["attributes"]['data-mediatip-html'] = $datas["handled"]["mediatip-content"];
 
 				$linkElement   = '<a href="javascript:void(0);" title="' . esc_attr($text) . '">' . $text . '</a>';
+				
+				$args = apply_filters("ithoughts-join-args", $datas["attributes"]);
 				// Span that qtip finds
-				$span = '<span class="ithoughts_tooltip_glossary-mediatip" '.implode(' ',$jsdata).'>' . $linkElement . '</span>';
+				$span = '<span '.$args.'>' . $linkElement . '</span>';
 				return $span;
 			} break;
 

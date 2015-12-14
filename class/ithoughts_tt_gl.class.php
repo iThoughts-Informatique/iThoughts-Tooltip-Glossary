@@ -9,6 +9,7 @@ class ithoughts_tt_gl_interface{
 	static protected $base;
 	static protected $scripts;
 	static protected $optionsConfig;
+	static protected $optionsOverridable;
 
 	public function getPluginOptions($defaultsOnly = false){
 		return self::$basePlugin->getOptions($defaultsOnly);
@@ -125,10 +126,10 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		foreach(parent::$optionsConfig as $opt => $val){
 			$this->defaults[$opt] = $val["default"];
 		}
-		$this->overridesjsdat = array();
+		parent::$optionsOverridable = array();
 		foreach(parent::$optionsConfig as $opt => $val){
 			if($val["overridejsdat"])
-				$this->overridesjsdat[] = $opt;
+				parent::$optionsOverridable[] = $opt;
 		}
 		$this->overridesopt = array();
 		foreach(parent::$optionsConfig as $opt => $val){
@@ -297,7 +298,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 	public function ithoughts_tt_gl_override($data, $jsdat = true){
 		$overridden = array();
 		if($jsdat){
-			foreach($this->overridesjsdat as $overrideable){
+			foreach(parent::$optionsOverridable as $overrideable){
 				if(isset($data[$overrideable]) && $data[$overrideable] != parent::$options[$overrideable])
 					$overridden["data-".$overrideable] = $data[$overrideable];
 			}

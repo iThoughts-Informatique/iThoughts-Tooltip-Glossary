@@ -53,7 +53,8 @@ class ithoughts_tt_gl_Shortcodes_tooltip extends ithoughts_tt_gl_interface{
 
 		$link   = '<a href="javascript:void(0)" title="' . esc_attr($text) . '">' . $text . '</a>';
 		// Span that qtip finds
-		$span = '<span class="ithoughts_tooltip_glossary-tooltip" '.implode(' ',$jsdata).'>' . $link . '</span>';
+		$class = "ithoughts_tooltip_glossary-tooltip".((isset($atts["class"]) && $atts["class"]) ? " ".$atts["class"] : "");
+		$span = '<span class="'.$class.'" '.implode(' ',$jsdata).'>' . $link . '</span>';
 
 		return $span;
 	}

@@ -169,6 +169,7 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 			}break;
 		}
 
-		return '<span class="ithoughts_tooltip_glossary-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';
+		$class = "ithoughts_tooltip_glossary-glossary".((isset($opts["class"]) && $opts["class"]) ? " ".$opts["class"] : "");
+		return '<span class="'.$class.'" '.implode(' ',$jsdata).'>' . $link . '</span>';
 	}
 }
