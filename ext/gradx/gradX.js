@@ -184,7 +184,7 @@ var gradX = function(id, _options) {
                 id = "#" + gradx.slider_ids[i];
                 offset = parseInt(gradx.gx(id).css("left"));
                 position = parseInt((offset / gradx.container_width) * 100);
-                position -= 6; //TODO: find why this is required
+                position -= 6; 
                 gradx.sliders.push([gradx.gx(id).css("background-color"), position]);
 
             }

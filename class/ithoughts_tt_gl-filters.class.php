@@ -25,8 +25,6 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
  *		"overridesClient"		=> array()
  *	)
  */
-	// TODO apply filter for each shortcode
-	// TODO use override options
 	public function splitArgs($attributes, array $handled = array(), array $overridableOptionsServer = array(), array $overridableOptionsClient = array(), $fuseClientSideWithArgs = true){
 		$attrs = array(
 			'abbr','accept-charset','accept','accesskey','action','align','alt','archive','axis',

@@ -195,7 +195,6 @@
 
 			glossaryIndex = $("#glossary-index");
 			// Tile-based glossary
-			// TODO: add resize
 			if(glossaryIndex){
 				var bodydiv = glossaryIndex.find("#glossary-container");
 				switch(glossaryIndex.data("type")){

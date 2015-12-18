@@ -1624,7 +1624,7 @@
       self = this;
 
       // Setup corner and adjustment variable
-      if(tooltip.corner == 'center') return target.position // TODO: 'center' corner adjustment
+      if(tooltip.corner == 'center') return target.position
       adjustedPosition = $.extend({}, position);
       newCorner = { x: false, y: false };
 
