@@ -100,14 +100,14 @@ function ithoughts_tt_gl_encode_json_attr($attr){
 }
 
 function ithoughts_tt_gl_array_flatten($array) {
-    $return = array();
-    foreach ($array as $key => $value) {
-        if (is_array($value)){
-            $return = array_merge($return, ithoughts_tt_gl_array_flatten($value));
-        } else {
-            $return[$key] = $value;
-        }
-    }
+	$return = array();
+	foreach ($array as $key => $value) {
+		if (is_array($value)){
+			$return = array_merge($return, ithoughts_tt_gl_array_flatten($value));
+		} else {
+			$return[$key] = $value;
+		}
+	}
 
-    return $return;
+	return $return;
 }

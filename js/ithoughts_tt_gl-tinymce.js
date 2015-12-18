@@ -67,8 +67,6 @@
 			}
 			listtabI = values.type;
 
-			console.log("Mode:", mode);
-			console.log("Values:",values);
 			editor.windowManager.open({
 				title: editor.getLang('ithoughts_tt_gl_tinymce.insert_index'),
 				margin: "0 0 0 0",
@@ -164,7 +162,6 @@
 					})
 				],
 				onsubmit: function(e) {
-					console.log(e.data, listtabI);
 					if(mode == "load")
 						sel.select(sel.getStart());
 					switch(parseInt(listtabI)){
@@ -230,23 +227,7 @@
 						//Find immediate next && previous chars
 						var txt = rng.commonAncestorContainer.textContent;
 						var char = /[\w\d]/;
-						var txtl = txt.length;/*
-                    if(txtl > rng.startOffset && txt[rng.startOffset - 1].match(char) && txt[rng.startOffset].match(char)){ // If in a word, extend to whole 
-                        // console.log("No content, extend");
-                        /*var start = rng.startOffset;
-                        while(start > 0 && txt[start - 1].match(char))
-                            start--;
-                        var end = rng.startOffset;
-                        while(end < txtl && txt[end].match(char))
-                            end++;
-                        mode = "extend" + JSON.stringify([start,end]);
-                        // find for first & last char of word-;
-                        var subtxt = txt.slice(start, end);
-                        values.content = subtxt;
-                        values.slug = subtxt;
-                    } else {
-                        // console.log("No content, new");
-                    }*/
+						var txtl = txt.length;
 					}
 				}
 			}
@@ -303,44 +284,6 @@
 					}
 				})();
 			});
-			/*/
-            var field_name="test";
-            editor.windowManager.open(
-                {
-                    title: "Insert a Tooltip",
-                    url: ithoughts_tt_gl.admin_ajax + "?action=ithoughts_tt_gl_get_tinymce_tooltip_form",
-                    width: 400,
-                    height: 300,
-                    popup_css: "no",
-                    resizable: true,
-                    buttons: [
-                        {
-                            text: 'Insert',
-                            classes: 'widget btn primary first abs-layout-item',
-                            disabled: false,
-                            onclick: function(){
-                                console.log(top.tinymce.activeEditor.windowManager.getParams());
-                            },
-                            id: 'insertButton'
-                        },
-                        {
-                            text: 'Close',
-                            onclick: 'close',
-                            window : window,
-                            input : field_name
-                        }
-                    ]
-                },
-                {
-                    oninsert: function(url) {
-                        console.log(url);
-                        window.document.getElementById(field_name).value = url; 
-                    },
-                    onselect: function() {
-                        // 
-                    },
-                }
-            );/**/
 		}
 
 		//replace from shortcode to displayable html content

@@ -158,6 +158,21 @@ border-right: 1px dotted #333;
 	z-index: 100000;
 	width:100%;
 }
+.ithoughts_tooltip_glossary-glossary > a,/* for term */
+.ithoughts_tooltip_glossary-glossary > a:hover,
+.ithoughts_tooltip_glossary-glossary > a:visited,
+.ithoughts_tooltip_glossary-glossary > a:active,
+.ithoughts_tooltip_glossary-mediatip > a,/* for mediatip */
+.ithoughts_tooltip_glossary-mediatip > a:hover,
+.ithoughts_tooltip_glossary-mediatip > a:visited,
+.ithoughts_tooltip_glossary-mediatip > a:active,
+.ithoughts_tooltip_glossary-tooltip > a,/* for inline tooltip */
+.ithoughts_tooltip_glossary-tooltip > a:hover,
+.ithoughts_tooltip_glossary-tooltip > a:visited,
+.ithoughts_tooltip_glossary-tooltip > a:active
+{
+	text-decoration: overline underline;
+}
 
 
 /****************************************************
