@@ -131,7 +131,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 						if($options['staticterms']){
 							$jsdata[] = 'data-term-title="' . esc_attr($term->post_title) .  '"';
 							$content;
-							switch( $options['tooltips'] ){
+							switch( $options['termcontent'] ){
 								case 'full':{
 									$content = $term->post_content;
 								}break;
@@ -148,7 +148,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 							$jsdata[] = 'data-term-content="' . esc_attr($content) . '"';
 						} else {
 							$jsdata[] = 'data-termid="' . $term->ID . '"';
-							$jsdata[] = 'data-content="' . $options['tooltips'] . '"';
+							$jsdata[] = 'data-content="' . $options['termcontent'] . '"';
 						}
 
 						$link   = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '" target="_blank" title="' . esc_attr(get_the_title($term->ID)) . '">' . get_the_title($term->ID) . '</a>';

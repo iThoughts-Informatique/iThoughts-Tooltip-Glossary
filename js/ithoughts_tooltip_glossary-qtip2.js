@@ -1,14 +1,16 @@
 (function($){
-	var baseTouch = ( navigator.userAgent.match(/Android/i)
-					 || navigator.userAgent.match(/webOS/i)
-					 || navigator.userAgent.match(/iPhone/i)
-					 || navigator.userAgent.match(/iPad/i)
-					 || navigator.userAgent.match(/iPod/i)
-					 || navigator.userAgent.match(/BlackBerry/i) ) ? 1 : 0;
+	var isIos = navigator.userAgent.match(/(iPad|iPhone|iPod)/g); // Used to enable some iOS specific piece of code to catch click on body, for example
+	var baseTouch = (isIos || navigator.userAgent.match(/(Android|webOS|BlackBerry)/i) ) ? 1 : 0;
 	$(document).ready(function(){
 		//Create container
 		tooltipsContainer = $($.parseHTML('<div id="ithoughts_tooltip_glossary-tipsContainer"></div>'));
 		$(document.body).append(tooltipsContainer);
+		var evts = {
+			start: isIos ? "mousedown" : "touchstart",
+			end: isIos ? "mouseup" : "touchend"
+		}
+		if(isIos)
+			$("body").css({cursor: "pointer"});
 		$('span[class^=ithoughts_tooltip_glossary-]').each(function(){
 			var qtipstyle    = ($(this).data('qtipstyle')) ? $(this).data('qtipstyle') : ithoughts_tt_gl.qtipstyle;
 
@@ -22,10 +24,14 @@
 				self.touch = baseTouch;
 
 				//Detect touch/click out
-				$(document).click(function(event) { 
-					if(!$(event.target).closest(self).length) {
+				$("body").bind("click touch", function(event) { 
+					console.log("Document clicked");
+					if($(event.target).closest(self).length == 0) {
+						console.log("Not descendant");
 						self.data("expanded", false);
 						self.triggerHandler("responsiveout");
+					} else {
+						console.log("Descendant");
 					}
 				});
 
@@ -35,19 +41,15 @@
 						self.triggerHandler("responsive");
 						e.preventDefault();
 					}
-				}).bind("touchstart", function(e){
+				}).bind(evts.start, function(e){
 					self.touch = 1
-				}).bind("touchend", function(e){
+				}).bind(evts.end, function(e){
 					self.touch = 2;
-				}).mouseover(function(e){
+				}).bind("mouseover focus", function(e){
 					self.triggerHandler("responsive");
-				}).mouseleave(function(e){
+				}).bind("mouseleave focusout", function(e){
 					self.triggerHandler("responsiveout");
-				}).focus(function(e){
-					self.triggerHandler("responsive");
-				}).focusout(function(e){
-					self.triggerHandler("responsiveout");
-				});
+				})
 			}
 
 			var tipClass = 'qtip-' + qtipstyle + ((ithoughts_tt_gl.qtipshadow === "1") ? " qtip-shadow" : "" ) + ((ithoughts_tt_gl.qtiprounded === "1") ? " qtip-rounded" : "" ) + " " ;
@@ -128,7 +130,21 @@
 					}
 				};
 				if(this.getAttribute("data-mediatip-image")){
-					specific.content["text"] = "<img src=\"" + this.getAttribute("data-mediatip-image") + "\" alt=\"" + $(this).text() + "\">"
+					var attrs = {
+						src: this.getAttribute("data-mediatip-image"),
+						alt: $(this).text()
+					}
+					if(typeof ithoughts_tt_gl.qtip_filters != "undefined" && ithoughts_tt_gl.qtip_filters && typeof ithoughts_tt_gl.qtip_filters.mediatip != "undefined" && ithoughts_tt_gl.qtip_filters.mediatip && ithoughts_tt_gl.qtip_filters.mediatip.length > 0){
+						for(var i = 0; i < ithoughts_tt_gl.qtip_filters.mediatip.length; i++){
+							attrs = $.extend(attrs, ithoughts_tt_gl.qtip_filters.mediatip[i]($(this)));
+						}
+					}
+					console.log(attrs);
+					var attrsStr = "";
+					for(var key in attrs){
+						attrsStr += key + '="' + attrs[key] + '" ';
+					}
+					specific.content["text"] = "<img " + attrsStr + ">"
 				} else if(this.getAttribute("data-mediatip-html")){
 					specific.content["text"] = this.getAttribute("data-mediatip-html").replace('&quot;', '"');
 					specific.content.title.text += '<span class="ithoughts_tooltip_glossary_pin_container"><svg viewBox="0 0 26 26" class="ithoughts_tooltip_glossary_pin"><use xlink:href="#icon-pin"></use></svg></span>';

@@ -24,24 +24,9 @@ class ithoughts_tt_gl_Shortcodes_tooltip extends ithoughts_tt_gl_interface{
 
 	/** */
 	public function tooltip( $atts, $text='' ){
-		global $wpdb, $ithoughts_tt_gl_tooltip_count, $post, $ithoughts_tt_gl_doing_shortcode;
-		$ithoughts_tt_gl_tooltip_count++;
+		$datas = apply_filters("ithoughts_tt_gl-split-args", $atts);
 
-		// Get iThoughts Tooltip Glossary options
-		$opts = get_option( 'ithoughts_tt_gl', array() );
-
-		// JS data to pass through to jQuery libraries
-		$jsdata = array();
-
-		// Let shortcode attributes override general settings
-		foreach( $opts as $k => $v ):
-		if( isset($atts[$k]) ):
-		$jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
-		$opts[$k] = trim( $atts[$k] );
-		endif;
-		endforeach;
-
-		$content = (isset($atts["tooltip-content"]) && $atts["tooltip-content"]) ? $atts["tooltip-content"] : "";
+		$content = (isset($datas["handled"]["tooltip-content"]) && $datas["handled"]["tooltip-content"]) ? $datas["handled"]["tooltip-content"] : "";
 
 		// Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
 		if( empty($content) ) $content = $text;
@@ -49,12 +34,17 @@ class ithoughts_tt_gl_Shortcodes_tooltip extends ithoughts_tt_gl_interface{
 		parent::$scripts['qtip'] = true;
 
 		// qtip jquery data
-		$jsdata[] = 'data-tooltip-content="' . str_replace('"', '\\"', $content) . '"';
+		$datas["attributes"]["data-tooltip-content"] = do_shortcode($content);
+		
+		$datas["linkAttrs"]["href"] = "javascript:void(0)";
+		$datas["linkAttrs"]["title"] = esc_attr($text);
 
-		$link   = '<a href="javascript:void(0)" title="' . esc_attr($text) . '">' . $text . '</a>';
+		$linkArgs = apply_filters("ithoughts-join-args", $datas["linkAttrs"]);
+		$link   = '<a '.$linkArgs.'>' . $text . '</a>';
 		// Span that qtip finds
-		$class = "ithoughts_tooltip_glossary-tooltip".((isset($atts["class"]) && $atts["class"]) ? " ".$atts["class"] : "");
-		$span = '<span class="'.$class.'" '.implode(' ',$jsdata).'>' . $link . '</span>';
+		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-tooltip".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
+		$args = apply_filters("ithoughts-join-args", $datas["attributes"]);
+		$span = '<span '.$args.'>' . $link . '</span>';
 
 		return $span;
 	}

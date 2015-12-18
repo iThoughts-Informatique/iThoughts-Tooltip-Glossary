@@ -10,7 +10,9 @@
     display: flex;
     flex-direction: column;
 }
-
+#ithoughts_tt_gl-tooltip-form-container ~ #wp-link-wrap{
+    z-index: 150000;
+}
 #ithoughts_tt_gl-tooltip-form .tab-container .tabs {
     margin:0;
     padding:0;

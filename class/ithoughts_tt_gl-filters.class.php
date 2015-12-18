@@ -3,8 +3,9 @@
 class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 	public function __construct(){
 		add_filter("ithoughts_tt_gl-term-excerpt", array(&$this, "getTermExcerpt"));
-		add_filter("ithoughts-split-args", array(&$this, "splitArgs"), 10, 3);
+		add_filter("ithoughts-split-args", array(&$this, "splitArgs"), 10, 5);
 		add_filter("ithoughts-join-args", array(&$this, "joinArgs"), 10, 1);
+		add_filter("ithoughts_tt_gl-split-args", array(&$this, "ithoughts_splitArgs"), 10, 1);
 	}
 
 	public function getTermExcerpt(WP_Post $term){
@@ -18,34 +19,52 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 
 	/**
  *	Return array(
- *		"handled"		=> array(),
- *		"attributes"	=> array(),
- *		"option"		=> array()
+ *		"handled"				=> array(),
+ *		"attributes"			=> array(),
+ *		"overridesServer"		=> array(),
+ *		"overridesClient"		=> array()
  *	)
  */
 	// TODO apply filter for each shortcode
 	// TODO use override options
-	public function splitArgs($attributes, array $handled = array(), array $overridableOptions = array()){
+	public function splitArgs($attributes, array $handled = array(), array $overridableOptionsServer = array(), array $overridableOptionsClient = array(), $fuseClientSideWithArgs = true){
 		$attrs = array(
-			"width",
-			"height",
-			"class",
-			"id",
-			"style",
+			'abbr','accept-charset','accept','accesskey','action','align','alt','archive','axis',
+			'border',
+			'cellpadding','cellspacing','char','charoff','charset','checked','cite','class','classid','codebase','codetype','cols','colspan','content','coords',
+			'data','datetime','declare','defer','dir','disabled',
+			'enctype',
+			'for','frame','frameborder',
+			'headers','height','href','hreflang','http-equiv',
+			'id','ismap',
+			'label','lang','longdesc',
+			'marginheight','marginwidth','maxlength','media','method','multiple',
+			'name','nohref','noresize',
+			'onblur','onchange','onclick','ondblclick','onfocus','onkeydown','onkeypress','onkeyup','onload','onmousedown','onmousemove','onmouseout','onmouseover','onmouseup','onreset','onselect','onsubmit','onunload', 
+			'profile',
+			'readonly','rel','rev','rows','rowspan','rules',
+			'scheme','scope','scrolling','selected','shape','size','span','src','standby','style','summary',
+			'tabindex','target','title','type',
+			'usemap',
+			'valign','value','valuetype',
+			'width',
 			"/^aria-/",
 			"/^data-/"
 		);
 		$attsLength = count($attrs);
 		$res = array(
-			"handled"		=> array(),
-			"attributes"	=> array(),
-			"options"		=> array()
+			"handled"				=> array(),
+			"attributes"			=> array(),
+			"overridesServer"		=> array(),
+			"overridesClient"		=> array()
 		);
 		foreach($attributes as $key => $value){
 			if(array_search($key, $handled) !== false){
 				$res["handled"][$key] = $value;
-			} else if(array_search($key, $overridableOptions) !== false){
-				$res["options"][$key] = $value;
+			} else if(array_search($key, $overridableOptionsServer) !== false){
+				$res["overridesServer"][$key] = $value;
+			} else if(array_search($key, $overridableOptionsClient) !== false){
+				$res["overridesClient"][$key] = $value;
 			} else {
 				$i = -1;
 				$match = false;
@@ -68,7 +87,17 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 				}
 			}
 		}
-		return $res;
+		$ret;
+		if($fuseClientSideWithArgs){
+			$ret = array(
+			"handled" => $res["handled"],
+			"attributes" => array_merge($res["attributes"], $res["overridesClient"]),
+			"overridesServer" => $res["overridesServer"],
+			);
+		} else {
+			$ret = $res;
+		}
+		return $ret;
 	}
 	
 	public function joinArgs($args){
@@ -76,6 +105,61 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 		foreach($args as $key => $value){
 			$ret .= "$key=\"".ithoughts_tt_gl_stipQuotes($value, true)."\" ";
 		}
+		return $ret;
+	}
+	
+	public function ithoughts_splitArgs($atts){
+		$ret = array();
+		
+		$datas = apply_filters("ithoughts-split-args", $atts, parent::$handledAttributes, parent::$serversideOverridable, parent::$clientsideOverridable, false);
+		
+		$ret["options"] = apply_filters("ithoughts_tt_gl_get_overriden_opts", $datas["overridesServer"], false);
+		
+		$linkAttrs = array();
+		foreach($datas["attributes"] as $key => $value){//Extract /^link-/ datas
+			if(strpos($key, "data-link-") === 0){
+				$linkAttrs[substr($key, 10)] = $value;
+				unset($datas["attributes"][$key]);
+			}
+		}
+		$ret["linkAttrs"] = apply_filters("ithoughts-split-args", $linkAttrs);
+		$ret["linkAttrs"] = $ret["linkAttrs"]["attributes"];
+		
+		$overridesClient = apply_filters("ithoughts_tt_gl_get_overriden_opts", $datas["overridesClient"], true);
+		$ret["attributes"] = array_merge($datas["attributes"], $overridesClient);
+		
+		$ret["handled"] = $datas["handled"];
+		
+		/*/
+		echo "Serverside: <pre>";
+		var_dump(parent::$serversideOverridable);
+		echo "</pre>";
+		
+		echo "Clientside: <pre>";
+		var_dump(parent::$clientsideOverridable);
+		echo "</pre>";
+		
+		echo "Options: <pre>";
+		var_dump(parent::$options);
+		echo "</pre>";
+		
+		echo "Datas: <pre>";
+		var_dump($datas);
+		echo "</pre>";
+		
+		echo "Overrides server: <pre>";
+		var_dump($ret["options"]);
+		echo "</pre>";
+		
+		echo "Overrides client; <pre>";
+		var_dump($overridesClient);
+		echo "</pre>";
+		
+		echo "Returned: <pre>";
+		var_dump($ret);
+		echo "</pre>";
+		/*/
+		
 		return $ret;
 	}
 }

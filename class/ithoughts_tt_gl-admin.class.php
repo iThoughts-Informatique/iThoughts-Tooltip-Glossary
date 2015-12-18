@@ -294,8 +294,8 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 				'attrs' => array('title'=>__('Do not display tooltip at all', 'ithoughts_tooltip_glossary'))
 			),
 		);
-		$tooltipdropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'tooltips', array(
-			'selected' => $tooltips,
+		$tooltipdropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'termcontent', array(
+			'selected' => $ttddoptions,
 			'options'  => $ttddoptions,
 		) );
 
@@ -388,7 +388,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 											</tr>
 											<tr>
 												<th>
-													<label for="tooltips"><?php _e('Tooltip Content', 'ithoughts_tooltip_glossary'); ?>:</label>
+													<label for="termcontent"><?php _e('Tooltip Content', 'ithoughts_tooltip_glossary'); ?>:</label>
 												</th>
 												<td>
 													<?php echo $tooltipdropdown ?>
@@ -575,7 +575,11 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 				} break;
 
 				case "tooltip":{
-					$data["tooltip_content"] = str_replace('\"', '"', isset($data["tooltip_content"]) ? $data["tooltip_content"] : "");
+					$data["tooltip_content"] = str_replace(
+						array('\\"', "\\'"),
+						array('"', "'"),
+						isset($data["tooltip_content"]) ? $data["tooltip_content"] : ""
+					);
 				} break;
 
 				case "mediatip":{
