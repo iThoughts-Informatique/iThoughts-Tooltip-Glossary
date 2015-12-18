@@ -26,7 +26,7 @@
 		});
 
 		//CSS
-		editor.contentCSS.push(url + "/../css/ithoughts_tooltip_glossary-admin.css?v=2.1.5");
+		editor.contentCSS.push(url + "/../css/ithoughts_tooltip_glossary-admin.css?v=2.1.7");
 
 		//fcts
 		function glossarylistfct(event){
