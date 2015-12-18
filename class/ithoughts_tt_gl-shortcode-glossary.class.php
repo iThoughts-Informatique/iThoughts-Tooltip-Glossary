@@ -101,11 +101,9 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 	}
 
 	public function ithoughts_tt_gl_get_glossary_term_element($term, $text = null, $options = array()){
-		// Overridable options
-		$opts = apply_filters("ithoughts_tt_gl_get_overriden_opts", $options, false);
-		$jsdata = apply_filters("ithoughts_tt_gl_get_overriden_opts", $options);
+		$datas = apply_filters("ithoughts_tt_gl-split-args", $options);
 
-		if($opts['staticterms']){
+		if($datas["options"]['staticterms']){
 			if(is_numeric($term)){
 				$term = get_post($term);
 			} else if(!($term instanceof WP_Post)){
@@ -115,10 +113,17 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 			if(is_null($text))
 				$text = $term->post_title;
 
-			$jsdata[] = 'data-term-title="' . esc_attr($term->post_title) .  '"';
+			$datas["attributes"]['data-term-title'] = esc_attr($term->post_title);
 
 			$content;
-			switch( $opts["tooltips"] ){
+			$termcontent;
+			if(isset($datas["attributes"]["termcontent"])){
+				$termcontent = $datas["attributes"]["termcontent"];
+				unset($datas["attributes"]["termcontent"]);
+			} else {
+				$termcontent = $datas["options"]["termcontent"];
+			}
+			switch( $termcontent ){
 				case 'full':{
 					$content = $term->post_content;
 				}break;
@@ -131,15 +136,15 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 					$content = "";
 				}break;
 			}
-			$content = str_replace("\n", "<br>", str_replace('"', '&quot;',$content));
-			$jsdata[] = 'data-term-content="' . esc_attr($content) . '"';
+			$content = str_replace("\n", "<br>", $content);
+			$datas["attributes"]['data-term-content'] = $content;
 		} else {
 			if($term instanceof WP_Post){
-				$jsdata[] = 'data-termid="' . $term->ID . '"';
+				$datas["attributes"]['data-termid'] = $term->ID;
 				if(is_null($text))
 					$text = get_the_title($term);
 			} else if(is_numeric($term)){
-				$jsdata[] = 'data-termid="' . $term . '"';
+				$datas["attributes"]['data-termid'] = $term;
 				if(is_null($text))
 					$text = $term->post_title;
 			}
@@ -147,29 +152,36 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 
 		$href="javascript::void(0)";
 		if($term instanceof WP_Post){
-			if($opts["termlinkopt"] != "none")// If theere need a link
+			if($datas["options"]["termlinkopt"] != "none")// If theere need a link
 				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_permalink($term) );
 		} else if(is_numeric($term)){
-			if($opts["termlinkopt"] != "none")// If theere need a link
+			if($datas["options"]["termlinkopt"] != "none")// If theere need a link
 				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term) );
 		}
 
 
 		$link;
-		switch($opts["termlinkopt"]){
+		$datas["linkAttrs"]["title"] = $text;
+		switch($datas["options"]["termlinkopt"]){
 			case "blank":{
-				$link = '<a href="' . $href . '" target="_blank" title="' . $text . '">' . $text . '</a>';
+				$datas["linkAttrs"]["href"] = $href;
+				$datas["linkAttrs"]["target"] = "_blank";
 			}break;
 			case "none":{
-				$link = '<a href="javascript::void(0)" title="' . $text . '">' . $text . '</a>';
+				$datas["linkAttrs"]["href"] = "javascript::void(0);";
 			}break;
 			case "standard":{
+				$datas["linkAttrs"]["href"] = $href;
 				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term) );
-				$link = '<a href="' . $href . '" title="' . $text . '">' . $text . '</a>';
 			}break;
 		}
 
-		$class = "ithoughts_tooltip_glossary-glossary".((isset($opts["class"]) && $opts["class"]) ? " ".$opts["class"] : "");
-		return '<span class="'.$class.'" '.implode(' ',$jsdata).'>' . $link . '</span>';
+
+		$linkArgs = apply_filters("ithoughts-join-args", $datas["linkAttrs"]);
+		$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
+
+		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
+		$args = apply_filters("ithoughts-join-args", $datas["attributes"]);
+		return '<span '.$args.'>' . $linkElement . '</span>';
 	}
 }

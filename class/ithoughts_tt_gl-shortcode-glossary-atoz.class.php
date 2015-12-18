@@ -5,16 +5,7 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 	}
 
 	public function glossary_atoz( $atts, $content='' ){
-		extract( shortcode_atts(array('group'=>false,'desc'=>false), $atts) );
-
-		$glossary_options = parent::$options;
-		// Let shortcode attributes override general settings
-		foreach( $glossary_options as $k => $v ){
-			if( isset($atts[$k]) ){
-				$jsdata[] = 'data-' . $k . '="' . trim( esc_attr($atts[$k]) ) . '"';
-				$glossary_options[$k] = trim( $atts[$k] );
-			}
-		}
+		$data = apply_filters("ithoughts_tt_gl-split-args", $atts);
 
 
 		// Global variable that tells WP to print related js files.
@@ -35,11 +26,11 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 		);
 
 		// Restrict list to specific glossary group or groups
-		if( $group ){
+		if( isset($data["handled"]["group"]) && $data["handled"]["group"] ){
 			$tax_query = array(
-				'taxonomy' => 'ithoughts_tt_gllossarygroup',
+				'taxonomy' => 'glossary_group',
 				'field'    => 'slug',
-				'terms'    => $group,
+				'terms'    => $data["handled"]["group"],
 			);
 			$args['tax_query'] = array( $tax_query );
 		}
@@ -49,15 +40,24 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 		if( !count($glossaries) ) return $list;
 
 		$atoz = array();
-		$tofind = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ";
-		$replac = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
-		
+		$linkdata = $data;
+		unset($linkdata["attributes"]);
+		unset($linkdata["handled"]);
+		foreach($linkdata["linkAttrs"] as $key => $linkAttr){
+			$linkdata["linkAttrs"]["link-".$key] = $linkAttr;
+			unset($linkdata["linkAttrs"][$key]);
+		}
+		$linkdata = ithoughts_tt_gl_array_flatten($linkdata);
 		foreach( $glossaries as $post ) {
 			$title = $post->post_title;
-			$alpha = strtoupper( ithoughts_tt_gl_unaccent(mb_substr($title,0,1, "UTF-8"), $tofind, $replac, "UTF-8") );
+			$alpha = strtoupper( ithoughts_tt_gl_unaccent(mb_substr($title,0,1, "UTF-8")) );
+			if(!preg_match("/[A-Z]/", $alpha))
+				$alpha = "#";
+			$alpha_attribute = $alpha;
+			$alpha_attribute = $alpha_attribute == "#" ? "other" : $alpha_attribute ;
 
-			$link = apply_filters("ithoughts_tt_gl_get_glossary_term_element", $post, null);
-			$item  = '<li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-' . $alpha . '">';
+			$link = apply_filters("ithoughts_tt_gl_get_glossary_term_element", $post, null, $linkdata);
+			$item  = '<li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-' . $alpha_attribute . '">';
 			$item .= $link;
 			$item .= '</li>';
 
@@ -69,22 +69,28 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 		$range = apply_filters( 'ithoughts_tt_gl_atoz_range', array_keys($atoz) );
 		foreach( $range as $alpha ) {
 			$count = count( $atoz[$alpha] );
-			$menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha . ' atoz-clickable atozmenu-off" title="" alt="' . esc_attr__('Terms','ithoughts_tooltip_glossary') . ': ' . $count . '"  data-alpha="' . $alpha . '">';
-			$menu .= '<a href="#' . $alpha . '">' . strtoupper($alpha) . '</a></li>';
+			$alpha_attribute = $alpha;
+			$alpha_attribute = $alpha_attribute == "#" ? "other" : $alpha_attribute ;
+			$menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha_attribute . ' atoz-clickable atozmenu-off" title="" alt="' . esc_attr__('Terms','ithoughts_tooltip_glossary') . ': ' . $count . '"  data-alpha="' . $alpha_attribute . '">';
+			$menu .= '<a href="#' . $alpha_attribute . '">' . strtoupper($alpha) . '</a></li>';
 		}
 		$menu .= '</ul>';
 
 		// Items
 		$list = '<div class="glossary-atoz-wrapper">';
 		foreach( $atoz as $alpha => $items ) {
-			$list .= '<ul class="glossary-atoz glossary-atoz-' . $alpha . ' atozitems-off">';
+			$alpha_attribute = $alpha;
+			$alpha_attribute = $alpha_attribute == "#" ? "other" : $alpha_attribute ;
+			$list .= '<ul class="glossary-atoz glossary-atoz-' . $alpha_attribute . ' atozitems-off">';
 			$list .= implode( '', $items );
 			$list .= '</ul>';
 		}
 		$list .= '</div>';
 
 		$clear    = '<div style="clear: both;"></div>';
+		$data["attributes"]["class"] = "glossary-atoz-wrapper".((isset($data["attributes"]["class"]) && $data["attributes"]["class"]) ? " ".$data["attributes"]["class"] : "");
+		$args = apply_filters("ithoughts-join-args", $data["attributes"]);
 		$plsclick = apply_filters( 'ithoughts_tt_gl_please_select', '<div class="ithoughts_tt_gl-please-select"><p>' . __('Please select from the menu above', 'ithoughts_tooltip_glossary') . '</p></div>' );
-		return '<div class="glossary-atoz-wrapper">' . $menu . $clear . $plsclick . $clear . $list . '</div>';
+		return '<div '.$args.'>' . $menu . $clear . $plsclick . $clear . $list . '</div>';
 	} // glossary_atoz
 } // ithoughts_tt_gl_Shortcode_ATOZ

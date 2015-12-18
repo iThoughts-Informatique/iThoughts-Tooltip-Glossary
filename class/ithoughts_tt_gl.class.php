@@ -9,7 +9,9 @@ class ithoughts_tt_gl_interface{
 	static protected $base;
 	static protected $scripts;
 	static protected $optionsConfig;
-	static protected $optionsOverridable;
+	static protected $clientsideOverridable;
+	static protected $serversideOverridable;
+	static protected $handledAttributes;
 
 	public function getPluginOptions($defaultsOnly = false){
 		return self::$basePlugin->getOptions($defaultsOnly);
@@ -33,13 +35,13 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		parent::$optionsConfig = array(
 			'version'		=> array(
 				"default"		=> '-1',
-				"overrideopt"	=> false,
-				"overridejsdat"	=> false,
+				"serversideOverride"	=> false,
+				"cliensideOverride"	=> false,
 			),
-			'tooltips'		=> array(
+			'termcontent'		=> array(
 				"default"		=> 'excerpt',
-				"overrideopt"	=> false,
-				"overridejsdat"	=> true,
+				"serversideOverride"	=> false,
+				"cliensideOverride"	=> true,
 				"accepted"		=> array(
 					'full',
 					'excerpt', 
@@ -48,18 +50,18 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 			),
 			'termtype'		=> array(
 				"default"		=> 'glossary',
-				"overrideopt"	=> false,
-				"overridejsdat"	=> false,
+				"serversideOverride"	=> false,
+				"cliensideOverride"	=> false,
 			),
 			'grouptype'		=> array(
 				"default"		=> 'group',
-				"overrideopt"	=> false,
-				"overridejsdat"	=> false,
+				"serversideOverride"	=> false,
+				"cliensideOverride"	=> false,
 			),
 			'qtipstyle'		=> array(
 				"default"		=> 'cream',
-				"overrideopt"	=> false,
-				"overridejsdat"	=> true,
+				"serversideOverride"	=> false,
+				"cliensideOverride"	=> true,
 				"accepted"		=> array(
 					'cream', 
 					'dark', 
@@ -75,8 +77,8 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 			),
 			'termlinkopt'	=> array(
 				"default"		=> 'standard',
-				"overrideopt"	=> true,
-				"overridejsdat"	=> false,
+				"serversideOverride"	=> true,
+				"cliensideOverride"	=> false,// Not a js data
 				"accepted"		=> array(
 					'standard',
 					'none',
@@ -84,9 +86,9 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 				),
 			),
 			'qtiptrigger'	=> array(
-				"default"		=> 'mouseenter',
-				"overrideopt"	=> false,
-				"overridejsdat"	=> true,
+				"default"		=> 'click',
+				"serversideOverride"	=> false,
+				"cliensideOverride"	=> true,
 				"accepted"		=> array(
 					'click',
 					'responsive',
@@ -94,8 +96,8 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 			),
 			'qtipshadow'	=> array(
 				"default"		=> true,
-				"overrideopt"	=> false,
-				"overridejsdat"	=> true,
+				"serversideOverride"	=> false,
+				"cliensideOverride"	=> true,
 				"accepted"		=> array(
 					true,
 					false,
@@ -103,8 +105,8 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 			),
 			'qtiprounded'	=> array(
 				"default"		=> false,
-				"overrideopt"	=> false,
-				"overridejsdat"	=> true,
+				"serversideOverride"	=> false,
+				"cliensideOverride"	=> true,
 				"accepted"		=> array(
 					true,
 					false,
@@ -112,8 +114,8 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 			),
 			'staticterms'	=> array(
 				"default"		=> false,
-				"overrideopt"	=> false,
-				"overridejsdat"	=> false,
+				"serversideOverride"	=> false,// If required once, required everywhere
+				"cliensideOverride"	=> false,// Not a js data
 				"accepted"		=> array(
 					true,
 					false,
@@ -126,16 +128,28 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		foreach(parent::$optionsConfig as $opt => $val){
 			$this->defaults[$opt] = $val["default"];
 		}
-		parent::$optionsOverridable = array();
+		parent::$clientsideOverridable = array();
 		foreach(parent::$optionsConfig as $opt => $val){
-			if($val["overridejsdat"])
-				parent::$optionsOverridable[] = $opt;
+			if($val["cliensideOverride"])
+				parent::$clientsideOverridable[] = $opt;
 		}
-		$this->overridesopt = array();
+		parent::$serversideOverridable = array();
 		foreach(parent::$optionsConfig as $opt => $val){
-			if(!$val["overrideopt"])
-				$this->overridesopt[] = $opt;
+			if($val["serversideOverride"])
+				parent::$serversideOverridable[] = $opt;
 		}
+
+		parent::$handledAttributes = array(
+			"tooltip-content",
+			"glossary-id",
+			"mediatip-type",
+			"mediatip-content",
+			"mediatip-link",
+			"cols",
+			"group",
+			"alpha",
+			"desc"
+		);
 
 		parent::$options		= $this->initOptions();
 
@@ -162,7 +176,12 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 	}
 
 	private function initOptions(){
-		return array_merge($this->getOptions(true), get_option( 'ithoughts_tt_gl', $this->getOptions(true) ));
+		$opts = array_merge($this->getOptions(true), get_option( 'ithoughts_tt_gl', $this->getOptions(true) ));
+		if(isset($opts["tooltips"]) && $opts["tooltips"]){
+			$opts["termcontent"] = $opts["tooltips"];
+			unset($opts["tooltips"]);
+		}
+		return $opts;
 	}
 	public function add_filters(){
 		require_once( parent::$base . '/ithoughts_tt_gl-filters.class.php' );
@@ -234,7 +253,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 			'qtiptrigger'   => parent::$options["qtiptrigger"],
 			'qtipshadow'    => parent::$options["qtipshadow"],
 			'qtiprounded'   => parent::$options["qtiprounded"],
-			'termcontent'	=> parent::$options["tooltips"]
+			'termcontent'	=> parent::$options["termcontent"]
 		) );
 		wp_register_script( 'ithoughts_tooltip_glossary-atoz',  parent::$base_url . '/js/ithoughts_tooltip_glossary-atoz.js',  array('jquery') );
 
@@ -295,17 +314,20 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 
 		return $url;
 	}
-	public function ithoughts_tt_gl_override($data, $jsdat = true){
+	public function ithoughts_tt_gl_override($data, $clientSide){
 		$overridden = array();
-		if($jsdat){
-			foreach(parent::$optionsOverridable as $overrideable){
-				if(isset($data[$overrideable]) && $data[$overrideable] != parent::$options[$overrideable])
-					$overridden["data-".$overrideable] = $data[$overrideable];
+		if($clientSide){
+			foreach(parent::$clientsideOverridable as $overrideable){
+				if(isset($data[$overrideable]) && ($data[$overrideable] != parent::$options[$overrideable]))
+					$overridden[$overrideable] = $data[$overrideable];
 			}
 		} else {
-			$overridden = array_merge(parent::$options, $data);
-			foreach($this->overridesopt as $overrideable){
-				$overridden[$overrideable] = parent::$options[$overrideable];
+			$overriddenConcat = array_merge(parent::$options, $data);
+			foreach(parent::$options as $option => $value){
+				if(in_array($option, parent::$serversideOverridable))
+					$overridden[$option] = $overriddenConcat[$option];
+				else
+					$overridden[$option] = parent::$options[$option];
 			}
 		}
 		return $overridden;
@@ -370,7 +392,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		// Merge with static shortcode method 
 		switch( $_POST['content'] ){
 			case 'full':{
-				$content = $termob->post_content;
+				$content = do_shortcode($termob->post_content);
 			}break;
 
 			case 'excerpt':{

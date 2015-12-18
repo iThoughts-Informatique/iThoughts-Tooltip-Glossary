@@ -1,6 +1,6 @@
 <?php
 
-function ithoughts_tt_gl_unaccent( $text, $from, $to, $encoding = "UTF-8" ){
+function ithoughts_tt_gl_unaccent( $text, $from = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ", $to = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn", $encoding = "UTF-8" ){
 	$l = mb_strlen($text, $encoding);
 	$out = "";
 	for($i = 0; $i < $l; $i++){
@@ -97,4 +97,17 @@ function ithoughts_tt_gl_decode_json_attr($attr){
 }
 function ithoughts_tt_gl_encode_json_attr($attr){
 	return htmlentities(str_replace('\\"', '"', $attr));
+}
+
+function ithoughts_tt_gl_array_flatten($array) {
+    $return = array();
+    foreach ($array as $key => $value) {
+        if (is_array($value)){
+            $return = array_merge($return, ithoughts_tt_gl_array_flatten($value));
+        } else {
+            $return[$key] = $value;
+        }
+    }
+
+    return $return;
 }
