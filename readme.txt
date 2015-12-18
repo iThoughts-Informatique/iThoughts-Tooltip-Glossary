@@ -5,7 +5,7 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments
 Requires at least: 3.3
 Tested up to: 4.3.1
-Stable tag: 2.1.6
+Stable tag: 2.1.7
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -72,6 +72,24 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Changelog ==
+
+= 2.1.7 =
+* NEW Add attributes filtering & appending to plugin generated HTML
+* NEW Display compiled shortcodes into tooltip
+* NEW Filtering JS Mediatips to prepare compatibility with iThoughts Lightbox
+* UPD Remove versionning on resources when useless to improve browser caching capability 
+* UPD Remove obsolete & uncompatible trigger option "mouseenter"
+* UPD Tooltip links now overlined & underlined by default, to be easily recognized
+* UPD List display split in columns more intuitive
+* UPD General code cleaning
+* UPD Corrections in reference link values
+* UPD Reduce globals usage
+* FIX Remove trailing `\\` before `'` in tooltip content
+* FIX Modification in selection of alphas in list & A-to-Z display modes
+* FIX Change handling of static terms for uniformized PHP behavior
+* FIX Various z-index issues
+* FIX Several A-to-Z now can work together without interacting with others
+* FIX iOS specific responsiveness compatibility
 
 = 2.1.6 =
 * FIX PHP potential issues
@@ -180,6 +198,11 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Upgrade Notice ==
+
+= 2.1.7 =
+Various fixes to improve uniformity in all situations (device of user, or server environment).
+Attributes are now handled fine (see [plugin page](www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/).
+Lists were highly improved.
 
 = 2.1.6 =
 Uniformization of behaviors depending on PHP versions

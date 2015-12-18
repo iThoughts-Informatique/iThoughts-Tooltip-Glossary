@@ -3,7 +3,7 @@
 Plugin Name: iThoughts Tooltip Glossary
 Plugin URI:  http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Description: Create beautiful tooltips for descriptions or glossary terms easily
-Version:     2.1.6
+Version:     2.1.7
 Author:      Gerkin
 License:     GPLv2 or later
 Text Domain: ithoughts_tooltip_glossary
