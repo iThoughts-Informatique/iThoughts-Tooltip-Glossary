@@ -4,7 +4,7 @@ Plugin URL: http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glos
 Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments
 Requires at least: 3.3
-Tested up to: 4.3.1
+Tested up to: 4.4
 Stable tag: 2.1.7
 License: GPLv2 or later
 
@@ -84,7 +84,7 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 * UPD General code cleaning
 * UPD Corrections in reference link values
 * UPD Reduce globals usage
-* FIX Remove trailing `\\` before `'` in tooltip content
+* FIX Remove trailing `\` before `'` in tooltip content
 * FIX Modification in selection of alphas in list & A-to-Z display modes
 * FIX Change handling of static terms for uniformized PHP behavior
 * FIX Various z-index issues
