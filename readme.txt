@@ -84,7 +84,7 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 * UPD General code cleaning
 * UPD Corrections in reference link values
 * UPD Reduce globals usage
-* FIX Remove trailing `\\` before `'` in tooltip content
+* FIX Remove trailing `\` before `'` in tooltip content
 * FIX Modification in selection of alphas in list & A-to-Z display modes
 * FIX Change handling of static terms for uniformized PHP behavior
 * FIX Various z-index issues
