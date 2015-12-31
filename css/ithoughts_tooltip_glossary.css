@@ -217,6 +217,10 @@ Specific styles for tip
 	padding-bottom: 1em;
 	line-height: 1.5em;
 }
+.qtip-content p:last-child{
+	padding-bottom: 0;
+	line-height: 1.5em;
+}
 .qtip-content a{
 	color: inherit;
 }

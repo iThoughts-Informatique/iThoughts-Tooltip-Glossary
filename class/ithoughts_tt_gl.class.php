@@ -121,6 +121,15 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 					false,
 				),
 			),
+			'forceloadresources'	=> array(
+				"default"		=> false,
+				"serversideOverride"	=> false,// If required once, required everywhere
+				"cliensideOverride"	=> false,// Not a js data
+				"accepted"		=> array(
+					true,
+					false,
+				),
+			),
 		);
 
 

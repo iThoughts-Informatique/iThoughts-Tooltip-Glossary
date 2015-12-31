@@ -10,7 +10,7 @@ Text Domain: ithoughts_tooltip_glossary
 Domain Path: /lang
 */
 
-require_once( dirname(__FILE__) . '/fn-lib.php' );
+require_once( dirname(__FILE__) . '/submodules/iThoughts-WordPress-Plugins-Toolbox/ithoughts_toolbox.class.php' );
 require_once( dirname(__FILE__) . '/class/ithoughts_tt_gl.class.php' );
 new ithoughts_tt_gl( dirname(__FILE__) );
 if(is_admin()){

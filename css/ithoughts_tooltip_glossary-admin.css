@@ -79,7 +79,10 @@ tr.nonoverridable label, .nonoverridable:not(tr){
 }
 
 #ithoughts_tt_gl-tooltip-form-container{
-	z-index: 150000;
+	z-index: 100000;
+	/*
+	Under source code window
+	*/
 	position: absolute;
 }
 #image-box,#image-box-body{

@@ -1,0 +1,3 @@
+[submodule "submodules/iThoughts-WordPress-Plugins-Toolbox"]
+	path = submodules/iThoughts-WordPress-Plugins-Toolbox
+	url = git@github.com:Nihilivin/iThoughts-WordPress-Plugin-Toolbox.git

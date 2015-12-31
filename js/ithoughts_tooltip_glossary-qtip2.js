@@ -24,14 +24,10 @@
 				self.touch = baseTouch;
 
 				//Detect touch/click out
-				$("body").bind("click touch", function(event) { 
-					console.log("Document clicked");
+				$("body").bind("click touch", function(event) {
 					if($(event.target).closest(self).length == 0) {
-						console.log("Not descendant");
 						self.data("expanded", false);
 						self.triggerHandler("responsiveout");
-					} else {
-						console.log("Descendant");
 					}
 				});
 
@@ -139,7 +135,6 @@
 							attrs = $.extend(attrs, ithoughts_tt_gl.qtip_filters.mediatip[i]($(this)));
 						}
 					}
-					console.log(attrs);
 					var attrsStr = "";
 					for(var key in attrs){
 						attrsStr += key + '="' + attrs[key] + '" ';

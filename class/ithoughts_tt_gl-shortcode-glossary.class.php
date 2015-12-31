@@ -182,6 +182,9 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 
 		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
 		$args = apply_filters("ithoughts-join-args", $datas["attributes"]);
+		
+		parent::$scripts['qtip'] = true;
+		
 		return '<span '.$args.'>' . $linkElement . '</span>';
 	}
 }
