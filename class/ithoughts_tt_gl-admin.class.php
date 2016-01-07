@@ -71,7 +71,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 			'ithoughts_tooltip_glossary-admin',
 			parent::$base_url . '/js/ithoughts_tooltip_glossary-admin.js',
 			array('qtip'),
-			null
+			"2.2.0"
 		);
 		wp_register_script(
 			"ithoughts_tooltip_glossary-utils",
@@ -89,7 +89,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 			'wp-color-picker-alpha',
 			parent::$base_url . '/ext/colorpicker-alpha.min.js',
 			array( 'wp-color-picker' ),
-			null
+			"2.2.0"
 		);
 		wp_register_script(
 			'ithoughts_tooltip_glossary-gradx-dom',
@@ -113,7 +113,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 			'ithoughts_tooltip_glossary-styleeditor',
 			parent::$base_url . '/js/ithoughts_tooltip_glossary-styleeditor.js',
 			array('ithoughts_tooltip_glossary-gradx', 'ithoughts_tooltip_glossary-colorpicker', 'wp-color-picker-alpha'),
-			null
+			"2.2.0"
 		);
 		wp_register_script(
 			'ithoughts_tooltip_glossary-updater',
@@ -136,7 +136,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	parent::$base_url . '/css/ithoughts_tooltip_glossary-tinymce-forms.css', null, "2.1.7");
 		wp_register_style( 'ithoughts_tooltip_glossary-colorpicker',	parent::$base_url . '/ext/gradx/colorpicker/colorpicker.css', null, null );
 		wp_register_style( 'ithoughts_tooltip_glossary-gradx',			parent::$base_url . '/ext/gradx/gradX.css', null, null );
-		wp_register_style( 'ithoughts_tooltip_glossary-admin',			parent::$base_url . '/css/ithoughts_tooltip_glossary-admin.css', null, "2.1.7" );
+		wp_register_style( 'ithoughts_tooltip_glossary-admin',			parent::$base_url . '/css/ithoughts_tooltip_glossary-admin.css', null, "2.2.0" );
 	}
 	public function enqueue_scripts_and_styles(){
 		wp_enqueue_script( 'simple-ajax' );
@@ -267,10 +267,10 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		wp_enqueue_style( 'ithoughts_tooltip_glossary-qtip-css' );
 
 
+
 		/* Add required scripts for WordPress Spoilers (AKA PostBox) */
 		wp_enqueue_script('postbox');
 		wp_enqueue_script('post');
-
 
 
 		/* Add required resources for wpColorPicker */
@@ -321,6 +321,30 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 							)
 						)
 					)
+				)
+			),
+			"forceloadresources" => ithoughts_toolbox::generate_input_check(
+				"forceloadresources",
+				array(
+					"radio" => false,
+					"selected" => $options["forceloadresources"],
+					"options" => array(
+						"enabled" => array()
+					)
+				)
+			),
+			"termtype" => ithoughts_toolbox::generate_input_text(
+				"termtype",
+				array(
+					"type" => "text",
+					"value" => $options["termtype"]
+				)
+			),
+			"grouptype" => ithoughts_toolbox::generate_input_text(
+				"grouptype",
+				array(
+					"type" => "text",
+					"value" => $options["grouptype"]
 				)
 			),
 			"termcontent" => ithoughts_toolbox::generate_input_select(
@@ -387,7 +411,43 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 					),
 				)
 			),
+			"qtipshadow" => ithoughts_toolbox::generate_input_check(
+				"qtipshadow",
+				array(
+					"radio" => false,
+					"selected" => $options["qtipshadow"],
+					"options" => array(
+						"enabled" => array(
+							"attributes" => array(
+								"id" => "qtipshadow"
+							)
+						)
+					)
+				)
+			),
+			"qtiprounded" => ithoughts_toolbox::generate_input_check(
+				"qtiprounded",
+				array(
+					"radio" => false,
+					"selected" => $options["qtiprounded"],
+					"options" => array(
+						"enabled" => array(
+							"attributes" => array(
+								"id" => "qtiprounded"
+							)
+						)
+					)
+				)
+			),
 		);
+
+			$optionsInputs["qtipstylecustom"] = ithoughts_toolbox::generate_input_text(
+				"qtipstylecustom",
+				array(
+					"type" => "text",
+					"value" => (strpos($optionsInputs["qtipstyle"], 'selected="selected"') === false) ? $options["qtipstyle"] : ""
+				)
+			);
 ?>
 <div class="wrap">
 	<div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">
@@ -426,10 +486,18 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 											</tr>
 											<tr class="nonoverridable">
 												<th>
+													<label for="forceloadresources"><?php _e('Force load resources', 'ithoughts_tooltip_glossary'); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" data-tooltip-content="<?php echo rawurlencode(__('Load scripts on every pages, even if not required. This option can be useful if some cache plugins are active, or if you think that scripts are not loaded when required.', 'ithoughts_tooltip_glossary')); ?>"><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts_tooltip_glossary'); ?>)</a></span>:</label>
+												</th>
+												<td>
+													<?php echo $optionsInputs["staticterms"]; ?>
+												</td>
+											</tr>
+											<tr class="nonoverridable">
+												<th>
 													<label for="termtype"><?php _e('Base Permalink', 'ithoughts_tooltip_glossary'); ?>:</label>
 												</th>
 												<td>
-													<code>/</code><input autocomplete="off" type="text" value="<?php echo $options["termtype"]; ?>" name="termtype" id="termtype"/><code>/</code>
+													<code>/</code><?php echo $optionsInputs["termtype"]; ?><code>/</code>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -437,7 +505,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 													<label for="grouptype"><?php _e('Taxonomy group prefix', 'ithoughts_tooltip_glossary'); ?>:</label>
 												</th>
 												<td>
-													<code>/<?php echo $options["termtype"]; ?>/</code><input autocomplete="off" type="text" value="<?php echo $options["grouptype"]; ?>" name="grouptype" id="grouptype"/><code>/</code>
+													<code>/<?php echo $options["termtype"]; ?>/</code><?php echo $optionsInputs["grouptype"]; ?><code>/</code>
 												</td>
 											</tr>
 											<tr>
@@ -476,7 +544,8 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 															<label for="qtipstyle"><?php _e('Tooltip Style (qTip)', 'ithoughts_tooltip_glossary'); ?>:</label>
 														</th>
 														<td>
-															<?php echo $optionsInputs["qtipstyle"]; ?>
+															<?php _e('Standard styles', 'ithoughts_tooltip_glossary'); ?>:&nbsp;<?php echo $optionsInputs["qtipstyle"]; ?>
+															<?php _e('or custom style (will override selected standard style)', 'ithoughts_tooltip_glossary'); ?>:&nbsp;<?php echo $optionsInputs["qtipstylecustom"]; ?>
 														</td>
 													</tr>
 													<tr>
@@ -484,7 +553,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 															<label for="qtipshadow"><?php _e('Tooltip shadow', 'ithoughts_tooltip_glossary'); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" data-tooltip-content="<?php echo rawurlencode(__('This option can be overriden by some tooltip styles.', 'ithoughts_tooltip_glossary')); ?>"><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts_tooltip_glossary'); ?>)</a></span>:</label>
 														</th>
 														<td>
-															<input autocomplete="off" type="checkbox" name="qtipshadow" id="qtipshadow" value="enabled" <?php echo ($qtipshadow ? " checked" : ""); ?>/>
+															<?php echo $optionsInputs["qtipshadow"]; ?>
 														</td>
 													</tr>
 													<tr>
@@ -492,20 +561,20 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 															<label for="qtiprounded"><?php _e('Rounded corners', 'ithoughts_tooltip_glossary'); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" data-tooltip-content="<?php echo rawurlencode(__('This option can be overriden by some tooltip styles.', 'ithoughts_tooltip_glossary')); ?>"><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts_tooltip_glossary'); ?>)</a></span>:</label>
 														</th>
 														<td>
-															<input autocomplete="off" type="checkbox" name="qtiprounded" id="qtiprounded" value="enabled" <?php echo ($qtiprounded ? " checked" : ""); ?>/>
+															<?php echo $optionsInputs["qtiprounded"]; ?>
 														</td>
 													</tr>
 												</tbody>
 											</table>
 
 
-											<!-- <div id="ithoughts_tt_gl-customstyle" class="postbox closed">
-<div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat();"><br></div><h3 onclick="window.refloat();" class="hndle"><span><?php _e('Style editor', 'ithoughts_tooltip_glossary'); ?></span></h3>
-<div class="inside">
-<p><?php _e('Use this editor to fully customize the look of your tooltips', 'ithoughts_tooltip_glossary'); ?></p>
-<div class="ajaxContainer"></div>
-</div>
-</div> -->
+											<div id="ithoughts_tt_gl-customstyle" class="postbox closed">
+												<div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat();"><br></div><h3 onclick="window.refloat();" class="hndle"><span><?php _e('Style editor', 'ithoughts_tooltip_glossary'); ?></span></h3>
+												<div class="inside">
+													<p><?php _e('Use this editor to fully customize the look of your tooltips', 'ithoughts_tooltip_glossary'); ?></p>
+													<div class="ajaxContainer"></div>
+												</div>
+											</div>
 
 
 										</div>
@@ -543,9 +612,13 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		$glossary_options = parent::$options;
 
 		$postValues = $_POST;
-		$postValues['qtipshadow']  = ithoughts_tt_gl_toggleable_to_bool($postValues,'qtipshadow',  "enabled");
-		$postValues['qtiprounded'] = ithoughts_tt_gl_toggleable_to_bool($postValues,'qtiprounded', "enabled");
-		$postValues['staticterms'] = ithoughts_tt_gl_toggleable_to_bool($postValues,'staticterms', "enabled");
+		$postValues['qtipshadow']  = ithoughts_toolbox::checkbox_to_bool($postValues,'qtipshadow',  "enabled");
+		$postValues['qtiprounded'] = ithoughts_toolbox::checkbox_to_bool($postValues,'qtiprounded', "enabled");
+		$postValues['staticterms'] = ithoughts_toolbox::checkbox_to_bool($postValues,'staticterms', "enabled");
+		if(isset($postValues["qtipstylecustom"]) && strlen(trim($postValues["qtipstylecustom"])) > 0){
+			$postValues["qtipstyle"] = $postValues["qtipstylecustom"];
+		}
+		unset($postValues["qtipstylecustom"]);
 
 		$glossary_options_old = $glossary_options;
 		$glossary_options = array_merge($glossary_options, $postValues);
@@ -598,16 +671,22 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 
 		$mediatiptypes = array(
 			'localimage' => array(
-				'title' => __('Local image', 'ithoughts_tooltip_glossary'),
-				'attrs' => array('title'=>__('Image from site library', 'ithoughts_tooltip_glossary'))
+				'text' => __('Local image', 'ithoughts_tooltip_glossary'),
+				'attributes' => array(
+					'title'=> __('Image from site library', 'ithoughts_tooltip_glossary')
+				)
 			), 
 			'webimage' => array(
-				'title' => __('Image on the web', 'ithoughts_tooltip_glossary'),
-				'attrs' => array('title'=>__('Image referenced by url, not on the site', 'ithoughts_tooltip_glossary'))
+				'text' => __('Image on the web', 'ithoughts_tooltip_glossary'),
+				'attributes' => array(
+					'title'=> __('Image referenced by url, not on the site', 'ithoughts_tooltip_glossary')
+				)
 			),
 			'webvideo' => array(
-				'title' => __('Video on the web', 'ithoughts_tooltip_glossary'),
-				'attrs' => array('title'=>__('Video hosted online. Only Youtube, Dailymotion or .mp4 videos', 'ithoughts_tooltip_glossary'))
+				'text' => __('Video on the web', 'ithoughts_tooltip_glossary'),
+				'attributes' => array(
+					'title'=> __('Video hosted online. Only Youtube, Dailymotion or .mp4 videos', 'ithoughts_tooltip_glossary')
+				)
 			),
 		);
 		$mediatiptypes_keys = array_keys($mediatiptypes);
@@ -622,8 +701,8 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 			$data["glossary_id"] = isset($data["glossary_id"]) ? $data["glossary_id"] : NULL;
 			$data["term_search"] = isset($data["term_search"]) ? $data["term_search"] : "";
 			$data["mediatip_type"] = isset($data["mediatip_type"]) && $data["mediatip_type"] && isset($mediatiptypes[$data["mediatip_type"]]) ? $data["mediatip_type"] : $mediatiptypes_keys[0];
-			$data["mediatip_content_json"] = ithoughts_tt_gl_encode_json_attr(isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
-			$data["mediatip_content"] = ithoughts_tt_gl_decode_json_attr(isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
+			$data["mediatip_content_json"] = ithoughts_toolbox::encode_json_attr(isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
+			$data["mediatip_content"] = ithoughts_toolbox::decode_json_attr(isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
 			switch($data["type"]){
 				case "glossary":{
 				} break;
@@ -708,11 +787,16 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		wp_localize_script( "ithoughts_tooltip_glossary-tinymce_form", "ithoughts_tt_gl_tinymce_form", $form_data );
 
 
-		$mediatipdropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'mediatip_type', array(
-			'selected' => $data["mediatip_type"],
-			'options'  => $mediatiptypes,
-			"class"    => "modeswitcher"
-		) );
+		$mediatipdropdown = ithoughts_toolbox::generate_input_select(
+			'mediatip_type',
+			array(
+				'selected' => $data["mediatip_type"],
+				'options'  => $mediatiptypes,
+				"attributes" => array(
+					"class"    => "modeswitcher"
+				)
+			)
+		);
 
 		ob_start();
 		include parent::$plugin_base."/templates/tinymce-tooltip-form.php";
@@ -724,10 +808,18 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		wp_die();
 	}
 	public function getCustomizingFormAjax(){
-		$prefixs = array("t", "c",  "g"); // Used in style editor loop
+		$prefixs = array("g", "t", "c"); // Used in style editor loop
+
+		wp_enqueue_script('wp-color-picker-alpha');
+		wp_enqueue_script('ithoughts_tooltip_glossary-gradx-dom');
+		wp_enqueue_script('ithoughts_tooltip_glossary-colorpicker');
+		wp_enqueue_script('ithoughts_tooltip_glossary-gradx');
+		/* Add required scripts for WordPress Spoilers (AKA PostBox) */
+		wp_enqueue_script('postbox');
+		wp_enqueue_script('post');
 		ob_start();
 		include parent::$plugin_base."/templates/customizing_form.php";
 		$output = ob_get_clean();
-		wp_send_json_success($output);
+		wp_die($output);
 	}
 }

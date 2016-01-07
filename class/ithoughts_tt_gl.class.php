@@ -253,8 +253,8 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 
 	public function register_scripts_and_styles(){
 		wp_register_script('imagesloaded', parent::$base_url . '/ext/imagesloaded.min.js', null, null, true);
-		wp_register_script('qtip', parent::$base_url . '/ext/jquery.qtip.js', array('jquery', 'imagesloaded'), null, null, true);
-		wp_register_script( 'ithoughts_tooltip_glossary-qtip',  parent::$base_url . '/js/ithoughts_tooltip_glossary-qtip2.js', array('qtip'), "2.1.7" );
+		wp_register_script('qtip', parent::$base_url . '/ext/jquery.qtip.min.js', array('jquery', 'imagesloaded'), "2.2.1", null, true);
+		wp_register_script( 'ithoughts_tooltip_glossary-qtip',  parent::$base_url . '/js/ithoughts_tooltip_glossary-qtip2.js', array('qtip'), "2.2.0" );
 		wp_localize_script( 'ithoughts_tooltip_glossary-qtip', 'ithoughts_tt_gl', array(
 			'admin_ajax'    => admin_url('admin-ajax.php'),
 			'baseurl'		=> parent::$base_url,
@@ -273,14 +273,14 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		} else {
 			wp_register_style( 'ithoughts_tooltip_glossary-css', parent::$base_url . '/css/ithoughts_tooltip_glossary.css', null, $version );
 		}
-		wp_register_style( 'ithoughts_tooltip_glossary-qtip-css', parent::$base_url . '/ext/jquery.qtip.css', null, null);
+		wp_register_style( 'ithoughts_tooltip_glossary-qtip-css', parent::$base_url . '/ext/jquery.qtip.min.css', null, "2.2.1");
 	}
 
 	public function wp_footer(){
-		if( !parent::$scripts )
+		if( !parent::$scripts && parent::$options["forceloadresources"] !== true)
 			return;
 
-		if(isset(parent::$scripts['qtip']) && parent::$scripts['qtip']){
+		if((isset(parent::$scripts['qtip']) && parent::$scripts['qtip']) || parent::$options["forceloadresources"] === true){
 ?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: none;">
 	<defs>
@@ -293,7 +293,7 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 <?php
 			wp_enqueue_script( 'ithoughts_tooltip_glossary-qtip' );
 		}
-		if(isset(parent::$scripts['atoz']) && parent::$scripts['atoz'])
+		if((isset(parent::$scripts['atoz']) && parent::$scripts['atoz']) || parent::$options["forceloadresources"] === true)
 			wp_enqueue_script( 'ithoughts_tooltip_glossary-atoz' );
 	}
 

@@ -34,7 +34,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 			}
 		}
 
-		$groupdd = ithoughts_tt_gl_build_dropdown_multilevel(
+		$groupdd = ithoughts_toolbox::generate_input_select(
 			$this->get_field_id('group'),
 			array(
 				'selected'    => $instance['group'],
@@ -47,7 +47,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 		echo $groupdd . '</p>';
 
 		// Display
-		$displaydd = ithoughts_tt_gl_build_dropdown_multilevel( $this->get_field_id('display'), array(
+		$displaydd = ithoughts_toolbox::generate_input_select( $this->get_field_id('display'), array(
 			'selected'   => isset($instance['display']) ? $instance['display'] : "tooltip",
 			'name'       => $this->get_field_name('display'),
 			'options'    => array( 

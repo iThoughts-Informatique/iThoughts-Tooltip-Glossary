@@ -40,15 +40,15 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 
 		switch($mediatipType){
 			case $mediatipTypes[0]:{
-				$dat = ithoughts_tt_gl_decode_json_attr($datas["handled"]["mediatip-content"]);
+				$dat = ithoughts_toolbox::decode_json_attr($datas["handled"]["mediatip-content"]);
 				$datas["attributes"]['data-mediatip-image'] = htmlentities($dat['url']);
 
 				$datas["linkAttrs"]["href"] = $dat['link'];
 
-				$linkArgs = apply_filters("ithoughts-join-args", $datas["linkAttrs"]);
+				$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
 				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-				$args = apply_filters("ithoughts-join-args", $datas["attributes"]);
+				$args = ithoughts_toolbox::concat_attrs( $datas["attributes"]);
 				// Span that qtip finds
 				$span = '<span '.$args.'>' . $linkElement . '</span>';
 				return $span;
@@ -59,10 +59,10 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 
 				$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-				$linkArgs = apply_filters("ithoughts-join-args", $datas["linkAttrs"]);
+				$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
 				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-				$args = apply_filters("ithoughts-join-args", $datas["attributes"]);
+				$args = ithoughts_toolbox::concat_attrs( $datas["attributes"]);
 				// Span that qtip finds
 				$span = '<span '.$args.'>' . $linkElement . '</span>';
 				return $span;
@@ -73,10 +73,10 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 
 				$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-				$linkArgs = apply_filters("ithoughts-join-args", $datas["linkAttrs"]);
+				$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
 				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-				$args = apply_filters("ithoughts-join-args", $datas["attributes"]);
+				$args = ithoughts_toolbox::concat_attrs( $datas["attributes"]);
 				// Span that qtip finds
 				$span = '<span '.$args.'>' . $linkElement . '</span>';
 				return $span;

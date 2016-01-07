@@ -11,15 +11,22 @@
 		}
 		if(isIos)
 			$("body").css({cursor: "pointer"});
+
 		$('span[class^=ithoughts_tooltip_glossary-]').each(function(){
-			var qtipstyle    = ($(this).data('qtipstyle')) ? $(this).data('qtipstyle') : ithoughts_tt_gl.qtipstyle;
+			var qtipstyle	= ($(this).data('qtipstyle')) ? $(this).data('qtipstyle') : ithoughts_tt_gl.qtipstyle;
+			var termcontent	= ($(this).data('term-content')) ? $(this).data('term-content') : ithoughts_tt_gl.termcontent;
+			var qtipshadow	= ($(this).data('qtipshadown')) ? $(this).data('qtipshadown') : ithoughts_tt_gl.qtipshadown;
+			qtipshadow = qtipshadow === "true" || qtipshadow === "1";
+			var qtiprounded	= ($(this).data('qtiprounded')) ? $(this).data('qtiprounded') : ithoughts_tt_gl.qtiprounded;
+			qtiprounded = qtiprounded === "true" || qtiprounded === "1";
+			var qtiptrigger = ($(this).data('qtiptrigger')) ? $(this).data('qtiptrigger') : ithoughts_tt_gl.qtiptrigger;
 
 			// If set to click, disable glossary link
-			if( ithoughts_tt_gl.qtiptrigger == 'click' ){
+			if( qtiptrigger == 'click' ){
 				$(this).children('a').click(function(e){
 					e.preventDefault();
 				});
-			} else if( ithoughts_tt_gl.qtiptrigger == 'responsive' ){
+			} else if( qtiptrigger == 'responsive' ){
 				var self = $(this);
 				self.touch = baseTouch;
 
@@ -48,11 +55,11 @@
 				})
 			}
 
-			var tipClass = 'qtip-' + qtipstyle + ((ithoughts_tt_gl.qtipshadow === "1") ? " qtip-shadow" : "" ) + ((ithoughts_tt_gl.qtiprounded === "1") ? " qtip-rounded" : "" ) + " " ;
+			var tipClass = 'qtip-' + qtipstyle + (qtipshadow ? " qtip-shadow" : "" ) + (qtiprounded ? " qtip-rounded" : "" ) + " " ;
 			var specific;
 			if($(this).hasClass("ithoughts_tooltip_glossary-glossary")){
 				if(this.getAttribute("data-termid")){
-					var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details', content: ithoughts_tt_gl.termcontent}, $(this).data() );
+					var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details', content: termcontent}, $(this).data() );
 					specific = {
 						content: {
 							text: 'Loading glossary term',
@@ -148,7 +155,10 @@
 						// Notice the 'tooltip' prefix of the event name!
 						api.elements.title.find(".ithoughts_tooltip_glossary_pin_container").click(function(){
 							$(this).toggleClass("pined");
-							api.disable();
+							if($(this).hasClass("pined"))
+								api.disable();
+							else
+								api.enable();
 						})
 
 					}
@@ -175,11 +185,11 @@
 					container: tooltipsContainer
 				},
 				show: {
-					event: ithoughts_tt_gl.qtiptrigger,
+					event: qtiptrigger,
 					solo:  true // Only show one tooltip at a time
 				},
 				//hide: 'unfocus',
-				hide: (ithoughts_tt_gl.qtiptrigger == 'responsive') ? "responsiveout" : 'mouseleave',
+				hide: (qtiptrigger == 'responsive') ? "responsiveout" : 'mouseleave',
 				style: tipClass
 			}, specific);
 			$(this).qtip(opts);

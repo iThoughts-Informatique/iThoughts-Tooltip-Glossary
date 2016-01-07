@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: iThoughts Tooltip Glossary\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue Oct 27 2015 11:54:04 GMT-1000 (TAHT)\n"
-"POT-Revision-Date: Wed Dec 02 2015 08:37:30 GMT-1000 (TAHT)\n"
+"POT-Revision-Date: Wed Jan 06 2016 20:55:42 GMT-1000 (TAHT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,14 +24,6 @@ msgstr ""
 "esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
 "X-Generator: Loco - https://localise.biz/"
 
-#: ../fn-lib.php:20
-msgid "- No Options -"
-msgstr ""
-
-#: ../fn-lib.php:36
-msgid "- Please Select -"
-msgstr ""
-
 #. Name of the plugin
 msgid "iThoughts Tooltip Glossary"
 msgstr ""
@@ -49,75 +41,183 @@ msgid "Gerkin"
 msgstr ""
 
 #: ../templates/customizing_form.php:6
+msgid "Theme name"
+msgstr ""
+
+#: ../templates/customizing_form.php:9
+msgid ""
+"At least 3 letters (lowercase and uppercase), numbers, _ or -, and not "
+"starting or ending with symbol"
+msgstr ""
+
+#: ../templates/customizing_form.php:14
 msgid "Global"
 msgstr ""
 
-#: ../templates/customizing_form.php:7
+#: ../templates/customizing_form.php:15
 msgid "Title Bar"
 msgstr ""
 
-#: ../templates/customizing_form.php:8 ../templates/tinymce-tooltip-form.php:88 ..
-#: /lang/ithoughts_tt_gl_tinymce_lang.php:20
+#: ../templates/customizing_form.php:16 ../templates/tinymce-tooltip-form.php:88 .
+#: ./lang/ithoughts_tt_gl_tinymce_lang.php:20
 msgid "Content"
 msgstr ""
 
-#: ../templates/customizing_form.php:13
+#: ../templates/customizing_form.php:21
 msgid "Background"
 msgstr ""
 
-#: ../templates/customizing_form.php:15 ../templates/customizing_form.php:33 ..
-#: /templates/customizing_form.php:51
+#: ../templates/customizing_form.php:26
 msgid "Type"
 msgstr ""
 
-#: ../templates/customizing_form.php:17 ../templates/customizing_form.php:35 ..
-#: /templates/customizing_form.php:53
+#: ../templates/customizing_form.php:28
 msgctxt "A plain color"
 msgid "Plain"
 msgstr ""
 
-#: ../templates/customizing_form.php:18 ../templates/customizing_form.php:36 ..
-#: /templates/customizing_form.php:54
+#: ../templates/customizing_form.php:29
 msgid "Gradient"
 msgstr ""
 
-#: ../templates/customizing_form.php:26 ../templates/customizing_form.php:44 ..
-#: /templates/customizing_form.php:62
-msgid "Gradient editor"
+#: ../templates/customizing_form.php:38
+msgid "Top to bottom"
 msgstr ""
 
-#: ../templates/customizing_form.php:70
+#: ../templates/customizing_form.php:39
+msgid "Bottom to top"
+msgstr ""
+
+#: ../templates/customizing_form.php:40
+msgid "Left to right"
+msgstr ""
+
+#: ../templates/customizing_form.php:41
+msgid "Right to left"
+msgstr ""
+
+#: ../templates/customizing_form.php:51
 msgid "Padding"
 msgstr ""
 
-#: ../templates/customizing_form.php:74
+#: ../templates/customizing_form.php:55
 #, php-format
 msgid ""
-"Valid font-size value: inherit, initial, or 1 to 4 values in rem, em, px, %, "
-"ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax"
+"Valid padding value: 0, inherit, initial, or 1 to 4 values in rem, em, px, %,"
+" ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax"
 msgstr ""
 
-#: ../templates/customizing_form.php:80
+#: ../templates/customizing_form.php:61
 msgid "Shadow"
 msgstr ""
 
-#: ../templates/customizing_form.php:104
+#: ../templates/customizing_form.php:67
+msgid "Enable box-shadow"
+msgstr ""
+
+#: ../templates/customizing_form.php:73
+msgid "Width"
+msgstr ""
+
+#: ../templates/customizing_form.php:74 ../templates/customizing_form.php:104
+#, php-format
+msgid ""
+"Valid distance value: 0, inherit, initial, or a value in rem, em, px, %, ex, "
+"pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives accepted"
+msgstr ""
+
+#: ../templates/customizing_form.php:81
 msgid "Shadow spread"
 msgstr ""
 
-#: ../templates/customizing_form.php:108
+#: ../templates/customizing_form.php:82
+#, php-format
+msgid ""
+"Valid distance value: 0, inherit, initial, or a value in rem, em, px, %, ex, "
+"pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives not accepted"
+msgstr ""
+
+#: ../templates/customizing_form.php:85
 msgid "Shadow color"
 msgstr ""
 
-#: ../templates/customizing_form.php:117
+#: ../templates/customizing_form.php:89
+msgid "Inset"
+msgstr ""
+
+#: ../templates/customizing_form.php:103
+msgid "Height"
+msgstr ""
+
+#: ../templates/customizing_form.php:112
 msgid "Outline border"
 msgstr ""
 
+#: ../templates/customizing_form.php:115
+msgid "Border width"
+msgstr ""
+
+#: ../templates/customizing_form.php:116
+#, php-format
+msgid ""
+"Valid border-width value: 0, inherit, initial, or a value in rem, em, px, %, "
+"ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives not accepted"
+msgstr ""
+
 #: ../templates/customizing_form.php:121
-msgid "Text size"
+msgid "Border style"
+msgstr ""
+
+#: ../templates/customizing_form.php:123
+msgid "Solid"
+msgstr ""
+
+#: ../templates/customizing_form.php:124
+msgid "Dotted"
 msgstr ""
 
 #: ../templates/customizing_form.php:125
+msgid "Dashed"
+msgstr ""
+
+#: ../templates/customizing_form.php:126
+msgid "Double"
+msgstr ""
+
+#: ../templates/customizing_form.php:127
+msgid "Groove"
+msgstr ""
+
+#: ../templates/customizing_form.php:128
+msgid "Ridge"
+msgstr ""
+
+#: ../templates/customizing_form.php:129
+msgctxt "Border property"
+msgid "Inset"
+msgstr ""
+
+#: ../templates/customizing_form.php:130
+msgid "Outset"
+msgstr ""
+
+#: ../templates/customizing_form.php:131
+msgid "None"
+msgstr ""
+
+#: ../templates/customizing_form.php:132
+msgid "Hidden"
+msgstr ""
+
+#: ../templates/customizing_form.php:138
+msgid "Border color"
+msgstr ""
+
+#: ../templates/customizing_form.php:144
+msgid "Text size"
+msgstr ""
+
+#: ../templates/customizing_form.php:148
 #, php-format
 msgid ""
 "Valid font-size value: xx-small, x-small, smaller, small, medium, large, "
@@ -125,32 +225,103 @@ msgid ""
 "pc, vh, vw, vmin, or vmax"
 msgstr ""
 
-#: ../templates/customizing_form.php:131
-msgid "Text color"
-msgstr ""
-
-#: ../templates/customizing_form.php:141
-msgid "Text align"
-msgstr ""
-
-#: ../templates/customizing_form.php:147
-msgid "Left"
-msgstr ""
-
-#: ../templates/customizing_form.php:148
-msgid "Right"
-msgstr ""
-
-#: ../templates/customizing_form.php:149
-msgid "Center"
-msgstr ""
-
-#: ../templates/customizing_form.php:150
-msgid "Justify"
+#: ../templates/customizing_form.php:154
+msgid "Line height"
 msgstr ""
 
 #: ../templates/customizing_form.php:158
+#, php-format
+msgid ""
+"Valid line-height value: xx-small, x-small, smaller, small, medium, large, "
+"larger, x-large, xx-large, or a value in rem, em, px, %, ex, pt, cm, mm, in, "
+"pc, vh, vw, vmin, or vmax"
+msgstr ""
+
+#: ../templates/customizing_form.php:164
+msgid "Text color"
+msgstr ""
+
+#: ../templates/customizing_form.php:174
+msgid "Text emphasis color"
+msgstr ""
+
+#: ../templates/customizing_form.php:179
+msgid "Text align"
+msgstr ""
+
+#: ../templates/customizing_form.php:185
+msgid "Left"
+msgstr ""
+
+#: ../templates/customizing_form.php:186
+msgid "Right"
+msgstr ""
+
+#: ../templates/customizing_form.php:187
+msgid "Center"
+msgstr ""
+
+#: ../templates/customizing_form.php:188
+msgid "Justify"
+msgstr ""
+
+#: ../templates/customizing_form.php:196
 msgid "Text font"
+msgstr ""
+
+#: ../templates/customizing_form.php:202
+msgid "Please wait..."
+msgstr ""
+
+#: ../templates/customizing_form.php:210
+msgid "Other custom CSS"
+msgstr ""
+
+#: ../templates/customizing_form.php:210
+msgid ""
+"Following CSS rules will be copied to output compiled CSS, into the "
+"appropriated CSS rules. Don't specify the selector."
+msgstr ""
+
+#: ../templates/customizing_form.php:210 ../templates/customizing_form.php:222 ..
+#: /class/ithoughts_tt_gl-admin.class.php:481 ../class/ithoughts_tt_gl-admin.
+#: class.php:489 ../class/ithoughts_tt_gl-admin.class.php:553 ..
+#: /class/ithoughts_tt_gl-admin.class.php:561
+msgid "infos"
+msgstr ""
+
+#: ../templates/customizing_form.php:222
+msgid "Other CSS rules"
+msgstr ""
+
+#: ../templates/customizing_form.php:222
+msgid "Will be copied at the end of the CSS"
+msgstr ""
+
+#: ../templates/customizing_form.php:229
+msgid "Compile CSS"
+msgstr ""
+
+#: ../templates/customizing_form.php:234
+msgid "Output CSS"
+msgstr ""
+
+#: ../templates/customizing_form.php:235
+msgid ""
+"Copy the following CSS rules to your <a href=\"https://codex.wordpress."
+"org/Child_Themes\" target=\"_blank\">child theme</a>"
+msgstr ""
+
+#: ../templates/customizing_form.php:240
+msgid "Copy to clipboard"
+msgstr ""
+
+#: ../templates/customizing_form.php:241
+msgid "Could not copy to clipboard"
+msgstr ""
+
+#: ../templates/customizing_form.php:241
+msgid "Successfully copied to clipboard"
 msgstr ""
 
 #: ../templates/tinymce-tooltip-form.php:12
@@ -279,12 +450,12 @@ msgid "Description mode: Full/Excerpt/None"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:38 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:56 ../class/ithoughts_tt_gl-admin.class.php:281
+#: random-term.class.php:56 ../class/ithoughts_tt_gl-admin.class.php:356
 msgid "Full"
 msgstr ""
 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:39 ../class/ithoughts_tt_gl-widget-
-#: random-term.class.php:55 ../class/ithoughts_tt_gl-admin.class.php:285
+#: random-term.class.php:55 ../class/ithoughts_tt_gl-admin.class.php:362
 msgid "Excerpt"
 msgstr ""
 
@@ -292,14 +463,14 @@ msgstr ""
 msgid "Glossary Tooltips"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-shortcode-glossary-list.class.php:45 ..
-#: /class/ithoughts_tt_gl-shortcode-glossary-atoz.class.php:47
+#: ../class/ithoughts_tt_gl-shortcode-glossary-list.class.php:35 ..
+#: /class/ithoughts_tt_gl-shortcode-glossary-atoz.class.php:38
 msgid "There are no glossary items."
 msgstr ""
 
 #: ../class/ithoughts_tt_gl-taxonomies.class.php:12 ../class/ithoughts_tt_gl-
-#: taxonomies.class.php:21 ../class/ithoughts_tt_gl-admin.class.php:197 ..
-#: /class/ithoughts_tt_gl-admin.class.php:198
+#: taxonomies.class.php:21 ../class/ithoughts_tt_gl-admin.class.php:206 ..
+#: /class/ithoughts_tt_gl-admin.class.php:207
 msgid "Glossary Groups"
 msgstr ""
 
@@ -335,15 +506,15 @@ msgstr ""
 msgid "New Glossary Group Name"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl.class.php:365
+#: ../class/ithoughts_tt_gl.class.php:393
 msgid "Private glossary term"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl.class.php:370
+#: ../class/ithoughts_tt_gl.class.php:398
 msgid "Protected glossary term"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl.class.php:393
+#: ../class/ithoughts_tt_gl.class.php:421
 msgid "No content"
 msgstr ""
 
@@ -370,26 +541,26 @@ msgid "No update required."
 msgstr ""
 
 #: ../class/ithoughts_tt_gl-updater.class.php:120 ../class/ithoughts_tt_gl-
-#: updater.class.php:226
+#: updater.class.php:234
 msgid "Update finished!"
 msgstr ""
 
 #: ../class/ithoughts_tt_gl-updater.class.php:120 ../class/ithoughts_tt_gl-
-#: updater.class.php:226
+#: updater.class.php:234
 msgid ""
 "The update finished successfully. Thank you for using iThoughts Tooltip "
 "Glossary :)"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-updater.class.php:135
+#: ../class/ithoughts_tt_gl-updater.class.php:140
 msgid "Applying new format."
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-shortcode-glossary-atoz.class.php:72
+#: ../class/ithoughts_tt_gl-shortcode-glossary-atoz.class.php:74
 msgid "Terms"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-shortcode-glossary-atoz.class.php:87
+#: ../class/ithoughts_tt_gl-shortcode-glossary-atoz.class.php:93
 msgid "Please select from the menu above"
 msgstr ""
 
@@ -406,7 +577,7 @@ msgid "Random Glossary term"
 msgstr ""
 
 #: ../class/ithoughts_tt_gl-widget-random-term.class.php:24 ..
-#: /class/ithoughts_tt_gl-post-types.class.php:69
+#: /class/ithoughts_tt_gl-post-types.class.php:68
 msgid "Title"
 msgstr ""
 
@@ -436,7 +607,7 @@ msgid "No terms available"
 msgstr ""
 
 #: ../class/ithoughts_tt_gl-post-types.class.php:17 ../class/ithoughts_tt_gl-
-#: admin.class.php:187 ../class/ithoughts_tt_gl-admin.class.php:188
+#: admin.class.php:196 ../class/ithoughts_tt_gl-admin.class.php:197
 msgid "Glossary Terms"
 msgstr ""
 
@@ -469,19 +640,19 @@ msgstr ""
 msgid "No Glossary Terms found in trash"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-post-types.class.php:57
+#: ../class/ithoughts_tt_gl-post-types.class.php:56
 msgid "Glossary Term Reference"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-post-types.class.php:70
+#: ../class/ithoughts_tt_gl-post-types.class.php:69
 msgid "Link"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-post-types.class.php:77
+#: ../class/ithoughts_tt_gl-post-types.class.php:76
 msgid "Usage"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-post-types.class.php:78 ../class/ithoughts_tt_gl-post-
+#: ../class/ithoughts_tt_gl-post-types.class.php:77 ../class/ithoughts_tt_gl-post-
 #: types.class.php:169
 msgid "Reference"
 msgstr ""
@@ -494,212 +665,218 @@ msgstr ""
 msgid "Can't read plugin version"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:167 ../class/ithoughts_tt_gl-admin.
-#: class.php:168 ../class/ithoughts_tt_gl-admin.class.php:341
+#: ../class/ithoughts_tt_gl-admin.class.php:176 ../class/ithoughts_tt_gl-admin.
+#: class.php:177 ../class/ithoughts_tt_gl-admin.class.php:458
 msgid "Options"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:177 ../class/ithoughts_tt_gl-admin.
-#: class.php:178
+#: ../class/ithoughts_tt_gl-admin.class.php:186 ../class/ithoughts_tt_gl-admin.
+#: class.php:187
 msgid "Add a Term"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:212 ../class/ithoughts_tt_gl-admin.
-#: class.php:213
+#: ../class/ithoughts_tt_gl-admin.class.php:221 ../class/ithoughts_tt_gl-admin.
+#: class.php:222
 msgid "Update"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:282
-msgid "Display full post content"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:286
-msgid "Display shorter excerpt content"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:289
-msgid "Off"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:290
-msgid "Do not display tooltip at all"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:303
-msgid "Cream"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:304
-msgid "Dark"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:305
-msgid "Green"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:306
-msgid "Light"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:307
-msgid "Red"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:308
-msgid "Blue"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:309
-msgid "Plain"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:310
-msgid "Bootstrap"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:311
-msgid "YouTube"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:312
-msgid "Tipsy"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:319
-msgid "Hover"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:319
-msgid "On mouseover (hover)"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:320
-msgid "Click"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:320
-msgid "On click"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:321
-msgid "Responsive"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:321
-msgid "Hover (on computer) and click (touch devices)"
-msgstr ""
-
-#: ../class/ithoughts_tt_gl-admin.class.php:329
+#: ../class/ithoughts_tt_gl-admin.class.php:292
 msgid "Normal"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:329
+#: ../class/ithoughts_tt_gl-admin.class.php:294
 msgid "Normal link with no modifications"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:330
+#: ../class/ithoughts_tt_gl-admin.class.php:298
 msgid "No link"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:330
+#: ../class/ithoughts_tt_gl-admin.class.php:300
 msgid "Don't link to term"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:331
+#: ../class/ithoughts_tt_gl-admin.class.php:304
 msgid "New tab"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:331
+#: ../class/ithoughts_tt_gl-admin.class.php:306
 msgid "Always open in a new tab"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:347
+#: ../class/ithoughts_tt_gl-admin.class.php:358
+msgid "Display full post content"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:364
+msgid "Display shorter excerpt content"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:368
+msgid "Off"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:370
+msgid "Do not display tooltip at all"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:381
+msgid "Cream"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:382
+msgid "Dark"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:383
+msgid "Green"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:384
+msgid "Light"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:385
+msgid "Red"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:386
+msgid "Blue"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:387
+msgid "Plain"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:388
+msgid "Bootstrap"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:389
+msgid "YouTube"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:390
+msgid "Tipsy"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:400
+msgid "Click"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:402
+msgid "On click"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:406
+msgid "Responsive"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:408
+msgid "Hover (on computer) and click (touch devices)"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:464
 msgid "Note"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:347
+#: ../class/ithoughts_tt_gl-admin.class.php:464
 msgid ""
 "Labels in <span class=\"nonoverridable\">red</span> indicate global options, "
 "not overridable by tips."
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:350
+#: ../class/ithoughts_tt_gl-admin.class.php:467
 msgid "Term Options"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:356
+#: ../class/ithoughts_tt_gl-admin.class.php:473
 msgid "Term link"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:364
+#: ../class/ithoughts_tt_gl-admin.class.php:481
 msgid "Static terms"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:364
+#: ../class/ithoughts_tt_gl-admin.class.php:481
 msgid ""
 "Include term content directly into the pages to avoid use of Ajax. This can "
 "slow down your page generation."
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:364 ../class/ithoughts_tt_gl-admin.
-#: class.php:427 ../class/ithoughts_tt_gl-admin.class.php:435
-msgid "infos"
+#: ../class/ithoughts_tt_gl-admin.class.php:489
+msgid "Force load resources"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:372 ../class/ithoughts_tt_gl-admin.
-#: class.php:509
+#: ../class/ithoughts_tt_gl-admin.class.php:489
+msgid ""
+"Load scripts on every pages, even if not required. This option can be useful "
+"if some cache plugins are active, or if you think that scripts are not "
+"loaded when required."
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:497 ../class/ithoughts_tt_gl-admin.
+#: class.php:639
 msgid "Base Permalink"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:380 ../class/ithoughts_tt_gl-admin.
-#: class.php:513
+#: ../class/ithoughts_tt_gl-admin.class.php:505 ../class/ithoughts_tt_gl-admin.
+#: class.php:643
 msgid "Taxonomy group prefix"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:388
+#: ../class/ithoughts_tt_gl-admin.class.php:513
 msgid "Tooltip Content"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:400
+#: ../class/ithoughts_tt_gl-admin.class.php:525
 msgid "qTip2 Tooltip Options"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:406
+#: ../class/ithoughts_tt_gl-admin.class.php:531
 msgid ""
 "iThoughts Tooltip Glossary uses the jQuery based <a href=\"http://qtip2."
 "com/\">qTip2</a> library for tooltips"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:411
+#: ../class/ithoughts_tt_gl-admin.class.php:536
 msgid "Tooltip activation"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:419
+#: ../class/ithoughts_tt_gl-admin.class.php:544
 msgid "Tooltip Style (qTip)"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:427
+#: ../class/ithoughts_tt_gl-admin.class.php:547
+msgid "Standard styles"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:548
+msgid "or custom style (will override selected standard style)"
+msgstr ""
+
+#: ../class/ithoughts_tt_gl-admin.class.php:553
 msgid "Tooltip shadow"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:427 ../class/ithoughts_tt_gl-admin.
-#: class.php:435
+#: ../class/ithoughts_tt_gl-admin.class.php:553 ../class/ithoughts_tt_gl-admin.
+#: class.php:561
 msgid "This option can be overriden by some tooltip styles."
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:435
+#: ../class/ithoughts_tt_gl-admin.class.php:561
 msgid "Rounded corners"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:446
+#: ../class/ithoughts_tt_gl-admin.class.php:572
 msgid "Style editor"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:448
+#: ../class/ithoughts_tt_gl-admin.class.php:574
 msgid "Use this editor to fully customize the look of your tooltips"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:458
+#: ../class/ithoughts_tt_gl-admin.class.php:584
 msgid ""
 "The <b>tooltip</b> or <b>infotip</b> or a <b>hint</b> is a common <a "
 "href=\"/wiki/Graphical_user_interface\" title=\"Graphical user "
@@ -720,58 +897,58 @@ msgid ""
 "title=\"Mouse (computing)\">mouse</a>)."
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:458
+#: ../class/ithoughts_tt_gl-admin.class.php:584
 msgid "Activate me"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:461
+#: ../class/ithoughts_tt_gl-admin.class.php:587
 msgid ""
 "This is an example tooltip, with content such as <a>a tag for link</a>, "
 "<em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for "
 "italic</i>"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:461
+#: ../class/ithoughts_tt_gl-admin.class.php:587
 msgid "Example Tooltip"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:471
+#: ../class/ithoughts_tt_gl-admin.class.php:597
 msgid "Update Options"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:509 ../class/ithoughts_tt_gl-admin.
-#: class.php:513
+#: ../class/ithoughts_tt_gl-admin.class.php:639 ../class/ithoughts_tt_gl-admin.
+#: class.php:643
 msgid "Invalid input for"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:525
+#: ../class/ithoughts_tt_gl-admin.class.php:655
 msgid "Rewrite rule flushed"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:529
+#: ../class/ithoughts_tt_gl-admin.class.php:659
 msgid "Options updated"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:544
+#: ../class/ithoughts_tt_gl-admin.class.php:674
 msgid "Local image"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:545
+#: ../class/ithoughts_tt_gl-admin.class.php:676
 msgid "Image from site library"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:548
+#: ../class/ithoughts_tt_gl-admin.class.php:680
 msgid "Image on the web"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:549
+#: ../class/ithoughts_tt_gl-admin.class.php:682
 msgid "Image referenced by url, not on the site"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:552
+#: ../class/ithoughts_tt_gl-admin.class.php:686
 msgid "Video on the web"
 msgstr ""
 
-#: ../class/ithoughts_tt_gl-admin.class.php:553
+#: ../class/ithoughts_tt_gl-admin.class.php:688
 msgid "Video hosted online. Only Youtube, Dailymotion or .mp4 videos"
 msgstr ""

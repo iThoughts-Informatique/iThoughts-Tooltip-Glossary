@@ -1,18 +1,21 @@
 window.refloat;
+window.updateStyle;
 (function($){
     $(document).ready(function(){
-        var updateStyle = (function(){
+        window.updateStyle = (function(){
             var target = null;
             var styleI = $("#qtipstyle");
             var shadowI = $("#qtipshadow");
             var roundedI = $("#qtiprounded");
-            return function(){
+            return function(event, themename){
+				if(typeof themename == "undefined")
+					themename = styleI.val();
                 if(target == null)
                     target = $("#qtip-exampleStyle");
                 var style = [
                     "ithoughts_tt_gl-tooltip",
                     "qtip-pos-br",
-                    "qtip-"+styleI.val()
+                    "qtip-"+themename
                 ];
                 if(shadowI.is(':checked'))
                     style.push("qtip-shadow");
@@ -21,9 +24,10 @@ window.refloat;
                 target.qtip('option', 'style.classes', style.join(" "));
             }
         })();
-        $("#qtipstyle").bind("change blur keyup mouseup", updateStyle);
-        $("#qtiprounded").bind("change blur keyup mouseup", updateStyle);
-        $("#qtipshadow").bind("change blur keyup mouseup", updateStyle);
+        $("#qtiprounded").bind("change blur keyup mouseup", window.updateStyle);
+        $("#qtipshadow").bind("change blur keyup mouseup", window.updateStyle);
+        $("#qtipstyle").bind("change blur keyup mouseup", window.updateStyle);
+        $("#qtipstylecustom").bind("change blur keyup mouseup", function(e){window.updateStyle(e, $("#qtipstylecustom").val());});
 
         var updateActivationPreview = (function(){
             var target = null;
@@ -74,12 +78,16 @@ window.refloat;
 
         $("#ithoughts_tt_gl-customstyle").click(function(){
             var self = $(this).find(".inside .ajaxContainer");
-            if($(self).children().length === 0)
+            if($(self).children().length === 0){
+				/*/
+				$(self).append($.parseHTML("<iframe src=\"" + ithoughts_tt_gl.admin_ajax + "?action=ithoughts_tt_gl_get_customizing_form\"></iframe>"));
+				/*/
                 $.post(ithoughts_tt_gl.admin_ajax, {action: "ithoughts_tt_gl_get_customizing_form"}, function(output){
-                    $(self).append($.parseHTML(output.data));
+                    $(self).append($.parseHTML(output, true));
                     ithoughts_tt_gl["initStyleEditor"]($);
                 });
-            else
+				/**/
+			} else
                 console.log("Already filled");
         });
     });

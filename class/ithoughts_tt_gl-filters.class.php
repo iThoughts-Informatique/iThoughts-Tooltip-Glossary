@@ -5,7 +5,7 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 		add_filter("ithoughts_tt_gl-term-excerpt", array(&$this, "getTermExcerpt"));
 		add_filter("ithoughts-split-args", array(&$this, "splitArgs"), 10, 5);
 		add_filter("ithoughts-join-args", array(&$this, "joinArgs"), 10, 1);
-		add_filter("ithoughts_tt_gl-split-args", array(&$this, "ithoughts_splitArgs"), 10, 1);
+		add_filter("ithoughts_tt_gl-split-args", array(&$this, "ithoughts_tt_gl_splitArgs"), 10, 1);
 	}
 
 	public function getTermExcerpt(WP_Post $term){
@@ -98,15 +98,7 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 		return $ret;
 	}
 	
-	public function joinArgs($args){
-		$ret = "";
-		foreach($args as $key => $value){
-			$ret .= "$key=\"".ithoughts_tt_gl_stipQuotes($value, true)."\" ";
-		}
-		return $ret;
-	}
-	
-	public function ithoughts_splitArgs($atts){
+	public function ithoughts_tt_gl_splitArgs($atts){
 		$ret = array();
 		
 		$datas = apply_filters("ithoughts-split-args", $atts, parent::$handledAttributes, parent::$serversideOverridable, parent::$clientsideOverridable, false);
@@ -124,7 +116,11 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 		$ret["linkAttrs"] = $ret["linkAttrs"]["attributes"];
 		
 		$overridesClient = apply_filters("ithoughts_tt_gl_get_overriden_opts", $datas["overridesClient"], true);
-		$ret["attributes"] = array_merge($datas["attributes"], $overridesClient);
+		$overridesDataPrefixed = array();
+		foreach($overridesClient as $override => $value){
+			$overridesDataPrefixed["data-".$override] = $value;
+		};
+		$ret["attributes"] = array_merge($datas["attributes"], $overridesDataPrefixed);
 		
 		$ret["handled"] = $datas["handled"];
 		
@@ -153,10 +149,11 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 		var_dump($overridesClient);
 		echo "</pre>";
 		
+		//
 		echo "Returned: <pre>";
 		var_dump($ret);
 		echo "</pre>";
-		/*/
+		/**/
 		
 		return $ret;
 	}

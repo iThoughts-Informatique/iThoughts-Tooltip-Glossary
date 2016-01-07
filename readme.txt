@@ -24,6 +24,8 @@ Reasons for using iThoughts Tooltip Glossary plugin:
 * You don't want the adverts that external site popups come with.
 * You need greater precision for some of your readers.
 
+iThoughts Tooltip Glossary works well with [iThoughts Lightbox](http://www.gerkindevelopment.net/en/portfolio/ithoughts-lightbox/), which allow you to create responsive lightboxes that includes your mediatip images.
+
 For further information, please visit the [iThoughts Tooltip Glossary dedicated landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/).
 
 ** Please, don't annoy TCBarrett with questions about iThoughts Tooltip Glossary. I mention him only to give him credits and give you some infos, but all of the new code don't concern him. You can read, but you should not post. **

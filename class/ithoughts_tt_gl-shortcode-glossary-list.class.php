@@ -62,14 +62,14 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 			$linkdata["linkAttrs"]["link-".$key] = $linkAttr;
 			unset($linkdata["linkAttrs"][$key]);
 		}
-		$linkdata = ithoughts_tt_gl_array_flatten($linkdata);
+		$linkdata = ithoughts_toolbox::array_flatten($linkdata);
 		if($data["handled"]["desc"] != "glossarytips")
 			$linkdata = apply_filters("ithoughts_tt_gl-split-args", $linkdata);
 
 		// Go through all glossaries, and restrict to alpha list if supplied.
 		foreach( $glossaries as $post ) {
 			$title      = $post->post_title;
-			$titlealpha = strtoupper( ithoughts_tt_gl_unaccent(mb_substr($title,0,1, "UTF-8")) );
+			$titlealpha = strtoupper( ithoughts_toolbox::unaccent(mb_substr($title,0,1, "UTF-8")) );
 			if(!preg_match("/[A-Z]/", $titlealpha)){
 				$titlealpha = "#";
 			}
@@ -87,7 +87,7 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 							$linkAttrs["target"] = "_blank";
 						}
 						$linkAttrs["href"] = $href;
-						$args = apply_filters("ithoughts-join-args", $linkAttrs);
+						$args = ithoughts_toolbox::concat_attrs( $linkAttrs);
 						$link   = '<a '.$args.'>' . $title . '</a>';
 						$content = '<br>' . '<span class="glossary-item-desc">' . apply_filters("ithoughts_tt_gl-term-excerpt", $post) . '</span>';
 					} break;
@@ -98,9 +98,9 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 							$linkAttrs["target"] = "_blank";
 						}
 						$linkAttrs["href"] = $href;
-						$args = apply_filters("ithoughts-join-args", $linkAttrs);
+						$args = ithoughts_toolbox::concat_attrs( $linkAttrs);
 						$link   = '<a '.$args.'>' . $title . '</a>';
-						$cargs = apply_filters("ithoughts-join-args", $attrs);
+						$cargs = ithoughts_toolbox::concat_attrs( $attrs);
 						$content = '<br>' . '<span class="glossary-item-desc">' . $post->post_content . '</span>';
 					} break;
 					case 'glossarytips':{
@@ -113,7 +113,7 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 							$linkAttrs["target"] = "_blank";
 						}
 						$linkAttrs["href"] = $href;
-						$args = apply_filters("ithoughts-join-args", $linkAttrs);
+						$args = ithoughts_toolbox::concat_attrs( $linkAttrs);
 						$link   = '<a '.$args.'>' . $title . '</a>';
 					}break;
 				}
@@ -159,7 +159,7 @@ class ithoughts_tt_gl_Shortcode_TERMLIST extends ithoughts_tt_gl_interface{
 		$termlist = array_chunk($termlist, $termsPerChunk);
 
 		$data["attributes"]["class"] = "glossary-list-details".((isset($data["attributes"]["class"]) && $data["attributes"]["class"]) ? " ".$data["attributes"]["class"] : "");
-		$args = apply_filters("ithoughts-join-args", $data["attributes"]);
+		$args = ithoughts_toolbox::concat_attrs( $data["attributes"]);
 
 		$return = '<div '.$args.'>';
 		foreach( $termlist as $col => $items ){

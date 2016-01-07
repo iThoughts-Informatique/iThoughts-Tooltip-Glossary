@@ -39,11 +39,11 @@ class ithoughts_tt_gl_Shortcodes_tooltip extends ithoughts_tt_gl_interface{
 		$datas["linkAttrs"]["href"] = "javascript:void(0)";
 		$datas["linkAttrs"]["title"] = esc_attr($text);
 
-		$linkArgs = apply_filters("ithoughts-join-args", $datas["linkAttrs"]);
+		$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
 		$link   = '<a '.$linkArgs.'>' . $text . '</a>';
 		// Span that qtip finds
 		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-tooltip".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
-		$args = apply_filters("ithoughts-join-args", $datas["attributes"]);
+		$args = ithoughts_toolbox::concat_attrs( $datas["attributes"]);
 		$span = '<span '.$args.'>' . $link . '</span>';
 
 		return $span;

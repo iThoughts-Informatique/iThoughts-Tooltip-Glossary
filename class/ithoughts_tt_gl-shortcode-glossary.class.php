@@ -177,11 +177,11 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 		}
 
 
-		$linkArgs = apply_filters("ithoughts-join-args", $datas["linkAttrs"]);
+		$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
 		$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
 		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
-		$args = apply_filters("ithoughts-join-args", $datas["attributes"]);
+		$args = ithoughts_toolbox::concat_attrs( $datas["attributes"]);
 		
 		parent::$scripts['qtip'] = true;
 		
