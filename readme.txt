@@ -5,7 +5,7 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments
 Requires at least: 3.3
 Tested up to: 4.4
-Stable tag: 2.1.7
+Stable tag: 2.2.0
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -74,6 +74,13 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Changelog ==
+
+= 2.2.0 =
+* UPD Utility methods (form generation, parsing shortcode attrs) mutualized with all future plugins
+* FIX Webvideo unpin did not reactivate tooltip normal behaviour
+* UPD qTip2 v2.1.1 => v2.2.1
+* NEW Basic style editor
+* FIX overridable qtip style
 
 = 2.1.7 =
 * NEW Add attributes filtering & appending to plugin generated HTML
@@ -200,6 +207,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Upgrade Notice ==
+
+= 2.2.0 =
+Alpha release of qTip2 style editor, and update of qTip2.
 
 = 2.1.7 =
 Various fixes to improve uniformity in all situations (device of user, or server environment).
