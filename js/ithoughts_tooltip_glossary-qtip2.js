@@ -1,6 +1,44 @@
 (function($){
 	var isIos = navigator.userAgent.match(/(iPad|iPhone|iPod)/g); // Used to enable some iOS specific piece of code to catch click on body, for example
 	var baseTouch = (isIos || navigator.userAgent.match(/(Android|webOS|BlackBerry)/i) ) ? 1 : 0;
+
+	function dom2string(who){
+		var tmp = $(document.createElement("div"));
+		$(tmp).append($(who));
+		var tmp=tmp.html();
+		return(tmp);
+	}
+
+	var redimWait;
+	$(window).resize(function(){
+		clearTimeout(redimWait);
+		redimWait = setTimeout(redimVid,100);
+	});
+	function redimVid(video){
+		var h = $(window).height();
+		var w = $(window).width();
+		var i= 0;
+		var dims = [[512,288],[256,144]];
+		for(var l = dims.length;i < l;i++){
+			if(w > dims[i][0] && h > dims[i][1]) break;
+		}
+		console.log("Optimal dims:",dims[i]);
+		var optDims = dims[i];
+		if(typeof video == "undefined"){
+			$(".ithoughts_tt_gl-video").prop({width:optDims[0],height:optDims[1]});
+			$(".ithoughts_tt_gl-video_tip").each(function(){
+				var api = $(this).qtip("api");/**/
+				var state = api.disabled;
+				api.enable();/**/
+				api.reposition();/**/
+				api.disable(state);/**/
+			}).css({width:optDims[0],height:optDims[1]});
+		} else {
+			video.prop({width:optDims[0],height:optDims[1]}).addClass("ithoughts_tt_gl-video");
+			return {dims: {width:optDims[0],height:optDims[1]}, text: dom2string(video)};
+		}
+	}
+
 	$(document).ready(function(){
 		//Create container
 		tooltipsContainer = $($.parseHTML('<div id="ithoughts_tooltip_glossary-tipsContainer"></div>'));
@@ -14,7 +52,7 @@
 
 		$('span[class^=ithoughts_tooltip_glossary-]').each(function(){
 			var qtipstyle	= ($(this).data('qtipstyle')) ? $(this).data('qtipstyle') : ithoughts_tt_gl.qtipstyle;
-			var termcontent	= ($(this).data('term-content')) ? $(this).data('term-content') : ithoughts_tt_gl.termcontent;
+			var termcontent	= ($(this).data('termcontent')) ? $(this).data('termcontent') : ithoughts_tt_gl.termcontent;
 			var qtipshadow	= ($(this).data('qtipshadown')) ? $(this).data('qtipshadown') : ithoughts_tt_gl.qtipshadown;
 			qtipshadow = qtipshadow === "true" || qtipshadow === "1";
 			var qtiprounded	= ($(this).data('qtiprounded')) ? $(this).data('qtiprounded') : ithoughts_tt_gl.qtiprounded;
@@ -58,8 +96,12 @@
 			var tipClass = 'qtip-' + qtipstyle + (qtipshadow ? " qtip-shadow" : "" ) + (qtiprounded ? " qtip-rounded" : "" ) + " " ;
 			var specific;
 			if($(this).hasClass("ithoughts_tooltip_glossary-glossary")){
-				if(this.getAttribute("data-termid")){
-					var ajaxPostData = $.extend( {action: 'ithoughts_tt_gl_get_term_details', content: termcontent}, $(this).data() );
+				if(this.getAttribute("data-termid") && termcontent != "off"){
+					var ajaxPostData = {
+						action: 'ithoughts_tt_gl_get_term_details',
+						content: termcontent,
+						termid: $(this).data()["termid"]
+					};
 					specific = {
 						content: {
 							text: 'Loading glossary term',
@@ -148,8 +190,15 @@
 					}
 					specific.content["text"] = "<img " + attrsStr + ">"
 				} else if(this.getAttribute("data-mediatip-html")){
-					specific.content["text"] = this.getAttribute("data-mediatip-html").replace('&quot;', '"');
-					specific.content.title.text += '<span class="ithoughts_tooltip_glossary_pin_container"><svg viewBox="0 0 26 26" class="ithoughts_tooltip_glossary_pin"><use xlink:href="#icon-pin"></use></svg></span>';
+					var redimedInfos = (function(element){
+						if(element.length == 1 && ((element[0].nodeName == "IFRAME" && element[0].src.match(/youtube|dailymotion/)) || element[0].nodeName == "VIDEO")){
+							return redimVid(element);
+						}
+					})($($.parseHTML(this.getAttribute("data-mediatip-html").replace('&quot;', '"').trim())));
+					specific.content["text"] = redimedInfos["text"];
+					specific.content.title.text = '<span class="ithoughts_tooltip_glossary_pin_container"><svg viewBox="0 0 26 26" class="ithoughts_tooltip_glossary_pin"><use xlink:href="#icon-pin"></use></svg></span><span class="ithoughts_tt_gl-title_with_pin">' + specific.content.title.text + "</span>";
+					specific.style.classes += " ithoughts_tt_gl-force_no_pad ithoughts_tt_gl-video_tip ithoughts_tt_gl-with_pin"
+					specific.style.width = redimedInfos["dims"]["width"];
 					specific.events["render"] = function(event, api) {
 						// Grab the tooltip element from the API elements object
 						// Notice the 'tooltip' prefix of the event name!

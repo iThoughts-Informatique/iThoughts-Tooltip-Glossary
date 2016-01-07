@@ -220,17 +220,17 @@
 				var formats = {
 					direct: {
 						regex: /^(.*\.mp4)(\?.*)?$/,
-						embed: '<video width="400" height="222" controls="controls"><source src="$1" type="video/mp4" /></video>',
+						embed: '<video width="512" height="288" controls="controls"><source src="$1" type="video/mp4" /></video>',
 						video: '$1'
 					},
 					youtube: {
 						regex: /^(?:https?:\/\/(?:youtu\.be\/|\w*\.youtube\.\w{2,3}\/watch\?v=)|<iframe .*?src="https?:\/\/\w*\.youtube\.\w{2,3}\/embed\/)([a-zA-Z0-9]*).*$/,
-						embed: '<iframe width="420" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>',
+						embed: '<iframe width="512" height="288" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>',
 						video: 'https://www.youtube.com/watch?v=$1'
 					},
 					dailymotion: {
 						regex: /^(?:https?:\/\/(?:dai\.ly\/|\w*\.dailymotion\.\w{2,3}\/video\/)|<iframe .*?src=".*?\w*\.dailymotion\.\w{2,3}\/embed\/video\/)([a-zA-Z0-9]*).*/,
-						embed: '<iframe width="420" height="315" src="https://www.dailymotion.com/embed/video/$1" frameborder="0" allowfullscreen></iframe>',
+						embed: '<iframe width="512" height="288" src="https://www.dailymotion.com/embed/video/$1" frameborder="0" allowfullscreen></iframe>',
 						video: 'https://www.dailymotion.com/video/$1'
 					}
 				};

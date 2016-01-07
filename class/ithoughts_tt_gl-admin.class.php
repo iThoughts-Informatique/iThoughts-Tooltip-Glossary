@@ -510,7 +510,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 											</tr>
 											<tr>
 												<th>
-													<label for="termcontent"><?php _e('Tooltip Content', 'ithoughts_tooltip_glossary'); ?>:</label>
+													<label for="termcontent"><?php _e('Glossary Tip Content', 'ithoughts_tooltip_glossary'); ?>:</label>
 												</th>
 												<td>
 													<?php echo $optionsInputs["termcontent"]; ?>
