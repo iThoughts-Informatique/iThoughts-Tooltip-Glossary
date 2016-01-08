@@ -202,7 +202,7 @@
 					mode = "load";
 					values= {
 						text: content,
-						tooltip_content: ((sel.getStart().getAttribute("data-tooltip-content")) ? window.decodeURIComponent(sel.getStart().getAttribute("data-tooltip-content")) : null) || content,
+						tooltip_content: stripQuotes(((sel.getStart().getAttribute("data-tooltip-content")) ? (sel.getStart().getAttribute("data-tooltip-content")) : null) || content, true),
 						glossary_id: sel.getStart().getAttribute("data-glossary-id"),
 						term_search: removeAccents(content.toLowerCase()),
 						mediatip_type: sel.getStart().getAttribute("data-mediatip-type"),
@@ -308,12 +308,6 @@
 	});
 })();
 
-function stripQuotes(string, encode){
-	if(encode)
-		return string.replace(/"/g, "&quot;");
-	else
-		return string.replace(/&quot;/g, '"');
-}
 replaceShortcodesEl = [
 	function(content){ // For [glossary]
 		return content.replace( /\[(?:ithoughts_tooltip_glossary-)?(glossary|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/(?:ithoughts_tooltip_glossary-)?(glossary|tooltip|mediatip)\]/g, function( all,balise,inner, text){
@@ -358,7 +352,7 @@ restoreShortcodesEl = [
 			var b = ["glossary","tooltip","mediatip"][["term","tooltip","mediatip"].indexOf(type)];
 			var ret = "[ithoughts_tooltip_glossary-" + b;
 			for(var i in attrs){
-				ret += " "+window.decodeURIComponent(i)+"=\""+window.decodeURIComponent(attrs[i])+"\"";
+				ret += " "+window.decodeURIComponent(i)+"=\""+stripQuotes(attrs[i], true)+"\"";
 			}
 			return ret + "]" + text + "[/ithoughts_tooltip_glossary-"+b+"]";
 		});
@@ -373,7 +367,7 @@ restoreShortcodesEl = [
 			}
 			var ret = "[glossary_" + type;
 			for(var i in attrs){
-				ret += " "+window.decodeURIComponent(i)+"=\""+window.decodeURIComponent(attrs[i])+"\"";
+				ret += " "+window.decodeURIComponent(i)+"=\""+stripQuotes(attrs[i], true)+"\"";
 			}
 			return ret + "/]";
 		});

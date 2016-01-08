@@ -43,7 +43,8 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 				$dat = ithoughts_toolbox::decode_json_attr($datas["handled"]["mediatip-content"]);
 				$datas["attributes"]['data-mediatip-image'] = htmlentities($dat['url']);
 
-				$datas["linkAttrs"]["href"] = $dat['link'];
+				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
+					$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
 				$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
 				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
@@ -57,7 +58,8 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 			case $mediatipTypes[1]:{
 				$datas["attributes"]['data-mediatip-image'] = htmlentities($datas["handled"]["mediatip-content"]);
 
-				$datas["linkAttrs"]["href"] = 'javascript:void(0);';
+				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
+					$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
 				$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
 				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
@@ -71,7 +73,8 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 			case $mediatipTypes[2]:{
 				$datas["attributes"]['data-mediatip-html'] = $datas["handled"]["mediatip-content"];
 
-				$datas["linkAttrs"]["href"] = 'javascript:void(0);';
+				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
+					$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
 				$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
 				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';

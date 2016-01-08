@@ -441,13 +441,13 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 			),
 		);
 
-			$optionsInputs["qtipstylecustom"] = ithoughts_toolbox::generate_input_text(
-				"qtipstylecustom",
-				array(
-					"type" => "text",
-					"value" => (strpos($optionsInputs["qtipstyle"], 'selected="selected"') === false) ? $options["qtipstyle"] : ""
-				)
-			);
+		$optionsInputs["qtipstylecustom"] = ithoughts_toolbox::generate_input_text(
+			"qtipstylecustom",
+			array(
+				"type" => "text",
+				"value" => (strpos($optionsInputs["qtipstyle"], 'selected="selected"') === false) ? $options["qtipstyle"] : ""
+			)
+		);
 ?>
 <div class="wrap">
 	<div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">
@@ -708,11 +708,9 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 				} break;
 
 				case "tooltip":{
-					$data["tooltip_content"] = str_replace(
-						array('\\"', "\\'"),
-						array('"', "'"),
+					$data["tooltip_content"] = innerAttr(
 						isset($data["tooltip_content"]) ? $data["tooltip_content"] : ""
-					);
+						, false);
 				} break;
 
 				case "mediatip":{
@@ -821,5 +819,27 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		include parent::$plugin_base."/templates/customizing_form.php";
 		$output = ob_get_clean();
 		wp_die($output);
+	}
+}
+
+function innerAttr($str, $encode){
+	if($encode){
+		return str_replace(
+		array('&','"',"'",'\n'),
+		array("&amp;", "&quot;",'&apos;', "<br/>"),
+		$str
+	);
+	}else{/*
+		return str_replace(
+		array('\\"',"\\'","<br/>", "&quot;", "&amp;"),
+		array('"', "'", '\n','"','&'),
+		$str
+	);*/
+		
+		return str_replace(
+		array('\\"',"\\'"),
+		array('"', "'"),
+		$str
+	);
 	}
 }

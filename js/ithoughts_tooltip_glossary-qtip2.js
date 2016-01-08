@@ -1,3 +1,10 @@
+function stripQuotes(string, encode){
+	if(encode)
+		return string/*.replace(/&/g, "&amp;")*/.replace(/"/g, "&quot;").replace(/\n/g, "<br/>");
+	else
+		return string.replace(/<br\/>/g, "\n").replace(/&quot;/g, '"')/*.replace(/&amp;/g, "&")*/;
+}
+
 (function($){
 	var isIos = navigator.userAgent.match(/(iPad|iPhone|iPod)/g); // Used to enable some iOS specific piece of code to catch click on body, for example
 	var baseTouch = (isIos || navigator.userAgent.match(/(Android|webOS|BlackBerry)/i) ) ? 1 : 0;
@@ -143,7 +150,7 @@
 						classes: tipClass + "ithoughts_tooltip_glossary-tooltip"
 					},
 					content: {
-						text: window.decodeURIComponent(this.getAttribute("data-tooltip-content")),
+						text: stripQuotes(this.getAttribute("data-tooltip-content"), false),
 						title: { text: $(this).text() }
 					}
 				};

@@ -161,17 +161,21 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 
 
 		$link;
-		$datas["linkAttrs"]["title"] = $text;
+		if(!(isset($datas["linkAttrs"]["title"]) && $datas["linkAttrs"]["title"]))
+			$datas["linkAttrs"]["title"] = $text;
 		switch($datas["options"]["termlinkopt"]){
 			case "blank":{
-				$datas["linkAttrs"]["href"] = $href;
+				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
+					$datas["linkAttrs"]["href"] = $href;
 				$datas["linkAttrs"]["target"] = "_blank";
 			}break;
 			case "none":{
-				$datas["linkAttrs"]["href"] = "javascript::void(0);";
+				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
+					$datas["linkAttrs"]["href"] = "javascript::void(0);";
 			}break;
 			case "standard":{
-				$datas["linkAttrs"]["href"] = $href;
+				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
+					$datas["linkAttrs"]["href"] = $href;
 				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term) );
 			}break;
 		}
@@ -182,9 +186,9 @@ class ithoughts_tt_gl_glossary_filters extends ithoughts_tt_gl_interface{
 
 		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
 		$args = ithoughts_toolbox::concat_attrs( $datas["attributes"]);
-		
+
 		parent::$scripts['qtip'] = true;
-		
+
 		return '<span '.$args.'>' . $linkElement . '</span>';
 	}
 }

@@ -35,9 +35,11 @@ class ithoughts_tt_gl_Shortcodes_tooltip extends ithoughts_tt_gl_interface{
 
 		// qtip jquery data
 		$datas["attributes"]["data-tooltip-content"] = do_shortcode($content);
-		
-		$datas["linkAttrs"]["href"] = "javascript:void(0)";
-		$datas["linkAttrs"]["title"] = esc_attr($text);
+
+		if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
+			$datas["linkAttrs"]["href"] = 'javascript:void(0);';
+		if(!(isset($datas["linkAttrs"]["title"]) && $datas["linkAttrs"]["title"]))
+			$datas["linkAttrs"]["title"] = esc_attr($text);
 
 		$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
 		$link   = '<a '.$linkArgs.'>' . $text . '</a>';
