@@ -56,9 +56,9 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 <?php
 											 }
 	public function ajaxHooks(){
-		add_action( 'wp_ajax_ithoughts_tt_gl_get_tinymce_tooltip_form', array(&$this, 'getTinyMCETooltipFormAjax') );
-		add_action( 'wp_ajax_ithoughts_tt_gl_get_customizing_form', array(&$this, 'getCustomizingFormAjax') );
-		add_action( 'wp_ajax_ithoughts_tt_gl_update_options',	array(&$this, 'update_options') );
+		add_action( 'wp_ajax_ithoughts_tt_gl_get_tinymce_tooltip_form',	array(&$this, 'getTinyMCETooltipFormAjax') );
+		add_action( 'wp_ajax_ithoughts_tt_gl_get_customizing_form',		array(&$this, 'getCustomizingFormAjax') );
+		add_action( 'wp_ajax_ithoughts_tt_gl_update_options',			array(&$this, 'update_options') );
 	}
 	public function register_scripts_and_styles(){
 		wp_register_script(
@@ -136,7 +136,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	parent::$base_url . '/css/ithoughts_tooltip_glossary-tinymce-forms.css', null, "2.1.7");
 		wp_register_style( 'ithoughts_tooltip_glossary-colorpicker',	parent::$base_url . '/ext/gradx/colorpicker/colorpicker.css', null, null );
 		wp_register_style( 'ithoughts_tooltip_glossary-gradx',			parent::$base_url . '/ext/gradx/gradX.css', null, null );
-		wp_register_style( 'ithoughts_tooltip_glossary-admin',			parent::$base_url . '/css/ithoughts_tooltip_glossary-admin.css', null, "2.2.0" );
+		wp_register_style( 'ithoughts_tooltip_glossary-admin',			parent::$base_url . '/css/ithoughts_tooltip_glossary-admin.css', null, "2.2.3" );
 	}
 	public function enqueue_scripts_and_styles(){
 		wp_enqueue_script( 'simple-ajax' );

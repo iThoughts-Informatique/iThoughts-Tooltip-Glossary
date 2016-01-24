@@ -4,8 +4,8 @@ Plugin URL: http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glos
 Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments
 Requires at least: 3.3
-Tested up to: 4.4
-Stable tag: 2.2.2
+Tested up to: 4.4.1
+Stable tag: 2.2.3
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily

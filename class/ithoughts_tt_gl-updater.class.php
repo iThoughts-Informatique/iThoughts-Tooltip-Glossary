@@ -13,8 +13,9 @@ class ithoughts_tt_gl_Updater{
 		$this->parentC = $parent;
 
 
-		add_action( 'wp_ajax_ithoughts_tt_gl_update', array(&$this, 'applyUpdates') );
-		add_action( 'wp_ajax_ithoughts_tt_gl_update_done', array(&$this, 'setVersion') );
+		add_action( 'wp_ajax_ithoughts_tt_gl_update',			array(&$this, 'applyUpdates') );
+		add_action( 'wp_ajax_ithoughts_tt_gl_update_done',		array(&$this, 'setVersion') );
+		add_action( 'wp_ajax_ithoughts_tt_gl_update-dismiss',	array(&$this, 'dismiss_update') );
 	}
 
 	static public function requiresUpdate($from, $to){
@@ -22,10 +23,13 @@ class ithoughts_tt_gl_Updater{
 	}
 
 	static private function getVersions(){
-		return array("2.0");
+		return array("2.0", "2.2.3");
 	}
 	private function getLastVersionUp(){
 		return self::getLastVUp($this->from, $this->to);
+	}
+	public function dismiss_update(){
+		$this->setVersion($this->to);
 	}
 	static private function getLastVUp($from, $max = NULL){
 		if($max != NULL){
@@ -51,12 +55,36 @@ class ithoughts_tt_gl_Updater{
 		switch($this->versionIndex){
 			case 0:{
 ?>
-<div class="update-nag">
+<div class="update-nag notice">
 	<p><?php _e( 'Thank you for using iThoughts Tooltip Glossary v2.0! This update comes with some big refactoring to improve evolution flexibility, compatibility, and much more. But it requires also a global update of <b>each of your posts</b> to apply the new format. If you don\'t apply this update, none of your tooltips will work properly.','ithoughts_tooltip_glossary'); ?></p>
 	<a class="button button-secondary" href="<?php echo admin_url("admin.php?page=ithoughts_tt_gl_update"); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php _e('Update now!','ithoughts_tooltip_glossary'); ?></a>
 </div>
 <?php		
-				   }break;
+				   } break;
+
+			case 1:{
+?>
+<div class="update-nag is-dismissable ithoughts_tt_gl">
+	<script>
+		jQuery(document).on( 'click', '.update-nag.is-dismissable.ithoughts_tt_gl .dismiss', function() {
+
+			jQuery.ajax({
+				url: ajaxurl,
+				data: {
+					action: 'ithoughts_tt_gl_update-dismiss'
+				}
+			}, function(){
+				location.reload();
+			})
+
+		})
+	</script>
+	<button class="dismiss button"></button>
+	<p><?php _e( 'An error in the updater have been spotted. This update will replace old slug-based tooltips to id-based ones..','ithoughts_tooltip_glossary'); ?></p>
+	<a class="button button-secondary" href="<?php echo admin_url("admin.php?page=ithoughts_tt_gl_update"); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php _e('Update now!','ithoughts_tooltip_glossary'); ?></a>
+</div>
+<?php	
+				   } break;
 		}
 	}
 	public function updater(){
@@ -101,11 +129,15 @@ class ithoughts_tt_gl_Updater{
 	}
 
 
-	function setVersion(){
-		$data = array();
-		isset($_POST['data']) && $data=$_POST['data'];
-		$opts = $this->parentC->getOptions();
-		$opts["version"] = $data['newversion'];
+	public function setVersion($version = NULL){
+		if($version == NULL){
+			$data = array();
+			isset($_POST['data']) && $data=$_POST['data'];
+			$opts = $this->parentC->getOptions();
+			$opts["version"] = $data['newversion'];
+		} else {
+			$opts["version"] = $version;
+		}
 		update_option( 'ithoughts_tt_gl', $opts );
 		wp_send_json_success(array("Ok" => "OK"));
 		wp_die();
@@ -218,15 +250,54 @@ class ithoughts_tt_gl_Updater{
 				$return = array("progression" => ($paged + 1) * $maxCount);
 			} break;
 
-			/*
-		case 2:{
-			if($data["progression"] == -1){
-				wp_send_json_success(array("max" => 1, "targetversion" => getVersions()[$versionIndex], "text" => "Hello"));
-			}
-			wp_send_json_success(array("progression" => 1));
-			wp_die();
-		} break;
-		*/
+			case 1:{
+				global $post;
+				$maxCount = 20;
+				$updatedStatus = array('publish', 'pending', 'draft', 'future', 'private', 'inherit');
+
+				if($data["progression"] == -1){
+					$count_posts = wp_count_posts();
+					$totalCount = 0;
+					foreach($count_posts as $postType => $count){
+						if(array_search($postType, $updatedStatus) !== false)
+							$totalCount += intval($count);
+					}
+					$versions = self::getVersions();
+					wp_send_json_success(
+						array(
+							"max" => $totalCount,
+							"targetversion" => $versions[$this->versionIndex],
+							"text" => __("Applying new format.",'ithoughts_tooltip_glossary')
+						)
+					);
+					wp_die();
+				}
+
+				$paged = intval($data["progression"] / $maxCount);
+				$queryargs = array(
+					'post_status' => $updatedStatus,
+					"posts_per_page" => $maxCount,
+					"paged"			=> $paged
+				);
+				$posts_to_update = new WP_Query($queryargs);
+				while($posts_to_update->have_posts()){
+					$posts_to_update->the_post();
+					$postUpdateArray = array();
+					$postUpdateArray ['ID'] = $post->ID;//Don't remove this. The ID is mandatory
+					$postUpdateArray ['post_content'] = $post->post_content;
+					$matches;
+					
+					wp_update_post( $postUpdateArray );
+				}
+				wp_reset_postdata();
+
+				$current_page = $posts_to_update->get( 'paged' );
+				if ( ! $current_page ) {
+					$current_page = 1;
+				}
+
+				$return = array("progression" => ($paged + 1) * $maxCount);
+			} break;
 		}
 
 		if($data["maxAdvandement"] > -1){

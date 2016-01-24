@@ -97,3 +97,14 @@ tr.nonoverridable label, .nonoverridable:not(tr){
 #customizing-form input:disabled {
     background: #dddddd;
 }
+.ithoughts_tt_gl.update-nag{
+    margin-left: 15px;
+    display: block;
+}
+
+.ithoughts_tt_gl.update-nag.is-dismissable .dismiss{
+	float:right;
+}
+.ithoughts_tt_gl.update-nag.is-dismissable .dismiss:after{
+    content: "\00D7";
+}
