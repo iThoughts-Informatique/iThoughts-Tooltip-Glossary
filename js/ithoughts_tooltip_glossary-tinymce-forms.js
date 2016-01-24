@@ -12,27 +12,44 @@
 			$($(event.target).parent().parent().children()[$(event.target).index() + 1]).addClass('active');
 		});
 
-		var editor = tinymce.init({
-			selector: "#ithoughts_tt_gl-tooltip-form-container .tinymce",
-			menubar: false,
-			external_plugins: {
-				code: ithoughts_tt_gl_tinymce_form.base_tinymce + "/code/plugin.min.js",
-				wordcount: ithoughts_tt_gl_tinymce_form.base_tinymce + "/wordcount/plugin.min.js"
-			},
-			plugins: "wplink",
-			toolbar: [
-				"styleselect | bold italic underline link | bullist numlist | alignleft aligncenter alignright alignjustify | code"
-			],
-			min_height:70,
-			height: 70,
-			resize:false
+		$editors = $("#ithoughts_tt_gl-tooltip-form-container .tinymce");
+		$editors.each(function(index, editor){
+			text = editor.value;
+			while(editor.getAttribute("id") == null){
+				var newId = "editor" + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
+				if(!document.getElementById(newId)){
+					editor.setAttribute("id", newId);
+				}
+			}
+			var editorId = editor.getAttribute("id");
+			tinymce.init({
+				selector: "#" + editorId,
+				menubar: false,
+				external_plugins: {
+					code: ithoughts_tt_gl_tinymce_form.base_tinymce + "/code/plugin.min.js",
+					wordcount: ithoughts_tt_gl_tinymce_form.base_tinymce + "/wordcount/plugin.min.js"
+				},
+				plugins: "wplink",
+				toolbar: [
+					"styleselect | bold italic underline link | bullist numlist | alignleft aligncenter alignright alignjustify | code"
+				],
+				min_height:70,
+				height: 70,
+				resize:false
+			});
+			var intervalContent = setInterval(function(){
+				if(tinymce.get(editorId)){
+					clearInterval(intervalContent);
+					tinymce.get(editorId).setContent(text.replace(/&/g, "&amp;"));
+				}
+			},50);
 		});
 
 		// Mode switcher
 		$(".modeswitcher").on("click keyup", function(){
 			var id = this.id;
 			$('[data-' + id + ']:not([data-' + id + '="mediatip-' + this.value + '-type"])').hide();
-			$('[data-' + id + '="mediatip-' + this.value + '-type"]').show();
+			$('[data-' + id + '~="mediatip-' + this.value + '-type"]').show();
 		}).keyup();;
 
 		// Image selector
@@ -52,7 +69,6 @@
 
 			window.mb.frame.on('insert', function() {
 				var json = window.mb.frame.state().get('selection').first().toJSON();
-				console.log(json);
 
 				if (0 > jQuery.trim(json.url.length)) {
 					return;
@@ -64,6 +80,7 @@
 					link: json.link
 				}));
 				jQuery('#image-box')[0].innerHTML = '<img src="' + json.url + '"/>';
+				jQuery('#mediatip_caption').val(json.caption);
 			});
 
 			window.mb.frame.open();
@@ -162,7 +179,8 @@
 			$("#ithoughts_tt_gl-tinymce-validate").click(function(){
 				var data = {
 					type: ["glossary", "tooltip", "mediatip"][$('.tabs li.active').index()],
-					text: $("#itghouts_tt_gl_text").val()
+					text: $("#itghouts_tt_gl_text").val(),
+					link: $("#itghouts_tt_gl_link").val()
 				}
 				switch(data.type){
 					case "glossary":{
@@ -184,13 +202,15 @@
 						switch(data.mediatip_type){
 							case "localimage":{
 								data = $.extend(data, {
-									mediatip_content: $("#image-box-data").val()
+									mediatip_content: $("#image-box-data").val(),
+									mediatip_caption: $("#mediatip_caption").val()
 								});
 							}break;
 
 							case "webimage":{
 								data = $.extend(data, {
-									mediatip_content: $("#mediatip_url_image").val()
+									mediatip_content: $("#mediatip_url_image").val(),
+									mediatip_caption: $("#mediatip_caption").val()
 								});
 							}break;
 

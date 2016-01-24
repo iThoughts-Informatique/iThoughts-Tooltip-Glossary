@@ -1,8 +1,10 @@
 function stripQuotes(string, encode){
+	if(typeof string != "string")
+		return "";
 	if(encode)
-		return string/*.replace(/&/g, "&amp;")*/.replace(/"/g, "&quot;").replace(/\n/g, "<br/>");
+		return string/*.replace(/&/g, "&amp;")*/.replace(/"/g, "&aquot;").replace(/\n/g, "<br/>");
 	else
-		return string.replace(/<br\/>/g, "\n").replace(/&quot;/g, '"')/*.replace(/&amp;/g, "&")*/;
+		return string.replace(/<br\/>/g, "\n").replace(/&aquot;/g, '"')/*.replace(/&amp;/g, "&")*/;
 }
 
 (function($){
@@ -29,7 +31,6 @@ function stripQuotes(string, encode){
 		for(var l = dims.length;i < l;i++){
 			if(w > dims[i][0] && h > dims[i][1]) break;
 		}
-		console.log("Optimal dims:",dims[i]);
 		var optDims = dims[i];
 		if(typeof video == "undefined"){
 			$(".ithoughts_tt_gl-video").prop({width:optDims[0],height:optDims[1]});
@@ -150,7 +151,7 @@ function stripQuotes(string, encode){
 						classes: tipClass + "ithoughts_tooltip_glossary-tooltip"
 					},
 					content: {
-						text: stripQuotes(this.getAttribute("data-tooltip-content"), false),
+						text: stripQuotes(this.getAttribute("data-tooltip-content"), false).replace(/&/g, "&amp;"),
 						title: { text: $(this).text() }
 					}
 				};
@@ -195,7 +196,11 @@ function stripQuotes(string, encode){
 					for(var key in attrs){
 						attrsStr += key + '="' + attrs[key] + '" ';
 					}
-					specific.content["text"] = "<img " + attrsStr + ">"
+					specific.content["text"] = "<img " + attrsStr + ">";
+					var caption = this.getAttribute("data-mediatip-caption");
+					if(caption){
+						specific.content["text"] += '<div class="ithoughts_tt_gl-caption">' + caption.replace(/&aquot;/g, '"') + '</div>';
+					}
 				} else if(this.getAttribute("data-mediatip-html")){
 					var redimedInfos = (function(element){
 						if(element.length == 1 && ((element[0].nodeName == "IFRAME" && element[0].src.match(/youtube|dailymotion/)) || element[0].nodeName == "VIDEO")){

@@ -1,5 +1,11 @@
 <div id="ithoughts_tt_gl-tooltip-form-container">
-	<!--<pre style="display:none;"><?php var_dump($data); ?></pre>-->
+	<!--<pre style="display:none;"><?php var_dump($data);
+			var_dump($data["mediatip_content_json"]);
+var_dump('&quot;"');
+			var_dump(str_replace("\\\"", '"', $data["mediatip_content_json"]));
+			var_dump(json_decode(str_replace("\\\"", '"', $data["mediatip_content_json"]), true));
+			var_dump(json_last_error_msg());
+?></pre>-->
 	<div id="pseudohead">
 		<?php wp_print_styles("ithoughts_tooltip_glossary-tinymce_form"); ?>
 		<?php wp_print_scripts("ithoughts_tooltip_glossary-utils"); ?>
@@ -35,7 +41,17 @@
 											</label>
 										</td>
 										<td>
-											<input type="text" id="itghouts_tt_gl_text" name="itghouts_tt_gl_text" value="<?php echo $data["text"]; ?>">
+											<input type="text" autocomplete="off" id="itghouts_tt_gl_text" name="itghouts_tt_gl_text" value="<?php echo $data["text"]; ?>">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<label for="itghouts_tt_gl_link">
+												<?php _e("Link", "ithoughts_tooltip_glossary"); ?>
+											</label>
+										</td>
+										<td>
+											<input type="text" autocomplete="off" id="itghouts_tt_gl_link" name="itghouts_tt_gl_link" value="<?php echo $data["link"]; ?>">
 										</td>
 									</tr>
 								</table>
@@ -88,7 +104,7 @@
 													<?php _e("Content", "ithoughts_tooltip_glossary"); ?>
 												</label>
 												<div style="margin:0 -11px;">
-													<textarea class="tinymce" id="ithoughts_tt_gl-tooltip-content"><?php echo $data['tooltip_content']; ?></textarea>
+													<textarea class="tinymce" id="ithoughts_tt_gl-tooltip-content"><?php echo htmlentities($data['tooltip_content']); ?></textarea>
 												</div>
 											</td>
 										</tr>
@@ -120,7 +136,7 @@
 endif;
 													?>
 												</div>
-												<input class="mce-textbox " id="image-box-data" style="display: none;" value="<?php echo $data["mediatip_content_json"]; ?>">
+												<input id="image-box-data" style="display: none;" value="<?php echo $data["mediatip_content_json"]; ?>">
 												<div class="mce-widget mce-btn mce-last mce-btn-has-text" role="button" style="width: 100%; height: 30px;" tabindex="-1">
 													<button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl_select_image">
 														<?php _e("Select an image", "ithoughts_tooltip_glossary"); ?>
@@ -136,6 +152,16 @@ endif;
 											</td>
 											<td>
 												<input autocomplete="off" type="url" name="mediatip_url_image" id="mediatip_url_image" value="<?php echo (($data["mediatip_type"] == "webimage") ? $data["mediatip_content_json"] : ""); ?>"/>
+											</td>
+										</tr>
+										<tr data-mediatip_type="mediatip-webimage-type mediatip-localimage-type">
+											<td>
+												<label for="mediatip_caption">
+													<?php _e("Caption", "ithoughts_tooltip_glossary"); ?>
+												</label>
+											</td>
+											<td>
+												<textarea autocomplete="off" name="mediatip_caption" id="mediatip_caption" style="width:100%;border:1px solid #ccc;"><?php echo (in_array($data["mediatip_type"], array("webimage", "localimage"))) ? $data["mediatip_caption"] : "" ?></textarea>
 											</td>
 										</tr>
 										<tr data-mediatip_type="mediatip-webvideo-type">

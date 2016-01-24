@@ -200,15 +200,17 @@
 				var content = sel.getContent({format: 'text'});
 				if(types.indexOf(sel.getStart().getAttribute("data-type")) > -1){ // On Glossary Term or Tooltip or Mediatip, load data
 					mode = "load";
+					var el = sel.getStart();
 					values= {
 						text: content,
-						tooltip_content: stripQuotes(((sel.getStart().getAttribute("data-tooltip-content")) ? (sel.getStart().getAttribute("data-tooltip-content")) : null) || content, true),
-						glossary_id: sel.getStart().getAttribute("data-glossary-id"),
+						tooltip_content: stripQuotes(((el.getAttribute("data-tooltip-content")) ? (el.getAttribute("data-tooltip-content")) : null) || content, false),
+						glossary_id: el.getAttribute("data-glossary-id"),
 						term_search: removeAccents(content.toLowerCase()),
-						mediatip_type: sel.getStart().getAttribute("data-mediatip-type"),
-						mediatip_content: sel.getStart().getAttribute("data-mediatip-content"),
-						mediatip_link: sel.getStart().getAttribute("data-mediatip-link"),
-						type: ["glossary", "tooltip", "mediatip"][types.indexOf(sel.getStart().getAttribute("data-type"))]
+						mediatip_type: el.getAttribute("data-mediatip-type"),
+						mediatip_content: stripQuotes(el.getAttribute("data-mediatip-content"), false),
+						mediatip_link: el.getAttribute("data-mediatip-link"),
+						mediatip_caption: el.getAttribute("data-mediatip-caption"), 
+						type: ["glossary", "tooltip", "mediatip"][types.indexOf(el.getAttribute("data-type"))]
 					};
 				} else { //Create new glossary term
 					if(content && content.length > 0){ // If something is selected
@@ -220,6 +222,7 @@
 							term_search: removeAccents(content.toLowerCase()),
 							mediatip_type: "",
 							mediatip_content: "",
+							mediatip_caption: "",
 							type: "tooltip"
 						};
 					} else { // If no selection
@@ -244,6 +247,7 @@
 				newDom[0].finish = (function(){
 					var domC = newDom;
 					return function(data){
+						console.log(data);
 						domC.animate({opacity:0}, 500, function(){
 							domC.remove();
 						});
@@ -278,7 +282,7 @@
 								if(data.mediatip_type == "" || data.mediatip_content == "" || data.text == "")
 									return;
 								else
-									editor.insertContent('[ithoughts_tooltip_glossary-mediatip mediatip-type="' + data.mediatip_type + '" mediatip-content="' + stripQuotes(data.mediatip_content, true) + '" mediatip-link="' + data.mediatip_link + '"]'+data.text+"[/ithoughts_tooltip_glossary-mediatip]" + ((mode != "load") ? " " : ""));
+									editor.insertContent('[ithoughts_tooltip_glossary-mediatip mediatip-type="' + data.mediatip_type + '" mediatip-content="' + stripQuotes(data.mediatip_content, true) + '" mediatip-link="' + data.mediatip_link + '"' + (data.mediatip_caption.length > 0 ? ' mediatip-caption="' + stripQuotes(data.mediatip_caption, true) + '"' : "") + ']'+data.text+"[/ithoughts_tooltip_glossary-mediatip]" + ((mode != "load") ? " " : ""));
 							} break;
 						}
 					}
@@ -319,7 +323,7 @@ replaceShortcodesEl = [
 			}
 			var ret = "<a data-type=\"ithoughts-tooltip-glossary-"+["term","tooltip","mediatip"][["glossary","tooltip","mediatip"].indexOf(balise)]+ "\"";
 			for(var i in attrs){
-				ret += " data-"+i+"=\""+stripQuotes(attrs[i], true)+"\"";
+				ret += " data-"+i+"=\""+attrs[i]+"\"";
 			}
 			return ret + ">" + text + "</a>";
 		});
@@ -334,7 +338,7 @@ replaceShortcodesEl = [
 			}
 			var ret = "<span data-type=\"ithoughts-tooltip-glossary-"+type+"\"";
 			for(var i in attrs){
-				ret += " data-"+i+"=\""+stripQuotes(attrs[i], true)+"\"";
+				ret += " data-"+i+"=\""+attrs[i]+"\"";
 			}
 			return ret + ">Glossary " + ((type == "term_list") ? "List" : "A-to-Z") + "</span>";
 		});
@@ -352,7 +356,7 @@ restoreShortcodesEl = [
 			var b = ["glossary","tooltip","mediatip"][["term","tooltip","mediatip"].indexOf(type)];
 			var ret = "[ithoughts_tooltip_glossary-" + b;
 			for(var i in attrs){
-				ret += " "+window.decodeURIComponent(i)+"=\""+stripQuotes(attrs[i], true)+"\"";
+				ret += " "+i+"=\""+attrs[i]+"\"";
 			}
 			return ret + "]" + text + "[/ithoughts_tooltip_glossary-"+b+"]";
 		});
@@ -367,7 +371,7 @@ restoreShortcodesEl = [
 			}
 			var ret = "[glossary_" + type;
 			for(var i in attrs){
-				ret += " "+window.decodeURIComponent(i)+"=\""+stripQuotes(attrs[i], true)+"\"";
+				ret += " "+i+"=\""+attrs[i]+"\"";
 			}
 			return ret + "/]";
 		});
@@ -388,4 +392,9 @@ function restoreShortcodes( content ) {
 		content = restoreShortcodesEl[i](content);
 	}
 	return content;
+}
+
+function replaceHtmlAmp(string){
+	console.log(string);
+	return string.replace(/&amp;/g, "&");
 }

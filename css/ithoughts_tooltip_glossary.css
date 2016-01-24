@@ -244,3 +244,9 @@ Specific styles for tip
 .ithoughts_tt_gl-title_with_pin{
 	vertical-align: sub;
 }
+.ithoughts_tt_gl-caption{
+	border-top: 1px solid currentColor;
+	padding-top: 5px;
+	font-size: 1.1em;
+	text-align: justify;
+}

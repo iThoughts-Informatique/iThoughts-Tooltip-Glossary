@@ -40,7 +40,7 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 
 		switch($mediatipType){
 			case $mediatipTypes[0]:{
-				$dat = ithoughts_toolbox::decode_json_attr($datas["handled"]["mediatip-content"]);
+				$dat = ithoughts_toolbox::decode_json_attr($datas["handled"]["mediatip-content"], true);
 				$datas["attributes"]['data-mediatip-image'] = htmlentities($dat['url']);
 
 				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))

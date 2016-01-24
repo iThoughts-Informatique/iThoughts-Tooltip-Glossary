@@ -700,11 +700,14 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		try{
 			$data["type"] = isset($data["type"]) && $data["type"] && array_search($data["type"], $types) !== false ? $data["type"] : "tooltip";
 			$data["text"] = isset($data["text"]) ? $data["text"] : "";
+			$data["link"] = isset($data["link"]) ? $data["link"] : "";
 			$data["glossary_id"] = isset($data["glossary_id"]) ? $data["glossary_id"] : NULL;
 			$data["term_search"] = isset($data["term_search"]) ? $data["term_search"] : "";
 			$data["mediatip_type"] = isset($data["mediatip_type"]) && $data["mediatip_type"] && isset($mediatiptypes[$data["mediatip_type"]]) ? $data["mediatip_type"] : $mediatiptypes_keys[0];
-			$data["mediatip_content_json"] = ithoughts_toolbox::encode_json_attr(isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
-			$data["mediatip_content"] = ithoughts_toolbox::decode_json_attr(isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
+			$data["mediatip_content_json"] = (isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
+			$data["mediatip_content"] = ithoughts_toolbox::decode_json_attr($data["mediatip_content_json"]);
+			$data["mediatip_content_json"] = str_replace('\\"', '&quot;', $data["mediatip_content_json"]);
+			$data["mediatip_caption"] = innerAttr(isset($data["mediatip_caption"]) ? $data["mediatip_caption"] : "", false);
 			switch($data["type"]){
 				case "glossary":{
 				} break;
@@ -827,21 +830,15 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 function innerAttr($str, $encode){
 	if($encode){
 		return str_replace(
-		array('&','"',"'",'\n'),
-		array("&amp;", "&quot;",'&apos;', "<br/>"),
-		$str
-	);
-	}else{/*
+			array('"','\n'),
+			array("&aquot;","<br/>"),
+			$str
+		);
+	}else{
 		return str_replace(
-		array('\\"',"\\'","<br/>", "&quot;", "&amp;"),
-		array('"', "'", '\n','"','&'),
-		$str
-	);*/
-		
-		return str_replace(
-		array('\\"',"\\'"),
-		array('"', "'"),
-		$str
-	);
+			array('&aquot;',"\\'"),
+			array('"', "'"),
+			$str
+		);
 	}
 }
