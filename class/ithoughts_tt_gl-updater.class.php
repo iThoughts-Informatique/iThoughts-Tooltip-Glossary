@@ -146,12 +146,10 @@ class ithoughts_tt_gl_Updater{
 	function applyUpdates(){
 		$data = array();
 		isset($_POST['data']) && $data=$_POST['data'];
+/*		if($data["versions"]["from"] == $data["versions"]["to"] && $data["versions"]["from"] == "2.2.3")
+			var_dump($this->versionIndex);*/
 		$return = array();
 		switch($this->versionIndex){
-			case -1:{
-				$return = array("Ended" => true, "title" => __("Update finished!",'ithoughts_tooltip_glossary'), "text" => __("The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)",'ithoughts_tooltip_glossary'));
-			}break;
-
 			case 0:{
 				global $post;
 				$maxCount = 20;
@@ -267,7 +265,7 @@ class ithoughts_tt_gl_Updater{
 						array(
 							"max" => $totalCount,
 							"targetversion" => $versions[$this->versionIndex],
-							"text" => __("Applying new format.",'ithoughts_tooltip_glossary')
+							"text" => __("Replacing slugs with id.",'ithoughts_tooltip_glossary')
 						)
 					);
 					wp_die();
@@ -286,7 +284,24 @@ class ithoughts_tt_gl_Updater{
 					$postUpdateArray ['ID'] = $post->ID;//Don't remove this. The ID is mandatory
 					$postUpdateArray ['post_content'] = $post->post_content;
 					$matches;
-					
+					if(preg_match_all("/\[ithoughts_tooltip_glossary-glossary(.*?)(?:slug=\"([^\"]+?)\")(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-glossary\]/", $postUpdateArray ['post_content'], $matches)){
+						foreach($matches[0] as $index => $matched){
+							$args = array(
+								'posts_per_page'   => 1,
+								'post_type'        => 'glossary',
+								'post_status'      => 'publish',
+								'name'				=> $matches[2][$index]
+							);
+							$posts_array = get_posts( $args );
+							$post_array = $posts_array[0];
+							$glossaryIndex = "";
+							if($post_array)
+								$glossaryIndex = $post_array->ID;
+							$newstr = '[ithoughts_tooltip_glossary-glossary'.$matches[1][$index].$matches[3][$index].' glossary-id="'.$glossaryIndex.'"]'.$matches[4][$index].'[/ithoughts_tooltip_glossary-glossary]';
+							$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
+						}
+					}
+
 					wp_update_post( $postUpdateArray );
 				}
 				wp_reset_postdata();
@@ -298,6 +313,13 @@ class ithoughts_tt_gl_Updater{
 
 				$return = array("progression" => ($paged + 1) * $maxCount);
 			} break;
+
+			case -1:{
+				$return = array("Ended" => true, "title" => __("Update finished!",'ithoughts_tooltip_glossary'), "text" => __("The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)",'ithoughts_tooltip_glossary'));
+			}break;
+			default: {
+				$return = array("Ended" => true, "title" => __("Update finished!",'ithoughts_tooltip_glossary'), "text" => __("The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)",'ithoughts_tooltip_glossary'));
+			} break;
 		}
 
 		if($data["maxAdvandement"] > -1){
@@ -308,5 +330,6 @@ class ithoughts_tt_gl_Updater{
 			}
 		}
 		wp_send_json_success($return);
+		wp_die();
 	}
 }

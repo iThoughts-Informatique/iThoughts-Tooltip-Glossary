@@ -34,7 +34,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 			} else {
 				throw new Exception("unreadable_plugin_error");
 			}
-			if( $this->isUnderVersionned() ){
+			if( $this->isUnderVersionned() || (isset($_POST) && isset($_POST["data"]) && isset($_POST["data"]["versions"])) ){
 				require_once(parent::$base . "/ithoughts_tt_gl-updater.class.php");
 				$this->updater = new ithoughts_tt_gl_Updater(parent::$options['version'], $this->currentVersion, $this);
 				if(ithoughts_tt_gl_Updater::requiresUpdate(parent::$options['version'], $this->currentVersion)){
@@ -247,6 +247,8 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 	public function isUnderVersionned(){
 		$currentVersion;
 
+		if(get_option("ithoughts_tt_gl_version") == false && parent::$options['version'] == "-1")
+			return false;
 		$version_diff = version_compare( parent::$options['version'], $this->currentVersion );
 		return $version_diff == -1;
 	}
