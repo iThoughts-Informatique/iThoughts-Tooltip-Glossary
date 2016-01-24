@@ -150,7 +150,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		wp_enqueue_script("ithoughts_tooltip_glossary-utils");
 		wp_enqueue_script("ithoughts_tooltip_glossary-qtip");
 		$version = "t=2.1.7";
-		if(DEV_ENV){
+		if(defined("DEV_ENV") && DEV_ENV){
 			$version = "t=".time(); 
 		}
 		$plugin_array['ithoughts_tt_gl_tinymce'] = parent::$base_url . '/js/ithoughts_tt_gl-tinymce.js?'.$version;
@@ -247,7 +247,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 	public function isUnderVersionned(){
 		$currentVersion;
 
-		if(get_option("ithoughts_tt_gl_version") == false && parent::$options['version'] == "-1")
+		if(get_option("ithoughts_tt_gl_vesion_check") == false && parent::$options['version'] == "-1")
 			return false;
 		$version_diff = version_compare( parent::$options['version'], $this->currentVersion );
 		return $version_diff == -1;

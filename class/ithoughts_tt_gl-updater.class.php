@@ -80,7 +80,7 @@ class ithoughts_tt_gl_Updater{
 		})
 	</script>
 	<button class="dismiss button"></button>
-	<p><?php _e( 'An error in the updater have been spotted. This update will replace old slug-based tooltips to id-based ones..','ithoughts_tooltip_glossary'); ?></p>
+	<p><?php _e( 'An error in the updater have been spotted. This update will replace old slug-based tooltips to id-based ones. If you are not concerned by this problem, simply dismiss this alert with the button on the right.','ithoughts_tooltip_glossary'); ?></p>
 	<a class="button button-secondary" href="<?php echo admin_url("admin.php?page=ithoughts_tt_gl_update"); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php _e('Update now!','ithoughts_tooltip_glossary'); ?></a>
 </div>
 <?php	

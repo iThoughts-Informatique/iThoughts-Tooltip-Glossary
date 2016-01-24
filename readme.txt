@@ -75,6 +75,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Changelog ==
 
+= 2.2.3 =
+* UPD new updater step to replace shortcode term's slug with term id
+
 = 2.2.2 =
 * FIX Video related styles
 * FIX href link attribute now overridable
