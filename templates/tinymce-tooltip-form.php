@@ -1,11 +1,5 @@
 <div id="ithoughts_tt_gl-tooltip-form-container">
-	<!--<pre style="display:none;"><?php var_dump($data);
-			var_dump($data["mediatip_content_json"]);
-var_dump('&quot;"');
-			var_dump(str_replace("\\\"", '"', $data["mediatip_content_json"]));
-			var_dump(json_decode(str_replace("\\\"", '"', $data["mediatip_content_json"]), true));
-			var_dump(json_last_error_msg());
-?></pre>-->
+	<!--<pre style="display:none;"><?php var_dump($data); ?></pre>-->
 	<div id="pseudohead">
 		<?php wp_print_styles("ithoughts_tooltip_glossary-tinymce_form"); ?>
 		<?php wp_print_scripts("ithoughts_tooltip_glossary-utils"); ?>
@@ -41,7 +35,7 @@ var_dump('&quot;"');
 											</label>
 										</td>
 										<td>
-											<input type="text" autocomplete="off" id="itghouts_tt_gl_text" name="itghouts_tt_gl_text" value="<?php echo $data["text"]; ?>">
+											<input type="text" autocomplete="off" id="ithoughts_tt_gl_text" name="ithoughts_tt_gl_text" value="<?php echo $data["text"]; ?>">
 										</td>
 									</tr>
 									<tr>
@@ -51,7 +45,13 @@ var_dump('&quot;"');
 											</label>
 										</td>
 										<td>
-											<input type="text" autocomplete="off" id="itghouts_tt_gl_link" name="itghouts_tt_gl_link" value="<?php echo $data["link"]; ?>">
+											<input type="text" autocomplete="off" id="ithoughts_tt_gl_link" name="ithoughts_tt_gl_link" <?php
+if(in_array($data['type'], array("tooltip", "mediatip"))){
+												   ?> value="<?php echo $data["link"]; ?>"<?php
+} else {
+												   ?> disabled<?php
+}
+												   ?>>
 										</td>
 									</tr>
 								</table>
@@ -129,7 +129,7 @@ var_dump('&quot;"');
 											<td colspan="2">
 												<div class="mce-container " id="image-box">
 													<?php
-	if(isset($data["mediatip_content"]['url']) && $data["mediatip_content"]['url']):
+													   if(isset($data["mediatip_content"]['url']) && $data["mediatip_content"]['url']):
 													?>
 													<img src="<?php echo $data["mediatip_content"]['url']; ?>"/>
 													<?php

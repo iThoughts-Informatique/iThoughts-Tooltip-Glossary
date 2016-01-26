@@ -146,7 +146,7 @@ class ithoughts_tt_gl_Updater{
 	function applyUpdates(){
 		$data = array();
 		isset($_POST['data']) && $data=$_POST['data'];
-/*		if($data["versions"]["from"] == $data["versions"]["to"] && $data["versions"]["from"] == "2.2.3")
+		/*		if($data["versions"]["from"] == $data["versions"]["to"] && $data["versions"]["from"] == "2.2.3")
 			var_dump($this->versionIndex);*/
 		$return = array();
 		switch($this->versionIndex){
@@ -297,7 +297,11 @@ class ithoughts_tt_gl_Updater{
 							$glossaryIndex = "";
 							if($post_array)
 								$glossaryIndex = $post_array->ID;
-							$newstr = '[ithoughts_tooltip_glossary-glossary'.$matches[1][$index].$matches[3][$index].' glossary-id="'.$glossaryIndex.'"]'.$matches[4][$index].'[/ithoughts_tooltip_glossary-glossary]';
+							$newstr;
+							if($glossaryIndex)
+								$newstr = '[ithoughts_tooltip_glossary-glossary'.$matches[1][$index].$matches[3][$index].' glossary-id="'.$glossaryIndex.'"]'.$matches[4][$index].'[/ithoughts_tooltip_glossary-glossary]';
+							else
+								$newstr = $matches[4][$index];
 							$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
 						}
 					}

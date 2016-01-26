@@ -7,7 +7,7 @@ function stripQuotes(string, encode){
 		return string.replace(/<br\/>/g, "\n").replace(/&aquot;/g, '"')/*.replace(/&amp;/g, "&")*/;
 }
 
-(function($){
+(function(){
 	var isIos = navigator.userAgent.match(/(iPad|iPhone|iPod)/g); // Used to enable some iOS specific piece of code to catch click on body, for example
 	var baseTouch = (isIos || navigator.userAgent.match(/(Android|webOS|BlackBerry)/i) ) ? 1 : 0;
 
@@ -19,13 +19,13 @@ function stripQuotes(string, encode){
 	}
 
 	var redimWait;
-	$(window).resize(function(){
+	$win.resize(function(){
 		clearTimeout(redimWait);
 		redimWait = setTimeout(redimVid,100);
 	});
 	function redimVid(video){
-		var h = $(window).height();
-		var w = $(window).width();
+		var h = $win.height();
+		var w = $win.width();
 		var i= 0;
 		var dims = [[512,288],[256,144]];
 		for(var l = dims.length;i < l;i++){
@@ -47,7 +47,7 @@ function stripQuotes(string, encode){
 		}
 	}
 
-	$(document).ready(function(){
+	$doc.ready(function(){
 		//Create container
 		tooltipsContainer = $($.parseHTML('<div id="ithoughts_tooltip_glossary-tipsContainer"></div>'));
 		$(document.body).append(tooltipsContainer);
@@ -288,4 +288,4 @@ function stripQuotes(string, encode){
 			}
 		});
 	});
-})(jQuery);
+})();

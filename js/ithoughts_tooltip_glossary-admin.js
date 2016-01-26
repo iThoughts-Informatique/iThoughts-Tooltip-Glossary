@@ -1,7 +1,7 @@
 window.refloat;
 window.updateStyle;
-(function($){
-    $(document).ready(function(){
+(function(){
+    $doc.ready(function(){
         window.updateStyle = (function(){
             var target = null;
             var styleI = $("#qtipstyle");
@@ -54,9 +54,9 @@ window.updateStyle;
                 if(redim === true || typeof min === "undefined" || typeof max === "undefined" || typeof centerOffset === "undefined"){
                     min = floaterObj.container.offset().top;
                     max = floaterObj.container.outerHeight(true) - floaterObj.body.outerHeight(true);
-                    centerOffset = ($(window).outerHeight(true) - floaterObj.body.outerHeight(true)) / 2;
+                    centerOffset = ($win.outerHeight(true) - floaterObj.body.outerHeight(true)) / 2;
                 }
-                var baseOffset = $(window).scrollTop() - min;
+                var baseOffset = $win.scrollTop() - min;
                 var offset = Math.min(Math.max(baseOffset + centerOffset,0), max);
                 floaterObj.body.css("top", offset + "px");
             }
@@ -65,14 +65,14 @@ window.updateStyle;
         var floater = {body: $("#floater")};
         floater["container"] = floater.body.parent();
         floater.body.css("position","absolute");
-        $(document).scroll(function(e){updateFloaterPosition(e,floater);});
-        $(window).resize(function(e){updateFloaterPosition(e,floater, true);}).resize();
+        $doc.scroll(function(e){updateFloaterPosition(e,floater);});
+        $win.resize(function(e){updateFloaterPosition(e,floater, true);}).resize();
         window.refloat = function(elem){
             setTimeout(function(){/*
                 if($(elem).parent().prop('id') === "ithoughts_tt_gllossary_options_2")
                     $("#qtip-exampleStyle").qtip("api").toggle(!$(elem).parent().hasClass("closed"));*/
                 updateFloaterPosition(null,floater,true);
-                $(window).scroll();
+                $win.scroll();
             }, 25);
         }
 
@@ -91,4 +91,4 @@ window.updateStyle;
                 console.log("Already filled");
         });
     });
-})(jQuery);
+})();

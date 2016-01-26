@@ -1,12 +1,12 @@
-(function($){
+(function(){
 	var lastPos;
 
-	$(document).ready(function(){
+	$doc.ready(function(){
 
 		var preventHashChange = false;
 		// Handle clicking
 		$('.atoz-clickable').click(function(){
-			lastPos = $(window).scrollTop();
+			lastPos = $win.scrollTop();
 			$('.atoz-clickable').removeClass('atozmenu-on').addClass('atozmenu-off');
 			$(this).removeClass('atozmenu-off').addClass('atozmenu-on');
 			var alpha = $(this).data('alpha');
@@ -20,12 +20,12 @@
 		});
 
 		// Manual hash change - trigger click
-		$(window).bind('hashchange',function(event){
+		$win.bind('hashchange',function(event){
 			if(preventHashChange){
 				preventHashChange = false;
 			} else {
 				var alpha = location.hash.replace('#','');
-				$(window).scrollTop(lastPos);
+				$win.scrollTop(lastPos);
 				location.hash = alpha;
 				$('.atoz-clickable').filter(function(i){return $(this).data('alpha') == alpha;}).click();
 				$('.ithoughts_tt_gl-please-select').hide();
@@ -51,4 +51,4 @@
 		}
 
 	});
-})(jQuery);
+})();

@@ -62,27 +62,27 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 	}
 	public function register_scripts_and_styles(){
 		wp_register_script(
-			'simple-ajax',
-			parent::$base_url . '/js/simple-ajax-form.js',
-			array('jquery-form'),
+			'ithoughts-simple-ajax',
+			parent::$base_url . '/submodules/iThoughts-WordPres-Plugins-Toolbox/simple-ajax-form'.parent::$minify.'.js',
+			array('jquery-form',"ithoughts_aliases"),
 			null
 		);
 		wp_register_script(
 			'ithoughts_tooltip_glossary-admin',
-			parent::$base_url . '/js/ithoughts_tooltip_glossary-admin.js',
-			array('qtip'),
+			parent::$base_url . '/js/ithoughts_tooltip_glossary-admin'.parent::$minify.'.js',
+			array('qtip',"ithoughts_aliases"),
 			"2.2.0"
 		);
 		wp_register_script(
 			"ithoughts_tooltip_glossary-utils",
-			parent::$base_url . '/js/ithoughts_tooltip_glossary-utils.js',
-			null,
+			parent::$base_url . '/js/ithoughts_tooltip_glossary-utils'.parent::$minify.'.js',
+			array("ithoughts_aliases"),
 			null
 		);
 		wp_register_script(
 			"ithoughts_tooltip_glossary-tinymce_form",
-			parent::$base_url . '/js/ithoughts_tooltip_glossary-tinymce-forms.js',
-			array("jquery", "ithoughts_tooltip_glossary-utils"),
+			parent::$base_url . '/js/ithoughts_tooltip_glossary-tinymce-forms'.parent::$minify.'.js',
+			array("jquery", "ithoughts_tooltip_glossary-utils","ithoughts_aliases"),
 			"2.1.1"
 		);
 		wp_register_script(
@@ -99,7 +99,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		);
 		wp_register_script(
 			'ithoughts_tooltip_glossary-colorpicker',
-			parent::$base_url . '/ext/gradx/colorpicker/colorpicker.min.js',
+			parent::$base_url . '/ext/gradx/colorpicker/colorpicker'.parent::$minify.'.js',
 			array('jquery'),
 			null
 		);
@@ -111,14 +111,14 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		);
 		wp_register_script(
 			'ithoughts_tooltip_glossary-styleeditor',
-			parent::$base_url . '/js/ithoughts_tooltip_glossary-styleeditor.js',
-			array('ithoughts_tooltip_glossary-gradx', 'ithoughts_tooltip_glossary-colorpicker', 'wp-color-picker-alpha'),
+			parent::$base_url . '/js/ithoughts_tooltip_glossary-styleeditor'.parent::$minify.'.js',
+			array('ithoughts_tooltip_glossary-gradx', 'ithoughts_tooltip_glossary-colorpicker', 'wp-color-picker-alpha',"ithoughts_aliases"),
 			"2.2.0"
 		);
 		wp_register_script(
 			'ithoughts_tooltip_glossary-updater',
-			parent::$base_url . '/js/ithoughts_tt_gl-updater.js',
-			array("jquery"),
+			parent::$base_url . '/js/ithoughts_tt_gl-updater'.parent::$minify.'.js',
+			array("jquery","ithoughts_aliases"),
 			"2.0.5"
 		);
 
@@ -133,13 +133,12 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 			)
 		);
 
-		wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	parent::$base_url . '/css/ithoughts_tooltip_glossary-tinymce-forms.css', null, "2.1.7");
+		wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	parent::$base_url . '/css/ithoughts_tooltip_glossary-tinymce-forms'.parent::$minify.'.css', null, "2.1.7");
 		wp_register_style( 'ithoughts_tooltip_glossary-colorpicker',	parent::$base_url . '/ext/gradx/colorpicker/colorpicker.css', null, null );
 		wp_register_style( 'ithoughts_tooltip_glossary-gradx',			parent::$base_url . '/ext/gradx/gradX.css', null, null );
-		wp_register_style( 'ithoughts_tooltip_glossary-admin',			parent::$base_url . '/css/ithoughts_tooltip_glossary-admin.css', null, "2.2.3" );
+		wp_register_style( 'ithoughts_tooltip_glossary-admin',			parent::$base_url . '/css/ithoughts_tooltip_glossary-admin'.parent::$minify.'.css', null, "2.2.3" );
 	}
 	public function enqueue_scripts_and_styles(){
-		wp_enqueue_script( 'simple-ajax' );
 		wp_enqueue_style( 'ithoughts_tooltip_glossary-admin');
 	}
 	public function ithoughts_tt_gl_tinymce_register_buttons( $buttons ) {
@@ -150,10 +149,10 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		wp_enqueue_script("ithoughts_tooltip_glossary-utils");
 		wp_enqueue_script("ithoughts_tooltip_glossary-qtip");
 		$version = "t=2.1.7";
-		if(defined("DEV_ENV") && DEV_ENV){
+		if(defined(WP_DEBUG) && WP_DEBUG){
 			$version = "t=".time(); 
 		}
-		$plugin_array['ithoughts_tt_gl_tinymce'] = parent::$base_url . '/js/ithoughts_tt_gl-tinymce.js?'.$version;
+		$plugin_array['ithoughts_tt_gl_tinymce'] = parent::$base_url . '/js/ithoughts_tt_gl-tinymce'.parent::$minify.'.js?'.$version;
 		return $plugin_array;
 	}
 	public function tinymce_add_translations($locales){
@@ -257,6 +256,7 @@ class ithoughts_tt_gl_Admin extends ithoughts_tt_gl_interface{
 		wp_enqueue_script('ithoughts_tooltip_glossary-qtip');
 		wp_enqueue_style('ithoughts_tooltip_glossary-css');
 		wp_enqueue_style('ithoughts_tooltip_glossary-qtip-css');
+		wp_enqueue_script( 'ithoughts-simple-ajax' );
 
 		$ajax         = admin_url( 'admin-ajax.php' );
 		$options      = parent::$options;
@@ -836,8 +836,8 @@ function innerAttr($str, $encode){
 		);
 	}else{
 		return str_replace(
-			array('&aquot;',"\\'"),
-			array('"', "'"),
+			array('&aquot;',"\\'", '\\"', '\\\\'),
+			array('"', "'", '"', '\\'),
 			$str
 		);
 	}

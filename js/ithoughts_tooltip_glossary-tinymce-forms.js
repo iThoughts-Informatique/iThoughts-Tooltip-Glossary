@@ -1,5 +1,5 @@
-(function($){
-	$(document).ready(function(){
+(function(){
+	$doc.ready(function(){
 		//Generic tab switching
 		$('.tabs li').click(function(event){
 			if($(this).hasClass('active')){
@@ -9,7 +9,24 @@
 			$(this).addClass('active');
 
 			$(event.target).parent().parent().find(' > .active').removeClass('active');
-			$($(event.target).parent().parent().children()[$(event.target).index() + 1]).addClass('active');
+			var index = $(event.target).index();
+			console.log(index);
+			$($(event.target).parent().parent().children()[index + 1]).addClass('active');
+			
+			linkInput = gei("itghouts_tt_gl_link");
+			switch(index){
+				case 0:{
+					linkInput.disabled = true;
+				} break;
+					
+				case 1:{
+					linkInput.disabled = false;
+				} break;
+					
+				case 2:{
+					linkInput.disabled = false;
+				} break;
+			}
 		});
 
 		$editors = $("#ithoughts_tt_gl-tooltip-form-container .tinymce");
@@ -17,7 +34,7 @@
 			text = editor.value;
 			while(editor.getAttribute("id") == null){
 				var newId = "editor" + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
-				if(!document.getElementById(newId)){
+				if(!gei(newId)){
 					editor.setAttribute("id", newId);
 				}
 			}
@@ -69,18 +86,20 @@
 
 			window.mb.frame.on('insert', function() {
 				var json = window.mb.frame.state().get('selection').first().toJSON();
+				console.log(json);
 
-				if (0 > jQuery.trim(json.url.length)) {
+				if (0 > $.trim(json.url.length)) {
 					return;
 				}
 
-				jQuery("#image-box-data").val(JSON.stringify({
+				$("#image-box-data").val(JSON.stringify({
 					url:json.url,
 					id: json.id,
 					link: json.link
 				}));
-				jQuery('#image-box')[0].innerHTML = '<img src="' + json.url + '"/>';
-				jQuery('#mediatip_caption').val(json.caption);
+				gei('image-box').innerHTML = '<img src="' + json.url + '"/>';
+				gei('mediatip_caption').value = json.caption;
+				gei("ithoughts_tt_gl_link").value = json.link;
 			});
 
 			window.mb.frame.open();
@@ -103,9 +122,9 @@
 			var completerHolder = $("#glossary_term_completer");
 			function resizeWindow(){
 				var top = completerHolder.offset().top;
-				var bottom = $(window).height() + $(window).scrollTop();
+				var bottom = $win.height() + $win.scrollTop();
 			}
-			$(window).resize(resizeWindow);
+			$win.resize(resizeWindow);
 
 			function losefocustest(){
 				if(!completerHolder.find("*:focus") && !input.is(":focus")){
@@ -179,8 +198,8 @@
 			$("#ithoughts_tt_gl-tinymce-validate").click(function(){
 				var data = {
 					type: ["glossary", "tooltip", "mediatip"][$('.tabs li.active').index()],
-					text: $("#itghouts_tt_gl_text").val(),
-					link: $("#itghouts_tt_gl_link").val()
+					text: gei("ithoughts_tt_gl_text").value,
+					link: gei("ithoughts_tt_gl_link").value
 				}
 				switch(data.type){
 					case "glossary":{
@@ -271,4 +290,4 @@
 			}).keyup();
 		}
 	});
-})(jQuery);
+})();

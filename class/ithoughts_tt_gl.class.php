@@ -12,6 +12,7 @@ class ithoughts_tt_gl_interface{
 	static protected $clientsideOverridable;
 	static protected $serversideOverridable;
 	static protected $handledAttributes;
+	static protected $minify = ".min";
 
 	public function getPluginOptions($defaultsOnly = false){
 		return self::$basePlugin->getOptions($defaultsOnly);
@@ -26,6 +27,8 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 	private $overridesopts;
 
 	function __construct($plugin_base) {
+		if(defined(WP_DEBUG) && WP_DEBUG)
+			parent::$minify = "";
 		parent::$basePlugin		= &$this;
 		parent::$plugin_base	= $plugin_base;
 		parent::$base			= $plugin_base . '/class';
@@ -172,16 +175,17 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 		$this->add_shortcodes();
 		$this->add_widgets();
 		$this->add_filters();
-		add_action( 'init',                  		array(&$this,	'register_scripts_and_styles')	);
-		add_action( 'init',                  		array(&$this,	'ajaxHooks')					);
-		add_action( 'wp_footer',             		array(&$this,	'wp_footer')					);
-		add_action( 'wp_enqueue_scripts',    		array(&$this,	'wp_enqueue_styles')			);
-		add_action( 'pre_get_posts',         		array(&$this,	'order_core_archive_list')     	);
+		add_action( 'init',                  		array(&$this,	'register_scripts_and_styles')			);
+		add_action( 'init',                  		array(&$this,	'ajaxHooks')							);
+		add_action( 'wp_footer',             		array(&$this,	'wp_footer')							);
+		add_action( 'wp_enqueue_scripts',    		array(&$this,	'wp_enqueue_styles')					);
+		add_action( 'wp_enqueue_scripts',			array(&$this,	'wp_enqueue_scripts_hight_priority'),	0 );
+		add_action( 'pre_get_posts',         		array(&$this,	'order_core_archive_list')     			);
 
-		add_filter( 'ithoughts_tt_gl_term_link',	array(&$this,	'ithoughts_tt_gl_term_link')	);
-		add_filter( 'ithoughts_tt_gl_get_overriden_opts',	array(&$this,	'ithoughts_tt_gl_override'), 10, 2	);
+		add_filter( 'ithoughts_tt_gl_term_link',	array(&$this,	'ithoughts_tt_gl_term_link')			);
+		add_filter( 'ithoughts_tt_gl_get_overriden_opts',	array(&$this,	'ithoughts_tt_gl_override'), 	10,	2	);
 
-		add_action( 'plugins_loaded',				array($this,	'localisation')					);
+		add_action( 'plugins_loaded',				array($this,	'localisation')							);
 	}
 
 	private function initOptions(){
@@ -252,9 +256,10 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 	}
 
 	public function register_scripts_and_styles(){
-		wp_register_script('imagesloaded', parent::$base_url . '/ext/imagesloaded.min.js', null, null, true);
-		wp_register_script('qtip', parent::$base_url . '/ext/jquery.qtip.min.js', array('jquery', 'imagesloaded'), "2.2.1:2", null, true);
-		wp_register_script( 'ithoughts_tooltip_glossary-qtip',  parent::$base_url . '/js/ithoughts_tooltip_glossary-qtip2.js', array('qtip'), "2.2.1" );
+		wp_register_script('imagesloaded', parent::$base_url . '/ext/imagesloaded.min.js',										null, null, true);
+		wp_register_script('ithoughts_aliases', parent::$base_url . '/submodules/iThoughts-WordPress-Plugins-Toolbox/ithoughts_aliases'.parent::$minify.'.js',									array('jquery'), null, true);
+		wp_register_script('qtip', parent::$base_url . '/ext/jquery.qtip'.parent::$minify.'.js',												array('jquery', 'imagesloaded'), "2.2.1:2", null, true);
+		wp_register_script( 'ithoughts_tooltip_glossary-qtip',  parent::$base_url . '/js/ithoughts_tooltip_glossary-qtip2'.parent::$minify.'.js',	array('qtip', "ithoughts_aliases"), "2.2.1" );
 		wp_localize_script( 'ithoughts_tooltip_glossary-qtip', 'ithoughts_tt_gl', array(
 			'admin_ajax'    => admin_url('admin-ajax.php'),
 			'baseurl'		=> parent::$base_url,
@@ -264,16 +269,16 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 			'qtiprounded'   => parent::$options["qtiprounded"],
 			'termcontent'	=> parent::$options["termcontent"]
 		) );
-		wp_register_script( 'ithoughts_tooltip_glossary-atoz',  parent::$base_url . '/js/ithoughts_tooltip_glossary-atoz.js',  array('jquery'), "2.1.7" );
+		wp_register_script( 'ithoughts_tooltip_glossary-atoz',  parent::$base_url . '/js/ithoughts_tooltip_glossary-atoz'.parent::$minify.'.js',  array('jquery', "ithoughts_aliases"), "2.1.7" );
 
 
 		$version = "2.1.7";
-		if( file_exists(get_stylesheet_directory() . '/ithoughts_tooltip_glossary.css') ){
-			wp_register_style( 'ithoughts_tooltip_glossary-css', get_stylesheet_directory_uri() . '/ithoughts_tooltip_glossary.css', null, $version );
+		if( file_exists(get_stylesheet_directory() . '/ithoughts_tooltip_glossary'.parent::$minify.'.css') ){
+			wp_register_style( 'ithoughts_tooltip_glossary-css', get_stylesheet_directory_uri() . '/ithoughts_tooltip_glossary'.parent::$minify.'.css', null, $version );
 		} else {
-			wp_register_style( 'ithoughts_tooltip_glossary-css', parent::$base_url . '/css/ithoughts_tooltip_glossary.css', null, $version );
+			wp_register_style( 'ithoughts_tooltip_glossary-css', parent::$base_url . '/css/ithoughts_tooltip_glossary'.parent::$minify.'.css', null, $version );
 		}
-		wp_register_style( 'ithoughts_tooltip_glossary-qtip-css', parent::$base_url . '/ext/jquery.qtip.min.css', null, "2.2.1:2");
+		wp_register_style( 'ithoughts_tooltip_glossary-qtip-css', parent::$base_url . '/ext/jquery.qtip'.parent::$minify.'.css', null, "2.2.1:2");
 	}
 
 	public function wp_footer(){
@@ -300,6 +305,9 @@ class ithoughts_tt_gl extends ithoughts_tt_gl_interface{
 	public function wp_enqueue_styles(){
 		wp_enqueue_style( 'ithoughts_tooltip_glossary-css' );
 		wp_enqueue_style( 'ithoughts_tooltip_glossary-qtip-css' );
+	}
+	public function wp_enqueue_scripts_hight_priority(){
+		wp_enqueue_script('ithoughts_aliases');
 	}
 
 	/**

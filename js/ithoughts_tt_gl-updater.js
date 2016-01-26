@@ -44,8 +44,8 @@
 			} else {
 				updaterSection.append(jQuery.parseHTML('<article data-version="' + out.data.targetversion + '"><h3>V' + out.data.targetversion + '</h3><p class="updatedescription">' + out.data.text + '</p><progress class="updateprogress" min="0" max="' + out.data.max + '" value="0"></progress><span class="updateprogresstext">0/' + out.data.max + ' (<em>0%</em>)</span>'));
 				initData = out.data;
-				progress = document.querySelector("[data-version=\"" + out.data.targetversion + "\"] .updateprogress");
-				text = document.querySelector("[data-version=\"" + out.data.targetversion + "\"] .updateprogresstext");
+				progress = qs("[data-version=\"" + out.data.targetversion + "\"] .updateprogress");
+				text = qs("[data-version=\"" + out.data.targetversion + "\"] .updateprogresstext");
 				runUpdate(0);
 			}
 		});

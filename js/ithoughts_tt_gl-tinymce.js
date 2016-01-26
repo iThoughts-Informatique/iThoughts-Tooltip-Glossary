@@ -203,6 +203,7 @@
 					var el = sel.getStart();
 					values= {
 						text: content,
+						link: el.getAttribute("href"),
 						tooltip_content: stripQuotes(((el.getAttribute("data-tooltip-content")) ? (el.getAttribute("data-tooltip-content")) : null) || content, false),
 						glossary_id: el.getAttribute("data-glossary-id"),
 						term_search: removeAccents(content.toLowerCase()),
@@ -217,6 +218,7 @@
 						mode = "insert_content"
 						values= {
 							text: content,
+							link: '',
 							tooltip_content: content,
 							glossary_id: null,
 							term_search: removeAccents(content.toLowerCase()),
@@ -235,7 +237,6 @@
 				}
 			}
 			jQuery.post(ithoughts_tt_gl.admin_ajax, {action: "ithoughts_tt_gl_get_tinymce_tooltip_form", data: values}, function(out){
-				//console.log(out);
 				var newDom = jQuery(jQuery.parseHTML(out, true)).css({opacity: 0});
 				var h = 400;
 				var w = 455;
@@ -247,7 +248,6 @@
 				newDom[0].finish = (function(){
 					var domC = newDom;
 					return function(data){
-						console.log(data);
 						domC.animate({opacity:0}, 500, function(){
 							domC.remove();
 						});
@@ -275,14 +275,14 @@
 								if(data.tooltip_content == "" || data.text == "")
 									return;
 								else
-									editor.insertContent('[ithoughts_tooltip_glossary-tooltip tooltip-content="'+stripQuotes(data.tooltip_content.trim(), true)+'"]'+data.text+"[/ithoughts_tooltip_glossary-tooltip]" + ((mode != "load") ? " " : ""));
+									editor.insertContent('[ithoughts_tooltip_glossary-tooltip tooltip-content="'+stripQuotes(data.tooltip_content.trim(), true)+'"' + (data.link && data.link.length > 0 ? ' href="' + encodeURI(data.link) + '"' : "") + ']'+data.text+"[/ithoughts_tooltip_glossary-tooltip]" + ((mode != "load") ? " " : ""));
 							} break;
 
 							case "mediatip": {
 								if(data.mediatip_type == "" || data.mediatip_content == "" || data.text == "")
 									return;
 								else
-									editor.insertContent('[ithoughts_tooltip_glossary-mediatip mediatip-type="' + data.mediatip_type + '" mediatip-content="' + stripQuotes(data.mediatip_content, true) + '" mediatip-link="' + data.mediatip_link + '"' + (data.mediatip_caption.length > 0 ? ' mediatip-caption="' + stripQuotes(data.mediatip_caption, true) + '"' : "") + ']'+data.text+"[/ithoughts_tooltip_glossary-mediatip]" + ((mode != "load") ? " " : ""));
+									editor.insertContent('[ithoughts_tooltip_glossary-mediatip mediatip-type="' + data.mediatip_type + '" mediatip-content="' + stripQuotes(data.mediatip_content, true) + '" mediatip-link="' + data.mediatip_link + '"' + (data.mediatip_caption.length > 0 ? ' mediatip-caption="' + stripQuotes(data.mediatip_caption, true) + '"' : "") + (data.link && data.link.length > 0 ? ' href="' + encodeURI(data.link) + '"' : "") + ']'+data.text+"[/ithoughts_tooltip_glossary-mediatip]" + ((mode != "load") ? " " : ""));
 							} break;
 						}
 					}
@@ -312,6 +312,7 @@
 	});
 })();
 
+var htmlAttrs = ["href"];
 replaceShortcodesEl = [
 	function(content){ // For [glossary]
 		return content.replace( /\[(?:ithoughts_tooltip_glossary-)?(glossary|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/(?:ithoughts_tooltip_glossary-)?(glossary|tooltip|mediatip)\]/g, function( all,balise,inner, text){
@@ -323,7 +324,11 @@ replaceShortcodesEl = [
 			}
 			var ret = "<a data-type=\"ithoughts-tooltip-glossary-"+["term","tooltip","mediatip"][["glossary","tooltip","mediatip"].indexOf(balise)]+ "\"";
 			for(var i in attrs){
-				ret += " data-"+i+"=\""+attrs[i]+"\"";
+				if(htmlAttrs.indexOf(i) > -1 || i.indexOf("data-") == 0){
+					ret += " "+i+"=\""+attrs[i]+"\"";
+				} else {
+					ret += " data-"+i+"=\""+attrs[i]+"\"";
+				}
 			}
 			return ret + ">" + text + "</a>";
 		});
@@ -338,7 +343,11 @@ replaceShortcodesEl = [
 			}
 			var ret = "<span data-type=\"ithoughts-tooltip-glossary-"+type+"\"";
 			for(var i in attrs){
-				ret += " data-"+i+"=\""+attrs[i]+"\"";
+				if(htmlAttrs.indexOf(i) > -1 || i.indexOf("data-") == 0){
+					ret += " "+i+"=\""+attrs[i]+"\"";
+				} else {
+					ret += " data-"+i+"=\""+attrs[i]+"\"";
+				}
 			}
 			return ret + ">Glossary " + ((type == "term_list") ? "List" : "A-to-Z") + "</span>";
 		});
@@ -346,12 +355,20 @@ replaceShortcodesEl = [
 ];
 restoreShortcodesEl = [
 	function(content){ // For [glossary]
-		return content.replace( /<a\s+data-type="ithoughts-tooltip-glossary-(term|tooltip|mediatip)"(.*?)>(.*?)<\/a>/g, function( all,type,inner, text){
+		return content.replace( /<a\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term|tooltip|mediatip)")(.*?)>(.*?)<\/a>/g, function( all,type,inner, text){
 			var attrs = {};
-			var regex = /data-([\w\d\-]+?)="(.+?)"/g;
+			var regex = /(data-)?([\w\d\-]+?)="(.+?)"/g;
 			var matched = null;
 			while (matched = regex.exec(inner)) {
-				attrs[matched[1]] = matched[2];
+				if(matched[1] == "data-" && matched[2] == "type"){
+					continue;
+				} else {
+					if(htmlAttrs.indexOf(matched[2]) > -1 && typeof matched[1] != "undefined"){
+						attrs[matched[1] + matched[2]] = matched[3];
+					} else {
+						attrs[matched[2]] = matched[3];
+					}
+				}
 			}
 			var b = ["glossary","tooltip","mediatip"][["term","tooltip","mediatip"].indexOf(type)];
 			var ret = "[ithoughts_tooltip_glossary-" + b;
@@ -362,12 +379,20 @@ restoreShortcodesEl = [
 		});
 	},
 	function(content){ // For [glossary_(term_list|atoz)]
-		return content.replace( /<span\s+data-type="ithoughts-tooltip-glossary-(term_list|atoz)"(.*?)>.*?<\/span>/g, function( all,type, attrStr){
+		return content.replace( /<span\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term_list|atoz)")(.*?)>.*?<\/span>/g, function( all,type, attrStr){
 			var attrs = {};
-			var regex = /data-([\w\d\-]+?)="(.+?)"/g;
+			var regex = /(data-)?([\w\d\-]+?)="(.+?)"/g;
 			var matched = null;
 			while (matched = regex.exec(attrStr)) {
-				attrs[matched[1]] = matched[2];
+				if(matched[1] == "data-" && matched[2] == "type"){
+					continue;
+				} else {
+					if(htmlAttrs.indexOf(i) > -1 && typeof matched[1] != "undefined"){
+						attrs[matched[1] + matched[2]] = matched[3];
+					} else {
+						attrs[matched[2]] = matched[3];
+					}	
+				}
 			}
 			var ret = "[glossary_" + type;
 			for(var i in attrs){
@@ -395,6 +420,5 @@ function restoreShortcodes( content ) {
 }
 
 function replaceHtmlAmp(string){
-	console.log(string);
 	return string.replace(/&amp;/g, "&");
 }
