@@ -56,58 +56,57 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 			"overridesServer"		=> array(),
 			"overridesClient"		=> array()
 		);
-//			var_dump($attributes);
-		if($attributes == NULL || !is_array($attributes))
-			$attributes = array();
-		foreach($attributes as $key => $value){
-			if(array_search($key, $handled) !== false){
-				$res["handled"][$key] = $value;
-			} else if(array_search($key, $overridableOptionsServer) !== false){
-				$res["overridesServer"][$key] = $value;
-			} else if(array_search($key, $overridableOptionsClient) !== false){
-				$res["overridesClient"][$key] = $value;
-			} else {
-				$i = -1;
-				$match = false;
-				while(++$i < $attsLength && !$match){
-					$attr = $attrs[$i];
-					if(count($attr) > 1 && $attr[0] == "/" && $attr[count($attr) - 1] == "/"){
-						if(preg_match($attributes[$i], $key)){
-							$res["attributes"][$key] = $value;
-							$match = true;
-						}
-					} else {
-						if($key === $attrs[$i]){
-							$res["attributes"][$key] = $value;
-							$match = true;
+		if(is_array($attributes)){
+			foreach($attributes as $key => $value){
+				if(array_search($key, $handled) !== false){
+					$res["handled"][$key] = $value;
+				} else if(array_search($key, $overridableOptionsServer) !== false){
+					$res["overridesServer"][$key] = $value;
+				} else if(array_search($key, $overridableOptionsClient) !== false){
+					$res["overridesClient"][$key] = $value;
+				} else {
+					$i = -1;
+					$match = false;
+					while(++$i < $attsLength && !$match){
+						$attr = $attrs[$i];
+						if(count($attr) > 1 && $attr[0] == "/" && $attr[count($attr) - 1] == "/"){
+							if(preg_match($attributes[$i], $key)){
+								$res["attributes"][$key] = $value;
+								$match = true;
+							}
+						} else {
+							if($key === $attrs[$i]){
+								$res["attributes"][$key] = $value;
+								$match = true;
+							}
 						}
 					}
-				}
-				if(!$match){
-					$res["attributes"]["data-".$key] = $value;
+					if(!$match){
+						$res["attributes"]["data-".$key] = $value;
+					}
 				}
 			}
 		}
 		$ret;
 		if($fuseClientSideWithArgs){
 			$ret = array(
-			"handled" => $res["handled"],
-			"attributes" => array_merge($res["attributes"], $res["overridesClient"]),
-			"overridesServer" => $res["overridesServer"],
+				"handled" => $res["handled"],
+				"attributes" => array_merge($res["attributes"], $res["overridesClient"]),
+				"overridesServer" => $res["overridesServer"],
 			);
 		} else {
 			$ret = $res;
 		}
 		return $ret;
 	}
-	
+
 	public function ithoughts_tt_gl_splitArgs($atts){
 		$ret = array();
-		
+
 		$datas = apply_filters("ithoughts-split-args", $atts, parent::$handledAttributes, parent::$serversideOverridable, parent::$clientsideOverridable, false);
-		
+
 		$ret["options"] = apply_filters("ithoughts_tt_gl_get_overriden_opts", $datas["overridesServer"], false);
-		
+
 		$linkAttrs = array();
 		foreach($datas["attributes"] as $key => $value){//Extract /^link-/ datas
 			if(strpos($key, "data-link-") === 0){
@@ -117,47 +116,52 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 		}
 		$ret["linkAttrs"] = apply_filters("ithoughts-split-args", $linkAttrs);
 		$ret["linkAttrs"] = $ret["linkAttrs"]["attributes"];
-		
+
 		$overridesClient = apply_filters("ithoughts_tt_gl_get_overriden_opts", $datas["overridesClient"], true);
 		$overridesDataPrefixed = array();
 		foreach($overridesClient as $override => $value){
 			$overridesDataPrefixed["data-".$override] = $value;
 		};
 		$ret["attributes"] = array_merge($datas["attributes"], $overridesDataPrefixed);
-		
+
 		$ret["handled"] = $datas["handled"];
 		
+		if(isset($ret['attributes']["href"]) && !isset($ret['linkAttrs']["href"])){
+			$ret['linkAttrs']["href"] = $ret['attributes']["href"];
+			unset($ret['attributes']["href"]);
+		}
+
 		/*/
 		echo "Serverside: <pre>";
 		var_dump(parent::$serversideOverridable);
 		echo "</pre>";
-		
+
 		echo "Clientside: <pre>";
 		var_dump(parent::$clientsideOverridable);
 		echo "</pre>";
-		
+
 		echo "Options: <pre>";
 		var_dump(parent::$options);
 		echo "</pre>";
-		
+
 		echo "Datas: <pre>";
 		var_dump($datas);
 		echo "</pre>";
-		
+
 		echo "Overrides server: <pre>";
 		var_dump($ret["options"]);
 		echo "</pre>";
-		
+
 		echo "Overrides client; <pre>";
 		var_dump($overridesClient);
 		echo "</pre>";
-		
+
 		//
 		echo "Returned: <pre>";
 		var_dump($ret);
 		echo "</pre>";
 		/**/
-		
+
 		return $ret;
 	}
 }

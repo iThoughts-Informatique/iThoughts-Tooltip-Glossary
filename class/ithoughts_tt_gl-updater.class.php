@@ -23,7 +23,7 @@ class ithoughts_tt_gl_Updater{
 	}
 
 	static private function getVersions(){
-		return array("2.0", "2.2.3");
+		return array("2.0", "2.3.0");
 	}
 	private function getLastVersionUp(){
 		return self::getLastVUp($this->from, $this->to);
@@ -80,7 +80,7 @@ class ithoughts_tt_gl_Updater{
 		})
 	</script>
 	<button class="dismiss button"></button>
-	<p><?php _e( 'An error in the updater have been spotted. This update will replace old slug-based tooltips to id-based ones. If you are not concerned by this problem, simply dismiss this alert with the button on the right.','ithoughts_tooltip_glossary'); ?></p>
+	<p><?php _e( 'An error in the updater have been spotted. This update will replace old slug-based tooltips to id-based ones on post types other than "post", for example on pages. See <a href="https://wordpress.org/support/topic/shortcode-parameter-slug-not-working-after-update-116-222?replies=29#post-7941781">this thread</a> for more informations. If you are not concerned by this problem, simply dismiss this alert with the button on the right.','ithoughts_tooltip_glossary'); ?></p>
 	<a class="button button-secondary" href="<?php echo admin_url("admin.php?page=ithoughts_tt_gl_update"); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php _e('Update now!','ithoughts_tooltip_glossary'); ?></a>
 </div>
 <?php	
@@ -275,7 +275,7 @@ class ithoughts_tt_gl_Updater{
 							} else {
 								$verbose[] = array(
 									"type" => "info",
-									"text" => "Ignoring status <b>$postStatus</b>";
+									"text" => "Ignoring status <b>$postStatus</b>"
 								);
 							}
 						}
