@@ -56,6 +56,9 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 			"overridesServer"		=> array(),
 			"overridesClient"		=> array()
 		);
+//			var_dump($attributes);
+		if($attributes == NULL || !is_array($attributes))
+			$attributes = array();
 		foreach($attributes as $key => $value){
 			if(array_search($key, $handled) !== false){
 				$res["handled"][$key] = $value;

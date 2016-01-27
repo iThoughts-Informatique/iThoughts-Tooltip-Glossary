@@ -95,16 +95,46 @@ tr.nonoverridable label, .nonoverridable:not(tr){
 
 
 #customizing-form input:disabled {
-    background: #dddddd;
+	background: #dddddd;
 }
 .ithoughts_tt_gl.update-nag{
-    margin-left: 15px;
-    display: block;
+	margin-left: 15px;
+	display: block;
 }
 
 .ithoughts_tt_gl.update-nag.is-dismissable .dismiss{
 	float:right;
 }
 .ithoughts_tt_gl.update-nag.is-dismissable .dismiss:after{
-    content: "\00D7";
+	content: "\00D7";
+}
+.verboseContainer{
+	width: 100%;
+	border: 1px solid black;
+	box-sizing: border-box;
+}
+.verboseContainer .inside{
+	max-height: 200px;
+	overflow: auto;
+	margin: 0!important;
+	width: 100%;
+	box-sizing: border-box;
+}
+.verboseArea{
+	word-break: break-word;
+	padding: 5px;
+	margin: 0;
+}
+.verboseArea p.info{
+	color: darkblue;
+}
+.verboseArea p.warn{
+	color: darkorange;
+}
+.verboseArea p.error{
+	color: darkred;
+}
+#dashboard-widgets h2.hndle, #dashboard-widgets h3.hndle, #dashboard-widgets h4.hndle{
+	padding: 0.25em 12px;
+    margin: 0;
 }

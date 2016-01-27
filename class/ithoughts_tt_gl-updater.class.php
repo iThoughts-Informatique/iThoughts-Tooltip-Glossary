@@ -95,16 +95,22 @@ class ithoughts_tt_gl_Updater{
 				"to"	=>	$this->to
 			));
 			wp_enqueue_script( 'ithoughts_tooltip_glossary-qtip' );
+			wp_enqueue_script('postbox');
+			wp_enqueue_script('post');
 ?>
 <div class="wrap">
 	<div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">
-		<div class="meta-box-inside admin-help">
-			<div class="icon32" id="icon-options-general">
-				<br>
+		<div id="dashboard-widgets-wrap">
+			<div id="dashboard-widgets">
+				<div id="normal-sortables" class="">
+					<div class="icon32" id="icon-options-general">
+						<br>
+					</div>
+					<section id="ithoughts_tt_gl_updater">
+						<h2><?php _e("Updating iThoughts Tooltip Glossary", "ithoughts_tooltip_glossary"); ?></h2>
+					</section>
+				</div>
 			</div>
-			<section id="ithoughts_tt_gl_updater">
-				<h2><?php _e("Updating iThoughts Tooltip Glossary", "ithoughts_tooltip_glossary"); ?></h2>
-			</section>
 		</div>
 	</div>
 </div>
@@ -130,10 +136,10 @@ class ithoughts_tt_gl_Updater{
 
 
 	public function setVersion($version = NULL){
+		$opts = $this->parentC->getOptions();
 		if($version == NULL){
 			$data = array();
 			isset($_POST['data']) && $data=$_POST['data'];
-			$opts = $this->parentC->getOptions();
 			$opts["version"] = $data['newversion'];
 		} else {
 			$opts["version"] = $version;
@@ -153,14 +159,17 @@ class ithoughts_tt_gl_Updater{
 			case 0:{
 				global $post;
 				$maxCount = 20;
+				$postTypes = get_post_types(array(), 'names');
 				$updatedStatus = array('publish', 'pending', 'draft', 'future', 'private', 'inherit');
 
 				if($data["progression"] == -1){
-					$count_posts = wp_count_posts();
 					$totalCount = 0;
-					foreach($count_posts as $postType => $count){
-						if(array_search($postType, $updatedStatus) !== false)
-							$totalCount += intval($count);
+					foreach($postTypes as $postType){
+						$count_posts = wp_count_posts($postType);
+						foreach($count_posts as $postStatus => $count){
+							if(array_search($postStatus, $updatedStatus) !== false)
+								$totalCount += intval($count);
+						}
 					}
 					$versions = self::getVersions();
 					wp_send_json_success(
@@ -249,23 +258,48 @@ class ithoughts_tt_gl_Updater{
 			} break;
 
 			case 1:{
+				$verbose = array();
 				global $post;
 				$maxCount = 20;
-				$updatedStatus = array('publish', 'pending', 'draft', 'future', 'private', 'inherit');
+				$updatedStatus = array('publish', 'pending', 'draft', 'future', 'private', 'inherit', 'trash');
+				$postTypes = get_post_types(array(), 'names');
 
 				if($data["progression"] == -1){
-					$count_posts = wp_count_posts();
 					$totalCount = 0;
-					foreach($count_posts as $postType => $count){
-						if(array_search($postType, $updatedStatus) !== false)
-							$totalCount += intval($count);
+					foreach($postTypes as $postType){
+						$count_posts = wp_count_posts($postType);
+						foreach($count_posts as $postStatus => $count){
+							if(in_array($postStatus, $updatedStatus)){
+								$totalCount += intval($count);
+								$pt[] = $postType;
+							} else {
+								$verbose[] = array(
+									"type" => "info",
+									"text" => "Ignoring status <b>$postStatus</b>";
+								);
+							}
+						}
 					}
+
+					$verbose[] = array(
+						"type" => "info",
+						"text" => "<b>Post types</b> registered are [".implode(", ",$postTypes)."]"
+					);
+					$verbose[] = array(
+						"type" => "info",
+						"text" => "<b>Post types</b> found are [".implode(", ",array_unique($pt))."]"
+					);
 					$versions = self::getVersions();
+					$verbose[] = array(
+						"type" => "info",
+						"text" => "Found <b>$totalCount</b> posts with status [".implode(", ",$updatedStatus)."]"
+					);
 					wp_send_json_success(
 						array(
 							"max" => $totalCount,
 							"targetversion" => $versions[$this->versionIndex],
-							"text" => __("Replacing slugs with id.",'ithoughts_tooltip_glossary')
+							"text" => __("Replacing slugs with id.",'ithoughts_tooltip_glossary'),
+							"verbose" => $verbose
 						)
 					);
 					wp_die();
@@ -275,38 +309,64 @@ class ithoughts_tt_gl_Updater{
 				$queryargs = array(
 					'post_status' => $updatedStatus,
 					"posts_per_page" => $maxCount,
-					"paged"			=> $paged
+					"paged"			=> $paged,
+					"post_type"		=> $postTypes
 				);
 				$posts_to_update = new WP_Query($queryargs);
-				while($posts_to_update->have_posts()){
-					$posts_to_update->the_post();
-					$postUpdateArray = array();
-					$postUpdateArray ['ID'] = $post->ID;//Don't remove this. The ID is mandatory
-					$postUpdateArray ['post_content'] = $post->post_content;
-					$matches;
-					if(preg_match_all("/\[ithoughts_tooltip_glossary-glossary(.*?)(?:slug=\"([^\"]+?)\")(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-glossary\]/", $postUpdateArray ['post_content'], $matches)){
-						foreach($matches[0] as $index => $matched){
-							$args = array(
-								'posts_per_page'   => 1,
-								'post_type'        => 'glossary',
-								'post_status'      => 'publish',
-								'name'				=> $matches[2][$index]
+				if($posts_to_update->have_posts()){
+					while($posts_to_update->have_posts()){
+						$posts_to_update->the_post();
+						$postUpdateArray = array();
+						$postUpdateArray ['ID'] = $post->ID;//Don't remove this. The ID is mandatory
+						$postUpdateArray ['post_content'] = $post->post_content;
+						$matches;
+						$verbose[] = array(
+							"type" => "info",
+							"text" => "Updating post <b>{$post->ID}</b> of type <b>{$post->post_type}</b> and status <b>{$post->post_status}</b> with post_content <em>".htmlentities(preg_replace('/(\n+\s*)+/', '', $post->post_content))."</em>..."
+						);
+						if(preg_match_all("/\[ithoughts_tooltip_glossary-glossary(.*?)(?:slug=\"([^\"]+?)\")(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-glossary\]/", $postUpdateArray ['post_content'], $matches)){
+							foreach($matches[0] as $index => $matched){
+								$args = array(
+									'posts_per_page'   => 1,
+									'post_type'        => 'glossary',
+									'post_status'      => 'publish',
+									'name'				=> $matches[2][$index]
+								);
+								$posts_array = get_posts( $args );
+								if(isset($posts_array[0])){
+									$post_array = $posts_array[0];
+									$glossaryIndex = NULL;
+									if($post_array)
+										$glossaryIndex = $post_array->ID;
+									$newstr;
+									$verbose[] = array(
+										"type" => "info",
+										"text" => "For post <b>{$post->ID}</b>, matched string '<em>{$matched}</em>'. Slug of term is <b>{$matches[2][$index]}</b>, which is term id <b>$glossaryIndex</b>"
+									);
+									$newstr = '[ithoughts_tooltip_glossary-glossary'.$matches[1][$index].$matches[3][$index].' glossary-id="'.$glossaryIndex.'"]'.$matches[4][$index].'[/ithoughts_tooltip_glossary-glossary]';
+								} else {
+									$verbose[] = array(
+										"type" => "warn",
+										"text" => "For post <b>{$post->ID}</b>, matched string '<em>{$matched}</em>'. Slug of term is <b>{$matches[2][$index]}</b>, but <b>no term was found</b>"
+									);
+									$newstr = $matches[4][$index];
+								}
+								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
+							}
+						} else {
+							$verbose[] = array(
+								"type" => "info",
+								"text" => "For post <b>{$post->ID}</b>, no matches were found"
 							);
-							$posts_array = get_posts( $args );
-							$post_array = $posts_array[0];
-							$glossaryIndex = "";
-							if($post_array)
-								$glossaryIndex = $post_array->ID;
-							$newstr;
-							if($glossaryIndex)
-								$newstr = '[ithoughts_tooltip_glossary-glossary'.$matches[1][$index].$matches[3][$index].' glossary-id="'.$glossaryIndex.'"]'.$matches[4][$index].'[/ithoughts_tooltip_glossary-glossary]';
-							else
-								$newstr = $matches[4][$index];
-							$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
 						}
-					}
 
-					wp_update_post( $postUpdateArray );
+						wp_update_post( $postUpdateArray );
+					}
+				} else {
+					$verbose[] = array(
+						"type" => "info",
+						"text" => "Query with pagination <b>$paged</b> and count <b>$maxCount</b> returned 0 posts"
+					);
 				}
 				wp_reset_postdata();
 
@@ -315,7 +375,10 @@ class ithoughts_tt_gl_Updater{
 					$current_page = 1;
 				}
 
-				$return = array("progression" => ($paged + 1) * $maxCount);
+				$return = array(
+					"progression" => ($paged + 1) * $maxCount,
+					"verbose" => $verbose
+				);
 			} break;
 
 			case -1:{
