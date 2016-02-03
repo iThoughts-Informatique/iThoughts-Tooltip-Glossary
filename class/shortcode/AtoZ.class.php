@@ -1,5 +1,12 @@
 <?php
-class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
+/**
+  * @copyright 2015-2016 iThoughts Informatique
+  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+  */
+
+namespace ithoughts\tooltip_glossary\shortcode;
+
+class AtoZ extends \ithoughts\Singleton{
 	public function __construct() {
 		add_shortcode( 'glossary_atoz', array($this, 'glossary_atoz') );
 	}
@@ -9,7 +16,7 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 
 
 		// Global variable that tells WP to print related js files.
-		parent::$scripts['atoz'] = true;
+		\ithoughts\tooltip_glossary\Backbone::get_instance()->add_scripts(array('qtip','atoz'));
 
 		$statii = array( 'publish' );
 		if( current_user_can('read_private_posts') ){
@@ -35,7 +42,7 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 			$args['tax_query'] = array( $tax_query );
 		}
 
-		$list       = '<p>' . __('There are no glossary items.', 'ithoughts_tooltip_glossary') . '</p>';
+		$list       = '<p>' . __('There are no glossary items.', 'ithoughts-tooltip-glossary' ) . '</p>';
 		$glossaries = get_posts( $args );
 		if( !count($glossaries) ) return $list;
 
@@ -47,10 +54,10 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 			$linkdata["linkAttrs"]["link-".$key] = $linkAttr;
 			unset($linkdata["linkAttrs"][$key]);
 		}
-		$linkdata = ithoughts_toolbox::array_flatten($linkdata);
+		$linkdata = \ithoughts\Toolbox::array_flatten($linkdata);
 		foreach( $glossaries as $post ) {
 			$title = $post->post_title;
-			$alpha = strtoupper( ithoughts_toolbox::unaccent(mb_substr($title,0,1, "UTF-8")) );
+			$alpha = strtoupper( \ithoughts\Toolbox::unaccent(mb_substr($title,0,1, "UTF-8")) );
 			if(!preg_match("/[A-Z]/", $alpha))
 				$alpha = "#";
 			$alpha_attribute = $alpha;
@@ -89,8 +96,8 @@ class ithoughts_tt_gl_Shortcode_ATOZ extends ithoughts_tt_gl_interface{
 
 		$clear    = '<div style="clear: both;"></div>';
 		$data["attributes"]["class"] = "glossary-atoz-wrapper".((isset($data["attributes"]["class"]) && $data["attributes"]["class"]) ? " ".$data["attributes"]["class"] : "");
-		$args = ithoughts_toolbox::concat_attrs( $data["attributes"]);
-		$plsclick = apply_filters( 'ithoughts_tt_gl_please_select', '<div class="ithoughts_tt_gl-please-select"><p>' . __('Please select from the menu above', 'ithoughts_tooltip_glossary') . '</p></div>' );
+		$args = \ithoughts\Toolbox::concat_attrs( $data["attributes"]);
+		$plsclick = apply_filters( 'ithoughts_tt_gl_please_select', '<div class="ithoughts_tt_gl-please-select"><p>' . __('Please select from the menu above', 'ithoughts-tooltip-glossary' ) . '</p></div>' );
 		return '<div '.$args.'>' . $menu . $clear . $plsclick . $clear . $list . '</div>';
 	} // glossary_atoz
-} // ithoughts_tt_gl_Shortcode_ATOZ
+} // atoz

@@ -5,11 +5,11 @@ jQuery(document).ready(function($){
 (function(){
 	var lastPos;
 
-	$doc.ready(function(){
+	$d.ready(function(){
 
 		// Handle clicking
 		$('.atoz-clickable').click(function(){
-			lastPos = $win.scrollTop();
+			lastPos = $w.scrollTop();
 			$('.atoz-clickable').removeClass('atozmenu-on').addClass('atozmenu-off');
 			$(this).removeClass('atozmenu-off').addClass('atozmenu-on');
 			var alpha = $(this).data('alpha');
@@ -20,9 +20,9 @@ jQuery(document).ready(function($){
 		});
 
 		// Manual hash change - trigger click
-		$win.bind('hashchange',function(event){
+		$w.bind('hashchange',function(event){
 			var alpha = location.hash.replace('#','');
-			$win.scrollTop(lastPos);
+			$w.scrollTop(lastPos);
 			location.hash = alpha;
 			$('.atoz-clickable').filter(function(i){return $(this).data('alpha') == alpha;}).click();
 			$('.ithoughts_tt_gl-please-select').hide();

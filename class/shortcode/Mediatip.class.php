@@ -1,6 +1,13 @@
 <?php
+/**
+  * @copyright 2015-2016 iThoughts Informatique
+  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+  */
 
-class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
+namespace ithoughts\tooltip_glossary\shortcode;
+
+
+class Mediatip extends \ithoughts\Singleton{
 	public function __construct() {
 		// Shortcode
 		add_shortcode( "ithoughts_tooltip_glossary-mediatip", array(&$this, "mediatip") );
@@ -32,15 +39,17 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 		$mediatipType = $datas["handled"]["mediatip-type"];
 		if(!in_array($mediatipType, $mediatipTypes))
 			return $text;
-		else
-			parent::$scripts['qtip'] = true;
+		else{
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+			$backbone->add_script('qtip');
+		}
 
 		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-mediatip".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
 		$datas["linkAttrs"]["title"] = esc_attr($text);
 
 		switch($mediatipType){
 			case $mediatipTypes[0]:{
-				$dat = ithoughts_toolbox::decode_json_attr($datas["handled"]["mediatip-content"], true);
+				$dat = \ithoughts\Toolbox::decode_json_attr($datas["handled"]["mediatip-content"], true);
 				// Compat with old format
 				if($dat == NULL)
 					$dat = json_decode(str_replace('&quot;', '"', $datas["handled"]["mediatip-content"]), true);
@@ -49,10 +58,10 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
 					$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-				$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
+				$linkArgs = \ithoughts\Toolbox::concat_attrs( $datas["linkAttrs"]);
 				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-				$args = ithoughts_toolbox::concat_attrs( $datas["attributes"]);
+				$args = \ithoughts\Toolbox::concat_attrs( $datas["attributes"]);
 				// Span that qtip finds
 				$span = '<span '.$args.'>' . $linkElement . '</span>';
 				return $span;
@@ -64,10 +73,10 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
 					$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-				$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
+				$linkArgs = \ithoughts\Toolbox::concat_attrs( $datas["linkAttrs"]);
 				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-				$args = ithoughts_toolbox::concat_attrs( $datas["attributes"]);
+				$args = \ithoughts\Toolbox::concat_attrs( $datas["attributes"]);
 				// Span that qtip finds
 				$span = '<span '.$args.'>' . $linkElement . '</span>';
 				return $span;
@@ -79,10 +88,10 @@ class ithoughts_tt_gl_Shortcodes_mediatip extends ithoughts_tt_gl_interface{
 				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
 					$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-				$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
+				$linkArgs = \ithoughts\Toolbox::concat_attrs( $datas["linkAttrs"]);
 				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-				$args = ithoughts_toolbox::concat_attrs( $datas["attributes"]);
+				$args = \ithoughts\Toolbox::concat_attrs( $datas["attributes"]);
 				// Span that qtip finds
 				$span = '<span '.$args.'>' . $linkElement . '</span>';
 				return $span;

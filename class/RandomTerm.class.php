@@ -1,13 +1,20 @@
 <?php
+/**
+  * @copyright 2015-2016 iThoughts Informatique
+  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+  */
 
-class ithoughts_tt_gl_RandomTerm extends WP_Widget{
+namespace ithoughts\tooltip_glossary\widgets;
+
+
+class RandomTerm extends \WP_Widget{
 	public function __construct() {
 		parent::__construct(
 			'ithoughts_tt_gl-random-term',
-			__('Random Term From Glossary', 'ithoughts_tooltip_glossary'),
+			__('Random Term From Glossary', 'ithoughts-tooltip-glossary' ),
 			array( 
-				'classname'   => 'ithoughts_tt_gl_widget_random_term',
-				'description' => __('Add a random glossary term to your sidebar', 'ithoughts_tooltip_glossary'),
+				'classname'   => '\\ithoughts\\tooltip_glossary\\widgets\\RandomTerm',
+				'description' => __('Add a random glossary term to your sidebar', 'ithoughts-tooltip-glossary' ),
 			)
 		); // parent::__construct
 	} // __construct
@@ -15,13 +22,14 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 	// Admin form
 	public function form( $instance=array() ) {
 		$instance =  wp_parse_args( $instance, array(
-			'title' => __('Random Glossary term', 'ithoughts_tooltip_glossary'),
-			'group' => '',
-			'numberposts' => 1
+			'title' => __('Random Glossary term', 'ithoughts-tooltip-glossary' ),
+			'group' => array(),
+			'numberposts' => 1,
+			"display" => "tooltip"
 		) );
 
 		// Title
-		echo '<p><label for="' . $this->get_field_id('title') . '">' . __('Title', 'ithoughts_tooltip_glossary') . ' </label>';
+		echo '<p><label for="' . $this->get_field_id('title') . '">' . __('Title', 'ithoughts-tooltip-glossary' ) . ' </label>';
 		echo '<input autocomplete="off" class="widefat" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . esc_attr( $instance['title'] ) . '" />';
 		echo '</p>';
 
@@ -34,41 +42,54 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 			}
 		}
 
-		$groupdd = ithoughts_toolbox::generate_input_select(
-			$this->get_field_id('group'),
+		$groupdd = \ithoughts\Toolbox::generate_input_select(
+			$this->get_field_name('group') . "[]",
 			array(
+				'multiple'	  => true,
+				'attributes'	  => array(
+					"id" => $this->get_field_id('group')
+				),
 				'selected'    => $instance['group'],
 				'options'     => $groups,
-				'name'        => $this->get_field_name('group'),
-				'allow_blank' => __('Any', 'ithoughts_tooltip_glossary')
+				'allow_blank' => __('Any', 'ithoughts-tooltip-glossary' )
 			)
 		);
-		echo '<p><label for="' . $this->get_field_id('group') . '">' . __('Group', 'ithoughts_tooltip_glossary'). '</label>';
+		echo '<p><label for="' . $this->get_field_id('group') . '">' . __('Group', 'ithoughts-tooltip-glossary' ). '</label>';
 		echo $groupdd . '</p>';
 
 		// Display
-		$displaydd = ithoughts_toolbox::generate_input_select( $this->get_field_id('display'), array(
-			'selected'   => isset($instance['display']) ? $instance['display'] : "tooltip",
-			'name'       => $this->get_field_name('display'),
-			'options'    => array( 
-				'title'   =>__('Title Only',        'ithoughts_tooltip_glossary'), 
-				'excerpt' =>__('Excerpt',           'ithoughts_tooltip_glossary'), 
-				'full'    =>__('Full',              'ithoughts_tooltip_glossary'),
-				'tooltip' =>_x('Glossary Tooltip', 'Random Widget Tooltip', 'ithoughts_tooltip_glossary'),
-			),
-		) );
-		echo '<p><label for="' . $this->get_field_id('display') . '"> ' . __('Display', 'ithoughts_tooltip_glossary'). ' </label>';
+		$displaydd = \ithoughts\Toolbox::generate_input_select(
+			$this->get_field_name('display'),
+			array(
+				'selected'   => isset($instance['display']) ? $instance['display'] : "tooltip",
+				'attributes'	  => array(
+					"id" => $this->get_field_id('display')
+				),
+				'options'    => array( 
+					'title'   =>__('Title Only', 'ithoughts-tooltip-glossary' ), 
+					'excerpt' =>__('Excerpt', 'ithoughts-tooltip-glossary' ), 
+					'full'    =>__('Full', 'ithoughts-tooltip-glossary' ),
+					'tooltip' =>_x('Glossary Tooltip', 'Random Widget Tooltip', 'ithoughts-tooltip-glossary' ),
+				),
+			)
+		);
+		echo '<p><label for="' . $this->get_field_id('display') . '"> ' . __('Display', 'ithoughts-tooltip-glossary' ). ' </label>';
 		echo $displaydd . '</p>';
 
 
 		// Count
-		echo '<p><label for="' . $this->get_field_id('numberposts') . '">' . __('Number of terms', 'ithoughts_tooltip_glossary'). '</label><input autocomplete="off" type="number" value="' . $instance['numberposts'] . '" min="1" name="' . $this->get_field_name("numberposts") . '" id="' . $this->get_field_id('numberposts') . '"/></p>';
+		echo '<p><label for="' . $this->get_field_id('numberposts') . '">' . __('Number of terms', 'ithoughts-tooltip-glossary' ). '</label><input autocomplete="off" type="number" value="' . $instance['numberposts'] . '" min="1" name="' . $this->get_field_name("numberposts") . '" id="' . $this->get_field_id('numberposts') . '"/></p>';
 	} // form
 
 	public function update( $new_instance, $old_instance ) {
 		$instance            = $old_instance;
 		$instance['title']   = strip_tags( $new_instance['title'] );
 		$instance['group']   = $new_instance['group'];
+		foreach($instance['group'] as $key => $value){
+			if(trim($value) == ""){
+				unset($instance['group'][$key]);
+			}
+		}
 		$instance['display'] = $new_instance['display'];
 		$instance['numberposts'] = $new_instance['numberposts'];
 
@@ -76,13 +97,12 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 	} // update
 
 	public function widget( $args, $instance ) {
-		extract( $args );
 		$title = apply_filters( 'widget_title', $instance['title'] );
 
-		echo $before_widget;
-		if( !empty($title) ):
-		echo $before_title . $title . $after_title;
-		endif;
+		echo $args['before_widget'];
+		if( !empty($title) ){
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 
 		$numberposts = isset($instance['numberposts']) ? $instance['numberposts'] : 1;
 
@@ -103,7 +123,7 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 		$terms = get_posts( $termargs );
 		$numItems = count($terms);
 		if( $terms && $numItems ){
-			ithoughts_tt_gl_interface::getiThoughtsTooltipGlossary()->addScript(array("qtip" => true));
+			\ithoughts\tooltip_glossary\Backbone::get_instance()->add_script("qtip");
 			echo '<ul class="ithoughts_tt_gl widget-list">';
 			$i = 0;
 			foreach( $terms as $term ){
@@ -126,8 +146,8 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 
 
 
-						$options = ithoughts_tt_gl_interface::getiThoughtsTooltipGlossary()->getOptions();
-						$content = apply_filters("ithoughts_tt_gl_get_glossary_term_element", $term);/*
+						$options = \ithoughts\tooltip_glossary\Backbone::get_instance()->get_options();
+						$content = apply_filters("ithoughts_tt_gl_get_glossary_term_element", $term);
 						if($options['staticterms']){
 							$jsdata[] = 'data-term-title="' . esc_attr($term->post_title) .  '"';
 							$content;
@@ -153,7 +173,6 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 
 						$link   = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '" target="_blank" title="' . esc_attr(get_the_title($term->ID)) . '">' . get_the_title($term->ID) . '</a>';
 						$content = '<span class="ithoughts_tooltip_glossary-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';
-*/
 
 
 						//$content = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';
@@ -168,10 +187,10 @@ class ithoughts_tt_gl_RandomTerm extends WP_Widget{
 			}
 			echo '</ul>';
 		} else {
-			echo '<em>' . __('No terms available', 'ithoughts_tooltip_glossary') . '</em>';
+			echo '<em>' . __('No terms available', 'ithoughts-tooltip-glossary' ) . '</em>';
 		}
 
-		echo $after_widget;
+		echo $args['after_widget'];
 	} //widget
 
-} // ithoughts_tt_gl_RandomTerm
+} // RandomTerm

@@ -1,6 +1,13 @@
 <?php
+ /**
+  * @copyright 2015-2016 iThoughts Informatique
+  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+  */
 
-class ithoughts_tt_gl_Shortcodes_tooltip extends ithoughts_tt_gl_interface{
+namespace ithoughts\tooltip_glossary\shortcode;
+
+
+class Tooltip extends \ithoughts\Singleton{
 	public function __construct() {
 		// Shortcode
 		add_shortcode( "ithoughts_tooltip_glossary-tooltip", array(&$this, "tooltip") );
@@ -31,7 +38,8 @@ class ithoughts_tt_gl_Shortcodes_tooltip extends ithoughts_tt_gl_interface{
 		// Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
 		if( empty($content) ) $content = $text;
 
-		parent::$scripts['qtip'] = true;
+		$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+		$backbone->add_script('qtip');
 
 		// qtip jquery data
 		$datas["attributes"]["data-tooltip-content"] = do_shortcode($content);
@@ -41,11 +49,11 @@ class ithoughts_tt_gl_Shortcodes_tooltip extends ithoughts_tt_gl_interface{
 		if(!(isset($datas["linkAttrs"]["title"]) && $datas["linkAttrs"]["title"]))
 			$datas["linkAttrs"]["title"] = esc_attr($text);
 
-		$linkArgs = ithoughts_toolbox::concat_attrs( $datas["linkAttrs"]);
+		$linkArgs = \ithoughts\Toolbox::concat_attrs( $datas["linkAttrs"]);
 		$link   = '<a '.$linkArgs.'>' . $text . '</a>';
 		// Span that qtip finds
 		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-tooltip".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
-		$args = ithoughts_toolbox::concat_attrs( $datas["attributes"]);
+		$args = \ithoughts\Toolbox::concat_attrs( $datas["attributes"]);
 		$span = '<span '.$args.'>' . $link . '</span>';
 
 		return $span;

@@ -7,7 +7,7 @@
 	function runUpdate(progression){
 		$.post(ithoughts_tt_gl.admin_ajax, {
 			action: "ithoughts_tt_gl_update", data: {
-				versions: ithoughts_tt_gl_updater,
+				versions: Updater,
 				progression: progression,
 				maxAdvandement: initData.max
 			}
@@ -30,14 +30,14 @@
 			if(out.data.progression < initData.max){
 				runUpdate(out.data.progression);
 			} else {
-				ithoughts_tt_gl_updater.from = initData.targetversion;
+				Updater.from = initData.targetversion;
 				jQuery.post(ithoughts_tt_gl.admin_ajax, {
 					action: "ithoughts_tt_gl_update_done", data: {
-						newversion: ithoughts_tt_gl_updater.from,
+						newversion: Updater.from,
 					}
 				}, function(out){
 					if(out.success)
-						initUpdate(ithoughts_tt_gl_updater);
+						initUpdate(Updater);
 				});
 			}
 		});
@@ -52,7 +52,7 @@
 				maxAdvandement: -1
 			}
 		}, function(out){
-			var updaterSection = $("#ithoughts_tt_gl_updater");
+			var updaterSection = $("#Updater");
 
 			verboseArea = '<div class="verboseContainer postbox closed"><div class="handlediv" title="Cliquer pour inverser."></div><h4 class="hndle ui-sortable-handle">Logs</h4><div class="inside"><pre class="verboseArea">';
 			if(out.data.verbose){
@@ -78,5 +78,5 @@
 		});
 	}
 
-	initUpdate(ithoughts_tt_gl_updater);
+	initUpdate(Updater);
 })();

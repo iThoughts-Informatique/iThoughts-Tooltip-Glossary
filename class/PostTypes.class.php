@@ -1,33 +1,40 @@
 <?php
 /**
- * ithoughts-tooltip-glossary Post Types
- */
-class ithoughts_tt_gl_Post_types extends ithoughts_tt_gl_interface{
+  * @copyright 2015-2016 iThoughts Informatique
+  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+  */
+
+namespace ithoughts\tooltip_glossary;
+
+class PostTypes extends \ithoughts\Singleton{
 	public function __construct() {
 		add_action( 'init', array($this, 'register_post_types') );
 	}
 
 	public function register_post_types(){
+		$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+		$options = $backbone->get_options();
+
 		register_post_type( "glossary", array(
 			'public'               => true,
 			'menu_position'        => 105,
 			'has_archive'          => true,
 			'supports'             => array( 'title', 'editor', 'thumbnail', 'author', 'excerpt' ),
 			'labels' => array(
-				'name'               => __( 'Glossary Terms',                   'ithoughts_tooltip_glossary' ),
-				'singular_name'      => __( 'Glossary Term',                    'ithoughts_tooltip_glossary' ),
-				'add_new'            => __( 'Add New Term',                     'ithoughts_tooltip_glossary' ),
-				'add_new_item'       => __( 'Add New Glossary Term',            'ithoughts_tooltip_glossary' ),
-				'edit_item'          => __( 'Edit Glossary Term',               'ithoughts_tooltip_glossary' ),
-				'new_item'           => __( 'Add New Glossary Term',            'ithoughts_tooltip_glossary' ),
-				'view_item'          => __( 'View Glossary Term',               'ithoughts_tooltip_glossary' ),
-				'search_items'       => __( 'Search Glossary Terms',            'ithoughts_tooltip_glossary' ),
-				'not_found'          => __( 'No Glossary Terms found',          'ithoughts_tooltip_glossary' ),
-				'not_found_in_trash' => __( 'No Glossary Terms found in trash', 'ithoughts_tooltip_glossary' )
+				'name'               => __( 'Glossary Terms', 'ithoughts-tooltip-glossary' ),
+				'singular_name'      => __( 'Glossary Term', 'ithoughts-tooltip-glossary' ),
+				'add_new'            => __( 'Add New Term', 'ithoughts-tooltip-glossary' ),
+				'add_new_item'       => __( 'Add New Glossary Term', 'ithoughts-tooltip-glossary' ),
+				'edit_item'          => __( 'Edit Glossary Term', 'ithoughts-tooltip-glossary' ),
+				'new_item'           => __( 'Add New Glossary Term', 'ithoughts-tooltip-glossary' ),
+				'view_item'          => __( 'View Glossary Term', 'ithoughts-tooltip-glossary' ),
+				'search_items'       => __( 'Search Glossary Terms', 'ithoughts-tooltip-glossary' ),
+				'not_found'          => __( 'No Glossary Terms found', 'ithoughts-tooltip-glossary' ),
+				'not_found_in_trash' => __( 'No Glossary Terms found in trash', 'ithoughts-tooltip-glossary' )
 			),
 			'register_meta_box_cb' => array( $this, 'meta_boxes' ),
 			'rewrite'              => array(
-				'slug' => parent::$options["termtype"],
+				'slug' => $options["termtype"],
 				'with_front' => false
 			),
 			'show_ui'       => true,
@@ -38,9 +45,9 @@ class ithoughts_tt_gl_Post_types extends ithoughts_tt_gl_interface{
 				'glossary_group'
 			)
 		) );
-		if(isset(parent::$options["needflush"]) && parent::$options["needflush"]){
-			parent::$options["needflush"] = false;
-			update_option( 'ithoughts_tt_gl', parent::$options );
+		if(isset($options["needflush"]) && $options["needflush"]){
+			$options["needflush"] = false;
+			$backbone->set_options($options, true);
 			flush_rewrite_rules(false);
 		}
 
@@ -53,7 +60,9 @@ class ithoughts_tt_gl_Post_types extends ithoughts_tt_gl_interface{
 
 	/** */
 	public function meta_boxes(){
-		add_meta_box( 'ithoughts_tt_gl_references', __('Glossary Term Reference', 'ithoughts_tooltip_glossary'), array($this, 'mb_references'), parent::$options["termtype"], 'normal', 'high' );
+		$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+		$options = $backbone->get_options();
+		add_meta_box( 'ithoughts_tt_gl_references', __('Glossary Term Reference', 'ithoughts-tooltip-glossary' ), array($this, 'mb_references'), $options["termtype"], 'normal', 'high' );
 	}
 
 	/** */
@@ -65,16 +74,16 @@ class ithoughts_tt_gl_Post_types extends ithoughts_tt_gl_interface{
 		$values = shortcode_atts(array('title'=>'', 'link'=>''), $reference);
 		endif;
 
-		echo '<label class="ithoughts_tt_gl-admin">' . __('Title','ithoughts_tooltip_glossary') . ' <input name="ithoughts_tt_gl_reference_title" size="30" value="' . ((isset($values["title"]) && $values["title"]) ? $values["title"] : "") . '" /></label><br>';
-		echo '<label class="ithoughts_tt_gl-admin">' . __('Link','ithoughts_tooltip_glossary') . ' <input name="ithoughts_tt_gl_reference_link" size="50" value="' . ((isset($values["link"]) && $values["link"]) ? $values["link"] : "") . '" /></label>';
+		echo '<label class="ithoughts_tt_gl-admin">' . __('Title', 'ithoughts-tooltip-glossary' ) . ' <input name="ithoughts_tt_gl_reference_title" size="30" value="' . ((isset($values["title"]) && $values["title"]) ? $values["title"] : "") . '" /></label><br>';
+		echo '<label class="ithoughts_tt_gl-admin">' . __('Link', 'ithoughts-tooltip-glossary' ) . ' <input name="ithoughts_tt_gl_reference_link" size="50" value="' . ((isset($values["link"]) && $values["link"]) ? $values["link"] : "") . '" /></label>';
 		wp_nonce_field( plugin_basename(__FILE__), 'glossary_edit_nonce' );
 	} //mb_references
 
 	/** */
 	public function manage_glossary_posts_columns( $columns ){
 		$newcolumns = array(
-			'usage'     => __( 'Usage',     'ithoughts_tooltip_glossary' ),
-			'reference' => __( 'Reference', 'ithoughts_tooltip_glossary' ),
+			'usage'     => __( 'Usage', 'ithoughts-tooltip-glossary' ),
+			'reference' => __( 'Reference', 'ithoughts-tooltip-glossary' ),
 		);
 		$columns = array_slice( $columns, 0, -1, true ) 
 			+ $newcolumns 
@@ -115,7 +124,8 @@ class ithoughts_tt_gl_Post_types extends ithoughts_tt_gl_interface{
 
 	/** */
 	public function save_glossary_post( $post_id, $post ){
-		$slug = self::$options["termtype"];
+		$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+		$slug = $backbone->get_option("termtype");
 
 		$_POST += array( "{$slug}_edit_nonce"=>'' );
 
@@ -157,7 +167,8 @@ class ithoughts_tt_gl_Post_types extends ithoughts_tt_gl_interface{
 		global $post, $wp_query;
 
 		if( $is_main_query && is_single() && "glossary"==get_post_type() ){
-			$options = get_option( 'ithoughts_tt_gl', array() );
+			$this->backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+			$options = $backbone->get_options();
 
 			if( $reference = get_post_meta($post->ID, 'ithoughts_tt_gl_reference', $single=true) ){
 				extract( $reference );
@@ -166,7 +177,7 @@ class ithoughts_tt_gl_Post_types extends ithoughts_tt_gl_interface{
 						$title = $link;
 					if( $link )
 						$title = '<a class="glossary-reference-link" target="_blank" href="' . $link . '">' . $title . '</a>';
-					$content .= '<div class="glossary-references"><h4>' . __('Reference', 'ithoughts_tooltip_glossary') . ' ' . $title . '</h4></div>';
+					$content .= '<div class="glossary-references"><h4>' . __('Reference', 'ithoughts-tooltip-glossary' ) . ' ' . $title . '</h4></div>';
 				}
 			}// $reference
 
@@ -175,7 +186,7 @@ class ithoughts_tt_gl_Post_types extends ithoughts_tt_gl_interface{
 			if( $termusage == 'on' ){
 				$usage = get_post_meta( $post->ID, 'ithoughts_tt_gl_term_used' );
 				if( $usage ){
-					$usage_title = apply_filters( 'ithoughts_tt_gl_term_usage_title', __('Glossary Term Usage', 'ithoughts_tooltip_glossary') );
+					$usage_title = apply_filters( 'ithoughts_tt_gl_term_usage_title', __('Glossary Term Usage', 'ithoughts-tooltip-glossary' ) );
 					$content    .= '<div class="ithoughts_tt_gl-term-usage"><div class="header"><h4>' . $usage_title . '</h4></div><ul>';
 					foreach( $usage as $post_id ){
 						$target   = get_post( $post_id );
@@ -189,4 +200,4 @@ class ithoughts_tt_gl_Post_types extends ithoughts_tt_gl_interface{
 		} // Single ++ glossary
 		return $content;
 	} // the_content
-} // ithoughts_tt_gl_Post_types
+} // post_types

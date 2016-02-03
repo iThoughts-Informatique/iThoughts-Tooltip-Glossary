@@ -1,6 +1,13 @@
 <?php
+ /**
+  * @copyright 2015-2016 iThoughts Informatique
+  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+  */
 
-class ithoughts_tt_gl_Updater{
+namespace ithoughts\tooltip_glossary;
+
+
+class Updater extends \ithoughts\Singleton{
 	private $from;
 	private $to;
 	private $versionIndex;
@@ -56,8 +63,8 @@ class ithoughts_tt_gl_Updater{
 			case 0:{
 ?>
 <div class="update-nag notice">
-	<p><?php _e( 'Thank you for using iThoughts Tooltip Glossary v2.0! This update comes with some big refactoring to improve evolution flexibility, compatibility, and much more. But it requires also a global update of <b>each of your posts</b> to apply the new format. If you don\'t apply this update, none of your tooltips will work properly.','ithoughts_tooltip_glossary'); ?></p>
-	<a class="button button-secondary" href="<?php echo admin_url("admin.php?page=ithoughts_tt_gl_update"); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php _e('Update now!','ithoughts_tooltip_glossary'); ?></a>
+	<p><?php _e( 'Thank you for using iThoughts Tooltip Glossary v2.0! This update comes with some big refactoring to improve evolution flexibility, compatibility, and much more. But it requires also a global update of <b>each of your posts</b> to apply the new format. If you don\'t apply this update, none of your tooltips will work properly.', 'ithoughts-tooltip-glossary' ); ?></p>
+	<a class="button button-secondary" href="<?php echo admin_url("admin.php?page=ithoughts_tt_gl_update"); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php _e('Update now!', 'ithoughts-tooltip-glossary' ); ?></a>
 </div>
 <?php		
 				   } break;
@@ -80,8 +87,8 @@ class ithoughts_tt_gl_Updater{
 		})
 	</script>
 	<button class="dismiss button"></button>
-	<p><?php _e( 'An error in the updater have been spotted. This update will replace old slug-based tooltips to id-based ones on post types other than "post", for example on pages. See <a href="https://wordpress.org/support/topic/shortcode-parameter-slug-not-working-after-update-116-222?replies=29#post-7941781">this thread</a> for more informations. If you are not concerned by this problem, simply dismiss this alert with the button on the right.','ithoughts_tooltip_glossary'); ?></p>
-	<a class="button button-secondary" href="<?php echo admin_url("admin.php?page=ithoughts_tt_gl_update"); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php _e('Update now!','ithoughts_tooltip_glossary'); ?></a>
+	<p><?php _e( 'An error in the updater have been spotted. This update will replace old slug-based tooltips to id-based ones on post types other than "post", for example on pages. See <a href="https://wordpress.org/support/topic/shortcode-parameter-slug-not-working-after-update-116-222?replies=29#post-7941781">this thread</a> for more informations. If you are not concerned by this problem, simply dismiss this alert with the button on the right.', 'ithoughts-tooltip-glossary' ); ?></p>
+	<a class="button button-secondary" href="<?php echo admin_url("admin.php?page=ithoughts_tt_gl_update"); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php _e('Update now!', 'ithoughts-tooltip-glossary' ); ?></a>
 </div>
 <?php	
 				   } break;
@@ -90,7 +97,7 @@ class ithoughts_tt_gl_Updater{
 	public function updater(){
 		if( $this->parentC->isUnderVersionned() ){
 			wp_enqueue_script('ithoughts_tooltip_glossary-updater');
-			wp_localize_script('ithoughts_tooltip_glossary-updater', "ithoughts_tt_gl_updater", array(
+			wp_localize_script('ithoughts_tooltip_glossary-updater', "Updater", array(
 				"from"	=>	$this->from,
 				"to"	=>	$this->to
 			));
@@ -106,8 +113,8 @@ class ithoughts_tt_gl_Updater{
 					<div class="icon32" id="icon-options-general">
 						<br>
 					</div>
-					<section id="ithoughts_tt_gl_updater">
-						<h2><?php _e("Updating iThoughts Tooltip Glossary", "ithoughts_tooltip_glossary"); ?></h2>
+					<section id="Updater">
+						<h2><?php _e("Updating iThoughts Tooltip Glossary", 'ithoughts-tooltip-glossary' ); ?></h2>
 					</section>
 				</div>
 			</div>
@@ -123,9 +130,9 @@ class ithoughts_tt_gl_Updater{
 			<div class="icon32" id="icon-options-general">
 				<br>
 			</div>
-			<section id="ithoughts_tt_gl_updater">
-				<h2><?php _e("Updating iThoughts Tooltip Glossary", "ithoughts_tooltip_glossary"); ?></h2>
-				<p><?php _e("No update required.", "ithoughts_tooltip_glossary"); ?></p>
+			<section id="Updater">
+				<h2><?php _e("Updating iThoughts Tooltip Glossary", 'ithoughts-tooltip-glossary' ); ?></h2>
+				<p><?php _e("No update required.", 'ithoughts-tooltip-glossary' ); ?></p>
 			</section>
 		</div>
 	</div>
@@ -176,7 +183,7 @@ class ithoughts_tt_gl_Updater{
 						array(
 							"max" => $totalCount,
 							"targetversion" => $versions[$this->versionIndex],
-							"text" => __("Applying new format.",'ithoughts_tooltip_glossary')
+							"text" => __("Applying new format.", 'ithoughts-tooltip-glossary' )
 						)
 					);
 					wp_die();
@@ -188,7 +195,7 @@ class ithoughts_tt_gl_Updater{
 					"posts_per_page" => $maxCount,
 					"paged"			=> $paged
 				);
-				$posts_to_update = new WP_Query($queryargs);
+				$posts_to_update = new \WP_Query($queryargs);
 				while($posts_to_update->have_posts()){
 					$posts_to_update->the_post();
 					$postUpdateArray = array();
@@ -298,7 +305,7 @@ class ithoughts_tt_gl_Updater{
 						array(
 							"max" => $totalCount,
 							"targetversion" => $versions[$this->versionIndex],
-							"text" => __("Replacing slugs with id.",'ithoughts_tooltip_glossary'),
+							"text" => __("Replacing slugs with id.", 'ithoughts-tooltip-glossary' ),
 							"verbose" => $verbose
 						)
 					);
@@ -312,7 +319,7 @@ class ithoughts_tt_gl_Updater{
 					"paged"			=> $paged,
 					"post_type"		=> $postTypes
 				);
-				$posts_to_update = new WP_Query($queryargs);
+				$posts_to_update = new \WP_Query($queryargs);
 				if($posts_to_update->have_posts()){
 					while($posts_to_update->have_posts()){
 						$posts_to_update->the_post();
@@ -382,16 +389,16 @@ class ithoughts_tt_gl_Updater{
 			} break;
 
 			case -1:{
-				$return = array("Ended" => true, "title" => __("Update finished!",'ithoughts_tooltip_glossary'), "text" => __("The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)",'ithoughts_tooltip_glossary'));
+				$return = array("Ended" => true, "title" => __("Update finished!", 'ithoughts-tooltip-glossary' ), "text" => __("The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)", 'ithoughts-tooltip-glossary' ));
 			}break;
 			default: {
-				$return = array("Ended" => true, "title" => __("Update finished!",'ithoughts_tooltip_glossary'), "text" => __("The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)",'ithoughts_tooltip_glossary'));
+				$return = array("Ended" => true, "title" => __("Update finished!", 'ithoughts-tooltip-glossary' ), "text" => __("The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)", 'ithoughts-tooltip-glossary' ));
 			} break;
 		}
 
 		if($data["maxAdvandement"] > -1){
 			if($return["progression"] >= $data["maxAdvandement"]){
-				$return = array_merge(array("Ended" => true, "title" => __("Update finished!",'ithoughts_tooltip_glossary'), "text" => __("The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)",'ithoughts_tooltip_glossary')), $return);
+				$return = array_merge(array("Ended" => true, "title" => __("Update finished!", 'ithoughts-tooltip-glossary' ), "text" => __("The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)", 'ithoughts-tooltip-glossary' )), $return);
 				wp_send_json_success($return);
 				wp_die();
 			}

@@ -19,13 +19,13 @@ function stripQuotes(string, encode){
 	}
 
 	var redimWait;
-	$win.resize(function(){
+	$w.resize(function(){
 		clearTimeout(redimWait);
 		redimWait = setTimeout(redimVid,100);
 	});
 	function redimVid(video){
-		var h = $win.height();
-		var w = $win.width();
+		var h = $w.height();
+		var w = $w.width();
 		var i= 0;
 		var dims = [[512,288],[256,144]];
 		for(var l = dims.length;i < l;i++){
@@ -47,7 +47,7 @@ function stripQuotes(string, encode){
 		}
 	}
 
-	$doc.ready(function(){
+	$d.ready(function(){
 		//Create container
 		tooltipsContainer = $($.parseHTML('<div id="ithoughts_tooltip_glossary-tipsContainer"></div>'));
 		$(document.body).append(tooltipsContainer);
@@ -112,7 +112,7 @@ function stripQuotes(string, encode){
 					};
 					specific = {
 						content: {
-							text: 'Loading glossary term',
+							text: ithoughts_tt_gl.lang.qtip.pleasewait_ajaxload.content,
 							ajax: {
 								url     : ithoughts_tt_gl.admin_ajax,
 								type    : 'POST',
@@ -128,7 +128,7 @@ function stripQuotes(string, encode){
 									}
 								}
 							},
-							title: { text: 'Please wait' }
+							title: { text: ithoughts_tt_gl.lang.qtip.pleasewait_ajaxload.title }
 						},
 						style: {
 							classes: tipClass + "ithoughts_tooltip_glossary-glossary"

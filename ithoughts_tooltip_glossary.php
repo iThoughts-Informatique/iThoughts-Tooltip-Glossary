@@ -3,17 +3,17 @@
 Plugin Name: iThoughts Tooltip Glossary
 Plugin URI:  http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Description: Create beautiful tooltips for descriptions or glossary terms easily
-Version:     2.3.0
+Version:     2.3.1
 Author:      Gerkin
 License:     GPLv2 or later
-Text Domain: ithoughts_tooltip_glossary
+Text Domain: ithoughts-tooltip-glossary
 Domain Path: /lang
 */
 
-require_once( dirname(__FILE__) . '/submodules/iThoughts-WordPress-Plugins-Toolbox/class/ithoughts_toolbox.class.php' );
-require_once( dirname(__FILE__) . '/class/ithoughts_tt_gl.class.php' );
-new ithoughts_tt_gl( dirname(__FILE__) );
+require_once( dirname(__FILE__) . '/submodules/iThoughts-WordPress-Plugins-Toolbox/class/includer.php' );
+require_once( dirname(__FILE__) . '/class/Backbone.class.php' );
+ithoughts\tooltip_glossary\Backbone::get_instance( dirname(__FILE__) );
 if(is_admin()){
-	require_once( dirname(__FILE__) . '/class/ithoughts_tt_gl-admin.class.php' );
-	new ithoughts_tt_gl_Admin();
+	require_once( dirname(__FILE__) . '/class/Admin.class.php' );
+	ithoughts\tooltip_glossary\Admin::get_instance();
 }

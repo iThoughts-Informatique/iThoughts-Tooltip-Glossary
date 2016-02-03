@@ -245,7 +245,7 @@
 					popupTooltip.css({width:w + "px", height:h+"px", left: (jQuery(window).width() - w)/2 + "px", top: (jQuery(window).height() - h)/2 + "px"});
 				}).resize();
 				jQuery('body').append(newDom.animate({opacity:1}, 500));
-				newDom[0].finish = (function(){
+				ithoughts_tt_gl.finishTinymce = (function(){
 					var domC = newDom;
 					return function(data){
 						domC.animate({opacity:0}, 500, function(){

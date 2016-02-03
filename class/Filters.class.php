@@ -1,6 +1,12 @@
 <?php
+ /**
+  * @copyright 2015-2016 iThoughts Informatique
+  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+  */
 
-class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
+namespace ithoughts\tooltip_glossary;
+
+class Filters extends \ithoughts\Singleton{
 	public function __construct(){
 		add_filter("ithoughts_tt_gl-term-excerpt", array(&$this, "getTermExcerpt"));
 		add_filter("ithoughts-split-args", array(&$this, "splitArgs"), 10, 5);
@@ -8,7 +14,7 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 		add_filter("ithoughts_tt_gl-split-args", array(&$this, "ithoughts_tt_gl_splitArgs"), 10, 1);
 	}
 
-	public function getTermExcerpt(WP_Post $term){
+	public function getTermExcerpt(\WP_Post $term){
 		if( $term->excerpt ){
 			$content = wpautop( $term->post_excerpt );
 		} else {
@@ -103,7 +109,8 @@ class ithoughts_tt_gl_filters extends ithoughts_tt_gl_interface{
 	public function ithoughts_tt_gl_splitArgs($atts){
 		$ret = array();
 
-		$datas = apply_filters("ithoughts-split-args", $atts, parent::$handledAttributes, parent::$serversideOverridable, parent::$clientsideOverridable, false);
+		$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+		$datas = apply_filters("ithoughts-split-args", $atts, $backbone->get_handled_attributes(), $backbone->get_server_side_overridable(), $backbone->get_client_side_overridable(), false);
 
 		$ret["options"] = apply_filters("ithoughts_tt_gl_get_overriden_opts", $datas["overridesServer"], false);
 

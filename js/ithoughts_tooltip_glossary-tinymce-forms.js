@@ -1,5 +1,5 @@
 (function(){
-	$doc.ready(function(){
+	$d.ready(function(){
 		//Generic tab switching
 		$('.tabs li').click(function(event){
 			if($(this).hasClass('active')){
@@ -122,9 +122,9 @@
 			var completerHolder = $("#glossary_term_completer");
 			function resizeWindow(){
 				var top = completerHolder.offset().top;
-				var bottom = $win.height() + $win.scrollTop();
+				var bottom = $w.height() + $w.scrollTop();
 			}
-			$win.resize(resizeWindow);
+			$w.resize(resizeWindow);
 
 			function losefocustest(){
 				if(!completerHolder.find("*:focus") && !input.is(":focus")){
@@ -244,11 +244,11 @@
 				}
 				//setTimeout(tinymce.EditorManager.get('ithoughts_tt_gl-tooltip-content').remove, 500);
 				setTimeout(function(){removeEditor('ithoughts_tt_gl-tooltip-content')}, 500);
-				$("#ithoughts_tt_gl-tooltip-form-container")[0].finish(data);
+				ithoughts_tt_gl.finishTinymce(data);
 			});
 			$(".ithoughts_tt_gl-tinymce-discard").click(function(){
 				setTimeout(function(){removeEditor('ithoughts_tt_gl-tooltip-content')}, 500);
-				$("#ithoughts_tt_gl-tooltip-form-container")[0].finish()
+				ithoughts_tt_gl.finishTinymce()
 			});
 		}
 
