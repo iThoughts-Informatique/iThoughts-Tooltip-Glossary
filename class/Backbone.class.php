@@ -167,13 +167,14 @@ class Backbone extends \ithoughts\Backbone{
 		add_action( 'init',                  		array(&$this,	'ajaxHooks')							);
 		add_action( 'wp_footer',             		array(&$this,	'wp_footer')							);
 		add_action( 'wp_enqueue_scripts',    		array(&$this,	'wp_enqueue_styles')					);
-		add_action( 'wp_enqueue_scripts',			array(&$this,	'wp_enqueue_scripts_hight_priority'),	0 );
 		add_action( 'pre_get_posts',         		array(&$this,	'order_core_archive_list')     			);
 
 		add_filter( 'ithoughts_tt_gl_term_link',	array(&$this,	'ithoughts_tt_gl_term_link')			);
 		add_filter( 'ithoughts_tt_gl_get_overriden_opts',	array(&$this,	'ithoughts_tt_gl_override'), 	10,	2	);
 
 		add_action( 'plugins_loaded',				array($this,	'localisation')							);
+		
+		parent::__construct();
 	}
 
 	public function get_client_side_overridable(){
@@ -266,7 +267,6 @@ class Backbone extends \ithoughts\Backbone{
 
 	public function register_scripts_and_styles(){
 		wp_register_script('imagesloaded', $this->base_url . '/ext/imagesloaded.min.js',										null, null, true);
-		wp_register_script('ithoughts_aliases', $this->base_url . '/submodules/iThoughts-WordPress-Plugins-Toolbox/js/ithoughts_aliases'.$this->minify.'.js',									array('jquery'), "2.3.1", true);
 		wp_register_script('qtip', $this->base_url . '/ext/jquery.qtip'.$this->minify.'.js',												array('jquery', 'imagesloaded'), "2.2.1:2", null, true);
 		wp_register_script( 'ithoughts_tooltip_glossary-qtip',  $this->base_url . '/js/ithoughts_tooltip_glossary-qtip2'.$this->minify.'.js',	array('qtip', "ithoughts_aliases"), "2.3.1" );
 		wp_localize_script( 'ithoughts_tooltip_glossary-qtip', 'ithoughts_tt_gl', array(
