@@ -7,7 +7,7 @@
 namespace ithoughts\tooltip_glossary;
 
 
-class Admin extends \ithoughts\v1_0\Singleton{
+class Admin extends \ithoughts\v1_1\Singleton{
 	private $currentVersion;
 	private $updater;
 
@@ -73,7 +73,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 		$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 		wp_register_script(
 			'ithoughts-simple-ajax',
-			$backbone->get_base_url() . '/submodules/iThoughts-WordPress-Plugins-Toolbox/js/simple-ajax-form'.$backbone->get_minify().'.js',
+			$backbone->get_base_url() . '/submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form'.$backbone->get_minify().'.js',
 			array('jquery-form',"ithoughts_aliases"),
 			"2.3.1"
 		);
@@ -321,7 +321,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 
 
 		$optionsInputs = array(
-			"termlinkopt" => \ithoughts\v1_0\Toolbox::generate_input_select(
+			"termlinkopt" => \ithoughts\v1_1\Toolbox::generate_input_select(
 				'termlinkopt',
 				array(
 					'selected'	=> $options["termlinkopt"],
@@ -347,7 +347,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 					),
 				)
 			),
-			"staticterms" => \ithoughts\v1_0\Toolbox::generate_input_check(
+			"staticterms" => \ithoughts\v1_1\Toolbox::generate_input_check(
 				"staticterms",
 				array(
 					"radio" => false,
@@ -361,7 +361,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 					)
 				)
 			),
-			"forceloadresources" => \ithoughts\v1_0\Toolbox::generate_input_check(
+			"forceloadresources" => \ithoughts\v1_1\Toolbox::generate_input_check(
 				"forceloadresources",
 				array(
 					"radio" => false,
@@ -371,21 +371,21 @@ class Admin extends \ithoughts\v1_0\Singleton{
 					)
 				)
 			),
-			"termtype" => \ithoughts\v1_0\Toolbox::generate_input_text(
+			"termtype" => \ithoughts\v1_1\Toolbox::generate_input_text(
 				"termtype",
 				array(
 					"type" => "text",
 					"value" => $options["termtype"]
 				)
 			),
-			"grouptype" => \ithoughts\v1_0\Toolbox::generate_input_text(
+			"grouptype" => \ithoughts\v1_1\Toolbox::generate_input_text(
 				"grouptype",
 				array(
 					"type" => "text",
 					"value" => $options["grouptype"]
 				)
 			),
-			"termcontent" => \ithoughts\v1_0\Toolbox::generate_input_select(
+			"termcontent" => \ithoughts\v1_1\Toolbox::generate_input_select(
 				'termcontent',
 				array(
 					'selected' => $options["termcontent"],
@@ -411,14 +411,14 @@ class Admin extends \ithoughts\v1_0\Singleton{
 					),
 				)
 			),
-			"qtipstyle" => \ithoughts\v1_0\Toolbox::generate_input_select(
+			"qtipstyle" => \ithoughts\v1_1\Toolbox::generate_input_select(
 				'qtipstyle',
 				array(
 					'selected' => $options["qtipstyle"],
 					'options'  => $this->get_themes(),
 				)
 			),
-			"qtiptrigger" => \ithoughts\v1_0\Toolbox::generate_input_select(
+			"qtiptrigger" => \ithoughts\v1_1\Toolbox::generate_input_select(
 				'qtiptrigger',
 				array(
 					'selected'	=> $options["qtiptrigger"],
@@ -438,7 +438,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 					),
 				)
 			),
-			"qtipshadow" => \ithoughts\v1_0\Toolbox::generate_input_check(
+			"qtipshadow" => \ithoughts\v1_1\Toolbox::generate_input_check(
 				"qtipshadow",
 				array(
 					"radio" => false,
@@ -452,7 +452,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 					)
 				)
 			),
-			"qtiprounded" => \ithoughts\v1_0\Toolbox::generate_input_check(
+			"qtiprounded" => \ithoughts\v1_1\Toolbox::generate_input_check(
 				"qtiprounded",
 				array(
 					"radio" => false,
@@ -468,7 +468,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 			),
 		);
 
-		$optionsInputs["qtipstylecustom"] = \ithoughts\v1_0\Toolbox::generate_input_text(
+		$optionsInputs["qtipstylecustom"] = \ithoughts\v1_1\Toolbox::generate_input_text(
 			"qtipstylecustom",
 			array(
 				"type" => "text",
@@ -483,9 +483,9 @@ class Admin extends \ithoughts\v1_0\Singleton{
 		$glossary_options = $backbone->get_options();
 
 		$postValues = $_POST;
-		$postValues['qtipshadow']  = \ithoughts\v1_0\Toolbox::checkbox_to_bool($postValues,'qtipshadow',  "enabled");
-		$postValues['qtiprounded'] = \ithoughts\v1_0\Toolbox::checkbox_to_bool($postValues,'qtiprounded', "enabled");
-		$postValues['staticterms'] = \ithoughts\v1_0\Toolbox::checkbox_to_bool($postValues,'staticterms', "enabled");
+		$postValues['qtipshadow']  = \ithoughts\v1_1\Toolbox::checkbox_to_bool($postValues,'qtipshadow',  "enabled");
+		$postValues['qtiprounded'] = \ithoughts\v1_1\Toolbox::checkbox_to_bool($postValues,'qtiprounded', "enabled");
+		$postValues['staticterms'] = \ithoughts\v1_1\Toolbox::checkbox_to_bool($postValues,'staticterms', "enabled");
 		if(isset($postValues["qtipstylecustom"]) && strlen(trim($postValues["qtipstylecustom"])) > 0){
 			$postValues["qtipstyle"] = $postValues["qtipstylecustom"];
 		}
@@ -574,7 +574,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 			$data["term_search"] = isset($data["term_search"]) ? $data["term_search"] : "";
 			$data["mediatip_type"] = isset($data["mediatip_type"]) && $data["mediatip_type"] && isset($mediatiptypes[$data["mediatip_type"]]) ? $data["mediatip_type"] : $mediatiptypes_keys[0];
 			$data["mediatip_content_json"] = (isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
-			$data["mediatip_content"] = \ithoughts\v1_0\Toolbox::decode_json_attr($data["mediatip_content_json"]);
+			$data["mediatip_content"] = \ithoughts\v1_1\Toolbox::decode_json_attr($data["mediatip_content_json"]);
 			$data["mediatip_content_json"] = str_replace('\\"', '&quot;', $data["mediatip_content_json"]);
 			$data["mediatip_caption"] = innerAttr(isset($data["mediatip_caption"]) ? $data["mediatip_caption"] : "", false);
 			$data["glossary_disable_auto_translation"] = (isset($data["glossary_disable_auto_translation"])) ? $data["glossary_disable_auto_translation"] === "true" || $data["glossary_disable_auto_translation"] === true : false;
@@ -638,7 +638,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 		$options = $backbone->get_options();
 
 		$inputs = array(
-			'mediatip_type' => \ithoughts\v1_0\Toolbox::generate_input_select(
+			'mediatip_type' => \ithoughts\v1_1\Toolbox::generate_input_select(
 				'mediatip_type',
 				array(
 					'selected' => $data["mediatip_type"],
@@ -648,7 +648,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 					)
 				)
 			),
-			"qtip-content" => \ithoughts\v1_0\Toolbox::generate_input_select(
+			"qtip-content" => \ithoughts\v1_1\Toolbox::generate_input_select(
 				'qtip-content',
 				array(
 					'selected' => $options["termcontent"],
@@ -674,14 +674,14 @@ class Admin extends \ithoughts\v1_0\Singleton{
 					),
 				)
 			),
-			"qtipstyle" => \ithoughts\v1_0\Toolbox::generate_input_select(
+			"qtipstyle" => \ithoughts\v1_1\Toolbox::generate_input_select(
 				'qtipstyle',
 				array(
 					'selected' => $options["qtipstyle"],
 					'options'  => $this->get_themes(),
 				)
 			),
-			"qtiptrigger" => \ithoughts\v1_0\Toolbox::generate_input_select(
+			"qtiptrigger" => \ithoughts\v1_1\Toolbox::generate_input_select(
 				'qtiptrigger',
 				array(
 					'selected'	=> $options["qtiptrigger"],
@@ -701,7 +701,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 					),
 				)
 			),
-			"qtipshadow" => \ithoughts\v1_0\Toolbox::generate_input_check(
+			"qtipshadow" => \ithoughts\v1_1\Toolbox::generate_input_check(
 				"qtipshadow",
 				array(
 					"radio" => false,
@@ -715,7 +715,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 					)
 				)
 			),
-			"qtiprounded" => \ithoughts\v1_0\Toolbox::generate_input_check(
+			"qtiprounded" => \ithoughts\v1_1\Toolbox::generate_input_check(
 				"qtiprounded",
 				array(
 					"radio" => false,
@@ -780,7 +780,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 		wp_enqueue_style( 'ithoughts_tooltip_glossary-gradx' );
 
 		$inputs = array(
-			"themename" => \ithoughts\v1_0\Toolbox::generate_input_select(
+			"themename" => \ithoughts\v1_1\Toolbox::generate_input_select(
 				'themename',
 				array(
 					'allow_blank' => __("Select one", "ithoughts-tooltip-glossary"),

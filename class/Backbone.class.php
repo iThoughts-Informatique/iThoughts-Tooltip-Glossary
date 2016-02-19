@@ -7,7 +7,7 @@
 namespace ithoughts\tooltip_glossary;
 
 
-class Backbone extends \ithoughts\v1_0\Backbone{
+class Backbone extends \ithoughts\v1_1\Backbone{
 	private $defaults;
 	private $overridesjsdat;
 	private $overridesopts;
@@ -305,7 +305,7 @@ class Backbone extends \ithoughts\v1_0\Backbone{
 		if( !$this->scripts && $this->options["forceloadresources"] !== true)
 			return;
 
-		if((isset($this->scripts['qtip']) && $this->scripts['qtip']) || $this->options["forceloadresources"] === true){
+		if($this->get_script('qtip') || $this->options["forceloadresources"] === true){
 ?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: none;">
 	<defs>
@@ -318,7 +318,7 @@ class Backbone extends \ithoughts\v1_0\Backbone{
 <?php
 			wp_enqueue_script( 'ithoughts_tooltip_glossary-qtip' );
 		}
-		if((isset($this->scripts['atoz']) && $this->scripts['atoz']) || $this->options["forceloadresources"] === true)
+		if($this->get_script('atoz') || $this->options["forceloadresources"] === true)
 			wp_enqueue_script( 'ithoughts_tooltip_glossary-atoz' );
 	}
 

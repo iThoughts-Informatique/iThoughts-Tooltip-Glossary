@@ -5,7 +5,7 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments
 Requires at least: 3.3
 Tested up to: 4.4.1
-Stable tag: 2.3.2
+Stable tag: 2.4.0
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -74,6 +74,12 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Changelog ==
+
+= 2.4.0 =
+* NEW Full support of WPML
+* UPD Style editor now saves to a file and add theme in theme dropdown
+* UPD Less.css style editor
+* FIX Click activation mode prevented totally to access a link
 
 = 2.3.2 =
 * FIX Delegate register of ithoughts_aliases to parent Backbone
@@ -235,6 +241,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Upgrade Notice ==
+
+= 2.4.0 =
+WPML is now supported! Please post possible bugs or unexpected behavior on the support forum.
 
 = 2.3.1 =
 WARNING! THIS IS AN EXPERIMENTAL UPDATE! 

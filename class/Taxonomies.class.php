@@ -6,7 +6,7 @@
 
 namespace ithoughts\tooltip_glossary;
 
-class Taxonomies extends \ithoughts\v1_0\Singleton{
+class Taxonomies extends \ithoughts\v1_1\Singleton{
 	public function __construct() {
         add_action( 'init', array(&$this, 'register_taxonomies'), 0 );
     }

@@ -27,7 +27,7 @@
 											</tr>
 											<tr class="nonoverridable">
 												<th>
-													<label for="staticterms"><?php _e('Static terms', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_0\Toolbox::concat_attrs(array("data-tooltip-content" => __('Include term content directly into the pages to avoid use of Ajax. This can slow down your page generation.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
+													<label for="staticterms"><?php _e('Static terms', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_1\Toolbox::concat_attrs(array("data-tooltip-content" => __('Include term content directly into the pages to avoid use of Ajax. This can slow down your page generation.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
 												</th>
 												<td>
 													<?php echo $optionsInputs["staticterms"]; ?>
@@ -35,7 +35,7 @@
 											</tr>
 											<tr class="nonoverridable">
 												<th>
-													<label for="forceloadresources"><?php _e('Force load resources', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_0\Toolbox::concat_attrs(array("data-tooltip-content" => __('Load scripts on every pages, even if not required. This option can be useful if some cache plugins are active, or if you think that scripts are not loaded when required.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
+													<label for="forceloadresources"><?php _e('Force load resources', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_1\Toolbox::concat_attrs(array("data-tooltip-content" => __('Load scripts on every pages, even if not required. This option can be useful if some cache plugins are active, or if you think that scripts are not loaded when required.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
 												</th>
 												<td>
 													<?php echo $optionsInputs["staticterms"]; ?>
@@ -98,7 +98,7 @@
 													</tr>
 													<tr>
 														<th>
-															<label for="qtipshadow"><?php _e('Tooltip shadow', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_0\Toolbox::concat_attrs(array("data-tooltip-content" => __('This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
+															<label for="qtipshadow"><?php _e('Tooltip shadow', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_1\Toolbox::concat_attrs(array("data-tooltip-content" => __('This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
 														</th>
 														<td>
 															<?php echo $optionsInputs["qtipshadow"]; ?>
@@ -106,7 +106,7 @@
 													</tr>
 													<tr>
 														<th>
-															<label for="qtiprounded"><?php _e('Rounded corners', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_0\Toolbox::concat_attrs(array("data-tooltip-content" => __('This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
+															<label for="qtiprounded"><?php _e('Rounded corners', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_1\Toolbox::concat_attrs(array("data-tooltip-content" => __('This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
 														</th>
 														<td>
 															<?php echo $optionsInputs["qtiprounded"]; ?>

@@ -6,7 +6,7 @@
 
 namespace ithoughts\tooltip_glossary\shortcode;
 
-class AtoZ extends \ithoughts\v1_0\Singleton{
+class AtoZ extends \ithoughts\v1_1\Singleton{
 	public function __construct() {
 		add_shortcode( 'glossary_atoz', array($this, 'glossary_atoz') );
 	}
@@ -57,10 +57,10 @@ class AtoZ extends \ithoughts\v1_0\Singleton{
 			$linkdata["linkAttrs"]["link-".$key] = $linkAttr;
 			unset($linkdata["linkAttrs"][$key]);
 		}
-		$linkdata = \ithoughts\v1_0\Toolbox::array_flatten($linkdata);
+		$linkdata = \ithoughts\v1_1\Toolbox::array_flatten($linkdata);
 		foreach( $glossaries as $post ) {
 			$title = $post->post_title;
-			$alpha = strtoupper( \ithoughts\v1_0\Toolbox::unaccent(mb_substr($title,0,1, "UTF-8")) );
+			$alpha = strtoupper( \ithoughts\v1_1\Toolbox::unaccent(mb_substr($title,0,1, "UTF-8")) );
 			if(!preg_match("/[A-Z]/", $alpha))
 				$alpha = "#";
 			$alpha_attribute = $alpha;
@@ -99,7 +99,7 @@ class AtoZ extends \ithoughts\v1_0\Singleton{
 
 		$clear    = '<div style="clear: both;"></div>';
 		$data["attributes"]["class"] = "glossary-atoz-wrapper".((isset($data["attributes"]["class"]) && $data["attributes"]["class"]) ? " ".$data["attributes"]["class"] : "");
-		$args = \ithoughts\v1_0\Toolbox::concat_attrs( $data["attributes"]);
+		$args = \ithoughts\v1_1\Toolbox::concat_attrs( $data["attributes"]);
 		$plsclick = apply_filters( 'ithoughts_tt_gl_please_select', '<div class="ithoughts_tt_gl-please-select"><p>' . __('Please select from the menu above', 'ithoughts-tooltip-glossary' ) . '</p></div>' );
 		return '<div '.$args.'>' . $menu . $clear . $plsclick . $clear . $list . '</div>';
 	} // glossary_atoz

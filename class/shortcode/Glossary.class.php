@@ -7,7 +7,7 @@
 namespace ithoughts\tooltip_glossary\shortcode;
 
 
-class Glossary extends \ithoughts\v1_0\Singleton{
+class Glossary extends \ithoughts\v1_1\Singleton{
 	public function __construct() {
 		// Shortcode
 		add_shortcode( "ithoughts_tooltip_glossary-glossary", array(&$this, "glossary") );
@@ -113,11 +113,11 @@ class Glossary extends \ithoughts\v1_0\Singleton{
 		}
 
 
-		$linkArgs = \ithoughts\v1_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
+		$linkArgs = \ithoughts\v1_1\Toolbox::concat_attrs( $datas["linkAttrs"]);
 		$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
 		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
-		$args = \ithoughts\v1_0\Toolbox::concat_attrs( $datas["attributes"]);
+		$args = \ithoughts\v1_1\Toolbox::concat_attrs( $datas["attributes"]);
 
 		$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 		$backbone->add_script('qtip');

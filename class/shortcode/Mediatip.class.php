@@ -7,7 +7,7 @@
 namespace ithoughts\tooltip_glossary\shortcode;
 
 
-class Mediatip extends \ithoughts\v1_0\Singleton{
+class Mediatip extends \ithoughts\v1_1\Singleton{
 	public function __construct() {
 		// Shortcode
 		add_shortcode( "ithoughts_tooltip_glossary-mediatip", array(&$this, "mediatip") );
@@ -49,7 +49,7 @@ class Mediatip extends \ithoughts\v1_0\Singleton{
 
 		switch($mediatipType){
 			case $mediatipTypes[0]:{
-				$dat = \ithoughts\v1_0\Toolbox::decode_json_attr($datas["handled"]["mediatip-content"], true);
+				$dat = \ithoughts\v1_1\Toolbox::decode_json_attr($datas["handled"]["mediatip-content"], true);
 				// Compat with old format
 				if($dat == NULL)
 					$dat = json_decode(str_replace('&quot;', '"', $datas["handled"]["mediatip-content"]), true);
@@ -58,10 +58,10 @@ class Mediatip extends \ithoughts\v1_0\Singleton{
 				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
 					$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-				$linkArgs = \ithoughts\v1_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
+				$linkArgs = \ithoughts\v1_1\Toolbox::concat_attrs( $datas["linkAttrs"]);
 				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-				$args = \ithoughts\v1_0\Toolbox::concat_attrs( $datas["attributes"]);
+				$args = \ithoughts\v1_1\Toolbox::concat_attrs( $datas["attributes"]);
 				// Span that qtip finds
 				$span = '<span '.$args.'>' . $linkElement . '</span>';
 				return $span;
@@ -73,10 +73,10 @@ class Mediatip extends \ithoughts\v1_0\Singleton{
 				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
 					$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-				$linkArgs = \ithoughts\v1_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
+				$linkArgs = \ithoughts\v1_1\Toolbox::concat_attrs( $datas["linkAttrs"]);
 				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-				$args = \ithoughts\v1_0\Toolbox::concat_attrs( $datas["attributes"]);
+				$args = \ithoughts\v1_1\Toolbox::concat_attrs( $datas["attributes"]);
 				// Span that qtip finds
 				$span = '<span '.$args.'>' . $linkElement . '</span>';
 				return $span;
@@ -88,10 +88,10 @@ class Mediatip extends \ithoughts\v1_0\Singleton{
 				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
 					$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-				$linkArgs = \ithoughts\v1_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
+				$linkArgs = \ithoughts\v1_1\Toolbox::concat_attrs( $datas["linkAttrs"]);
 				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-				$args = \ithoughts\v1_0\Toolbox::concat_attrs( $datas["attributes"]);
+				$args = \ithoughts\v1_1\Toolbox::concat_attrs( $datas["attributes"]);
 				// Span that qtip finds
 				$span = '<span '.$args.'>' . $linkElement . '</span>';
 				return $span;

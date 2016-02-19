@@ -42,7 +42,7 @@ class RandomTerm extends \WP_Widget{
 			}
 		}
 
-		$groupdd = \ithoughts\v1_0\Toolbox::generate_input_select(
+		$groupdd = \ithoughts\v1_1\Toolbox::generate_input_select(
 			$this->get_field_name('group') . "[]",
 			array(
 				'multiple'	  => true,
@@ -58,7 +58,7 @@ class RandomTerm extends \WP_Widget{
 		echo $groupdd . '</p>';
 
 		// Display
-		$displaydd = \ithoughts\v1_0\Toolbox::generate_input_select(
+		$displaydd = \ithoughts\v1_1\Toolbox::generate_input_select(
 			$this->get_field_name('display'),
 			array(
 				'selected'   => isset($instance['display']) ? $instance['display'] : "tooltip",
