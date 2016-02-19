@@ -221,6 +221,7 @@ Specific styles for tip
 }
 .qtip-content a{
 	color: inherit;
+    text-decoration: underline;
 }
 
 .qtip.ithoughts_tt_gl-force_no_pad .qtip-content{

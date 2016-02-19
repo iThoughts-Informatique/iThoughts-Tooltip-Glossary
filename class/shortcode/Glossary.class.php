@@ -7,7 +7,7 @@
 namespace ithoughts\tooltip_glossary\shortcode;
 
 
-class Glossary extends \ithoughts\Singleton{
+class Glossary extends \ithoughts\v1_0\Singleton{
 	public function __construct() {
 		// Shortcode
 		add_shortcode( "ithoughts_tooltip_glossary-glossary", array(&$this, "glossary") );
@@ -33,6 +33,11 @@ class Glossary extends \ithoughts\Singleton{
 			} else if(!($term instanceof \WP_Post)){
 				// Error
 				return $text;
+			}
+			if( function_exists('icl_object_id')){
+				if(!(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"])){
+					$term = get_post(apply_filters( 'wpml_object_id', $term->ID, "glossary", true, apply_filters( 'wpml_current_language', NULL ) ));
+				}
 			}
 			if(is_null($text))
 				$text = $term->post_title;
@@ -72,6 +77,9 @@ class Glossary extends \ithoughts\Singleton{
 				if(is_null($text))
 					$text = $term->post_title;
 			}
+			
+			if(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"])
+				$datas["attributes"]['data-disable_auto_translation'] = "true";
 		}
 
 		$href="javascript::void(0)";
@@ -105,11 +113,11 @@ class Glossary extends \ithoughts\Singleton{
 		}
 
 
-		$linkArgs = \ithoughts\Toolbox::concat_attrs( $datas["linkAttrs"]);
+		$linkArgs = \ithoughts\v1_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
 		$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
 		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
-		$args = \ithoughts\Toolbox::concat_attrs( $datas["attributes"]);
+		$args = \ithoughts\v1_0\Toolbox::concat_attrs( $datas["attributes"]);
 
 		$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 		$backbone->add_script('qtip');

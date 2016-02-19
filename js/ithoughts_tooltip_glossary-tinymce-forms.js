@@ -12,17 +12,17 @@
 			var index = $(event.target).index();
 			console.log(index);
 			$($(event.target).parent().parent().children()[index + 1]).addClass('active');
-			
-			linkInput = gei("itghouts_tt_gl_link");
+
+			linkInput = $("#itghouts_tt_gl_link");
 			switch(index){
 				case 0:{
 					linkInput.disabled = true;
 				} break;
-					
+
 				case 1:{
 					linkInput.disabled = false;
 				} break;
-					
+
 				case 2:{
 					linkInput.disabled = false;
 				} break;
@@ -153,6 +153,10 @@
 				if(length > 0){
 					for(var i = 0; i < length; i++){
 						var item = searchResults[i];
+						console.log(item);
+						if(typeof item.thislang != "undefined" && !item.thislang)
+						completerHolder.append($.parseHTML('<div tabindex="0" class="option foreign-language" data-id="' + item.id + '" data-excerpt="' + item.content + '"><p><b>' + item.title + '</b><br><em>' + item.slug + '</em></p></div>'));
+							else
 						completerHolder.append($.parseHTML('<div tabindex="0" class="option" data-id="' + item.id + '" data-excerpt="' + item.content + '"><p><b>' + item.title + '</b><br><em>' + item.slug + '</em></p></div>'));
 					}
 				} else {
@@ -204,7 +208,8 @@
 				switch(data.type){
 					case "glossary":{
 						data = $.extend(data, {
-							glossary_id: $('[name="glossary_term_id"]').val()
+							glossary_id: $('[name="glossary_term_id"]').val(),
+							disable_auto_translation: (function(elem){if(elem)return elem.checked;else return false})(qs('[name="glossary_disable_auto_translation"]'))
 						});
 					}break;
 
@@ -288,6 +293,31 @@
 					$("#mediatip_url_video_link").val(videodata.video);
 				}
 			}).keyup();
+		}
+
+		// Init attrs adders
+		{
+			var elems = ["span","link"];
+			elems.forEach(function(elem){
+				console.log(elem);
+				$("#kv-pair-"+elem+"-attrs-add").click((function(){
+					var elemKey = $("#attributes-"+elem+"-key");
+					var elemValue = $("#attributes-"+elem+"-value");
+					var targetContainer = $("#kv-pair-"+elem+"-attrs")
+					return function(){
+						if(elemKey.val().length > 0){
+							var newElem = '<div id="' + elemKey.val() + '"><button class="delete button" type="button">x</button><div class="kv"><p class="key">' + elemKey.val() + '<p class="value">' + elemValue.val() + '</p></div></div>';
+							elemKey.val("");
+							elemValue.val("");
+							newElem = $($.parseHTML(newElem));
+							newElem.find(".delete").click(function(){
+								newElem.remove();
+							});
+							targetContainer.append(newElem);
+						}
+					};
+				})());
+			});
 		}
 	});
 })();

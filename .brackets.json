@@ -1,0 +1,9 @@
+{
+    "jscodehints.detectedExclusions": [
+        "/mnt/workdata/php/WP-Plugins/git/ithoughts_tooltip_glossary/submodules/ace-builds/src-min-noconflict/mode-forth.js",
+        "/mnt/workdata/php/WP-Plugins/git/ithoughts_tooltip_glossary/submodules/ace-builds/src-min-noconflict/theme-cobalt.js",
+        "/mnt/workdata/php/WP-Plugins/git/ithoughts_tooltip_glossary/submodules/ace-builds/src-noconflict/mode-forth.js",
+        "/mnt/workdata/php/WP-Plugins/git/ithoughts_tooltip_glossary/submodules/ace-builds/src-noconflict/theme-cobalt.js",
+        "/mnt/workdata/php/WP-Plugins/git/ithoughts_tooltip_glossary/submodules/ace-builds/src-noconflict/mode-ada.js"
+    ]
+}

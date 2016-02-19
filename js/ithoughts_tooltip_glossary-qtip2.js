@@ -69,9 +69,16 @@ function stripQuotes(string, encode){
 
 			// If set to click, disable glossary link
 			if( qtiptrigger == 'click' ){
-				$(this).children('a').click(function(e){
-					e.preventDefault();
+				var self = $(this);
+				self.children('a').click(function(e){
+					if(self.touch != 1){
+						e.preventDefault();
+						self.touch = 1;
+					}
+				}).mouseleave(function(){
+					self.touch = 0;
 				});
+				
 			} else if( qtiptrigger == 'responsive' ){
 				var self = $(this);
 				self.touch = baseTouch;
@@ -110,6 +117,8 @@ function stripQuotes(string, encode){
 						content: termcontent,
 						termid: $(this).data()["termid"]
 					};
+					if(this.getAttribute("data-disable_auto_translation") == "true")
+						ajaxPostData["disable_auto_translation"] = true;
 					specific = {
 						content: {
 							text: ithoughts_tt_gl.lang.qtip.pleasewait_ajaxload.content,
@@ -257,35 +266,6 @@ function stripQuotes(string, encode){
 
 			//Remove title for tooltip, causing double tooltip
 			$(this).find("a[title]").removeAttr("title");
-
-
-			glossaryIndex = $("#glossary-index");
-			// Tile-based glossary
-			if(glossaryIndex){
-				var bodydiv = glossaryIndex.find("#glossary-container");
-				switch(glossaryIndex.data("type")){
-					case "tile":{
-						var headTiles = glossaryIndex.find("header p[data-empty=\"false\"]");
-						headTiles.click(function(e){
-							glossaryIndex.find('article[data-active="true"]').attr("data-active", false);
-							var newDisplayed = glossaryIndex.find('article[data-chartype="' + $(e.target).data("chartype") + '"]');
-							newDisplayed.attr("data-active", "true");
-							bodydiv.animate({
-								height: newDisplayed.outerHeight(true)
-							},{
-								duration: 500,
-								queue: false,
-								step:function(){
-									bodydiv.css("overflow","visible");
-								},
-								complete: function() {
-									bodydiv.css("overflow","visible");
-								}
-							});
-						});
-					} break;
-				}
-			}
 		});
 	});
 })();

@@ -6,7 +6,7 @@
 
 namespace ithoughts\tooltip_glossary\shortcode;
 
-class AtoZ extends \ithoughts\Singleton{
+class AtoZ extends \ithoughts\v1_0\Singleton{
 	public function __construct() {
 		add_shortcode( 'glossary_atoz', array($this, 'glossary_atoz') );
 	}
@@ -24,13 +24,16 @@ class AtoZ extends \ithoughts\Singleton{
 		}
 
 		$args = array(
-			'post_type'           => "glossary",
-			'posts_per_page'      => '-1',
-			'orderby'             => 'title',
-			'order'               => 'ASC',
-			'ignore_sticky_posts' => 1,
-			'post_status'         => $statii,
+			'post_type'				=> "glossary",
+			'posts_per_page'		=> '-1',
+			'orderby'				=> 'title',
+			'order'					=> 'ASC',
+			'ignore_sticky_posts'	=> 1,
+			'post_status'       	=> $statii,
 		);
+		if(function_exists('icl_object_id')){
+			$args['suppress_filters'] = 0;
+		}
 
 		// Restrict list to specific glossary group or groups
 		if( isset($data["handled"]["group"]) && $data["handled"]["group"] ){
@@ -54,10 +57,10 @@ class AtoZ extends \ithoughts\Singleton{
 			$linkdata["linkAttrs"]["link-".$key] = $linkAttr;
 			unset($linkdata["linkAttrs"][$key]);
 		}
-		$linkdata = \ithoughts\Toolbox::array_flatten($linkdata);
+		$linkdata = \ithoughts\v1_0\Toolbox::array_flatten($linkdata);
 		foreach( $glossaries as $post ) {
 			$title = $post->post_title;
-			$alpha = strtoupper( \ithoughts\Toolbox::unaccent(mb_substr($title,0,1, "UTF-8")) );
+			$alpha = strtoupper( \ithoughts\v1_0\Toolbox::unaccent(mb_substr($title,0,1, "UTF-8")) );
 			if(!preg_match("/[A-Z]/", $alpha))
 				$alpha = "#";
 			$alpha_attribute = $alpha;
@@ -96,7 +99,7 @@ class AtoZ extends \ithoughts\Singleton{
 
 		$clear    = '<div style="clear: both;"></div>';
 		$data["attributes"]["class"] = "glossary-atoz-wrapper".((isset($data["attributes"]["class"]) && $data["attributes"]["class"]) ? " ".$data["attributes"]["class"] : "");
-		$args = \ithoughts\Toolbox::concat_attrs( $data["attributes"]);
+		$args = \ithoughts\v1_0\Toolbox::concat_attrs( $data["attributes"]);
 		$plsclick = apply_filters( 'ithoughts_tt_gl_please_select', '<div class="ithoughts_tt_gl-please-select"><p>' . __('Please select from the menu above', 'ithoughts-tooltip-glossary' ) . '</p></div>' );
 		return '<div '.$args.'>' . $menu . $clear . $plsclick . $clear . $list . '</div>';
 	} // glossary_atoz

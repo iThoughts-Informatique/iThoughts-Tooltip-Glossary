@@ -6,7 +6,7 @@
 
 namespace ithoughts\tooltip_glossary\shortcode;
 
-class TermList extends \ithoughts\Singleton{
+class TermList extends \ithoughts\v1_0\Singleton{
 	public function __construct() {
 		add_shortcode( 'glossary_term_list', array($this, 'glossary_term_list') );
 	}
@@ -27,6 +27,9 @@ class TermList extends \ithoughts\Singleton{
 			'ignore_sticky_posts' => 1,
 			'post_status'         => $statii,
 		);
+		if(function_exists('icl_object_id')){
+			$args['suppress_filters'] = 0;
+		}
 
 		// Restrict list to specific glossary group or groups
 		if( isset($data["handled"]["group"]) ){
@@ -69,14 +72,14 @@ class TermList extends \ithoughts\Singleton{
 			$linkdata["linkAttrs"]["link-".$key] = $linkAttr;
 			unset($linkdata["linkAttrs"][$key]);
 		}
-		$linkdata = \ithoughts\Toolbox::array_flatten($linkdata);
+		$linkdata = \ithoughts\v1_0\Toolbox::array_flatten($linkdata);
 		if($data["handled"]["desc"] != "glossarytips")
 			$linkdata = apply_filters("ithoughts_tt_gl-split-args", $linkdata);
 
 		// Go through all glossaries, and restrict to alpha list if supplied.
 		foreach( $glossaries as $post ) {
 			$title      = $post->post_title;
-			$titlealpha = strtoupper( \ithoughts\Toolbox::unaccent(mb_substr($title,0,1, "UTF-8")) );
+			$titlealpha = strtoupper( \ithoughts\v1_0\Toolbox::unaccent(mb_substr($title,0,1, "UTF-8")) );
 			if(!preg_match("/[A-Z]/", $titlealpha)){
 				$titlealpha = "#";
 			}
@@ -94,7 +97,7 @@ class TermList extends \ithoughts\Singleton{
 							$linkAttrs["target"] = "_blank";
 						}
 						$linkAttrs["href"] = $href;
-						$args = \ithoughts\Toolbox::concat_attrs( $linkAttrs);
+						$args = \ithoughts\v1_0\Toolbox::concat_attrs( $linkAttrs);
 						$link   = '<a '.$args.'>' . $title . '</a>';
 						$content = '<br>' . '<span class="glossary-item-desc">' . apply_filters("ithoughts_tt_gl-term-excerpt", $post) . '</span>';
 					} break;
@@ -105,9 +108,9 @@ class TermList extends \ithoughts\Singleton{
 							$linkAttrs["target"] = "_blank";
 						}
 						$linkAttrs["href"] = $href;
-						$args = \ithoughts\Toolbox::concat_attrs( $linkAttrs);
+						$args = \ithoughts\v1_0\Toolbox::concat_attrs( $linkAttrs);
 						$link   = '<a '.$args.'>' . $title . '</a>';
-						$cargs = \ithoughts\Toolbox::concat_attrs( $attrs);
+						$cargs = \ithoughts\v1_0\Toolbox::concat_attrs( $attrs);
 						$content = '<br>' . '<span class="glossary-item-desc">' . $post->post_content . '</span>';
 					} break;
 					case 'glossarytips':{
@@ -120,7 +123,7 @@ class TermList extends \ithoughts\Singleton{
 							$linkAttrs["target"] = "_blank";
 						}
 						$linkAttrs["href"] = $href;
-						$args = \ithoughts\Toolbox::concat_attrs( $linkAttrs);
+						$args = \ithoughts\v1_0\Toolbox::concat_attrs( $linkAttrs);
 						$link   = '<a '.$args.'>' . $title . '</a>';
 					}break;
 				}
@@ -166,7 +169,7 @@ class TermList extends \ithoughts\Singleton{
 		$termlist = array_chunk($termlist, $termsPerChunk);
 
 		$data["attributes"]["class"] = "glossary-list-details".((isset($data["attributes"]["class"]) && $data["attributes"]["class"]) ? " ".$data["attributes"]["class"] : "");
-		$args = \ithoughts\Toolbox::concat_attrs( $data["attributes"]);
+		$args = \ithoughts\v1_0\Toolbox::concat_attrs( $data["attributes"]);
 
 		$return = '<div '.$args.'>';
 		foreach( $termlist as $col => $items ){

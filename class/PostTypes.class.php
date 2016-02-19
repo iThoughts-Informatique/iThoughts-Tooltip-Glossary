@@ -6,7 +6,7 @@
 
 namespace ithoughts\tooltip_glossary;
 
-class PostTypes extends \ithoughts\Singleton{
+class PostTypes extends \ithoughts\v1_0\Singleton{
 	public function __construct() {
 		add_action( 'init', array($this, 'register_post_types') );
 	}
@@ -35,7 +35,7 @@ class PostTypes extends \ithoughts\Singleton{
 			'register_meta_box_cb' => array( $this, 'meta_boxes' ),
 			'rewrite'              => array(
 				'slug' => $options["termtype"],
-				'with_front' => false
+				'with_front' => true
 			),
 			'show_ui'       => true,
 			'show_in_menu'  => false,
@@ -162,12 +162,17 @@ class PostTypes extends \ithoughts\Singleton{
 		return $post_id;
 	} // save_glossary_post
 
-	/** */
+	/**
+	 * Append a link to reference and where it is used
+	 * @todo Check usage
+	 * @param $content string The content to display
+	 * @param $is_main_query boolean Boolean representing if this display query is the main query. Default to true
+	 */
 	public function the_content( $content, $is_main_query=1 ){
 		global $post, $wp_query;
 
 		if( $is_main_query && is_single() && "glossary"==get_post_type() ){
-			$this->backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$options = $backbone->get_options();
 
 			if( $reference = get_post_meta($post->ID, 'ithoughts_tt_gl_reference', $single=true) ){

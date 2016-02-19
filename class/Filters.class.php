@@ -6,7 +6,7 @@
 
 namespace ithoughts\tooltip_glossary;
 
-class Filters extends \ithoughts\Singleton{
+class Filters extends \ithoughts\v1_0\Singleton{
 	public function __construct(){
 		add_filter("ithoughts_tt_gl-term-excerpt", array(&$this, "getTermExcerpt"));
 		add_filter("ithoughts-split-args", array(&$this, "splitArgs"), 10, 5);

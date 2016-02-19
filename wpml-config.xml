@@ -1,0 +1,8 @@
+<wpml-config>
+	<custom-types>
+		<custom-type translate="1">glossary</custom-type>
+	</custom-types>
+	<taxonomies>
+		<taxonomy translate="1">glossary_group</taxonomy>
+	</taxonomies>
+</wpml-config>

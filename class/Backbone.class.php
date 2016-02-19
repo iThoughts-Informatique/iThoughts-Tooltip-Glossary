@@ -7,7 +7,7 @@
 namespace ithoughts\tooltip_glossary;
 
 
-class Backbone extends \ithoughts\Backbone{
+class Backbone extends \ithoughts\v1_0\Backbone{
 	private $defaults;
 	private $overridesjsdat;
 	private $overridesopts;
@@ -121,6 +121,11 @@ class Backbone extends \ithoughts\Backbone{
 					false,
 				),
 			),
+			'custom_styles_path'	=> array(
+				"default"		=> null,
+				"serversideOverride"	=> false,// If required once, required everywhere
+				"cliensideOverride"	=> false,// Not a js data
+			),
 		);
 
 
@@ -148,7 +153,8 @@ class Backbone extends \ithoughts\Backbone{
 			"cols",
 			"group",
 			"alpha",
-			"desc"
+			"desc",
+			"disable_auto_translation",
 		);
 
 		$this->options		= $this->initOptions();
@@ -173,7 +179,7 @@ class Backbone extends \ithoughts\Backbone{
 		add_filter( 'ithoughts_tt_gl_get_overriden_opts',	array(&$this,	'ithoughts_tt_gl_override'), 	10,	2	);
 
 		add_action( 'plugins_loaded',				array($this,	'localisation')							);
-		
+
 		parent::__construct();
 	}
 
@@ -189,7 +195,7 @@ class Backbone extends \ithoughts\Backbone{
 		return $this->handledAttributes;
 	}
 	private function initOptions(){
-		$opts = array_merge($this->get_options(true), get_option( 'ithoughts_tt_gl', $this->get_options(true) ));
+		$opts = array_merge($this->get_options(true), get_option( $this->optionsName, $this->get_options(true) ));
 		if(isset($opts["tooltips"]) && $opts["tooltips"]){
 			$opts["termcontent"] = $opts["tooltips"];
 			unset($opts["tooltips"]);
@@ -268,7 +274,7 @@ class Backbone extends \ithoughts\Backbone{
 	public function register_scripts_and_styles(){
 		wp_register_script('imagesloaded', $this->base_url . '/ext/imagesloaded.min.js',										null, null, true);
 		wp_register_script('qtip', $this->base_url . '/ext/jquery.qtip'.$this->minify.'.js',												array('jquery', 'imagesloaded'), "2.2.1:2", null, true);
-		wp_register_script( 'ithoughts_tooltip_glossary-qtip',  $this->base_url . '/js/ithoughts_tooltip_glossary-qtip2'.$this->minify.'.js',	array('qtip', "ithoughts_aliases"), "2.3.1" );
+		wp_register_script( 'ithoughts_tooltip_glossary-qtip',  $this->base_url . '/js/ithoughts_tooltip_glossary-qtip2'.$this->minify.'.js',	array('qtip', "ithoughts_aliases"), "2.4.0" );
 		wp_localize_script( 'ithoughts_tooltip_glossary-qtip', 'ithoughts_tt_gl', array(
 			'admin_ajax'    => admin_url('admin-ajax.php'),
 			'baseurl'		=> $this->base_url,
@@ -286,16 +292,13 @@ class Backbone extends \ithoughts\Backbone{
 				)
 			)
 		) );
-		wp_register_script( 'ithoughts_tooltip_glossary-atoz',  $this->base_url . '/js/ithoughts_tooltip_glossary-atoz'.$this->minify.'.js',  array('jquery', "ithoughts_aliases"), "2.1.7" );
+		wp_register_script( 'ithoughts_tooltip_glossary-atoz',  $this->base_url . '/js/ithoughts_tooltip_glossary-atoz'.$this->minify.'.js',  array('jquery', "ithoughts_aliases"), "2.4.0" );
 
 
-		$version = "2.1.7";
-		if( file_exists(get_stylesheet_directory() . '/ithoughts_tooltip_glossary'.$this->minify.'.css') ){
-			wp_register_style( 'ithoughts_tooltip_glossary-css', get_stylesheet_directory_uri() . '/ithoughts_tooltip_glossary'.$this->minify.'.css', null, $version );
-		} else {
-			wp_register_style( 'ithoughts_tooltip_glossary-css', $this->base_url . '/css/ithoughts_tooltip_glossary'.$this->minify.'.css', null, $version );
-		}
+			wp_register_style( 'ithoughts_tooltip_glossary-css', $this->base_url . '/css/ithoughts_tooltip_glossary'.$this->minify.'.css', null, "2.4.0" );
 		wp_register_style( 'ithoughts_tooltip_glossary-qtip-css', $this->base_url . '/ext/jquery.qtip'.$this->minify.'.css', null, "2.2.2");
+		if(isset($this->options["custom_styles_path"]))
+			wp_register_style( 'ithoughts_tooltip_glossary-customthemes', $this->options["custom_styles_path"], null, null);
 	}
 
 	public function wp_footer(){
@@ -322,6 +325,7 @@ class Backbone extends \ithoughts\Backbone{
 	public function wp_enqueue_styles(){
 		wp_enqueue_style( 'ithoughts_tooltip_glossary-css' );
 		wp_enqueue_style( 'ithoughts_tooltip_glossary-qtip-css' );
+		wp_enqueue_style('ithoughts_tooltip_glossary-customthemes');
 	}
 	public function wp_enqueue_scripts_hight_priority(){
 		wp_enqueue_script('ithoughts_aliases');
@@ -368,26 +372,95 @@ class Backbone extends \ithoughts\Backbone{
 		return $overridden;
 	}
 
-	public function getTermsListAjax(){
-		$type = 'glossary';
-		$args=array(
-			'post_type' => $type,
-			'post_status' => 'publish',
-			'posts_per_page' => 25,
-			'orderby'       => 'title',
-			'order'         => 'ASC',
-			's'             => $_POST["search"]
-		);
-		$posts = get_posts($args);
-		$output = array("terms" => array(), "searched" => $_POST["search"]);
-		foreach($posts as $post){
-			$output["terms"][] = array(
-				"slug" => $post->post_name,
-				"content" => wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
-				"title"     => $post->post_title,
-				"id" => $post->ID,
+	public function searchTerms($args){
+		$posts = array();
+		if ( function_exists('icl_object_id') ) {
+			// With WPML
+			$originalLanguage = apply_filters( 'wpml_current_language', NULL );
+
+			$args["suppress_filters"] = true;
+			$posts = get_posts( $args );
+
+
+
+			$postIds = array();
+			$notTranslated = array();
+			foreach($posts as $post){
+				$id = apply_filters( 'wpml_object_id', $post->ID, "glossary", FALSE, $originalLanguage );
+				if($id != NULL)
+					$postIds[] = $id;
+				else
+					$notTranslated[] = $post->ID;
+			}
+			$postIds = array_unique($postIds);
+			$notTranslated = array_unique($notTranslated);
+			$notTranslated = array_diff($notTranslated,$postIds);
+			$outPosts = array();
+
+			$argsP = array(
+				'post__in' => $postIds,
+				'orderby'       	=> 'title',
+				'order'         	=> 'ASC',
+				"suppress_filters" => true,
+				'post_type' => 'glossary',
 			);
+			$posts = get_posts($argsP);
+			foreach($posts as $post){
+				$outPosts[] = array(
+					"slug"		=> $post->post_name,
+					"content"	=> wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
+					"title"     => $post->post_title,
+					"id"		=> $post->ID,
+					"thislang"	=> true
+				);
+			}
+			$argsP = array(
+				'post__in' => $notTranslated,
+				'orderby'       	=> 'title',
+				'order'         	=> 'ASC',
+				"suppress_filters" => true,
+				'post_type' => 'glossary',
+			);
+			$posts = get_posts($argsP);
+			foreach($posts as $post){
+				$outPosts[] = array(
+					"slug"		=> $post->post_name,
+					"content"	=> wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
+					"title"     => $post->post_title,
+					"id"		=> $post->ID,
+					"thislang"	=> false
+				);
+			}
+			$posts = $outPosts;
+		} else {
+			$outPosts = array();
+			$posts = get_posts($args);
+			foreach($posts as $post){
+				$outPosts[] = array(
+					"slug" => $post->post_name,
+					"content" => wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
+					"title"     => $post->post_title,
+					"id" => $post->ID,
+				);
+			}
+			$posts = $outPosts;
 		}
+		return $posts;
+	}
+
+	public function getTermsListAjax(){
+		$output = array(
+			"terms" => $this->searchTerms(array(
+				'post_type'			=> 'glossary',
+				'post_status'		=> 'publish',
+				'posts_per_page'	=> 25,
+				'orderby'       	=> 'title',
+				'order'         	=> 'ASC',
+				's'             	=> $_POST["search"],
+				'suppress_filters'	=> false
+			)),
+			"searched" => $_POST["search"]
+		);
 		wp_send_json_success($output);
 		return;
 	}
@@ -400,6 +473,11 @@ class Backbone extends \ithoughts\Backbone{
 		$term   = null;
 		if( isset($_POST['termid']) && $termid=$_POST['termid'] ){
 			$termid = intval( $termid );
+			if( function_exists('icl_object_id')){
+				if(!(isset($_POST["disable_auto_translation"]) && $_POST["disable_auto_translation"])){
+					$termid = apply_filters( 'wpml_object_id', $termid, "glossary", true, apply_filters( 'wpml_current_language', NULL ) );
+				}
+			}
 			$termob = get_post( $termid );
 			if( get_post_type($termob) && get_post_type($termob) == "glossary" && in_array($termob->post_status, $statii) ){
 				$term = $termob;

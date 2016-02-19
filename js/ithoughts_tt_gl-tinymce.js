@@ -201,6 +201,7 @@
 				if(types.indexOf(sel.getStart().getAttribute("data-type")) > -1){ // On Glossary Term or Tooltip or Mediatip, load data
 					mode = "load";
 					var el = sel.getStart();
+					console.log("Auto translation", el.getAttribute("data-disable_auto_translation"));
 					values= {
 						text: content,
 						link: el.getAttribute("href"),
@@ -211,8 +212,10 @@
 						mediatip_content: stripQuotes(el.getAttribute("data-mediatip-content"), false),
 						mediatip_link: el.getAttribute("data-mediatip-link"),
 						mediatip_caption: el.getAttribute("data-mediatip-caption"), 
-						type: ["glossary", "tooltip", "mediatip"][types.indexOf(el.getAttribute("data-type"))]
+						type: ["glossary", "tooltip", "mediatip"][types.indexOf(el.getAttribute("data-type"))],
+						glossary_disable_auto_translation: el.getAttribute("data-disable_auto_translation") ? el.getAttribute("data-disable_auto_translation") === "true" : false
 					};
+					console.log(values);
 				} else { //Create new glossary term
 					if(content && content.length > 0){ // If something is selected
 						mode = "insert_content"
@@ -225,7 +228,8 @@
 							mediatip_type: "",
 							mediatip_content: "",
 							mediatip_caption: "",
-							type: "tooltip"
+							type: "tooltip",
+							glossary_disable_auto_translation: false
 						};
 					} else { // If no selection
 						var rng = sel.getRng();
@@ -241,13 +245,17 @@
 				var h = 400;
 				var w = 455;
 				var popupTooltip = newDom.find("#ithoughts_tt_gl-tooltip-form");
-				jQuery(window).on("resize", function(){
-					popupTooltip.css({width:w + "px", height:h+"px", left: (jQuery(window).width() - w)/2 + "px", top: (jQuery(window).height() - h)/2 + "px"});
+				var popupTooltipOptions = newDom.find("#ithoughts_tt_gl-tooltip-form-options");
+				$w.on("resize", function(){
+					var opts = {width:w + "px", height:h+"px", left: ($w.width() - w)/2 + "px", top: ($w.height() - h)/2 + "px"};
+					popupTooltip.css(opts);
+					popupTooltipOptions.css(opts);
 				}).resize();
-				jQuery('body').append(newDom.animate({opacity:1}, 500));
+				$('body').append(newDom.animate({opacity:1}, 500));
 				ithoughts_tt_gl.finishTinymce = (function(){
 					var domC = newDom;
 					return function(data){
+						console.log(data);
 						domC.animate({opacity:0}, 500, function(){
 							domC.remove();
 						});
@@ -268,7 +276,7 @@
 								if(data.term_id == "" || data.text == "")
 									return;
 								else
-									editor.insertContent('[ithoughts_tooltip_glossary-glossary glossary-id="'+data.glossary_id+'"]'+data.text+"[/ithoughts_tooltip_glossary-glossary]" + ((mode != "load") ? " " : ""));
+									editor.insertContent('[ithoughts_tooltip_glossary-glossary glossary-id="'+data.glossary_id+'"' + (data.disable_auto_translation ? " disable_auto_translation=\"true\"" : "" ) + ']'+data.text+"[/ithoughts_tooltip_glossary-glossary]" + ((mode != "load") ? " " : ""));
 							} break;
 
 							case "tooltip": {

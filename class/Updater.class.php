@@ -7,7 +7,7 @@
 namespace ithoughts\tooltip_glossary;
 
 
-class Updater extends \ithoughts\Singleton{
+class Updater extends \ithoughts\v1_0\Singleton{
 	private $from;
 	private $to;
 	private $versionIndex;

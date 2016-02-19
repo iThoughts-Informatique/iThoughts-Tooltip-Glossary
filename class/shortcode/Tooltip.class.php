@@ -7,7 +7,7 @@
 namespace ithoughts\tooltip_glossary\shortcode;
 
 
-class Tooltip extends \ithoughts\Singleton{
+class Tooltip extends \ithoughts\v1_0\Singleton{
 	public function __construct() {
 		// Shortcode
 		add_shortcode( "ithoughts_tooltip_glossary-tooltip", array(&$this, "tooltip") );
@@ -49,11 +49,11 @@ class Tooltip extends \ithoughts\Singleton{
 		if(!(isset($datas["linkAttrs"]["title"]) && $datas["linkAttrs"]["title"]))
 			$datas["linkAttrs"]["title"] = esc_attr($text);
 
-		$linkArgs = \ithoughts\Toolbox::concat_attrs( $datas["linkAttrs"]);
+		$linkArgs = \ithoughts\v1_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
 		$link   = '<a '.$linkArgs.'>' . $text . '</a>';
 		// Span that qtip finds
 		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-tooltip".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
-		$args = \ithoughts\Toolbox::concat_attrs( $datas["attributes"]);
+		$args = \ithoughts\v1_0\Toolbox::concat_attrs( $datas["attributes"]);
 		$span = '<span '.$args.'>' . $link . '</span>';
 
 		return $span;

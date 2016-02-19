@@ -1,3 +1,9 @@
 [submodule "submodules/iThoughts-WordPress-Plugins-Toolbox"]
 	path = submodules/iThoughts-WordPress-Plugins-Toolbox
 	url = git@github.com:Nihilivin/iThoughts-WordPress-Plugin-Toolbox.git
+[submodule "submodules/lessphp"]
+	path = submodules/lessphp
+	url = git@github.com:leafo/lessphp.git
+[submodule "submodules/ace-builds"]
+	path = submodules/ace-builds
+	url = git@github.com:ajaxorg/ace-builds.git

@@ -50,5 +50,35 @@
 			$('.atoz-clickable').filter(function(i){return $(this).data('alpha') == myAlpha;}).click();
 		}
 
+
+		var glossaryIndexes = $("#glossary-index");
+		// Tile-based glossary
+		for(var i = 0,j = glossaryIndexes.length;i<j;i++){
+			var glossaryIndex = $(glossaryIndexes[i]);
+			var bodydiv = glossaryIndex.find("#glossary-container");
+			switch(glossaryIndex.data("type")){
+				case "tile":{
+					var headTiles = glossaryIndex.find("header p[data-empty=\"false\"]");
+					headTiles.click(function(e){
+						glossaryIndex.find('article[data-active="true"]').attr("data-active", false);
+						var newDisplayed = glossaryIndex.find('article[data-chartype="' + $(e.target).data("chartype") + '"]');
+						newDisplayed.attr("data-active", "true");
+						bodydiv.animate({
+							height: newDisplayed.outerHeight(true)
+						},{
+							duration: 500,
+							queue: false,
+							step:function(){
+								bodydiv.css("overflow","visible");
+							},
+							complete: function() {
+								bodydiv.css("overflow","visible");
+							}
+						});
+					});
+				} break;
+			}
+		}
+
 	});
 })();
