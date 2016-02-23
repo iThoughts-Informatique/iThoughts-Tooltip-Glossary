@@ -149,9 +149,6 @@ tr.nonoverridable label, .nonoverridable:not(tr){
 	min-height: 200px;
 	width:100%;
 }
-[data-ace-id]{
-	display: none;
-}
 .wp-picker-holder{
     z-index: 100;
 }

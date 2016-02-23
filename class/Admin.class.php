@@ -132,27 +132,9 @@ class Admin extends \ithoughts\v1_1\Singleton{
 			"2.4.0"
 		);
 		wp_register_script(
-			"ace-editor",
-			$backbone->get_base_url() . "/submodules/ace-builds/src-min-noconflict/ace.js",
-			array(),
-			"2.3.2"
-		);
-		wp_register_script(
-			"ace-autocomplete",
-			$backbone->get_base_url() . "/submodules/ace-builds/src-min-noconflict/ext-language_tools.js",
-			array("ace-editor"),
-			"2.3.2"
-		);
-		wp_register_script(
-			"ace-mode-less",
-			$backbone->get_base_url() . "/submodules/ace-builds/src-min-noconflict/mode-less.js",
-			array("ace-editor"),
-			"2.3.2"
-		);
-		wp_register_script(
 			'ithoughts_tooltip_glossary-styleeditor',
 			$backbone->get_base_url() . '/js/ithoughts_tooltip_glossary-styleeditor'.$backbone->get_minify().'.js',
-			array('ithoughts_tooltip_glossary-gradx', 'ithoughts_tooltip_glossary-colorpicker', 'wp-color-picker-alpha',"ithoughts_aliases","ithoughts_tooltip_glossary-floater","ace-mode-less","ithoughts-simple-ajax","ace-autocomplete"),
+			array('ithoughts_tooltip_glossary-gradx', 'ithoughts_tooltip_glossary-colorpicker', 'wp-color-picker-alpha',"ithoughts_aliases","ithoughts_tooltip_glossary-floater","ithoughts-simple-ajax"),
 			"2.4.0"
 		);
 

@@ -27,17 +27,40 @@ class Glossary extends \ithoughts\v1_1\Singleton{
 	public function ithoughts_tt_gl_get_glossary_term_element($term, $text = null, $options = array()){
 		$datas = apply_filters("ithoughts_tt_gl-split-args", $options);
 
-		if($datas["options"]['staticterms']){
+		// Dispatch getting right term in right lang if there is
+		if( function_exists('icl_object_id')){
+			if(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"]){
+				$datas["attributes"]['data-disable_auto_translation'] = "true";
+			}
+			if(!(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"])){
+				if(is_numeric($term)){
+					$term = get_post(apply_filters( 'wpml_object_id', $term, "glossary", true, apply_filters( 'wpml_current_language', NULL ) ));
+				} else if(!($term instanceof \WP_Post)){
+					// Error
+					return $text;
+				} else if($term instanceof \WP_Post){
+					$term = get_post(apply_filters( 'wpml_object_id', $term->ID, "glossary", true, apply_filters( 'wpml_current_language', NULL ) ));
+				}
+			} else {
+				if(is_numeric($term)){
+					$term = get_post($term);
+				} else if(!($term instanceof \WP_Post)){
+					// Error
+					return $text;
+				}
+			}
+		} else {
 			if(is_numeric($term)){
 				$term = get_post($term);
 			} else if(!($term instanceof \WP_Post)){
 				// Error
 				return $text;
 			}
-			if( function_exists('icl_object_id')){
-				if(!(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"])){
-					$term = get_post(apply_filters( 'wpml_object_id', $term->ID, "glossary", true, apply_filters( 'wpml_current_language', NULL ) ));
-				}
+		}
+		if($datas["options"]['staticterms']){
+			if(!($term instanceof \WP_Post)){
+				// Error
+				return $text;
 			}
 			if(is_null($text))
 				$text = $term->post_title;
@@ -72,23 +95,14 @@ class Glossary extends \ithoughts\v1_1\Singleton{
 				$datas["attributes"]['data-termid'] = $term->ID;
 				if(is_null($text))
 					$text = get_the_title($term);
-			} else if(is_numeric($term)){
-				$datas["attributes"]['data-termid'] = $term;
-				if(is_null($text))
-					$text = $term->post_title;
 			}
-			
-			if(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"])
-				$datas["attributes"]['data-disable_auto_translation'] = "true";
+
 		}
 
 		$href="javascript::void(0)";
 		if($term instanceof \WP_Post){
 			if($datas["options"]["termlinkopt"] != "none")// If theere need a link
 				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_permalink($term) );
-		} else if(is_numeric($term)){
-			if($datas["options"]["termlinkopt"] != "none")// If theere need a link
-				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term) );
 		}
 
 

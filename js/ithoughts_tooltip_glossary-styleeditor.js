@@ -1,7 +1,5 @@
 (function(){
 	$d.ready(function(){
-		var langTools = ace.require("ace/ext/language_tools");
-
 		$(".simpleajaxform")[0].simple_ajax_callback = function(res){
 			console.log("Callback", res);
 			if(res.valid){
@@ -16,37 +14,6 @@
 			}
 		};
 		console.log($(".simpleajaxform")[0]);
-
-		(["g_custom","t_custom","c_custom"]).map(function(elem){
-			var editor = ace.edit(elem);
-			setAceOpts(editor);
-			var textarea = $("[data-ace-id=\"" + elem + "\"]");
-			editor.getSession().on('change', function () {
-				textarea.val(editor.getSession().getValue());
-			});
-		})
-
-		function setAceOpts(editor){
-			editor.setTheme("ace/theme/monokai");
-			editor.getSession().setMode("ace/mode/less");
-			editor.getSession().setUseWrapMode(true);
-			console.log(editor.getSession().getState());
-			//editor.setState("css");
-			editor.setShowPrintMargin(false);
-			editor.setOptions({
-				tooltipFollowsMouse: true,
-				displayIndentGuides: true,
-				fontSize: "20px",
-				cursorStyle: "wide",
-				highlightSelectedWord: true,
-				highlightActiveLine: true,
-				behavioursEnabled: true,
-				showFoldWidgets: true,
-				enableBasicAutocompletion: true,
-				enableSnippets: true,
-				enableLiveAutocompletion: true
-			});
-		}
 
 		window.refloat();
 		$('.color-field').each(function(index, elem){

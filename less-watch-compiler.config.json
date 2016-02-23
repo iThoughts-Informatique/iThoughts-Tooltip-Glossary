@@ -1,0 +1,8 @@
+{
+    "allowedExtensions":[".less"],
+    "minified": false,
+    "defaults": {
+        "watchFolder": "less",
+        "outputFolder": "css"
+    }
+}

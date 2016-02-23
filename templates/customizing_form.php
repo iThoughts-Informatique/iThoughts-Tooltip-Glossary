@@ -10,16 +10,16 @@
 					<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
 						<div id="normal-sortables" class="" style="flex:1 1 auto;"><!--Old removed classes: "meta-box-sortables ui-sortable"-->
 							<!--<div class="postbox">
-								<h3 class="hndle"><span><?php _e('Load a theme', 'ithoughts-tooltip-glossary' ); ?></span></h3>
-								<div class="inside">
-								<form id="ithoughts_loadtheme" method="get">
-									<input type="hidden" name="page" value="ithought-tooltip-glossary-themes"/>
-									<label for="themename"><?php _e('Theme to load', 'ithoughts-tooltip-glossary' ); ?></label>
-									<?php echo $inputs["themename"]; ?>
-									<button type="submit" class="button button-primary"><?php _e('Load', 'ithoughts-tooltip-glossary' ); ?></button>
-									</form>
-								</div>
-							</div>-->
+<h3 class="hndle"><span><?php _e('Load a theme', 'ithoughts-tooltip-glossary' ); ?></span></h3>
+<div class="inside">
+<form id="ithoughts_loadtheme" method="get">
+<input type="hidden" name="page" value="ithought-tooltip-glossary-themes"/>
+<label for="themename"><?php _e('Theme to load', 'ithoughts-tooltip-glossary' ); ?></label>
+<?php echo $inputs["themename"]; ?>
+<button type="submit" class="button button-primary"><?php _e('Load', 'ithoughts-tooltip-glossary' ); ?></button>
+</form>
+</div>
+</div>-->
 
 							<div class="postbox" id="ithoughts-tt-gl-styleeditor">
 								<h3 class="hndle"><span><?php _e('Theme editor', 'ithoughts-tooltip-glossary' ); ?></span></h3>
@@ -238,8 +238,7 @@ foreach($prefixs as $prefix){
 foreach($prefixs as $prefix){
 													?>
 													<td>
-														<div id="<?php echo $prefix; ?>_custom" class="ace-editor" style="width:100%"></div>
-														<textarea data-ace-id="<?php echo $prefix; ?>_custom" name="<?php echo $prefix; ?>_custom"></textarea>
+														<textarea id="<?php echo $prefix; ?>_custom" class="ace-editor" name="<?php echo $prefix; ?>_custom"></textarea>
 													</td>
 													<?php
 }

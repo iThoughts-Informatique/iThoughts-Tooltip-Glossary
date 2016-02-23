@@ -34,73 +34,79 @@
  * @version 2.0
  */
 (function(){
-    $.fn.extend({
-        /**
+	$.fn.extend({
+		/**
          * Send a form through ajax
 		 * @method	external:"jQuery".fn.simpleAjaxForm
          * @param   {object} opts Options to be merged with { validate: false } and jQuery elements selected attributes ["target","callback","validate"]
          * @returns {array}	Forms handlers
          */
-        simpleAjaxForm: function( opts ){
-            var defaults = { validate: false };
-            var options  = $.extend( defaults, opts );
-            return this.each(function(){
-                var $form = $(this);
-                var formopts = $.extend({
-                    target:   $form.data('target'),
-                    callback: $form.data('callback'),
-                    validate: $form.data('validate')
-                }, options);
-                if( formopts.target &amp;&amp; $('#'+formopts.target).length ){
-                    $('#'+formopts.target).html('').hide();
-                }
+		simpleAjaxForm: function( opts ){
+			var defaults = { validate: false };
+			var options  = $.extend( defaults, opts );
+			return this.each(function(){
+				var $form = $(this);
+				var formopts = $.extend({
+					target:   $form.data('target'),
+					callback: $form.data('callback'),
+				}, options);
+				if( formopts.target &amp;&amp; $('#'+formopts.target).length ){
+					$('#'+formopts.target).html('').hide();
+				}
+				$form.find("button[name=\"actionB\"]").click(function(){
+					$form.find("[name=\"action\"]").val(this.getAttribute("value"));
+				})
 
-                $form.ajaxForm({
-                    beforeSubmit: function(formData, jqForm, options) {
-                        //if( !jqForm.valid() ) return false;
-                        if( formopts.target &amp;&amp; $('#'+formopts.target).length ){
-                            $('#'+formopts.target).html('&lt;p>Updating, please wait...&lt;/p>').removeClass('updated').addClass('updating').fadeTo(100,1);
-                        }
-                        return true;
-                    },
-                    success: function(responseText, statusText, xhr, jQForm){
-                        if( typeof(jQForm) === 'undefined' )
-                            jQForm = xhr;
+				$form.ajaxForm({
+					beforeSubmit: function(formData, jqForm, options) {
+						//if( !jqForm.valid() ) return false;
+						if( formopts.target &amp;&amp; $('#'+formopts.target).length ){
+							$('#'+formopts.target).html('&lt;p>Updating, please wait...&lt;/p>').removeClass('updated').addClass('updating').fadeTo(100,1);
+						}
+						return true;
+					},
+					success: function(responseText, statusText, xhr, jQForm){
+						if( typeof(jQForm) === 'undefined' )
+							jQForm = xhr;
 
-                        if( typeof(jQForm) === 'undefined' ){
-                            $form.append('&lt;div class="error">&lt;p>Cannot handle response properly&lt;/p>&lt;/div>');
-                            return;
-                        }
+						if( typeof(jQForm) === 'undefined' ){
+							$form.append('&lt;div class="error">&lt;p>Cannot handle response properly&lt;/p>&lt;/div>');
+							return;
+						}
 
-                        try{
-                            var res = JSON.parse(responseText);
-                            if(!res.valid){
-                                if( formopts.target &amp;&amp; $('#'+formopts.target).length ){
-                                    $('#'+formopts.target).removeClass('updating').removeClass("updated").addClass('error').html(res.text);
-                                }
-                            } else {
-                                if(res.reload){
-                                    window.location.href = window.location.href + "&amp;json-res-txt=" + window.encodeURI(res.text);
-                                }
+						try{
+							var res = JSON.parse(responseText);
+							if(!res.valid){
+								if( formopts.target &amp;&amp; $('#'+formopts.target).length ){
+									$('#'+formopts.target).removeClass('updating').removeClass("updated").addClass('error').html(res.text);
+								}
+							} else {
+								if(res.reload){
+									window.location.href = window.location.href + "&amp;json-res-txt=" + window.encodeURI(res.text);
+								}
 
-                                if( formopts.target &amp;&amp; $('#'+formopts.target).length ){
-                                    $('#'+formopts.target).removeClass('updating').removeClass("error").addClass('updated').html(res.text);
-                                }
-                            }
-                        } catch(e){
-                            $('#'+formopts.target).removeClass('updating').removeClass("updated").addClass('error').html("&lt;p>Invalid server response&lt;/p>");
-                        }
-                    }	
-                });
-            });
-        }
-    });
+								if( formopts.target &amp;&amp; $('#'+formopts.target).length ){
+									$('#'+formopts.target).removeClass('updating').removeClass("error").addClass('updated').html(res.text);
+								}
+							}
+							if(typeof $form[0].simple_ajax_callback == "function")
+								$form[0].simple_ajax_callback(res);
+							if(typeof formopts.callback == "function")
+								formopts.callback(res);
+						} catch(e){
+							$('#'+formopts.target).removeClass('updating').removeClass("updated").addClass('error').html("&lt;p>Invalid server response&lt;/p>");
+						}
+					}	
+				});
+			});
+		}
+	});
 })();
 
 (function(){
-    $d.ready(function(){
-        $('.simpleajaxform').simpleAjaxForm();
-    });
+	$d.ready(function(){
+		$('.simpleajaxform').simpleAjaxForm();
+	});
 })();</code></pre>
         </article>
     </section>
@@ -117,7 +123,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Feb 02 2016 18:14:54 GMT-1000 (TAHT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Feb 20 2016 10:38:04 GMT-1000 (TAHT)
 </footer>
 
 <script> prettyPrint(); </script>
