@@ -1,12 +1,12 @@
 <?php
- /**
+/**
   * @copyright 2015-2016 iThoughts Informatique
   * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
   */
 
 namespace ithoughts\tooltip_glossary;
 
-class Filters extends \ithoughts\v1_1\Singleton{
+class Filters extends \ithoughts\v1_0\Singleton{
 	public function __construct(){
 		add_filter("ithoughts_tt_gl-term-excerpt", array(&$this, "getTermExcerpt"));
 		add_filter("ithoughts-split-args", array(&$this, "splitArgs"), 10, 5);
@@ -132,7 +132,7 @@ class Filters extends \ithoughts\v1_1\Singleton{
 		$ret["attributes"] = array_merge($datas["attributes"], $overridesDataPrefixed);
 
 		$ret["handled"] = $datas["handled"];
-		
+
 		if(isset($ret['attributes']["href"]) && !isset($ret['linkAttrs']["href"])){
 			$ret['linkAttrs']["href"] = $ret['attributes']["href"];
 			unset($ret['attributes']["href"]);

@@ -7,7 +7,7 @@
 namespace ithoughts\tooltip_glossary;
 
 
-class Backbone extends \ithoughts\v1_1\Backbone{
+class Backbone extends \ithoughts\v1_1_2\Backbone{
 	private $defaults;
 	private $overridesjsdat;
 	private $overridesopts;
@@ -126,12 +126,17 @@ class Backbone extends \ithoughts\v1_1\Backbone{
 				"serversideOverride"	=> false,// If required once, required everywhere
 				"cliensideOverride"	=> false,// Not a js data
 			),
+			"lists_size"			=> array(
+				"default"		=> -1,
+				"serversideOverride"	=> true,
+				"cliensideOverride"	=> false,// Not a js data
+			)
 		);
 
 
-		$this->defaults = array();
+		$this->defaultOptions = array();
 		foreach($optionsConfig as $opt => $val){
-			$this->defaults[$opt] = $val["default"];
+			$this->defaultOptions[$opt] = $val["default"];
 		}
 		$this->clientsideOverridable = array();
 		foreach($optionsConfig as $opt => $val){
@@ -155,14 +160,9 @@ class Backbone extends \ithoughts\v1_1\Backbone{
 			"alpha",
 			"desc",
 			"disable_auto_translation",
+			"masonry",
+			"list-mode",
 		);
-
-		$this->options		= $this->initOptions();
-
-
-
-		$this->scripts = array();
-
 
 		$this->register_post_types();
 		$this->register_taxonmies();
@@ -194,14 +194,6 @@ class Backbone extends \ithoughts\v1_1\Backbone{
 	public function get_handled_attributes(){
 		return $this->handledAttributes;
 	}
-	private function initOptions(){
-		$opts = array_merge($this->get_options(true), get_option( $this->optionsName, $this->get_options(true) ));
-		if(isset($opts["tooltips"]) && $opts["tooltips"]){
-			$opts["termcontent"] = $opts["tooltips"];
-			unset($opts["tooltips"]);
-		}
-		return $opts;
-	}
 	public function add_filters(){
 		require_once( $this->base_class_path . '/Filters.class.php' );
 		new filters();
@@ -215,24 +207,6 @@ class Backbone extends \ithoughts\v1_1\Backbone{
 
 		add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_term_details', array(&$this, 'getTermDetailsAjax') );
 		add_action( 'wp_ajax_ithoughts_tt_gl_get_term_details',        array(&$this, 'getTermDetailsAjax') );
-	}
-
-	public function get_options($onlyDefaults = false){
-		if($onlyDefaults)
-			return $this->defaults;
-
-		return $this->options;
-	}
-
-	public function get_option($name, $onlyDefaults = false){
-		$arr = $this->options;
-		if($onlyDefaults)
-			return $this->defaults;
-
-		if(isset($arr[$name]))
-			return $arr[$name];
-		else
-			return NULL;
 	}
 
 	public function localisation(){
@@ -256,6 +230,8 @@ class Backbone extends \ithoughts\v1_1\Backbone{
 		new shortcode\Mediatip();
 		require_once( $this->base_class_path . '/shortcode/Glossary.class.php' );
 		new shortcode\Glossary();
+		require_once( $this->base_class_path . '/shortcode/GlossaryList.class.php' );
+		//new shortcode\List();
 		require_once( $this->base_class_path . '/shortcode/AtoZ.class.php' );
 		new shortcode\AtoZ();
 		require_once( $this->base_class_path . '/shortcode/TermList.class.php' );
@@ -278,11 +254,11 @@ class Backbone extends \ithoughts\v1_1\Backbone{
 		wp_localize_script( 'ithoughts_tooltip_glossary-qtip', 'ithoughts_tt_gl', array(
 			'admin_ajax'    => admin_url('admin-ajax.php'),
 			'baseurl'		=> $this->base_url,
-			'qtipstyle'     => $this->options["qtipstyle"],
-			'qtiptrigger'   => $this->options["qtiptrigger"],
-			'qtipshadow'    => $this->options["qtipshadow"],
-			'qtiprounded'   => $this->options["qtiprounded"],
-			'termcontent'	=> $this->options["termcontent"],
+			'qtipstyle'     => $this->get_option("qtipstyle"),
+			'qtiptrigger'   => $this->get_option("qtiptrigger"),
+			'qtipshadow'    => $this->get_option("qtipshadow"),
+			'qtiprounded'   => $this->get_option("qtiprounded"),
+			'termcontent'	=> $this->get_option("termcontent"),
 			'lang'			=> array(
 				"qtip" => array(
 					"pleasewait_ajaxload" => array(
@@ -293,12 +269,14 @@ class Backbone extends \ithoughts\v1_1\Backbone{
 			)
 		) );
 		wp_register_script( 'ithoughts_tooltip_glossary-atoz',  $this->base_url . '/js/ithoughts_tooltip_glossary-atoz'.$this->minify.'.js',  array('jquery', "ithoughts_aliases"), "2.4.0" );
+		wp_register_script( 'ithoughts_tooltip_glossary-list',  $this->base_url . '/js/ithoughts_tooltip_glossary-glossary-list'.$this->minify.'.js',  array('jquery', "ithoughts_aliases", "masonry"), "2.5.0" );
 
 
 			wp_register_style( 'ithoughts_tooltip_glossary-css', $this->base_url . '/css/ithoughts_tooltip_glossary'.$this->minify.'.css', null, "2.4.0" );
 		wp_register_style( 'ithoughts_tooltip_glossary-qtip-css', $this->base_url . '/ext/jquery.qtip'.$this->minify.'.css', null, "2.2.2");
 		if(isset($this->options["custom_styles_path"]))
 			wp_register_style( 'ithoughts_tooltip_glossary-customthemes', $this->options["custom_styles_path"], null, null);
+		
 	}
 
 	public function wp_footer(){
@@ -320,6 +298,8 @@ class Backbone extends \ithoughts\v1_1\Backbone{
 		}
 		if($this->get_script('atoz') || $this->options["forceloadresources"] === true)
 			wp_enqueue_script( 'ithoughts_tooltip_glossary-atoz' );
+		if($this->get_script('list') || $this->options["forceloadresources"] === true)
+			wp_enqueue_script( 'ithoughts_tooltip_glossary-list' );
 	}
 
 	public function wp_enqueue_styles(){
@@ -388,7 +368,7 @@ class Backbone extends \ithoughts\v1_1\Backbone{
 			foreach($posts as $post){
 				$id = apply_filters( 'wpml_object_id', $post->ID, "glossary", FALSE, $originalLanguage );
 				if($id != NULL)
-					$postIds[] = $id;
+					$postIds[] = intval($id);
 				else
 					$notTranslated[] = $post->ID;
 			}
@@ -398,11 +378,13 @@ class Backbone extends \ithoughts\v1_1\Backbone{
 			$outPosts = array();
 
 			$argsP = array(
-				'post__in' => $postIds,
-				'orderby'       	=> 'title',
-				'order'         	=> 'ASC',
-				"suppress_filters" => true,
-				'post_type' => 'glossary',
+				'post__in'			=> $postIds,
+				'orderby'			=> 'title',
+				'order'				=> 'ASC',
+				"suppress_filters"	=> true,
+				'post_type'			=> 'glossary',
+				'post_status'		=> 'publish',
+				'posts_per_page'	=> 25,
 			);
 			$posts = get_posts($argsP);
 			foreach($posts as $post){
@@ -416,10 +398,12 @@ class Backbone extends \ithoughts\v1_1\Backbone{
 			}
 			$argsP = array(
 				'post__in' => $notTranslated,
-				'orderby'       	=> 'title',
-				'order'         	=> 'ASC',
-				"suppress_filters" => true,
-				'post_type' => 'glossary',
+				'orderby'			=> 'title',
+				'order'				=> 'ASC',
+				"suppress_filters"	=> true,
+				'post_type'			=> 'glossary',
+				'post_status'		=> 'publish',
+				'posts_per_page'	=> 25,
 			);
 			$posts = get_posts($argsP);
 			foreach($posts as $post){
@@ -437,10 +421,10 @@ class Backbone extends \ithoughts\v1_1\Backbone{
 			$posts = get_posts($args);
 			foreach($posts as $post){
 				$outPosts[] = array(
-					"slug" => $post->post_name,
-					"content" => wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
-					"title"     => $post->post_title,
-					"id" => $post->ID,
+					"slug"		=> $post->post_name,
+					"content"	=> wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
+					"title"		=> $post->post_title,
+					"id"		=> $post->ID,
 				);
 			}
 			$posts = $outPosts;

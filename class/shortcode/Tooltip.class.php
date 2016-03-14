@@ -7,7 +7,7 @@
 namespace ithoughts\tooltip_glossary\shortcode;
 
 
-class Tooltip extends \ithoughts\v1_1\Singleton{
+class Tooltip extends \ithoughts\v1_0\Singleton{
 	public function __construct() {
 		// Shortcode
 		add_shortcode( "ithoughts_tooltip_glossary-tooltip", array(&$this, "tooltip") );

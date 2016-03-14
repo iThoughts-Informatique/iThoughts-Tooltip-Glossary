@@ -42,6 +42,7 @@
 }
 .glossary-list-details .glossary-list li.glossary-item{
 	text-align: justify;
+	max-width: 100%;
 }
 
 .glossary-menu-item a{

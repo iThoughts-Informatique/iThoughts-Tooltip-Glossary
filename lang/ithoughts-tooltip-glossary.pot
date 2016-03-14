@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: iThoughts Tooltip Glossary\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue Oct 27 2015 11:54:04 GMT-1000 (TAHT)\n"
-"POT-Revision-Date: Sat Feb 13 2016 12:19:18 GMT-1000 (TAHT)\n"
+"POT-Revision-Date: Fri Mar 04 2016 15:03:56 GMT-1000 (TAHT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -41,7 +41,7 @@ msgid "Gerkin"
 msgstr ""
 
 #: ../templates/customizing_form.php:7 ../templates/customizing_form.php:25 ..
-#: /class/Admin.class.php:258 ../class/Admin.class.php:259
+#: /class/Admin.class.php:238 ../class/Admin.class.php:239
 msgid "Theme editor"
 msgstr ""
 
@@ -75,7 +75,7 @@ msgstr ""
 msgid "Title Bar"
 msgstr ""
 
-#: ../templates/customizing_form.php:42 ../templates/tinymce-tooltip-form.php:104 
+#: ../templates/customizing_form.php:42 ../templates/tinymce-tooltip-form.php:132 
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:20
 msgid "Content"
 msgstr ""
@@ -306,15 +306,15 @@ msgstr ""
 msgid "infos"
 msgstr ""
 
-#: ../templates/customizing_form.php:251
+#: ../templates/customizing_form.php:250
 msgid "Save theme"
 msgstr ""
 
-#: ../templates/customizing_form.php:252
+#: ../templates/customizing_form.php:251
 msgid "Preview"
 msgstr ""
 
-#: ../templates/customizing_form.php:265 ../templates/options.php:123
+#: ../templates/customizing_form.php:264 ../templates/options.php:123
 msgid ""
 "The <b>tooltip</b> or <b>infotip</b> or a <b>hint</b> is a common <a "
 "href=\"/wiki/Graphical_user_interface\" title=\"Graphical user "
@@ -335,18 +335,18 @@ msgid ""
 "title=\"Mouse (computing)\">mouse</a>)."
 msgstr ""
 
-#: ../templates/customizing_form.php:265 ../templates/options.php:123
+#: ../templates/customizing_form.php:264 ../templates/options.php:123
 msgid "Activate me"
 msgstr ""
 
-#: ../templates/customizing_form.php:268 ../templates/options.php:126
+#: ../templates/customizing_form.php:267 ../templates/options.php:126
 msgid ""
 "This is an example tooltip, with content such as <a>a tag for link</a>, "
 "<em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for "
 "italic</i>"
 msgstr ""
 
-#: ../templates/customizing_form.php:268 ../templates/options.php:126
+#: ../templates/customizing_form.php:267 ../templates/options.php:126
 msgid "Example Tooltip"
 msgstr ""
 
@@ -377,96 +377,110 @@ msgstr ""
 msgid "Mediatip"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:84 ../lang/ithoughts_tt_gl_tinymce_lang.
+#: ../templates/tinymce-tooltip-form.php:86
+msgid "Note:"
+msgstr ""
+
+#: ../templates/tinymce-tooltip-form.php:87
+msgid ""
+"During search, terms appearing with a <span class=\"foreign-language\">yellow "
+"background</span> are not available in current language."
+msgstr ""
+
+#: ../templates/tinymce-tooltip-form.php:96 ../lang/ithoughts_tt_gl_tinymce_lang.
 #: php:18
 msgid "Term"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:121
+#: ../templates/tinymce-tooltip-form.php:112
+msgid "Disable<br/>auto-translation"
+msgstr ""
+
+#: ../templates/tinymce-tooltip-form.php:149
 msgid "Mediatip type"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:142 ../lang/ithoughts_tt_gl_tinymce_lang.
+#: ../templates/tinymce-tooltip-form.php:170 ../lang/ithoughts_tt_gl_tinymce_lang.
 #: php:23
 msgid "Select an image"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:150
+#: ../templates/tinymce-tooltip-form.php:178
 msgid "Image url"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:160
+#: ../templates/tinymce-tooltip-form.php:188
 msgid "Caption"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:170
+#: ../templates/tinymce-tooltip-form.php:198
 msgid "Video integration code"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:202 ../templates/tinymce-tooltip-form.
-#: php:367
+#: ../templates/tinymce-tooltip-form.php:230 ../templates/tinymce-tooltip-form.
+#: php:395
 msgid "Ok"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:209 ../templates/tinymce-tooltip-form.
-#: php:372
+#: ../templates/tinymce-tooltip-form.php:237 ../templates/tinymce-tooltip-form.
+#: php:400
 msgid "Discard"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:216 ../templates/tinymce-tooltip-form.
-#: php:220
+#: ../templates/tinymce-tooltip-form.php:244 ../templates/tinymce-tooltip-form.
+#: php:248
 msgid "Tooltip options"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:233
+#: ../templates/tinymce-tooltip-form.php:261
 msgid "Tooltip content"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:243
+#: ../templates/tinymce-tooltip-form.php:271
 msgid "Tooltip trigger"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:253
+#: ../templates/tinymce-tooltip-form.php:281
 msgid "Tooltip style"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:263 ../templates/options.php:101
+#: ../templates/tinymce-tooltip-form.php:291 ../templates/options.php:101
 msgid "Tooltip shadow"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:273 ../templates/options.php:109
+#: ../templates/tinymce-tooltip-form.php:301 ../templates/options.php:109
 msgid "Rounded corners"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:285
+#: ../templates/tinymce-tooltip-form.php:313
 msgid "Attributes"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:299
+#: ../templates/tinymce-tooltip-form.php:327
 msgid "Span attribute"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:307 ../templates/tinymce-tooltip-form.
-#: php:335
+#: ../templates/tinymce-tooltip-form.php:335 ../templates/tinymce-tooltip-form.
+#: php:363
 msgid "Key"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:313 ../templates/tinymce-tooltip-form.
-#: php:341
+#: ../templates/tinymce-tooltip-form.php:341 ../templates/tinymce-tooltip-form.
+#: php:369
 msgid "Value"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:318 ../templates/tinymce-tooltip-form.
-#: php:346
+#: ../templates/tinymce-tooltip-form.php:346 ../templates/tinymce-tooltip-form.
+#: php:374
 msgid "Add"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:327
+#: ../templates/tinymce-tooltip-form.php:355
 msgid "Link attribute"
 msgstr ""
 
-#: ../templates/options.php:7 ../class/Admin.class.php:218 ../class/Admin.class.
-#: php:219
+#: ../templates/options.php:7 ../class/Admin.class.php:198 ../class/Admin.class.
+#: php:199
 msgid "Options"
 msgstr ""
 
@@ -509,11 +523,11 @@ msgid ""
 "loaded when required."
 msgstr ""
 
-#: ../templates/options.php:46 ../class/Admin.class.php:516
+#: ../templates/options.php:46 ../class/Admin.class.php:496
 msgid "Base Permalink"
 msgstr ""
 
-#: ../templates/options.php:54 ../class/Admin.class.php:520
+#: ../templates/options.php:54 ../class/Admin.class.php:500
 msgid "Taxonomy group prefix"
 msgstr ""
 
@@ -617,13 +631,13 @@ msgstr ""
 msgid "Description mode: Full/Excerpt/None"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:38 ../class/Admin.class.php:400 ..
-#: /class/Admin.class.php:689 ../class/RandomTerm.class.php:71
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:38 ../class/Admin.class.php:380 ..
+#: /class/Admin.class.php:643 ../class/RandomTerm.class.php:71
 msgid "Full"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:39 ../class/Admin.class.php:406 ..
-#: /class/Admin.class.php:695 ../class/RandomTerm.class.php:70
+#: ../lang/ithoughts_tt_gl_tinymce_lang.php:39 ../class/Admin.class.php:386 ..
+#: /class/Admin.class.php:649 ../class/RandomTerm.class.php:70
 msgid "Excerpt"
 msgstr ""
 
@@ -632,7 +646,7 @@ msgid "Glossary Tooltips"
 msgstr ""
 
 #: ../class/Taxonomies.class.php:16 ../class/Taxonomies.class.php:25 ..
-#: /class/Admin.class.php:248 ../class/Admin.class.php:249
+#: /class/Admin.class.php:228 ../class/Admin.class.php:229
 msgid "Glossary Groups"
 msgstr ""
 
@@ -719,8 +733,8 @@ msgid ""
 "Glossary :)"
 msgstr ""
 
-#: ../class/PostTypes.class.php:24 ../class/Admin.class.php:238 ../class/Admin.
-#: class.php:239
+#: ../class/PostTypes.class.php:24 ../class/Admin.class.php:218 ../class/Admin.
+#: class.php:219
 msgid "Glossary Terms"
 msgstr ""
 
@@ -772,195 +786,195 @@ msgstr ""
 msgid "Glossary Term Usage"
 msgstr ""
 
-#: ../class/Admin.class.php:61
+#: ../class/Admin.class.php:65
 msgid "Can't read plugin version"
 msgstr ""
 
-#: ../class/Admin.class.php:228 ../class/Admin.class.php:229
+#: ../class/Admin.class.php:208 ../class/Admin.class.php:209
 msgid "Add a Term"
 msgstr ""
 
-#: ../class/Admin.class.php:273 ../class/Admin.class.php:274
+#: ../class/Admin.class.php:253 ../class/Admin.class.php:254
 msgid "Update"
 msgstr ""
 
-#: ../class/Admin.class.php:336
+#: ../class/Admin.class.php:316
 msgid "Normal"
 msgstr ""
 
-#: ../class/Admin.class.php:338
+#: ../class/Admin.class.php:318
 msgid "Normal link with no modifications"
 msgstr ""
 
-#: ../class/Admin.class.php:342
+#: ../class/Admin.class.php:322
 msgid "No link"
 msgstr ""
 
-#: ../class/Admin.class.php:344
+#: ../class/Admin.class.php:324
 msgid "Don't link to term"
 msgstr ""
 
-#: ../class/Admin.class.php:348
+#: ../class/Admin.class.php:328
 msgid "New tab"
 msgstr ""
 
-#: ../class/Admin.class.php:350
+#: ../class/Admin.class.php:330
 msgid "Always open in a new tab"
 msgstr ""
 
-#: ../class/Admin.class.php:402 ../class/Admin.class.php:691
+#: ../class/Admin.class.php:382 ../class/Admin.class.php:645
 msgid "Display full post content"
 msgstr ""
 
-#: ../class/Admin.class.php:408 ../class/Admin.class.php:697
+#: ../class/Admin.class.php:388 ../class/Admin.class.php:651
 msgid "Display shorter excerpt content"
 msgstr ""
 
-#: ../class/Admin.class.php:412 ../class/Admin.class.php:701
+#: ../class/Admin.class.php:392 ../class/Admin.class.php:655
 msgid "Off"
 msgstr ""
 
-#: ../class/Admin.class.php:414 ../class/Admin.class.php:703
+#: ../class/Admin.class.php:394 ../class/Admin.class.php:657
 msgid "Do not display tooltip at all"
 msgstr ""
 
-#: ../class/Admin.class.php:433 ../class/Admin.class.php:722
+#: ../class/Admin.class.php:413 ../class/Admin.class.php:676
 msgid "Click"
 msgstr ""
 
-#: ../class/Admin.class.php:435 ../class/Admin.class.php:724
+#: ../class/Admin.class.php:415 ../class/Admin.class.php:678
 msgid "On click"
 msgstr ""
 
-#: ../class/Admin.class.php:439 ../class/Admin.class.php:728
+#: ../class/Admin.class.php:419 ../class/Admin.class.php:682
 msgid "Responsive"
 msgstr ""
 
-#: ../class/Admin.class.php:441 ../class/Admin.class.php:730
+#: ../class/Admin.class.php:421 ../class/Admin.class.php:684
 msgid "Hover (on computer) and click (touch devices)"
 msgstr ""
 
-#: ../class/Admin.class.php:516 ../class/Admin.class.php:520
+#: ../class/Admin.class.php:496 ../class/Admin.class.php:500
 msgid "Invalid input for"
 msgstr ""
 
-#: ../class/Admin.class.php:532
+#: ../class/Admin.class.php:512
 msgid "Rewrite rule flushed"
 msgstr ""
 
-#: ../class/Admin.class.php:535
+#: ../class/Admin.class.php:515
 msgid "Options updated"
 msgstr ""
 
-#: ../class/Admin.class.php:551
+#: ../class/Admin.class.php:531
 msgid "Local image"
 msgstr ""
 
-#: ../class/Admin.class.php:553
+#: ../class/Admin.class.php:533
 msgid "Image from site library"
 msgstr ""
 
-#: ../class/Admin.class.php:557
+#: ../class/Admin.class.php:537
 msgid "Image on the web"
 msgstr ""
 
-#: ../class/Admin.class.php:559
+#: ../class/Admin.class.php:539
 msgid "Image referenced by url, not on the site"
 msgstr ""
 
-#: ../class/Admin.class.php:563
+#: ../class/Admin.class.php:543
 msgid "Video on the web"
 msgstr ""
 
-#: ../class/Admin.class.php:565
+#: ../class/Admin.class.php:545
 msgid "Video hosted online. Only Youtube, Dailymotion or .mp4 videos"
 msgstr ""
 
-#: ../class/Admin.class.php:819
+#: ../class/Admin.class.php:772
 msgid "Select one"
 msgstr ""
 
-#: ../class/Admin.class.php:838
+#: ../class/Admin.class.php:791
 msgid "CSS generated."
 msgstr ""
 
-#: ../class/Admin.class.php:845
+#: ../class/Admin.class.php:798
 msgid "Error while generate CSS."
 msgstr ""
 
-#: ../class/Admin.class.php:845
+#: ../class/Admin.class.php:798
 msgid "See your server logs for infos."
 msgstr ""
 
-#: ../class/Admin.class.php:845
+#: ../class/Admin.class.php:798
 msgid "It could not be logged."
 msgstr ""
 
-#: ../class/Admin.class.php:866
+#: ../class/Admin.class.php:819
 msgid "Theme saved."
 msgstr ""
 
-#: ../class/Admin.class.php:866
+#: ../class/Admin.class.php:819
 msgid "Failed to save the theme."
 msgstr ""
 
-#: ../class/Admin.class.php:1123
+#: ../class/Admin.class.php:1076
 msgid "Cream"
 msgstr ""
 
-#: ../class/Admin.class.php:1124
+#: ../class/Admin.class.php:1077
 msgid "Dark"
 msgstr ""
 
-#: ../class/Admin.class.php:1125
+#: ../class/Admin.class.php:1078
 msgid "Green"
 msgstr ""
 
-#: ../class/Admin.class.php:1126
+#: ../class/Admin.class.php:1079
 msgid "Light"
 msgstr ""
 
-#: ../class/Admin.class.php:1127
+#: ../class/Admin.class.php:1080
 msgid "Red"
 msgstr ""
 
-#: ../class/Admin.class.php:1128
+#: ../class/Admin.class.php:1081
 msgid "Blue"
 msgstr ""
 
-#: ../class/Admin.class.php:1129
+#: ../class/Admin.class.php:1082
 msgid "Plain"
 msgstr ""
 
-#: ../class/Admin.class.php:1130
+#: ../class/Admin.class.php:1083
 msgid "Bootstrap"
 msgstr ""
 
-#: ../class/Admin.class.php:1131
+#: ../class/Admin.class.php:1084
 msgid "YouTube"
 msgstr ""
 
-#: ../class/Admin.class.php:1132
+#: ../class/Admin.class.php:1085
 msgid "Tipsy"
 msgstr ""
 
-#: ../class/Backbone.class.php:288
+#: ../class/Backbone.class.php:264
 msgid "Please wait"
 msgstr ""
 
-#: ../class/Backbone.class.php:289
+#: ../class/Backbone.class.php:265
 msgid "Loading glossary term"
 msgstr ""
 
-#: ../class/Backbone.class.php:426
+#: ../class/Backbone.class.php:471
 msgid "Private glossary term"
 msgstr ""
 
-#: ../class/Backbone.class.php:431
+#: ../class/Backbone.class.php:476
 msgid "Protected glossary term"
 msgstr ""
 
-#: ../class/Backbone.class.php:454
+#: ../class/Backbone.class.php:499
 msgid "No content"
 msgstr ""
 
@@ -1001,14 +1015,14 @@ msgstr ""
 msgid "No terms available"
 msgstr ""
 
-#: ../class/shortcode/TermList.class.php:42 ../class/shortcode/AtoZ.class.php:45
+#: ../class/shortcode/TermList.class.php:45 ../class/shortcode/AtoZ.class.php:48
 msgid "There are no glossary items."
 msgstr ""
 
-#: ../class/shortcode/AtoZ.class.php:81
+#: ../class/shortcode/AtoZ.class.php:84
 msgid "Terms"
 msgstr ""
 
-#: ../class/shortcode/AtoZ.class.php:100
+#: ../class/shortcode/AtoZ.class.php:103
 msgid "Please select from the menu above"
 msgstr ""

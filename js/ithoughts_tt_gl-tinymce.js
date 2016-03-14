@@ -40,28 +40,31 @@
 				atoz: {
 					group: "",
 					alpha: "",
+					lazy: true
 				},
 				type: 0
 			};
 			var mode = "insert_content";
 
 			sel = editor.selection;
-			if(sel.getStart() === sel.getEnd()){
-				if(sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-atoz"){ // Is atoz
+			var ce = sel.getStart();
+			if(ce === sel.getEnd()){
+				if(ce.getAttribute("data-type") == "ithoughts-tooltip-glossary-atoz"){ // Is atoz
 					mode = "load";
 					values.type=1;
 					values.atoz = {
-						alpha: sel.getStart().getAttribute("data-alpha"),
-						group: sel.getStart().getAttribute("data-group")
+						alpha: ce.getAttribute("data-alpha"),
+						group: ce.getAttribute("data-group"),
+						lazy: ce.getAttribute("data-lazy") === "true"
 					};
-				} else if(sel.getStart().getAttribute("data-type") == "ithoughts-tooltip-glossary-term_list"){ // Is term_list
+				} else if(ce.getAttribute("data-type") == "ithoughts-tooltip-glossary-term_list"){ // Is term_list
 					mode = "load";
 					values.type=0;
 					values.list = {
-						alpha: sel.getStart().getAttribute("data-alpha"),
-						cols: sel.getStart().getAttribute("data-cols"),
-						desc: sel.getStart().getAttribute("data-desc"),
-						group: sel.getStart().getAttribute("data-group")
+						alpha: ce.getAttribute("data-alpha"),
+						cols: ce.getAttribute("data-cols"),
+						desc: ce.getAttribute("data-desc"),
+						group: ce.getAttribute("data-group")
 					};
 				}
 			}
@@ -154,6 +157,13 @@
 										name:"ag",
 										value: values.atoz.group,
 										tooltip:editor.getLang('ithoughts_tt_gl_tinymce.group_explain')
+									},
+									{
+										type: "checkbox",
+										label:editor.getLang('ithoughts_tt_gl_tinymce.lazy'),
+										name:"az",
+										checked: values.atoz.lazy,
+										tooltip:editor.getLang('ithoughts_tt_gl_tinymce.lazy_explain')
 									}
 								]
 							})
@@ -240,8 +250,8 @@
 					}
 				}
 			}
-			jQuery.post(ithoughts_tt_gl.admin_ajax, {action: "ithoughts_tt_gl_get_tinymce_tooltip_form", data: values}, function(out){
-				var newDom = jQuery(jQuery.parseHTML(out, true)).css({opacity: 0});
+			$.post(ithoughts_tt_gl.admin_ajax, {action: "ithoughts_tt_gl_get_tinymce_tooltip_form", data: values}, function(out){
+				var newDom = $($.parseHTML(out, true)).css({opacity: 0});
 				var h = 400;
 				var w = 455;
 				var popupTooltip = newDom.find("#ithoughts_tt_gl-tooltip-form");

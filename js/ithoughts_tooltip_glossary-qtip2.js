@@ -31,8 +31,9 @@ function stripQuotes(string, encode){
 		for(var l = dims.length;i < l;i++){
 			if(w > dims[i][0] && h > dims[i][1]) break;
 		}
+		i = Math.min(dims.length, Math.max(0,i));
 		var optDims = dims[i];
-		if(typeof video == "undefined"){
+		if(typeof video == "undefined" && typeof optDims != "undefined"){
 			$(".ithoughts_tt_gl-video").prop({width:optDims[0],height:optDims[1]});
 			$(".ithoughts_tt_gl-video_tip").each(function(){
 				var api = $(this).qtip("api");/**/

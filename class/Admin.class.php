@@ -7,7 +7,7 @@
 namespace ithoughts\tooltip_glossary;
 
 
-class Admin extends \ithoughts\v1_1\Singleton{
+class Admin extends \ithoughts\v1_0\Singleton{
 	private $currentVersion;
 	private $updater;
 
@@ -42,13 +42,17 @@ class Admin extends \ithoughts\v1_1\Singleton{
 			} else {
 				throw new \Exception("unreadable_plugin_error");
 			}
-			if( $this->isUnderVersionned() || (isset($_POST) && isset($_POST["data"]) && isset($_POST["data"]["versions"])) ){
+			if($backbone->get_option("version") == -1){
+				$backbone->set_option('version',$this->currentVersion);
+			} else if( $this->isUnderVersionned() || (isset($_POST) && isset($_POST["data"]) && isset($_POST["data"]["versions"])) ){
 				require_once($backbone->get_base_class_path() . "/Updater.class.php");
 				$this->updater = new Updater($backbone->get_option('version'), $this->currentVersion, $this);
 				if(Updater::requiresUpdate($backbone->get_option('version'), $this->currentVersion)){
 					$this->updater->addAdminNotice();
 				} else {
-					$backbone->set_options(array('version',$this->currentVersion));
+					if($this->currentVersion != $backbone->get_option("version")){
+						$backbone->set_option('version',$this->currentVersion);
+					}
 				}
 			}
 		} catch(Exception $e){
@@ -58,7 +62,7 @@ class Admin extends \ithoughts\v1_1\Singleton{
 	public function unreadable_plugin_error(){
 ?>
 <div class="error form-invalid">
-	<p><?php _e( "Can't read plugin version", "my_textdomain" ); ?></p>
+	<p><?php _e( "Can't read plugin version", 'ithoughts-tooltip-glossary' ); ?></p>
 </div>
 <?php
 											 }
@@ -75,7 +79,7 @@ class Admin extends \ithoughts\v1_1\Singleton{
 			'ithoughts-simple-ajax',
 			$backbone->get_base_url() . '/submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form'.$backbone->get_minify().'.js',
 			array('jquery-form',"ithoughts_aliases"),
-			"2.3.1"
+			"1.0.0"
 		);
 		wp_register_script(
 			'ithoughts_tooltip_glossary-admin',
@@ -276,7 +280,7 @@ class Admin extends \ithoughts\v1_1\Singleton{
 		$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 		$currentVersion;
 
-		if(get_option("ithoughts_tt_gl_vesion_check") == false && $backbone->get_option('version') == "-1")
+		if($backbone->get_option('version') == "-1")
 			return false;
 		$version_diff = version_compare( $backbone->get_option('version'), $this->currentVersion );
 		return $version_diff == -1;

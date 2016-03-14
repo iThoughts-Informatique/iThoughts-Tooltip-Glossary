@@ -38,6 +38,8 @@ function ithoughts_tt_gl_tinymce_plugin_translation() {
         "full" => __('Full', 'ithoughts-tooltip-glossary' ),
         "excerpt" => __('Excerpt', 'ithoughts-tooltip-glossary' ),
         "glossarytips" => __('Glossary Tooltips', 'ithoughts-tooltip-glossary' ),
+		"lazy" => __('Lazy', 'ithoughts-tooltip-glossary' ),
+		"lazy_explain" => __('Will load lists only at display time. Can cause delay between clicks & display but reduce highly memory consumption & page generation time.', 'ithoughts-tooltip-glossary' ),
     );
     $locale = _WP_Editors::$mce_locale;
     $translated = 'tinyMCE.addI18n("' . $locale . '.ithoughts_tt_gl_tinymce", ' . json_encode( $strings ) . ");\n";

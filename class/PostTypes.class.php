@@ -6,7 +6,7 @@
 
 namespace ithoughts\tooltip_glossary;
 
-class PostTypes extends \ithoughts\v1_1\Singleton{
+class PostTypes extends \ithoughts\v1_0\Singleton{
 	public function __construct() {
 		add_action( 'init', array($this, 'register_post_types') );
 	}
