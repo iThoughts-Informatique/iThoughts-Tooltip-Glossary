@@ -6,6 +6,11 @@
 
 namespace ithoughts\tooltip_glossary;
 
+if ( ! defined( 'ABSPATH' ) ) { 
+    exit; // Exit if accessed directly
+}
+
+if(!class_exists(__NAMESPACE__."\\Filters")){
 class Filters extends \ithoughts\v1_0\Singleton{
 	public function __construct(){
 		add_filter("ithoughts_tt_gl-term-excerpt", array(&$this, "getTermExcerpt"));
@@ -24,13 +29,20 @@ class Filters extends \ithoughts\v1_0\Singleton{
 	}
 
 	/**
- *	Return array(
- *		"handled"				=> array(),
- *		"attributes"			=> array(),
- *		"overridesServer"		=> array(),
- *		"overridesClient"		=> array()
- *	)
- */
+	 * Return array(
+	 * "handled"				=> array(),
+	 * "attributes"			=> array(),
+	 * "overridesServer"		=> array(),
+	 * "overridesClient"		=> array()
+	 * ). Put all given attributes in the appropriated category, and with prefix they need
+	 * @author Gerkin
+	 * @param  string[]   $attributes                           Attributes to dispatch in categories
+	 * @param  string[]   [$handled = array()]                  Attributes name/regex to store into "handled" subcategory
+	 * @param  string[]   [$overridableOptionsServer = array()] Attributes name/regex to store into "overridesServer" subcategory
+	 * @param  string[]   [$overridableOptionsClient = array()] Attributes name/regex to store into "overridesClient" subcategory
+	 * @param  boolean    $fuseClientSideWithArgs = true        If set to true, category overridesClient & Attributes will be merged
+	 * @return string[][]                                       Sorted attributes
+	 */
 	public function splitArgs($attributes, array $handled = array(), array $overridableOptionsServer = array(), array $overridableOptionsClient = array(), $fuseClientSideWithArgs = true){
 		$attrs = array(
 			'abbr','accept-charset','accept','accesskey','action','align','alt','archive','axis',
@@ -64,31 +76,32 @@ class Filters extends \ithoughts\v1_0\Singleton{
 		);
 		if(is_array($attributes)){
 			foreach($attributes as $key => $value){
-				if(array_search($key, $handled) !== false){
+				// $attributes is a single-level array containing key-value HTML tag potential attributes with $key and $value
+				if(array_search($key, $handled) !== false){ // This is a know `handled` attribute
 					$res["handled"][$key] = $value;
-				} else if(array_search($key, $overridableOptionsServer) !== false){
+				} else if(array_search($key, $overridableOptionsServer) !== false){ // This is a know `overridable from server` attribute
 					$res["overridesServer"][$key] = $value;
-				} else if(array_search($key, $overridableOptionsClient) !== false){
+				} else if(array_search($key, $overridableOptionsClient) !== false){ // This is a know `overridable from client` attribute
 					$res["overridesClient"][$key] = $value;
-				} else {
+				} else { // It does not belongs to any special categories
 					$i = -1;
 					$match = false;
-					while(++$i < $attsLength && !$match){
+					while(++$i < $attsLength && !$match){ // Loop through known HTML attributes
 						$attr = $attrs[$i];
-						if(count($attr) > 1 && $attr[0] == "/" && $attr[count($attr) - 1] == "/"){
-							if(preg_match($attributes[$i], $key)){
-								$res["attributes"][$key] = $value;
+						if(strlen($attr) > 1 && $attr[0] == "/" && $attr[strlen($attr) - 1] == "/"){ // If this tested HTML attribute is a regex
+							if(preg_match($attrs[$i], $key)){ // If our `$key` match with the test attribute
+								$res["attributes"][$key] = $value; // Add it without any prefix
 								$match = true;
 							}
-						} else {
-							if($key === $attrs[$i]){
-								$res["attributes"][$key] = $value;
+						} else { // Else, this is a string
+							if($key === $attrs[$i]){ // If our `$key` is the same as tested attribute
+								$res["attributes"][$key] = $value; // Add it without any prefix
 								$match = true;
 							}
 						}
 					}
-					if(!$match){
-						$res["attributes"]["data-".$key] = $value;
+					if(!$match){ // This attribute does not match any known HTML standard attributes
+						$res["attributes"]["data-".$key] = $value; // Assign it prefixed
 					}
 				}
 			}
@@ -171,4 +184,5 @@ class Filters extends \ithoughts\v1_0\Singleton{
 
 		return $ret;
 	}
+}
 }

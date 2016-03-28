@@ -6,150 +6,137 @@
 
 namespace ithoughts\tooltip_glossary\shortcode;
 
-
-class Glossary extends \ithoughts\v1_0\Singleton{
-	public function __construct() {
-		// Shortcode
-		add_shortcode( "ithoughts_tooltip_glossary-glossary", array(&$this, "glossary") );
-		add_shortcode( "glossary", array(&$this, "glossary") );
-
-		// Help functions..
-		add_action( 'save_post',  array(&$this, 'save_post_check_for_glossary_usage'), 20, 2 );
-		add_action( 'wp_insert_post_data',  array(&$this, 'parse_pseudo_links_to_shortcode'));
-		add_action( 'edit_post',  array(&$this, 'convert_shortcodes'));
-		add_action( 'get_header', array(&$this, 'glossary_usage_reset_for_post') );
-		add_action( 'wp_footer',  array(&$this, 'glossary_remove_update_marker') );
+if ( ! defined( 'ABSPATH' ) ) { 
+	exit; // Exit if accessed directly
+}
 
 
-		add_filter("ithoughts_tt_gl_get_glossary_term_element", array($this, "ithoughts_tt_gl_get_glossary_term_element"), 10, 3);
-	}
+if(!class_exists(__NAMESPACE__."\\Glossary")){
+	class Glossary extends \ithoughts\v1_0\Singleton{
+		public function __construct() {
+			// Shortcode
+			add_shortcode( "ithoughts_tooltip_glossary-glossary", array(&$this, "glossary_shortcode") );
+			add_shortcode( "glossary", array(&$this, "glossary_shortcode") );
 
-	private function get_permalink_light($term){
-		global $wp_rewrite;
+			// Help functions..
+			add_action( 'save_post',  array(&$this, 'save_post_check_for_glossary_usage'), 20, 2 );
+			add_action( 'wp_insert_post_data',  array(&$this, 'parse_pseudo_links_to_shortcode'));
+			add_action( 'edit_post',  array(&$this, 'convert_shortcodes'));
+			add_action( 'get_header', array(&$this, 'glossary_usage_reset_for_post') );
+			add_action( 'wp_footer',  array(&$this, 'glossary_remove_update_marker') );
 
-		$post_link = $wp_rewrite->get_extra_permastruct("glossary");
 
-		$post_type = get_post_type_object("glossary");
-		if ( $post_type->hierarchical ) {
-			$slug = get_page_uri( $term["ID"] );
-		} else {
-			$slug = $term["post_name"];
-		}
-		if ( !empty($post_link)) {
-			$post_link = str_replace("%glossary%", $slug, $post_link);
-			$post_link = home_url( user_trailingslashit($post_link) );
-		} else {
-			if ( $post_type->query_var )
-				$post_link = add_query_arg($post_type->query_var, $slug, '');
-			else
-				$post_link = add_query_arg(array('post_type' => "glossary", 'p' => $term["ID"]), '');
-			$post_link = home_url($post_link);
+			add_filter("ithoughts_tt_gl_get_glossary_term_element", array($this, "ithoughts_tt_gl_get_glossary_term_element"), 10, 3);
 		}
 
-		return $post_link;
-	}
-
-	private function get_glossary_term_element_array($term, $text = null, $datas = array()){
-		if( function_exists('icl_object_id')){ // If WPML &...
-			if(!(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"])){ // ... we want auto translate
-				// Re-fallback on main method with ID
-				echo "Fallback WPML";
-				return $this->ithoughts_tt_gl_get_glossary_term_element($term["ID"], $text, $datas);
+		private function get_glossary_term_element_array($term, $text = null, $datas = array()){
+			if( function_exists('icl_object_id')){ // If WPML &...
+				if(!(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"])){ // ... we want auto translate
+					// Re-fallback on main method with ID
+					return $this->ithoughts_tt_gl_get_glossary_term_element($term["ID"], $text, $datas);
+				}
 			}
-		}
-		if($datas["options"]['staticterms']){
-			$content;
-			$termcontent;
-			if(isset($datas["attributes"]["termcontent"])){
-				$termcontent = $datas["attributes"]["termcontent"];
-				unset($datas["attributes"]["termcontent"]);
+			if($datas["options"]['staticterms']){
+				$content;
+				$termcontent;
+				if(isset($datas["attributes"]["termcontent"])){
+					$termcontent = $datas["attributes"]["termcontent"];
+					unset($datas["attributes"]["termcontent"]);
+				} else {
+					$termcontent = $datas["options"]["termcontent"];
+				}
+				switch( $termcontent ){
+					case 'full':{
+						if(isset($term["post_content"]) && $term["post_content"]){
+							$content = $term["post_content"];
+						} else {
+							return ithoughts_tt_gl_get_glossary_term_element($term["ID"], $text, $datas);
+						}
+					}break;
+
+					case 'excerpt':{
+						if((isset($term["post_excerpt"]) && $term["post_excerpt"]) || (isset($term["post_content"]) && $term["post_content"])){
+							// Do
+							$termObj = new WP_Post();
+							$termObj->post_excerpt = isset($term["post_excerpt"]) ? $term["post_excerpt"] : "";
+							$termObj->post_content = isset($term["post_content"]) ? $term["post_content"] : "";
+							$content = apply_filters("ithoughts_tt_gl-term-excerpt", $termObj);
+						} else {
+							// Fallback on default
+							return ithoughts_tt_gl_get_glossary_term_element($term["ID"], $text, $datas);
+						}
+					}break;
+
+					case 'off':{
+						$content = "";
+					}break;
+				}
+				$content = str_replace("\n", "<br>", $content);
+				$datas["attributes"]['data-term-content'] = $content;
+				// If we have enough data to take the excerpt or autogen one...
 			} else {
-				$termcontent = $datas["options"]["termcontent"];
+				$datas["attributes"]['data-termid'] = $term["ID"];
+				if(is_null($text) && isset($term["post_title"]))
+					$text = $term["post_title"];
 			}
-			switch( $termcontent ){
-				case 'full':{
-					if(isset($term["post_content"]) && $term["post_content"]){
-						$content = $term["post_content"];
-					} else {
-						return ithoughts_tt_gl_get_glossary_term_element($term["ID"], $text, $datas);
+
+			$href="javascript::void(0)";
+			if($datas["options"]["termlinkopt"] != "none"){// If theere need a link
+				if($term["post_name"]){
+					$href   = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v1_2\Toolbox::get_permalink_light($term, "glossary") );
+				} else {
+					$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term["ID"]) );
+				}
+			}
+			$datas["linkAttrs"]["href"] = $href;
+
+			$link;
+			if(!(isset($datas["linkAttrs"]["title"]) && $datas["linkAttrs"]["title"]))
+				$datas["linkAttrs"]["title"] = $text;
+			if($datas["options"]["termlinkopt"] == "blank"){
+				$datas["linkAttrs"]["target"] = "_blank";
+			}
+
+
+			$linkArgs = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["linkAttrs"]);
+			$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
+
+			$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
+			$args = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["attributes"]);
+
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+			$backbone->add_script('qtip');
+
+			return '<span '.$args.'>' . $linkElement . '</span>';
+		}
+
+		public function ithoughts_tt_gl_get_glossary_term_element($term, $text = null, $options = array()){
+			$datas = apply_filters("ithoughts_tt_gl-split-args", $options);
+			if(gettype($term) == "array"){
+				return $this->get_glossary_term_element_array($term, $text, $datas);
+			}
+
+			// Dispatch getting right term in right lang if there is
+			if( function_exists('icl_object_id')){
+				if(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"]){
+					$datas["attributes"]['data-disable_auto_translation'] = "true";
+				}
+				if(!(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"])){
+					if(is_numeric($term)){
+						$term = get_post(apply_filters( 'wpml_object_id', $term, "glossary", true, apply_filters( 'wpml_current_language', NULL ) ));
+					} else if(!($term instanceof \WP_Post)){
+						// Error
+						return $text;
+					} else if($term instanceof \WP_Post){
+						$term = get_post(apply_filters( 'wpml_object_id', $term->ID, "glossary", true, apply_filters( 'wpml_current_language', NULL ) ));
 					}
-				}break;
-
-				case 'excerpt':{
-					if((isset($term["post_excerpt"]) && $term["post_excerpt"]) || (isset($term["post_content"]) && $term["post_content"])){
-						// Do
-						$termObj = new WP_Post();
-						$termObj->post_excerpt = isset($term["post_excerpt"]) ? $term["post_excerpt"] : "";
-						$termObj->post_content = isset($term["post_content"]) ? $term["post_content"] : "";
-						$content = apply_filters("ithoughts_tt_gl-term-excerpt", $termObj);
-					} else {
-						// Fallback on default
-						return ithoughts_tt_gl_get_glossary_term_element($term["ID"], $text, $datas);
+				} else {
+					if(is_numeric($term)){
+						$term = get_post($term);
+					} else if(!($term instanceof \WP_Post)){
+						// Error
+						return $text;
 					}
-				}break;
-
-				case 'off':{
-					$content = "";
-				}break;
-			}
-			$content = str_replace("\n", "<br>", $content);
-			$datas["attributes"]['data-term-content'] = $content;
-			// If we have enough data to take the excerpt or autogen one...
-		} else {
-			$datas["attributes"]['data-termid'] = $term["ID"];
-			if(is_null($text) && isset($term["post_title"]))
-				$text = $term["post_title"];
-		}
-
-		$href="javascript::void(0)";
-		if($datas["options"]["termlinkopt"] != "none"){// If theere need a link
-			if($term["post_name"]){
-				$href   = apply_filters( 'ithoughts_tt_gl_term_link', $this->get_permalink_light($term) );
-			} else {
-				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term["ID"]) );
-			}
-		}
-		$datas["linkAttrs"]["href"] = $href;
-
-		$link;
-		if(!(isset($datas["linkAttrs"]["title"]) && $datas["linkAttrs"]["title"]))
-			$datas["linkAttrs"]["title"] = $text;
-		if($datas["options"]["termlinkopt"] == "blank"){
-			$datas["linkAttrs"]["target"] = "_blank";
-		}
-
-
-		$linkArgs = \ithoughts\v1_1\Toolbox::concat_attrs( $datas["linkAttrs"]);
-		$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
-
-		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
-		$args = \ithoughts\v1_1\Toolbox::concat_attrs( $datas["attributes"]);
-
-		$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-		$backbone->add_script('qtip');
-
-		return '<span '.$args.'>' . $linkElement . '</span>';
-	}
-
-	public function ithoughts_tt_gl_get_glossary_term_element($term, $text = null, $options = array()){
-		$datas = apply_filters("ithoughts_tt_gl-split-args", $options);
-		if(gettype($term) == "array"){
-			return $this->get_glossary_term_element_array($term, $text, $datas);
-		}
-
-		// Dispatch getting right term in right lang if there is
-		if( function_exists('icl_object_id')){
-			if(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"]){
-				$datas["attributes"]['data-disable_auto_translation'] = "true";
-			}
-			if(!(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"])){
-				if(is_numeric($term)){
-					$term = get_post(apply_filters( 'wpml_object_id', $term, "glossary", true, apply_filters( 'wpml_current_language', NULL ) ));
-				} else if(!($term instanceof \WP_Post)){
-					// Error
-					return $text;
-				} else if($term instanceof \WP_Post){
-					$term = get_post(apply_filters( 'wpml_object_id', $term->ID, "glossary", true, apply_filters( 'wpml_current_language', NULL ) ));
 				}
 			} else {
 				if(is_numeric($term)){
@@ -159,158 +146,151 @@ class Glossary extends \ithoughts\v1_0\Singleton{
 					return $text;
 				}
 			}
-		} else {
-			if(is_numeric($term)){
-				$term = get_post($term);
-			} else if(!($term instanceof \WP_Post)){
-				// Error
-				return $text;
-			}
-		}
-		if($datas["options"]['staticterms']){
-			if(!($term instanceof \WP_Post)){
-				// Error
-				return $text;
-			}
-			if(is_null($text))
-				$text = $term->post_title;
-
-			$datas["attributes"]['data-term-title'] = esc_attr($term->post_title);
-
-			$content;
-			$termcontent;
-			if(isset($datas["attributes"]["termcontent"])){
-				$termcontent = $datas["attributes"]["termcontent"];
-				unset($datas["attributes"]["termcontent"]);
-			} else {
-				$termcontent = $datas["options"]["termcontent"];
-			}
-			switch( $termcontent ){
-				case 'full':{
-					$content = $term->post_content;
-				}break;
-
-				case 'excerpt':{
-					$content = apply_filters("ithoughts_tt_gl-term-excerpt", $term);
-				}break;
-
-				case 'off':{
-					$content = "";
-				}break;
-			}
-			$content = str_replace("\n", "<br>", $content);
-			$datas["attributes"]['data-term-content'] = $content;
-		} else {
-			if($term instanceof \WP_Post){
-				$datas["attributes"]['data-termid'] = $term->ID;
+			if($datas["options"]['staticterms']){
+				if(!($term instanceof \WP_Post)){
+					// Error
+					return $text;
+				}
 				if(is_null($text))
-					$text = get_the_title($term);
+					$text = $term->post_title;
+
+				$datas["attributes"]['data-term-title'] = esc_attr($term->post_title);
+
+				$content;
+				$termcontent;
+				if(isset($datas["attributes"]["termcontent"])){
+					$termcontent = $datas["attributes"]["termcontent"];
+					unset($datas["attributes"]["termcontent"]);
+				} else {
+					$termcontent = $datas["options"]["termcontent"];
+				}
+				switch( $termcontent ){
+					case 'full':{
+						$content = $term->post_content;
+					}break;
+
+					case 'excerpt':{
+						$content = apply_filters("ithoughts_tt_gl-term-excerpt", $term);
+					}break;
+
+					case 'off':{
+						$content = "";
+					}break;
+				}
+				$content = str_replace("\n", "<br>", $content);
+				$datas["attributes"]['data-term-content'] = $content;
+			} else {
+				if($term instanceof \WP_Post){
+					$datas["attributes"]['data-termid'] = $term->ID;
+					if(is_null($text))
+						$text = get_the_title($term);
+				}
+
 			}
 
+			$href="javascript::void(0)";
+			if($datas["options"]["termlinkopt"] != "none")// If theere need a link
+				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term) );
+			$datas["linkAttrs"]["href"] = $href;
+
+			$link;
+			if(!(isset($datas["linkAttrs"]["title"]) && $datas["linkAttrs"]["title"]))
+				$datas["linkAttrs"]["title"] = $text;
+			if($datas["options"]["termlinkopt"] == "blank"){
+				$datas["linkAttrs"]["target"] = "_blank";
+			}
+
+
+			$linkArgs = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["linkAttrs"]);
+			$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
+
+			$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
+			$args = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["attributes"]);
+
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+			$backbone->add_script('qtip');
+
+			return '<span '.$args.'>' . $linkElement . '</span>';
 		}
 
-		$href="javascript::void(0)";
-		if($datas["options"]["termlinkopt"] != "none")// If theere need a link
-			$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term) );
-		$datas["linkAttrs"]["href"] = $href;
-
-		$link;
-		if(!(isset($datas["linkAttrs"]["title"]) && $datas["linkAttrs"]["title"]))
-			$datas["linkAttrs"]["title"] = $text;
-		if($datas["options"]["termlinkopt"] == "blank"){
-			$datas["linkAttrs"]["target"] = "_blank";
+		public function parse_pseudo_links_to_shortcode( $data ){
+			$data['post_content'] = preg_replace('/<a\s+?data-ithoughts_tt_gl-glossary-slug=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[ithoughts_tooltip_glossary-glossary slug="$1"]$2[/ithoughts_tooltip_glossary-glossary]', $data['post_content']);
+			return $data;
 		}
 
+		public function convert_shortcodes($post_id){
+			$post = get_post($post_id);
+			$post->post_content = preg_replace('/\[ithoughts_tooltip_glossary-glossary(.*?)(?: slug="(.+?)")(.*?)\](.+?)\[\/ithoughts_tooltip_glossary-glossary\]/', '<a data-ithoughts_tt_gl-glossary-slug="$2" $1 $3>$4</a>', $post->post_content);
+			return $post;
+		}
 
-		$linkArgs = \ithoughts\v1_1\Toolbox::concat_attrs( $datas["linkAttrs"]);
-		$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
-
-		$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
-		$args = \ithoughts\v1_1\Toolbox::concat_attrs( $datas["attributes"]);
-
-		$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-		$backbone->add_script('qtip');
-
-		return '<span '.$args.'>' . $linkElement . '</span>';
-	}
-
-	public function parse_pseudo_links_to_shortcode( $data ){
-		$data['post_content'] = preg_replace('/<a\s+?data-ithoughts_tt_gl-glossary-slug=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[ithoughts_tooltip_glossary-glossary slug="$1"]$2[/ithoughts_tooltip_glossary-glossary]', $data['post_content']);
-		return $data;
-	}
-
-	public function convert_shortcodes($post_id){
-		$post = get_post($post_id);
-		$post->post_content = preg_replace('/\[ithoughts_tooltip_glossary-glossary(.*?)(?: slug="(.+?)")(.*?)\](.+?)\[\/ithoughts_tooltip_glossary-glossary\]/', '<a data-ithoughts_tt_gl-glossary-slug="$2" $1 $3>$4</a>', $post->post_content);
-		return $post;
-	}
-
-	/** 
+		/** 
 	 * If post has glossary shortcode in it when it is saved, mark the post as needing be updated
 	 */
-	public function save_post_check_for_glossary_usage( $post_id, $post ){
-		$glossary_options = get_option( 'ithoughts_tt_gl' );
-		$termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
+		public function save_post_check_for_glossary_usage( $post_id, $post ){
+			$glossary_options = get_option( 'ithoughts_tt_gl' );
+			$termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
-		if( $termusage != 'on' )
-			return $post_id;
+			if( $termusage != 'on' )
+				return $post_id;
 
-		if( !wp_is_post_revision($post_id)  ){
-			if( strpos($post->post_content,'[ithoughts_tooltip_glossary-glossary ') !== false || strpos($post->post_content,'[ithoughts_tooltip_glossary-glossary]') !== false ){
-				update_post_meta( $post_id, 'ithoughts_tt_gl_update_term_usage', current_time('mysql') );
-			} else {
-				if(get_post_meta( $post_id, 'ithoughts_tt_gl_has_terms', $single=true) ){
-					// Also posts that used to have terms should be updated.
-					delete_post_meta( $post_id, 'ithoughts_tt_gl_has_terms' );
+			if( !wp_is_post_revision($post_id)  ){
+				if( strpos($post->post_content,'[ithoughts_tooltip_glossary-glossary ') !== false || strpos($post->post_content,'[ithoughts_tooltip_glossary-glossary]') !== false ){
 					update_post_meta( $post_id, 'ithoughts_tt_gl_update_term_usage', current_time('mysql') );
+				} else {
+					if(get_post_meta( $post_id, 'ithoughts_tt_gl_has_terms', $single=true) ){
+						// Also posts that used to have terms should be updated.
+						delete_post_meta( $post_id, 'ithoughts_tt_gl_has_terms' );
+						update_post_meta( $post_id, 'ithoughts_tt_gl_update_term_usage', current_time('mysql') );
+					}
 				}
 			}
+			return $post;
 		}
-		return $post;
-	}
 
-	/** 
+		/** 
 	 * If current post (or page or whatever) has been marked as needing updating,
 	 *  then delete all the meta entries for this post.
 	 * These are stored on the glossary term meta
 	 */
-	public function glossary_usage_reset_for_post(){
-		global $post;
-		if( is_singular() && get_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage') ):
-		// Find all glossary terms that have this post noted.
-		$args = array(
-			'post_type'   => "glossary",
-			'numberposts' => -1,
-			'post_status' => 'publish',
-			'meta_query'  => array( array(
-				'key'   => 'ithoughts_tt_gl_term_used',
-				'value' => $post->ID,
-				'type'  => 'DECIMAL'
-			) )
-		);
-		$terms = get_posts( $args );
-		foreach( $terms as $term ):
-		// Delete the meta entry
-		delete_post_meta( $term->ID, 'ithoughts_tt_gl_term_used', $post->ID );
-		endforeach;
-		endif;
-	}
+		public function glossary_usage_reset_for_post(){
+			global $post;
+			if( is_singular() && get_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage') ):
+			// Find all glossary terms that have this post noted.
+			$args = array(
+				'post_type'   => "glossary",
+				'numberposts' => -1,
+				'post_status' => 'publish',
+				'meta_query'  => array( array(
+					'key'   => 'ithoughts_tt_gl_term_used',
+					'value' => $post->ID,
+					'type'  => 'DECIMAL'
+				) )
+			);
+			$terms = get_posts( $args );
+			foreach( $terms as $term ):
+			// Delete the meta entry
+			delete_post_meta( $term->ID, 'ithoughts_tt_gl_term_used', $post->ID );
+			endforeach;
+			endif;
+		}
 
-	/** */
-	public function glossary_remove_update_marker(){
-		/*
+		/** */
+		public function glossary_remove_update_marker(){
+			/*
         global $post;
         if( is_singular() && get_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage') ):
         delete_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage' );
         endif;*/
-	}
+		}
 
-	/** */
-	public function glossary( $atts, $text='' ){
+		/** */
+		public function glossary_shortcode( $atts, $text='' ){
 
-		if(!isset($atts['glossary-id']) || !$atts['glossary-id'])
-			return $text;
-		$id = $atts['glossary-id'];
-		return apply_filters("ithoughts_tt_gl_get_glossary_term_element", $id, $text, $atts);
+			if(!isset($atts['glossary-id']) || !$atts['glossary-id'])
+				return $text;
+			$id = $atts['glossary-id'];
+			return apply_filters("ithoughts_tt_gl_get_glossary_term_element", $id, $text, $atts);
+		}
 	}
 }

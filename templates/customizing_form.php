@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) { 
+    exit; // Exit if accessed directly
+}
+
+?>
 <div class="wrap">
 	<div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">
 		<div class="meta-box-inside admin-help">
@@ -9,7 +16,7 @@
 				<div id="dashboard-widgets">
 					<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
 						<div id="normal-sortables" class="" style="flex:1 1 auto;"><!--Old removed classes: "meta-box-sortables ui-sortable"-->
-							<!--<div class="postbox">
+							<div class="postbox">
 <h3 class="hndle"><span><?php _e('Load a theme', 'ithoughts-tooltip-glossary' ); ?></span></h3>
 <div class="inside">
 <form id="ithoughts_loadtheme" method="get">
@@ -19,7 +26,7 @@
 <button type="submit" class="button button-primary"><?php _e('Load', 'ithoughts-tooltip-glossary' ); ?></button>
 </form>
 </div>
-</div>-->
+</div>
 
 							<div class="postbox" id="ithoughts-tt-gl-styleeditor">
 								<h3 class="hndle"><span><?php _e('Theme editor', 'ithoughts-tooltip-glossary' ); ?></span></h3>

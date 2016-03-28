@@ -10,6 +10,10 @@ Text Domain: ithoughts-tooltip-glossary
 Domain Path: /lang
 */
 
+if ( ! defined( 'ABSPATH' ) ) { 
+    exit; // Exit if accessed directly
+}
+
 require_once( dirname(__FILE__) . '/submodules/iThoughts-WordPress-Plugin-Toolbox/class/includer.php' );
 require_once( dirname(__FILE__) . '/class/Backbone.class.php' );
 ithoughts\tooltip_glossary\Backbone::get_instance( dirname(__FILE__) );

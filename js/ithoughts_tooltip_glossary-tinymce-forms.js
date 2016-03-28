@@ -10,10 +10,9 @@
 
 			$(event.target).parent().parent().find(' > .active').removeClass('active');
 			var index = $(event.target).index();
-			console.log(index);
 			$($(event.target).parent().parent().children()[index + 1]).addClass('active');
 
-			linkInput = $("#itghouts_tt_gl_link");
+			linkInput = $("#ithoughts_tt_gl_link");
 			switch(index){
 				case 0:{
 					linkInput.disabled = true;
@@ -67,7 +66,7 @@
 			var id = this.id;
 			$('[data-' + id + ']:not([data-' + id + '="mediatip-' + this.value + '-type"])').hide();
 			$('[data-' + id + '~="mediatip-' + this.value + '-type"]').show();
-		}).keyup();;
+		}).keyup();
 
 		// Image selector
 		$("#ithoughts_tt_gl_select_image").click(function() {
@@ -86,7 +85,6 @@
 
 			window.mb.frame.on('insert', function() {
 				var json = window.mb.frame.state().get('selection').first().toJSON();
-				console.log(json);
 
 				if (0 > $.trim(json.url.length)) {
 					return;
@@ -120,16 +118,21 @@
 
 			var input = $("#glossary_term");
 			var completerHolder = $("#glossary_term_completer");
+			var completerHolderContainer = $("#glossary_term_completer_container");
 			function resizeWindow(){
-				var top = completerHolder.offset().top;
-				var bottom = $w.height() + $w.scrollTop();
+				var top = completerHolder.offset().top - $w.scrollTop();
+				var bottom = $w.height();
+				var height = bottom - top;
+				completerHolderContainer.css({maxHeight: height});
 			}
 			$w.resize(resizeWindow);
 
 			function losefocustest(){
-				if(!completerHolder.find("*:focus") && !input.is(":focus")){
-					completerHolder.addClass("hidden");
-				}
+				setTimeout(function(){
+					if(!completerHolder.find("*:focus").length && !input.is(":focus")){
+						completerHolderContainer.addClass("hidden");
+					}
+				},100);
 			};
 			function searchMatchingRes(){
 				var startsWith = [];
@@ -153,21 +156,20 @@
 				if(length > 0){
 					for(var i = 0; i < length; i++){
 						var item = searchResults[i];
-						console.log(item);
 						if(typeof item.thislang != "undefined" && !item.thislang)
-						completerHolder.append($.parseHTML('<div tabindex="0" class="option foreign-language" data-id="' + item.id + '" data-excerpt="' + item.content + '"><p><b>' + item.title + '</b><br><em>' + item.slug + '</em></p></div>'));
-							else
-						completerHolder.append($.parseHTML('<div tabindex="0" class="option" data-id="' + item.id + '" data-excerpt="' + item.content + '"><p><b>' + item.title + '</b><br><em>' + item.slug + '</em></p></div>'));
+							completerHolder.append($.parseHTML('<div tabindex="0" class="option foreign-language" data-id="' + item.id + '" data-excerpt="' + item.content + '"><p><b>' + item.title + '</b><br><em>' + item.slug + '</em></p></div>'));
+						else
+							completerHolder.append($.parseHTML('<div tabindex="0" class="option" data-id="' + item.id + '" data-excerpt="' + item.content + '"><p><b>' + item.title + '</b><br><em>' + item.slug + '</em></p></div>'));
 					}
 				} else {
 					completerHolder.append($.parseHTML('<p style="text-align:center"><em>No results</em><p>'));
 				}
-				completerHolder.removeClass("hidden");
+				completerHolderContainer.removeClass("hidden");
 				setTimeout(resizeWindow,25);
-				completerHolder.find(".option").on("focusout", losefocustest).on("click", function(e){
+				completerHolder.find(".option").on("click", function(e){
 					$('[name="glossary_term_id"]').val(e.currentTarget.getAttribute("data-id"));
 					input[0].value = $(e.currentTarget).find("p > b").text();
-					completerHolder.addClass("hidden");
+					completerHolderContainer.addClass("hidden");
 				});
 			}
 			var request = null;
@@ -188,7 +190,7 @@
 						if(typeof response == "undefined" || !response.success)
 							return;
 						if(response.data.searched != searchedString){
-							console.log("Outdated response");
+							console.info("Outdated response");
 							return;
 						}
 						ithoughts_tt_gl_tinymce_form.terms = response.data.terms;
@@ -299,7 +301,6 @@
 		{
 			var elems = ["span","link"];
 			elems.forEach(function(elem){
-				console.log(elem);
 				$("#kv-pair-"+elem+"-attrs-add").click((function(){
 					var elemKey = $("#attributes-"+elem+"-key");
 					var elemValue = $("#attributes-"+elem+"-value");
