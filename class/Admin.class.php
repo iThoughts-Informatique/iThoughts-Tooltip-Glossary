@@ -369,8 +369,6 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			wp_enqueue_script('postbox');
 			wp_enqueue_script('post');
 
-
-
 			$optionsInputs = array(
 				"termlinkopt" => \ithoughts\v1_2\Toolbox::generate_input_select(
 					'termlinkopt',
@@ -402,7 +400,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 					"staticterms",
 					array(
 						"radio" => false,
-						"selected" => $options["staticterms"],
+						"selected" => $options["staticterms"] ? array("enabled") : array(),
 						"options" => array(
 							"enabled" => array(
 								"attributes" => array(
@@ -416,9 +414,13 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 					"forceloadresources",
 					array(
 						"radio" => false,
-						"selected" => $options["forceloadresources"],
+						"selected" => $options["forceloadresources"] ? array("enabled") : array(),
 						"options" => array(
-							"enabled" => array()
+							"enabled" => array(
+								"attributes" => array(
+									"id" => "forceloadresources"
+								)
+							)
 						)
 					)
 				),

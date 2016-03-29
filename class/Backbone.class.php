@@ -33,7 +33,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 				),
 				'termcontent'		=> array(
 					"default"		=> 'excerpt',
-					"serversideOverride"	=> false,
+					"serversideOverride"	=> true,
 					"cliensideOverride"	=> true,
 					"accepted"		=> array(
 						'full',
@@ -341,12 +341,10 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 						$overridden[$overrideable] = $data[$overrideable];
 				}
 			} else {
-				$overriddenConcat = array_merge($this->options, $data);
-				foreach($this->options as $option => $value){
-					if(in_array($option, $this->serversideOverridable))
+				$overriddenConcat = array_merge($this->get_options(), $data);
+				foreach($this->serversideOverridable as $option){
+					if(isset($overriddenConcat[$option]))
 						$overridden[$option] = $overriddenConcat[$option];
-					else
-						$overridden[$option] = $this->options[$option];
 				}
 			}
 			return $overridden;

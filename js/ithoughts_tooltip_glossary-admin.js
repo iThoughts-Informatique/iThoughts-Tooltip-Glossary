@@ -23,20 +23,5 @@ window.updateStyle;
         })();
         $("#tooltips").bind("change blur keyup mouseup", updateActivationPreview);
         $("#qtiptrigger").bind("change blur keyup mouseup", updateActivationPreview);
-
-        $("#ithoughts_tt_gl-customstyle").click(function(){
-            var self = $(this).find(".inside .ajaxContainer");
-            if($(self).children().length === 0){
-				/*/
-				$(self).append($.parseHTML("<iframe src=\"" + ithoughts_tt_gl.admin_ajax + "?action=ithoughts_tt_gl_get_customizing_form\"></iframe>"));
-				/*/
-                $.post(ithoughts_tt_gl.admin_ajax, {action: "ithoughts_tt_gl_get_customizing_form"}, function(output){
-                    $(self).append($.parseHTML(output, true));
-                    ithoughts_tt_gl["initStyleEditor"]($);
-                });
-				/**/
-			} else
-                console.log("Already filled");
-        });
     });
 })();

@@ -30,13 +30,14 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
 		}
 
 		private function get_glossary_term_element_array($term, $text = null, $datas = array()){
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			if( function_exists('icl_object_id')){ // If WPML &...
 				if(!(isset($datas["handled"]["disable_auto_translation"]) && $datas["handled"]["disable_auto_translation"])){ // ... we want auto translate
 					// Re-fallback on main method with ID
 					return $this->ithoughts_tt_gl_get_glossary_term_element($term["ID"], $text, $datas);
 				}
 			}
-			if($datas["options"]['staticterms']){
+			if($backbone->get_option('staticterms')){
 				$content;
 				$termcontent;
 				if(isset($datas["attributes"]["termcontent"])){
@@ -57,9 +58,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
 					case 'excerpt':{
 						if((isset($term["post_excerpt"]) && $term["post_excerpt"]) || (isset($term["post_content"]) && $term["post_content"])){
 							// Do
-							$termObj = new WP_Post();
-							$termObj->post_excerpt = isset($term["post_excerpt"]) ? $term["post_excerpt"] : "";
-							$termObj->post_content = isset($term["post_content"]) ? $term["post_content"] : "";
+							$termObj = new \WP_Post((object)$term);
 							$content = apply_filters("ithoughts_tt_gl-term-excerpt", $termObj);
 						} else {
 							// Fallback on default
@@ -111,6 +110,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
 		}
 
 		public function ithoughts_tt_gl_get_glossary_term_element($term, $text = null, $options = array()){
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$datas = apply_filters("ithoughts_tt_gl-split-args", $options);
 			if(gettype($term) == "array"){
 				return $this->get_glossary_term_element_array($term, $text, $datas);
@@ -146,7 +146,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
 					return $text;
 				}
 			}
-			if($datas["options"]['staticterms']){
+			if($backbone->get_option("staticterms")){
 				if(!($term instanceof \WP_Post)){
 					// Error
 					return $text;
@@ -164,6 +164,8 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
 				} else {
 					$termcontent = $datas["options"]["termcontent"];
 				}
+				
+					
 				switch( $termcontent ){
 					case 'full':{
 						$content = $term->post_content;
@@ -190,7 +192,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
 
 			$href="javascript::void(0)";
 			if($datas["options"]["termlinkopt"] != "none")// If theere need a link
-				$href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term) );
+				$href   = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v1_2\Toolbox::get_permalink_light($term,"glossary") );
 			$datas["linkAttrs"]["href"] = $href;
 
 			$link;

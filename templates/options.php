@@ -45,7 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<label for="forceloadresources"><?php _e('Force load resources', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_2\Toolbox::concat_attrs(array("data-tooltip-content" => __('Load scripts on every pages, even if not required. This option can be useful if some cache plugins are active, or if you think that scripts are not loaded when required.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
 												</th>
 												<td>
-													<?php echo $optionsInputs["staticterms"]; ?>
+													<?php echo $optionsInputs["forceloadresources"]; ?>
 												</td>
 											</tr>
 											<tr class="nonoverridable">

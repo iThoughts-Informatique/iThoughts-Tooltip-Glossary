@@ -20,6 +20,7 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 			$out = $this->init_list_atts($atts);
 			$data = &$out["data"];
 			$linkdata = &$out["linkdata"];
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();	
 
 
 			// Sanity check the list of letters (if set by user).
@@ -39,13 +40,20 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 			if($data["handled"]["desc"] === "glossarytips"){
 				\ithoughts\tooltip_glossary\Backbone::get_instance()->add_script('qtip');
 
-				$termsInfos = $this->get_lists_fields(array("ID", "post_title","post_name"));
+
+				$requiredFields = array("ID", "post_title", "post_name");
+				if($backbone->get_option("staticterms")){
+					$requiredFields[] = "post_content";
+					$requiredFields[] = "post_excerpt";
+				}
+				$termsInfos = $this->get_lists_fields($requiredFields);
 				$terms = $this->dispatch_per_char($termsInfos["terms"], 0, "array");
 				$count = $termsInfos["count"];
 			} else {
 				$linkdata = apply_filters("ithoughts_tt_gl-split-args", $linkdata);
 				$termsInfos = $this->get_lists_terms();
 				$terms = $this->dispatch_per_char($termsInfos["terms"], 0, "WP_Post");
+				//echo "<pre>";var_dump($terms);echo "</pre>";
 				$count = $termsInfos["count"];
 			}
 
@@ -59,56 +67,56 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 
 					foreach( $terms_char as $term ){
 						$countItems++;
-						$title;
-						if($data["handled"]["desc"] === "glossarytips"){
-							$title = $term["post_title"];
+						$term_standardized_post;
+						if($data["handled"]["desc"] === "glossarytips"){ // If only light terms were retrieved, cast them in WP_Post (usable by standard methods)
+							$term_standardized_post = new \WP_Post((object)$term);
 						} else {
-							$title = $term->post_title;
+							$term_standardized_post = &$term;
 						}
 						$linkAttrs = (isset($linkdata["linkAttrs"]) && is_array($linkdata["linkAttrs"])) ? $linkdata["linkAttrs"] : $linkdata;
-						$linkAttrs["title"] = esc_attr($title);
-						$linkAttrs["alt"] = esc_attr($title);
+						$linkAttrs["title"] = esc_attr($term_standardized_post->post_title);
+						$linkAttrs["alt"] = esc_attr($term_standardized_post->post_title);
 
 						$link;
 						$content = "";
 						switch($data["handled"]["desc"]){
 							case 'excerpt':{
-								$href  = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) );
+								$href  = apply_filters( 'ithoughts_tt_gl_term_link',  \ithoughts\v1_2\Toolbox::get_permalink_light($term_standardized_post, "glossary") );
 								$target = "";
 								if( $data["options"]["termlinkopt"] != 'none' ){
 									$linkAttrs["target"] = "_blank";
 								}
-								$linkAttrs["href"] = $href;
+								$linkAttrs["href"] = &$href;
 								$args = \ithoughts\v1_2\Toolbox::concat_attrs( $linkAttrs);
-								$link   = '<a '.$args.'>' . $title . '</a>';
-								$content = '<br>' . '<span class="glossary-item-desc">' . apply_filters("ithoughts_tt_gl-term-excerpt", $term) . '</span>';
+								$link   = '<a '.$args.'>' . $term_standardized_post->post_title . '</a>';
+								$content = '<br>' . '<span class="glossary-item-desc">' . apply_filters("ithoughts_tt_gl-term-excerpt", $term_standardized_post) . '</span>';
 							} break;
 
 							case 'full':{
-								$href  = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) );
+								$href  = apply_filters( 'ithoughts_tt_gl_term_link',  \ithoughts\v1_2\Toolbox::get_permalink_light($term_standardized_post, "glossary") );
 								$target = "";
 								if( $data["options"]["termlinkopt"] != 'none' ){
 									$linkAttrs["target"] = "_blank";
 								}
-								$linkAttrs["href"] = $href;
+								$linkAttrs["href"] = &$href;
 								$args = \ithoughts\v1_2\Toolbox::concat_attrs( $linkAttrs);
-								$link   = '<a '.$args.'>' . $title . '</a>';
-								$cargs = \ithoughts\v1_2\Toolbox::concat_attrs( $attrs);
+								$link   = '<a '.$args.'>' . $term_standardized_post->post_title . '</a>';
 								$content = '<br>' . '<span class="glossary-item-desc">' . $term->post_content . '</span>';
 							} break;
+
 							case 'glossarytips':{
-								$link = apply_filters("ithoughts_tt_gl_get_glossary_term_element", $term, NULL, $linkdata);
+								$link = apply_filters("ithoughts_tt_gl_get_glossary_term_element", $term_standardized_post, NULL, $linkdata);
 							} break;
 
 							case NULL:{
-								$href  = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) );
+								$href  = apply_filters( 'ithoughts_tt_gl_term_link',  \ithoughts\v1_2\Toolbox::get_permalink_light($term_standardized_post, "glossary") );
 								$target = "";
 								if( $data["options"]["termlinkopt"] != 'none' ){
 									$linkAttrs["target"] = "_blank";
 								}
-								$linkAttrs["href"] = $href;
+								$linkAttrs["href"] = &$href;
 								$args = \ithoughts\v1_2\Toolbox::concat_attrs( $linkAttrs);
-								$link   = '<a '.$args.'>' . $title . '</a>';
+								$link   = '<a '.$args.'>' . $term_standardized_post->post_title . '</a>';
 							}break;
 						}
 
@@ -119,6 +127,7 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 			if( !isset($data["handled"]["cols"]) || $data["handled"]["cols"] == 0 || $data["handled"]["cols"] === false ){
 				$data["handled"]["cols"] = 1; // set col size to all items
 			}
+			$chunked;
 			if($data["handled"]["cols"] != 1){
 				$termsPerChunkFloat = $countItems / $data["handled"]["cols"];
 				$termsPerChunk = intval($termsPerChunkFloat);
@@ -127,10 +136,11 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 
 				if($termsPerChunk < 1)
 					$termsPerChunk = 1;
-				$lists = array_chunk($lists, $termsPerChunk);
+				$chunked = array_chunk($lists, $termsPerChunk);
 			} else {
-				$lists = array(&$lists);
+				$chunked = array(&$lists);
 			}
+			//echo "<pre>";var_dump($chunked);echo "</pre>";
 
 			$data["attributes"]["class"] = "glossary-list-details".((isset($data["attributes"]["class"]) && $data["attributes"]["class"]) ? " ".$data["attributes"]["class"] : "");
 			if(isset($data["handled"]["masonry"])){
@@ -144,12 +154,12 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 			if(isset($data["handled"]["masonry"])){
 				\ithoughts\tooltip_glossary\Backbone::get_instance()->add_script('list');
 				$return .= '<ul class="glossary-list">';
-				foreach( $lists as $col => $items ){
+				foreach( $chunked as $col => $items ){
 					$return .= implode( '', $items );
 				}
 				$return .= '</ul>';
 			} else {
-				foreach( $lists as $col => $items ){
+				foreach( $chunked as $col => $items ){
 					$return .= '<ul class="glossary-list">';
 					$return .= implode( '', $items );
 					$return .= '</ul>';

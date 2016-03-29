@@ -20,7 +20,7 @@ class Filters extends \ithoughts\v1_0\Singleton{
 	}
 
 	public function getTermExcerpt(\WP_Post $term){
-		if( $term->excerpt ){
+		if( strlen($term->post_excerpt) > 0 ){
 			$content = wpautop( $term->post_excerpt );
 		} else {
 			$content = wp_trim_words($term->post_content, 25, '...');
@@ -88,7 +88,7 @@ class Filters extends \ithoughts\v1_0\Singleton{
 					$match = false;
 					while(++$i < $attsLength && !$match){ // Loop through known HTML attributes
 						$attr = $attrs[$i];
-						if(strlen($attr) > 1 && $attr[0] == "/" && $attr[strlen($attr) - 1] == "/"){ // If this tested HTML attribute is a regex
+						if(strlen($attr) > 1 && $attr[0] == "/" && $attr[count($attr) - 1] == "/"){ // If this tested HTML attribute is a regex
 							if(preg_match($attrs[$i], $key)){ // If our `$key` match with the test attribute
 								$res["attributes"][$key] = $value; // Add it without any prefix
 								$match = true;
