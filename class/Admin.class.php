@@ -863,8 +863,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			require $backbone->get_base_path()."/templates/customizing_form.php";
 		}
 
-		private function loadtheme($themename){
-			/*
+		/*private function loadtheme($themename){
 			$reformatedThemeName = preg_replace("/[^a-z]/", "_", strtolower($themename));
 			$themeInfos = $this->get_custom_theme_infos();
 			$ret = true;
@@ -879,12 +878,26 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 					"box-shadow" => NULL
 				)
 			);
-			$regexBoxShadow = "@box-shadow:\s*(?:([#\w]*)\s+)?([\w]*)\s+([\w]*)\s+([\w]*)\s*([#\w]*)?"// Won't match nor RGB/RGBA nor inset;
 
-				echo "<pre>";var_dump($themedata);echo "</pre>";
+			$matches;
+			$matched;
 
-			*/
-		}
+			$regexBoxShadow = "/@box-shadow:\s*?(?P<h>[\w]+)\s+(?P<v>[\w]+)\s+(?P<blur>[\w]+)\s+(?P<spread>[\w]+)\s+(?P<color>(?:(?:#\w{3,6}|rgb(?:a\(\s*[.0-9]+\s*(?:\s*,\s*[.0-9]+){3}\)|\(\s*[.0-9]+\s*(?:\s*,\s*[.0-9]+){2}\)))*)|\s+)\s*(?P<inset>inset)?/i";// Won't match nor RGB/RGBA nor inset;
+			$matched = preg_match($regexBoxShadow,$content, $matches);
+			print_r($matches);
+			if($matched === 1)
+				$themedata["comon"]["box-shadow"] = array(
+				"sh-v" => $matches["v"],
+				"sh-h" => $matches["h"],
+				"sh-s" => $matches["spread"],
+				"sh-b" => $matches["blur"],
+				"sh-c" => $matches["color"],
+				"inset" => isset($matches["inset"]) && $matches["inset"]
+			);
+
+			echo "<pre>";var_dump($themedata);echo "</pre>";
+
+		}*/
 
 		/**
 	 * Sends the generated CSS from `customizing_form.php` to be previewed
@@ -968,7 +981,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 
 			$content = "";
 
-			$content .= "@box-shadow: {$theme["sh-w"]} {$theme["sh-h"]} {$theme["sh-s"]} {$theme["sh-c"]}".((isset($theme["sh-i"]) && $theme["sh-i"] == "enabled") ? " inset" : "").";".PHP_EOL;
+			$content .= "@box-shadow: {$theme["sh-w"]} {$theme["sh-h"]} {$theme["sh-b"]} {$theme["sh-s"]} {$theme["sh-c"]}".((isset($theme["sh-i"]) && $theme["sh-i"] == "enabled") ? " inset" : "").";".PHP_EOL;
 			$content .= "@border: {$theme["border-w"]} {$theme["border-s"]} {$theme["border-c"]};".PHP_EOL.PHP_EOL;
 
 			$global;

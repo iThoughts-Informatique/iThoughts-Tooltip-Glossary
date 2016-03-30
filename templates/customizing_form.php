@@ -111,6 +111,10 @@ foreach($prefixs as $prefix){
 																</td>
 																<td style="padding:0;" rowspan="2">
 																	<label for="sh-s">
+																		<?php _e('Shadow blur', 'ithoughts-tooltip-glossary' ); ?><br />
+																		<input autocomplete="off" value="0" type="text" class="input-width" id="sh-s" name="sh-b" pattern="^(0|\d+(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max)))$" data-pattern-infos="<?php _e('Valid distance value: 0, inherit, initial, or a value in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives not accepted', 'ithoughts-tooltip-glossary' ); ?>" data-child-form="shadow-true" />
+																	</label><br/>
+																	<label for="sh-s">
 																		<?php _e('Shadow spread', 'ithoughts-tooltip-glossary' ); ?><br />
 																		<input autocomplete="off" value="0" type="text" class="input-width" id="sh-s" name="sh-s" pattern="^(0|\d+(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max)))$" data-pattern-infos="<?php _e('Valid distance value: 0, inherit, initial, or a value in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives not accepted', 'ithoughts-tooltip-glossary' ); ?>" data-child-form="shadow-true" />
 																	</label><br/>

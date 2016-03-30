@@ -110,6 +110,9 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
 		}
 
 		public function ithoughts_tt_gl_get_glossary_term_element($term, $text = null, $options = array()){
+			if($term instanceof \ithoughts\v1_0\PseudoPost){
+				$term = $term->to_WP_Post();
+			}
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$datas = apply_filters("ithoughts_tt_gl-split-args", $options);
 			if(gettype($term) == "array"){

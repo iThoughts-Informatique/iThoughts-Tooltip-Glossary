@@ -211,31 +211,32 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 
 		public function localisation(){
 			load_plugin_textdomain( 'ithoughts-tooltip-glossary', false, plugin_basename( dirname( __FILE__ ) )."/../lang" );
+			require_once( $this->base_class_path . '/MicroPost.class.php' );
 		}
 
 		private function register_post_types(){
 			require_once( $this->base_class_path . '/PostTypes.class.php' );
-			new PostTypes();
+			PostTypes::get_instance();
 		}
 
 		private function register_taxonmies(){
 			require_once( $this->base_class_path . '/Taxonomies.class.php' );
-			new Taxonomies();
+			Taxonomies::get_instance();
 		}
 
 		private function add_shortcodes(){
 			require_once( $this->base_class_path . '/shortcode/Tooltip.class.php' );
-			new shortcode\Tooltip();
+			shortcode\Tooltip::get_instance();
 			require_once( $this->base_class_path . '/shortcode/Mediatip.class.php' );
-			new shortcode\Mediatip();
+			shortcode\Mediatip::get_instance();
 			require_once( $this->base_class_path . '/shortcode/Glossary.class.php' );
-			new shortcode\Glossary();
+			shortcode\Glossary::get_instance();
 			require_once( $this->base_class_path . '/shortcode/GlossaryList.class.php' );
 			//new shortcode\List();
 			require_once( $this->base_class_path . '/shortcode/AtoZ.class.php' );
-			new shortcode\AtoZ();
+			shortcode\AtoZ::get_instance();
 			require_once( $this->base_class_path . '/shortcode/TermList.class.php' );
-			new shortcode\TermList();
+			shortcode\TermList::get_instance();
 		}
 
 		private function add_widgets(){

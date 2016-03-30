@@ -84,8 +84,9 @@ if(!class_exists(__NAMESPACE__."\\GlossaryList")){
 			);
 		}
 
-		final protected function get_lists_fields($fields){
+		final protected function get_miscroposts(){
 			global $wpdb;
+			$fields = \ithoughts\tooltip_glossary\MicroPost::getFields();
 			$table = "{$wpdb->prefix}posts";
 			$queryComponents = array();
 			$queryComponents["pre"] = "
@@ -141,9 +142,15 @@ ORDER BY
 
 			$querySelect = $queryComponents["pre"].$selectFields.$queryComponents["from"].$queryComponents["where"].$queryComponents["order"];
 			$queryCount = $queryComponents["pre"]."COUNT(*)".$queryComponents["from"].$queryComponents["where"].$queryComponents["order"];
+			
+			$res = $wpdb->get_results($querySelect, ARRAY_A);
+			$ret = array();
+			foreach($res as $micropost){
+				$ret[] = new \ithoughts\tooltip_glossary\MicroPost($micropost);
+			}
 
 			$return = array(
-				"terms" => $wpdb->get_results($querySelect, ARRAY_A),
+				"terms" => $ret,
 				"count" => $wpdb->get_var($queryCount)
 			);
 			/*echo "<pre>$querySelect</pre>";

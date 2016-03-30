@@ -37,17 +37,11 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 			$count;
 			if(!isset($data["handled"]["desc"]))
 				$data["handled"]["desc"] = NULL;
-			if($data["handled"]["desc"] === "glossarytips"){
+			if($data["handled"]["desc"] === "glossarytips" || $data["handled"]["desc"] === NULL){
 				\ithoughts\tooltip_glossary\Backbone::get_instance()->add_script('qtip');
 
-
-				$requiredFields = array("ID", "post_title", "post_name");
-				if($backbone->get_option("staticterms")){
-					$requiredFields[] = "post_content";
-					$requiredFields[] = "post_excerpt";
-				}
-				$termsInfos = $this->get_lists_fields($requiredFields);
-				$terms = $this->dispatch_per_char($termsInfos["terms"], 0, "array");
+				$termsInfos = $this->get_miscroposts();
+				$terms = $this->dispatch_per_char($termsInfos["terms"], 0, "WP_Post");
 				$count = $termsInfos["count"];
 			} else {
 				$linkdata = apply_filters("ithoughts_tt_gl-split-args", $linkdata);
@@ -68,8 +62,8 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 					foreach( $terms_char as $term ){
 						$countItems++;
 						$term_standardized_post;
-						if($data["handled"]["desc"] === "glossarytips"){ // If only light terms were retrieved, cast them in WP_Post (usable by standard methods)
-							$term_standardized_post = new \WP_Post((object)$term);
+						if($data["handled"]["desc"] === "glossarytips" || $data["handled"]["desc"] === NULL){ // If only light terms were retrieved, cast them in WP_Post (usable by standard methods)
+							$term_standardized_post = $term->to_WP_Post();
 						} else {
 							$term_standardized_post = &$term;
 						}

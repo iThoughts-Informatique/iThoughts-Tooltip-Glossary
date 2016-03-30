@@ -22,12 +22,7 @@ if(!class_exists(__NAMESPACE__."\\AtoZ")){
 			$linkdata = &$out["linkdata"];
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 
-			$requiredFields = array("ID", "post_title", "post_name");
-			if($backbone->get_option("staticterms")){
-				$requiredFields[] = "post_content";
-				$requiredFields[] = "post_excerpt";
-			}
-			$termsInfos = $this->get_lists_fields($requiredFields);
+			$termsInfos = $this->get_miscroposts();
 			$terms = &$termsInfos["terms"];
 			$count = $termsInfos["count"];
 
@@ -36,7 +31,7 @@ if(!class_exists(__NAMESPACE__."\\AtoZ")){
 
 			$atoz = array();
 			foreach( $terms as $post ) {
-				$title = $post["post_title"];
+				$title = $post->post_title;
 				$alpha = strtoupper( \ithoughts\v1_2\Toolbox::unaccent(mb_substr($title,0,1, "UTF-8")) );
 				if(!preg_match("/[A-Z]/", $alpha))
 					$alpha = "#";
