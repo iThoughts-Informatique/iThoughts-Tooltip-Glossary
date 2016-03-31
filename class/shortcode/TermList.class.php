@@ -137,21 +137,21 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 			//echo "<pre>";var_dump($chunked);echo "</pre>";
 
 			$data["attributes"]["class"] = "glossary-list-details".((isset($data["attributes"]["class"]) && $data["attributes"]["class"]) ? " ".$data["attributes"]["class"] : "");
-			if(isset($data["handled"]["masonry"])){
+			/*if(isset($data["handled"]["masonry"])){
 				$data["attributes"]["class"] .= " masonry";
 				$data["attributes"]["class"] = trim($data["attributes"]["class"]);
 				$data["attributes"]["data-cols"] = $data["handled"]["cols"];
-			}
+			}*/
 			$args = \ithoughts\v1_2\Toolbox::concat_attrs( $data["attributes"]);
 
 			$return = '<div '.$args.'>';
-			if(isset($data["handled"]["masonry"])){
+			if(isset($data["handled"]["masonry"])){/*
 				\ithoughts\tooltip_glossary\Backbone::get_instance()->add_script('list');
 				$return .= '<ul class="glossary-list">';
 				foreach( $chunked as $col => $items ){
 					$return .= implode( '', $items );
 				}
-				$return .= '</ul>';
+				$return .= '</ul>';*/
 			} else {
 				foreach( $chunked as $col => $items ){
 					$return .= '<ul class="glossary-list">';

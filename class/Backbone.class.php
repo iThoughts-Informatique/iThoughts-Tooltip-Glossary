@@ -162,7 +162,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 				"alpha",
 				"desc",
 				"disable_auto_translation",
-				"masonry",
+				//"masonry",
 				"list-mode",
 			);
 

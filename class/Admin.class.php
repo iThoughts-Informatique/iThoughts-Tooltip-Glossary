@@ -831,9 +831,9 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$prefixs = array("g", "t", "c"); // Used in style editor loop
 			$themename = isset($_GET["themename"]) ? $_GET["themename"] : "";
-			if($themename)
+			/*if($themename)
 				$themedata = $this->loadtheme($themename);
-			var_dump($themedata);
+			var_dump($themedata);*/
 
 			/* Add required scripts for WordPress Spoilers (AKA PostBox) */
 			wp_enqueue_script('postbox');

@@ -1,5 +1,5 @@
 (function(){
-	$d.ready(function(){
+	$d.ready(function(){/*
 		var lists = qsa(".glossary-list-details.masonry");
 		for(var i = 0, j = lists.length; i < j; i++){
 			var list = lists[i];
@@ -18,6 +18,6 @@
 				gutter: margin
 			}));
 			console.log(list.getAttribute("data-cols"));
-		}
+		}*/
 	});
 })();

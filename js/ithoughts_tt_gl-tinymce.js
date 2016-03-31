@@ -157,14 +157,14 @@
 										name:"ag",
 										value: values.atoz.group,
 										tooltip:editor.getLang('ithoughts_tt_gl_tinymce.group_explain')
-									},
+									}/*,
 									{
 										type: "checkbox",
 										label:editor.getLang('ithoughts_tt_gl_tinymce.lazy'),
 										name:"az",
 										checked: values.atoz.lazy,
 										tooltip:editor.getLang('ithoughts_tt_gl_tinymce.lazy_explain')
-									}
+									}*/
 								]
 							})
 						],
