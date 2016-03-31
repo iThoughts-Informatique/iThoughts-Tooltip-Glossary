@@ -33,6 +33,8 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 			}
 			$alphas = array_unique( $alphas );
 
+			$alphas = count($alphas) > 0 ? $alphas : NULL;
+			$group_slugs = isset($data["handled"]) && isset($data["handled"]["group"]) ? $data["handled"]["group"] : NULL;
 			$terms;
 			$count;
 			if(!isset($data["handled"]["desc"]))
@@ -40,12 +42,12 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 			if($data["handled"]["desc"] === "glossarytips" || $data["handled"]["desc"] === NULL){
 				\ithoughts\tooltip_glossary\Backbone::get_instance()->add_script('qtip');
 
-				$termsInfos = $this->get_miscroposts();
+				$termsInfos = $this->get_miscroposts($group_slugs,$alphas);
 				$terms = $this->dispatch_per_char($termsInfos["terms"], 0, "WP_Post");
 				$count = $termsInfos["count"];
 			} else {
 				$linkdata = apply_filters("ithoughts_tt_gl-split-args", $linkdata);
-				$termsInfos = $this->get_lists_terms();
+				$termsInfos = $this->get_lists_terms($group_slugs,$alphas);
 				$terms = $this->dispatch_per_char($termsInfos["terms"], 0, "WP_Post");
 				//echo "<pre>";var_dump($terms);echo "</pre>";
 				$count = $termsInfos["count"];
