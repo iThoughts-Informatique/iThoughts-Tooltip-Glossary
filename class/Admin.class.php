@@ -831,9 +831,9 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$prefixs = array("g", "t", "c"); // Used in style editor loop
 			$themename = isset($_GET["themename"]) ? $_GET["themename"] : "";
-			/*if($themename)
+			if($themename)
 				$themedata = $this->loadtheme($themename);
-			var_dump($themedata);*/
+			var_dump($themedata);
 
 			/* Add required scripts for WordPress Spoilers (AKA PostBox) */
 			wp_enqueue_script('postbox');
@@ -863,7 +863,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			require $backbone->get_base_path()."/templates/customizing_form.php";
 		}
 
-		/*private function loadtheme($themename){
+		private function loadtheme($themename){
 			$reformatedThemeName = preg_replace("/[^a-z]/", "_", strtolower($themename));
 			$themeInfos = $this->get_custom_theme_infos();
 			$ret = true;
@@ -882,9 +882,9 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			$matches;
 			$matched;
 
-			$regexBoxShadow = "/@box-shadow:\s*?(?P<h>[\w]+)\s+(?P<v>[\w]+)\s+(?P<blur>[\w]+)\s+(?P<spread>[\w]+)\s+(?P<color>(?:(?:#\w{3,6}|rgb(?:a\(\s*[.0-9]+\s*(?:\s*,\s*[.0-9]+){3}\)|\(\s*[.0-9]+\s*(?:\s*,\s*[.0-9]+){2}\)))*)|\s+)\s*(?P<inset>inset)?/i";// Won't match nor RGB/RGBA nor inset;
-			$matched = preg_match($regexBoxShadow,$content, $matches);
-			print_r($matches);
+			
+			$regexAttr = "/@box-shadow:\s*?(?P<h>[\w]+)\s+(?P<v>[\w]+)\s+(?P<blur>[\w]+)\s+(?P<spread>[\w]+)\s+(?P<color>(?:(?:#\w{3,6}|rgb(?:a\(\s*[.0-9]+\s*(?:\s*,\s*[.0-9]+){3}\)|\(\s*[.0-9]+\s*(?:\s*,\s*[.0-9]+){2}\)))*)|\s+)\s*(?P<inset>inset)?/i";// Won't match nor RGB/RGBA nor inset;
+			$matched = preg_match($regexAttr,$content, $matches);
 			if($matched === 1)
 				$themedata["comon"]["box-shadow"] = array(
 				"sh-v" => $matches["v"],
@@ -894,10 +894,19 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				"sh-c" => $matches["color"],
 				"inset" => isset($matches["inset"]) && $matches["inset"]
 			);
+			
+			$regexAttr = "/@border:\s*?(?P<w>[\w]+)\s+(?P<type>dotted|solid|dashed|double|groove|ridge|inset|outset|none|hidden)\s+(?P<color>(?:(?:#\w{3,6}|rgb(?:a\(\s*[.0-9]+\s*(?:\s*,\s*[.0-9]+){3}\)|\(\s*[.0-9]+\s*(?:\s*,\s*[.0-9]+){2}\)))*)|\s+)/";
+			$matched = preg_match($regexAttr,$content, $matches);
+			if($matched === 1)
+				$themedata["comon"]["border"] = array(
+				"width" => $matches["w"],
+				"type" => $matches["type"],
+				"color" => $matches["color"],
+			);
 
 			echo "<pre>";var_dump($themedata);echo "</pre>";
 
-		}*/
+		}
 
 		/**
 	 * Sends the generated CSS from `customizing_form.php` to be previewed
