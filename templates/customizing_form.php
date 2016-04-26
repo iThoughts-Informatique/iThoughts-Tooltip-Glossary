@@ -22,16 +22,16 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <form id="ithoughts_loadtheme" method="get">
                                         <input type="hidden" name="page" value="ithought-tooltip-glossary-themes"/>
                                         <label for="themename"><?php _e('Theme to load', 'ithoughts-tooltip-glossary' ); ?></label>
-                                        <?php echo $inputs["themename"]; ?>
-                                        <button type="submit" class="button button-primary" value="load"><?php _e('Load', 'ithoughts-tooltip-glossary' ); ?></button>
-                                        <button type="submit" class="button button-secondary" value="delete" onclick="var themename=gei('themename');return ((themename&&themename.value&&(themename=themename.value))?confirm('<?php _e('Are you sure you want to delete the theme %s?', 'ithoughts-tooltip-glossary'); ?>'.replace('%s', themename)):false);"><?php _e('Delete', 'ithoughts-tooltip-glossary' ); ?></button>
+                                        <?php echo $inputs["themeselect"]; ?>
+                                        <button type="submit" name="action" class="button button-primary" value="load"><?php _e('Load', 'ithoughts-tooltip-glossary' ); ?></button>
+                                        <button type="submit" class="button button-secondary" name="action" value="delete" onclick="var themename=gei('themename');return ((themename&&themename.value&&(themename=themename.value))?confirm('<?php _e('Are you sure you want to delete the theme %s?', 'ithoughts-tooltip-glossary'); ?>'.replace('%s', themename)):false);"><?php _e('Delete', 'ithoughts-tooltip-glossary' ); ?></button>
                                     </form>
                                 </div>
                             </div>
 
-                            <form action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post" class="simpleajaxform" data-target="update-response">
-                                <input type="hidden" name="page" value="ithought-tooltip-glossary-themes-recompile"/>
-                                <button type="submit" class="button button-secondary floatright" value="recompile" style="width:100%;margin:0 auto 25px;padding: 25px;line-height: 0;"><?php _e('Recompile all stylesheets', 'ithoughts-tooltip-glossary' ); ?></button>
+                            <form method="get">
+                                <input type="hidden" name="page" value="ithought-tooltip-glossary-themes"/>
+                                <button type="submit" name="action" class="button button-secondary floatright" value="recompile" style="width:100%;margin:0 auto 25px;padding: 25px;line-height: 0;"><?php _e('Recompile all stylesheets', 'ithoughts-tooltip-glossary' ); ?></button>
                             </form>
 
                             <div class="postbox" id="ithoughts-tt-gl-styleeditor">
@@ -44,24 +44,33 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                     <th>
                                                         <label for="theme_name"><?php _e('Theme name', 'ithoughts-tooltip-glossary' ); ?></label>
                                                     </th>
-                                                    <td colspan="3">
-                                                        <input type="text" autocomplete="off" name="theme_name" id="theme_name" required minlength="3" pattern="^[a-zA-Z0-9][a-zA-Z0-9\-\_]+[a-zA-Z0-9]" data-pattern-infos="<?php _e('At least 3 letters (lowercase and uppercase), numbers, _ or -, and not starting or ending with symbol', 'ithoughts-tooltip-glossary' ); ?>">
+                                                    <td colspan="2">
+                                                        <?php echo $inputs["themename"]; ?>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>
-                                                    <th><?php _e('Global', 'ithoughts-tooltip-glossary' ); ?></th>
                                                     <th><?php _e('Title Bar', 'ithoughts-tooltip-glossary' ); ?></th>
                                                     <th><?php _e('Content', 'ithoughts-tooltip-glossary' ); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <th><?php _e('Background', 'ithoughts-tooltip-glossary' ); ?></th>
-                                                    <?php
-                                                    foreach($prefixs as $prefix){
-                                                    ?>
+                                                    <th rowspan="2"><?php _e('Background', 'ithoughts-tooltip-glossary' ); ?></th>
+                                                    <td colspan="2">
+                                                        <label for="global[background]"><?php _e("Global background color", 'ithoughts-tooltip-glossary' ); ?>: </label><?php echo $inputs["global"]["background"]; ?>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td>
+                                                        <?php echo $inputs["title"]["background"]; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $inputs["content"]["background"]; ?>
+                                                    </td>
+                                                    <?php
+                                                    /*foreach($prefixs as $prefix){
+                                                    ?>
                                                         <!--<label for="<?php echo $prefix; ?>_bt" class="block"><?php _e('Type', 'ithoughts-tooltip-glossary' ); ?>&nbsp;
 <select name="<?php echo $prefix; ?>_bt" value="plain" id="<?php echo $prefix; ?>_bt" class="modeswitcher">
 <option value="plain"><?php _ex('Plain', 'A plain color', 'ithoughts-tooltip-glossary' ); ?></option>
@@ -83,22 +92,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>-->
                                                     </td>
                                                     <?php
-                                                    }
+                                                    }*/
                                                     ?>
                                                 </tr>
                                                 <tr>
                                                     <th><?php _e('Padding', 'ithoughts-tooltip-glossary' ); ?></th>
-                                                    <?php
-                                                    foreach($prefixs as $prefix){
-                                                    ?>
-                                                    <td><input autocomplete="off" type="text" value="0" name="<?php echo $prefix; ?>_pd" pattern="^(0|(\d*(\.\d+)?(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max)0|) ?){1,4}|initial|inherit)$" data-pattern-infos="<?php _e('Valid padding value: 0, inherit, initial, or 1 to 4 values in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax', 'ithoughts-tooltip-glossary' ); ?>"/></td>
-                                                    <?php
-                                                    }
-                                                    ?>
+                                                    <td><?php echo $inputs["title"]["padding"]; ?></td>
+                                                    <td><?php echo $inputs["content"]["padding"]; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th><?php _e('Shadow', 'ithoughts-tooltip-glossary' ); ?></th>
-                                                    <td colspan="3">
+                                                    <td colspan="2">
                                                         <table style="margin:0px auto;width:100%">
                                                             <tr>
                                                                 <td style="padding:0;" rowspan="2">
@@ -109,8 +113,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                                 </td>
                                                                 <td style="padding:0;">
                                                                     <label for="sh-w">
-                                                                        <?php _e("Width", 'ithoughts-tooltip-glossary' ); ?>:&nbsp;
-                                                                        <input autocomplete="off" type="text" value="0" class="input-width" name="sh-w" id="sh-w" pattern="^-?(0|\d+(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max)))$" data-pattern-infos="<?php _e('Valid distance value: 0, inherit, initial, or a value in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives accepted', 'ithoughts-tooltip-glossary' ); ?>" data-child-form="shadow-true"/>
+                                                                        <?php _e("Horizontal", 'ithoughts-tooltip-glossary' ); ?>&nbsp;&#8660;
+                                                                        <?php echo $inputs["global"]["box-shadow"]["horizontal"]; ?>
                                                                     </label>
                                                                 </td>
                                                                 <td style="padding:0;">
@@ -118,19 +122,19 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                                 <td style="padding:0;" rowspan="2">
                                                                     <label for="sh-s">
                                                                         <?php _e('Shadow blur', 'ithoughts-tooltip-glossary' ); ?><br />
-                                                                        <input autocomplete="off" value="0" type="text" class="input-width" id="sh-s" name="sh-b" pattern="^(0|\d+(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max)))$" data-pattern-infos="<?php _e('Valid distance value: 0, inherit, initial, or a value in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives not accepted', 'ithoughts-tooltip-glossary' ); ?>" data-child-form="shadow-true" />
+                                                                        <?php echo $inputs["global"]["box-shadow"]["blur"]; ?>
                                                                     </label><br/>
                                                                     <label for="sh-s">
                                                                         <?php _e('Shadow spread', 'ithoughts-tooltip-glossary' ); ?><br />
-                                                                        <input autocomplete="off" value="0" type="text" class="input-width" id="sh-s" name="sh-s" pattern="^(0|\d+(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max)))$" data-pattern-infos="<?php _e('Valid distance value: 0, inherit, initial, or a value in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives not accepted', 'ithoughts-tooltip-glossary' ); ?>" data-child-form="shadow-true" />
+                                                                        <?php echo $inputs["global"]["box-shadow"]["spread"]; ?>
                                                                     </label><br/>
                                                                     <label for="sh_c">
                                                                         <?php _e('Shadow color', 'ithoughts-tooltip-glossary' ); ?><br />
-                                                                        <input autocomplete="off" type="text" id="sh-c" value="#000" class="color-field" data-alpha="true" name="sh-c" data-child-form="shadow-true"/>
+                                                                        <?php echo $inputs["global"]["box-shadow"]["color"]; ?>
                                                                     </label><br/>
                                                                     <label for="sh-i">
                                                                         <?php _e("Inset", 'ithoughts-tooltip-glossary' ); ?>:&nbsp;
-                                                                        <input type="checkbox" value="inset" id="sh-i" name="sh-i"/>
+                                                                        <?php echo $inputs["global"]["box-shadow"]["inset"]; ?>
                                                                     </label>
                                                                 </td>
                                                             </tr>
@@ -143,8 +147,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                                 </td>
                                                                 <td style="padding:0;">
                                                                     <label for="sh-h">
-                                                                        <?php _e("Height", 'ithoughts-tooltip-glossary' ); ?><br/>
-                                                                        <input autocomplete="off" type="text" class="input-width" name="sh-h" id="sh-h" value="0" pattern="^-?(0|\d+(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max)))$" data-pattern-infos="<?php _e('Valid distance value: 0, inherit, initial, or a value in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives accepted', 'ithoughts-tooltip-glossary' ); ?>" data-child-form="shadow-true" />
+                                                                        <?php _e("Vertical", 'ithoughts-tooltip-glossary' ); ?>&nbsp;&#8661;<br/>
+                                                                        <?php echo $inputs["global"]["box-shadow"]["vertical"]; ?>
                                                                     </label>
                                                                 </td>
                                                             </tr>
@@ -153,116 +157,92 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                 </tr>
                                                 <tr>
                                                     <th><?php _e('Outline border', 'ithoughts-tooltip-glossary' ); ?></th>
-                                                    <td>
-                                                        <label for="border-w">
-                                                            <?php _e("Border width", 'ithoughts-tooltip-glossary' ); ?>:&nbsp;
-                                                            <input autocomplete="off" type="text" class="input-width" name="border-w" id="border-w" value="1px" pattern="^(0|\d+(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max)))$" data-pattern-infos="<?php _e('Valid border-width value: 0, inherit, initial, or a value in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives not accepted', 'ithoughts-tooltip-glossary' ); ?>"/>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label for="border-s">
-                                                            <?php _e("Border style", 'ithoughts-tooltip-glossary' ); ?>:&nbsp;
-                                                            <select name="border-s" id="border-s" value="solid">
-                                                                <option value="solid"><?php _e("Solid", 'ithoughts-tooltip-glossary' ); ?></option>
-                                                                <option value="dotted"><?php _e("Dotted", 'ithoughts-tooltip-glossary' ); ?></option>
-                                                                <option value="dashed"><?php _e("Dashed", 'ithoughts-tooltip-glossary' ); ?></option>
-                                                                <option value="double"><?php _e("Double", 'ithoughts-tooltip-glossary' ); ?></option>
-                                                                <option value="groove"><?php _e("Groove", 'ithoughts-tooltip-glossary' ); ?></option>
-                                                                <option value="ridge"><?php _e("Ridge", 'ithoughts-tooltip-glossary' ); ?></option>
-                                                                <option value="inset"><?php _ex("Inset", "Border property", 'ithoughts-tooltip-glossary' ); ?></option>
-                                                                <option value="outset"><?php _e("Outset", 'ithoughts-tooltip-glossary' ); ?></option>
-                                                                <option value="none"><?php _e("None", 'ithoughts-tooltip-glossary' ); ?></option>
-                                                                <option value="hidden"><?php _e("Hidden", 'ithoughts-tooltip-glossary' ); ?></option>
-                                                            </select>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label for="border-c">
-                                                            <?php _e("Border color", 'ithoughts-tooltip-glossary' ); ?>:&nbsp;
-                                                            <input autocomplete="off" type="text" value="#000" class="color-field" data-alpha="true" name="border-c"/>
-                                                        </label>
+                                                    <td colspan="2">
+                                                        <table class="form-table">
+                                                            <tr>
+                                                                <td>
+                                                                    <label for="global[border][width]">
+                                                                        <?php _e("Border width", 'ithoughts-tooltip-glossary' ); ?>:&nbsp;
+                                                                        <?php echo $inputs["global"]["border"]["width"]; ?>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label for="global[border][style]">
+                                                                        <?php _e("Border style", 'ithoughts-tooltip-glossary' ); ?>:&nbsp;
+                                                                        <?php echo $inputs["global"]["border"]["style"]; ?>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label for="global[border][color]">
+                                                                        <?php _e("Border color", 'ithoughts-tooltip-glossary' ); ?>:&nbsp;
+                                                                        <?php echo $inputs["global"]["border"]["color"]; ?>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
                                                     </td>
                                                 </tr>
                                                 <tr class="new-section">
-                                                    <th><?php _e('Text size', 'ithoughts-tooltip-glossary' ); ?></th>
-                                                    <?php
-                                                    foreach($prefixs as $prefix){
-                                                    ?>
-                                                    <td><input autocomplete="off" type="text" value="12px" name="<?php echo $prefix; ?>_ts" pattern="^(medium|xx-small|x-small|small|large|x-large|xx-large|smaller|larger|\d*(\.\d+)?(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max))|initial|inherit|)$" data-pattern-infos="<?php _e('Valid font-size value: xx-small, x-small, smaller, small, medium, large, larger, x-large, xx-large, or a value in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax', 'ithoughts-tooltip-glossary' ); ?>"/></td>
-                                                    <?php
-                                                    }
-                                                    ?>
+                                                    <th><?php _e('Font size', 'ithoughts-tooltip-glossary' ); ?></th>
+                                                    <td><?php echo $inputs["title"]["font-size"]; ?></td>
+                                                    <td><?php echo $inputs["content"]["font-size"]; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th><?php _e('Line height', 'ithoughts-tooltip-glossary' ); ?></th>
-                                                    <?php
-                                                    foreach($prefixs as $prefix){
-                                                    ?>
-                                                    <td><input autocomplete="off" type="text" value="1.5em" name="<?php echo $prefix; ?>_lh" pattern="^(medium|xx-small|x-small|small|large|x-large|xx-large|smaller|larger|\d*(\.\d+)?(r?em|px|%|ex|pt|(c|m)m|in|pc|v(h|w|min|max))|initial|inherit|)$" data-pattern-infos="<?php _e('Valid line-height value: xx-small, x-small, smaller, small, medium, large, larger, x-large, xx-large, or a value in rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax', 'ithoughts-tooltip-glossary' ); ?>"/></td>
-                                                    <?php
-                                                    }
-                                                    ?>
+                                                    <td><?php echo $inputs["title"]["line-height"]; ?></td>
+                                                    <td><?php echo $inputs["content"]["line-height"]; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th><?php _e('Text color', 'ithoughts-tooltip-glossary' ); ?></th>
-                                                    <?php
-                                                    foreach($prefixs as $prefix){
-                                                    ?>
-                                                    <td><input autocomplete="off" type="text" value="#000" class="color-field" data-alpha="true" name="<?php echo $prefix; ?>_tc"/></td>
-                                                    <?php
-                                                    }
-                                                    ?>
+                                                    <td><?php echo $inputs["title"]["color"]; ?></td>
+                                                    <td><?php echo $inputs["content"]["color"]; ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <th><?php _e('Text emphasis color', 'ithoughts-tooltip-glossary' ); ?></th>
-                                                    <td colspan="2"></td>
-                                                    <td><input autocomplete="off" type="text" value="#666" class="color-field" data-alpha="true" name="tce"/></td>
+                                                    <th><?php _e('Links color', 'ithoughts-tooltip-glossary' ); ?></th>
+                                                    <td colspan="2"><?php echo $inputs["global"]["link"]["color"]; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th><?php _e('Text styles', 'ithoughts-tooltip-glossary' ); ?></th>
+                                                    <td>
+                                                        <label><?php _e('Weight', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo $inputs["title"]["font-weight"]; ?></label><br/>
+                                                        <label><?php _e('Style', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo $inputs["title"]["font-style"]; ?></label><br/>
+                                                        <label><?php _e('Text decoration', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo $inputs["title"]["text-decoration"]; ?></label>
+                                                    </td>
+                                                    <td>
+                                                        <label><?php _e('Weight', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo $inputs["content"]["font-weight"]; ?></label><br/>
+                                                        <label><?php _e('Style', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo $inputs["content"]["font-style"]; ?></label><br/>
+                                                        <label><?php _e('Text decoration', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo $inputs["content"]["text-decoration"]; ?></label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th><?php _e('Links styles', 'ithoughts-tooltip-glossary' ); ?></th>
+                                                    <td colspan="2">
+                                                        <label><?php _e('Weight', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo $inputs["title"]["font-weight"]; ?></label><br/>
+                                                        <label><?php _e('Style', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo $inputs["title"]["font-style"]; ?></label><br/>
+                                                        <label><?php _e('Text decoration', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo $inputs["title"]["text-decoration"]; ?></label>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <th><?php _e('Text align', 'ithoughts-tooltip-glossary' ); ?></th>
-                                                    <?php
-                                                    foreach($prefixs as $prefix){
-                                                    ?>
-                                                    <td>
-                                                        <select name="<?php echo $prefix; ?>_ta" value="justify">
-                                                            <option value="left"><?php _e('Left', 'ithoughts-tooltip-glossary' ); ?></option>
-                                                            <option value="right"><?php _e('Right', 'ithoughts-tooltip-glossary' ); ?></option>
-                                                            <option value="center"><?php _e('Center', 'ithoughts-tooltip-glossary' ); ?></option>
-                                                            <option value="justify"><?php _e('Justify', 'ithoughts-tooltip-glossary' ); ?></option>
-                                                        </select>
-                                                    </td>
-                                                    <?php
-                                                    }
-                                                    ?>
+                                                    <td><?php echo $inputs["title"]["text-align"]; ?></td>
+                                                    <td><?php echo $inputs["content"]["text-align"]; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th><?php _e('Text font', 'ithoughts-tooltip-glossary' ); ?></th>
-                                                    <?php
-                                                    foreach($prefixs as $prefix){
-                                                    ?>
-                                                    <td>
-                                                        <select name="<?php echo $prefix; ?>_tf" required>
-                                                            <option value=""><?php _e('Please wait...', 'ithoughts-tooltip-glossary' ); ?></option>
-                                                        </select>
-                                                    </td>
-                                                    <?php
-                                                    }
-                                                    ?>
+                                                    <td><?php echo $inputs["title"]["font-family"]; ?></td>
+                                                    <td><?php echo $inputs["content"]["font-family"]; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th><?php _e('Other custom CSS', 'ithoughts-tooltip-glossary' ); ?> <span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" data-tooltip-content="<?php echo __('Following CSS rules will be copied to output compiled CSS for that part of the tooltip. Use selectors to select childs.', 'ithoughts-tooltip-glossary' ); ?>"><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span></th>
-                                                    <?php
-                                                    foreach($prefixs as $prefix){
-                                                    ?>
                                                     <td>
-                                                        <textarea id="<?php echo $prefix; ?>_custom" class="ace-editor" name="<?php echo $prefix; ?>_custom"></textarea>
+                                                        <textarea id="title[custom]" class="ace-editor" name="title[custom]"></textarea>
                                                     </td>
-                                                    <?php
-                                                    }
-                                                    ?>
+                                                    <td>
+                                                        <textarea id="content[custom]" class="ace-editor" name="content[custom]"></textarea>
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="4">
+                                                    <td colspan="3">
                                                         <input type="hidden" name="action" id="action"/>
                                                         <button name="actionB" value="ithoughts_tt_gl_theme_save" id="compilecss" class="alignleft button button-primary" style="display:inline-block;width:50%;text-align:center;"><?php _e("Save theme", 'ithoughts-tooltip-glossary' ); ?></button>
                                                         <button name="actionB" value="ithoughts_tt_gl_theme_preview" id="previewcss" class="alignleft button" style="display:inline-block;width:50%;text-align:center;"><?php _e("Preview", 'ithoughts-tooltip-glossary' ); ?></button>
@@ -271,6 +251,18 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                 </tr>
                                             </tbody>
                                         </table>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="postbox" id="ithoughts-tt-gl-lesseditor">
+                                <h3 class="hndle"><span><?php _e('LESS editor', 'ithoughts-tooltip-glossary' ); ?></span></h3>
+                                <div class="inside">
+                                    <form id="LESS-form" action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post" class="simpleajaxform" data-target="update-response">
+                                        <input type="hidden" name="action" id="action"/>
+                                        <button name="actionB" value="ithoughts_tt_gl_theme_save" id="compilecss" class="alignleft button button-primary" style="display:inline-block;width:50%;text-align:center;"><?php _e("Save theme", 'ithoughts-tooltip-glossary' ); ?></button>
+                                        <button name="actionB" value="ithoughts_tt_gl_theme_preview" id="previewcss" class="alignleft button" style="display:inline-block;width:50%;text-align:center;"><?php _e("Preview", 'ithoughts-tooltip-glossary' ); ?></button>
+                                        <div id="update-response" class="clear confweb-update"></div>
                                     </form>
                                 </div>
                             </div>

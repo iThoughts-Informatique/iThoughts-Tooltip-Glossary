@@ -1,6 +1,6 @@
 (function(){
     $d.ready(function(){
-        $(".simpleajaxform")[0].simple_ajax_callback = function(res){
+        $("#customizing-form")[0].simple_ajax_callback = function(res){
             console.log("Callback", res);
             if(res.valid){
                 var styleTag = $("#ithoughts_tt_gl-custom_theme");
@@ -11,6 +11,8 @@
                 styleTag[0].innerHTML = res.css;
 
                 window.updateStyle(null, res.theme_name);
+            } else {
+                console.error("Error while getting preview style",res);
             }
         };
         console.log($(".simpleajaxform")[0]);
@@ -187,26 +189,57 @@
                         }
                     }
                     console.log("Fonts available:",out);
+                    var n = {
+                            normal: [400]
+                    };
+                    out = $.extend(out, {
+                        Georgia: n,
+                        "Palatino Linotype": n,
+                        "Times New Roman":n,
+                        Arial:n,
+                        "Arial Black":n,
+                        "Comic Sans MS":n,
+                        "Impact":n,
+                        "Lucida Sans Unicode":n,
+                        Tahoma:n,
+                        "Trebuchet MS":n,
+                        Verdana:n,
+                        "Courier New":n,
+                        "Lucida Console":n
+                    });
                     for(var family in out){
-                        $('[name$="_tf"]').append($.parseHTML('<option value="' + encodeURIComponent(family) + '">' + family + '</option>'));
+                        $('[name$="_tf"]').append($.parseHTML('<option value="' + family + '">' + family + '</option>'));
                     }
                     $('[name$="_tf"] option[value=""]').text("Please select...");
                 }
                 var waitFor = [];
-                var stylesContainer = $($.parseHTML('<div id="ithoughts_tt_gl_stylesheets"></div>'));
+                var stylesContainer = $($.parseHTML('<div id="ithoughts_tt_gl_stylesheets"><iframe src="/" style="display:none;"></iframe></div>'));
                 $("body").append(stylesContainer);
-                $("link[rel=\"stylesheet\"]").each(function(index, elem){
-                    var newelem = $(elem).clone();
-                    newelem[0].setAttribute("crossorigin", "anonymous");
-                    var newhref = newelem[0].getAttribute("href") + "#";
-                    waitFor.push(newhref);
-                    newelem[0].setAttribute("href", newhref);
-                    stylesContainer.append(newelem);
-                    newelem[0].onload = function(e){
-                        waitFor.splice(waitFor.indexOf(e.target.getAttribute("href")), 1);
-                        if(waitFor.length == 0)
-                            listFontFaceRules();
-                    }
+                var frame = $(stylesContainer.find("iframe"));
+                console.log(stylesContainer,frame);
+                frame.ready(function(){
+                    console.log("Iframe loaded");
+                    var body = this;
+                    setTimeout(function(){
+                        console.log(body);
+                        body = $(body.body ? body.body : (body.contentWindow ? body.contentWindow.document.body : body.contentDocument.body));
+                        console.log(body);
+                        body.find("link[rel=\"stylesheet\"]").each(function(index, elem){
+                            console.log("Duplicate stylesheet",elem);
+                            var $newelem = $(elem).clone();var newelem = $newelem[0];
+                            newelem.id+="_cloned";
+                            newelem.setAttribute("crossorigin", "anonymous");
+                            var newhref = newelem.getAttribute("href") + "#";
+                            waitFor.push(newhref);
+                            newelem.setAttribute("href", newhref);
+                            stylesContainer.append(newelem);
+                            newelem.onload = function(e){
+                                waitFor.splice(waitFor.indexOf(e.target.getAttribute("href")), 1);
+                                if(waitFor.length == 0)
+                                    listFontFaceRules();
+                            }
+                        }, 1000);
+                    });
                 });
             }
             /**/
