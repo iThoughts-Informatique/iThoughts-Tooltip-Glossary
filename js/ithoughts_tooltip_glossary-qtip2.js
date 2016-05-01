@@ -109,7 +109,14 @@ function stripQuotes(string, encode){
 				})
 			}
 
-			var tipClass = 'qtip-' + qtipstyle + (qtipshadow ? " qtip-shadow" : "" ) + (qtiprounded ? " qtip-rounded" : "" ) + " " ;
+			var tipClass;
+            if(this.getAttribute("data-tooltip-theme")){
+                tipClass = "qtip-"+this.getAttribute("data-tooltip-theme") + (qtipshadow ? " qtip-shadow" : "" ) + (qtiprounded ? " qtip-rounded" : "" ) + " " ;
+            } else if(this.getAttribute("data-tooltip-classes")){
+                      tipClass = this.getAttribute("data-tooltip-classes");
+            } else {
+                tipClass = 'qtip-' + qtipstyle + (qtipshadow ? " qtip-shadow" : "" ) + (qtiprounded ? " qtip-rounded" : "" ) + " " ;
+            }
 			var specific;
 			if($(this).hasClass("ithoughts_tooltip_glossary-glossary")){
 				if(this.getAttribute("data-termid") && termcontent != "off"){
@@ -156,12 +163,13 @@ function stripQuotes(string, encode){
 					};
 				}
 			} else if($(this).hasClass("ithoughts_tooltip_glossary-tooltip")){
+                console.log(stripQuotes(this.getAttribute("data-tooltip-content"), false));
 				specific = {
 					style: {
 						classes: tipClass + "ithoughts_tooltip_glossary-tooltip"
 					},
 					content: {
-						text: stripQuotes(this.getAttribute("data-tooltip-content"), false).replace(/&/g, "&amp;"),
+						text: stripQuotes(this.getAttribute("data-tooltip-content"), false)/*.replace(/&/g, "&amp;")*/,
 						title: { text: $(this).text() }
 					}
 				};
