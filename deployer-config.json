@@ -95,9 +95,8 @@
                             "companyName": "%company.name%",
                             "projectName": "%project_name%",
                             "command": {
-                                "bin": "emacsX",
+                                "bin": "emacs",
                                 "args": [
-                                    "-t",
                                     "%FILE%"
                                 ],
                                 "closeMessage": "Press Ctrl+X to end."
