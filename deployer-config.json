@@ -90,7 +90,12 @@
                         "data": {
                             "targetVersion": "%version%",
                             "companyName": "%company.name%",
-                            "projectName": "%project_name%"
+                            "projectName": "%project_name%",
+                            "command": {
+                                "args": ["emacs"],
+                                "closeMessage": "Ended",
+                                "bin": "emacs"
+                            }
                         }
                     },
                     {
