@@ -92,7 +92,7 @@
                             "companyName": "%company.name%",
                             "projectName": "%project_name%",
                             "command": {
-                                "args": ["emacs"],
+                                "args": ["%FILE%"],
                                 "closeMessage": "Ended",
                                 "bin": "emacs"
                             }
