@@ -75,6 +75,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Changelog ==
 
+= 2.5.0 =
+Test sync
+
 = 2.4.1 =
 * FIX Glossary tooltip linked to the wrong language with WPML
 
@@ -244,6 +247,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Upgrade Notice ==
+
+= 2.5.0 =
+
 
 = 2.4.1 =
 Now fully compatible with WPML!
