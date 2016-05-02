@@ -75,6 +75,10 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Changelog ==
 
+= 2.5.0 =
+* NEW Complete simplified theme editor
+* UPD Fixed HTML escaped tooltip content (see [this ticket](https://wordpress.org/support/topic/tooltips-have-changed-and-dont-work))
+
 = 2.4.1 =
 * FIX Glossary tooltip linked to the wrong language with WPML
 
@@ -244,6 +248,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 == Upgrade Notice ==
+
+= 2.5.0 =
+Theme editor improved with more flexibility. Thrown away useless theme form
 
 = 2.4.1 =
 Now fully compatible with WPML!
