@@ -95,11 +95,12 @@
                             "companyName": "%company.name%",
                             "projectName": "%project_name%",
                             "command": {
+                                "bin": "nano",
                                 "args": [
+                                    "-t",
                                     "%FILE%"
                                 ],
-                                "closeMessage": "Ended",
-                                "bin": "emacs"
+                                "closeMessage": "Press Ctrl+X to end."
                             }
                         }
                     },
@@ -228,6 +229,12 @@
                                 }
                             }
                         ]
+                    },
+                    {
+                        "action":"exec",
+                        "data":{
+                            "command": "rsync -az --delete . ../../svn/ithoughts-tooltip-glossary"
+                        }
                     }
                 ]
             }
@@ -237,8 +244,8 @@
         },
         "checksums": {
             "./ithoughts_tooltip_glossary.php": {
-                "sha1": "977e5a589af0d19ebc0462b6dc1019f8b69da51c",
-                "md5": "a120118ef1b36535e67624aa50e69251"
+                "sha1": "0dc208773a00c86d448ac507dced6c3bbea6e6c2",
+                "md5": "5d3a472c764929a8b82b68e380804ce5"
             },
             "./css/ithoughts_tooltip_glossary-admin.css": {
                 "sha1": "3a6c5cfa201db4faf0fa04fa558c727a9922ae62",
