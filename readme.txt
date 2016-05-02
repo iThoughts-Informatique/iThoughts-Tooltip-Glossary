@@ -2,10 +2,10 @@
 Contributors: Gerkin
 Plugin URL: http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
-Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments
+Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments, index, dictionnary, ajax, custom post type, post type, documentation, database, help, jquery, quote
 Requires at least: 3.3
-Tested up to: 4.4.1
-Stable tag: 2.5.0
+Tested up to: 4.5
+Stable tag: 2.4.2
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -80,6 +80,11 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 * UPD Fixed HTML escaped tooltip content (see [this ticket](https://wordpress.org/support/topic/tooltips-have-changed-and-dont-work))
 * NEW Complete simplified theme editor
 * UPD Fixed HTML escaped tooltip content (see [this ticket](https://wordpress.org/support/topic/tooltips-have-changed-and-dont-work))
+
+= 2.4.2 =
+* UPD Security fixes
+* UPD Plugin Core
+* UPD Improved memory & CPU usage for lists, reduce generation time
 
 = 2.4.1 =
 * FIX Glossary tooltip linked to the wrong language with WPML
@@ -254,6 +259,9 @@ some useless files
 
 = 2.5.0 =
 Theme editor improved with more flexibility. Thrown away useless theme form
+
+= 2.4.2 =
+This update provides heavy optimizations for lists. It prepares the future incoming of version 3.0.0, which will be much more structured to be used as a real dictionnary.
 
 = 2.4.1 =
 Now fully compatible with WPML!

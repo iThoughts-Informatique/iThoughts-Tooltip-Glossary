@@ -35,7 +35,18 @@ if(!class_exists(__NAMESPACE__."\\AtoZ")){
 			$linkdata = &$out["linkdata"];
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 
-			$termsInfos = $this->get_miscroposts();
+			// Sanity check the list of letters (if set by user).
+			$alphas = array();
+			if( isset($data["handled"]["alpha"]) && $data["handled"]["alpha"] ) {
+				$alpha_list = str_split($data["handled"]["alpha"]);
+				foreach( $alpha_list as $alpha_item ) {
+					$alphas[] = $this->get_type_char($alpha_item);
+				} //alpha_list
+			}
+			$alphas = array_unique( $alphas );
+			$alphas = count($alphas) > 0 ? $alphas : NULL;
+			$group_slugs = isset($data["handled"]) && isset($data["handled"]["group"]) ? $data["handled"]["group"] : NULL;
+			$termsInfos = $this->get_miscroposts($group_slugs,$alphas);
 			$terms = &$termsInfos["terms"];
 			$count = $termsInfos["count"];
 

@@ -272,6 +272,7 @@
                                         {
                                             "action": "tag",
                                             "data": {
+                                                "label": "v%version%",
                                                 "message": "Version %version% released: %versionMessage%"
                                             }
                                         },
