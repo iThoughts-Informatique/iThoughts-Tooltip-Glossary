@@ -5,7 +5,7 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments, index, dictionnary, ajax, custom post type, post type, documentation, database, help, jquery, quote
 Requires at least: 3.3
 Tested up to: 4.5
-Stable tag: 2.4.2
+Stable tag: 2.5.0
 License: GPLv2 or later
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -76,6 +76,8 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 == Changelog ==
 
 = 2.5.0 =
+* NEW Complete simplified theme editor
+* UPD Fixed HTML escaped tooltip content (see [this ticket](https://wordpress.org/support/topic/tooltips-have-changed-and-dont-work))
 * NEW Complete simplified theme editor
 * UPD Fixed HTML escaped tooltip content (see [this ticket](https://wordpress.org/support/topic/tooltips-have-changed-and-dont-work))
 * NEW Complete simplified theme editor
@@ -249,6 +251,7 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 * NEW Added ability to set the main glossary page url, which is also the term prefix (http://www.yourblog.com/*whatever*/...)
 * UPD Group terms in ATOZ even with accents. "ù" will be in "U" section.
 * UPD Clean Theme editor improved with more flexibility. Thrown away useless theme form
+Theme editor improved with more flexibility. Thrown away useless theme form
 some useless files
 
 = 0.0 =
