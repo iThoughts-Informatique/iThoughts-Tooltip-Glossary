@@ -1,8 +1,14 @@
 <?php
 /**
-  * @copyright 2015-2016 iThoughts Informatique
-  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
-  */
+ * @file Main class file. Dispatch everything else through all plugin classes
+ *
+ * @author Gerkin
+ * @copyright 2015-2016 iThoughts Informatique
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
 
 namespace ithoughts\tooltip_glossary;
 

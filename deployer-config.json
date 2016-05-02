@@ -5,8 +5,8 @@
             "author": "Gerkin",
             "documentation": {
                 "base": {
-                    "url": "http://deployer.gerkindevelopment.net/",
-                    "path": "/mnt/mutualized/work/nodejs/documentation/deployer.js/"
+                    "url": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/",
+                    "path": "/mnt/mutualized/work/php/documentation/ithoughts-tooltip-glossary/"
                 },
                 "format": [
                     "%BASE%",
@@ -14,8 +14,8 @@
                     "%TYPE%"
                 ],
                 "resources": {
-                    "url": "http://deployer.gerkindevelopment.net/resources/",
-                    "path": "/mnt/mutualized/work/nodejs/documentation/deployer.js/resources/"
+                    "url": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/resources/",
+                    "path": "/mnt/mutualized/work/php/documentation/ithoughts-tooltip-glossary/resources."
                 }
             },
             "company": {
@@ -27,45 +27,37 @@
             "_default": {
                 "awake": true,
                 "command_group": false,
-                "actions": [
-                    {
-                        "action": "less-compile",
-                        "data": {
-                            "browsers": [
-                                "> 1%",
-                                "IE 8",
-                                "last 2 versions"
-                            ],
-                            "from": "^(.*)\\.less$",
-                            "to": "$1.css"
-                        },
-                        "events": {
-                            "onchange": {
-                                "\\.less€$": true
-                            }
-                        },
-                        "next": {
-                            "action": "minify",
-                            "data": {
-                                "from": "^(.*)(\\.(?:cs|j)s)$",
-                                "to": "$1.min$2"
-                            }
-                        }
+                "actions": [{
+                    "action": "less-compile",
+                    "data": {
+                        "browsers": [
+                            "> 1%",
+                            "IE 8",
+                            "last 2 versions"
+                        ],
+                        "from": "^(.*\\/)?less(\\/.+)\\.less$",
+                        "to": "$1css$2.css"
                     },
-                    {
-                        "action": "minify",
-                        "data": {
-                            "from": "^(.*)(\\.(?:cs|j)s)$",
-                            "to": "$1.min$2"
-                        },
-                        "events": {
-                            "onchange": {
-                                "\\.(cs|j)s€$": true,
-                                "\\.min\\.(cs|j)s$": false
-                            }
+                    "events": {
+                        "onchange": {
+                            "\\.less$": true,
+                            "\\.\\/submodules\\/": false
                         }
                     }
-                ]
+                }, {
+                    "action": "minify",
+                    "data": {
+                        "from": "^(.*)(\\.(?:cs|j)s)$",
+                        "to": "$1.min$2"
+                    },
+                    "events": {
+                        "onchange": {
+                            "\\.(cs|j)s$": true,
+                            "\\.\\/submodules\\/": false,
+                            "\\.min\\.(cs|j)s$": false
+                        }
+                    }
+                }]
             },
             "release": {
                 "arguments": {
@@ -81,11 +73,35 @@
                 "mode": "serie",
                 "actions": [
                     {
+                        "action": "git",
+                        "data": {
+                            "actions": [
+                                {
+                                    "action": "commit",
+                                    "data": {
+                                        "message": "Pre-process version %version%"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "wordpress-upgrade",
+                        "data": {
+                            "targetVersion": "%version%",
+                            "companyName": "%company.name%",
+                            "projectName": "%project_name%"
+                        }
+                    },
+                    {
                         "action": "files-version",
                         "data": {
                             "selection": {
                                 "\\.(js|css|php)$": true,
                                 "\\.min\\.js$": false,
+                                "\\.\\/submodules\\/": false,
+                                "\\.\\/js\\/tinymce\\/": false,
+                                "\\.\\/ext\\/": false
                             },
                             "setDiffs": {
                                 "/(@version\\s+)\\d+(\\.\\d+)*": "$1%version%"
@@ -93,11 +109,31 @@
                             "targetVersion": "%version%",
                             "companyName": "%company.name%"
                         }
-                    },
-                    {
+                    }, {
                         "command_group": true,
                         "mode": "parallel",
                         "actions": [
+                            {
+                                "action": "phpdoc",
+                                "data": {
+                                    "private": true,
+                                    "selection": {
+                                        "\\.(php)$": true,
+                                        "^\\.\\/submodules($|\\/)": false
+                                    },
+                                    "project_name": "%project_name%",
+                                    "author": "%author%",
+                                    "target_path": "%documentation.base.path%%version_minor%/php/"
+                                },
+                                "arguments": {
+                                    "version_minor": {
+                                        "type": "regex_replace",
+                                        "value": "%version%",
+                                        "search": "^(\\d+)\\.(\\d+).*",
+                                        "replacement": "$1.$2"
+                                    }
+                                }
+                            },
                             {
                                 "action": "jsdoc",
                                 "data": {
@@ -105,9 +141,8 @@
                                     "selection": {
                                         "\\.(js)$": true,
                                         "\\.min\\.(js)$": false,
-                                        "^\\.\\/node_modules($|\\/)": false,
-                                        "^\\.\\/templates($|\\/)": false,
-                                        "^\\.\\/actions\\/ithoughts-index-doc\\.js": false
+                                        "^\\.\\/submodules($|\\/)": false,
+                                        "^\\.\\/ext($|\\/)": false
                                     },
                                     "template": "default",
                                     "template.bck": "gerkindevelopment",
@@ -132,16 +167,14 @@
                                         "GerkinDevelopment": "https://www.gerkindevelopment.net/",
                                         "Back to Documentation Index": "/"
                                     },
-                                    "doc_links": [
-                                        {
-                                            "labels": {
-                                                "main": "JavaScript",
-                                                "sub": "Node.js"
-                                            },
-                                            "image": "/images/serverside.jpg",
-                                            "link": "javascript/index.html"
-                                        }
-                                    ],
+                                    "doc_links": [{
+                                        "labels": {
+                                            "main": "JavaScript",
+                                            "sub": "Node.js"
+                                        },
+                                        "image": "/images/serverside.jpg",
+                                        "link": "javascript/index.html"
+                                    }],
                                     "project_name": "%project_name%",
                                     "author": "%author%",
                                     "version": "%version_minor%",
@@ -160,8 +193,7 @@
                                         "replacement": "$1.$2"
                                     }
                                 }
-                            },
-                            {
+                            }, {
                                 "action": "version-history",
                                 "data": {
                                     "basePath": "%documentation.base.path%",
@@ -180,16 +212,12 @@
                                         "replacement": "$1.$2"
                                     }
                                 }
-                            }
-                        ]
-                    }
-                ]
+                            }]
+                    }]
             }
         },
-        "versions": {
-        },
-        "checksums": {
-        }
+        "versions": {},
+        "checksums": {}
     },
-    "dirty": false
+    "dirty": true
 }

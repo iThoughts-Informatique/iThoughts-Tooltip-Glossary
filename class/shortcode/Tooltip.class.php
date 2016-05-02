@@ -1,4 +1,17 @@
 <?php
+
+/**
+ * @file Class file for HTML tooltips shortcode
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
+
+
 /**
   * @copyright 2015-2016 iThoughts Informatique
   * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2

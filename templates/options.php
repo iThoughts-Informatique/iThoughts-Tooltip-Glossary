@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * @file Template file for options form
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
+
+
+
 if ( ! defined( 'ABSPATH' ) ) { 
     exit; // Exit if accessed directly
 }

@@ -1,3 +1,14 @@
+/**
+ * @file Client-side style-editor logic
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
+
 (function(){
     $d.ready(function(){
         $("#LESS-form")[0].simple_ajax_callback = function(res){

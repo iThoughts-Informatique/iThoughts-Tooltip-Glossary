@@ -1,9 +1,13 @@
 /**
-* @file iThoughts Tooltip Glossary tinymce form styles
-* @author Gerkin
-*         
-* @version 1.0
-*/
+ * @file iThoughts Tooltip Glossary tinymce form styles
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
 #ithoughts_tt_gl-tooltip-form * {
   box-sizing: border-box;
 }
@@ -39,6 +43,10 @@
   display: inline-block;
   border-style: solid;
   border-color: #C5C5C5;
+  -moz-border-top-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
   -o-border-image: none;
      border-image: none;
   border-width: 1px 1px 0px 1px;

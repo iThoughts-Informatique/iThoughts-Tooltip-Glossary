@@ -1,3 +1,14 @@
+/**
+ * @file Handles the dialog logic between server updates operations and client
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
+
 (function(){
 	var progress;
 	var text;

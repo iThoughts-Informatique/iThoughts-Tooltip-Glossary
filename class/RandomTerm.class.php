@@ -1,8 +1,14 @@
 <?php
 /**
-  * @copyright 2015-2016 iThoughts Informatique
-  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
-  */
+ * @file Random Term widget class files.
+ *
+ * @author Gerkin
+ * @copyright 2015-2016 iThoughts Informatique
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
 
 namespace ithoughts\tooltip_glossary\widgets;
 

@@ -1,3 +1,14 @@
+/**
+ * @file Old file. To merge
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
+
 window.refloat;
 window.updateStyle;
 (function(){

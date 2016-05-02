@@ -1,3 +1,14 @@
+/**
+ * @file Interface between plugin formatted data and qTip API
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
+
 function stripQuotes(string, encode){
 	if(typeof string != "string")
 		return "";
