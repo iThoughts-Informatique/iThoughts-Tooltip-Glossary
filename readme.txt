@@ -78,6 +78,8 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 = 2.5.0 =
 * NEW Complete simplified theme editor
 * UPD Fixed HTML escaped tooltip content (see [this ticket](https://wordpress.org/support/topic/tooltips-have-changed-and-dont-work))
+* NEW Complete simplified theme editor
+* UPD Fixed HTML escaped tooltip content (see [this ticket](https://wordpress.org/support/topic/tooltips-have-changed-and-dont-work))
 
 = 2.4.1 =
 * FIX Glossary tooltip linked to the wrong language with WPML
@@ -241,7 +243,8 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 * NEW Added "Responsive" 'qtiptrigger', which is "hover"/"focus" on computers, and "click" on touch devices.
 * NEW Added ability to set the main glossary page url, which is also the term prefix (http://www.yourblog.com/*whatever*/...)
 * UPD Group terms in ATOZ even with accents. "ù" will be in "U" section.
-* UPD Clean some useless files
+* UPD Clean Theme editor improved with more flexibility. Thrown away useless theme form
+some useless files
 
 = 0.0 =
 * Please see previous changes from the old plugin [here](https://wordpress.org/plugins/wp-glossary/changelog/)
