@@ -235,6 +235,55 @@
                         "data":{
                             "command": "rsync -az --delete . ../../svn/ithoughts-tooltip-glossary/trunk/"
                         }
+                    },
+                    {
+                        "command_group": true,
+                        "mode": "parallel",
+                        "actions": [
+                            {
+                                "action":"svn",
+                                "data":{
+                                    "actions": [
+                                        {
+                                            "action": "cp",
+                                            "data": {
+                                                "from": "trunk",
+                                                "to": "tags/%version%"
+                                            }
+                                        },
+                                        {
+                                            "action": "commit",
+                                            "data": {
+                                                "message": "Release version %version%: %versionMessage%"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "action": "git",
+                                "data": {
+                                    "actions": [
+                                        {
+                                            "action": "commit",
+                                            "data": {
+                                                "message": "Version %version% released: %versionMessage%"
+                                            }
+                                        },
+                                        {
+                                            "action": "tag",
+                                            "data": {
+                                                "message": "Version %version% released: %versionMessage%"
+                                            }
+                                        },
+                                        {
+                                            "action":"push",
+                                            "data":{}
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
                     }
                 ]
             }
