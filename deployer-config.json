@@ -95,7 +95,7 @@
                             "companyName": "%company.name%",
                             "projectName": "%project_name%",
                             "command": {
-                                "bin": "nano",
+                                "bin": "emacsX",
                                 "args": [
                                     "-t",
                                     "%FILE%"
@@ -231,8 +231,8 @@
                         ]
                     },
                     {
-                        "action":"exec",
-                        "data":{
+                        "action": "exec",
+                        "data": {
                             "command": "rsync -az --delete . ../../svn/ithoughts-tooltip-glossary/trunk/"
                         }
                     },
@@ -241,8 +241,8 @@
                         "mode": "parallel",
                         "actions": [
                             {
-                                "action":"svn",
-                                "data":{
+                                "action": "svn",
+                                "data": {
                                     "actions": [
                                         {
                                             "action": "cp",
@@ -277,8 +277,8 @@
                                             }
                                         },
                                         {
-                                            "action":"push",
-                                            "data":{}
+                                            "action": "push",
+                                            "data": {}
                                         }
                                     ]
                                 }
@@ -336,13 +336,13 @@
                 "sha1": "7c43e41007fc29d8004e5e6fe188269a386abfcd",
                 "md5": "80caef922561826b9230eaabc07f8e01"
             },
-            "./class/Admin.class.php": {
-                "sha1": "ab3e418f2faf7f9cd61aa02ee525b82d1eb13c41",
-                "md5": "d6099f45e6fb8f14608df5a3cfd973d2"
-            },
             "./class/Backbone.class.php": {
                 "sha1": "89119c80a4486d35c1fd0d6cf50ad909d29d4400",
                 "md5": "b77841b423f4a44363a0f0232a6edb42"
+            },
+            "./class/Admin.class.php": {
+                "sha1": "ab3e418f2faf7f9cd61aa02ee525b82d1eb13c41",
+                "md5": "d6099f45e6fb8f14608df5a3cfd973d2"
             },
             "./class/Filters.class.php": {
                 "sha1": "b978a54df5b74612bb071ca75661a43e97eb3eee",
