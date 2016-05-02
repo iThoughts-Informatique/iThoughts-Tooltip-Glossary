@@ -242,6 +242,7 @@
                             {
                                 "action": "svn",
                                 "data": {
+                                    "path": "../../svn/ithoughts-tooltip-glossary",
                                     "actions": [
                                         {
                                             "action": "cp",
@@ -369,8 +370,8 @@
                 "md5": "f0faf6506ed94ecc1d122d05ef8341b9"
             },
             "./class/shortcode/AtoZ.class.php": {
-                "sha1": "adbdc3eab824f1758ce1a1fd8d11cade1b0f27f0",
-                "md5": "ad832eb08b24c03986337b881bc51291"
+                "sha1": "aaf3bbd511ba61119644106b3a16b513cbd3e891",
+                "md5": "1b8e6629cee7d628a152f766487e2f38"
             },
             "./class/shortcode/Glossary.class.php": {
                 "sha1": "44a94d8bf174117b2c24a2cc79045e2e280eeb07",
@@ -385,8 +386,8 @@
                 "md5": "ca86f656dd15d1575f73a030a3d6cef6"
             },
             "./class/shortcode/TermList.class.php": {
-                "sha1": "8d70031d7c28266fe7d671f74eef66deac177713",
-                "md5": "273d17f165e707b835a9d38a36ca4063"
+                "sha1": "37976551392dd9fa4fe8dfdd7e730fefb0ba7261",
+                "md5": "995b27ee7ec199476e95a87a758aac49"
             },
             "./class/shortcode/Tooltip.class.php": {
                 "sha1": "86a63772792f60b893e409092b0840984f726429",
