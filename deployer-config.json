@@ -27,37 +27,40 @@
             "_default": {
                 "awake": true,
                 "command_group": false,
-                "actions": [{
-                    "action": "less-compile",
-                    "data": {
-                        "browsers": [
-                            "> 1%",
-                            "IE 8",
-                            "last 2 versions"
-                        ],
-                        "from": "^(.*\\/)?less(\\/.+)\\.less$",
-                        "to": "$1css$2.css"
+                "actions": [
+                    {
+                        "action": "less-compile",
+                        "data": {
+                            "browsers": [
+                                "> 1%",
+                                "IE 8",
+                                "last 2 versions"
+                            ],
+                            "from": "^(.*\\/)?less(\\/.+)\\.less$",
+                            "to": "$1css$2.css"
+                        },
+                        "events": {
+                            "onchange": {
+                                "\\.less$": true,
+                                "\\.\\/submodules\\/": false
+                            }
+                        }
                     },
-                    "events": {
-                        "onchange": {
-                            "\\.less$": true,
-                            "\\.\\/submodules\\/": false
+                    {
+                        "action": "minify",
+                        "data": {
+                            "from": "^(.*)(\\.(?:cs|j)s)$",
+                            "to": "$1.min$2"
+                        },
+                        "events": {
+                            "onchange": {
+                                "\\.(cs|j)s$": true,
+                                "\\.\\/submodules\\/": false,
+                                "\\.min\\.(cs|j)s$": false
+                            }
                         }
                     }
-                }, {
-                    "action": "minify",
-                    "data": {
-                        "from": "^(.*)(\\.(?:cs|j)s)$",
-                        "to": "$1.min$2"
-                    },
-                    "events": {
-                        "onchange": {
-                            "\\.(cs|j)s$": true,
-                            "\\.\\/submodules\\/": false,
-                            "\\.min\\.(cs|j)s$": false
-                        }
-                    }
-                }]
+                ]
             },
             "release": {
                 "arguments": {
@@ -92,7 +95,9 @@
                             "companyName": "%company.name%",
                             "projectName": "%project_name%",
                             "command": {
-                                "args": ["%FILE%"],
+                                "args": [
+                                    "%FILE%"
+                                ],
                                 "closeMessage": "Ended",
                                 "bin": "emacs"
                             }
@@ -114,7 +119,8 @@
                             "targetVersion": "%version%",
                             "companyName": "%company.name%"
                         }
-                    }, {
+                    },
+                    {
                         "command_group": true,
                         "mode": "parallel",
                         "actions": [
@@ -172,14 +178,16 @@
                                         "GerkinDevelopment": "https://www.gerkindevelopment.net/",
                                         "Back to Documentation Index": "/"
                                     },
-                                    "doc_links": [{
-                                        "labels": {
-                                            "main": "JavaScript",
-                                            "sub": "Node.js"
-                                        },
-                                        "image": "/images/serverside.jpg",
-                                        "link": "javascript/index.html"
-                                    }],
+                                    "doc_links": [
+                                        {
+                                            "labels": {
+                                                "main": "JavaScript",
+                                                "sub": "Node.js"
+                                            },
+                                            "image": "/images/serverside.jpg",
+                                            "link": "javascript/index.html"
+                                        }
+                                    ],
                                     "project_name": "%project_name%",
                                     "author": "%author%",
                                     "version": "%version_minor%",
@@ -198,7 +206,8 @@
                                         "replacement": "$1.$2"
                                     }
                                 }
-                            }, {
+                            },
+                            {
                                 "action": "version-history",
                                 "data": {
                                     "basePath": "%documentation.base.path%",
@@ -217,12 +226,161 @@
                                         "replacement": "$1.$2"
                                     }
                                 }
-                            }]
-                    }]
+                            }
+                        ]
+                    }
+                ]
             }
         },
-        "versions": {},
-        "checksums": {}
+        "versions": {
+            "2.5": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/2.5"
+        },
+        "checksums": {
+            "./ithoughts_tooltip_glossary.php": {
+                "sha1": "e63e3d46c95ec3be0c64aad27e094d2264ac75c2",
+                "md5": "8af5257c7cfdd334c07704affaa66023"
+            },
+            "./lang/ithoughts_tt_gl_tinymce_lang.php": {
+                "sha1": "0858617dc8c15c14706957835c09c8c6a85854ec",
+                "md5": "f760d715a6b491d09864171a4c872984"
+            },
+            "./css/ithoughts_tooltip_glossary-admin.css": {
+                "sha1": "3a6c5cfa201db4faf0fa04fa558c727a9922ae62",
+                "md5": "e359d65a5862571d626916d54b197c00"
+            },
+            "./css/ithoughts_tooltip_glossary-admin.min.css": {
+                "sha1": "202e6679a789948a39a6c4e9b7a49cb32b382916",
+                "md5": "7ef5e5ba3f19f97c54da5fdcf977ec4e"
+            },
+            "./css/ithoughts_tooltip_glossary-tinymce-forms.css": {
+                "sha1": "1244d6603c850909080748a403f872e233d2703f",
+                "md5": "b0583275bf59f0b4d14bab5309fbeffd"
+            },
+            "./css/ithoughts_tooltip_glossary-tinymce-forms.min.css": {
+                "sha1": "4e8b1b8360ea54c1372a049f036197c0c6bd3f61",
+                "md5": "5eb411440c2f230c94a1438208ccd828"
+            },
+            "./css/ithoughts_tooltip_glossary.css": {
+                "sha1": "426fe1e000f9585b5bb2908e9670e0cd14965bfd",
+                "md5": "e6757ca159d62986bb096585bfa893f8"
+            },
+            "./css/ithoughts_tooltip_glossary.min.css": {
+                "sha1": "717aabdb16b4a1e082cc3e90362ced2f61e9175b",
+                "md5": "b8d559bdaa95e30fc2795a82f6493282"
+            },
+            "./templates/customizing_form.php": {
+                "sha1": "da83158c7509df63082f49372ddd07211aee08fa",
+                "md5": "161cef55017feb4e6951767749099491"
+            },
+            "./templates/options.php": {
+                "sha1": "a0fddfb291ff1077f652bc0aa2ef94980d032aad",
+                "md5": "fdc8281ee205bfdd92415f946e899bb9"
+            },
+            "./templates/tinymce-tooltip-form.php": {
+                "sha1": "7c43e41007fc29d8004e5e6fe188269a386abfcd",
+                "md5": "80caef922561826b9230eaabc07f8e01"
+            },
+            "./class/Admin.class.php": {
+                "sha1": "ab3e418f2faf7f9cd61aa02ee525b82d1eb13c41",
+                "md5": "d6099f45e6fb8f14608df5a3cfd973d2"
+            },
+            "./class/Backbone.class.php": {
+                "sha1": "89119c80a4486d35c1fd0d6cf50ad909d29d4400",
+                "md5": "b77841b423f4a44363a0f0232a6edb42"
+            },
+            "./class/Filters.class.php": {
+                "sha1": "b978a54df5b74612bb071ca75661a43e97eb3eee",
+                "md5": "719ed89e5fc2b8e2985b53e816761064"
+            },
+            "./class/MicroPost.class.php": {
+                "sha1": "62048a48ec9bfb825d5f8bb058edd8b0b65f4459",
+                "md5": "972c987d1108a661636508b4cf3449de"
+            },
+            "./class/PostTypes.class.php": {
+                "sha1": "dffe2254cc5858086c9556e1db86fb3648cc315a",
+                "md5": "3dca2cc886d6f81331fa61d32d84b222"
+            },
+            "./class/RandomTerm.class.php": {
+                "sha1": "845232782dc6f18067ee139cad830b0002596304",
+                "md5": "53b2809f57f715ddcfa247d321bf5240"
+            },
+            "./class/Taxonomies.class.php": {
+                "sha1": "c0c2ac64a02aa3234ad1415bd10d8b70eb0244a3",
+                "md5": "b3734aee14b632b4b7bef919005770f3"
+            },
+            "./class/Updater.class.php": {
+                "sha1": "cf71db3cc997fcc16b14a837653bec14882dfc98",
+                "md5": "f0faf6506ed94ecc1d122d05ef8341b9"
+            },
+            "./class/shortcode/AtoZ.class.php": {
+                "sha1": "aaf3bbd511ba61119644106b3a16b513cbd3e891",
+                "md5": "1b8e6629cee7d628a152f766487e2f38"
+            },
+            "./class/shortcode/Glossary.class.php": {
+                "sha1": "44a94d8bf174117b2c24a2cc79045e2e280eeb07",
+                "md5": "0ac28fe5a61c2b921783c3a76ecfa92f"
+            },
+            "./class/shortcode/GlossaryList.class.php": {
+                "sha1": "14860b9964041d382b550f5b3fd26ba78fb635f7",
+                "md5": "dd251ba97fcadf527821b6c28b21032d"
+            },
+            "./class/shortcode/Mediatip.class.php": {
+                "sha1": "209df6fab54c4ec3da75741991041bd0cb26c34e",
+                "md5": "ca86f656dd15d1575f73a030a3d6cef6"
+            },
+            "./class/shortcode/TermList.class.php": {
+                "sha1": "37976551392dd9fa4fe8dfdd7e730fefb0ba7261",
+                "md5": "995b27ee7ec199476e95a87a758aac49"
+            },
+            "./class/shortcode/Tooltip.class.php": {
+                "sha1": "86a63772792f60b893e409092b0840984f726429",
+                "md5": "66b1c2cd724954b00a1dbac4c42d79d4"
+            },
+            "./js/ithoughts_tooltip_glossary-admin.js": {
+                "sha1": "48238ca9f26add8acacbc74fc52825eac93826af",
+                "md5": "c9a0c7fde84b5bf1763a9b2dcf3e373e"
+            },
+            "./js/ithoughts_tooltip_glossary-atoz.js": {
+                "sha1": "b433658ec0026379a6bd14764e5aa14bc181cd8e",
+                "md5": "7179184ee064e473b644a15c55f514a3"
+            },
+            "./js/ithoughts_tooltip_glossary-glossary-list.js": {
+                "sha1": "a0e8c97d0e5af28e1c9ea0cc3275097dca52ad81",
+                "md5": "1912ebfc65eba9cc208c9c3de4523794"
+            },
+            "./js/ithoughts_tooltip_glossary-qtip2.js": {
+                "sha1": "f983a26fd6aaab084bfe11293e164edf7c0deace",
+                "md5": "01cf994daa3f571e1040e1ad44563f6b"
+            },
+            "./js/ithoughts_tooltip_glossary-styleeditor.js": {
+                "sha1": "2b45f235c0280702156722f0b9dff45c345a4f3b",
+                "md5": "fa24d6637c8084e2cb09e050973786fa"
+            },
+            "./js/ithoughts_tooltip_glossary-tinymce-forms.js": {
+                "sha1": "8118137a2d8cb7fb04aecdb0eaf60dc89b4ddad5",
+                "md5": "7e210ec923536ad2b44dff3ec496ce1e"
+            },
+            "./js/ithoughts_tooltip_glossary-utils.js": {
+                "sha1": "d88024e975a4be56c1f4ba0dc2a41639653cc367",
+                "md5": "8a8349bc7a2c30bd6385031c05448df3"
+            },
+            "./js/ithoughts_tooltip_glossary.js": {
+                "sha1": "1963c969cb5fc2bc8c61968df15aad5e5a0debb9",
+                "md5": "1edd040b3001d73914e9bf3e0196cc62"
+            },
+            "./js/ithoughts_tt_gl-floater.js": {
+                "sha1": "920e6e7e4f9e99ac8f97b7dada4508bc88a18a1a",
+                "md5": "fc7f080f4e9ae1d8ac2c1fd86bf01a9f"
+            },
+            "./js/ithoughts_tt_gl-tinymce.js": {
+                "sha1": "2d04e9f66cd66a44b8f90fbbc8f4abb30fbb3fcd",
+                "md5": "84eaca65f3ce20d26857d2a8fde45488"
+            },
+            "./js/ithoughts_tt_gl-updater.js": {
+                "sha1": "84b5314cf500bc63e7684ae2663e56d8a388e098",
+                "md5": "2b15320d5b9f1868297cbb89ab4bdaf0"
+            }
+        }
     },
     "dirty": true
 }
