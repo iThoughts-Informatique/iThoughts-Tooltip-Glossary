@@ -233,7 +233,7 @@
                     {
                         "action":"exec",
                         "data":{
-                            "command": "pwd && rsync -az --delete . ../../svn/ithoughts-tooltip-glossary"
+                            "command": "rsync -az --delete . ../../svn/ithoughts-tooltip-glossary/trunk/"
                         }
                     }
                 ]

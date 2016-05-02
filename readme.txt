@@ -76,6 +76,7 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 == Changelog ==
 
 = 2.5.0 =
+Hell
 Test sync
 
 = 2.4.1 =
@@ -248,7 +249,8 @@ Test sync
 
 == Upgrade Notice ==
 
-= 2.5.0 =
+= 2.5Hello
+.0 =
 
 
 = 2.4.1 =
