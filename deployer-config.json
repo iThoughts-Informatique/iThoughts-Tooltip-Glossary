@@ -237,12 +237,8 @@
         },
         "checksums": {
             "./ithoughts_tooltip_glossary.php": {
-                "sha1": "e63e3d46c95ec3be0c64aad27e094d2264ac75c2",
-                "md5": "8af5257c7cfdd334c07704affaa66023"
-            },
-            "./lang/ithoughts_tt_gl_tinymce_lang.php": {
-                "sha1": "0858617dc8c15c14706957835c09c8c6a85854ec",
-                "md5": "f760d715a6b491d09864171a4c872984"
+                "sha1": "977e5a589af0d19ebc0462b6dc1019f8b69da51c",
+                "md5": "a120118ef1b36535e67624aa50e69251"
             },
             "./css/ithoughts_tooltip_glossary-admin.css": {
                 "sha1": "3a6c5cfa201db4faf0fa04fa558c727a9922ae62",
@@ -267,6 +263,10 @@
             "./css/ithoughts_tooltip_glossary.min.css": {
                 "sha1": "717aabdb16b4a1e082cc3e90362ced2f61e9175b",
                 "md5": "b8d559bdaa95e30fc2795a82f6493282"
+            },
+            "./lang/ithoughts_tt_gl_tinymce_lang.php": {
+                "sha1": "0858617dc8c15c14706957835c09c8c6a85854ec",
+                "md5": "f760d715a6b491d09864171a4c872984"
             },
             "./templates/customizing_form.php": {
                 "sha1": "da83158c7509df63082f49372ddd07211aee08fa",
