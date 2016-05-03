@@ -1,4 +1,17 @@
-<?php # -*- coding: utf-8 -*-
+<?php
+
+/**
+ * @file Language file to interface with Javascript
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
+
+ # -*- coding: utf-8 -*-
 
 // This file is based on wp-includes/js/tinymce/langs/wp-langs.php
 

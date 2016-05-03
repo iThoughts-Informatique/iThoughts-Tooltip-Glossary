@@ -1,3 +1,14 @@
+/**
+ * @file Various comon functions
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
+
 removeAccents = (function() {
 	var translate_re = /[¹²³áàâãäåaaaÀÁÂÃÄÅAAAÆccç©CCÇÐÐèéê?ëeeeeeÈÊË?EEEEE€gGiìíîïìiiiÌÍÎÏ?ÌIIIlLnnñNNÑòóôõöoooøÒÓÔÕÖOOOØŒr®Ršs?ßŠS?ùúûüuuuuÙÚÛÜUUUUýÿÝŸžzzŽZZ]/g;
 	var translate = {

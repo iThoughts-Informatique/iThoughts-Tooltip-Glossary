@@ -1,4 +1,17 @@
 <?php
+
+/**
+ * @file Class file for HTML tooltips shortcode
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
+
+
 /**
   * @copyright 2015-2016 iThoughts Informatique
   * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
@@ -47,7 +60,6 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 			$backbone->add_script('qtip');
 
 			// qtip jquery data
-			$datas["attributes"]["data-tooltip-content"] = do_shortcode($content);
 
 			if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
 				$datas["linkAttrs"]["href"] = 'javascript:void(0);';
@@ -59,7 +71,7 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 			// Span that qtip finds
 			$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-tooltip".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
 			$args = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["attributes"]);
-			$span = '<span '.$args.'>' . $link . '</span>';
+			$span = '<span '.$args.' data-tooltip-content="'.do_shortcode($content).'">' . $link . '</span>';
 
 			return $span;
 		}

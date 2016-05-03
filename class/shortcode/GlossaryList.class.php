@@ -1,4 +1,17 @@
 <?php
+
+/**
+ * @file Base class file for lists
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.5.0
+ */
+
+
 /**
   * @copyright 2015-2016 iThoughts Informatique
   * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
@@ -42,7 +55,7 @@ if(!class_exists(__NAMESPACE__."\\GlossaryList")){
 			);
 		}
 
-		protected function get_lists_terms($group_slugs = NULL, $alphas = NULL){
+		protected function get_lists_terms($group_slugs = NULL, $pagination = NULL){
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 
 			// Post status array depending on user capabilities
@@ -51,9 +64,8 @@ if(!class_exists(__NAMESPACE__."\\GlossaryList")){
 				$statii[] = 'private';
 			}
 
-			$pagination = -1;/*
 			if($pagination == NULL)
-				$pagination = $backbone->get_option("lists_size");*/
+				$pagination = $backbone->get_option("lists_size");
 
 			$args = array(
 				'post_type'           => "glossary",
@@ -80,68 +92,34 @@ if(!class_exists(__NAMESPACE__."\\GlossaryList")){
 			$glossaries = get_posts( $args );
 
 			return array(
-				"terms" => $this->filter_per_char($glossaries, $alphas),
+				"terms" => &$glossaries,
 				"count" => $query->found_posts
 			);
 		}
 
-		private function filter_per_char(&$glossaries, $chars){
-			if($chars != NULL){
-				for($i = count($glossaries) -1; $i >= 0; $i--){
-					$title      = $glossaries[$i]->post_title;
-					$titlealpha = $this->get_type_char($title);
-					if(array_search($titlealpha, $chars) === false)
-						unset($glossaries[$i]);
-				}
-			}
-			return $glossaries;
-		}
-
-		final protected function get_miscroposts($group_slugs = NULL, $alphas = NULL){
+		final protected function get_miscroposts(){
 			global $wpdb;
 			$fields = \ithoughts\tooltip_glossary\MicroPost::getFields();
 			$table = "{$wpdb->prefix}posts";
-
 			$queryComponents = array();
-
 			$queryComponents["pre"] = "
 SELECT
 	";
-
 			$queryComponents["from"] = "
 FROM
-	$table AS post";
-
+	$table AS p";
 			if(function_exists('icl_object_id')){ // Add join to current language for WPML
 				$queryComponents["from"] .= "
-	JOIN {$wpdb->prefix}icl_translations wpml
+	JOIN devblog_icl_translations t
 	ON
-		post.ID = wpml.element_id AND
-		wpml.element_type = CONCAT('post_', post.post_type)";
+		p.ID = t.element_id AND
+		t.element_type = CONCAT('post_', p.post_type)";
 			}
-
-			if($group_slugs != NULL){
-				$queryComponents["from"] .= "
-	LEFT JOIN
-		{$wpdb->prefix}term_relationships AS relationship
-		ON
-			relationship.object_id=post.id
-	LEFT JOIN
-		{$wpdb->prefix}term_taxonomy AS taxonomy
-		ON
-			taxonomy.term_taxonomy_id=relationship.term_taxonomy_id
-	LEFT JOIN
-		{$wpdb->prefix}terms AS term
-		ON
-			term.term_id=taxonomy.term_id";
-			}
-
 			$queryComponents["where"] = "
 WHERE
-	post.post_type = 'glossary' AND
+	p.post_type = 'glossary' AND
 	(
 		";
-
 			$statii = array( 'publish' );
 			if( current_user_can('read_private_posts') ){
 				$statii[] = 'private';
@@ -152,51 +130,17 @@ WHERE
 					$queryComponents["where"] .= " OR
 		";
 				$loopIndicator = true;
-				$queryComponents["where"] .= "post.post_status='$status'";
+				$queryComponents["where"] .= "p.post_status='$status'";
 			}
-
 			$queryComponents["where"] .= "
 	)";
-
 			if(function_exists('icl_object_id')){ // Select only current language
 				$queryComponents["where"] .= " AND
-	wpml.language_code = '".ICL_LANGUAGE_CODE."'";
+	t.language_code = '".ICL_LANGUAGE_CODE."'";
 			}
-
-			if($group_slugs != null){
-				$tmp = "";
-				if(is_array($group_slugs)){
-					foreach($group_slugs as $term){
-						if($tmp != "")
-							$tmp .= ",";
-						$tmp .= '"'.esc_sql($term).'"';
-					}
-					$tmp = " IN ($tmp)";
-				} else {
-					$tmp = '="'.esc_sql($group_slugs).'"';
-				}
-				$queryComponents["where"] .= " AND
-	term.slug$tmp";
-			}
-
-			if($alphas != null){
-				$innerRegex = array();
-				foreach($alphas as $alpha){
-					if($alpha != "#"){
-						$innerRegex[] = $alpha;
-					} else {
-						$innerRegex[] = "[^A-Z]";
-					}
-				}
-				$innerRegex = implode("|", array_unique($innerRegex));
-				$regex = "^($innerRegex).*$";
-				$queryComponents["where"] .= " AND
-	upper(post.post_title) REGEXP \"".esc_sql($regex)."\"";
-			}
-
 			$queryComponents["order"] = "
 ORDER BY
-	post.post_title ASC";
+	p.post_title ASC";
 
 
 			$selectFields = "";
@@ -206,12 +150,12 @@ ORDER BY
 					$selectFields .= ",
 	";
 				$loopIndicator = true;
-				$selectFields .= "post.$field";
+				$selectFields .= "p.$field";
 			}
 
 			$querySelect = $queryComponents["pre"].$selectFields.$queryComponents["from"].$queryComponents["where"].$queryComponents["order"];
 			$queryCount = $queryComponents["pre"]."COUNT(*)".$queryComponents["from"].$queryComponents["where"].$queryComponents["order"];
-
+			
 			$res = $wpdb->get_results($querySelect, ARRAY_A);
 			$ret = array();
 			foreach($res as $micropost){
@@ -272,7 +216,7 @@ ORDER BY
 	 * @param integer	$index	The index in the string to check
 	 * @return string	The extracted char
 	 */
-		final protected function get_type_char($string, $index = NULL){
+		final private function get_type_char($string, $index = NULL){
 			if($index == NULL)
 				$index = 0;
 
