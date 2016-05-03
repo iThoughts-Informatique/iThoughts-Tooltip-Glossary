@@ -6,7 +6,7 @@
             "documentation": {
                 "base": {
                     "url": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/",
-                    "path": "/mnt/mutualized/work/php/documentation/ithoughts-tooltip-glossary/"
+                    "path": "/mnt/mutualized/work/php/wp-plugins/doc/ithoughts-tooltip-glossary/"
                 },
                 "format": [
                     "%BASE%",
@@ -15,7 +15,7 @@
                 ],
                 "resources": {
                     "url": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/resources/",
-                    "path": "/mnt/mutualized/work/php/documentation/ithoughts-tooltip-glossary/resources."
+                    "path": "/mnt/mutualized/work/php/wp-plugins/doc/ithoughts-tooltip-glossary/resources."
                 }
             },
             "company": {
@@ -57,6 +57,128 @@
                                 "\\.(cs|j)s$": true,
                                 "\\.\\/submodules\\/": false,
                                 "\\.min\\.(cs|j)s$": false
+                            }
+                        }
+                    }
+                ]
+            },
+            "documentate": {
+                "arguments": {
+                    "version": {
+                        "type": "prompt"
+                    }
+                },
+                "command_group": true,
+                "mode": "parallel",
+                "actions": [
+                    {
+                        "action": "phpdoc",
+                        "data": {
+                            "private": true,
+                            "selection": {
+                                "\\.(php)$": true,
+                                "^\\.\\/submodules($|\\/)": false,
+                                "^\\.\\/submodules\\/iThoughts-WordPress-Plugin-Toolbox": true
+                            },
+                            "project_name": "%project_name%",
+                            "author": "%author%",
+                            "target_path": "%documentation.base.path%%version_minor%/php/"
+                        },
+                        "arguments": {
+                            "version_minor": {
+                                "type": "regex_replace",
+                                "value": "%version%",
+                                "search": "^(\\d+)\\.(\\d+).*",
+                                "replacement": "$1.$2"
+                            }
+                        }
+                    },
+                    {
+                        "action": "jsdoc",
+                        "data": {
+                            "private": true,
+                            "selection": {
+                                "\\.(js)$": true,
+                                "\\.min\\.(js)$": false,
+                                "^\\.\\/submodules($|\\/)": false,
+                                "^\\.\\/ext($|\\/)": false
+                            },
+                            "template": "default",
+                            "template.bck": "gerkindevelopment",
+                            "destinationPath": "%documentation.base.path%%version_minor%/javascript/",
+                            "basePath": "%documentation.base.path%%version_minor%/javascript/"
+                        },
+                        "arguments": {
+                            "version_minor": {
+                                "type": "regex_replace",
+                                "value": "%version%",
+                                "search": "^(\\d+)\\.(\\d+).*",
+                                "replacement": "$1.$2"
+                            }
+                        }
+                    },
+                    {
+                        "action": "ithoughts-index-doc",
+                        "data": {
+                            "template": "gerkindevelopment",
+                            "head_links": {
+                                "GerkinDevelopment": "https://www.gerkindevelopment.net/",
+                                "Back to Documentation Index": "/"
+                            },
+                            "doc_links": [
+                                {
+                                    "labels": {
+                                        "main": "JavaScript",
+                                        "sub": "ClientSide"
+                                    },
+                                    "image": "/images/clientside.jpg",
+                                    "link": "javascript/index.html"
+                                },
+                                {
+                                    "labels": {
+                                        "main": "PHP",
+                                        "sub": "ServerSide"
+                                    },
+                                    "image": "/images/serverside.jpg",
+                                    "link": "php/index.html"
+                                }
+                            ],
+                            "project_name": "%project_name%",
+                            "author": "%author%",
+                            "version": "%version_minor%",
+                            "company_start": "%company.start%",
+                            "root": "%documentation.base.url%",
+                            "baseUrl": "%documentation.base.url%%version_minor%",
+                            "basePath": "%documentation.base.path%%version_minor%",
+                            "resourcesUrl": "../resources",
+                            "resourcesPath": "%documentation.base.path%resources"
+                        },
+                        "arguments": {
+                            "version_minor": {
+                                "type": "regex_replace",
+                                "value": "%version%",
+                                "search": "^(\\d+)\\.(\\d+).*",
+                                "replacement": "$1.$2"
+                            }
+                        }
+                    },
+                    {
+                        "action": "version-history",
+                        "data": {
+                            "basePath": "%documentation.base.path%",
+                            "template": "gerkindevelopment",
+                            "version_minor": "%version_minor%",
+                            "versionUrl": "%documentation.base.url%%version_minor%",
+                            "project_name": "%project_name%",
+                            "author": "%author%",
+                            "resourcesUrl": "./resources"
+                        },
+                        "arguments": {
+                            "version_minor": {
+                                "type": "regex_replace",
+                                "value": "%version%",
+                                "search": "^(\\d+)\\.(\\d+).*",
+                                "replacement": "$1.$2"
                             }
                         }
                     }
@@ -124,6 +246,12 @@
                         "command_group": true,
                         "mode": "parallel",
                         "actions": [
+                            {
+                                "action": "exec",
+                                "data":{
+                                    "command": "wp2md convert < readme.txt > README.md"
+                                }
+                            },
                             {
                                 "action": "phpdoc",
                                 "data": {
