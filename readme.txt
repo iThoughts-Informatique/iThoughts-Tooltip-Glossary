@@ -29,7 +29,7 @@ iThoughts Tooltip Glossary works well with [iThoughts Lightbox](http://www.gerki
 
 For further information, please visit the [iThoughts Tooltip Glossary dedicated landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/).
 
-** Developer documentation can be found at http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/ **
+**Developer documentation can be found at http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/**
 
 == Installation ==
 
