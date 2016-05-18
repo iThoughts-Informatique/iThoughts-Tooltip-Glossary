@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-=======
-/**
- * @file Comon, main stylesheet
- *
- * @author Gerkin
- * @copyright 2016 GerkinDevelopment
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
- * @package ithoughts-tooltip-glossary
- *
- * @version 2.5.0
- */
-
->>>>>>> heads/v2.5.0
 /* A-Z shortcode */
 .glossary-menu-atoz {
   text-transform: uppercase;
@@ -210,13 +196,10 @@ Specific styles for tip
 .ithoughts_tooltip_glossary-mediatip .qtip-content {
   padding: 0px;
 }
-<<<<<<< HEAD
-=======
 .ithoughts_tooltip_glossary-mediatip .qtip-content p,
 .ithoughts_tooltip_glossary-mediatip .qtip-content *:last-child {
   margin-bottom: 0;
 }
->>>>>>> heads/v2.5.0
 .ithoughts_tooltip_glossary-mediatip .qtip-content img {
   max-height: 75vh!important;
   vertical-align: middle;

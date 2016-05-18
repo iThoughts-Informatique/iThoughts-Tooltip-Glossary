@@ -60,9 +60,9 @@ For glossary terms only, you have to add the terms (Tooltip Glossary > Add New T
 
 = Further Information =
 
-** Please, don't annoy TCBarrett with questions about that plugin. The original plugin links given are for reading ONLY **
+**Please, don't annoy TCBarrett with questions about that plugin. The original plugin links given are for credits *ONLY*.**
 [For further details visit my dedicated plugin landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/)
-[Or see the original plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
+[Or see the original plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/).
 For bug repports or unexpected behaviors, please see the dedicated [WordPress support forum](https://wordpress.org/support/plugin/ithoughts-tooltip-glossary)
 
 == Screenshots ==

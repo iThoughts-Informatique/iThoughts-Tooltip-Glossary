@@ -1,21 +1,9 @@
 /**
-<<<<<<< HEAD
 * @file iThoughts Tooltip Glossary tinymce form styles
 * @author Gerkin
 *         
 * @version 1.0
 */
-=======
- * @file iThoughts Tooltip Glossary tinymce form styles
- *
- * @author Gerkin
- * @copyright 2016 GerkinDevelopment
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
- * @package ithoughts-tooltip-glossary
- *
- * @version 2.5.0
- */
->>>>>>> heads/v2.5.0
 #ithoughts_tt_gl-tooltip-form * {
   box-sizing: border-box;
 }

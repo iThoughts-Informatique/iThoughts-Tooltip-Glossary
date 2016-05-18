@@ -36,3 +36,4 @@ window.updateStyle;
         $("#qtiptrigger").bind("change blur keyup mouseup", updateActivationPreview);
     });
 })();
+  

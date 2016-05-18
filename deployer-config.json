@@ -1,6 +1,6 @@
 {
     "project": {
-        "arguments": {
+        "args": {
             "project_name": "iThoughts Tooltip Glossary",
             "author": "Gerkin",
             "documentation": {
@@ -15,7 +15,7 @@
                 ],
                 "resources": {
                     "url": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/resources/",
-                    "path": "/mnt/mutualized/work/php/wp-plugins/doc/ithoughts-tooltip-glossary/resources."
+                    "path": "/mnt/mutualized/work/php/wp-plugins/doc/ithoughts-tooltip-glossary/resources/"
                 }
             },
             "company": {
@@ -27,7 +27,7 @@
             "_default": {
                 "awake": true,
                 "command_group": false,
-                "actions": [
+                "eventListeners": [
                     {
                         "action": "less-compile",
                         "data": {
@@ -41,8 +41,11 @@
                         },
                         "events": {
                             "onchange": {
-                                "\\.less$": true,
-                                "\\.\\/submodules\\/": false
+                                "selection": {
+                                    "\\.less$": true,
+                                    "\\.\\/submodules\\/": false
+                                },
+                                "warmup": false
                             }
                         }
                     },
@@ -54,367 +57,420 @@
                         },
                         "events": {
                             "onchange": {
-                                "\\.(cs|j)s$": true,
-                                "\\.\\/submodules\\/": false,
-                                "\\.min\\.(cs|j)s$": false
+                                "selection": {
+                                    "\\.(cs|j)s$": true,
+                                    "\\.\\/submodules\\/": false,
+                                    "\\.\\/ext\\/": false,
+                                    "\\.min\\.(cs|j)s$": false
+                                },
+                                "warmup": false
+                            }
+                        }
+                    }
+                ]
+            },
+            "refresh_resources": {
+                "awake": true,
+                "command_group": false,
+                "eventListeners": [
+                    {
+                        "action": "less-compile",
+                        "data": {
+                            "browsers": [
+                                "> 1%",
+                                "IE 8",
+                                "last 2 versions"
+                            ],
+                            "from": "^(.*\\/)?less(\\/.+)\\.less$",
+                            "to": "$1css$2.css"
+                        },
+                        "events": {
+                            "onchange": {
+                                "selection": {
+                                    "\\.less$": true,
+                                    "\\.\\/submodules\\/": false
+                                },
+                                "warmup": true
+                            }
+                        }
+                    },
+                    {
+                        "action": "minify",
+                        "data": {
+                            "from": "^(.*)(\\.(?:cs|j)s)$",
+                            "to": "$1.min$2"
+                        },
+                        "events": {
+                            "onchange": {
+                                "selection": {
+                                    "\\.(cs|j)s$": true,
+                                    "\\.\\/submodules\\/": false,
+                                    "\\.\\/ext\\/": false,
+                                    "\\.min\\.(cs|j)s$": false
+                                },
+                                "warmup": true
                             }
                         }
                     }
                 ]
             },
             "documentate": {
-                "arguments": {
+                "args": {
                     "version": {
-                        "type": "prompt"
+                        "_type": "prompt"
                     }
                 },
                 "command_group": true,
-                "mode": "parallel",
-                "actions": [
-                    {
-                        "action": "phpdoc",
-                        "data": {
-                            "private": true,
-                            "selection": {
-                                "\\.(php)$": true,
-                                "^\\.\\/submodules($|\\/)": false,
-                                "^\\.\\/submodules\\/iThoughts-WordPress-Plugin-Toolbox": true
-                            },
-                            "project_name": "%project_name%",
-                            "author": "%author%",
-                            "target_path": "%documentation.base.path%%version_minor%/php/"
-                        },
-                        "arguments": {
-                            "version_minor": {
-                                "type": "regex_replace",
-                                "value": "%version%",
-                                "search": "^(\\d+)\\.(\\d+).*",
-                                "replacement": "$1.$2"
-                            }
-                        }
-                    },
-                    {
-                        "action": "jsdoc",
-                        "data": {
-                            "private": true,
-                            "selection": {
-                                "\\.(js)$": true,
-                                "\\.min\\.(js)$": false,
-                                "^\\.\\/submodules($|\\/)": false,
-                                "^\\.\\/ext($|\\/)": false
-                            },
-                            "template": "default",
-                            "template.bck": "gerkindevelopment",
-                            "destinationPath": "%documentation.base.path%%version_minor%/javascript/",
-                            "basePath": "%documentation.base.path%%version_minor%/javascript/"
-                        },
-                        "arguments": {
-                            "version_minor": {
-                                "type": "regex_replace",
-                                "value": "%version%",
-                                "search": "^(\\d+)\\.(\\d+).*",
-                                "replacement": "$1.$2"
-                            }
-                        }
-                    },
-                    {
-                        "action": "ithoughts-index-doc",
-                        "data": {
-                            "template": "gerkindevelopment",
-                            "head_links": {
-                                "GerkinDevelopment": "https://www.gerkindevelopment.net/",
-                                "Back to Documentation Index": "/"
-                            },
-                            "doc_links": [
-                                {
-                                    "labels": {
-                                        "main": "JavaScript",
-                                        "sub": "ClientSide"
-                                    },
-                                    "image": "/images/clientside.jpg",
-                                    "link": "javascript/index.html"
+                "actionGroup": {
+                    "mode": "parallel",
+                    "actions": [
+                        {
+                            "action": "phpdoc",
+                            "data": {
+                                "private": true,
+                                "selection": {
+                                    "\\.(php)$": true,
+                                    "^\\.\\/submodules($|\\/)": false,
+                                    "^\\.\\/submodules\\/iThoughts-WordPress-Plugin-Toolbox": true
                                 },
-                                {
-                                    "labels": {
-                                        "main": "PHP",
-                                        "sub": "ServerSide"
-                                    },
-                                    "image": "/images/serverside.jpg",
-                                    "link": "php/index.html"
+                                "project_name": "${ project_name }",
+                                "author": "${ author }",
+                                "target_path": "${ documentation.base.path }${ version_minor }/php/"
+                            },
+                            "args": {
+                                "version_minor": {
+                                    "_type": "regex_replace",
+                                    "value": "${ version }",
+                                    "search": "^(\\d+)\\.(\\d+).*",
+                                    "replacement": "$1.$2"
                                 }
-                            ],
-                            "project_name": "%project_name%",
-                            "author": "%author%",
-                            "version": "%version_minor%",
-                            "company_start": "%company.start%",
-                            "root": "%documentation.base.url%",
-                            "baseUrl": "%documentation.base.url%%version_minor%",
-                            "basePath": "%documentation.base.path%%version_minor%",
-                            "resourcesUrl": "../resources",
-                            "resourcesPath": "%documentation.base.path%resources"
+                            }
                         },
-                        "arguments": {
-                            "version_minor": {
-                                "type": "regex_replace",
-                                "value": "%version%",
-                                "search": "^(\\d+)\\.(\\d+).*",
-                                "replacement": "$1.$2"
+                        {
+                            "action": "jsdoc",
+                            "data": {
+                                "private": true,
+                                "selection": {
+                                    "\\.(js)$": true,
+                                    "\\.min\\.(js)$": false,
+                                    "^\\.\\/submodules($|\\/)": false,
+                                    "^\\.\\/ext($|\\/)": false
+                                },
+                                "template": "default",
+                                "template.bck": "gerkindevelopment",
+                                "destinationPath": "${ documentation.base.path }${ version_minor }/javascript/",
+                                "basePath": "${ documentation.base.path }${ version_minor }/javascript/"
+                            },
+                            "args": {
+                                "version_minor": {
+                                    "_type": "regex_replace",
+                                    "value": "${ version }",
+                                    "search": "^(\\d+)\\.(\\d+).*",
+                                    "replacement": "$1.$2"
+                                }
+                            }
+                        },
+                        {
+                            "action": "ithoughts-index-doc",
+                            "data": {
+                                "template": "gerkindevelopment",
+                                "head_links": {
+                                    "GerkinDevelopment": "https://www.gerkindevelopment.net/",
+                                    "Back to Documentation Index": "/"
+                                },
+                                "doc_links": [
+                                    {
+                                        "labels": {
+                                            "main": "JavaScript",
+                                            "sub": "ClientSide"
+                                        },
+                                        "image": "/images/clientside.jpg",
+                                        "link": "javascript/index.html"
+                                    },
+                                    {
+                                        "labels": {
+                                            "main": "PHP",
+                                            "sub": "ServerSide"
+                                        },
+                                        "image": "/images/serverside.jpg",
+                                        "link": "php/index.html"
+                                    }
+                                ],
+                                "project_name": "${ project_name }",
+                                "author": "${ author }",
+                                "version": "${ version_minor }",
+                                "company_start": "${ company.start }",
+                                "root": "${ documentation.base.url }",
+                                "baseUrl": "${ documentation.base.url }${ version_minor }",
+                                "basePath": "${ documentation.base.path }${ version_minor}",
+                                "resourcesUrl": "../resources",
+                                "resourcesPath": "${ documentation.base.path}resources"
+                            },
+                            "args": {
+                                "version_minor": {
+                                    "_type": "regex_replace",
+                                    "value": "${ version }",
+                                    "search": "^(\\d+)\\.(\\d+).*",
+                                    "replacement": "$1.$2"
+                                }
+                            }
+                        },
+                        {
+                            "action": "version-history",
+                            "data": {
+                                "basePath": "${ documentation.base.path }",
+                                "template": "gerkindevelopment",
+                                "version_minor": "${ version_minor }",
+                                "versionUrl": "${ documentation.base.url }${ version_minor }",
+                                "project_name": "${ project_name }",
+                                "author": "${ author }",
+                                "resourcesUrl": "./resources"
+                            },
+                            "args": {
+                                "version_minor": {
+                                    "_type": "regex_replace",
+                                    "value": "${ version }",
+                                    "search": "^(\\d+)\\.(\\d+).*",
+                                    "replacement": "$1.$2"
+                                }
                             }
                         }
-                    },
-                    {
-                        "action": "version-history",
-                        "data": {
-                            "basePath": "%documentation.base.path%",
-                            "template": "gerkindevelopment",
-                            "version_minor": "%version_minor%",
-                            "versionUrl": "%documentation.base.url%%version_minor%",
-                            "project_name": "%project_name%",
-                            "author": "%author%",
-                            "resourcesUrl": "./resources"
-                        },
-                        "arguments": {
-                            "version_minor": {
-                                "type": "regex_replace",
-                                "value": "%version%",
-                                "search": "^(\\d+)\\.(\\d+).*",
-                                "replacement": "$1.$2"
-                            }
-                        }
-                    }
-                ]
+                    ]
+                }
             },
             "release": {
-                "arguments": {
+                "args": {
                     "version": {
-                        "type": "prompt"
+                        "_type": "prompt"
                     },
                     "versionMessage": {
-                        "type": "prompt"
+                        "_type": "prompt"
                     }
                 },
                 "description": "Makes a release by pre-commiting on git, updating file versions, post-commit & push",
                 "command_group": true,
-                "mode": "serie",
-                "actions": [
-                    {
-                        "action": "git",
-                        "data": {
+                "actionGroup": {
+                    "mode": "serie",
+                    "actions": [
+                        {
+                            "action": "git",
+                            "data": {
+                                "actions": [
+                                    {
+                                        "action": "commit",
+                                        "data": {
+                                            "message": "Pre-process version ${ version }"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "action": "wordpress-upgrade",
+                            "data": {
+                                "targetVersion": "${ version }",
+                                "companyName": "${ company.name }",
+                                "projectName": "${ project_name }",
+                                "command": {
+                                    "bin": "emacs",
+                                    "args": [
+                                        "%FILE%"
+                                    ],
+                                    "closeMessage": "Press Ctrl+X to end."
+                                }
+                            }
+                        },
+                        {
+                            "action": "files-version",
+                            "data": {
+                                "selection": {
+                                    "\\.(js|css|php)$": true,
+                                    "\\.min\\.js$": false,
+                                    "\\.\\/submodules\\/": false,
+                                    "\\.\\/js\\/tinymce\\/": false,
+                                    "\\.\\/ext\\/": false
+                                },
+                                "setDiffs": {
+                                    "/(@version\\s+)\\d+(\\.\\d+)*": "$1${ version }"
+                                },
+                                "targetVersion": "${ version }",
+                                "companyName": "${ company.name }"
+                            }
+                        },
+                        {
+                            "command_group": true,
+                            "mode": "parallel",
                             "actions": [
                                 {
-                                    "action": "commit",
+                                    "action": "exec",
+                                    "data":{
+                                        "command": "wp2md convert < readme.txt > README.md"
+                                    }
+                                },
+                                {
+                                    "action": "phpdoc",
                                     "data": {
-                                        "message": "Pre-process version %version%"
+                                        "private": true,
+                                        "selection": {
+                                            "\\.(php)$": true,
+                                            "^\\.\\/submodules($|\\/)": false
+                                        },
+                                        "project_name": "${ project_name }",
+                                        "author": "${ author }",
+                                        "target_path": "${ documentation.base.path }${ version_minor }/php/"
+                                    },
+                                    "args": {
+                                        "version_minor": {
+                                            "_type": "regex_replace",
+                                            "value": "${ version }",
+                                            "search": "^(\\d+)\\.(\\d+).*",
+                                            "replacement": "$1.$2"
+                                        }
+                                    }
+                                },
+                                {
+                                    "action": "jsdoc",
+                                    "data": {
+                                        "private": true,
+                                        "selection": {
+                                            "\\.(js)$": true,
+                                            "\\.min\\.(js)$": false,
+                                            "^\\.\\/submodules($|\\/)": false,
+                                            "^\\.\\/ext($|\\/)": false
+                                        },
+                                        "template": "default",
+                                        "template.bck": "gerkindevelopment",
+                                        "typepath": "javascript",
+                                        "destinationPath": "${ documentation.base.path }${ version_minor }/javascript/",
+                                        "basePath": "${ documentation.base.path }${ version_minor }/javascript/"
+                                    },
+                                    "args": {
+                                        "version_minor": {
+                                            "_type": "regex_replace",
+                                            "value": "${ version }",
+                                            "search": "^(\\d+)\\.(\\d+).*",
+                                            "replacement": "$1.$2"
+                                        }
+                                    }
+                                },
+                                {
+                                    "action": "ithoughts-index-doc",
+                                    "data": {
+                                        "template": "gerkindevelopment",
+                                        "head_links": {
+                                            "GerkinDevelopment": "https://www.gerkindevelopment.net/",
+                                            "Back to Documentation Index": "/"
+                                        },
+                                        "doc_links": [
+                                            {
+                                                "labels": {
+                                                    "main": "JavaScript",
+                                                    "sub": "Node.js"
+                                                },
+                                                "image": "/images/serverside.jpg",
+                                                "link": "javascript/index.html"
+                                            }
+                                        ],
+                                        "project_name": "${ project_name }",
+                                        "author": "${ author }",
+                                        "version": "${ version_minor }",
+                                        "company_start": "${ company.start }",
+                                        "root": "${ documentation.base.url }",
+                                        "baseUrl": "${ documentation.base.url }${ version_minor }",
+                                        "basePath": "${ documentation.base.path }${ version_minor }",
+                                        "resourcesUrl": "../resources",
+                                        "resourcesPath": "${ documentation.base.path }resources"
+                                    },
+                                    "args": {
+                                        "version_minor": {
+                                            "_type": "regex_replace",
+                                            "value": "${ version }",
+                                            "search": "^(\\d+)\\.(\\d+).*",
+                                            "replacement": "$1.$2"
+                                        }
+                                    }
+                                },
+                                {
+                                    "action": "version-history",
+                                    "data": {
+                                        "basePath": "${ documentation.base.path }",
+                                        "template": "gerkindevelopment",
+                                        "version_minor": "${ version_minor }",
+                                        "versionUrl": "${ documentation.base.url }${ version_minor }",
+                                        "project_name": "${ project_name }",
+                                        "author": "${ author }",
+                                        "resourcesUrl": "./resources"
+                                    },
+                                    "args": {
+                                        "version_minor": {
+                                            "_type": "regex_replace",
+                                            "value": "${ version }",
+                                            "search": "^(\\d+)\\.(\\d+).*",
+                                            "replacement": "$1.$2"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "action": "exec",
+                            "data": {
+                                "command": "rsync -az --delete . ../../svn/ithoughts-tooltip-glossary/trunk/"
+                            }
+                        },
+                        {
+                            "command_group": true,
+                            "mode": "parallel",
+                            "actions": [
+                                {
+                                    "action": "svn",
+                                    "data": {
+                                        "path": "../../svn/ithoughts-tooltip-glossary",
+                                        "actions": [
+                                            {
+                                                "action": "cp",
+                                                "data": {
+                                                    "from": "trunk",
+                                                    "to": "tags/${ version }"
+                                                }
+                                            },
+                                            {
+                                                "action": "commit",
+                                                "data": {
+                                                    "message": "Release version ${ version }: ${ versionMessage }"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "action": "git",
+                                    "data": {
+                                        "actions": [
+                                            {
+                                                "action": "commit",
+                                                "data": {
+                                                    "message": "Version ${ version } released: ${ versionMessage }"
+                                                }
+                                            },
+                                            {
+                                                "action": "tag",
+                                                "data": {
+                                                    "label": "v${ version }",
+                                                    "message": "Version ${ version } released: ${ versionMessage }"
+                                                }
+                                            },
+                                            {
+                                                "action": "push",
+                                                "data": {}
+                                            }
+                                        ]
                                     }
                                 }
                             ]
                         }
-                    },
-                    {
-                        "action": "wordpress-upgrade",
-                        "data": {
-                            "targetVersion": "%version%",
-                            "companyName": "%company.name%",
-                            "projectName": "%project_name%",
-                            "command": {
-                                "bin": "emacs",
-                                "args": [
-                                    "%FILE%"
-                                ],
-                                "closeMessage": "Press Ctrl+X to end."
-                            }
-                        }
-                    },
-                    {
-                        "action": "files-version",
-                        "data": {
-                            "selection": {
-                                "\\.(js|css|php)$": true,
-                                "\\.min\\.js$": false,
-                                "\\.\\/submodules\\/": false,
-                                "\\.\\/js\\/tinymce\\/": false,
-                                "\\.\\/ext\\/": false
-                            },
-                            "setDiffs": {
-                                "/(@version\\s+)\\d+(\\.\\d+)*": "$1%version%"
-                            },
-                            "targetVersion": "%version%",
-                            "companyName": "%company.name%"
-                        }
-                    },
-                    {
-                        "command_group": true,
-                        "mode": "parallel",
-                        "actions": [
-                            {
-                                "action": "exec",
-                                "data":{
-                                    "command": "wp2md convert < readme.txt > README.md"
-                                }
-                            },
-                            {
-                                "action": "phpdoc",
-                                "data": {
-                                    "private": true,
-                                    "selection": {
-                                        "\\.(php)$": true,
-                                        "^\\.\\/submodules($|\\/)": false
-                                    },
-                                    "project_name": "%project_name%",
-                                    "author": "%author%",
-                                    "target_path": "%documentation.base.path%%version_minor%/php/"
-                                },
-                                "arguments": {
-                                    "version_minor": {
-                                        "type": "regex_replace",
-                                        "value": "%version%",
-                                        "search": "^(\\d+)\\.(\\d+).*",
-                                        "replacement": "$1.$2"
-                                    }
-                                }
-                            },
-                            {
-                                "action": "jsdoc",
-                                "data": {
-                                    "private": true,
-                                    "selection": {
-                                        "\\.(js)$": true,
-                                        "\\.min\\.(js)$": false,
-                                        "^\\.\\/submodules($|\\/)": false,
-                                        "^\\.\\/ext($|\\/)": false
-                                    },
-                                    "template": "default",
-                                    "template.bck": "gerkindevelopment",
-                                    "typepath": "javascript",
-                                    "destinationPath": "%documentation.base.path%%version_minor%/javascript/",
-                                    "basePath": "%documentation.base.path%%version_minor%/javascript/"
-                                },
-                                "arguments": {
-                                    "version_minor": {
-                                        "type": "regex_replace",
-                                        "value": "%version%",
-                                        "search": "^(\\d+)\\.(\\d+).*",
-                                        "replacement": "$1.$2"
-                                    }
-                                }
-                            },
-                            {
-                                "action": "ithoughts-index-doc",
-                                "data": {
-                                    "template": "gerkindevelopment",
-                                    "head_links": {
-                                        "GerkinDevelopment": "https://www.gerkindevelopment.net/",
-                                        "Back to Documentation Index": "/"
-                                    },
-                                    "doc_links": [
-                                        {
-                                            "labels": {
-                                                "main": "JavaScript",
-                                                "sub": "Node.js"
-                                            },
-                                            "image": "/images/serverside.jpg",
-                                            "link": "javascript/index.html"
-                                        }
-                                    ],
-                                    "project_name": "%project_name%",
-                                    "author": "%author%",
-                                    "version": "%version_minor%",
-                                    "company_start": "%company.start%",
-                                    "root": "%documentation.base.url%",
-                                    "baseUrl": "%documentation.base.url%%version_minor%",
-                                    "basePath": "%documentation.base.path%%version_minor%",
-                                    "resourcesUrl": "../resources",
-                                    "resourcesPath": "%documentation.base.path%resources"
-                                },
-                                "arguments": {
-                                    "version_minor": {
-                                        "type": "regex_replace",
-                                        "value": "%version%",
-                                        "search": "^(\\d+)\\.(\\d+).*",
-                                        "replacement": "$1.$2"
-                                    }
-                                }
-                            },
-                            {
-                                "action": "version-history",
-                                "data": {
-                                    "basePath": "%documentation.base.path%",
-                                    "template": "gerkindevelopment",
-                                    "version_minor": "%version_minor%",
-                                    "versionUrl": "%documentation.base.url%%version_minor%",
-                                    "project_name": "%project_name%",
-                                    "author": "%author%",
-                                    "resourcesUrl": "./resources"
-                                },
-                                "arguments": {
-                                    "version_minor": {
-                                        "type": "regex_replace",
-                                        "value": "%version%",
-                                        "search": "^(\\d+)\\.(\\d+).*",
-                                        "replacement": "$1.$2"
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "action": "exec",
-                        "data": {
-                            "command": "rsync -az --delete . ../../svn/ithoughts-tooltip-glossary/trunk/"
-                        }
-                    },
-                    {
-                        "command_group": true,
-                        "mode": "parallel",
-                        "actions": [
-                            {
-                                "action": "svn",
-                                "data": {
-                                    "path": "../../svn/ithoughts-tooltip-glossary",
-                                    "actions": [
-                                        {
-                                            "action": "cp",
-                                            "data": {
-                                                "from": "trunk",
-                                                "to": "tags/%version%"
-                                            }
-                                        },
-                                        {
-                                            "action": "commit",
-                                            "data": {
-                                                "message": "Release version %version%: %versionMessage%"
-                                            }
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "action": "git",
-                                "data": {
-                                    "actions": [
-                                        {
-                                            "action": "commit",
-                                            "data": {
-                                                "message": "Version %version% released: %versionMessage%"
-                                            }
-                                        },
-                                        {
-                                            "action": "tag",
-                                            "data": {
-                                                "label": "v%version%",
-                                                "message": "Version %version% released: %versionMessage%"
-                                            }
-                                        },
-                                        {
-                                            "action": "push",
-                                            "data": {}
-                                        }
-                                    ]
-                                }
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                }
             }
         },
         "versions": {
@@ -567,5 +623,5 @@
             }
         }
     },
-    "dirty": true
+    "dirty": false
 }
