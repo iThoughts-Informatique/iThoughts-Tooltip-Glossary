@@ -4,6 +4,44 @@
 *         
 * @version 1.0
 */
+#ithoughts_tt_gl-tooltip-form-options .mce-reset,
+#ithoughts_tt_gl-tooltip-form .mce-reset {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: column nowrap;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  height: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+#ithoughts_tt_gl-tooltip-form-options .mce-reset > *,
+#ithoughts_tt_gl-tooltip-form .mce-reset > * {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
+#ithoughts_tt_gl-tooltip-form-options .mce-reset > .mce-window-body,
+#ithoughts_tt_gl-tooltip-form .mce-reset > .mce-window-body {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+}
+#ithoughts_tt_gl-tooltip-form-options .mce-foot .mce-container-body,
+#ithoughts_tt_gl-tooltip-form .mce-foot .mce-container-body {
+  text-align: right;
+  padding: 10px;
+}
 #ithoughts_tt_gl-tooltip-form * {
   box-sizing: border-box;
 }
@@ -123,40 +161,6 @@
       -ms-flex-align: stretch;
           align-items: stretch;
 }
-#ithoughts_tt_gl-tooltip-form .mce-reset {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-flow: column nowrap;
-      -ms-flex-flow: column nowrap;
-          flex-flow: column nowrap;
-  height: 100%;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: stretch;
-  -webkit-align-items: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
-}
-#ithoughts_tt_gl-tooltip-form .mce-reset > * {
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 0 auto;
-      -ms-flex: 0 0 auto;
-          flex: 0 0 auto;
-}
-#ithoughts_tt_gl-tooltip-form .mce-reset > .mce-window-body {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-}
-#ithoughts_tt_gl-tooltip-form .mce-foot .mce-container-body {
-  text-align: right;
-  padding: 10px;
-}
 #ithoughts_tt_gl-tooltip-form .foreign-language {
   background-color: #FFFCAB;
 }
@@ -219,6 +223,17 @@
   padding: 5px;
   box-sizing: border-box;
 }
+#ithoughts_tt_gl-attrs-table .kv-inputs {
+  width: 185px;
+  float: left;
+}
+#ithoughts_tt_gl-attrs-table .kv-delete {
+  width: 18px;
+  float: left;
+  height: 40px;
+  text-align: center;
+  color: darkred;
+}
 #ithoughts_tt_gl-attrs-table .kv-pair > * {
   margin: 0;
   padding: 0;
@@ -240,25 +255,17 @@
 #ithoughts_tt_gl-attrs-table #kv-pair-link-attrs {
   overflow-y: auto;
 }
-#ithoughts_tt_gl-attrs-table #kv-pair-span-attrs .delete,
-#ithoughts_tt_gl-attrs-table #kv-pair-link-attrs .delete {
-  display: inline-block;
-  color: darkred;
-  margin-right: 15px;
-  width: 28px;
+#ithoughts_tt_gl-attrs-table .kv {
+  display: block;
+  width: 205.5px;
+  height: 42px;
+  overflow: hidden;
 }
-#ithoughts_tt_gl-attrs-table #kv-pair-span-attrs .kv,
-#ithoughts_tt_gl-attrs-table #kv-pair-link-attrs .kv {
-  display: inline-block;
-  width: 160px;
-}
-#ithoughts_tt_gl-attrs-table #kv-pair-span-attrs .kv .key,
-#ithoughts_tt_gl-attrs-table #kv-pair-link-attrs .kv .key {
+#ithoughts_tt_gl-attrs-table .kv .key {
   text-align: left;
   font-weight: bold;
 }
-#ithoughts_tt_gl-attrs-table #kv-pair-span-attrs .kv .value,
-#ithoughts_tt_gl-attrs-table #kv-pair-link-attrs .kv .value {
+#ithoughts_tt_gl-attrs-table .kv .value {
   text-align: right;
   font-style: italic;
 }

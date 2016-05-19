@@ -1,189 +1,189 @@
 /* A-Z shortcode */
 .glossary-menu-atoz{
-	text-transform: uppercase;
-	margin: auto;
-	padding: 0;
-	border-bottom: 2px solid #000;
-	width: 100%;
-	height: 25px;
-	padding: 5px 0 10px!important;
-	line-height: 1em;
-	height: auto;
-	display: block;
+    text-transform: uppercase;
+    margin: auto;
+    padding: 0;
+    border-bottom: 2px solid #000;
+    width: 100%;
+    height: 25px;
+    padding: 5px 0 10px!important;
+    line-height: 1em;
+    height: auto;
+    display: block;
 
-	&:after {
-		content: "";
-		display: block;
-		clear: both;
-	}
+    &:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
 
-	.glossary-menu-item{
-		display: inline-block;
-		list-style: none;
-		float: left; 
-		padding-left: 1%;
-		padding-right: 1%;
-		padding-top: 1px;
-		padding-bottom: 1px;
-		height: 22px;
-		margin: 0 0 0 0.5em;
-	}
+    .glossary-menu-item{
+        display: inline-block;
+        list-style: none;
+        float: left; 
+        padding-left: 1%;
+        padding-right: 1%;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        height: 22px;
+        margin: 0 0 0 0.5em;
+    }
 }
 .glossary-atoz-wrapper .glossary-atoz{
-	padding: 5px 5px 10px 20px;
+    padding: 5px 5px 10px 20px;
 }
 
 .glossary-list-details{
-	display: flex;
-	flex-direction: row;
+    display: flex;
+    flex-direction: row;
 
-	.glossary-list{
-		flex: 0 1 100%;
-		padding: 0 10px;
+    .glossary-list{
+        flex: 0 1 100%;
+        padding: 0 10px;
 
-		li{
-			list-style: none;
-			padding-left: 0;
+        li{
+            list-style: none;
+            padding-left: 0;
 
-			.glossary-item-header{
-				text-align: center;
-				text-transform: uppercase;
-				border-bottom: 1px solid #eee;
-			}
-			.glossary-item{
-				text-align: justify;
-				max-width: 100%;
-			}
-		}
-	}
+            .glossary-item-header{
+                text-align: center;
+                text-transform: uppercase;
+                border-bottom: 1px solid #eee;
+            }
+            .glossary-item{
+                text-align: justify;
+                max-width: 100%;
+            }
+        }
+    }
 }
 
 .glossary-menu-item a{
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .atozmenu-empty{
-	color: #ccc;
+    color: #ccc;
 }
 .atozmenu-off{
-	color: #333;
+    color: #333;
 
-	&:hover{
-		background-color: #333;
-		color: #eee;
-	}
+    &:hover{
+        background-color: #333;
+        color: #eee;
+    }
 }
 .atozmenu-on{
-	text-decoration: underline;
+    text-decoration: underline;
 }
 .atozitems-off{
-	display: none;
+    display: none;
 }
 
 
 
 /* Popup tooltip */
 .tooltip {
-	display:     none;
-	background:  #f4f4f4;
-	font-size:   1.1em;
-	padding:     10px;
-	color:       #333;
-	border:      1px solid #ddd;
-	line-height: 1.5em;
-	width:       20%;
+    display:     none;
+    background:  #f4f4f4;
+    font-size:   1.1em;
+    padding:     10px;
+    color:       #333;
+    border:      1px solid #ddd;
+    line-height: 1.5em;
+    width:       20%;
 }
 #glossary-index{
-	margin: 15px auto;
-	padding: 5px 10px;
+    margin: 15px auto;
+    padding: 5px 10px;
 
-	header{
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		align-content: stretch;
-		align-items: stretch;
+    header{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: stretch;
+        align-items: stretch;
 
-		p.tileHead{
-			flex: 1 1 auto;
-			margin:5px 2.5px;
-			padding: 5px;
-			background: #ffffff;
-			border: 1px solid #999999;
-			line-height: 1;
-			text-align: center;
-			cursor: pointer;
+        p.tileHead{
+            flex: 1 1 auto;
+            margin:5px 2.5px;
+            padding: 5px;
+            background: #ffffff;
+            border: 1px solid #999999;
+            line-height: 1;
+            text-align: center;
+            cursor: pointer;
 
-			&[data-empty="true"]{
-				color: #999999;
-				cursor: auto;
-			}
-		}
+            &[data-empty="true"]{
+                color: #999999;
+                cursor: auto;
+            }
+        }
 
-		p.tile[data-hasglossaryItem]{
-			color: #fff;
-		}
-	}
+        p.tile[data-hasglossaryItem]{
+            color: #fff;
+        }
+    }
 
-	&[data-type=tile]{
-		text-align: justify;
+    &[data-type=tile]{
+        text-align: justify;
 
-		#glossary-container{
-			position: relative;
-			margin: 0 -10px;
-		}
-		article{
-			visibility: visible;
-			position: absolute;
-			top:0;
-			opacity: 1;
-			transition:.5s opacity;
-			pointer-events: all;
+        #glossary-container{
+            position: relative;
+            margin: 0 -10px;
+        }
+        article{
+            visibility: visible;
+            position: absolute;
+            top:0;
+            opacity: 1;
+            transition:.5s opacity;
+            pointer-events: all;
 
-			&[data-active="false"]{
-				visibility: hidden;
-				opacity: 0;
-				transition:.5s opacity,.5s .5s visibility;
-				pointer-events: none;
-			}
-		}
+            &[data-active="false"]{
+                visibility: hidden;
+                opacity: 0;
+                transition:.5s opacity,.5s .5s visibility;
+                pointer-events: none;
+            }
+        }
 
-		p.tile{
-			margin: 30px 15px;
-			display: inline-block;
+        p.tile{
+            margin: 30px 15px;
+            display: inline-block;
 
-			span a{
-				padding: 15px;
-				border: 1px solid grey;
-				background: #ffffff;
-			}
-		}
-	}
+            span a{
+                padding: 15px;
+                border: 1px solid grey;
+                background: #ffffff;
+            }
+        }
+    }
 }
 
 
 
 #ithoughts_tooltip_glossary-tipsContainer{
-	position: absolute;
-	z-index: 100000;
-	width:100%;
+    position: absolute;
+    z-index: 100000;
+    width:100%;
 }
 .ithoughts_tooltip_glossary-glossary{
-	& > a,/* for term */
-	& > a:hover,
-	& > a:visited,
-	& > a:active,
-	& > a,/* for mediatip */
-	& > a:hover,
-	& > a:visited,
-	& > a:active,
-	& > a,/* for inline tooltip */
-	& > a:hover,
-	& > a:visited,
-	& > a:active
-	{
-		text-decoration: overline underline;
-	}
+    & > a,/* for term */
+    & > a:hover,
+    & > a:visited,
+    & > a:active,
+    & > a,/* for mediatip */
+    & > a:hover,
+    & > a:visited,
+    & > a:active,
+    & > a,/* for inline tooltip */
+    & > a:hover,
+    & > a:visited,
+    & > a:active
+    {
+        text-decoration: overline underline;
+    }
 }
 
 
@@ -191,86 +191,84 @@
 Specific styles for tip
 ****************************************************/
 .ithoughts_tooltip_glossary-mediatip{
-	max-width: 350px;
+    max-width: 350px;
 
-	.qtip-content{
-		padding: 0px;
+    .qtip-content{
+        padding: 0px;
 
-        p,*:last-child{
-            margin-bottom: 0;
+        img{
+            max-height: 75vh!important;
+            vertical-align: middle;
         }
-		img{
-			max-height: 75vh!important;
-			vertical-align: middle;
-		}
-	}
-	.ithoughts_tooltip_glossary_pin_container{
-		border: 1px solid;
-		display: inline-block;
-		height: 2em;
-		width: 2em;
-		box-sizing: border-box;
-		border-radius: 0.5em;
-		float: right;
+    }
+    .ithoughts_tooltip_glossary_pin_container{
+        border: 1px solid;
+        display: inline-block;
+        height: 2em;
+        width: 2em;
+        box-sizing: border-box;
+        border-radius: 0.5em;
+        float: right;
 
-		.ithoughts_tooltip_glossary_pin{
-			display: block;
-			cursor: pointer;
-			margin: 0.25em;
-			box-sizing: border-box;
-			fill: currentColor;
-			transition: all 0.25s ease 0s;
-		}
+        .ithoughts_tooltip_glossary_pin{
+            display: block;
+            cursor: pointer;
+            margin: 0.25em;
+            box-sizing: border-box;
+            fill: currentColor;
+            transition: all 0.25s ease 0s;
+        }
 
-		&.pined .ithoughts_tooltip_glossary_pin{
-			transform: rotate(-45deg);
-			transition: 0.25s all;
-		}
-	}
+        &.pined .ithoughts_tooltip_glossary_pin{
+            transform: rotate(-45deg);
+            transition: 0.25s all;
+        }
+    }
 }
 
 
 .qtip-content{
-	p{
-		padding-bottom: 1em;
-		line-height: 1.5em;
+    p{
+        padding-bottom: 1em;
+        line-height: 1.5em;
 
-		&:last-child{
-			padding-bottom: 0;
-			line-height: 1.5em;
-		}
-	}
-	a{
-		color: inherit;
-		text-decoration: underline;
-	}
+    }
+    *:last-child{
+        padding-bottom: 0;
+        line-height: 1.5em;
+        margin-bottom: 0;
+    }
+    a{
+        color: inherit;
+        text-decoration: underline;
+    }
 }
 
 .ithoughts_tt_gl-force_no_pad .qtip-content{
-	padding-left: 0!important;
-	padding-right: 0!important;
-	padding-bottom: 0!important;
-	vertical-align: top;
+    padding-left: 0!important;
+    padding-right: 0!important;
+    padding-bottom: 0!important;
+    vertical-align: top;
 }
 
 .ithoughts_tt_gl-video_tip,
 .ithoughts_tt_gl-video_tip iframe,
 .ithoughts_tt_gl-video_tip video{
-	max-width: none;
-	vertical-align: top;
+    max-width: none;
+    vertical-align: top;
 }
 
 .ithoughts_tt_gl-title_with_pin{
-	vertical-align: sub;
+    vertical-align: sub;
 
-	.qtip-titlebar .qtip-title{
-		display: block;
-		width: 100%;
-	}
+    .qtip-titlebar .qtip-title{
+        display: block;
+        width: 100%;
+    }
 }
 .ithoughts_tt_gl-caption{
-	border-top: 1px solid currentColor;
-	padding-top: 5px;
-	font-size: 1.1em;
-	text-align: justify;
+    border-top: 1px solid currentColor;
+    padding-top: 5px;
+    font-size: 1.1em;
+    text-align: justify;
 }

@@ -22,19 +22,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 if(!class_exists(__NAMESPACE__."\\Admin")){
     class Admin extends \ithoughts\v1_0\Singleton{
         /**
-	 * Store version extracted from plugin main file
-	 */
+         * Store version extracted from plugin main file
+         * @var string $currentVersion
+         */
         private $currentVersion;
 
         /**
-	 * Updater instance (will be set only if required)
-	 */
+         * Updater instance (will be set only if required)
+         * @var Updater $updater
+         */
         private $updater;
 
         /**
-	 * Register admin specific hooks & construct an instance
-	 * @author Gerkin
-	 */
+         * Register admin specific hooks & construct an instance
+         * @author Gerkin
+         */
         public function __construct() {
             //Trigger version change function ?
             add_action( 'admin_init',								array(&$this,	'setVersion') );

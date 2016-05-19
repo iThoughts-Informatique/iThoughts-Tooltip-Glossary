@@ -196,10 +196,6 @@ Specific styles for tip
 .ithoughts_tooltip_glossary-mediatip .qtip-content {
   padding: 0px;
 }
-.ithoughts_tooltip_glossary-mediatip .qtip-content p,
-.ithoughts_tooltip_glossary-mediatip .qtip-content *:last-child {
-  margin-bottom: 0;
-}
 .ithoughts_tooltip_glossary-mediatip .qtip-content img {
   max-height: 75vh!important;
   vertical-align: middle;
@@ -232,9 +228,10 @@ Specific styles for tip
   padding-bottom: 1em;
   line-height: 1.5em;
 }
-.qtip-content p:last-child {
+.qtip-content *:last-child {
   padding-bottom: 0;
   line-height: 1.5em;
+  margin-bottom: 0;
 }
 .qtip-content a {
   color: inherit;
