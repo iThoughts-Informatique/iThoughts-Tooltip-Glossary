@@ -174,7 +174,6 @@ function stripQuotes(string, encode){
 					};
 				}
 			} else if($(this).hasClass("ithoughts_tooltip_glossary-tooltip")){
-                console.log(stripQuotes(this.getAttribute("data-tooltip-content"), false));
 				specific = {
 					style: {
 						classes: tipClass + "ithoughts_tooltip_glossary-tooltip"
