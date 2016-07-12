@@ -9,39 +9,85 @@
  * @version 2.5.0
  */
 
-(function(){
-	$d.ready(function(){
+/*jslint plusplus: true*/
+/*globals Ithoughts, ithoughts_tt_gl*/
+
+(function (ithoughts) {
+	'use strict';
+
+	var $ = ithoughts.$,
+		$w = ithoughts.$w,
+		i_t_g = ithoughts_tt_gl,
+		tooltipOpts;
+
+	/**
+	 * @function setTabSpecificBehavior
+	 * @inner
+	 * @description For the tooltip editing form, define custom behavior of components depending on tab selected. For example, add or remove the warning tooltip over the link input
+	 * @author Gerkin
+	 * @param {number} index Index of the tab
+	 */
+	function setTabSpecificBehavior(index) {
+		var linkInput = $("#ithoughts_tt_gl_link");
+		switch (index) {
+			case 0:
+				linkInput.qtip({
+					show: {
+						event: "focus"
+					},
+					hide: {
+						event: "blur"
+					},
+					content: {
+						title: linkInput.attr("data-warning-title"),
+						button: true,
+						text: linkInput.attr("data-warning-text")
+					},
+					position:{
+						container: $("#ithoughts_tt_gl-tooltip-form")
+					}
+				});
+				break;
+
+			case 1:
+				linkInput.qtip('destroy', true);
+				break;
+
+			case 2:
+				linkInput.qtip('destroy', true);
+				break;
+		}
+	}
+
+	ithoughts.$d.ready(function(){
+		ithoughts_tt_gl.doInitTooltips();
+
 		//Generic tab switching
 		$('.tabs li').click(function(event){
-			if($(this).hasClass('active')){
+			var index = $(event.target).index();
+			if($(this).hasClass('active')){ // If switching to the same tab
 				return;
 			}
 			$(this).parent().find('.active').removeClass('active');
 			$(this).addClass('active');
 
 			$(event.target).parent().parent().find(' > .active').removeClass('active');
-			var index = $(event.target).index();
 			$($(event.target).parent().parent().children()[index + 1]).addClass('active');
-
-			linkInput = $("#ithoughts_tt_gl_link");
-			switch(index){
-				case 0:{
-					linkInput.disabled = true;
-				} break;
-
-				case 1:{
-					linkInput.disabled = false;
-				} break;
-
-				case 2:{
-					linkInput.disabled = false;
-				} break;
+		});
+		$('#ithoughts_tt_gl-tabs-mode').click(function(event){
+			if($(this).hasClass('active')){ // If switching to the same tab
+				return;
 			}
+			setTabSpecificBehavior($(event.target).index());
 		});
 
-		$editors = $("#ithoughts_tt_gl-tooltip-form-container .tinymce");
+		var startTabIndex = parseInt($("#ithoughts_tt_gl-tabs-mode").attr("data-init-tab-index")) || 0;
+		setTabSpecificBehavior(startTabIndex);
+		$($('#ithoughts_tt_gl-tabs-mode').children()[startTabIndex]).click();
+
+		var $editors = $("#ithoughts_tt_gl-tooltip-form-container .tinymce");
 		$editors.each(function(index, editor){
-			text = editor.value;
+			var text = editor.value;
 			while(editor.getAttribute("id") == null){
 				var newId = "editor" + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
 				if(!gei(newId)){
@@ -53,8 +99,8 @@
 				selector: "#" + editorId,
 				menubar: false,
 				external_plugins: {
-					code: ithoughts_tt_gl_tinymce_form.base_tinymce + "/code/plugin.min.js",
-					wordcount: ithoughts_tt_gl_tinymce_form.base_tinymce + "/wordcount/plugin.min.js"
+					code: ithoughts.tinymce.base_tinymce + "/code/plugin.min.js",
+					wordcount: ithoughts.tinymce.base_tinymce + "/wordcount/plugin.min.js"
 				},
 				plugins: "wplink",
 				toolbar: [
@@ -148,7 +194,7 @@
 			function searchMatchingRes(){
 				var startsWith = [];
 				var contains = [];
-				ithoughts_tt_gl_tinymce_form.terms.map(function(element){
+				ithoughts.tinymce.terms.map(function(element){
 					var indx = element.title.toLowerCase().indexOf(searchedString);
 					if(indx == -1)
 						indx = element.slug.toLowerCase().indexOf(searchedString);
@@ -189,7 +235,7 @@
 					request.abort();
 				searchedString = removeAccents($(this).val().toLowerCase());
 				request = $.ajax({
-					url: ithoughts_tt_gl_tinymce_form.admin_ajax,
+					url: ithoughts.tinymce.admin_ajax,
 					method: "POST",
 					dataType:"json",
 					data:{
@@ -204,7 +250,7 @@
 							console.info("Outdated response");
 							return;
 						}
-						ithoughts_tt_gl_tinymce_form.terms = response.data.terms;
+						ithoughts.tinymce.terms = response.data.terms;
 						searchMatchingRes();
 					}
 				});
@@ -216,7 +262,8 @@
 				var data = {
 					type: ["glossary", "tooltip", "mediatip"][$('.tabs li.active').index()],
 					text: gei("ithoughts_tt_gl_text").value,
-					link: gei("ithoughts_tt_gl_link").value
+					link: gei("ithoughts_tt_gl_link").value,
+					opts: tooltipOpts
 				}
 				switch(data.type){
 					case "glossary":{
@@ -271,7 +318,7 @@
 		}
 
 		// Refactor urls of mediatips
-		{
+		(function refactorVideosUrls(){
 			$("#mediatip_url_video_link").bind("keyup mouseup change click focusin focusout", function(){
 				var videodata = null;
 				var formats = {
@@ -306,10 +353,10 @@
 					$("#mediatip_url_video_link").val(videodata.video);
 				}
 			}).keyup();
-		}
+		})();
 
 		// Init attrs adders
-		{
+		(function initAttrsAdders(){
 			var elems = ["span","link"];
 			elems.forEach(function(elem){
 				$("#kv-pair-"+elem+"-attrs-add").click((function(){
@@ -330,6 +377,98 @@
 					};
 				})());
 			});
-		}
+		})();
+
+		// Init close/validate buttons for advanced tooltip configuration
+		(function initAdvancedConfiguration(){
+			var $opts = $("#ithoughts_tt_gl-tooltip-form-options"),
+				skip = {
+					span:false,
+					link:false
+				};
+			$opts.find('input[type="checkbox"].ithoughts-tristate').prop("tristate", 1).change(function(e){
+				var s = this,
+					ts = s.tristate = ((s.tristate||0) - 2) % 3 + 1;
+
+				console.log(ts);
+				this.indeterminate = ts == 0;
+				this.checked = ts == 1;
+				console.log("After",s.indeterminate,s.checked);
+			}).change();
+
+			function filterPrototypeInputs(){
+				return $(this).closest('.ithoughts-prototype').length === 0;
+			}
+			function checkRemoveAttr(){
+				var thisInput = $(this),
+					$container = thisInput.parent().parent(),
+					otherInput = $container.find("input").filter(function(){
+						return this != thisInput.get(0);
+					});
+
+
+				setTimeout(function(){
+					var type = thisInput.closest(".ithoughts-attrs-container").attr("data-attr-family");
+
+					console.log(skip, type, $container.parent(), $container);
+
+					if(skip[type]){
+						skip[type] = false;
+						return;
+					}
+					console.log("Check remove attr", this);
+					thisInput.val(thisInput.val().trim());
+					otherInput.val(otherInput.val().trim());
+
+					console.log(thisInput.get(0), otherInput.get(0), document.activeElement);
+
+					if(!thisInput.val() && !otherInput.val() && document.activeElement != thisInput.get(0) && document.activeElement != otherInput.get(0)){
+						$container.remove();
+					}
+				},100);
+			}
+			$("#ithoughts_tt_gl-tinymce-advanced_options").click(function showAttributesWindow(){
+				$opts.show(); 
+			});
+			$("#ithoughts_tt_gl-tinymce-close-attrs").click(function closeDiscardAttributesWindow(){
+				$opts.hide();
+			});
+			$("#ithoughts_tt_gl-tinymce-validate-attrs").click(function closeAcceptAttributesWindow(){
+				var $form = $("#ithoughts_tt_gl-tooltip-form-options form"),
+					tristates = {};
+				$form.find(".ithoughts-tristate").each(function(){
+					$.extend(true, tristates, $(this).serializeInputsObject({"-1": false, 0: null, 1: true}[this.tristate]));
+				});
+				tooltipOpts = $.extend(true, $form.serializeObject(), tristates);
+				$opts.hide();
+			});
+			$("#kv-pair-link-attrs-add,#kv-pair-span-attrs-add").bind("mousedown touchstart", function(){
+				var $container = $(this).parent().find(".ithoughts-attrs-container"),
+					type = $container.attr("data-attr-family");
+
+				skip[type] = true;
+			}).bind("mouseup touchend", function(){
+				var $container = $(this).parent().find(".ithoughts-attrs-container"),
+					$invalidInputs = $container.find("input:invalid").filter(filterPrototypeInputs),
+					type = $container.attr("data-attr-family");
+
+				console.log($invalidInputs, $container, type);
+				if($invalidInputs.length > 0){
+					skip[type] = true;
+					$invalidInputs.eq(0).focus();
+					checkRemoveAttr.call($invalidInputs.get(0));
+					return;
+				}
+				skip[type] = false;
+
+				var $prototype = $container.find(".ithoughts-prototype"),
+					$clone = $prototype.clone().removeClass("ithoughts-prototype");
+				console.log($clone);
+				$container.append($clone);
+				$clone.find("input").blur(checkRemoveAttr).eq(0).focus();
+				checkRemoveAttr.call($clone.find("input").get(0));
+			});
+			$(".ithoughts-attrs-container input").blur(checkRemoveAttr);
+		})();
 	});
-})();
+})(Ithoughts);

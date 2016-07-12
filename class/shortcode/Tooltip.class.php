@@ -34,6 +34,8 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 			// Help functions..
 			add_action( 'wp_insert_post_data',  array(&$this, 'parse_pseudo_links_to_shortcode'));
 			add_action( 'edit_post',  array(&$this, 'convert_shortcodes'));
+            
+            add_filter( 'ithoughts-tt-gl_tooltip', array(&$this, 'generateTooltip'), 1000, 3);
 		}
 
 		public function parse_pseudo_links_to_shortcode( $data ){
@@ -53,27 +55,40 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 
 			$content = (isset($datas["handled"]["tooltip-content"]) && $datas["handled"]["tooltip-content"]) ? $datas["handled"]["tooltip-content"] : "";
 
+
+			return apply_filters('ithoughts-tt-gl_tooltip', $text, $content, $datas);
+		}
+        
+        /**
+         * Create a tooltip HTML markup with given text content $text, tooltip content $tip & provided options $options
+         * @author Gerkin
+         * @param  string $text    Text content of the highlighted word
+         * @param  string $tip     Text content into the tooltip
+         * @param  [array] $options Attributes & other options modifying the behaviour of the HTML generation. Usually provided by filter `ithoughts_tt_gl-split-args`
+         * @return string The formatted HTML markup
+         */
+        public function generateTooltip($text, $tip, $options = array('linkAttrs'=>array(),'attributes'=>array())){
 			// Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
-			if( empty($content) ) $content = $text;
+			if( empty($tip) ) $tip = $text;
 
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$backbone->add_script('qtip');
 
 			// qtip jquery data
 
-			if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
-				$datas["linkAttrs"]["href"] = 'javascript:void(0);';
-			if(!(isset($datas["linkAttrs"]["title"]) && $datas["linkAttrs"]["title"]))
-				$datas["linkAttrs"]["title"] = esc_attr($text);
+			if(!(isset($options["linkAttrs"]["href"]) && $options["linkAttrs"]["href"]))
+				$options["linkAttrs"]["href"] = 'javascript:void(0);';
+			if(!(isset($datas["linkAttrs"]["title"]) && $options["linkAttrs"]["title"]))
+				$options["linkAttrs"]["title"] = esc_attr($text);
 
-			$linkArgs = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["linkAttrs"]);
+			$linkArgs = \ithoughts\v1_2\Toolbox::concat_attrs( $options["linkAttrs"] );
 			$link   = '<a '.$linkArgs.'>' . $text . '</a>';
 			// Span that qtip finds
-			$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-tooltip".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
-			$args = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["attributes"]);
-			$span = '<span '.$args.' data-tooltip-content="'.do_shortcode($content).'">' . $link . '</span>';
-
-			return $span;
-		}
+			$options["attributes"]["class"] = "ithoughts_tooltip_glossary-tooltip".((isset($options["attributes"]["class"]) && $options["attributes"]["class"]) ? " ".$options["attributes"]["class"] : "");
+			$args = \ithoughts\v1_2\Toolbox::concat_attrs( $options["attributes"] );
+			$span = '<span '.$args.' data-tooltip-content="'.do_shortcode($tip).'">' . $link . '</span>';
+            
+            return $span;
+        }
 	}
 }

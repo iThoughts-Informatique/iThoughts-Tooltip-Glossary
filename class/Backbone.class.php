@@ -48,6 +48,15 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
                         'off',
                     ),
                 ),
+                'termscomment'		=> array(
+                    "default"		=> false,
+                    "serversideOverride"	=> false,
+                    "cliensideOverride"	=> false,
+                    "accepted"		=> array(
+                        true,
+                        false,
+                    ),
+                ),
                 'termtype'		=> array(
                     "default"		=> 'glossary',
                     "serversideOverride"	=> false,
@@ -394,6 +403,9 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
                         'posts_per_page'		=> 25,
                         'ignore_sticky_posts'	=> true,
                     );
+                    if(empty($postIds)){ // Remove empty array to avoid MySQL error
+                        unset($argsP['post__in']);
+                    }
                     $postsQueried = get_posts($argsP);
                     foreach($postsQueried as $post){
                         $outPosts[] = array(
@@ -417,6 +429,9 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
                         'posts_per_page'		=> 25,
                         'ignore_sticky_posts'	=> true,
                     );
+                    if(empty($postIds)){ // Remove empty array to avoid MySQL error
+                        unset($argsP['post__in']);
+                    }
                     $postsQueried = get_posts($argsP);
                     foreach($postsQueried as $post){
                         $outPosts[] = array(

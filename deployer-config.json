@@ -35,13 +35,14 @@
 							"IE 8",
 							"last 2 versions"
 						],
-						"from": "^(.*)\\.less$",
-						"to": "$1.css"
+						"from": "^(.*\\/)?less\\/(.*)\\.less$",
+						"to": "$1css/$2.css"
 					},
 					"events": {
 						"onchange": {
 							"selection": {
-								"\\.less$": true
+								"\\.less$": true,
+                                "^\\.\\/submodules": false
 							},
 							"warmup": true
 						}
@@ -64,7 +65,8 @@
 							"selection": {
 								"^(.*)(\\.(?:cs|j)s)$": true,
 								"^(.*\\/)?docs\\/(.*\\.(?:cs|j)s)$": false,
-								"\\.min\\.(cs|j)s$": false
+								"\\.min\\.(cs|j)s$": false,
+                                "^\\.\\/submodules": false
 							},
 							"warmup": false
 						}

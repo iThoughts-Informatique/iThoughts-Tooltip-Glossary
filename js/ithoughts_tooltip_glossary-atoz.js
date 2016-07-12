@@ -9,10 +9,12 @@
  * @version 2.5.0
  */
 
-(function(){
-	var lastPos;
+(function(ithoughts){
+	var lastPos,
+        $ = ithoughts.$,
+        $w = ithoughts.$w;
 
-	$d.ready(function(){
+	ithoughts.$d.ready(function(){
 
 		var preventHashChange = false;
 		// Handle clicking
@@ -92,4 +94,4 @@
 		}
 
 	});
-})();
+})(Ithoughts);

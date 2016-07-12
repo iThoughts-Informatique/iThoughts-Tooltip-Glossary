@@ -1,14 +1,3 @@
-/**
- * @file Comon, main stylesheet
- *
- * @author Gerkin
- * @copyright 2016 GerkinDevelopment
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
- * @package ithoughts-tooltip-glossary
- *
- * @version 2.5.0
- */
-
 /* A-Z shortcode */
 .glossary-menu-atoz {
   text-transform: uppercase;
@@ -181,7 +170,7 @@
 }
 #ithoughts_tooltip_glossary-tipsContainer {
   position: absolute;
-  z-index: 100000;
+  z-index: 100001;
   width: 100%;
 }
 .ithoughts_tooltip_glossary-glossary > a,

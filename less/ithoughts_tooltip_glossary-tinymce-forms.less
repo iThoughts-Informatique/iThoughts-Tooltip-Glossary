@@ -11,9 +11,21 @@
 	opacity: 1;
 }
 
-#ithoughts_tt_gl-tooltip-form{
+#ithoughts_tt_gl-tooltip-form-container {
+	input[type="checkbox"]:indeterminate:before{
+		content: "";
+		margin: 3px 0 0 3px;
+		background-color: #1e8cbe;
+		width: 8px;
+		height: 8px;
+		display: block;
+		box-shadow: 0 0 1px 2px #1e8cbe;
+	}
 	*{
 		box-sizing: border-box;
+	}
+	.qtip *{
+		white-space: normal;
 	}
 
 	.tab-container {
@@ -204,20 +216,34 @@
 		padding: 5px;
 		box-sizing: border-box;
 	}
+	.ithoughts-attrs-container{
+		max-height: 175px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding-right: 5px;
+	}
+	.ithoughts-prototype{
+		display: none;
+	}
+	.attribute-name-val{
+		margin-bottom: 10px;
+	}
 	.kv-pair{
 		& > *{
 			margin: 0;
 			padding: 0;
 			box-sizing: border-box;
 		}
+		white-space: nowrap;
 
 		label{
 			width: 25%;
-			float: left;
 		}
 		input{
 			width: 75%;
-			float: right
+		}
+		label, input{
+			display: inline-block;
 		}
 	}
 

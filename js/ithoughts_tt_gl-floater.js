@@ -9,9 +9,11 @@
  * @version 2.5.0
  */
 
-window.refloat;
-window.updateStyle;
-(function(){
+(function(ithoughts){
+    var $ = ithoughts.$,
+        $d = ithoughts.$d,
+        $w = ithoughts.$w;
+    
 	$d.ready(function(){
 		
         window.updateStyle = (function(){
@@ -67,4 +69,4 @@ window.updateStyle;
 			}, 25);
 		}
 	});
-})();
+})(Ithoughts);
