@@ -192,6 +192,7 @@
 							"selection": {
 								"\\.(js)$": true,
 								"\\.min\\.(js)$": false,
+								"^\\.\\/ext\\/": false,
 								"^\\.\\/js\\/tinymce": false,
 								"^\\.\\/docs($|\\/)": false
 							},
