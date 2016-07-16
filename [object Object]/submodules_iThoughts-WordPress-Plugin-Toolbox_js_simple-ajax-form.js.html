@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file Simple AJAX Form
+ * @description jQuery extension to make forms AJAX enabled. Mainly used in WordPress projects
+ *
+ * @author Gerkin, tcbarrett
+ * @copyright 2016 
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package iThoughts-toolbox
+ *
+ */
+(function(ithoughts){
+    'use strict';
+    
+    var $ = ithoughts.$;
+	$.fn.extend({
+		/**
+         * Send a form through ajax
+		 * @method	external:"jQuery".fn.simpleAjaxForm
+         * @param   {object} opts Options to be merged with { validate: false } and jQuery elements selected attributes ["target","callback","validate"]
+         * @returns {array}	Forms handlers
+         */
+		simpleAjaxForm: function( opts ){
+			var defaults = { validate: false };
+			var options  = $.extend( defaults, opts );
+			return this.each(function(){
+				var $form = $(this);
+				var formopts = $.extend({
+					target:   $form.data('target'),
+					callback: $form.data('callback'),
+				}, options);
+				if( formopts.target &amp;&amp; $('#'+formopts.target).length ){
+					$('#'+formopts.target).html('').hide();
+				}
+				$form.find("button[name=\"actionB\"]").click(function(){
+					$form.find("[name=\"action\"]").val(this.getAttribute("value"));
+				});
+				var post_text = (this.getAttribute("post_text") ? this.getAttribute("post_text") : 'Updating, please wait...');
+
+				$form.ajaxForm({
+					beforeSubmit: function(formData, jqForm, options) {
+						//if( !jqForm.valid() ) return false;
+						if( formopts.target &amp;&amp; $('#'+formopts.target).length ){
+							$('#'+formopts.target).html('&lt;p>' + post_text + '&lt;/p>').removeClass().addClass('clear updating').fadeTo(100,1);
+						}
+						return true;
+					},
+					error: function(){
+						$('#'+formopts.target).removeClass().addClass('clear notice notice-error').html('&lt;p>Form submission failed.&lt;/p>');
+					},
+					success: function(responseText, statusText, xhr, jQForm){
+						if( typeof(jQForm) === 'undefined' )
+							jQForm = xhr;
+
+						if( typeof(jQForm) === 'undefined' ){
+							$('#'+formopts.target).removeClass().addClass('clear notice notice-error').html(res.text);
+							$form.append('&lt;div class="error">&lt;p>Cannot handle response properly&lt;/p>&lt;/div>');
+							return;
+						}
+
+						try{
+							var res;
+							if(responseText.constructor.name == "String"){
+								res = JSON.parse(responseText);
+							} else if(responseText.constructor.name == "Object"){
+								res = responseText;
+							} else {
+								throw "Unhandled type " + typeof responseText;
+							}
+
+							if(res == "0" || !res){
+								$('#'+formopts.target).removeClass().addClass('clear notice notice-warning').html("&lt;p>Server did not respond anything&lt;/p>");
+							} else {
+								if(typeof res.success != "undefined" &amp;&amp; res.success != null &amp;&amp; typeof res.data != "undefined" &amp;&amp; res.data != null){ // handle wp_send_json_{success|error}
+									res.data.valid = res.success;
+									res = res.data
+								}
+								// Handle raw response
+								if(!res.valid){
+									if( formopts.target &amp;&amp; $('#'+formopts.target).length ){
+										$('#'+formopts.target).removeClass().addClass('clear notice notice-error').html(res.text);
+									}
+								} else {
+									if(res.reload){
+										window.location.href = window.location.href + "&amp;json-res-txt=" + window.encodeURI(res.text);
+									}
+
+									if( formopts.target &amp;&amp; $('#'+formopts.target).length ){
+										$('#'+formopts.target).removeClass().addClass('clear notice notice-success').html(res.text);
+									}
+
+									if(res.redirect){
+										if(res.text){
+											setTimeout(function(){
+												window.location.href = res.redirect;
+											}, 2500);
+										} else {
+											window.location.href = res.redirect;
+										}
+									}
+								}
+								if(typeof $form[0].simple_ajax_callback == "function")
+									$form[0].simple_ajax_callback(res);
+								if(typeof formopts.callback == "function")
+									formopts.callback(res);
+							}
+						} catch(e){
+							$('#'+formopts.target).removeClass().addClass('clear notice notice-error').html("&lt;p>Invalid server response&lt;/p>");
+						}
+					}	
+				});
+			});
+		}
+	});
+    
+	ithoughts.$d.ready(function(){
+		$('.simpleajaxform').simpleAjaxForm();
+	});
+})(Ithoughts);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Document.html">Document</a></li><li><a href="Element.html">Element</a></li><li><a href="EventTarget.html">EventTarget</a></li><li><a href="NodeList.html">NodeList</a></li><li><a href="Object.html">Object</a></li></ul><h3>Global</h3><ul><li><a href="global.html#doInitTooltips">doInitTooltips</a></li><li><a href="global.html#isNA">isNA</a></li><li><a href="global.html#off">off</a></li><li><a href="global.html#on">on</a></li><li><a href="global.html">setTabSpecificBehavior</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jul 15 2016 18:29:22 GMT-1000 (TAHT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
