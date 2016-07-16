@@ -40,6 +40,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
 
 
             add_filter("ithoughts_tt_gl_get_glossary_term_element", array($this, "ithoughts_tt_gl_get_glossary_term_element"), 10, 3);
+			add_filter('ithoughts_tt_gl-term-content', array($this, "termContent"));
         }
 
         private function get_glossary_term_element_array($term, $text = null, $datas = array()){
@@ -162,6 +163,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
                     return $text;
                 }
             }
+			
             if($backbone->get_option("staticterms")){
                 if(!($term instanceof \WP_Post)){
                     // Error
@@ -176,7 +178,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
                 $termcontent;
                 if(isset($datas["attributes"]["termcontent"])){
                     $termcontent = $datas["attributes"]["termcontent"];
-                    unset($datas["attributes"]["termcontent"]);
+                    unset($datas["attributes"]["data-termcontent"]);
                 } else {
                     $termcontent = $datas["options"]["termcontent"];
                 }
@@ -184,7 +186,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
 
                 switch( $termcontent ){
                     case 'full':{
-                        $content = $term->post_content;
+                        $content = ithoughts_tt_gl-term-content($term);
                     }break;
 
                     case 'excerpt':{
@@ -198,6 +200,9 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
                 $content = str_replace("\n", "<br>", $content);
                 $datas["attributes"]['data-term-content'] = $content;
             } else {
+				if($datas["options"]["termcontent"]){
+					$datas["attributes"]["data-termcontent"] = $datas["options"]["termcontent"];
+				}
                 if($term instanceof \WP_Post){
                     $datas["attributes"]['data-termid'] = $term->ID;
                     if(is_null($text))
@@ -312,5 +317,9 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
             $id = $atts['glossary-id'];
             return apply_filters("ithoughts_tt_gl_get_glossary_term_element", $id, $text, $atts);
         }
+		
+		public function termContent($post){
+			return do_shortcode(apply_filters ("the_content", $post->post_content));
+		}
     }
 }

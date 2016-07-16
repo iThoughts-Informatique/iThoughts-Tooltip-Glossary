@@ -116,45 +116,21 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			wp_register_script(
 				'ithoughts_tooltip_glossary-admin',
-				$backbone->get_base_url() . '/js/ithoughts_tooltip_glossary-admin'.$backbone->get_minify().'.js',
+				$backbone->get_base_url() . '/js/ithoughts_tt_gl-admin'.$backbone->get_minify().'.js',
 				array('ithoughts-simple-ajax',"ithoughts_aliases","ithoughts_tooltip_glossary-floater"),
 				"2.4.0"
 			);
 			wp_register_script(
 				"ithoughts_tooltip_glossary-utils",
-				$backbone->get_base_url() . '/js/ithoughts_tooltip_glossary-utils'.$backbone->get_minify().'.js',
+				$backbone->get_base_url() . '/js/ithoughts_tt_gl-utils'.$backbone->get_minify().'.js',
 				array("ithoughts_aliases"),
 				"2.3.1"
 			);
 			wp_register_script(
 				"ithoughts_tooltip_glossary-tinymce_form",
-				$backbone->get_base_url() . '/js/ithoughts_tooltip_glossary-tinymce-forms'.$backbone->get_minify().'.js',
+				$backbone->get_base_url() . '/js/ithoughts_tt_gl-tinymce-forms'.$backbone->get_minify().'.js',
 				array("jquery", "ithoughts_tooltip_glossary-utils","ithoughts_aliases","ithoughts-simple-ajax"),
 				"2.4.0"
-			);
-			wp_register_script(
-				'wp-color-picker-alpha',
-				$backbone->get_base_url() . '/ext/colorpicker-alpha.min.js',
-				array( 'wp-color-picker' ),
-				"2.2.0"
-			);
-			wp_register_script(
-				'ithoughts_tooltip_glossary-gradx-dom',
-				$backbone->get_base_url() . '/ext/gradx/dom-drag.js',
-				array('jquery'),
-				null
-			);
-			wp_register_script(
-				'ithoughts_tooltip_glossary-colorpicker',
-				$backbone->get_base_url() . '/ext/gradx/colorpicker/colorpicker'.$backbone->get_minify().'.js',
-				array('jquery'),
-				null
-			);
-			wp_register_script(
-				'ithoughts_tooltip_glossary-gradx',
-				$backbone->get_base_url() . '/ext/gradx/gradX.js',
-				array('ithoughts_tooltip_glossary-gradx-dom', 'ithoughts_tooltip_glossary-colorpicker'),
-				null
 			);
 			wp_register_script(
 				'ithoughts_tooltip_glossary-updater',
@@ -170,7 +146,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			);
 			wp_register_script(
 				'ithoughts_tooltip_glossary-styleeditor',
-				$backbone->get_base_url() . '/js/ithoughts_tooltip_glossary-styleeditor'.$backbone->get_minify().'.js',
+				$backbone->get_base_url() . '/js/ithoughts_tt_gl-styleeditor'.$backbone->get_minify().'.js',
 				array('ithoughts_tooltip_glossary-gradx', 'ithoughts_tooltip_glossary-colorpicker', 'wp-color-picker-alpha',"ithoughts_aliases","ithoughts_tooltip_glossary-floater","ithoughts-simple-ajax"),
 				"2.4.0"
 			);
@@ -186,10 +162,8 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				)
 			);
 
-			wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	$backbone->get_base_url() . '/css/ithoughts_tooltip_glossary-tinymce-forms'.$backbone->get_minify().'.css', null, "2.4.0");
-			wp_register_style( 'ithoughts_tooltip_glossary-colorpicker',	$backbone->get_base_url() . '/ext/gradx/colorpicker/colorpicker.css', null, null );
-			wp_register_style( 'ithoughts_tooltip_glossary-gradx',			$backbone->get_base_url() . '/ext/gradx/gradX.css', null, null );
-			wp_register_style( 'ithoughts_tooltip_glossary-admin',			$backbone->get_base_url() . '/css/ithoughts_tooltip_glossary-admin'.$backbone->get_minify().'.css', null, "2.4.0" );
+			wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	$backbone->get_base_url() . '/css/ithoughts_tt_gl-tinymce-forms'.$backbone->get_minify().'.css', null, "2.4.0");
+			wp_register_style( 'ithoughts_tooltip_glossary-admin',			$backbone->get_base_url() . '/css/ithoughts_tt_gl-admin'.$backbone->get_minify().'.css', null, "2.4.0" );
 		}
 
 		/**
@@ -554,6 +528,31 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 						)
 					)
 				),
+				"anim_in" => TB::generate_input_select(
+					'anim_in',
+					array(
+						'selected' => $options["anim_in"] ?: '',//$options["termcontent"],
+						'options'  => apply_filters("ithoughts-tt-gl_tooltip-anim-in", array()),
+					)
+				),
+				"anim_out" => TB::generate_input_select(
+					'anim_out',
+					array(
+						'selected' => $options["anim_out"] ?: '',//$options["termcontent"],
+						'options'  => apply_filters("ithoughts-tt-gl_tooltip-anim-out", array()),
+					)
+				),
+				"anim_time" => TB::generate_input_text(
+					"anim_time",
+					array(
+						"type" => "text",
+						"value" => $options["anim_time"],
+						"attributes" => array(
+							"placeholder" => "500",
+							"style" => "width:50px"
+						)
+					)
+				),
 			);
 
 			$optionsInputs["qtipstylecustom"] = TB::generate_input_text(
@@ -712,13 +711,13 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			$args;
 			if($data["glossary_id"] == NULL){
 				$form_data['terms'] = $backbone->searchTerms(array(
-					"post_type"     => "glossary",
-					'post_status'   => 'publish',
-					'orderby'       => 'title',
-					'order'         => 'ASC',
-					'posts_per_page'   => 25,
-					'post__in'      => $data['term_search'],
-					'suppress_filters' => false
+					"post_type"			=> "glossary",
+					'post_status'		=> 'publish',
+					'orderby'			=> 'title',
+					'order'				=> 'ASC',
+					'posts_per_page'	=> 25,
+					's'					=> $data['term_search'],
+					'suppress_filters'	=> false
 				));
 			} else {
 				$post = get_post($data["glossary_id"]);
@@ -736,7 +735,29 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			// wp_localize_script( "ithoughts_tooltip_glossary-tinymce_form", "ithoughts_tt_gl_tinymce_form", $form_data );// form_data is printed directly in template
 
 			$options = $backbone->get_options();
-			
+
+			$opts = $data["opts"] ?: array();
+			if(!isset($opts["attributes"])){
+				$opts["attributes"] = array();
+			}
+			if(!isset($opts["attributes"]["span"])){
+				$opts["attributes"]["span"] = array();
+			}
+			if(!isset($opts["attributes"]["link"])){
+				$opts["attributes"]["link"] = array();
+			}
+			$spanArr = array('' => '');
+			foreach($opts["attributes"]["span"] as $key => $value){
+				$spanArr[preg_replace("/^data-/", "", $key)] = $value;
+			}
+			$opts["attributes"]["span"] = $spanArr;
+
+			$linkArr = array('' => '');
+			foreach($opts["attributes"]["link"] as $key => $value){
+				$linkArr[preg_replace("/^data-link-/", "", $key)] = $value;
+			}
+			$opts["attributes"]["link"] = $linkArr;
+
 			$inputs = array(
 				'mediatip_type' => TB::generate_input_select(
 					'mediatip_type',
@@ -751,7 +772,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				"qtip-content" => TB::generate_input_select(
 					'qtip-content',
 					array(
-						'selected' => '',//$options["termcontent"],
+						'selected' => isset($opts["termcontent"]) ? $opts["termcontent"] : '',//$options["termcontent"],
 						'options'  => array(
 							'' => __('Default', 'ithoughts-tooltip-glossary' ),
 							'full'	=> array(
@@ -778,14 +799,14 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				"qtipstyle" => TB::generate_input_select(
 					'qtipstyle',
 					array(
-						'selected' => '',//$options["qtipstyle"],
+						'selected' => isset($opts["qtipstyle"]) ? $opts["qtipstyle"] : '',//$options["qtipstyle"],
 						'options'  => array('' => __('Default', 'ithoughts-tooltip-glossary' )) + $this->get_themes(),
 					)
 				),
 				"qtiptrigger" => TB::generate_input_select(
 					'qtiptrigger',
 					array(
-						'selected'	=> '',//$options["qtiptrigger"],
+						'selected'	=> isset($opts["qtiptrigger"]) ? $opts["qtiptrigger"] : '',//$options["qtiptrigger"],
 						'options'	=> array(
 							'' => __('Default', 'ithoughts-tooltip-glossary' ),
 							'click'	=> array(
@@ -803,16 +824,26 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 						),
 					)
 				),
+				"qtiptriggerText" => TB::generate_input_text(
+					'qtiptrigger',
+					array(
+						'type' => 'hidden',
+						'value'	=> isset($opts["qtiptrigger"]) ? $opts["qtiptrigger"] : '',//$options["qtiptrigger"],
+						'attributes' => array(
+							'id' => 'qtiptriggerText',
+							'disabled' => true
+						)
+					)
+				),
 				"qtip-keep-open" => TB::generate_input_check(
 					"qtip-keep-open",
 					array(
 						"radio" => false,
-						"selected" => false,
+						"selected" => isset($opts["qtip-keep-open"]) && $opts["qtip-keep-open"] === "true" ? "keep" : false,
 						"options" => array(
 							"keep" => array(
 								"attributes" => array(
 									"id" => "qtip-keep-open",
-									"class" => "ithoughts-tristate",
 								)
 							)
 						)
@@ -822,12 +853,13 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 					"qtipshadow",
 					array(
 						"radio" => false,
-						"selected" => null,//$options["qtipshadow"],
+						"selected" => NULL,//$options["qtipshadow"],
 						"options" => array(
 							"enabled" => array(
 								"attributes" => array(
 									"id" => "qtipshadow",
 									"class" => "ithoughts-tristate",
+									"data-state" => (!isset($opts["qtipshadow"]) || $opts["qtiprounded"] == "" ? 0 : ($opts["qtipshadow"] === "true" ? 1 : -1)) 
 								)
 							)
 						)
@@ -843,6 +875,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 								"attributes" => array(
 									"id" => "qtiprounded",
 									"class" => "ithoughts-tristate",
+									"data-state" => (!isset($opts["qtiprounded"]) || $opts["qtiprounded"] == "" ? 0 : ($opts["qtiprounded"] === "true" ? 1 : -1)) 
 								)
 							)
 						)
@@ -853,7 +886,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 						1 => TB::generate_input_select(
 							'position[my][1]',
 							array(
-								'' => __('Default', 'ithoughts-tooltip-glossary' ),
+								'selected' => isset($opts["position"]) && isset($opts["position"]["my"]) && isset($opts["position"]["my"][1]) ? $opts["position"]["my"][1] : '',
 								'options'	=> array(
 									'' => __('Default', 'ithoughts-tooltip-glossary' ),
 									'top'       => __('Top', 'ithoughts-tooltip-glossary' ),
@@ -865,7 +898,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 						2 => TB::generate_input_select(
 							'position[my][2]',
 							array(
-								'' => __('Default', 'ithoughts-tooltip-glossary' ),
+								'selected' => isset($opts["position"]) && isset($opts["position"]["my"]) && isset($opts["position"]["my"][2]) ? $opts["position"]["my"][2] : '',
 								'options'	=> array(
 									'' => __('Default', 'ithoughts-tooltip-glossary' ),
 									'left'      => __('Left', 'ithoughts-tooltip-glossary' ),
@@ -878,12 +911,11 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 							"position[my][invert]",
 							array(
 								"radio" => false,
-								"selected" => false,
+								"selected" => isset($opts["position"]) && isset($opts["position"]["my"]) && isset($opts["position"]["my"]["invert"]) ? $opts["position"]["my"]["invert"] : false,
 								"options" => array(
 									"enabled" => array(
 										"attributes" => array(
-											"id" => "position_my_invert",
-											"class" => "ithoughts-tristate",
+											"id" => "position[my][invert]",
 										)
 									)
 								)
@@ -894,7 +926,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 						1 => TB::generate_input_select(
 							'position[at][1]',
 							array(
-								'selected'	=> "",
+								'selected' => isset($opts["position"]) && isset($opts["position"]["at"]) && isset($opts["position"]["at"][1]) ? $opts["position"]["at"][1] : '',
 								'options'	=> array(
 									'' => __('Default', 'ithoughts-tooltip-glossary' ),
 									'top'       => __('Top', 'ithoughts-tooltip-glossary' ),
@@ -906,7 +938,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 						2 => TB::generate_input_select(
 							'position[at][2]',
 							array(
-								'selected'	=> "",
+								'selected' => isset($opts["position"]) && isset($opts["position"]["at"]) && isset($opts["position"]["at"][2]) ? $opts["position"]["at"][2] : '',
 								'options'	=> array(
 									'' => __('Default', 'ithoughts-tooltip-glossary' ),
 									'left'      => __('Left', 'ithoughts-tooltip-glossary' ),
@@ -916,7 +948,41 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 							)
 						)
 					)
-				)
+				),
+				"anim" => array(
+					"in" => TB::generate_input_select(
+						'anim[in]',
+						array(
+							'selected' => isset($opts["anim"]["in"]) ? $opts["anim"]["in"] : '',//$options["termcontent"],
+							'options'  => apply_filters("ithoughts-tt-gl_tooltip-anim-in", array('' => __('Default', 'ithoughts-tooltip-glossary' ))),
+						)
+					),
+					"out" => TB::generate_input_select(
+						'anim[out]',
+						array(
+							'selected' => isset($opts["anim"]["out"]) ? $opts["anim"]["out"] : '',//$options["termcontent"],
+							'options'  => apply_filters("ithoughts-tt-gl_tooltip-anim-out", array('' => __('Default', 'ithoughts-tooltip-glossary' ))),
+						)
+					),
+					"time" => TB::generate_input_text(
+						"anim[time]",
+						array(
+							"type" => "text",
+							"value" => isset($opts["anim"]["time"]) ? $opts["anim"]["time"] : '',
+							"attributes" => array(
+								"placeholder" => "500",
+								"style" => "width:50px"
+							)
+						)
+					),
+				),
+				"maxwidth" => TB::generate_input_text(
+					'maxwidth',
+					array(
+						'type' => 'text',
+						'value'	=> isset($opts["maxwidth"]) ? $opts["maxwidth"] : '',
+					)
+				),
 			);
 
 			$attrs = array(

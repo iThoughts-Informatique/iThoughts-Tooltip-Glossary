@@ -14,7 +14,7 @@
 
 
 if ( ! defined( 'ABSPATH' ) ) { 
-    exit; // Exit if accessed directly
+	exit; // Exit if accessed directly
 }
 
 ?>
@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div id="normal-sortables" class=""><!--Old removed classes: "meta-box-sortables ui-sortable"-->
 						<form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
 
-                            <p style="font-size:17px;"><em><?php _e("Need help? Check out the full plugin manual at ", 'ithoughts-tooltip-glossary' ); ?><a href="https://www.gerkindevelopment.net/en">GerkinDevelopment.net</a>.</em></p>
+							<p style="font-size:17px;"><em><?php _e("Need help? Check out the full plugin manual at ", 'ithoughts-tooltip-glossary' ); ?><a href="https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/" target="_blank">GerkinDevelopment.net</a>.</em></p>
 							<p><strong><?php _e("Note", 'ithoughts-tooltip-glossary' ); ?>:</strong>&nbsp;<?php _e("Labels in <span class=\"nonoverridable\">red</span> indicate global options, not overridable by tips.", 'ithoughts-tooltip-glossary' ); ?></p>
 
 							<div id="ithoughts_tt_gllossary_options_1" class="postbox">
@@ -48,7 +48,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr class="nonoverridable">
 												<th>
-													<label for="staticterms"><?php _e('Static terms', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_2\Toolbox::concat_attrs(array("data-tooltip-content" => __('Include term content directly into the pages to avoid use of Ajax. This can slow down your page generation.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
+													<label for="staticterms"><?php _e('Static terms', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.__("infos", 'ithoughts-tooltip-glossary' ).')', __('Include term content directly into the pages to avoid use of Ajax. This can slow down your page generation.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>
+														
+														
 												</th>
 												<td>
 													<?php echo $optionsInputs["staticterms"]; ?>
@@ -56,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr class="nonoverridable">
 												<th>
-													<label for="forceloadresources"><?php _e('Force load resources', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_2\Toolbox::concat_attrs(array("data-tooltip-content" => __('Load scripts on every pages, even if not required. This option can be useful if some cache plugins are active, or if you think that scripts are not loaded when required.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
+													<label for="forceloadresources"><?php _e('Force load resources', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.__("infos", 'ithoughts-tooltip-glossary' ).')', __('Load scripts on every pages, even if not required. This option can be useful if some cache plugins are active, or if you think that scripts are not loaded when required.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>:</label>
 												</th>
 												<td>
 													<?php echo $optionsInputs["forceloadresources"]; ?>
@@ -91,7 +93,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<label for="termscomment"><?php _e('Enable comments on glossary terms', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-                                                    <?php echo $optionsInputs["termscomment"]; ?><p><em><strong>Note: </strong>You may need to enable manually the comments on each glossary terms posted before enabling this option.</em></p>
+													<?php echo $optionsInputs["termscomment"]; ?><p><em><strong>Note: </strong>You may need to enable manually the comments on each glossary terms posted before enabling this option.</em></p>
 												</td>
 											</tr>
 										</tbody>
@@ -127,7 +129,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</tr>
 													<tr>
 														<th>
-															<label for="qtipshadow"><?php _e('Tooltip shadow', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_2\Toolbox::concat_attrs(array("data-tooltip-content" => __('This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
+															<label for="qtipshadow"><?php _e('Tooltip shadow', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip','('.__("infos", 'ithoughts-tooltip-glossary' ).')', __('This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>:</label>
 														</th>
 														<td>
 															<?php echo $optionsInputs["qtipshadow"]; ?>
@@ -135,10 +137,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</tr>
 													<tr>
 														<th>
-															<label for="qtiprounded"><?php _e('Rounded corners', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-nosolo="true" <?php echo \ithoughts\v1_2\Toolbox::concat_attrs(array("data-tooltip-content" => __('This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ))); ?>><a href="javascript:void(0)">(<?php _e('infos', 'ithoughts-tooltip-glossary' ); ?>)</a></span>:</label>
+															<label for="qtiprounded"><?php _e('Rounded corners', 'ithoughts-tooltip-glossary' ); ?>&nbsp;
+														<?php echo apply_filters('ithoughts-tt-gl_tooltip','('.__("infos", 'ithoughts-tooltip-glossary' ).')', __('This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>:</label>
 														</th>
 														<td>
 															<?php echo $optionsInputs["qtiprounded"]; ?>
+														</td>
+													</tr>
+													<tr>
+														<th>
+															<label for="anims"><?php _e('Animations', 'ithoughts-tooltip-glossary' ); ?></label>
+														</th>
+														<td>
+															<label for="anim_in"><?php _e('Animation in', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $optionsInputs["anim_in"]; ?></label><br/>
+															<label for="anim_out"><?php _e('Animation out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $optionsInputs["anim_out"]; ?></label><br/>
+															<label for="anim_time"><?php _e('Animation duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $optionsInputs["anim_time"]; ?>ms</label>
 														</td>
 													</tr>
 												</tbody>
@@ -149,7 +162,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<div style="flex:1 1 auto;;position:relative;">
 											<div id="floater" style="display:flex;flex-direction:row;width:100%;">
 												<p style="flex:1 1 auto;text-align:center">
-													<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-autoshow="true" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php _e('This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts-tooltip-glossary' ); ?>"><a href="javascript:void(0)" title=""><?php _e('Example Tooltip', 'ithoughts-tooltip-glossary' ); ?></a></span>
+													<span class="ithoughts_tooltip_glossary-tooltip" data-tooltip-autoshow="true" data-tooltip-prerender="true" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php _e('This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts-tooltip-glossary' ); ?>"><a href="javascript:void(0)" title=""><?php _e('Example Tooltip', 'ithoughts-tooltip-glossary' ); ?></a></span>
 												</p>
 											</div>
 										</div>

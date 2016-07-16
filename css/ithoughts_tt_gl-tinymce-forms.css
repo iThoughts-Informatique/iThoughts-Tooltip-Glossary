@@ -1,0 +1,296 @@
+/**
+* @file iThoughts Tooltip Glossary tinymce form styles
+* @author Gerkin
+*         
+* @version 1.0
+*/
+#ithoughts_tt_gl-tooltip-form-container {
+  z-index: 1000000;
+}
+#ithoughts_tt_gl-tooltip-form-container input[type="checkbox"]:indeterminate:before {
+  content: "";
+  margin: 3px 0 0 3px;
+  background-color: #1e8cbe;
+  width: 8px;
+  height: 8px;
+  display: block;
+  box-shadow: 0 0 1px 2px #1e8cbe;
+}
+#ithoughts_tt_gl-tooltip-form-container * {
+  box-sizing: border-box;
+}
+#ithoughts_tt_gl-tooltip-form-container .qtip * {
+  white-space: normal;
+}
+#ithoughts_tt_gl-tooltip-form-container .tab-container {
+  position: relative;
+  margin: 0 auto;
+  padding: 0;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs {
+  margin: 0;
+  padding: 0;
+  display: block;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
+#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs li {
+  display: inline-block;
+  border-style: solid;
+  border-color: #C5C5C5;
+  -moz-border-top-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -o-border-image: none;
+     border-image: none;
+  border-width: 1px 1px 0px 1px;
+  padding: 8px;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
+  height: auto;
+  cursor: pointer;
+  bottom: -1px;
+  position: relative;
+  margin-right: -4px;
+  border-bottom: 1px solid #c5c5c5;
+  -webkit-transition: 0.25s border-bottom-color;
+  transition: 0.25s border-bottom-color;
+}
+#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs li:hover,
+#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs li.active {
+  border-bottom: 1px solid rgba(197, 197, 197, 0);
+  -webkit-transition: 0.25s border-bottom-color;
+  transition: 0.25s border-bottom-color;
+}
+#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs.active,
+#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs:hover,
+#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs:focus {
+  background: #FDFDFD none repeat scroll 0% 0%;
+  border-bottom-color: transparent;
+  opacity: 1;
+}
+#ithoughts_tt_gl-tooltip-form-container .tab-container .tab {
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+  margin: 0 auto;
+  opacity: 0;
+  -webkit-transition: 0.5s all;
+  transition: 0.5s all;
+  pointer-events: none;
+  display: none;
+  -webkit-transition: 0.5s 0.5s display;
+  transition: 0.5s 0.5s display;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+}
+#ithoughts_tt_gl-tooltip-form-container .tab-container .tab.active {
+  background: #FDFDFD none repeat scroll 0% 0%;
+  border-bottom-color: transparent;
+  pointer-events: all;
+  display: block;
+  -webkit-transition: 0.5s 0.5s display;
+  transition: 0.5s 0.5s display;
+  opacity: 1;
+}
+#ithoughts_tt_gl-tooltip-form-container table {
+  width: 100%;
+}
+#ithoughts_tt_gl-tooltip-form-container table td {
+  position: relative;
+  word-wrap: break-word;
+  white-space: normal;
+}
+#ithoughts_tt_gl-tooltip-form-container b {
+  font-weight: 600;
+}
+#ithoughts_tt_gl-tooltip-form-container form {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100%;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+#ithoughts_tt_gl-tooltip-form-container .mce-reset {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: column nowrap;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  height: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+#ithoughts_tt_gl-tooltip-form-container .mce-reset > * {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
+#ithoughts_tt_gl-tooltip-form-container .mce-reset > .mce-window-body {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+}
+#ithoughts_tt_gl-tooltip-form-container .mce-foot .mce-container-body {
+  text-align: right;
+  padding: 10px;
+}
+#ithoughts_tt_gl-tooltip-form-container .foreign-language {
+  background-color: #FFFCAB;
+}
+#ithoughts_tt_gl-tooltip-form-container .hidden {
+  display: none;
+}
+#ithoughts_tt_gl-tooltip-form-container .completed {
+  position: relative;
+  z-index: 2;
+}
+#ithoughts_tt_gl-tooltip-form-container #glossary_term_completer_container {
+  position: absolute;
+  width: 100%;
+  box-shadow: 0px 0px 6px 2px grey;
+  background: #fff;
+  z-index: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+#ithoughts_tt_gl-tooltip-form-container #glossary_term_completer_container .completer .option {
+  padding: 0 5px;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+#ithoughts_tt_gl-tooltip-form-container #glossary_term_completer_container .completer .option:not(:last-child) {
+  border-bottom: 1px solid #f4f4f4;
+}
+#ithoughts_tt_gl-tooltip-form-container #glossary_term_completer_container .completer .option:hover,
+#ithoughts_tt_gl-tooltip-form-container #glossary_term_completer_container .completer .option:focus {
+  background-color: #f4f4f4;
+}
+#ithoughts_tt_gl-tooltip-form-container #image-box {
+  max-width: 100%;
+  max-height: 120px;
+}
+#ithoughts_tt_gl-tooltip-form-container #image-box img {
+  max-width: 100%;
+  max-height: 120px;
+  width: auto;
+  height: auto;
+}
+#ithoughts_tt_gl-tooltip-form-container input:disabled {
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+}
+#ithoughts_tt_gl-tooltip-form-container ~ #wp-link-wrap {
+  z-index: 150000;
+}
+#ithoughts_tt_gl-tooltip-form-container b {
+  font-weight: bold;
+}
+#ithoughts_tt_gl-tooltip-form-container em {
+  font-style: italic;
+}
+#ithoughts_tt_gl-attrs-table > div {
+  display: inline-block;
+  width: 50%;
+  float: left;
+  padding: 5px;
+  box-sizing: border-box;
+}
+#ithoughts_tt_gl-attrs-table .ithoughts-attrs-container {
+  max-height: 175px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+}
+#ithoughts_tt_gl-attrs-table .ithoughts-prototype {
+  display: none;
+}
+#ithoughts_tt_gl-attrs-table .attribute-name-val {
+  margin-bottom: 10px;
+}
+#ithoughts_tt_gl-attrs-table .kv-pair {
+  white-space: nowrap;
+}
+#ithoughts_tt_gl-attrs-table .kv-pair > * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#ithoughts_tt_gl-attrs-table .kv-pair label {
+  width: 25%;
+}
+#ithoughts_tt_gl-attrs-table .kv-pair input {
+  width: 75%;
+}
+#ithoughts_tt_gl-attrs-table .kv-pair label,
+#ithoughts_tt_gl-attrs-table .kv-pair input {
+  display: inline-block;
+}
+#ithoughts_tt_gl-attrs-table .button {
+  width: 100%;
+  text-align: center;
+}
+#ithoughts_tt_gl-attrs-table #kv-pair-span-attrs,
+#ithoughts_tt_gl-attrs-table #kv-pair-link-attrs {
+  overflow-y: auto;
+}
+#ithoughts_tt_gl-attrs-table #kv-pair-span-attrs .delete,
+#ithoughts_tt_gl-attrs-table #kv-pair-link-attrs .delete {
+  display: inline-block;
+  color: darkred;
+  margin-right: 15px;
+  width: 28px;
+}
+#ithoughts_tt_gl-attrs-table #kv-pair-span-attrs .kv,
+#ithoughts_tt_gl-attrs-table #kv-pair-link-attrs .kv {
+  display: inline-block;
+  width: 160px;
+}
+#ithoughts_tt_gl-attrs-table #kv-pair-span-attrs .kv .key,
+#ithoughts_tt_gl-attrs-table #kv-pair-link-attrs .kv .key {
+  text-align: left;
+  font-weight: bold;
+}
+#ithoughts_tt_gl-attrs-table #kv-pair-span-attrs .kv .value,
+#ithoughts_tt_gl-attrs-table #kv-pair-link-attrs .kv .value {
+  text-align: right;
+  font-style: italic;
+}
