@@ -122,6 +122,18 @@
                             }
                         },
                         {
+                            "action": "version-history",
+                            "data": {
+                                "basePath": "${ documentation.base.path }",
+                                "template": "gerkindevelopment",
+                                "version_minor": "${ version_minor }",
+                                "versionUrl": "${ documentation.base.url }${ version_minor }",
+                                "project_name": "${ project_name }",
+                                "author": "${ author }",
+                                "resourcesUrl": "./resources"
+                            }
+                        },
+                        {
                             "action": "ithoughts-index-doc",
                             "data": {
                                 "template": "gerkindevelopment",
@@ -148,14 +160,6 @@
                                 "basePath": "${ documentation.base.path }${ version_minor }",
                                 "resourcesUrl": "../resources",
                                 "resourcesPath": "${ documentation.base.path }resources"
-                            },
-                            "arguments": {
-                                "version_minor": {
-                                    "_type": "regex_replace",
-                                    "value": "${ version }",
-                                    "search": "^(\\d+)\\.(\\d+).*",
-                                    "replacement": "$1.$2"
-                                }
                             }
                         },
                         {

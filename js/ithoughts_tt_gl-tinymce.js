@@ -19,7 +19,22 @@
 		prefix3 = "ithoughts-tooltip-glossary",
 		prefix4 = "ithoughts_tooltip_glossary",
 		stripQuotes = i_t_g.stripQuotes,
-		isNA = ithoughts.isNA;
+		isNA = ithoughts.isNA,
+		translate_re = /[¹²³áàâãäåaaaÀÁÂÃÄÅAAAÆccç©CCÇÐÐèéê?ëeeeeeÈÊË?EEEEE€gGiìíîïìiiiÌÍÎÏ?ÌIIIlLnnñNNÑòóôõöoooøÒÓÔÕÖOOOØŒr®Ršs?ßŠS?ùúûüuuuuÙÚÛÜUUUUýÿÝŸžzzŽZZ]/g,
+		translate = {
+			"¹":"1","²":"2","³":"3","á":"a","à":"a","â":"a","ã":"a","ä":"a","å":"a","a":"a","a":"a","a":"a","À":"a","Á":"a","Â":"a","Ã":"a","Ä":"a","Å":"a","A":"a","A":"a",
+			"A":"a","Æ":"a","c":"c","c":"c","ç":"c","©":"c","C":"c","C":"c","Ç":"c","Ð":"d","Ð":"d","è":"e","é":"e","ê":"e","?":"e","ë":"e","e":"e","e":"e","e":"e","e":"e",
+			"e":"e","È":"e","Ê":"e","Ë":"e","?":"e","E":"e","E":"e","E":"e","E":"e","E":"e","€":"e","g":"g","G":"g","i":"i","ì":"i","í":"i","î":"i","ï":"i","ì":"i","i":"i",
+			"i":"i","i":"i","Ì":"i","Í":"i","Î":"i","Ï":"i","?":"i","Ì":"i","I":"i","I":"i","I":"i","l":"l","L":"l","n":"n","n":"n","ñ":"n","N":"n","N":"n","Ñ":"n","ò":"o",
+			"ó":"o","ô":"o","õ":"o","ö":"o","o":"o","o":"o","o":"o","ø":"o","Ò":"o","Ó":"o","Ô":"o","Õ":"o","Ö":"o","O":"o","O":"o","O":"o","Ø":"o","Œ":"o","r":"r","®":"r",
+			"R":"r","š":"s","s":"s","?":"s","ß":"s","Š":"s","S":"s","?":"s","ù":"u","ú":"u","û":"u","ü":"u","u":"u","u":"u","u":"u","u":"u","Ù":"u","Ú":"u","Û":"u","Ü":"u",
+			"U":"u","U":"u","U":"u","U":"u","ý":"y","ÿ":"y","Ý":"y","Ÿ":"y","ž":"z","z":"z","z":"z","Ž":"z","Z":"z","Z":"z"
+		};
+	i_t_g.removeAccents = function(s) {
+		return s.replace(translate_re, function(match){
+			return translate[match];
+		});
+	};
 
 	tinyMCE.setToggleable = function(element, editor) {
 		return function(){
@@ -273,7 +288,7 @@
 						link: takeAttr("href",true),
 						tooltip_content: stripQuotes(takeAttr("tooltip-content") || content, false),
 						glossary_id: takeAttr("glossary-id"),
-						term_search: ithoughts.removeAccents(content.toLowerCase()),
+						term_search: i_t_g.removeAccents(content.toLowerCase()),
 						mediatip_type: takeAttr("mediatip-type"),
 						mediatip_content: stripQuotes(takeAttr("mediatip-content"), false),
 						mediatip_link: takeAttr("mediatip-link"),
@@ -319,7 +334,7 @@
 							link: '',
 							tooltip_content: content,
 							glossary_id: null,
-							term_search: ithoughts.removeAccents(content.toLowerCase()),
+							term_search: i_t_g.removeAccents(content.toLowerCase()),
 							mediatip_type: "",
 							mediatip_content: "",
 							mediatip_caption: "",

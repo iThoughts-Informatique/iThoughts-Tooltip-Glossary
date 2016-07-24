@@ -186,7 +186,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
 
                 switch( $termcontent ){
                     case 'full':{
-                        $content = ithoughts_tt_gl-term-content($term);
+                        $content = apply_filters("ithoughts_tt_gl-term-content", $term);
                     }break;
 
                     case 'excerpt':{

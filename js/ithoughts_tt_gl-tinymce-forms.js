@@ -235,7 +235,7 @@
 			input.on("keyup focusin", function(){
 				if(request)
 					request.abort();
-				searchedString = ithoughts.removeAccents($(this).val().toLowerCase());
+				searchedString = i_t_g.removeAccents($(this).val().toLowerCase());
 				request = $.ajax({
 					url: ithoughts.tinymce.admin_ajax,
 					method: "POST",
