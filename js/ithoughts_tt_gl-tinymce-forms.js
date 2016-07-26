@@ -101,8 +101,8 @@
 				selector: "#" + editorId,
 				menubar: false,
 				external_plugins: {
-					code: ithoughts.tinymce.base_tinymce + "/code/plugin.min.js",
-					wordcount: ithoughts.tinymce.base_tinymce + "/wordcount/plugin.min.js"
+					code: i_t_g.tinymce.base_tinymce + "/code/plugin.min.js",
+					wordcount: i_t_g.tinymce.base_tinymce + "/wordcount/plugin.min.js"
 				},
 				plugins: "wplink",
 				toolbar: [
@@ -196,7 +196,7 @@
 			function searchMatchingRes(){
 				var startsWith = [];
 				var contains = [];
-				ithoughts.tinymce.terms.map(function(element){
+				i_t_g.tinymce.terms.map(function(element){
 					var indx = element.title.toLowerCase().indexOf(searchedString);
 					if(indx == -1)
 						indx = element.slug.toLowerCase().indexOf(searchedString);
@@ -237,7 +237,7 @@
 					request.abort();
 				searchedString = i_t_g.removeAccents($(this).val().toLowerCase());
 				request = $.ajax({
-					url: ithoughts.tinymce.admin_ajax,
+					url: i_t_g.tinymce.admin_ajax,
 					method: "POST",
 					dataType:"json",
 					data:{
@@ -254,7 +254,7 @@
 							console.info("Outdated response");
 							return;
 						}
-						ithoughts.tinymce.terms = response.data.terms;
+						i_t_g.tinymce.terms = response.data.terms;
 						searchMatchingRes();
 					}
 				});

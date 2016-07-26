@@ -329,7 +329,7 @@
                                 {
                                     "action": "exec",
                                     "data": {
-                                        "command": "rsync -az --delete . ../../svn/ithoughts-tooltip-glossary/trunk/"
+                                        "command": "rsync -az --delete --exclude=\".*/\" --exclude=\".*\" . ../../svn/ithoughts-tooltip-glossary/trunk/"
                                     }
                                 },
                                 {

@@ -23,9 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<!--<pre style="display:none;"><?php var_dump($data); ?></pre>-->
 	<div id="pseudohead">
 		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo Backbone::get_instance()->get_base_url(); ?>/css/ithoughts_tt_gl-tinymce-forms.css" type="text/css" media="all">
-		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form.js" defer></script>
+		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form-v3.js" defer></script>
 		<script>
-			(Ithoughts = Ithoughts || {}).tinymce = <?php echo json_encode($form_data); ?>;
+			ithoughts_tt_gl.tinymce = <?php echo json_encode($form_data); ?>;
 		</script>
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-tinymce-forms.js" defer></script>
 	</div>
