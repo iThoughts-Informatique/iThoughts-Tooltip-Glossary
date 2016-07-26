@@ -572,4 +572,4 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 			}
 		}
 	});
-}(Ithoughts));
+}(Ithoughts.v3));

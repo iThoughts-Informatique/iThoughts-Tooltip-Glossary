@@ -5,9 +5,8 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 **Tags:** tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments, index, dictionnary, ajax, custom post type, post type, documentation, database, help, jquery, quote  
 **Requires at least:** 3.3  
 **Tested up to:** 4.5  
-**Stable tag:** 2.6.1  
+**Stable tag:** 2.6.2  
 **License:** GPLv2 or later  
-Developer documentation: http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/
 
 Create beautiful tooltips for descriptions or glossary terms easily
 
@@ -15,7 +14,7 @@ Create beautiful tooltips for descriptions or glossary terms easily
 
 Build a glossary on your site that link terms in your posts to it via tooltips. You can also create unlinked tooltips to bring some precision to a term or expression in a single post.
 
-This plugin is a fork of the inactive plugin "WP Glossary v3.1.1.2" by tcbarrett. The whole base plugin is his; I just made some improvements for responsive web design, SEO, usability, and more. 
+This plugin is optimized for responsive web design, SEO, usability, and more. 
 
 Reasons for using iThoughts Tooltip Glossary plugin:
 
@@ -28,8 +27,6 @@ Reasons for using iThoughts Tooltip Glossary plugin:
 iThoughts Tooltip Glossary works well with [iThoughts Lightbox](http://www.gerkindevelopment.net/en/portfolio/ithoughts-lightbox/), which allow you to create responsive lightboxes that includes your mediatip images.
 
 For further information, please visit the [iThoughts Tooltip Glossary dedicated landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/).
-
-Developer documentation can be found at http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/
 
 ## Installation ##
 
@@ -85,6 +82,10 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 ## Changelog ##
+
+### 2.6.2 ###
+* UPD New version of iThoughts Wordpress Plugin Toolbox
+* FIX Enforcing namespaces in JS & PHP.
 
 ### 2.6.1 ###
 * FIX Removed old JS dependencies no more used

@@ -530,4 +530,4 @@
 			$(".ithoughts-attrs-container input").blur(checkRemoveAttr);
 		})();
 	});
-})(Ithoughts);
+})(Ithoughts.v3);

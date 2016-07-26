@@ -650,4 +650,4 @@
 	function replaceHtmlAmp(string){
 		return string.replace(/&amp;/g, "&");
 	}
-})(Ithoughts);
+})(Ithoughts.v3);

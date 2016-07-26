@@ -40,4 +40,4 @@
             $(this).parent().find("button").prop("disabled", !this.value);
         }).change();
     });
-})(Ithoughts)
+})(Ithoughts.v3)

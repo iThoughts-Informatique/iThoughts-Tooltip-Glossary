@@ -39,4 +39,4 @@
 		$("#qtiprounded,#qtipshadow,#qtipstyle").bind(e, function(e){u(e, $("#qtipstyle").val(), $demotip);});
 		$("#tooltips,#qtiptrigger,#anim_in,#anim_out,#anim_time").bind(e, updateActivationPreview);
 	});
-})(Ithoughts);
+})(Ithoughts.v3);
