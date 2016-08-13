@@ -3,12 +3,17 @@
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
  * @package ithoughts-tooltip-glossary
  *
  */
 
-(function(ithoughts) {
+/**
+ * @function initTinyMCEPlugin
+ * @description Namespace & register both term & list TinyMCE plugins for iThoughts Tooltip Glossary
+ * @param {Object} ithoughts Appropriate version of iThoughts Tooltip Glossary helper
+ */
+(function initTinyMCEPlugin(ithoughts) {
 	'use strict';
 
 	var $ = ithoughts.$,

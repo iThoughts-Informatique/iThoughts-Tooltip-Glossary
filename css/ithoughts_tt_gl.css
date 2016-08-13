@@ -170,7 +170,7 @@
 }
 #ithoughts_tooltip_glossary-tipsContainer {
   position: absolute;
-  z-index: 100001;
+  z-index: 10000000;
   width: 100%;
 }
 span.ithoughts_tooltip_glossary-glossary > a,

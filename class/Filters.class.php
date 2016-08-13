@@ -5,7 +5,7 @@
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
  * @package ithoughts-tooltip-glossary
  *
  * @version 2.5.0
@@ -14,7 +14,7 @@
 
 /**
   * @copyright 2015-2016 iThoughts Informatique
-  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+  * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
   */
 
 namespace ithoughts\tooltip_glossary;

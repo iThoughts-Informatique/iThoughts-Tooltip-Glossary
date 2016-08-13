@@ -5,8 +5,8 @@ Original Plugin URL: http://www.tcbarrett.com/wordpress-plugins/wp-glossary/
 **Tags:** tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments, index, dictionnary, ajax, custom post type, post type, documentation, database, help, jquery, quote  
 **Requires at least:** 3.3  
 **Tested up to:** 4.5  
-**Stable tag:** 2.6.2  
-**License:** GPLv2 or later  
+**Stable tag:** 2.6.4
+**License:** GPLv3  
 
 Create beautiful tooltips for descriptions or glossary terms easily
 

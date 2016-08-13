@@ -3,7 +3,7 @@
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
  * @package ithoughts-tooltip-glossary
  *
  */
@@ -27,7 +27,7 @@
 			preventHashChange = true;
 			location.hash = alpha;
 
-			$parent = $(this).parent().parent();
+			var $parent = $(this).parent().parent();
 			$parent.find('.glossary-atoz').removeClass('atozitems-on').addClass('atozitems-off');
 			$parent.find('.glossary-atoz-' + alpha).removeClass('atozitems-off').addClass('atozitems-on');
 			$parent.find('.ithoughts_tt_gl-please-select').hide();

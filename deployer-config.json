@@ -348,6 +348,20 @@
                                                             "to": "tags/${ version }"
                                                         }
                                                     },
+													{
+														"action": "add",
+														"data": {
+															"force": true,
+                                                "path": "../../svn/ithoughts-tooltip-glossary/tags/${ version }/"
+														}
+													},
+													{
+														"action": "add",
+														"data": {
+															"force": true,
+                                                "path": "../../svn/ithoughts-tooltip-glossary/trunk/"
+														}
+													},
                                                     {
                                                         "action": "commit",
                                                         "data": {
