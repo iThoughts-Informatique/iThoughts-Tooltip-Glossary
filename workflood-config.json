@@ -1,6 +1,6 @@
 {
     "project": {
-        "arguments": {
+        "parameters": {
             "project_name": "iThoughts Tooltip Glossary",
             "author": "Gerkin",
             "documentation": {
@@ -77,7 +77,7 @@
                 ]
             },
             "documentate": {
-                "args": {
+                "parameters": {
                     "version": {
                         "_type": "prompt"
                     },
@@ -117,8 +117,8 @@
                                 },
                                 "template": "default",
                                 "typepath": "javascript",
-                                "destinationPath": "${ documentation.base.path }${ version_minor }/",
-                                "basePath": "${ documentation.base.path }${ version_minor }/"
+                                "destinationPath": "${ documentation.base.path }${ version_minor }/javascript",
+                                "basePath": "${ documentation.base.path }${ version_minor }/javascript"
                             }
                         },
                         {
@@ -145,10 +145,18 @@
                                     {
                                         "labels": {
                                             "main": "JavaScript",
-                                            "sub": "Client-Side"
+                                            "sub": "ClientSide"
                                         },
                                         "image": "/images/clientside.jpg",
                                         "link": "javascript/index.html"
+                                    },
+                                    {
+                                        "labels": {
+                                            "main": "PHP",
+                                            "sub": "ServerSide"
+                                        },
+                                        "image": "/images/serverside.jpg",
+                                        "link": "php/index.html"
                                     }
                                 ],
                                 "project_name": "${ project_name }",
@@ -178,12 +186,18 @@
                 }
             },
             "release": {
-                "args": {
+                "parameters": {
                     "version": {
                         "_type": "prompt"
                     },
                     "versionMessage": {
                         "_type": "prompt"
+                    },
+                    "version_minor": {
+                        "_type": "regex_replace",
+                        "value": "${ version }",
+                        "search": "^(\\d+)\\.(\\d+).*",
+                        "replacement": "$1.$2"
                     }
                 },
                 "description": "Makes a release by pre-commiting on git, updating file versions, post-commit & push",
@@ -251,16 +265,8 @@
                                         },
                                         "template": "default",
                                         "typepath": "javascript",
-                                        "destinationPath": "${ documentation.base.path}${ version_minor }/",
-                                        "basePath": "${ documentation.base.path }/${ version_minor }/"
-                                    },
-                                    "args": {
-                                        "version_minor": {
-                                            "_type": "regex_replace",
-                                            "value": "${ version }",
-                                            "search": "^(\\d+)\\.(\\d+).*",
-                                            "replacement": "$1.$2"
-                                        }
+                                        "destinationPath": "${ documentation.base.path}${ version_minor }/javascript",
+                                        "basePath": "${ documentation.base.path }/${ version_minor }/javascript"
                                     }
                                 },
                                 {
@@ -279,6 +285,14 @@
                                                 },
                                                 "image": "/images/clientside.jpg",
                                                 "link": "javascript/index.html"
+                                            },
+                                            {
+                                                "labels": {
+                                                    "main": "PHP",
+                                                    "sub": "Server-Side"
+                                                },
+                                                "image": "/images/serverside.jpg",
+                                                "link": "php/index.html"
                                             }
                                         ],
                                         "project_name": "${ project_name }",
@@ -290,14 +304,6 @@
                                         "basePath": "${ documentation.base.path }${ version_minor }",
                                         "resourcesUrl": "../resources",
                                         "resourcesPath": "${ documentation.base.path }resources"
-                                    },
-                                    "arguments": {
-                                        "version_minor": {
-                                            "_type": "regex_replace",
-                                            "value": "${ version }",
-                                            "search": "^(\\d+)\\.(\\d+).*",
-                                            "replacement": "$1.$2"
-                                        }
                                     }
                                 },
                                 {
@@ -310,14 +316,6 @@
                                         "project_name": "${ project_name}",
                                         "author": "${ author }",
                                         "resourcesUrl": "./resources"
-                                    },
-                                    "args": {
-                                        "version_minor": {
-                                            "type": "regex_replace",
-                                            "value": "${ version }",
-                                            "search": "^(\\d+)\\.(\\d+).*",
-                                            "replacement": "$1.$2"
-                                        }
                                     }
                                 }
                             ]
@@ -348,20 +346,20 @@
                                                             "to": "tags/${ version }"
                                                         }
                                                     },
-													{
-														"action": "add",
-														"data": {
-															"force": true,
-                                                "path": "../../svn/ithoughts-tooltip-glossary/tags/${ version }/"
-														}
-													},
-													{
-														"action": "add",
-														"data": {
-															"force": true,
-                                                "path": "../../svn/ithoughts-tooltip-glossary/trunk/"
-														}
-													},
+                                                    {
+                                                        "action": "add",
+                                                        "data": {
+                                                            "force": true,
+                                                            "path": "../../svn/ithoughts-tooltip-glossary/tags/${ version }/"
+                                                        }
+                                                    },
+                                                    {
+                                                        "action": "add",
+                                                        "data": {
+                                                            "force": true,
+                                                            "path": "../../svn/ithoughts-tooltip-glossary/trunk/"
+                                                        }
+                                                    },
                                                     {
                                                         "action": "commit",
                                                         "data": {
@@ -456,7 +454,9 @@
             }
         },
         "versions": {
-            "2.5": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/2.5"
+            "2": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/2",
+            "2.5": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/2.5",
+            "2.6": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/2.6"
         },
         "checksums": {
             "./js/ithoughts_tt_gl-admin.js": {
