@@ -24,6 +24,7 @@ if ( ! class_exists( '_WP_Editors' ) )
 function ithoughts_tt_gl_tinymce_plugin_translation() {
     $strings = array(
         "add_tooltip" => __('Add a Tooltip', 'ithoughts-tooltip-glossary' ),
+        "remove_tooltip" => __('Remove a Tooltip', 'ithoughts-tooltip-glossary' ),
         "insert_tooltip" => __('Insert Tooltip', 'ithoughts-tooltip-glossary' ),
         "text" => __('Text', 'ithoughts-tooltip-glossary' ),
         "text_explain" => __('Text to display as link', 'ithoughts-tooltip-glossary' ),

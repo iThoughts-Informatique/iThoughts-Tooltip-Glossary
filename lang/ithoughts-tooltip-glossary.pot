@@ -1,11 +1,10 @@
-# Loco Gettext template
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: iThoughts Tooltip Glossary\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: Tue Oct 27 2015 11:54:04 GMT-1000 (TAHT)\n"
-"POT-Revision-Date: Fri Mar 04 2016 15:03:56 GMT-1000 (TAHT)\n"
+"POT-Creation-Date: 2016-09-28 23:17+0000\n"
+"POT-Revision-Date: Fri Jul 15 2016 19:17:49 GMT-1000 (TAHT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,665 +23,571 @@ msgstr ""
 "esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
 "X-Generator: Loco - https://localise.biz/"
 
-#. Name of the plugin
-msgid "iThoughts Tooltip Glossary"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:26
+msgid "Add a Tooltip"
 msgstr ""
 
-#. URI of the plugin
-msgid "http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:27
+msgid "Remove a Tooltip"
 msgstr ""
 
-#. Description of the plugin
-msgid "Create beautiful tooltips for descriptions or glossary terms easily"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:28
+msgid "Insert Tooltip"
 msgstr ""
 
-#. Author of the plugin
-msgid "Gerkin"
-msgstr ""
-
-#: ../templates/customizing_form.php:7 ../templates/customizing_form.php:25 ..
-#: /class/Admin.class.php:238 ../class/Admin.class.php:239
-msgid "Theme editor"
-msgstr ""
-
-#: ../templates/customizing_form.php:13
-msgid "Load a theme"
-msgstr ""
-
-#: ../templates/customizing_form.php:17
-msgid "Theme to load"
-msgstr ""
-
-#: ../templates/customizing_form.php:19
-msgid "Load"
-msgstr ""
-
-#: ../templates/customizing_form.php:32
-msgid "Theme name"
-msgstr ""
-
-#: ../templates/customizing_form.php:35
-msgid ""
-"At least 3 letters (lowercase and uppercase), numbers, _ or -, and not "
-"starting or ending with symbol"
-msgstr ""
-
-#: ../templates/customizing_form.php:40
-msgid "Global"
-msgstr ""
-
-#: ../templates/customizing_form.php:41
-msgid "Title Bar"
-msgstr ""
-
-#: ../templates/customizing_form.php:42 ../templates/tinymce-tooltip-form.php:132 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:20
-msgid "Content"
-msgstr ""
-
-#: ../templates/customizing_form.php:47
-msgid "Background"
-msgstr ""
-
-#: ../templates/customizing_form.php:52
-msgid "Type"
-msgstr ""
-
-#: ../templates/customizing_form.php:54
-msgctxt "A plain color"
-msgid "Plain"
-msgstr ""
-
-#: ../templates/customizing_form.php:55
-msgid "Gradient"
-msgstr ""
-
-#: ../templates/customizing_form.php:64
-msgid "Top to bottom"
-msgstr ""
-
-#: ../templates/customizing_form.php:65
-msgid "Bottom to top"
-msgstr ""
-
-#: ../templates/customizing_form.php:66
-msgid "Left to right"
-msgstr ""
-
-#: ../templates/customizing_form.php:67
-msgid "Right to left"
-msgstr ""
-
-#: ../templates/customizing_form.php:77
-msgid "Padding"
-msgstr ""
-
-#: ../templates/customizing_form.php:81
-#, php-format
-msgid ""
-"Valid padding value: 0, inherit, initial, or 1 to 4 values in rem, em, px, %,"
-" ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax"
-msgstr ""
-
-#: ../templates/customizing_form.php:87
-msgid "Shadow"
-msgstr ""
-
-#: ../templates/customizing_form.php:93
-msgid "Enable box-shadow"
-msgstr ""
-
-#: ../templates/customizing_form.php:99
-msgid "Width"
-msgstr ""
-
-#: ../templates/customizing_form.php:100 ../templates/customizing_form.php:130
-#, php-format
-msgid ""
-"Valid distance value: 0, inherit, initial, or a value in rem, em, px, %, ex, "
-"pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives accepted"
-msgstr ""
-
-#: ../templates/customizing_form.php:107
-msgid "Shadow spread"
-msgstr ""
-
-#: ../templates/customizing_form.php:108
-#, php-format
-msgid ""
-"Valid distance value: 0, inherit, initial, or a value in rem, em, px, %, ex, "
-"pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives not accepted"
-msgstr ""
-
-#: ../templates/customizing_form.php:111
-msgid "Shadow color"
-msgstr ""
-
-#: ../templates/customizing_form.php:115
-msgid "Inset"
-msgstr ""
-
-#: ../templates/customizing_form.php:129
-msgid "Height"
-msgstr ""
-
-#: ../templates/customizing_form.php:138
-msgid "Outline border"
-msgstr ""
-
-#: ../templates/customizing_form.php:141
-msgid "Border width"
-msgstr ""
-
-#: ../templates/customizing_form.php:142
-#, php-format
-msgid ""
-"Valid border-width value: 0, inherit, initial, or a value in rem, em, px, %, "
-"ex, pt, cm, mm, in, pc, vh, vw, vmin, or vmax. Negatives not accepted"
-msgstr ""
-
-#: ../templates/customizing_form.php:147
-msgid "Border style"
-msgstr ""
-
-#: ../templates/customizing_form.php:149
-msgid "Solid"
-msgstr ""
-
-#: ../templates/customizing_form.php:150
-msgid "Dotted"
-msgstr ""
-
-#: ../templates/customizing_form.php:151
-msgid "Dashed"
-msgstr ""
-
-#: ../templates/customizing_form.php:152
-msgid "Double"
-msgstr ""
-
-#: ../templates/customizing_form.php:153
-msgid "Groove"
-msgstr ""
-
-#: ../templates/customizing_form.php:154
-msgid "Ridge"
-msgstr ""
-
-#: ../templates/customizing_form.php:155
-msgctxt "Border property"
-msgid "Inset"
-msgstr ""
-
-#: ../templates/customizing_form.php:156
-msgid "Outset"
-msgstr ""
-
-#: ../templates/customizing_form.php:157
-msgid "None"
-msgstr ""
-
-#: ../templates/customizing_form.php:158
-msgid "Hidden"
-msgstr ""
-
-#: ../templates/customizing_form.php:164
-msgid "Border color"
-msgstr ""
-
-#: ../templates/customizing_form.php:170
-msgid "Text size"
-msgstr ""
-
-#: ../templates/customizing_form.php:174
-#, php-format
-msgid ""
-"Valid font-size value: xx-small, x-small, smaller, small, medium, large, "
-"larger, x-large, xx-large, or a value in rem, em, px, %, ex, pt, cm, mm, in, "
-"pc, vh, vw, vmin, or vmax"
-msgstr ""
-
-#: ../templates/customizing_form.php:180
-msgid "Line height"
-msgstr ""
-
-#: ../templates/customizing_form.php:184
-#, php-format
-msgid ""
-"Valid line-height value: xx-small, x-small, smaller, small, medium, large, "
-"larger, x-large, xx-large, or a value in rem, em, px, %, ex, pt, cm, mm, in, "
-"pc, vh, vw, vmin, or vmax"
-msgstr ""
-
-#: ../templates/customizing_form.php:190
-msgid "Text color"
-msgstr ""
-
-#: ../templates/customizing_form.php:200
-msgid "Text emphasis color"
-msgstr ""
-
-#: ../templates/customizing_form.php:205
-msgid "Text align"
-msgstr ""
-
-#: ../templates/customizing_form.php:211
-msgid "Left"
-msgstr ""
-
-#: ../templates/customizing_form.php:212
-msgid "Right"
-msgstr ""
-
-#: ../templates/customizing_form.php:213
-msgid "Center"
-msgstr ""
-
-#: ../templates/customizing_form.php:214
-msgid "Justify"
-msgstr ""
-
-#: ../templates/customizing_form.php:222
-msgid "Text font"
-msgstr ""
-
-#: ../templates/customizing_form.php:228
-msgid "Please wait..."
-msgstr ""
-
-#: ../templates/customizing_form.php:236
-msgid "Other custom CSS"
-msgstr ""
-
-#: ../templates/customizing_form.php:236
-msgid ""
-"Following CSS rules will be copied to output compiled CSS for that part of "
-"the tooltip. Use selectors to select childs."
-msgstr ""
-
-#: ../templates/customizing_form.php:236 ../templates/options.php:30 ..
-#: /templates/options.php:38 ../templates/options.php:101 ../templates/options.
-#: php:109
-msgid "infos"
-msgstr ""
-
-#: ../templates/customizing_form.php:250
-msgid "Save theme"
-msgstr ""
-
-#: ../templates/customizing_form.php:251
-msgid "Preview"
-msgstr ""
-
-#: ../templates/customizing_form.php:264 ../templates/options.php:123
-msgid ""
-"The <b>tooltip</b> or <b>infotip</b> or a <b>hint</b> is a common <a "
-"href=\"/wiki/Graphical_user_interface\" title=\"Graphical user "
-"interface\">graphical user interface</a> element. It is used in conjunction "
-"with a <a href=\"/wiki/Cursor_(computers)\" title=\"Cursor (computers)\" "
-"class=\"mw-redirect\">cursor</a>, usually a <a "
-"href=\"/wiki/Pointer_(graphical_user_interfaces)\" title=\"Pointer (graphical "
-"user interfaces)\">pointer</a>. The user hovers the pointer over an item, "
-"without clicking it, and a tooltip may appear—a small \"<a "
-"href=\"/wiki/Hoverbox\" title=\"Hoverbox\">hover box</a>\" with information about "
-"the item being hovered over.<sup id=\"cite_ref-1\" class=\"reference\"><a "
-"href=\"#cite_note-1\"><span>[</span>1<span>]</span></a></sup> <sup "
-"id=\"cite_ref-2\" class=\"reference\"><a href=\"#cite_note-"
-"2\"><span>[</span>2<span>]</span></a></sup>Tooltips do not usually appear on "
-"<a href=\"/wiki/Mobile_operating_system\" title=\"Mobile operating "
-"system\">mobile operating systems</a>, because there is no cursor (though "
-"tooltips may be displayed when using a <a href=\"/wiki/Mouse_(computing)\" "
-"title=\"Mouse (computing)\">mouse</a>)."
-msgstr ""
-
-#: ../templates/customizing_form.php:264 ../templates/options.php:123
-msgid "Activate me"
-msgstr ""
-
-#: ../templates/customizing_form.php:267 ../templates/options.php:126
-msgid ""
-"This is an example tooltip, with content such as <a>a tag for link</a>, "
-"<em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for "
-"italic</i>"
-msgstr ""
-
-#: ../templates/customizing_form.php:267 ../templates/options.php:126
-msgid "Example Tooltip"
-msgstr ""
-
-#: ../templates/tinymce-tooltip-form.php:8 ../templates/tinymce-tooltip-form.php:12
-msgid "Insert a Tooltip"
-msgstr ""
-
-#: ../templates/tinymce-tooltip-form.php:34 ../lang/ithoughts_tt_gl_tinymce_lang.
-#: php:15
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:29 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:58
 msgid "Text"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:44 ../class/PostTypes.class.php:78
-msgid "Link"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:30
+msgid "Text to display as link"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:63
-msgid "Glossary term"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:31 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:56
+msgid "Glossary Term"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:68 ../lang/ithoughts_tt_gl_tinymce_lang.
-#: php:19
-msgid "Tooltip"
-msgstr ""
-
-#: ../templates/tinymce-tooltip-form.php:73 ../lang/ithoughts_tt_gl_tinymce_lang.
-#: php:22
-msgid "Mediatip"
-msgstr ""
-
-#: ../templates/tinymce-tooltip-form.php:86
-msgid "Note:"
-msgstr ""
-
-#: ../templates/tinymce-tooltip-form.php:87
-msgid ""
-"During search, terms appearing with a <span class=\"foreign-language\">yellow "
-"background</span> are not available in current language."
-msgstr ""
-
-#: ../templates/tinymce-tooltip-form.php:96 ../lang/ithoughts_tt_gl_tinymce_lang.
-#: php:18
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:32 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:115
 msgid "Term"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:112
-msgid "Disable<br/>auto-translation"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:33 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:87
+msgid "Tooltip"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:149
-msgid "Mediatip type"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:34 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:153
+msgid "Content"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:170 ../lang/ithoughts_tt_gl_tinymce_lang.
-#: php:23
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:35
+msgid "Content to display into the tooltip. Supports HTML Markup"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:36 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:92
+msgid "Mediatip"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:37 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:191
 msgid "Select an image"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:178
-msgid "Image url"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:40
+msgid "Add a Glossary Index"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:188
-msgid "Caption"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:41
+msgid "Insert Glossary Index"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:198
-msgid "Video integration code"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:42
+msgid "List"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:230 ../templates/tinymce-tooltip-form.
-#: php:395
-msgid "Ok"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:43
+msgid "A to Z"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:237 ../templates/tinymce-tooltip-form.
-#: php:400
-msgid "Discard"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:44
+msgid "Letters"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:244 ../templates/tinymce-tooltip-form.
-#: php:248
-msgid "Tooltip options"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:45
+msgid ""
+"Letters to be displayed in the list. If not specified, all letters will be "
+"displayed"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:261
-msgid "Tooltip content"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:46
+msgid "Columns"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:271
-msgid "Tooltip trigger"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:47
+msgid "Number of columns to show for list"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:281
-msgid "Tooltip style"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:48 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:68
+msgid "Group"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:291 ../templates/options.php:101
-msgid "Tooltip shadow"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:49
+msgid "Group(s) to list"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:301 ../templates/options.php:109
-msgid "Rounded corners"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:50
+msgid "Description"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:313
-msgid "Attributes"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:51
+msgid "Description mode: Full/Excerpt/None"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:327
-msgid "Span attribute"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:52 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:82 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:435 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:772
+msgid "Full"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:335 ../templates/tinymce-tooltip-form.
-#: php:363
-msgid "Key"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:53 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:81 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:441 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:778
+msgid "Excerpt"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:341 ../templates/tinymce-tooltip-form.
-#: php:369
-msgid "Value"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:54
+msgid "Glossary Tooltips"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:346 ../templates/tinymce-tooltip-form.
-#: php:374
-msgid "Add"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:55
+msgid "Lazy"
 msgstr ""
 
-#: ../templates/tinymce-tooltip-form.php:355
-msgid "Link attribute"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/lang/ithoughts_tt_gl_tinymce_lang.php:56
+msgid ""
+"Will load lists only at display time. Can cause delay between clicks & "
+"display but reduce highly memory consumption & page generation time."
 msgstr ""
 
-#: ../templates/options.php:7 ../class/Admin.class.php:198 ../class/Admin.class.
-#: php:199
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:27 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:233 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:234
 msgid "Options"
 msgstr ""
 
-#: ../templates/options.php:13
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:33 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:31
+msgid "Need help? Check out the full plugin manual at "
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:34
 msgid "Note"
 msgstr ""
 
-#: ../templates/options.php:13
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:34
 msgid ""
 "Labels in <span class=\"nonoverridable\">red</span> indicate global options, "
 "not overridable by tips."
 msgstr ""
 
-#: ../templates/options.php:16
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:37
 msgid "Term Options"
 msgstr ""
 
-#: ../templates/options.php:22
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:43
 msgid "Term link"
 msgstr ""
 
-#: ../templates/options.php:30
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:51
 msgid "Static terms"
 msgstr ""
 
-#: ../templates/options.php:30
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:51 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:61 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:132 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:141
+msgid "infos"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:51
 msgid ""
 "Include term content directly into the pages to avoid use of Ajax. This can "
 "slow down your page generation."
 msgstr ""
 
-#: ../templates/options.php:38
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:61
 msgid "Force load resources"
 msgstr ""
 
-#: ../templates/options.php:38
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:61
 msgid ""
 "Load scripts on every pages, even if not required. This option can be useful "
 "if some cache plugins are active, or if you think that scripts are not "
 "loaded when required."
 msgstr ""
 
-#: ../templates/options.php:46 ../class/Admin.class.php:496
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:69 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:595
 msgid "Base Permalink"
 msgstr ""
 
-#: ../templates/options.php:54 ../class/Admin.class.php:500
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:77 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:599
 msgid "Taxonomy group prefix"
 msgstr ""
 
-#: ../templates/options.php:62
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:85
 msgid "Glossary Tip Content"
 msgstr ""
 
-#: ../templates/options.php:74
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:93
+msgid "Enable comments on glossary terms"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:105
 msgid "qTip2 Tooltip Options"
 msgstr ""
 
-#: ../templates/options.php:80
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:111
 msgid ""
 "iThoughts Tooltip Glossary uses the jQuery based <a href=\"http://qtip2."
 "com/\">qTip2</a> library for tooltips"
 msgstr ""
 
-#: ../templates/options.php:85
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:116
 msgid "Tooltip activation"
 msgstr ""
 
-#: ../templates/options.php:93
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:124
 msgid "Tooltip Style (qTip)"
 msgstr ""
 
-#: ../templates/options.php:101 ../templates/options.php:109
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:132 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:339
+msgid "Tooltip shadow"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:132 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:141
 msgid "This option can be overriden by some tooltip styles."
 msgstr ""
 
-#: ../templates/options.php:136
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:140 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:349
+msgid "Rounded corners"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:149 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:386
+msgid "Animations"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:152
+msgid "Animation in"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:153
+msgid "Animation out"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:154
+msgid "Animation duration"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:165 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:93
+msgid ""
+"This is an example tooltip, with content such as <a>a tag for link</a>, <em>"
+"em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:165 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:93
+msgid "Example Tooltip"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/options.php:175
 msgid "Update Options"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:13
-msgid "Add a Tooltip"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:32 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:36
+msgid "Insert a Tooltip"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:14
-msgid "Insert Tooltip"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:68 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:109
+msgid "Link"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:16
-msgid "Text to display as link"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:72
+msgid "Warning!"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:17 ../class/PostTypes.class.php:25
-msgid "Glossary Term"
-msgstr ""
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:21
-msgid "Content to display into the tooltip. Supports HTML Markup"
-msgstr ""
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:26
-msgid "Add a Glossary Index"
-msgstr ""
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:27
-msgid "Insert Glossary Index"
-msgstr ""
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:28
-msgid "List"
-msgstr ""
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:29
-msgid "A to Z"
-msgstr ""
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:30
-msgid "Letters"
-msgstr ""
-
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:31
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:72
 msgid ""
-"Letters to be displayed in the list. If not specified, all letters will be "
-"displayed"
+"Changing this property on a glossary tip may confuse your users.\n"
+"                                            You were warned..."
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:32
-msgid "Columns"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:82
+msgid "Glossary term"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:33
-msgid "Number of columns to show for list"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:105
+msgid "Note:"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:34 ../class/RandomTerm.class.php:57
-msgid "Group"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:106
+msgid ""
+"During search, terms appearing with a <span class=\"foreign-language\">"
+"yellow background</span> are not available in current language."
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:35
-msgid "Group(s) to list"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:133
+msgid "Disable<br/>auto-translation"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:36
-msgid "Description"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:170
+msgid "Mediatip type"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:37
-msgid "Description mode: Full/Excerpt/None"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:199
+msgid "Image url"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:38 ../class/Admin.class.php:380 ..
-#: /class/Admin.class.php:643 ../class/RandomTerm.class.php:71
-msgid "Full"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:209
+msgid "Caption"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:39 ../class/Admin.class.php:386 ..
-#: /class/Admin.class.php:649 ../class/RandomTerm.class.php:70
-msgid "Excerpt"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:219
+msgid "Video integration code"
 msgstr ""
 
-#: ../lang/ithoughts_tt_gl_tinymce_lang.php:40
-msgid "Glossary Tooltips"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:247
+msgid "Advanced attributes"
 msgstr ""
 
-#: ../class/Taxonomies.class.php:16 ../class/Taxonomies.class.php:25 ..
-#: /class/Admin.class.php:228 ../class/Admin.class.php:229
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:254 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:510
+msgid "Ok"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:261
+msgid "Discard"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:268 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:272
+msgid "Tooltip options"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:284
+msgid "Customize"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:289 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:414
+msgid "Attributes"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:298
+msgid "Tooltip content"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:308
+msgid "Delay tooltip hide"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:308
+msgid ""
+"Add a timer of 500ms before hiding the tooltip. This allow the user to click "
+"into the tip. This option is enabled by default for video mediatips."
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:318
+msgid "Tooltip trigger"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:329
+msgid "Tooltip style"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:359
+msgid "Position of the tip"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:359
+msgid ""
+"Position of the sharp tip around the tooltip. By default, the main axis is "
+"vertical"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:367
+msgid "Invert main axis"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:373
+msgid "Position of the tooltip"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:373
+msgid "Position of the tooltip around the target area"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:390
+msgid "In"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:391
+msgid "Out"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:392
+msgid "Duration"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:398
+msgid "Max width"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:398
+msgid ""
+"Maximum width of the tooltip. The default value of this property is 280px. "
+"Be carefull about this option: a too high value may overflow outside small "
+"devices."
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:428
+msgid "Span attribute"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:440 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:474
+msgid "Key"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:446 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:480
+msgid "Value"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:455 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:489
+msgid "Add"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:462
+msgid "Link attribute"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/tinymce-tooltip-form.php:515
+msgid "Close"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:27 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:281 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:282
+msgid "Theme editor"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:34
+msgid "Load a theme"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:38
+msgid "Theme to load"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:40
+msgid "Load"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:41
+msgid "Are you sure you want to delete the theme %s?"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:41
+msgid "Delete"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:48
+msgid "Recompile all stylesheets"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:52
+msgid "LESS editor"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:61
+msgid "Theme name"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:65
+msgid "Theme content"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:71
+msgid "Save theme"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:72
+msgid "Preview"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:90
+msgid ""
+"The <b>tooltip</b> or <b>infotip</b> or a <b>hint</b> is a common <a "
+"href=\"/wiki/Graphical_user_interface\" title=\"Graphical user interface\">"
+"graphical user interface</a> element. It is used in conjunction with a <a "
+"href=\"/wiki/Cursor_(computers)\" title=\"Cursor (computers)\" class=\"mw-"
+"redirect\">cursor</a>, usually a <a "
+"href=\"/wiki/Pointer_(graphical_user_interfaces)\" title=\"Pointer "
+"(graphical user interfaces)\">pointer</a>. The user hovers the pointer over "
+"an item, without clicking it, and a tooltip may appear—a small \"<a "
+"href=\"/wiki/Hoverbox\" title=\"Hoverbox\">hover box</a>\" with information "
+"about the item being hovered over.<sup id=\"cite_ref-1\" class=\"reference\">"
+"<a href=\"#cite_note-1\"><span>[</span>1<span>]</span></a></sup> <sup "
+"id=\"cite_ref-2\" class=\"reference\"><a href=\"#cite_note-2\"><span>[</span>"
+"2<span>]</span></a></sup>Tooltips do not usually appear on <a "
+"href=\"/wiki/Mobile_operating_system\" title=\"Mobile operating system\">"
+"mobile operating systems</a>, because there is no cursor (though tooltips "
+"may be displayed when using a <a href=\"/wiki/Mouse_(computing)\" "
+"title=\"Mouse (computing)\">mouse</a>)."
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/templates/customizing_form.php:90
+msgid "Activate me"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Taxonomies.class.php:27 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Taxonomies.class.php:36 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:269 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:270
 msgid "Glossary Groups"
 msgstr ""
 
-#: ../class/Taxonomies.class.php:17
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Taxonomies.class.php:28
 msgid "Glossary Group"
 msgstr ""
 
-#: ../class/Taxonomies.class.php:18
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Taxonomies.class.php:29
 msgid "Search Glossary Groups"
 msgstr ""
 
-#: ../class/Taxonomies.class.php:19
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Taxonomies.class.php:30
 msgid "All Glossary Groups"
 msgstr ""
 
-#: ../class/Taxonomies.class.php:20
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Taxonomies.class.php:31
 msgid "Parent Glossary Group"
 msgstr ""
 
-#: ../class/Taxonomies.class.php:21
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Taxonomies.class.php:32
 msgid "Edit Glossary Group"
 msgstr ""
 
-#: ../class/Taxonomies.class.php:22
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Taxonomies.class.php:33
 msgid "Update Glossary Group"
 msgstr ""
 
-#: ../class/Taxonomies.class.php:23
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Taxonomies.class.php:34
 msgid "Add New Glossary Group"
 msgstr ""
 
-#: ../class/Taxonomies.class.php:24
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Taxonomies.class.php:35
 msgid "New Glossary Group Name"
 msgstr ""
 
-#: ../class/Updater.class.php:66
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:77
 msgid ""
 "Thank you for using iThoughts Tooltip Glossary v2.0! This update comes with "
 "some big refactoring to improve evolution flexibility, compatibility, and "
@@ -691,338 +596,461 @@ msgid ""
 "tooltips will work properly."
 msgstr ""
 
-#: ../class/Updater.class.php:67 ../class/Updater.class.php:91
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:78 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:102
 msgid "Update now!"
 msgstr ""
 
-#: ../class/Updater.class.php:90
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:101
 msgid ""
 "An error in the updater have been spotted. This update will replace old slug-"
-"based tooltips to id-based ones on post types other than \"post\", for example "
-"on pages. See <a href=\"https://wordpress.org/support/topic/shortcode-"
-"parameter-slug-not-working-after-update-116-222?replies=29#post-"
-"7941781\">this thread</a> for more informations. If you are not concerned by "
-"this problem, simply dismiss this alert with the button on the right."
+"based tooltips to id-based ones on post types other than \"post\", for "
+"example on pages. See <a href=\"https://wordpress."
+"org/support/topic/shortcode-parameter-slug-not-working-after-update-116-222?"
+"replies=29#post-7941781\">this thread</a> for more informations. If you are "
+"not concerned by this problem, simply dismiss this alert with the button on "
+"the right."
 msgstr ""
 
-#: ../class/Updater.class.php:117 ../class/Updater.class.php:134
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:128 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:145
 msgid "Updating iThoughts Tooltip Glossary"
 msgstr ""
 
-#: ../class/Updater.class.php:135
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:146
 msgid "No update required."
 msgstr ""
 
-#: ../class/Updater.class.php:186
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:197
 msgid "Applying new format."
 msgstr ""
 
-#: ../class/Updater.class.php:308
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:319
 msgid "Replacing slugs with id."
 msgstr ""
 
-#: ../class/Updater.class.php:392 ../class/Updater.class.php:395 ../class/Updater.
-#: class.php:401
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:403 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:406 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:412
 msgid "Update finished!"
 msgstr ""
 
-#: ../class/Updater.class.php:392 ../class/Updater.class.php:395 ../class/Updater.
-#: class.php:401
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:403 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:406 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Updater.class.php:412
 msgid ""
 "The update finished successfully. Thank you for using iThoughts Tooltip "
 "Glossary :)"
 msgstr ""
 
-#: ../class/PostTypes.class.php:24 ../class/Admin.class.php:218 ../class/Admin.
-#: class.php:219
-msgid "Glossary Terms"
-msgstr ""
-
-#: ../class/PostTypes.class.php:26
-msgid "Add New Term"
-msgstr ""
-
-#: ../class/PostTypes.class.php:27 ../class/PostTypes.class.php:29
-msgid "Add New Glossary Term"
-msgstr ""
-
-#: ../class/PostTypes.class.php:28
-msgid "Edit Glossary Term"
-msgstr ""
-
-#: ../class/PostTypes.class.php:30
-msgid "View Glossary Term"
-msgstr ""
-
-#: ../class/PostTypes.class.php:31
-msgid "Search Glossary Terms"
-msgstr ""
-
-#: ../class/PostTypes.class.php:32
-msgid "No Glossary Terms found"
-msgstr ""
-
-#: ../class/PostTypes.class.php:33
-msgid "No Glossary Terms found in trash"
-msgstr ""
-
-#: ../class/PostTypes.class.php:65
-msgid "Glossary Term Reference"
-msgstr ""
-
-#: ../class/PostTypes.class.php:77 ../class/RandomTerm.class.php:32
-msgid "Title"
-msgstr ""
-
-#: ../class/PostTypes.class.php:85
-msgid "Usage"
-msgstr ""
-
-#: ../class/PostTypes.class.php:86 ../class/PostTypes.class.php:185
-msgid "Reference"
-msgstr ""
-
-#: ../class/PostTypes.class.php:194
-msgid "Glossary Term Usage"
-msgstr ""
-
-#: ../class/Admin.class.php:65
-msgid "Can't read plugin version"
-msgstr ""
-
-#: ../class/Admin.class.php:208 ../class/Admin.class.php:209
-msgid "Add a Term"
-msgstr ""
-
-#: ../class/Admin.class.php:253 ../class/Admin.class.php:254
-msgid "Update"
-msgstr ""
-
-#: ../class/Admin.class.php:316
-msgid "Normal"
-msgstr ""
-
-#: ../class/Admin.class.php:318
-msgid "Normal link with no modifications"
-msgstr ""
-
-#: ../class/Admin.class.php:322
-msgid "No link"
-msgstr ""
-
-#: ../class/Admin.class.php:324
-msgid "Don't link to term"
-msgstr ""
-
-#: ../class/Admin.class.php:328
-msgid "New tab"
-msgstr ""
-
-#: ../class/Admin.class.php:330
-msgid "Always open in a new tab"
-msgstr ""
-
-#: ../class/Admin.class.php:382 ../class/Admin.class.php:645
-msgid "Display full post content"
-msgstr ""
-
-#: ../class/Admin.class.php:388 ../class/Admin.class.php:651
-msgid "Display shorter excerpt content"
-msgstr ""
-
-#: ../class/Admin.class.php:392 ../class/Admin.class.php:655
-msgid "Off"
-msgstr ""
-
-#: ../class/Admin.class.php:394 ../class/Admin.class.php:657
-msgid "Do not display tooltip at all"
-msgstr ""
-
-#: ../class/Admin.class.php:413 ../class/Admin.class.php:676
-msgid "Click"
-msgstr ""
-
-#: ../class/Admin.class.php:415 ../class/Admin.class.php:678
-msgid "On click"
-msgstr ""
-
-#: ../class/Admin.class.php:419 ../class/Admin.class.php:682
-msgid "Responsive"
-msgstr ""
-
-#: ../class/Admin.class.php:421 ../class/Admin.class.php:684
-msgid "Hover (on computer) and click (touch devices)"
-msgstr ""
-
-#: ../class/Admin.class.php:496 ../class/Admin.class.php:500
-msgid "Invalid input for"
-msgstr ""
-
-#: ../class/Admin.class.php:512
-msgid "Rewrite rule flushed"
-msgstr ""
-
-#: ../class/Admin.class.php:515
-msgid "Options updated"
-msgstr ""
-
-#: ../class/Admin.class.php:531
-msgid "Local image"
-msgstr ""
-
-#: ../class/Admin.class.php:533
-msgid "Image from site library"
-msgstr ""
-
-#: ../class/Admin.class.php:537
-msgid "Image on the web"
-msgstr ""
-
-#: ../class/Admin.class.php:539
-msgid "Image referenced by url, not on the site"
-msgstr ""
-
-#: ../class/Admin.class.php:543
-msgid "Video on the web"
-msgstr ""
-
-#: ../class/Admin.class.php:545
-msgid "Video hosted online. Only Youtube, Dailymotion or .mp4 videos"
-msgstr ""
-
-#: ../class/Admin.class.php:772
-msgid "Select one"
-msgstr ""
-
-#: ../class/Admin.class.php:791
-msgid "CSS generated."
-msgstr ""
-
-#: ../class/Admin.class.php:798
-msgid "Error while generate CSS."
-msgstr ""
-
-#: ../class/Admin.class.php:798
-msgid "See your server logs for infos."
-msgstr ""
-
-#: ../class/Admin.class.php:798
-msgid "It could not be logged."
-msgstr ""
-
-#: ../class/Admin.class.php:819
-msgid "Theme saved."
-msgstr ""
-
-#: ../class/Admin.class.php:819
-msgid "Failed to save the theme."
-msgstr ""
-
-#: ../class/Admin.class.php:1076
-msgid "Cream"
-msgstr ""
-
-#: ../class/Admin.class.php:1077
-msgid "Dark"
-msgstr ""
-
-#: ../class/Admin.class.php:1078
-msgid "Green"
-msgstr ""
-
-#: ../class/Admin.class.php:1079
-msgid "Light"
-msgstr ""
-
-#: ../class/Admin.class.php:1080
-msgid "Red"
-msgstr ""
-
-#: ../class/Admin.class.php:1081
-msgid "Blue"
-msgstr ""
-
-#: ../class/Admin.class.php:1082
-msgid "Plain"
-msgstr ""
-
-#: ../class/Admin.class.php:1083
-msgid "Bootstrap"
-msgstr ""
-
-#: ../class/Admin.class.php:1084
-msgid "YouTube"
-msgstr ""
-
-#: ../class/Admin.class.php:1085
-msgid "Tipsy"
-msgstr ""
-
-#: ../class/Backbone.class.php:264
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Backbone.class.php:304
 msgid "Please wait"
 msgstr ""
 
-#: ../class/Backbone.class.php:265
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Backbone.class.php:305
 msgid "Loading glossary term"
 msgstr ""
 
-#: ../class/Backbone.class.php:471
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Backbone.class.php:552
 msgid "Private glossary term"
 msgstr ""
 
-#: ../class/Backbone.class.php:476
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Backbone.class.php:557
 msgid "Protected glossary term"
 msgstr ""
 
-#: ../class/Backbone.class.php:499
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Backbone.class.php:580
 msgid "No content"
 msgstr ""
 
-#: ../class/RandomTerm.class.php:14
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:55 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:257 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:258
+msgid "Glossary Terms"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:57
+msgid "Add New Term"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:58 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:60
+msgid "Add New Glossary Term"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:59
+msgid "Edit Glossary Term"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:61
+msgid "View Glossary Term"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:62
+msgid "Search Glossary Terms"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:63
+msgid "No Glossary Terms found"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:64
+msgid "No Glossary Terms found in trash"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:96
+msgid "Glossary Term Reference"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:108 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:43
+msgid "Title"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:116
+msgid "Usage"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:117 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:216
+msgid "Reference"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/PostTypes.class.php:225
+msgid "Glossary Term Usage"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:25
 msgid "Random Term From Glossary"
 msgstr ""
 
-#: ../class/RandomTerm.class.php:17
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:28
 msgid "Add a random glossary term to your sidebar"
 msgstr ""
 
-#: ../class/RandomTerm.class.php:25
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:36
 msgid "Random Glossary term"
 msgstr ""
 
-#: ../class/RandomTerm.class.php:54
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:65
 msgid "Any"
 msgstr ""
 
-#: ../class/RandomTerm.class.php:69
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:80
 msgid "Title Only"
 msgstr ""
 
-#: ../class/RandomTerm.class.php:72
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:83
 msgctxt "Random Widget Tooltip"
 msgid "Glossary Tooltip"
 msgstr ""
 
-#: ../class/RandomTerm.class.php:76
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:87
 msgid "Display"
 msgstr ""
 
-#: ../class/RandomTerm.class.php:81
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:92
 msgid "Number of terms"
 msgstr ""
 
-#: ../class/RandomTerm.class.php:190
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/RandomTerm.class.php:201
 msgid "No terms available"
 msgstr ""
 
-#: ../class/shortcode/TermList.class.php:45 ../class/shortcode/AtoZ.class.php:48
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Filters.class.php:213 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Filters.class.php:244
+msgid "None"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Filters.class.php:218
+msgid "Unhook"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Filters.class.php:223
+msgid "Flee"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Filters.class.php:228
+msgid "Zoom out"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Filters.class.php:233
+msgid "Disappear"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Filters.class.php:249
+msgid "Zoom in"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Filters.class.php:254
+msgid "Appear"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:94
+msgid "Can't read plugin version"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:245 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:246
+msgid "Add a Term"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:297 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:298
+msgid "Update"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:367
+msgid "Normal"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:369
+msgid "Normal link with no modifications"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:373
+msgid "No link"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:375
+msgid "Don't link to term"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:379
+msgid "New tab"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:381
+msgid "Always open in a new tab"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:437 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:774
+msgid "Display full post content"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:443 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:780
+msgid "Display shorter excerpt content"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:447 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:784
+msgid "Off"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:449 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:786
+msgid "Do not display tooltip at all"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:482 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:806
+msgid "Click"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:484 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:808
+msgid "On click"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:488
+msgid "Hybrid"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:490 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:814
+msgid "Hover (on computer) and click (touch devices)"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:595 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:599
+msgid "Invalid input for"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:611
+msgid "Rewrite rule flushed"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:614
+msgid "Options updated"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:635
+msgid "Local image"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:637
+msgid "Image from site library"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:641
+msgid "Image on the web"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:643
+msgid "Image referenced by url, not on the site"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:647
+msgid "Video on the web"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:649
+msgid "Video hosted online. Only Youtube, Dailymotion or .mp4 videos"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:770 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:796 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:804 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:884 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:896 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:924 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:936 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:950 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:957
+msgid "Default"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:812
+msgid "Responsive"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:885 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:925
+msgid "Top"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:886 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:898 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:926 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:938
+msgid "Center"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:887 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:927
+msgid "Bottom"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:897 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:937
+msgid "Left"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:899 
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:939
+msgid "Right"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1038
+msgid "Error while generating the theme editor: "
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1064
+msgid "Select one"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1076
+msgid ""
+"At least 3 letters (lowercase and uppercase), numbers, _ or -, and not "
+"starting or ending with symbol"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1140
+msgid "No matching file found. Try to load another theme"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1183
+msgid "CSS generated."
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1187
+msgid "Error while generate CSS"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1210
+msgid "Theme saved."
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1210
+msgid "Failed to save the theme."
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1320
+msgid ""
+"Could not read stylesheet components. Please check that your Web user is "
+"allowed to read in <code>wp-content/uploads/ithoughts_tooltip_glossary</code>"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1407
+msgid "Cream"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1408
+msgid "Dark"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1409
+msgid "Green"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1410
+msgid "Light"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1411
+msgid "Red"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1412
+msgid "Blue"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1413
+msgid "Plain"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1414
+msgid "Bootstrap"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1415
+msgid "YouTube"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1416
+msgid "Tipsy"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/Admin.class.php:1439
+msgid ""
+"Could not read the custom themes directory. Please check if the Web user is "
+"allowed to read and write to <code>wp-"
+"content/uploads/ithoughts_tooltip_glossary</code>"
+msgstr ""
+
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/shortcode/AtoZ.class.php:54
 msgid "There are no glossary items."
 msgstr ""
 
-#: ../class/shortcode/AtoZ.class.php:84
-msgid "Terms"
+#: ../../../../../php/wp-plugins/git/ithoughts-tooltip-glossary/class/shortcode/AtoZ.class.php:99
+msgid "Please select from the menu above"
 msgstr ""
 
-#: ../class/shortcode/AtoZ.class.php:103
-msgid "Please select from the menu above"
+#. Name of the plugin
+msgid "iThoughts Tooltip Glossary"
+msgstr ""
+
+#. Description of the plugin
+msgid "Create beautiful tooltips for descriptions or glossary terms easily"
+msgstr ""
+
+#. URI of the plugin
+msgid ""
+"http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/"
+msgstr ""
+
+#. Author of the plugin
+msgid "Gerkin"
 msgstr ""

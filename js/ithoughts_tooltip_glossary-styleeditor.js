@@ -9,10 +9,12 @@
  * @version 2.5.0
  */
 
-(function(){
-    $d.ready(function(){
+(function(ithoughts){
+	'use strict';
+	var $ = ithoughts.$;
+	
+    ithoughts.$d.ready(function(){
         $("#LESS-form")[0].simple_ajax_callback = function(res){
-            console.log("Callback", res);
             if(res.valid){
                 var styleTag = $("#ithoughts_tt_gl-custom_theme");
                 if(styleTag.length == 0){
@@ -26,11 +28,9 @@
                 console.error("Error while getting preview style",res);
             }
         };
-        console.log($(".simpleajaxform")[0]);
         {
             var theme = $('[name="themename"]').val()
             if(theme != "" && theme){
-                console.log("Setting theme", theme);
                 window.updateStyle(null, theme);
             }
         }
@@ -38,4 +38,4 @@
             $(this).parent().find("button").prop("disabled", !this.value);
         }).change();
     });
-})()
+})(Ithoughts.v3)

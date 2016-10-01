@@ -202,16 +202,16 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
             wp_enqueue_style( 'ithoughts_tooltip_glossary-admin');
         }
 
-        /**
-	 * Register plugin's TinyMCE buttons
-	 * @author Gerkin
-	 * @param  string[] $buttons Already registered buttons
-	 * @return string[] Original `$buttons` appended with this plugin's buttons
-	 */
-        public function tinymce_register_buttons( $buttons ) {
-            array_push( $buttons, 'glossaryterm', 'glossarylist' );
-            return $buttons;
-        }
+		/**
+         * Register plugin's TinyMCE buttons
+         * @author Gerkin
+         * @param  string[] $buttons Already registered buttons
+         * @return string[] Original `$buttons` appended with this plugin's buttons
+         */
+		public function tinymce_register_buttons( $buttons ) {
+			array_push( $buttons, 'glossaryterm', 'glossaryterm-d', 'glossarylist' );
+			return $buttons;
+		}
 
         /**
 	 * Register plugin's TinyMCE plugin and enqueue required scripts
@@ -389,157 +389,196 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
             wp_enqueue_script('postbox');
             wp_enqueue_script('post');
 
-            $optionsInputs = array(
-                "termlinkopt" => TB::generate_input_select(
-                    'termlinkopt',
-                    array(
-                        'selected'	=> $options["termlinkopt"],
-                        'options'	=> array(
-                            'standard'	=> array(
-                                'text'	=> __('Normal', 'ithoughts-tooltip-glossary' ),
-                                'attributes'	=> array(
-                                    'title'	=> __('Normal link with no modifications', 'ithoughts-tooltip-glossary' )
-                                )
-                            ),
-                            'none'	=> array(
-                                'text'	=>__('No link', 'ithoughts-tooltip-glossary' ),
-                                'attributes'	=> array(
-                                    'title'	=> __("Don't link to term", 'ithoughts-tooltip-glossary' )
-                                )
-                            ),
-                            'blank'	=> array(
-                                'text'	=> __('New tab', 'ithoughts-tooltip-glossary' ),
-                                'attributes'	=> array(
-                                    'title'	=> __("Always open in a new tab", 'ithoughts-tooltip-glossary' )
-                                )
-                            ),
-                        ),
-                    )
-                ),
-                "staticterms" => TB::generate_input_check(
-                    "staticterms",
-                    array(
-                        "radio" => false,
-                        "selected" => $options["staticterms"] ? array("enabled") : array(),
-                        "options" => array(
-                            "enabled" => array(
-                                "attributes" => array(
-                                    "id" => "staticterms"
-                                )
-                            )
-                        )
-                    )
-                ),
-                "forceloadresources" => TB::generate_input_check(
-                    "forceloadresources",
-                    array(
-                        "radio" => false,
-                        "selected" => $options["forceloadresources"] ? array("enabled") : array(),
-                        "options" => array(
-                            "enabled" => array(
-                                "attributes" => array(
-                                    "id" => "forceloadresources"
-                                )
-                            )
-                        )
-                    )
-                ),
-                "termtype" => TB::generate_input_text(
-                    "termtype",
-                    array(
-                        "type" => "text",
-                        "value" => $options["termtype"]
-                    )
-                ),
-                "grouptype" => TB::generate_input_text(
-                    "grouptype",
-                    array(
-                        "type" => "text",
-                        "value" => $options["grouptype"]
-                    )
-                ),
-                "termcontent" => TB::generate_input_select(
-                    'termcontent',
-                    array(
-                        'selected' => $options["termcontent"],
-                        'options'  => array(
-                            'full'	=> array(
-                                'text'	=> __('Full', 'ithoughts-tooltip-glossary' ),
-                                'attributes'	=> array(
-                                    'title'	=> __('Display full post content', 'ithoughts-tooltip-glossary' )
-                                )
-                            ),
-                            'excerpt'	=> array(
-                                'text'	=> __('Excerpt', 'ithoughts-tooltip-glossary' ),
-                                'attributes'	=> array(
-                                    'title'	=> __('Display shorter excerpt content', 'ithoughts-tooltip-glossary' )
-                                )
-                            ), 
-                            'off'	=> array(
-                                'text'	=> __('Off', 'ithoughts-tooltip-glossary' ),
-                                'attributes'	=> array(
-                                    'title'	=> __('Do not display tooltip at all', 'ithoughts-tooltip-glossary' )
-                                )
-                            ),
-                        ),
-                    )
-                ),
-                "qtipstyle" => TB::generate_input_select(
-                    'qtipstyle',
-                    array(
-                        'selected' => $options["qtipstyle"],
-                        'options'  => $this->get_themes(),
-                    )
-                ),
-                "qtiptrigger" => TB::generate_input_select(
-                    'qtiptrigger',
-                    array(
-                        'selected'	=> $options["qtiptrigger"],
-                        'options'	=> array(
-                            'click'	=> array(
-                                'text'	=> __('Click', 'ithoughts-tooltip-glossary' ),
-                                'attributes'	=>array(
-                                    'title'	=> __('On click', 'ithoughts-tooltip-glossary' )
-                                )
-                            ),
-                            'responsive'	=> array(
-                                'text'	=> __('Responsive', 'ithoughts-tooltip-glossary' ),
-                                'attributes'	=>array(
-                                    'title'	=> __('Hover (on computer) and click (touch devices)', 'ithoughts-tooltip-glossary' )
-                                )
-                            ),
-                        ),
-                    )
-                ),
-                "qtipshadow" => TB::generate_input_check(
-                    "qtipshadow",
-                    array(
-                        "radio" => false,
-                        "selected" => $options["qtipshadow"],
-                        "options" => array(
-                            "enabled" => array(
-                                "attributes" => array(
-                                    "id" => "qtipshadow"
-                                )
-                            )
-                        )
-                    )
-                ),
-                "qtiprounded" => TB::generate_input_check(
-                    "qtiprounded",
-                    array(
-                        "radio" => false,
-                        "selected" => $options["qtiprounded"],
-                        "options" => array(
-                            "enabled" => array(
-                                "attributes" => array(
-                                    "id" => "qtiprounded"
-                                )
-                            )
-                        )
-                    )
-                ),
-            );
+			$optionsInputs = array(
+				"termlinkopt" => TB::generate_input_select(
+					'termlinkopt',
+					array(
+						'selected'	=> $options["termlinkopt"],
+						'options'	=> array(
+							'standard'	=> array(
+								'text'	=> __('Normal', 'ithoughts-tooltip-glossary' ),
+								'attributes'	=> array(
+									'title'	=> __('Normal link with no modifications', 'ithoughts-tooltip-glossary' )
+								)
+							),
+							'none'	=> array(
+								'text'	=>__('No link', 'ithoughts-tooltip-glossary' ),
+								'attributes'	=> array(
+									'title'	=> __("Don't link to term", 'ithoughts-tooltip-glossary' )
+								)
+							),
+							'blank'	=> array(
+								'text'	=> __('New tab', 'ithoughts-tooltip-glossary' ),
+								'attributes'	=> array(
+									'title'	=> __("Always open in a new tab", 'ithoughts-tooltip-glossary' )
+								)
+							),
+						),
+					)
+				),
+				"staticterms" => TB::generate_input_check(
+					"staticterms",
+					array(
+						"radio" => false,
+						"selected" => $options["staticterms"] ? array("enabled") : array(),
+						"options" => array(
+							"enabled" => array(
+								"attributes" => array(
+									"id" => "staticterms"
+								)
+							)
+						)
+					)
+				),
+				"forceloadresources" => TB::generate_input_check(
+					"forceloadresources",
+					array(
+						"radio" => false,
+						"selected" => $options["forceloadresources"] ? array("enabled") : array(),
+						"options" => array(
+							"enabled" => array(
+								"attributes" => array(
+									"id" => "forceloadresources"
+								)
+							)
+						)
+					)
+				),
+				"termtype" => TB::generate_input_text(
+					"termtype",
+					array(
+						"type" => "text",
+						"value" => $options["termtype"]
+					)
+				),
+				"grouptype" => TB::generate_input_text(
+					"grouptype",
+					array(
+						"type" => "text",
+						"value" => $options["grouptype"]
+					)
+				),
+				"termcontent" => TB::generate_input_select(
+					'termcontent',
+					array(
+						'selected' => $options["termcontent"],
+						'options'  => array(
+							'full'	=> array(
+								'text'	=> __('Full', 'ithoughts-tooltip-glossary' ),
+								'attributes'	=> array(
+									'title'	=> __('Display full post content', 'ithoughts-tooltip-glossary' )
+								)
+							),
+							'excerpt'	=> array(
+								'text'	=> __('Excerpt', 'ithoughts-tooltip-glossary' ),
+								'attributes'	=> array(
+									'title'	=> __('Display shorter excerpt content', 'ithoughts-tooltip-glossary' )
+								)
+							), 
+							'off'	=> array(
+								'text'	=> __('Off', 'ithoughts-tooltip-glossary' ),
+								'attributes'	=> array(
+									'title'	=> __('Do not display tooltip at all', 'ithoughts-tooltip-glossary' )
+								)
+							),
+						),
+					)
+				),
+				"termscomment" => TB::generate_input_check(
+					"termscomment",
+					array(
+						"radio" => false,
+						"selected" => $options["termscomment"],
+						"options" => array(
+							"enabled" => array(
+								"attributes" => array(
+									"id" => "termscomment"
+								)
+							)
+						)
+					)
+				),
+				"qtipstyle" => TB::generate_input_select(
+					'qtipstyle',
+					array(
+						'selected' => $options["qtipstyle"],
+						'options'  => $this->get_themes(),
+					)
+				),
+				"qtiptrigger" => TB::generate_input_select(
+					'qtiptrigger',
+					array(
+						'selected'	=> $options["qtiptrigger"],
+						'options'	=> array(
+							'click'	=> array(
+								'text'	=> __('Click', 'ithoughts-tooltip-glossary' ),
+								'attributes'	=>array(
+									'title'	=> __('On click', 'ithoughts-tooltip-glossary' )
+								)
+							),
+							'responsive'	=> array(
+								'text'	=> __('Hybrid', 'ithoughts-tooltip-glossary' ),
+								'attributes'	=>array(
+									'title'	=> __('Hover (on computer) and click (touch devices)', 'ithoughts-tooltip-glossary' )
+								)
+							),
+						),
+					)
+				),
+				"qtipshadow" => TB::generate_input_check(
+					"qtipshadow",
+					array(
+						"radio" => false,
+						"selected" => $options["qtipshadow"],
+						"options" => array(
+							"enabled" => array(
+								"attributes" => array(
+									"id" => "qtipshadow"
+								)
+							)
+						)
+					)
+				),
+				"qtiprounded" => TB::generate_input_check(
+					"qtiprounded",
+					array(
+						"radio" => false,
+						"selected" => $options["qtiprounded"],
+						"options" => array(
+							"enabled" => array(
+								"attributes" => array(
+									"id" => "qtiprounded"
+								)
+							)
+						)
+					)
+				),
+				"anim_in" => TB::generate_input_select(
+					'anim_in',
+					array(
+						'selected' => $options["anim_in"] ?: '',//$options["termcontent"],
+						'options'  => apply_filters("ithoughts-tt-gl_tooltip-anim-in", array()),
+					)
+				),
+				"anim_out" => TB::generate_input_select(
+					'anim_out',
+					array(
+						'selected' => $options["anim_out"] ?: '',//$options["termcontent"],
+						'options'  => apply_filters("ithoughts-tt-gl_tooltip-anim-out", array()),
+					)
+				),
+				"anim_time" => TB::generate_input_text(
+					"anim_time",
+					array(
+						"type" => "text",
+						"value" => $options["anim_time"],
+						"attributes" => array(
+							"placeholder" => "500",
+							"style" => "width:50px"
+						)
+					)
+				),
+			);
 
             $optionsInputs["qtipstylecustom"] = TB::generate_input_text(
                 "qtipstylecustom",

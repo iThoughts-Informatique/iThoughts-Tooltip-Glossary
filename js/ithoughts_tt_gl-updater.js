@@ -27,7 +27,6 @@
 				verboseArea.parentElement.scrollTop = verboseArea.parentElement.scrollHeight;
 			}
 			var scrollValOld = (verboseArea.parentElement.scrollHeight - verboseArea.parentElement.clientHeight);
-			console.log(scrollValOld, verboseArea.parentElement.scrollTop)
 			progress.value = out.data.progression;
 			text.innerHTML = progress.value + '/' + initData.max + ' (<em>' + (parseInt((progress.value / initData.max) * 100) + "").slice(0,3) + '%</em>)';
 			if(out.data.verbose){
@@ -55,7 +54,6 @@
 	}
 
 	function initUpdate(versions){
-		console.log("Init step update", versions);
 		$.post(ithoughts_tt_gl.admin_ajax, {
 			action: "ithoughts_tt_gl_update", data: {
 				versions: versions,

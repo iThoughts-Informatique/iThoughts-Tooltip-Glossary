@@ -30,6 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div id="normal-sortables" class=""><!--Old removed classes: "meta-box-sortables ui-sortable"-->
 						<form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
 
+							<p style="font-size:17px;"><em><?php _e("Need help? Check out the full plugin manual at ", 'ithoughts-tooltip-glossary' ); ?> <a href="https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/" target="_blank">GerkinDevelopment.net</a>.</em></p>
 							<p><strong><?php _e("Note", 'ithoughts-tooltip-glossary' ); ?>:</strong>&nbsp;<?php _e("Labels in <span class=\"nonoverridable\">red</span> indicate global options, not overridable by tips.", 'ithoughts-tooltip-glossary' ); ?></p>
 
 							<div id="ithoughts_tt_gllossary_options_1" class="postbox">

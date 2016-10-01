@@ -76,6 +76,31 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Changelog ==
 
+= 2.6.4 =
+* FIX obsolete variable in A-to-Z js script (see [support forum](https://wordpress.org/support/topic/glossary_atoz-not-working?replies=2))
+
+= 2.6.3 =
+* FIX Moved JS TinyMCE form data object.
+
+= 2.6.2 =
+* UPD New version of iThoughts Wordpress Plugin Toolbox
+* FIX Enforcing namespaces in JS & PHP.
+
+= 2.6.1 =
+* FIX Removed old JS dependencies no more used
+* FIX JS function "removeAccents" injected in another namespace
+
+= 2.6.0 =
+* NEW Attributes editor for tooltip-specific configuration
+* NEW Using JS namespacing to avoid conflicts
+* NEW Allow setting explicit HREF on glossary term with warning message
+* NEW Added in/out animations for tip + hooks for adding custom anims
+* NEW Added support of comments on glossary terms if enabled in config
+* UPD New version of iThoughts Plugin Toolbox with no-conflicting naming
+* UPD Rename JS files for uniform naming
+* UPD Increasing the number of hooks (ithoughts_tt_gl-term-content, ithoughts_tt_gl-term-excerpt)
+* FIX Wrong DB query containing static string, which can produce errors
+
 = 2.5.0 =
 * NEW Complete simplified theme editor
 * UPD Fixed HTML escaped tooltip content (see [this ticket](https://wordpress.org/support/topic/tooltips-have-changed-and-dont-work))
@@ -257,6 +282,15 @@ some useless files
 
 
 == Upgrade Notice ==
+
+= 2.6.4 =
+Minor fixes
+
+= 2.6.1 =
+Fix missing function "removeAccents"
+
+= 2.6.0 =
+Added attribute editor & tooltips animations
 
 = 2.5.0 =
 Theme editor improved with more flexibility. Thrown away useless theme form
