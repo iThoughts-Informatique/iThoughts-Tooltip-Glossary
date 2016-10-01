@@ -5,10 +5,10 @@
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
  * @package ithoughts-tooltip-glossary
  *
- * @version 2.5.0
+ * @version 2.6.4
  */
 
 
@@ -16,9 +16,9 @@
 Plugin Name: iThoughts Tooltip Glossary
 Plugin URI:  http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Description: Create beautiful tooltips for descriptions or glossary terms easily
-Version:     2.5.0
+Version:     2.6.4
 Author:      Gerkin
-License:     GPLv2 or later
+License:     GPLv3
 Text Domain: ithoughts-tooltip-glossary
 Domain Path: /lang
 */

@@ -164,26 +164,24 @@
 
 
 #ithoughts_tooltip_glossary-tipsContainer{
-    position: absolute;
-    z-index: 100000;
-    width:100%;
+	position: absolute;
+	z-index: 100001;
+	width:100%;
 }
-.ithoughts_tooltip_glossary-glossary{
-    & > a,/* for term */
-    & > a:hover,
-    & > a:visited,
-    & > a:active,
-    & > a,/* for mediatip */
-    & > a:hover,
-    & > a:visited,
-    & > a:active,
-    & > a,/* for inline tooltip */
-    & > a:hover,
-    & > a:visited,
-    & > a:active
-    {
-        text-decoration: overline underline;
-    }
+
+span{
+	&.ithoughts_tooltip_glossary-glossary,
+	&.ithoughts_tooltip_glossary-tooltip,
+	&.ithoughts_tooltip_glossary-mediatip{
+		& > a,
+		& > a:hover,
+		& > a:visited,
+		& > a:active
+		{
+			text-decoration: overline underline;
+			box-shadow: none;
+		}
+	}
 }
 
 
@@ -196,19 +194,22 @@ Specific styles for tip
     .qtip-content{
         padding: 0px;
 
-        img{
-            max-height: 75vh!important;
-            vertical-align: middle;
-        }
-    }
-    .ithoughts_tooltip_glossary_pin_container{
-        border: 1px solid;
-        display: inline-block;
-        height: 2em;
-        width: 2em;
-        box-sizing: border-box;
-        border-radius: 0.5em;
-        float: right;
+		p,*:last-child{
+			margin-bottom: 0;
+		}
+		img{
+			max-height: 75vh!important;
+			vertical-align: middle;
+		}
+	}
+	.ithoughts_tooltip_glossary_pin_container{
+		border: 1px solid;
+		display: inline-block;
+		height: 2em;
+		width: 2em;
+		box-sizing: border-box;
+		border-radius: 0.5em;
+		float: right;
 
         .ithoughts_tooltip_glossary_pin{
             display: block;

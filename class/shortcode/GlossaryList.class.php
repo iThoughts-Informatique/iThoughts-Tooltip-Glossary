@@ -5,17 +5,12 @@
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
  * @package ithoughts-tooltip-glossary
  *
  * @version 2.5.0
  */
 
-
-/**
-  * @copyright 2015-2016 iThoughts Informatique
-  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
-  */
 
 namespace ithoughts\tooltip_glossary\shortcode;
 
@@ -30,10 +25,10 @@ if(!class_exists(__NAMESPACE__."\\GlossaryList")){
 	abstract class GlossaryList extends \ithoughts\v1_0\Singleton{
 
 		/**
-	 * Sort attributes, prepare linkdata & get posts
-	 * @author Gerkin
-	 * @param Array $atts Attributes set on shortcode call
-	 */
+         * Sort attributes, prepare linkdata & get posts
+         * @author Gerkin
+         * @param Array $atts Attributes set on shortcode call
+         */
 		final protected function init_list_atts($atts){
 			// Parse attributes and sort them
 			$data = apply_filters("ithoughts_tt_gl-split-args", $atts);
@@ -110,7 +105,7 @@ FROM
 	$table AS p";
 			if(function_exists('icl_object_id')){ // Add join to current language for WPML
 				$queryComponents["from"] .= "
-	JOIN devblog_icl_translations t
+	JOIN {$wpdb->prefix}icl_translations t
 	ON
 		p.ID = t.element_id AND
 		t.element_type = CONCAT('post_', p.post_type)";

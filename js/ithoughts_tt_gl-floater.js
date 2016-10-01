@@ -3,44 +3,44 @@
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
  * @package ithoughts-tooltip-glossary
  *
- * @version 2.5.0
  */
 
-window.refloat;
-window.updateStyle;
-(function(){
+(function(ithoughts){
+	'use strict';
+
+	var $ = ithoughts.$,
+		$d = ithoughts.$d,
+		$w = ithoughts.$w;
+
 	$d.ready(function(){
-		
-        window.updateStyle = (function(){
-            var target = null;
-            var styleI = $("#qtipstyle");
-            var shadowI = $("#qtipshadow");
-            var roundedI = $("#qtiprounded");
-            return function(event, themename){
+
+		ithoughts_tt_gl.updateStyle = (function(){
+			var styleI = $("#qtipstyle"),
+				shadowI = $("#qtipshadow"),
+				roundedI = $("#qtiprounded");
+			return function(event, themename, target){
 				if(typeof themename == "undefined")
 					themename = styleI.val();
-                if(target == null)
-                    target = $("#qtip-exampleStyle");
-                var style = [
-                    "ithoughts_tt_gl-tooltip",
-                    "qtip-pos-br",
-                    "qtip-"+themename
-                ];
-                if(shadowI.is(':checked'))
-                    style.push("qtip-shadow");
-                if(roundedI.is(':checked'))
-                    style.push("qtip-rounded");
-                target.qtip('option', 'style.classes', style.join(" "));
-            }
-        })();
-		
+				var style = [
+					"ithoughts_tt_gl-tooltip",
+					"qtip-pos-br",
+					"qtip-"+themename
+				];
+				if(shadowI.is(':checked'))
+					style.push("qtip-shadow");
+				if(roundedI.is(':checked'))
+					style.push("qtip-rounded");
+				target.qtip('option', 'style.classes', style.join(" "));
+			}
+		})();
+
 		var updateFloaterPosition = (function(){
-			var min;
-			var centerOffset;
-			var max;
+			var min,
+				centerOffset,
+				max;
 			return function(event,floaterObj, redim){
 				if(redim === true || typeof min === "undefined" || typeof max === "undefined" || typeof centerOffset === "undefined"){
 					min = floaterObj.container.offset().top;
@@ -67,4 +67,4 @@ window.updateStyle;
 			}, 25);
 		}
 	});
-})();
+})(Ithoughts.v3);

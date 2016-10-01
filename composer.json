@@ -1,7 +1,7 @@
 {
 	"name": "iThoughts-Informatique/iThoughts-Tooltip-Glossary",
 	"type": "wordpress-plugin",
-	"license": "GPLv2.0",
+	"license": "GPLv3",
 	"description": "Create beautiful tooltips for descriptions or glossary terms easily",
 	"homepage": "https://wordpress.org/plugins/ithoughts-tooltip-glossary/",
 	"authors": [

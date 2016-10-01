@@ -170,22 +170,23 @@
 }
 #ithoughts_tooltip_glossary-tipsContainer {
   position: absolute;
-  z-index: 100000;
+  z-index: 10000000;
   width: 100%;
 }
-.ithoughts_tooltip_glossary-glossary > a,
-.ithoughts_tooltip_glossary-glossary > a:hover,
-.ithoughts_tooltip_glossary-glossary > a:visited,
-.ithoughts_tooltip_glossary-glossary > a:active,
-.ithoughts_tooltip_glossary-glossary > a,
-.ithoughts_tooltip_glossary-glossary > a:hover,
-.ithoughts_tooltip_glossary-glossary > a:visited,
-.ithoughts_tooltip_glossary-glossary > a:active,
-.ithoughts_tooltip_glossary-glossary > a,
-.ithoughts_tooltip_glossary-glossary > a:hover,
-.ithoughts_tooltip_glossary-glossary > a:visited,
-.ithoughts_tooltip_glossary-glossary > a:active {
+span.ithoughts_tooltip_glossary-glossary > a,
+span.ithoughts_tooltip_glossary-tooltip > a,
+span.ithoughts_tooltip_glossary-mediatip > a,
+span.ithoughts_tooltip_glossary-glossary > a:hover,
+span.ithoughts_tooltip_glossary-tooltip > a:hover,
+span.ithoughts_tooltip_glossary-mediatip > a:hover,
+span.ithoughts_tooltip_glossary-glossary > a:visited,
+span.ithoughts_tooltip_glossary-tooltip > a:visited,
+span.ithoughts_tooltip_glossary-mediatip > a:visited,
+span.ithoughts_tooltip_glossary-glossary > a:active,
+span.ithoughts_tooltip_glossary-tooltip > a:active,
+span.ithoughts_tooltip_glossary-mediatip > a:active {
   text-decoration: overline underline;
+  box-shadow: none;
 }
 /****************************************************
 Specific styles for tip
