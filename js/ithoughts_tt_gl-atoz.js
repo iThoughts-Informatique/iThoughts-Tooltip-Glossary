@@ -95,4 +95,4 @@
 		}
 
 	});
-})(Ithoughts.v3);
+})(Ithoughts.v4);

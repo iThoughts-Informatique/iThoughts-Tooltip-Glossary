@@ -71,7 +71,7 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Changelog ==
 
-= 2.6.3 =
+= 2.6.3 = 
 * FIX Moved JS TinyMCE form data object.
 
 = 2.6.2 =

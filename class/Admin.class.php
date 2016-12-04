@@ -117,31 +117,31 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			wp_register_script(
 				'ithoughts_tooltip_glossary-admin',
 				$backbone->get_base_url() . '/js/ithoughts_tt_gl-admin'.$backbone->get_minify().'.js',
-				array('ithoughts-simple-ajax-v3',"ithoughts-core-v3","ithoughts_tooltip_glossary-floater"),
+				array('ithoughts-simple-ajax-v3',"ithoughts-core-v4","ithoughts_tooltip_glossary-floater"),
 				"2.4.0"
 			);
 			wp_register_script(
 				"ithoughts_tooltip_glossary-tinymce_form",
 				$backbone->get_base_url() . '/js/ithoughts_tt_gl-tinymce-forms'.$backbone->get_minify().'.js',
-				array("jquery","ithoughts-core-v3","ithoughts-simple-ajax-v3"),
+				array("jquery","ithoughts-core-v4","ithoughts-simple-ajax-v3"),
 				"2.4.0"
 			);
 			wp_register_script(
 				'ithoughts_tooltip_glossary-updater',
 				$backbone->get_base_url() . '/js/ithoughts_tt_gl-updater'.$backbone->get_minify().'.js',
-				array("jquery","ithoughts-core-v3"),
+				array("jquery","ithoughts-core-v4"),
 				"2.3.1"
 			);
 			wp_register_script(
 				'ithoughts_tooltip_glossary-floater',
 				$backbone->get_base_url() . '/js/ithoughts_tt_gl-floater'.$backbone->get_minify().'.js',
-				array("jquery","ithoughts-core-v3", "ithoughts_tooltip_glossary-qtip"),
+				array("jquery","ithoughts-core-v4", "ithoughts_tooltip_glossary-qtip"),
 				"2.4.0"
 			);
 			wp_register_script(
 				'ithoughts_tooltip_glossary-styleeditor',
 				$backbone->get_base_url() . '/js/ithoughts_tt_gl-styleeditor'.$backbone->get_minify().'.js',
-				array("ithoughts-core-v3","ithoughts_tooltip_glossary-floater","ithoughts-simple-ajax-v3"),
+				array("ithoughts-core-v4","ithoughts_tooltip_glossary-floater","ithoughts-simple-ajax-v3"),
 				"2.4.0"
 			);
 
@@ -193,7 +193,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			wp_enqueue_style('ithoughts_tooltip_glossary-css');
 			$version = "t=2.1.7";
 			if(defined(WP_DEBUG) && WP_DEBUG){
-				$version = "t=".time(); 
+				$version = "t=".time();
 			}
 			$plugin_array['ithoughts_tt_gl_tinymce'] = $backbone->get_base_url() . '/js/ithoughts_tt_gl-tinymce'.$backbone->get_minify().'.js?'.$version;
 			return $plugin_array;
@@ -223,17 +223,17 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			} else {
 				$currentVersion = "0.0";
 			}
-			$menu = add_menu_page("iThoughts Tooltip Glossary", "Tooltip Glossary", "edit_others_posts", "ithought-tooltip-glossary", null, $backbone->get_base_url()."/js/icon/icon.svg");
+			$menu = add_menu_page("iThoughts Tooltip Glossary", "Tooltip Glossary", "edit_others_posts", "ithoughts-tooltip-glossary", null, $backbone->get_base_url()."/js/icon/icon.svg");
 
 			$submenu_pages = array(
 				// Options
 				//start
 				array(
-					'parent_slug'   => 'ithought-tooltip-glossary',
+					'parent_slug'   => 'ithoughts-tooltip-glossary',
 					'page_title'    => __( 'Options', 'ithoughts-tooltip-glossary' ),
 					'menu_title'    => __( 'Options', 'ithoughts-tooltip-glossary' ),
 					'capability'    => 'manage_options',
-					'menu_slug'     => 'ithought-tooltip-glossary',
+					'menu_slug'     => 'ithoughts-tooltip-glossary',
 					'function'      => array($this, 'options'),
 				),
 				//close
@@ -241,7 +241,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				// Post Type :: Add New Post
 				//start
 				array(
-					'parent_slug'   => 'ithought-tooltip-glossary',
+					'parent_slug'   => 'ithoughts-tooltip-glossary',
 					'page_title'    => __('Add a Term', 'ithoughts-tooltip-glossary' ),
 					'menu_title'    => __('Add a Term', 'ithoughts-tooltip-glossary' ),
 					'capability'    => 'edit_others_posts',
@@ -253,7 +253,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				// Post Type :: View All Posts
 				//start
 				array(
-					'parent_slug'   => 'ithought-tooltip-glossary',
+					'parent_slug'   => 'ithoughts-tooltip-glossary',
 					'page_title'    => __('Glossary Terms', 'ithoughts-tooltip-glossary' ),
 					'menu_title'    => __('Glossary Terms', 'ithoughts-tooltip-glossary' ),
 					'capability'    => 'edit_others_posts',
@@ -265,7 +265,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				// Taxonomy :: Manage News Categories
 				//start
 				array(
-					'parent_slug'   => 'ithought-tooltip-glossary',
+					'parent_slug'   => 'ithoughts-tooltip-glossary',
 					'page_title'    => __('Glossary Groups', 'ithoughts-tooltip-glossary' ),
 					'menu_title'    => __('Glossary Groups', 'ithoughts-tooltip-glossary' ),
 					'capability'    => 'manage_categories',
@@ -277,11 +277,11 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				// Theme editor
 				//start
 				array(
-					'parent_slug'   => 'ithought-tooltip-glossary',
+					'parent_slug'   => 'ithoughts-tooltip-glossary',
 					'page_title'    => __('Theme editor', 'ithoughts-tooltip-glossary' ),
 					'menu_title'    => __('Theme editor', 'ithoughts-tooltip-glossary' ),
 					'capability'    => 'edit_theme_options',
-					'menu_slug'     => 'ithought-tooltip-glossary-themes',
+					'menu_slug'     => 'ithoughts-tooltip-glossary-themes',
 					'function'      => array($this, 'theme_editor'),// Doesn't need a callback function.
 				),
 				//close
@@ -293,7 +293,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				if(Updater::requiresUpdate($backbone->get_option('version'), $this->currentVersion)){
 					// Updater :: Hidden but entry point for update actions
 					$submenu_pages[] = array(
-						'parent_slug'   => 'ithought-tooltip-glossary',
+						'parent_slug'   => 'ithoughts-tooltip-glossary',
 						'page_title'    => __("Update", 'ithoughts-tooltip-glossary' ),
 						'menu_title'    => __("Update", 'ithoughts-tooltip-glossary' ),
 						'capability'    => 'manage_options',
@@ -407,6 +407,20 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 							"enabled" => array(
 								"attributes" => array(
 									"id" => "forceloadresources"
+								)
+							)
+						)
+					)
+				),
+				"jslog" => TB::generate_input_check(
+					"jslog",
+					array(
+						"radio" => false,
+						"selected" => $options["jslog"] ? array("enabled") : array(),
+						"options" => array(
+							"enabled" => array(
+								"attributes" => array(
+									"id" => "jslog"
 								)
 							)
 						)
@@ -570,6 +584,8 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			$postValues['qtipshadow']  = TB::checkbox_to_bool($postValues,'qtipshadow',  "enabled");
 			$postValues['qtiprounded'] = TB::checkbox_to_bool($postValues,'qtiprounded', "enabled");
 			$postValues['staticterms'] = TB::checkbox_to_bool($postValues,'staticterms', "enabled");
+			$postValues['forceloadresources'] = TB::checkbox_to_bool($postValues,'forceloadresources', "enabled");
+			$postValues['jslog'] = TB::checkbox_to_bool($postValues,'jslog', "enabled");
 			$postValues['termscomment'] = TB::checkbox_to_bool($postValues,'termscomment', "enabled");
 			if(isset($postValues["qtipstylecustom"]) && strlen(trim($postValues["qtipstylecustom"])) > 0){
 				$postValues["qtipstyle"] = $postValues["qtipstylecustom"];

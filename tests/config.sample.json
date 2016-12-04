@@ -1,0 +1,11 @@
+{
+    "test_site": {
+    "site_url": "http://mytestsiteurl.com",
+    "login": "admin",
+    "password": "admin"
+    },
+    "plugin": {
+        "slug": "my-plugin",
+        "name": "My Plugin"
+    }
+}

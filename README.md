@@ -81,7 +81,7 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 ## Changelog ##
 
-### 2.6.2 ###
+### 2.6.2 ### 
 * UPD New version of iThoughts Wordpress Plugin Toolbox
 * FIX Enforcing namespaces in JS & PHP.
 

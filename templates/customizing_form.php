@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<h3 class="hndle"><span><?php _e('Load a theme', 'ithoughts-tooltip-glossary' ); ?></span></h3>
 								<div class="inside">
 									<form id="ithoughts_loadtheme" method="get">
-										<input type="hidden" name="page" value="ithought-tooltip-glossary-themes"/>
+										<input type="hidden" name="page" value="ithoughts-tooltip-glossary-themes"/>
 										<label for="themename"><?php _e('Theme to load', 'ithoughts-tooltip-glossary' ); ?></label>
 										<?php echo $inputs["themeselect"]; ?>
 										<button type="submit" name="action" class="button button-primary" value="load"><?php _e('Load', 'ithoughts-tooltip-glossary' ); ?></button>
@@ -44,7 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							</div>
 
 							<form method="get">
-								<input type="hidden" name="page" value="ithought-tooltip-glossary-themes"/>
+								<input type="hidden" name="page" value="ithoughts-tooltip-glossary-themes"/>
 								<button type="submit" name="action" class="button button-secondary floatright" value="recompile" style="width:100%;margin:0 auto 25px;padding: 25px;line-height: 0;"><?php _e('Recompile all stylesheets', 'ithoughts-tooltip-glossary' ); ?></button>
 							</form>
 

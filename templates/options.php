@@ -66,6 +66,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr class="nonoverridable">
 												<th>
+													<label for="jslog"><?php _e('Enable verbose log', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.__("infos", 'ithoughts-tooltip-glossary' ).')', __('Print more infos to the browser console & the server logs.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>:</label>
+												</th>
+												<td>
+													<?php echo $optionsInputs["jslog"]; ?>
+												</td>
+											</tr>
+											<tr class="nonoverridable">
+												<th>
 													<label for="termtype"><?php _e('Base Permalink', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>

@@ -67,4 +67,4 @@
 			}, 25);
 		}
 	});
-})(Ithoughts.v3);
+})(Ithoughts.v4);

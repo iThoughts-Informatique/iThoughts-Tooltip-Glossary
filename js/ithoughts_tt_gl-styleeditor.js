@@ -37,4 +37,4 @@
             $(this).parent().find("button").prop("disabled", !this.value);
         }).change();
     });
-})(Ithoughts.v3)
+})(Ithoughts.v4)
