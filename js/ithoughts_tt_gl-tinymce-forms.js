@@ -14,7 +14,7 @@
 	var $		= ithoughts.$,
 		$d		= ithoughts.$d,
 		$w		= ithoughts.$w,
-		i_t_g	= ithoughts_tt_gl;
+		i_t_g_e	= ithoughts_tt_gl_editor;
 	$d.ready(function(){
 		//Generic tab switching
 		$('.tabs li').click(function(event){
@@ -183,7 +183,7 @@
 			input.on("keyup focusin", function(){
 				if(request)
 					request.abort();
-				searchedString = i_t_g.removeAccents($(this).val().toLowerCase());
+				searchedString = i_t_g_e.removeAccents($(this).val().toLowerCase());
 				request = $.ajax({
 						url: ithoughts_tt_gl_tinymce_form.admin_ajax,
 						method: "POST",
@@ -214,7 +214,7 @@
 					text: $("#ithoughts_tt_gl_text").val(),
 					link: $("#ithoughts_tt_gl_link").val()
 				}
-                i_t_g.log("Before per-type form data handling:",data);
+                i_t_g_e.log("Before per-type form data handling:",data);
 				switch(data.type){
 					case "glossary":{
 						data = $.extend(data, {
@@ -259,11 +259,11 @@
 				}
 				//setTimeout(tinymce.EditorManager.get('ithoughts_tt_gl-tooltip-content').remove, 500);
 				setTimeout(function(){removeEditor('ithoughts_tt_gl-tooltip-content')}, 500);
-				ithoughts_tt_gl.finishTinymce(data);
+				i_t_g_e.finishTinymce(data);
 			});
 			$("#ithoughts_tt_gl-tinymce-discard").click(function(){
 				setTimeout(function(){removeEditor('ithoughts_tt_gl-tooltip-content')}, 500);
-				ithoughts_tt_gl.finishTinymce();
+				i_t_g_e.finishTinymce();
 			});
 		}
 

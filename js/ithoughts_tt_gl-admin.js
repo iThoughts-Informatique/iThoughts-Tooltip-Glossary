@@ -13,8 +13,6 @@
     var $ = ithoughts.$,
         i_t_g = ithoughts_tt_gl;
 
-    ithoughts.initLoggers(i_t_g, "iThoughts Tooltip Glossary", i_t_g.jslog);
-
     ithoughts.$d.ready(function(){
         var u = i_t_g.updateStyle,
             e = "change blur keyup mouseup",
