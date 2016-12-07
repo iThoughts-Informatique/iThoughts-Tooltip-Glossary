@@ -246,7 +246,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="mce-container mce-panel mce-foot" tabindex="-1">
                 <div class="mce-container-body">
                     <div class="mce-widget mce-btn mce-first mce-btn-has-text" role="button" tabindex="-1" style="float:left;">
-                        <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl-tinymce-advancedOptions">
+                        <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl-tinymce-advanced_options">
                             <?php _e("Advanced Options", 'ithoughts-tooltip-glossary' ); ?>
                         </button>
                     </div>
