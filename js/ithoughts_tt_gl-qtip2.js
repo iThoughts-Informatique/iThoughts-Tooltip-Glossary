@@ -24,7 +24,7 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
         prefix1 = "ithoughts_tooltip_glossary";
 
     ithoughts.initLoggers(i_t_g, "iThoughts Tooltip Glossary", i_t_g.verbosity);
-    
+
     /**
 	 * @function stripQuotes
 	 * @description Encode or decode string with pseudo-html encoded quote
@@ -50,7 +50,7 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 	 */
     i_t_g.doInitTooltips = function doInitTooltips(){
         //Create container
-        if(isNA(tooltipsContainer)){
+        if(isNA(tooltipsContainer) && (tooltipsContainer = $('#'+prefix1+'-tipsContainer')).length == 0){
             tooltipsContainer = $($.parseHTML('<div id="'+prefix1+'-tipsContainer"></div>'));
             $(document.body).append(tooltipsContainer);
         }
@@ -371,12 +371,12 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 		 * @memberof jQuery.easing
 		 * @description jQuery-UI easeInBack easing function
 		 * @author Gerkin
-		 * @param   {number} x 
-		 * @param   {number} t 
-		 * @param   {number} b 
+		 * @param   {number} x
+		 * @param   {number} t
+		 * @param   {number} b
 		 * @param   {number} c Direction (must be 1 or -1)
-		 * @param   {number} d 
-		 * @param   {number} s 
+		 * @param   {number} d
+		 * @param   {number} s
 		 * @returns {number} Value ponderated
 		 */
         easeInBack: function easeInBack(x, t, b, c, d, s) {
@@ -388,12 +388,12 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 		 * @memberof jQuery.easing
 		 * @description jQuery-UI easeOutBack easing function
 		 * @author Gerkin
-		 * @param   {number} x 
-		 * @param   {number} t 
-		 * @param   {number} b 
+		 * @param   {number} x
+		 * @param   {number} t
+		 * @param   {number} b
 		 * @param   {number} c Direction (must be 1 or -1)
-		 * @param   {number} d 
-		 * @param   {number} s 
+		 * @param   {number} d
+		 * @param   {number} s
 		 * @returns {number} Value ponderated
 		 */
         easeOutBack: function easeOutBack(x, t, b, c, d, s) {

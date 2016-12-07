@@ -25,23 +25,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo Backbone::get_instance()->get_base_url(); ?>/css/ithoughts_tt_gl-tinymce-forms.css" type="text/css" media="all">
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form-v3.js" defer></script>
 		<script>
-			ithoughts_tt_gl.tinymce = <?php echo json_encode($form_data); ?>;
+			ithoughts_tt_gl_editor.terms = <?php echo json_encode($terms); ?>;
 		</script>
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-tinymce-forms.js" defer></script>
+		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-qtip2.js" defer></script>
 	</div>
-	<div aria-label="<?php _e("Insert a Tooltip", 'ithoughts-tooltip-glossary' ); ?>" role="dialog" style="border-width: 1px; z-index: 999999;" class="mce-container mce-panel mce-floatpanel mce-window mce-in" hidefocus="1" id="ithoughts_tt_gl-tooltip-form">
-		<div class="mce-reset" role="application">
-			<div class="mce-window-head">
-				<div class="mce-title">
+	<div aria-label="<?php _e("Insert a Tooltip", 'ithoughts-tooltip-glossary' ); ?>" role="dialog" style="border-width: 1px; z-index: 999999;" class="itg-panel itg-floatpanel itg-window itg-in" hidefocus="1" id="ithoughts_tt_gl-tooltip-form">
+		<div class="itg-reset" role="application">
+			<div class="itg-window-head">
+				<div class="itg-title">
 					<?php _e("Insert a Tooltip", 'ithoughts-tooltip-glossary' ); ?>
 				</div>
-				<button aria-hidden="true" class="mce-close ithoughts_tt_gl-tinymce-discard" type="button">×</button>
+				<button aria-hidden="true" class="itg-close ithoughts_tt_gl-tinymce-discard" type="button">×</button>
 			</div>
 
 
-			<div class="mce-container-body mce-window-body">
-				<div class="mce-container mce-form mce-first mce-last">
-					<div class="mce-container-body" style="height: 100%;">
+			<div class="itg-window-body">
+				<div class="itg-form itg-first itg-last">
+					<div class="" style="height: 100%;">
 
 
 
@@ -69,26 +70,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</label>
 										</td>
 										<td>
-											<input type="text" autocomplete="off" id="ithoughts_tt_gl_link" name="ithoughts_tt_gl_link" value="<?php echo $data["link"]; ?>" data-warning-title="<?php _e("Warning!", "ithoughts-tooltip-glossary"); ?>" data-warning-text="<p><?php echo nl2br(__("Changing this property on a glossary tip may confuse your users.
-                                            You were warned...", "ithoughts-tooltip-glossary")); ?></p>"/>
+											<input type="text" autocomplete="off" id="ithoughts_tt_gl_link" name="ithoughts_tt_gl_link" <?php
+												   if(in_array($data['type'], array("tooltip", "mediatip"))){
+												   ?> value="<?php echo $data["link"]; ?>"<?php
+												   }
+												   ?>>
 										</td>
 									</tr>
 								</table>
 							</div>
 
 							<div class="tab-container">
-								<ul id="ithoughts_tt_gl-tabs-mode" class="tabs" role="tablist" data-init-tab-index="<?php echo array_search($data['type'], array("glossary", "tooltip", "mediatip")); ?>">
-									<li role="tab" tabindex="-1">
+								<ul class="tabs" role="tablist">
+									<li class="<?php echo ("glossary" === $data['type']) ? "active" : ""; ?>" role="tab" tabindex="-1">
 										<?php _e("Glossary term", 'ithoughts-tooltip-glossary' ); ?>
 									</li>
 
-
-									<li role="tab" tabindex="-1">
+									<li class="<?php echo ("tooltip" === $data['type']) ? "active" : ""; ?>" role="tab" tabindex="-1">
 										<?php _e("Tooltip", 'ithoughts-tooltip-glossary' ); ?>
 									</li>
 
 
-									<li role="tab" tabindex="-1">
+									<li class="<?php echo ("mediatip" === $data['type']) ? "active" : ""; ?>" role="tab" tabindex="-1">
 										<?php _e("Mediatip", 'ithoughts-tooltip-glossary' ); ?>
 									</li>
 								</ul>
@@ -149,7 +152,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<table>
 										<tr>
 											<td colspan="2">
-												<label class="mce-widget mce-label mce-first" for="ithoughts_tt_gl-tooltip-content">
+												<label for="ithoughts_tt_gl-tooltip-content">
 													<?php _e("Content", 'ithoughts-tooltip-glossary' ); ?>
 												</label>
 												<div style="margin:0 -11px;">
@@ -176,7 +179,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										</tr>
 										<tr data-mediatip_type="mediatip-localimage-type">
 											<td colspan="2">
-												<div class="mce-container " id="image-box">
+												<div class="" id="image-box">
 													<?php
 	if(isset($data["mediatip_content"]['url']) && $data["mediatip_content"]['url']):
 													?>
@@ -186,7 +189,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													?>
 												</div>
 												<input id="image-box-data" style="display: none;" value="<?php echo $data["mediatip_content_json"]; ?>">
-												<div class="mce-widget mce-btn mce-last mce-btn-has-text" role="button" style="width: 100%; height: 30px;" tabindex="-1">
+												<div class="itg-widget itg-btn itg-last itg-btn-has-text" role="button" style="width: 100%; height: 30px;" tabindex="-1">
 													<button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl_select_image">
 														<?php _e("Select an image", 'ithoughts-tooltip-glossary' ); ?>
 													</button>
@@ -240,23 +243,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 
 
-			<div class="mce-container mce-panel mce-foot"tabindex="-1">
-				<div class="mce-container-body">
-					<div class="mce-btn" role="button" tabindex="-1" style="float:left;">
+			<div class="itg-panel itg-foot" tabindex="-1" role="group">
+				<div class="">
+					<div class="itg-btn itg-first itg-btn-has-text" role="button" tabindex="-1" style="float:left;">
 						<button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl-tinymce-advanced_options">
 							<?php _e("Advanced attributes", 'ithoughts-tooltip-glossary' ); ?>
 						</button>
 					</div>
 
 
-					<div class="mce-btn mce-primary" role="button" tabindex="-1">
+					<div class="itg-btn itg-primary itg-btn-has-text" role="button" tabindex="-1">
 						<button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl-tinymce-validate">
 							<?php _e("Ok", 'ithoughts-tooltip-glossary' ); ?>
 						</button>
 					</div>
 
 
-					<div class="mce-btn" role="button" tabindex="-1">
+					<div class="itg-btn itg-last itg-btn-has-text" role="button" tabindex="-1">
 						<button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" class="ithoughts_tt_gl-tinymce-discard">
 							<?php _e("Discard", 'ithoughts-tooltip-glossary' ); ?>
 						</button>
@@ -265,17 +268,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 	</div>
-	<div aria-label="<?php _e("Tooltip options", 'ithoughts-tooltip-glossary' ); ?>" role="dialog" style="border-width: 1px; z-index: 9999999; display:none" class="mce-container mce-panel mce-floatpanel mce-window mce-in" hidefocus="1" id="ithoughts_tt_gl-tooltip-form-options">
-		<div class="mce-reset" role="application">
-			<div class="mce-window-head">
-				<div class="mce-title">
+	<div aria-label="<?php _e("Tooltip options", 'ithoughts-tooltip-glossary' ); ?>" role="dialog" style="border-width: 1px; z-index: 9999999; display:none" class="itg-panel itg-floatpanel itg-window itg-in" hidefocus="1" id="ithoughts_tt_gl-tooltip-form-options">
+		<div class="itg-reset" role="application">
+			<div class="itg-window-head">
+				<div class="itg-title">
 					<?php _e("Tooltip options", 'ithoughts-tooltip-glossary' ); ?>
 				</div>
-				<button aria-hidden="true" class="mce-close ithoughts_tt_gl-tinymce-discard" type="button">×</button>
+				<button aria-hidden="true" class="itg-close ithoughts_tt_gl-tinymce-discard" type="button">×</button>
 			</div>
-			<div class="mce-container-body mce-window-body">
-				<div class="mce-container mce-form mce-first mce-last">
-					<div class="mce-container-body" style="height: 100%;">
+			<div class="itg-window-body">
+				<div class="itg-form itg-first itg-last">
+					<div class="" style="height: 100%;">
 						<form>
 							<div style="flex:0 0 auto;">
 								<div class="tab-container">
@@ -408,20 +411,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<table>
 											<tr>
 												<td colspan="2">
-													<div>
+													<datalist id="attributes-list">
+														<?php
+														foreach($attrs as $attr)
+															echo "<option value=\"$attr\"/>";
+														?>
+													</datalist>
+													<div id="ithoughts_tt_gl-attrs-table">
 														<h3 style="text-align: center;">
 															<b>
 																<?php _e("Attributes", 'ithoughts-tooltip-glossary' ); ?>
 															</b>
 														</h3>
-														<datalist id="attributes-list">
-															<?php
-															foreach($attrs as $attr)
-																echo "<option value=\"$attr\"/>";
-															?>
-														</datalist>
-													</div>
-													<div id="ithoughts_tt_gl-attrs-table">
 														<div>
 															<h4 style="text-align: center;">
 																<b>
@@ -501,16 +502,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div>
 				</div>
 			</div>
-			<div class="mce-container mce-panel mce-foot"tabindex="-1">
-				<div class="mce-container-body">
-					<div>
-					</div>
-					<div  class="mce-widget mce-btn mce-primary mce-first mce-btn-has-text" role="button" tabindex="-1">
+			<div class="itg-panel itg-foot" tabindex="-1" role="group">
+				<div class="">
+					<div  class="itg-btn itg-primary itg-first itg-btn-has-text" role="button" tabindex="-1">
 						<button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl-tinymce-validate-attrs">
 							<?php _e("Ok", 'ithoughts-tooltip-glossary' ); ?>
 						</button>
 					</div>
-					<div  class="mce-widget mce-btn mce-last mce-btn-has-text" role="button" tabindex="-1">
+					<div  class="itg-btn itg-last itg-btn-has-text" role="button" tabindex="-1">
 						<button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl-tinymce-close-attrs">
 							<?php _e("Close", 'ithoughts-tooltip-glossary' ); ?>
 						</button>
@@ -519,6 +518,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 	</div>
-	<div style="z-index: 100100;" id="mce-modal-block" class="mce-reset mce-fade mce-in">
+	<div style="z-index: 100100;" id="itg-modal-block" class="itg-reset itg-fade itg-in">
 	</div>
 </div>

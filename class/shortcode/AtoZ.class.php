@@ -19,7 +19,7 @@
 
 namespace ithoughts\tooltip_glossary\shortcode;
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
@@ -77,7 +77,7 @@ if(!class_exists(__NAMESPACE__."\\AtoZ")){
 				$count = count( $atoz[$alpha] );
 				$alpha_attribute = $alpha;
 				$alpha_attribute = $alpha_attribute == "#" ? "other" : $alpha_attribute ;
-				$menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha_attribute . ' atoz-clickable atozmenu-off" title="" alt="' . esc_attr__('Terms','ithoughts_tooltip_glossary') . ': ' . $count . '"  data-alpha="' . $alpha_attribute . '">';
+				$menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha_attribute . ' atoz-clickable atozmenu-off" title="" alt="' . esc_attr__('Terms','ithoughts-tooltip-glossary') . ': ' . $count . '"  data-alpha="' . $alpha_attribute . '">';
 				$menu .= '<a href="#' . $alpha_attribute . '">' . strtoupper($alpha) . '</a></li>';
 			}
 			$menu .= '</ul>';

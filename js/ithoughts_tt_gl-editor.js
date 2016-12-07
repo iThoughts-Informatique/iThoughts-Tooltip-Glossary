@@ -162,7 +162,7 @@
 					},
 					listtabI,
 					loader;
-				if (selection.start === selection.end) {
+				if (!isNA(selection.start) && selection.start === selection.end) {
 					i_t_g_e.log("Start & End node are the same, operating on a node of type " + node.nodeName);
 					if(node && node.nodeName != "#text"){
 						if (node.getAttribute("data-type") === "ithoughts-tooltip-glossary-atoz") { // Is atoz
@@ -201,9 +201,8 @@
 						var newDom = $($.parseHTML(out, true)),
 							h = 400,
 							w = 455,
-							popupTooltip = newDom.find("#" + prefix1 + "-tooltip-form"),
-							popupTooltipOptions = newDom.find("#" + prefix1 + "-tooltip-form-options");
-						$w.on("resize", function resizeTinyMCEForm() {
+							popupTooltip = newDom.find("#" + prefix1 + "-list-form");
+						/*$w.on("resize", function resizeTinyMCEForm() {
 							var opts = {
 								width:	w + "px",
 								height:	h + "px",
@@ -211,16 +210,15 @@
 								top:	(($w.height() - h) / 2) + "px"
 							};
 							popupTooltip.css(opts);
-							popupTooltipOptions.css(opts);
-						}).resize();
+						}).resize();*/
 
 						$(document.body).append(newDom.css({opacity: 0}).animate({opacity: 1}, 500));
 
 
-						i_t_g_e.finishTinymce = (function finishTinyMCE() {
+						i_t_g_e.finishListTinymce = (function finishListTinymce() {
 							var domC = newDom;
 							return function handleFormSubmitted(data) {
-								i_t_g_e.info("New tooltip data:", data);
+								i_t_g_e.info("New list data:", data);
 								domC.animate({opacity: 0}, 500, function () {
 									domC.remove();
 								});
@@ -470,7 +468,7 @@
                     }
                 });*/
 			},
-			tip: function glossarytermfct(selection, callback, event) {
+			tip: function glossarytermfct(selection, callback, escapeContent) {
 				i_t_g_e.info("Selection infos to load TIP: ", selection);
 				var values	= {},
 					node	= selection.start,
@@ -487,7 +485,7 @@
 					position_my,
 					my_inverted,
 					tristate, loader;
-				if (selection.start === selection.end) {
+				if (!isNA(selection.start) && selection.start === selection.end) {
 					i_t_g_e.log("Start & End node are the same, operating on a node of type " + node.nodeName);
 					content = (node && node.text) || selection.html; // Get node text if any or get selection
 					i_t_g_e.log("Loading content: ", content);
@@ -527,11 +525,15 @@
 							return null;
 						};
 
+						var tooltipContent = takeAttr("tooltip-content");
+						if(escapeContent && tooltipContent){
+							tooltipContent = tooltipContent.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+						}
 
 						values = {
 							text:								content,
 							link:								takeAttr("href", true),
-							tooltip_content:					stripQuotes(takeAttr("tooltip-content") || content, false),
+							tooltip_content:					stripQuotes(tooltipContent || content, false),
 							glossary_id:						takeAttr("glossary-id"),
 							term_search:						i_t_g_e.removeAccents(content.toLowerCase()),
 							mediatip_type:						takeAttr("mediatip-type"),
@@ -566,7 +568,7 @@
 						for (i in attrs) {
 							if (attrs.hasOwnProperty(i)) {
 								if (i.match(/^data-link-/)) {
-									values.opts.attributes.link[i.replace(/^data-link-/, '')] = attrs[i];
+									values.opts.attributes.link[i.replace(/^data-link-(data-)?/, '')] = attrs[i];
 								} else {
 									values.opts.attributes.span[i.replace(/^data-/, '')] = attrs[i];
 								}
@@ -605,6 +607,7 @@
 						}
 					}
 				}
+
 				// Then generate form through Ajax
 				loader = ithoughts.makeLoader();
 				$.ajax({
@@ -622,7 +625,7 @@
 							w = 455,
 							popupTooltip = newDom.find("#" + prefix1 + "-tooltip-form"),
 							popupTooltipOptions = newDom.find("#" + prefix1 + "-tooltip-form-options");
-						$w.on("resize", function resizeTinyMCEForm() {
+						/*$w.on("resize", function resizeTinyMCEForm() {
 							var opts = {
 								width:	w + "px",
 								height:	h + "px",
@@ -631,12 +634,12 @@
 							};
 							popupTooltip.css(opts);
 							popupTooltipOptions.css(opts);
-						}).resize();
+						}).resize();*/
 
 						$(document.body).append(newDom.css({opacity: 1}).animate({opacity: 1}, 500));
 
 
-						i_t_g_e.finishTinymce = (function finishTinyMCE() {
+						i_t_g_e.finishTipTinymce = (function finishTipTinymce() {
 							var domC = newDom;
 							return function handleFormSubmitted(data) {
 								i_t_g_e.info("New tooltip data:", data);
@@ -716,13 +719,14 @@
 									if (opts.maxwidth) {
 										addOpt("data-tooltip-maxwidth", opts.maxwidth);
 									}
-									while ((i += 1) < typesLength) {
-										if (optsAttrs.hasOwnProperty(i)) {
-											for (j in optsAttrs[types[i]]) {
-												if (optsAttrs[types[i]].hasOwnProperty(j)) {
-													prefix = attributesList.indexOf(j) > -1 ? "" : 'data-';
-													midPart = types[i] === "link" ? 'link-' : '';
-													addOpt(prefix + midPart + j, optsAttrs[types[i]][j], true);
+									while (i++ < typesLength) {
+										var type = types[i];
+										if (optsAttrs.hasOwnProperty(type)) {
+											for (j in optsAttrs[type]) {
+												if (optsAttrs[type].hasOwnProperty(j)) {
+													prefix = attributesList.indexOf(j) > -1 && !j.startsWith("data-") ? "" : 'data-';
+													midPart = type === "link" ? 'link-' : '';
+													addOpt(prefix + midPart + j, optsAttrs[type][j], true);
 												}
 											}
 										}
@@ -745,7 +749,7 @@
 									if (!data.tooltip_content || !data.text) {
 										return;
 									} else {
-										addOpt("tooltip-content", data.tooltip_content, true);
+										addOpt("tooltip-content", escapeContent ? data.tooltip_content.replace(/</g, "&lt;").replace(/>/g, "&gt;") : data.tooltip_content, true);
 									}
 								} else if (data.type === "mediatip") {
 									if (!data.mediatip_type || !data.mediatip_content || !data.text) {
@@ -783,10 +787,10 @@
 			return sel;
 		}
 		QTags.addButton( 'ithoughts_tt_gl-tip', 'ITG Tip', function(){
-			i_t_g_e.editorForms.tip(generateSelObject(), QTags.insertContent)
+			i_t_g_e.editorForms.tip(generateSelObject(), QTags.insertContent, true)
 		});
 		QTags.addButton( 'ithoughts_tt_gl-list', 'ITG List', function(){
-			i_t_g_e.editorForms.list(generateSelObject(), QTags.insertContent)
+			i_t_g_e.editorForms.list(generateSelObject(), QTags.insertContent, true)
 		});
 	});
 })(Ithoughts.v4);
