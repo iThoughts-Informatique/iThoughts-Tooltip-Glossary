@@ -1,7 +1,7 @@
 /**
 * @file iThoughts Tooltip Glossary tinymce form styles
 * @author Gerkin
-*         
+*
 * @version 1.0
 */
 
@@ -10,7 +10,16 @@
     border-bottom-color: transparent;
     opacity: 1;
 }
-#ithoughts_tt_gl-tooltip-form-options,#ithoughts_tt_gl-tooltip-form{
+.ithoughts-tristate{
+    &::after{
+        background-color: #c00;
+    }
+    &:indeterminate::after{
+        background-color: #ccc;
+    }
+}
+#ithoughts_tt_gl-tooltip-form-options,#ithoughts_tt_gl-tooltip-form,
+#ithoughts_tt_gl-list-form{
     .mce-reset{
         display: flex;
         flex-flow: column nowrap;
@@ -32,7 +41,8 @@
         }
     }
 }
-#ithoughts_tt_gl-tooltip-form{
+#ithoughts_tt_gl-tooltip-form,
+#ithoughts_tt_gl-list-form{
     *{
         box-sizing: border-box;
     }
@@ -184,7 +194,11 @@
     }
 }
 
-#ithoughts_tt_gl-tooltip-form-container{
+#ithoughts_tt_gl-tooltip-form-container,
+#ithoughts_tt_gl-list-form-container{
+    z-index: 100000;
+    position: absolute;
+
     ~ #wp-link-wrap{
         z-index: 150000;
     }

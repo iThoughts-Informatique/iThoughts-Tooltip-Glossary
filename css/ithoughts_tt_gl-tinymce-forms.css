@@ -1,28 +1,63 @@
 /**
 * @file iThoughts Tooltip Glossary tinymce form styles
 * @author Gerkin
-*         
+*
 * @version 1.0
 */
-#ithoughts_tt_gl-tooltip-form-container {
-  z-index: 1000000;
+.ithoughts-tristate::after {
+  background-color: #c00;
 }
-#ithoughts_tt_gl-tooltip-form-container input[type="checkbox"]:indeterminate:before {
-  content: "";
-  margin: 3px 0 0 3px;
-  background-color: #1e8cbe;
-  width: 8px;
-  height: 8px;
-  display: block;
-  box-shadow: 0 0 1px 2px #1e8cbe;
+.ithoughts-tristate:indeterminate::after {
+  background-color: #ccc;
 }
-#ithoughts_tt_gl-tooltip-form-container * {
+#ithoughts_tt_gl-tooltip-form-options .mce-reset,
+#ithoughts_tt_gl-tooltip-form .mce-reset,
+#ithoughts_tt_gl-list-form .mce-reset {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: column nowrap;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  height: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+#ithoughts_tt_gl-tooltip-form-options .mce-reset > *,
+#ithoughts_tt_gl-tooltip-form .mce-reset > *,
+#ithoughts_tt_gl-list-form .mce-reset > * {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
+#ithoughts_tt_gl-tooltip-form-options .mce-reset > .mce-window-body,
+#ithoughts_tt_gl-tooltip-form .mce-reset > .mce-window-body,
+#ithoughts_tt_gl-list-form .mce-reset > .mce-window-body {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+}
+#ithoughts_tt_gl-tooltip-form-options .mce-foot .mce-container-body,
+#ithoughts_tt_gl-tooltip-form .mce-foot .mce-container-body,
+#ithoughts_tt_gl-list-form .mce-foot .mce-container-body {
+  text-align: right;
+  padding: 10px;
+}
+#ithoughts_tt_gl-tooltip-form *,
+#ithoughts_tt_gl-list-form * {
   box-sizing: border-box;
 }
-#ithoughts_tt_gl-tooltip-form-container .qtip * {
-  white-space: normal;
-}
-#ithoughts_tt_gl-tooltip-form-container .tab-container {
+#ithoughts_tt_gl-tooltip-form .tab-container,
+#ithoughts_tt_gl-list-form .tab-container {
   position: relative;
   margin: 0 auto;
   padding: 0;
@@ -41,7 +76,8 @@
       -ms-flex-direction: column;
           flex-direction: column;
 }
-#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs {
+#ithoughts_tt_gl-tooltip-form .tab-container .tabs,
+#ithoughts_tt_gl-list-form .tab-container .tabs {
   margin: 0;
   padding: 0;
   display: block;
@@ -50,7 +86,8 @@
       -ms-flex: 0 0 auto;
           flex: 0 0 auto;
 }
-#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs li {
+#ithoughts_tt_gl-tooltip-form .tab-container .tabs li,
+#ithoughts_tt_gl-list-form .tab-container .tabs li {
   display: inline-block;
   border-style: solid;
   border-color: #C5C5C5;
@@ -72,20 +109,26 @@
   -webkit-transition: 0.25s border-bottom-color;
   transition: 0.25s border-bottom-color;
 }
-#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs li:hover,
-#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs li.active {
+#ithoughts_tt_gl-tooltip-form .tab-container .tabs li:hover,
+#ithoughts_tt_gl-list-form .tab-container .tabs li:hover,
+#ithoughts_tt_gl-tooltip-form .tab-container .tabs li.active,
+#ithoughts_tt_gl-list-form .tab-container .tabs li.active {
   border-bottom: 1px solid rgba(197, 197, 197, 0);
   -webkit-transition: 0.25s border-bottom-color;
   transition: 0.25s border-bottom-color;
 }
-#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs.active,
-#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs:hover,
-#ithoughts_tt_gl-tooltip-form-container .tab-container .tabs:focus {
+#ithoughts_tt_gl-tooltip-form .tab-container .tabs.active,
+#ithoughts_tt_gl-list-form .tab-container .tabs.active,
+#ithoughts_tt_gl-tooltip-form .tab-container .tabs:hover,
+#ithoughts_tt_gl-list-form .tab-container .tabs:hover,
+#ithoughts_tt_gl-tooltip-form .tab-container .tabs:focus,
+#ithoughts_tt_gl-list-form .tab-container .tabs:focus {
   background: #FDFDFD none repeat scroll 0% 0%;
   border-bottom-color: transparent;
   opacity: 1;
 }
-#ithoughts_tt_gl-tooltip-form-container .tab-container .tab {
+#ithoughts_tt_gl-tooltip-form .tab-container .tab,
+#ithoughts_tt_gl-list-form .tab-container .tab {
   box-sizing: border-box;
   padding: 10px;
   width: 100%;
@@ -102,7 +145,8 @@
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
 }
-#ithoughts_tt_gl-tooltip-form-container .tab-container .tab.active {
+#ithoughts_tt_gl-tooltip-form .tab-container .tab.active,
+#ithoughts_tt_gl-list-form .tab-container .tab.active {
   background: #FDFDFD none repeat scroll 0% 0%;
   border-bottom-color: transparent;
   pointer-events: all;
@@ -111,18 +155,22 @@
   transition: 0.5s 0.5s display;
   opacity: 1;
 }
-#ithoughts_tt_gl-tooltip-form-container table {
+#ithoughts_tt_gl-tooltip-form table,
+#ithoughts_tt_gl-list-form table {
   width: 100%;
 }
-#ithoughts_tt_gl-tooltip-form-container table td {
+#ithoughts_tt_gl-tooltip-form table td,
+#ithoughts_tt_gl-list-form table td {
   position: relative;
   word-wrap: break-word;
   white-space: normal;
 }
-#ithoughts_tt_gl-tooltip-form-container b {
+#ithoughts_tt_gl-tooltip-form b,
+#ithoughts_tt_gl-list-form b {
   font-weight: 600;
 }
-#ithoughts_tt_gl-tooltip-form-container form {
+#ithoughts_tt_gl-tooltip-form form,
+#ithoughts_tt_gl-list-form form {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -138,51 +186,21 @@
       -ms-flex-align: stretch;
           align-items: stretch;
 }
-#ithoughts_tt_gl-tooltip-form-container .mce-reset {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-flow: column nowrap;
-      -ms-flex-flow: column nowrap;
-          flex-flow: column nowrap;
-  height: 100%;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: stretch;
-  -webkit-align-items: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
-}
-#ithoughts_tt_gl-tooltip-form-container .mce-reset > * {
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 0 auto;
-      -ms-flex: 0 0 auto;
-          flex: 0 0 auto;
-}
-#ithoughts_tt_gl-tooltip-form-container .mce-reset > .mce-window-body {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-}
-#ithoughts_tt_gl-tooltip-form-container .mce-foot .mce-container-body {
-  text-align: right;
-  padding: 10px;
-}
-#ithoughts_tt_gl-tooltip-form-container .foreign-language {
+#ithoughts_tt_gl-tooltip-form .foreign-language,
+#ithoughts_tt_gl-list-form .foreign-language {
   background-color: #FFFCAB;
 }
-#ithoughts_tt_gl-tooltip-form-container .hidden {
+#ithoughts_tt_gl-tooltip-form .hidden,
+#ithoughts_tt_gl-list-form .hidden {
   display: none;
 }
-#ithoughts_tt_gl-tooltip-form-container .completed {
+#ithoughts_tt_gl-tooltip-form .completed,
+#ithoughts_tt_gl-list-form .completed {
   position: relative;
   z-index: 2;
 }
-#ithoughts_tt_gl-tooltip-form-container #glossary_term_completer_container {
+#ithoughts_tt_gl-tooltip-form #glossary_term_completer_container,
+#ithoughts_tt_gl-list-form #glossary_term_completer_container {
   position: absolute;
   width: 100%;
   box-shadow: 0px 0px 6px 2px grey;
@@ -192,39 +210,54 @@
   overflow-x: hidden;
   max-width: 100%;
 }
-#ithoughts_tt_gl-tooltip-form-container #glossary_term_completer_container .completer .option {
+#ithoughts_tt_gl-tooltip-form #glossary_term_completer_container .completer .option,
+#ithoughts_tt_gl-list-form #glossary_term_completer_container .completer .option {
   padding: 0 5px;
   overflow-x: hidden;
   max-width: 100%;
 }
-#ithoughts_tt_gl-tooltip-form-container #glossary_term_completer_container .completer .option:not(:last-child) {
+#ithoughts_tt_gl-tooltip-form #glossary_term_completer_container .completer .option:not(:last-child),
+#ithoughts_tt_gl-list-form #glossary_term_completer_container .completer .option:not(:last-child) {
   border-bottom: 1px solid #f4f4f4;
 }
-#ithoughts_tt_gl-tooltip-form-container #glossary_term_completer_container .completer .option:hover,
-#ithoughts_tt_gl-tooltip-form-container #glossary_term_completer_container .completer .option:focus {
+#ithoughts_tt_gl-tooltip-form #glossary_term_completer_container .completer .option:hover,
+#ithoughts_tt_gl-list-form #glossary_term_completer_container .completer .option:hover,
+#ithoughts_tt_gl-tooltip-form #glossary_term_completer_container .completer .option:focus,
+#ithoughts_tt_gl-list-form #glossary_term_completer_container .completer .option:focus {
   background-color: #f4f4f4;
 }
-#ithoughts_tt_gl-tooltip-form-container #image-box {
+#ithoughts_tt_gl-tooltip-form #image-box,
+#ithoughts_tt_gl-list-form #image-box {
   max-width: 100%;
   max-height: 120px;
 }
-#ithoughts_tt_gl-tooltip-form-container #image-box img {
+#ithoughts_tt_gl-tooltip-form #image-box img,
+#ithoughts_tt_gl-list-form #image-box img {
   max-width: 100%;
   max-height: 120px;
   width: auto;
   height: auto;
 }
-#ithoughts_tt_gl-tooltip-form-container input:disabled {
+#ithoughts_tt_gl-tooltip-form input:disabled,
+#ithoughts_tt_gl-list-form input:disabled {
   background: #f5f5f5;
   border: 1px solid #ccc;
 }
-#ithoughts_tt_gl-tooltip-form-container ~ #wp-link-wrap {
+#ithoughts_tt_gl-tooltip-form-container,
+#ithoughts_tt_gl-list-form-container {
+  z-index: 100000;
+  position: absolute;
+}
+#ithoughts_tt_gl-tooltip-form-container ~ #wp-link-wrap,
+#ithoughts_tt_gl-list-form-container ~ #wp-link-wrap {
   z-index: 150000;
 }
-#ithoughts_tt_gl-tooltip-form-container b {
+#ithoughts_tt_gl-tooltip-form-container b,
+#ithoughts_tt_gl-list-form-container b {
   font-weight: bold;
 }
-#ithoughts_tt_gl-tooltip-form-container em {
+#ithoughts_tt_gl-tooltip-form-container em,
+#ithoughts_tt_gl-list-form-container em {
   font-style: italic;
 }
 #ithoughts_tt_gl-attrs-table > div {
@@ -234,20 +267,16 @@
   padding: 5px;
   box-sizing: border-box;
 }
-#ithoughts_tt_gl-attrs-table .ithoughts-attrs-container {
-  max-height: 175px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 5px;
+#ithoughts_tt_gl-attrs-table .kv-inputs {
+  width: 185px;
+  float: left;
 }
-#ithoughts_tt_gl-attrs-table .ithoughts-prototype {
-  display: none;
-}
-#ithoughts_tt_gl-attrs-table .attribute-name-val {
-  margin-bottom: 10px;
-}
-#ithoughts_tt_gl-attrs-table .kv-pair {
-  white-space: nowrap;
+#ithoughts_tt_gl-attrs-table .kv-delete {
+  width: 18px;
+  float: left;
+  height: 40px;
+  text-align: center;
+  color: darkred;
 }
 #ithoughts_tt_gl-attrs-table .kv-pair > * {
   margin: 0;
@@ -256,13 +285,11 @@
 }
 #ithoughts_tt_gl-attrs-table .kv-pair label {
   width: 25%;
+  float: left;
 }
 #ithoughts_tt_gl-attrs-table .kv-pair input {
   width: 75%;
-}
-#ithoughts_tt_gl-attrs-table .kv-pair label,
-#ithoughts_tt_gl-attrs-table .kv-pair input {
-  display: inline-block;
+  float: right;
 }
 #ithoughts_tt_gl-attrs-table .button {
   width: 100%;

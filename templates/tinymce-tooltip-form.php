@@ -245,21 +245,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             <div class="mce-container mce-panel mce-foot" tabindex="-1">
                 <div class="mce-container-body">
-                    <div aria-labelledby="mceu_79" class="mce-widget mce-btn mce-first mce-btn-has-text" role="button" tabindex="-1" style="float:left;">
+                    <div class="mce-widget mce-btn mce-first mce-btn-has-text" role="button" tabindex="-1" style="float:left;">
                         <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl-tinymce-advancedOptions">
                             <?php _e("Advanced Options", 'ithoughts-tooltip-glossary' ); ?>
                         </button>
                     </div>
 
 
-                    <div aria-labelledby="mceu_78" class="mce-widget mce-btn mce-primary mce-btn-has-text" role="button" tabindex="-1">
+                    <div class="mce-widget mce-btn mce-primary mce-btn-has-text" role="button" tabindex="-1">
                         <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl-tinymce-validate">
                             <?php _e("Ok", 'ithoughts-tooltip-glossary' ); ?>
                         </button>
                     </div>
 
 
-                    <div aria-labelledby="mceu_79" class="mce-widget mce-btn mce-last mce-btn-has-text" role="button" tabindex="-1">
+                    <div class="mce-widget mce-btn mce-last mce-btn-has-text" role="button" tabindex="-1">
                         <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl-tinymce-discard">
                             <?php _e("Discard", 'ithoughts-tooltip-glossary' ); ?>
                         </button>
@@ -395,12 +395,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class="mce-container-body"> 
                     <div> 
                     </div> 
-                    <div aria-labelledby="mceu_78" class="mce-widget mce-btn mce-primary mce-first mce-btn-has-text" role="button" tabindex="-1"> 
+                    <div class="mce-widget mce-btn mce-primary mce-first mce-btn-has-text" role="button" tabindex="-1"> 
                         <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl-tinymce-options-validate"> 
                             <?php _e("Ok", 'ithoughts-tooltip-glossary' ); ?> 
                         </button> 
                     </div> 
-                    <div aria-labelledby="mceu_79" class="mce-widget mce-btn mce-last mce-btn-has-text" role="button" tabindex="-1"> 
+                    <div class="mce-widget mce-btn mce-last mce-btn-has-text" role="button" tabindex="-1"> 
                         <button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl-tinymce-options-discard"> 
                             <?php _e("Discard", 'ithoughts-tooltip-glossary' ); ?> 
                         </button> 

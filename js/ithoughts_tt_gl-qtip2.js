@@ -23,7 +23,7 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
         extend = $.extend,
         prefix1 = "ithoughts_tooltip_glossary";
 
-    ithoughts.initLoggers(i_t_g, "iThoughts Tooltip Glossary", i_t_g.jslog);
+    ithoughts.initLoggers(i_t_g, "iThoughts Tooltip Glossary", i_t_g.verbosity);
     
     /**
 	 * @function stripQuotes

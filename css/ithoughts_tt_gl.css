@@ -170,7 +170,7 @@
 }
 #ithoughts_tooltip_glossary-tipsContainer {
   position: absolute;
-  z-index: 10000000;
+  z-index: 100001;
   width: 100%;
 }
 span.ithoughts_tooltip_glossary-glossary > a,
@@ -196,6 +196,10 @@ Specific styles for tip
 }
 .ithoughts_tooltip_glossary-mediatip .qtip-content {
   padding: 0px;
+}
+.ithoughts_tooltip_glossary-mediatip .qtip-content p,
+.ithoughts_tooltip_glossary-mediatip .qtip-content *:last-child {
+  margin-bottom: 0;
 }
 .ithoughts_tooltip_glossary-mediatip .qtip-content img {
   max-height: 75vh!important;

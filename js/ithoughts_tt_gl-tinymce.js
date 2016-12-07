@@ -29,7 +29,6 @@
         prefix4			= "ithoughts_tooltip_glossary",
         stripQuotes		= i_t_g.stripQuotes,
         isNA			= ithoughts.isNA,
-        htmlAttrs		= ["href"],
         tipsTypes		= ["ithoughts-tooltip-glossary-term", "ithoughts-tooltip-glossary-tooltip", "ithoughts-tooltip-glossary-mediatip"],
         tipsSelector	= tipsTypes.map(function (e) { return '[data-type="' + e + '"]'; }).join(',');
 
@@ -41,26 +40,6 @@
             });
         };
     };
-
-    function replaceShortcodes(content) {
-        var repLength = ithoughts.replaceShortcodesEl.length,
-            i = -1;
-        while ((i += 1) < repLength) {
-            content = ithoughts.replaceShortcodesEl[i](content);
-        }
-        return content;
-    }
-    function restoreShortcodes(content) {
-        var resLength = ithoughts.restoreShortcodesEl.length,
-            i = -1;
-        while ((i += 1) < resLength) {
-            content = ithoughts.restoreShortcodesEl[i](content);
-        }
-        return content;
-    }
-    function replaceHtmlAmp(string) {
-        return string.replace(/&amp;/g, "&");
-    }
 
     tinymce.PluginManager.add(prefix2, function registerTinyMCEPlugin(editor, url) {
         //CSS
@@ -83,9 +62,9 @@
         }
 
         editor.on('BeforeSetcontent', function i_t_g_BeforeSetcontent(event) { //replace from shortcode to displayable html content
-            event.content = replaceShortcodes(event.content);
+            event.content = i_t_g_e.replaceShortcodes(event.content);
         }).on('GetContent', function i_t_g_GetContent(event) { //replace from displayable html content to shortcode
-            event.content = restoreShortcodes(event.content);
+            event.content = i_t_g_e.restoreShortcodes(event.content);
         }).on('NodeChange', function (event) {
             var element = event.element;
             if ($(element).closest(tipsSelector).length > 0) {
@@ -104,14 +83,28 @@
 
 
         function generateSelObject(){
-            console.log(editor.selection.getRng());
-            var sel = {
-                DOM: $(editor.selection.getNode()).closest(tipsSelector).toArray()
+            var tinymceSel = editor.selection,
+                sel = {
+                DOM: $(tinymceSel.getNode()).closest(tipsSelector).toArray()
             };
-            sel.html = $(sel.DOM).prop("outerHTML")
-            sel.start = editor.selection.getStart();
-            sel.end = editor.selection.getEnd();
+            sel.html = tinymceSel.getContent({format : 'html'});
+            sel.start = tinymceSel.getStart();
+            sel.end = tinymceSel.getEnd();
             return sel;
+        }
+        function insertInTinyMCE(shortcode, mode){
+            // Insert content when the window form is submitted
+            if (mode === "load") {
+                editor.selection.select(editor.selection.getStart());
+            } else if (mode.indexOf("extend") > -1) {
+                i_t_g_e.error('Unhandled mode "extend" during writing of new tooltip shortcode');/*
+								rng = sel.getRng(true);
+								arr = JSON.parse(mode.match(/extend(.*)$/)[1]);
+								text = rng.commonAncestorContainer.textContent;
+								rng.commonAncestorContainer.textContent = text.slice(0, arr[0]) + text.slice(arr[1], text.length - 1);
+								editor.fire("DblClick");*/
+            }
+            editor.insertContent(shortcode);
         }
 
         // Add a button that opens a window
@@ -120,9 +113,7 @@
             image :         url + '/icon/glossaryterm.png',
             onPostRender:   setToggleable('glossaryterm', editor),
             onclick:        function(){
-                i_t_g_e.editorForms.tip(generateSelObject(), function(outStr){
-                    editor.insertContent(outStr);
-                })
+                i_t_g_e.editorForms.tip(generateSelObject(), insertInTinyMCE)
             },
         });
         // Add the equivalent delete button
@@ -145,104 +136,8 @@
                 sel.start = sel.selection.getStart();
                 sel.end = sel.selection.getEnd();
                 sel.DOM = $.parseHTML(sel.selection);
-                i_t_g_e.editorForms.list(generateSelObject(), function(outStr){
-                    editor.insertContent(outStr);
-                })
+                i_t_g_e.editorForms.list(generateSelObject(), insertInTinyMCE)
             },
         });
     });
-
-    ithoughts.replaceShortcodesEl = [
-        function (content) { // For [glossary]
-            return content.replace(/\[(?:ithoughts_tooltip_glossary-)?(glossary|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/(?:ithoughts_tooltip_glossary-)?(glossary|tooltip|mediatip)\]/g, function (all, balise, inner, text) {
-                var attrs	= {},
-                    regex	= /([\w\d\-]+?)="(.+?)"/g,
-                    matched	= null,
-                    ret		= '<a data-type="' + prefix3 + '-' + {glossary: "term", tooltip: "tooltip", mediatip: "mediatip"}[balise] + '"',
-                    i;
-                while (Boolean(matched = regex.exec(inner)) === true) {
-                    attrs[matched[1]] = matched[2];
-                }
-                for (i in attrs) {
-                    if (attrs.hasOwnProperty(i)) {
-                        if (htmlAttrs.indexOf(i) > -1 || i.indexOf("data-") === 0) {
-                            ret += ' ' + i + '="' + attrs[i] + '"';
-                        } else {
-                            ret += ' data-' + i + '="' + attrs[i] + '"';
-                        }
-                    }
-                }
-                return ret + ">" + text + "</a>";
-            });
-        },
-        function (content) { // For [glossary_(term_list|atoz)]
-            return content.replace(/\[glossary_(term_list|atoz)(.*?)\/\]/g, function (all, type, attrStr) {
-                var attrs	= {},
-                    regex	= /([\w\d\-]+?)="(.+?)"/g,
-                    matched	= null,
-                    ret		= '<span data-type="' + prefix3 + '-' + type + '"',
-                    i;
-                while (Boolean(matched = regex.exec(attrStr)) === true) {
-                    attrs[matched[1]] = matched[2];
-                }
-                for (i in attrs) {
-                    if (attrs.hasOwnProperty(i)) {
-                        if (htmlAttrs.indexOf(i) > -1 || i.indexOf("data-") === 0) {
-                            ret += ' ' + i + '="' + attrs[i] + '"';
-                        } else {
-                            ret += ' data-' + i + '="' + attrs[i] + '"';
-                        }
-                    }
-                }
-                return ret + '>Glossary ' + ((type === "term_list") ? 'List' : 'A-to-Z') + '</span>';
-            });
-        }
-    ];
-    ithoughts.restoreShortcodesEl = [
-        function (content) { // For [glossary]
-            return content.replace(/<a\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term|tooltip|mediatip)")(.*?)>(.*?)<\/a>/g, function (all, type, inner, text) {
-                var attrs	= {},
-                    regex	= /(data-)?([\w\d\-]+?)="(.+?)"/g,
-                    matched	= null,
-                    b		= {term: "glossary", tooltip: "tooltip", mediatip: "mediatip"}[type],
-                    ret		= "[" + prefix4 + "-" + b,
-                    i;
-                while (Boolean(matched = regex.exec(inner)) === true) {
-                    if (matched[1] !== "data-" || matched[2] !== "type") {
-                        if (htmlAttrs.indexOf(matched[2]) > -1 && typeof matched[1] !== "undefined") {
-                            attrs[matched[1] + matched[2]] = matched[3];
-                        } else {
-                            attrs[matched[2]] = matched[3];
-                        }
-                    }
-                }
-                for (i in attrs) {
-                    if (attrs.hasOwnProperty(i)) { ret += " " + i + '="' + attrs[i] + '"'; }
-                }
-                return ret + "]" + text + "[/" + prefix4 + "-" + b + "]";
-            });
-        },
-        function (content) { // For [glossary_(term_list|atoz)]
-            return content.replace(/<span\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term_list|atoz)")(.*?)>.*?<\/span>/g, function (all, type, attrStr) {
-                var attrs	= {},
-                    regex	= /(data-)?([\w\d\-]+?)="(.+?)"/g,
-                    matched	= null,
-                    ret		= "[glossary_" + type,
-                    i;
-                while (Boolean(matched = regex.exec(attrStr)) === true) {
-                    if (matched[1] !== "data-" || matched[2] !== "type") {
-                        if (htmlAttrs.indexOf(i) > -1 && typeof matched[1] !== "undefined") {
-                            attrs[matched[1] + matched[2]] = matched[3];
-                        } else {
-                            attrs[matched[2]] = matched[3];
-                        }
-                    }
-                }
-                for (i in attrs) {
-                    if (attrs.hasOwnProperty(i)) { ret += " " + i + '="' + attrs[i] + '"'; }
-                }
-                return ret + "/]";
-            });
-        }
-    ];
 }(Ithoughts.v4));

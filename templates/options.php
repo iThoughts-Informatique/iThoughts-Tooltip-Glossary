@@ -66,10 +66,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr class="nonoverridable">
 												<th>
-													<label for="jslog"><?php _e('Enable verbose log', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.__("infos", 'ithoughts-tooltip-glossary' ).')', __('Print more infos to the browser console & the server logs.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>:</label>
+													<label for="verbosity"><?php _e('Log level', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.__("infos", 'ithoughts-tooltip-glossary' ).')', __('Print more infos to the browser console & the server logs.<ul>
+                                                    <li>&aquot;Silent&aquot; will output nothing. Use it if all works fine and you are in production site</li>
+                                                    <li>&aquot;Errors&aquot; will only output if something was wrong. This is recomended on most sites</li>
+                                                    <li>&aquot;Warnings&aquot; should be used on test sites</li>
+                                                    <li>&aquot;Infos&aquot; is the mode to use when asking for help on support thread, except if we ask you to use the mode &aquot;All&aquot;</li>
+                                                    <li>&aquot;All&aquot; will print many informations usefull for advanced debugging, but also a lot of trash. Post your logs in this mode ONLY if asked by the maintainer</li>
+                                                    </ul>', 'ithoughts-tooltip-glossary' ), array("attributes" => array('data-tooltip-nosolo'=>"true", "data-qtip-keep-open" => "true"))); ?>:</label>
 												</th>
 												<td>
-													<?php echo $optionsInputs["jslog"]; ?>
+                                                    <?php echo $optionsInputs["verbosity"]; ?>&nbsp;<label for="verbosity" id="iithoughts_tt_gl-verbosity_label" style="display:inline-block;line-height:27px;vertical-align:top;" data-labels='["<?php _e('Silent', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('Errors', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('Warnings', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('Infos', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('All', 'ithoughts-tooltip-glossary' ); ?>"]'></label>
 												</td>
 											</tr>
 											<tr class="nonoverridable">

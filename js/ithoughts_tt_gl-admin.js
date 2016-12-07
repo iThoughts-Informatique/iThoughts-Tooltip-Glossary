@@ -38,5 +38,13 @@
             $demotip = $("#qtip-exampleStyle");
         $("#qtiprounded,#qtipshadow,#qtipstyle").bind(e, function(e){u(e, $("#qtipstyle").val(), $demotip);});
         $("#tooltips,#qtiptrigger,#anim_in,#anim_out,#anim_time").bind(e, updateActivationPreview);
+        (function(){
+            var verbosityInput = $("#verbosity"),
+                verbosityLabel = $("#iithoughts_tt_gl-verbosity_label"),
+                verbosityLabels = verbosityLabel.data("labels");
+            verbosityInput.on('input', function(){
+                verbosityLabel.text(verbosityLabels[$(this).val()]);
+            }).trigger('input');
+        }());
     });
 })(Ithoughts.v4);

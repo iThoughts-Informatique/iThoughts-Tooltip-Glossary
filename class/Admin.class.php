@@ -102,6 +102,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
          */
         public function ajaxHooks(){
             add_action( 'wp_ajax_ithoughts_tt_gl_get_tinymce_tooltip_form',	array(&$this, 'getTinyMCETooltipFormAjax') );
+            add_action( 'wp_ajax_ithoughts_tt_gl_get_tinymce_list_form',	array(&$this, 'getTinyMCEListFormAjax') );
             add_action( 'wp_ajax_ithoughts_tt_gl_update_options',			array(&$this, 'update_options') );
 
             add_action( 'wp_ajax_ithoughts_tt_gl_theme_save',				array(&$this, 'savetheme' ) );
@@ -159,7 +160,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
             ) );
             wp_localize_script( 'ithoughts_tooltip_glossary-editor', 'ithoughts_tt_gl_editor', array(
                 "admin_ajax"    => admin_url('admin-ajax.php'),
-                'jslog'     	=> $backbone->get_option("jslog") ? 4 : 0,
+                'verbosity'     => $backbone->get_option("verbosity"),
             ) );
 
             wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	$backbone->get_base_url() . '/css/ithoughts_tt_gl-tinymce-forms'.$backbone->get_minify().'.css', null, "2.4.0");
@@ -171,6 +172,8 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
          * @author Gerkin
          */
         public function enqueue_scripts_and_styles(){
+            wp_enqueue_style( 'ithoughts_tooltip_glossary-admin');
+
             $this->ifPageType();
         }
 
@@ -334,8 +337,6 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
             if (is_admin()){
                 if($pagenow == 'post-new.php' || $pagenow == 'post.php'){
                     wp_enqueue_script('ithoughts_tooltip_glossary-editor');
-                } else {
-                    wp_enqueue_style( 'ithoughts_tooltip_glossary-admin');
                 }
             }
         }
@@ -432,17 +433,15 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
             )
             )
             ),
-                "jslog" => TB::generate_input_check(
-                "jslog",
+                "verbosity" => TB::generate_input_text(
+                "verbosity",
                 array(
-                "radio" => false,
-                "selected" => $options["jslog"] ? array("enabled") : array(),
-                "options" => array(
-                "enabled" => array(
+                "type" => "range",
+                "value" => $options["verbosity"],
                 "attributes" => array(
-                "id" => "jslog"
-            )
-            )
+                "id" => "verbosity",
+                "max" => 4,
+                "min" => 0
             )
             )
             ),
@@ -605,7 +604,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
             $postValues['qtiprounded'] = TB::checkbox_to_bool($postValues,'qtiprounded', "enabled");
             $postValues['staticterms'] = TB::checkbox_to_bool($postValues,'staticterms', "enabled");
             $postValues['forceloadresources'] = TB::checkbox_to_bool($postValues,'forceloadresources', "enabled");
-            $postValues['jslog'] = TB::checkbox_to_bool($postValues,'jslog', "enabled");
+            $postValues['verbosity'] = intval($postValues['verbosity']);
             $postValues['termscomment'] = TB::checkbox_to_bool($postValues,'termscomment', "enabled");
             if(isset($postValues["qtipstylecustom"]) && strlen(trim($postValues["qtipstylecustom"])) > 0){
                 $postValues["qtipstyle"] = $postValues["qtipstylecustom"];
@@ -888,7 +887,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
                 "attributes" => array(
                 "id" => "qtipshadow",
                 "class" => "ithoughts-tristate",
-                "data-state" => (!isset($opts["qtipshadow"]) || $opts["qtiprounded"] == "" ? 0 : ($opts["qtipshadow"] === "true" ? 1 : -1)) 
+                "data-state" => (!isset($opts["qtipshadow"]) || $opts["qtiprounded"] == "" ? 0 : ($opts["qtipshadow"] === "true" ? 1 : -1))
             )
             )
             )
@@ -1038,6 +1037,94 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 
             ob_start();
             include $backbone->get_base_path()."/templates/tinymce-tooltip-form.php";
+
+            $output = ob_get_clean();
+            echo $output;
+            wp_die();
+        }
+
+        /**
+         * Generates the TinyMCE form to create a list. It will return the compiled HTML in a JSON table.
+         * @author Gerkin
+         */
+        public function getTinyMCEListFormAjax(){
+            $backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+            $data = array();
+
+            isset($_POST['data']) && $data=$_POST['data'];
+
+            // Set defaults
+            $types = array("glossary", "tooltip", "mediatip");
+            try{
+                $data["type"] = isset($data["type"]) && $data["type"] && array_search($data["type"], $types) !== false ? $data["type"] : "tooltip";
+                $data["text"] = isset($data["text"]) ? $data["text"] : "";
+                $data["link"] = isset($data["link"]) ? $data["link"] : "";
+                $data["glossary_id"] = isset($data["glossary_id"]) ? $data["glossary_id"] : NULL;
+                $data["term_search"] = isset($data["term_search"]) ? $data["term_search"] : "";
+                $data["mediatip_type"] = isset($data["mediatip_type"]) && $data["mediatip_type"] && isset($mediatiptypes[$data["mediatip_type"]]) ? $data["mediatip_type"] : $mediatiptypes_keys[0];
+                $data["mediatip_content_json"] = (isset($data["mediatip_content"]) ? $data["mediatip_content"] : "");
+                $data["mediatip_content"] = TB::decode_json_attr($data["mediatip_content_json"]);
+                $data["mediatip_content_json"] = str_replace('\\"', '&quot;', $data["mediatip_content_json"]);
+                $data["mediatip_caption"] = innerAttr(isset($data["mediatip_caption"]) ? $data["mediatip_caption"] : "", false);
+                $data["glossary_disable_auto_translation"] = (isset($data["glossary_disable_auto_translation"])) ? $data["glossary_disable_auto_translation"] === "true" || $data["glossary_disable_auto_translation"] === true : false;
+                switch($data["type"]){
+                    case "glossary":{
+                } break;
+
+                    case "tooltip":{
+                    $data["tooltip_content"] = innerAttr(
+                        isset($data["tooltip_content"]) ? $data["tooltip_content"] : ""
+                        , false);
+                } break;
+
+                    case "mediatip":{
+                } break;
+                }
+            } catch(Exception $e){
+                $data["type"] = "tooltip";
+                $data["text"] = "";
+                $data["glossary_id"] = NULL;
+                $data["term_search"] = "";
+                $data["mediatip_type"] = $mediatiptypes_keys[0];
+                $data["mediatip_content_json"] = "";
+                $data["mediatip_content"] = "";
+                $data["tooltip_content"] = "";
+            }
+
+            // Ok go
+
+            // Retrieve terms
+            $form_data = array(
+                "admin_ajax"    => admin_url('admin-ajax.php'),
+                "base_tinymce"  => $backbone->get_base_url() . '/js/tinymce',
+                "terms"         => array()
+            );
+            $args;
+            if($data["glossary_id"] == NULL){
+                $form_data['terms'] = $backbone->searchTerms(array(
+                    "post_type"			=> "glossary",
+                    'post_status'		=> 'publish',
+                    'orderby'			=> 'title',
+                    'order'				=> 'ASC',
+                    'posts_per_page'	=> 25,
+                    's'					=> $data['term_search'],
+                    'suppress_filters'	=> false
+                ));
+            } else {
+                $post = get_post($data["glossary_id"]);
+                $form_data['terms'][] = array(
+                    "slug"      => $post->post_name,
+                    "content"   => wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
+                    "title"     => $post->post_title,
+                    "id"        => $post->ID
+                );
+                $data["term_title"] = $post->post_title;
+            }
+
+            wp_reset_postdata();
+
+            ob_start();
+            include $backbone->get_base_path()."/templates/tinymce-list-form.php";
 
             $output = ob_get_clean();
             echo $output;
