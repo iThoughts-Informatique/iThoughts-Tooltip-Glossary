@@ -71,7 +71,10 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Changelog ==
 
-= 2.6.3 = 
+= 2.6.4 =
+* FIX obsolete variable in A-to-Z js script (see [support forum](https://wordpress.org/support/topic/glossary_atoz-not-working?replies=2))
+
+= 2.6.3 =
 * FIX Moved JS TinyMCE form data object.
 
 = 2.6.2 =
@@ -274,6 +277,9 @@ some useless files
 
 
 == Upgrade Notice ==
+
+= 2.6.4 =
+Minor fixes
 
 = 2.6.1 =
 Fix missing function "removeAccents"

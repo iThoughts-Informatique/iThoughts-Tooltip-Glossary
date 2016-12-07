@@ -355,28 +355,170 @@
             }).keyup();
         }
 
-        // Init attrs adders
-        {
-            var elems = ["span","link"];
-            elems.forEach(function(elem){
-                $("#kv-pair-"+elem+"-attrs-add").click((function(){
-                    var elemKey = $("#attributes-"+elem+"-key");
-                    var elemValue = $("#attributes-"+elem+"-value");
-                    var targetContainer = $("#kv-pair-"+elem+"-attrs")
-                    return function(){
-                        if(elemKey.val().length > 0){
-                            var newElem = '<div id="' + elemKey.val() + '"><button class="delete button" type="button">x</button><div class="kv"><p class="key">' + elemKey.val() + '<p class="value">' + elemValue.val() + '</p></div></div>';
-                            elemKey.val("");
-                            elemValue.val("");
-                            newElem = $($.parseHTML(newElem));
-                            newElem.find(".delete").click(function(){
-                                newElem.remove();
-                            });
-                            targetContainer.append(newElem);
-                        }
-                    };
-                })());
-            });
-        }
+		(function initAdvancedConfiguration(){
+			var $opts = $("#ithoughts_tt_gl-tooltip-form-options"),
+					span:false,
+				skip = {
+					link:false
+			$opts.find('input[type="checkbox"].ithoughts-tristate').attr("data-state", function(i, attrVal){
+				};
+			}).change(function(e){
+				return ((attrVal || 0) - 1) % 3 + 2;
+				var s = $(this),
+					ts = ((s.attr("data-state")||0) - 2) % 3 + 1;
+				s.attr("data-state", ts);
+				this.checked = ts == 1;
+				this.indeterminate = ts == 0;
+			}).change();
+
+				return $(this).closest('.ithoughts-prototype').length === 0;
+			function filterPrototypeInputs(){
+			}
+			function checkRemoveAttr(){
+				var thisInput = $(this),
+					$container = thisInput.parent().parent(),
+					otherInput = $container.find("input").filter(function(){
+					});
+						return this != thisInput.get(0);
+
+				setTimeout(function(){
+
+					var type = thisInput.closest(".ithoughts-attrs-container").attr("data-attr-family");
+
+
+						skip[type] = false;
+					if(skip[type]){
+					}
+						return;
+					thisInput.val(thisInput.val().trim());
+					otherInput.val(otherInput.val().trim());
+
+
+				},100);
+					}
+					if(!thisInput.val() && !otherInput.val() && document.activeElement != thisInput.get(0) && document.activeElement != otherInput.get(0)){
+						$container.remove();
+			}
+			$("#ithoughts_tt_gl-tinymce-advanced_options").click(function showAttributesWindow(){
+				$opts.show(); 
+			});
+			$("#ithoughts_tt_gl-tinymce-close-attrs").click(function closeDiscardAttributesWindow(){
+			});
+				$opts.hide();
+			$("#ithoughts_tt_gl-tinymce-validate-attrs").click(function closeAcceptAttributesWindow(){
+					form = $form[0],
+				var $form = $("#ithoughts_tt_gl-tooltip-form-options form"),
+					formElems = form.elements,
+					tristates = {},
+					valid = true,
+					formFields = formElems.length,
+					i = -1,
+					attributesList = $("#attributes-list option").map(function(){
+				if(!valid) return;
+					}
+				}
+						formElems[i].focus();
+					if(!validity.valid){
+					var validity = formElems[i].validity;
+					valid &= validity.valid;
+				while(++i < formFields && valid){
+					}).toArray();
+						return this.value;
+					attributes = {},
+
+				$form.find(".ithoughts-tristate").each(function(){
+					$.extend(true, tristates, $(this).serializeInputsObject({"-1": false, 0: null, 1: true}[this.dataset.state]));
+				});
+				tooltipOpts = $.extend(true, $form.serializeObject(), tristates);
+
+
+				for(var types = ["span", "link"], i = 0; i < 2; i++){
+					attributes[types[i]] = {};
+					for(var arrK = tooltipOpts['attributes-' + types[i] + "-key"] || [],
+						arrK.length,
+						arrV = tooltipOpts['attributes-' + types[i] + "-value"] || [], j = 0, J = Math.min(
+						arrV.length
+					); j < J; j++){
+						if(arrK[j] && arrV[j]){
+							attributes[types[i]][prefix + arrK[j]] = arrV[j];
+							var prefix = attributesList.indexOf(arrK[j]) > -1 ? "" : 'data-';
+						}
+					}
+					delete tooltipOpts['attributes-' + types[i] + "-value"];
+					delete tooltipOpts['attributes-' + types[i] + "-key"];
+				}
+
+				tooltipOpts["attributes"] = attributes;
+
+				$opts.hide();
+			});
+			$("#qtip-keep-open").change(function(){
+				var modeInput = ithoughts.gei("qtiptrigger"),
+					textInput = ithoughts.gei("qtiptriggerText"),
+					oldValue;
+				return function lockQtipTrigger(){
+					if(this.checked){
+						oldValue = modeInput.value;
+						modeInput.disabled = !(textInput.disabled = false);
+						modeInput.value = (textInput.value = "click");
+						modeInput.value = (textInput.value = oldValue);
+					} else {
+						modeInput.disabled = !(textInput.disabled = true);
+					}
+				}
+			}());
+			$('[name^="position[my]"]').change(function(){
+				var base = 'position[my][',
+					inputV = gei(base + '1]'),
+					inputH = gei(base + '2]'),
+				return function changePositionMy(){
+					inputS = gei(base + 'invert]');
+					inputV.required = inputH.required = inputV.value || inputH.value || inputS.checked;
+			}());
+				}
+			$('[name^="position[at]"]').change(function(){
+				var base = 'position[at][',
+					inputV = gei(base + '1]'),
+				return function changePositionMy(){
+					inputH = gei(base + '2]');
+					inputV.required = inputH.required = inputV.value || inputH.value;
+			}());
+				}
+			$("#kv-pair-link-attrs-add,#kv-pair-span-attrs-add").bind("mousedown touchstart", function(){
+				var $container = $(this).parent().find(".ithoughts-attrs-container"),
+					type = $container.attr("data-attr-family");
+
+			}).bind("mouseup touchend", function(){
+				skip[type] = true;
+				var $container = $(this).parent().find(".ithoughts-attrs-container"),
+					$invalidInputs = $container.find("input:invalid").filter(filterPrototypeInputs),
+					type = $container.attr("data-attr-family");
+
+				if($invalidInputs.length > 0){
+					skip[type] = true;
+					$invalidInputs.eq(0).focus();
+					checkRemoveAttr.call($invalidInputs.get(0));
+					return;
+				skip[type] = false;
+				}
+
+					$clone = $prototype.clone().removeClass("ithoughts-prototype"),
+				var $prototype = $container.find(".ithoughts-prototype"),
+					newIdParts = [
+						'-'+(new Date().getTime())
+						'attributes-'+type+'-',
+					];
+				$clone.find('.dynamicId').each(function(){
+					var $this = $(this),
+					$this.attr(this.tagName == "LABEL" ? "for" : "id", newId)
+						newId = newIdParts[0] + ($this.hasClass("dynamicId-key") ? 'key' : 'value') + newIdParts[1];
+				});
+				$clone.find("input").prop("required", true).prop("disabled", false);
+				$container.append($clone);
+				$clone.find("input").blur(checkRemoveAttr).eq(0).focus();
+				checkRemoveAttr.call($clone.find("input").get(0));
+			});
+			$(".ithoughts-attrs-container input").blur(checkRemoveAttr);
+		})();
     });
 })(Ithoughts.v4);
