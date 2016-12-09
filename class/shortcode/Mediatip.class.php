@@ -8,7 +8,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
  * @package ithoughts-tooltip-glossary
  *
- * @version 2.5.0
+ * @version 2.7.0
  */
 
 
@@ -67,57 +67,57 @@ if(!class_exists(__NAMESPACE__."\\Mediatip")){
 
 			switch($mediatipType){
 				case $mediatipTypes[0]:{
-					$dat = \ithoughts\v4_0\Toolbox::decode_json_attr($datas["handled"]["mediatip-content"], true);
-					// Compat with old format
-					if($dat == NULL)
-						$dat = json_decode(str_replace('&quot;', '"', $datas["handled"]["mediatip-content"]), true);
-					$datas["attributes"]['data-mediatip-image'] = htmlentities($dat['url']);
+				$dat = \ithoughts\v4_0\Toolbox::decode_json_attr($datas["handled"]["mediatip-content"], true);
+				// Compat with old format
+				if($dat == NULL)
+					$dat = json_decode(str_replace('&quot;', '"', $datas["handled"]["mediatip-content"]), true);
+				$datas["attributes"]['data-mediatip-image'] = htmlentities($dat['url']);
 
-					if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
-						$datas["linkAttrs"]["href"] = 'javascript:void(0);';
+				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
+					$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-					$linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
-					$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
+				$linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
+				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-					$args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
-					// Span that qtip finds
-					$span = '<span '.$args.'>' . $linkElement . '</span>';
-					return $span;
-				} break;
+				$args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
+				// Span that qtip finds
+				$span = '<span '.$args.'>' . $linkElement . '</span>';
+				return $span;
+			} break;
 
 				case $mediatipTypes[1]:{
-					$datas["attributes"]['data-mediatip-image'] = htmlentities($datas["handled"]["mediatip-content"]);
+				$datas["attributes"]['data-mediatip-image'] = htmlentities($datas["handled"]["mediatip-content"]);
 
-					if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
-						$datas["linkAttrs"]["href"] = 'javascript:void(0);';
+				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
+					$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-					$linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
-					$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
+				$linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
+				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-					$args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
-					// Span that qtip finds
-					$span = '<span '.$args.'>' . $linkElement . '</span>';
-					return $span;
-				} break;
+				$args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
+				// Span that qtip finds
+				$span = '<span '.$args.'>' . $linkElement . '</span>';
+				return $span;
+			} break;
 
 				case $mediatipTypes[2]:{
-					$datas["attributes"]['data-mediatip-html'] = $datas["handled"]["mediatip-content"];
+				$datas["attributes"]['data-mediatip-html'] = $datas["handled"]["mediatip-content"];
 
-					if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
-						$datas["linkAttrs"]["href"] = 'javascript:void(0);';
+				if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
+					$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-					$linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
-					$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
+				$linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
+				$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-					$args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
-					// Span that qtip finds
-					$span = '<span '.$args.'>' . $linkElement . '</span>';
-					return $span;
-				} break;
+				$args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
+				// Span that qtip finds
+				$span = '<span '.$args.'>' . $linkElement . '</span>';
+				return $span;
+			} break;
 
 				default:{
-					return $text;
-				}break;
+				return $text;
+			}break;
 			}
 		}
 	}

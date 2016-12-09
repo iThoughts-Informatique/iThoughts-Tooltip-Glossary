@@ -1,3 +1,13 @@
+/**
+* @file Main FrontEnd style
+*
+* @author Gerkin
+* @copyright 2016 GerkinDevelopment
+* @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
+* @package ithoughts-tooltip-glossary
+*
+* @version 2.7.0
+*/
 /* A-Z shortcode */
 .glossary-menu-atoz {
   text-transform: uppercase;

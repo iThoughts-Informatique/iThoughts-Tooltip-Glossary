@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
  * @package ithoughts-tooltip-glossary
  *
- * @version 2.5.0
+ * @version 2.7.0
  */
 
 /*global Ithoughts, ithoughts_tt_gl, tinyMCE, tinymce */

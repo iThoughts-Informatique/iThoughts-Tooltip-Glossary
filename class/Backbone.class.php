@@ -7,7 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
  * @package ithoughts-tooltip-glossary
  *
- * @version 2.5.0
+ * @version 2.7.0
  */
 
 namespace ithoughts\tooltip_glossary;
@@ -296,7 +296,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
         public function register_scripts_and_styles(){
             wp_register_script('imagesloaded', $this->base_url . '/ext/imagesloaded.min.js',										null, null, true);
             wp_register_script('qtip', $this->base_url . '/ext/jquery.qtip'.$this->minify.'.js',												array('jquery', 'imagesloaded'), "2.2.1:2", null, true);
-            wp_register_script( 'ithoughts_tooltip_glossary-qtip',  $this->base_url . '/js/ithoughts_tt_gl-qtip2'.$this->minify.'.js',	array('qtip', "ithoughts-core-v4"), "2.4.0" );
+            wp_register_script( 'ithoughts_tooltip_glossary-qtip',  $this->base_url . '/js/ithoughts_tt_gl-qtip2'.$this->minify.'.js',	array('qtip', "ithoughts-core-v4"), "2.7.0" );
             wp_localize_script( 'ithoughts_tooltip_glossary-qtip', 'ithoughts_tt_gl', array(
                 'admin_ajax'    => admin_url('admin-ajax.php'),
                 'baseurl'		=> $this->base_url,
@@ -324,7 +324,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
             wp_register_script( 'ithoughts_tooltip_glossary-list',  $this->base_url . '/js/ithoughts_tt_gl-glossary-list'.$this->minify.'.js',  array('jquery', "ithoughts-core-v4", "masonry"), "2.5.0" );
 
 
-            wp_register_style( 'ithoughts_tooltip_glossary-css', $this->base_url . '/css/ithoughts_tt_gl'.$this->minify.'.css', null, "2.4.0" );
+            wp_register_style( 'ithoughts_tooltip_glossary-css', $this->base_url . '/css/ithoughts_tt_gl'.$this->minify.'.css', null, "2.7.0" );
             wp_register_style( 'ithoughts_tooltip_glossary-qtip-css', $this->base_url . '/ext/jquery.qtip'.$this->minify.'.css', null, "2.2.2");
             if(isset($this->options["custom_styles_path"]))
                 wp_register_style( 'ithoughts_tooltip_glossary-customthemes', $this->options["custom_styles_path"], null, null);

@@ -7,7 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
  * @package ithoughts-tooltip-glossary
  *
- * @version 2.5.0
+ * @version 2.7.0
  */
 
 namespace ithoughts\tooltip_glossary;
@@ -125,7 +125,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				"ithoughts_tooltip_glossary-tinymce_form",
 				$backbone->get_base_url() . '/js/ithoughts_tt_gl-tinymce-forms'.$backbone->get_minify().'.js',
 				array("jquery","ithoughts-core-v4","ithoughts-simple-ajax-v3"),
-				"2.4.0"
+				"2.7.0"
 			);
 			wp_register_script(
 				'ithoughts_tooltip_glossary-updater',
@@ -149,7 +149,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				'ithoughts_tooltip_glossary-editor',
 				$backbone->get_base_url() . '/js/ithoughts_tt_gl-editor'.$backbone->get_minify().'.js',
 				array("ithoughts-core-v4"),
-				"2.6.4"
+				"2.7.0"
 			);
 
 			wp_localize_script( 'ithoughts_tooltip_glossary-editor', 'ithoughts_tt_gl_editor', array(
@@ -158,8 +158,8 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				'verbosity'     => $backbone->get_option("verbosity"),
 			) );
 
-			wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	$backbone->get_base_url() . '/css/ithoughts_tt_gl-tinymce-forms'.$backbone->get_minify().'.css', null, "2.4.0");
-			wp_register_style( 'ithoughts_tooltip_glossary-admin',			$backbone->get_base_url() . '/css/ithoughts_tt_gl-admin'.$backbone->get_minify().'.css', null, "2.4.0" );
+			wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	$backbone->get_base_url() . '/css/ithoughts_tt_gl-tinymce-forms'.$backbone->get_minify().'.css', null, "2.7.0");
+			wp_register_style( 'ithoughts_tooltip_glossary-admin',			$backbone->get_base_url() . '/css/ithoughts_tt_gl-admin'.$backbone->get_minify().'.css', null, "2.7.0" );
 		}
 
 		/**

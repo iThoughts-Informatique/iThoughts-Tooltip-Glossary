@@ -1,3 +1,14 @@
+/**
+ * @file Script loaded as soon a post editor is opened. It contains all basic functions to insert shortcodes
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.7.0
+ */
+
 /*global Ithoughts, ithoughts_tt_gl, tinyMCE, tinymce */
 /*jslint regexp: true */
 

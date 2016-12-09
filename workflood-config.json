@@ -456,56 +456,65 @@
         "versions": {
             "2": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/2",
             "2.5": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/2.5",
-            "2.6": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/2.6"
+            "2.6": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/2.6",
+            "2.7": "http://documentation.gerkindevelopment.net/wp-plugins/ithoughts-tooltip-glossary/2.7"
         },
         "checksums": {
+            "./tests/getWikipedia.js": {
+                "sha1": "e9d7cd896228b4b72bb384b5daa812d36c22463e",
+                "md5": "3057485cf5ba1148dd735a3a60cc87cf"
+            },
+            "./tests/test.js": {
+                "sha1": "fca467d26b0368a2903b5146a3c83176e21a3903",
+                "md5": "74ab81b49facf77365561131f43e7005"
+            },
             "./js/ithoughts_tt_gl-admin.js": {
-                "sha1": "ba82d5a839ba3510d303fae0db12c3b64ebc43d9",
-                "md5": "e2cccf231918bfdbec50bf4c00654965"
+                "md5": "fd7e1fcefea2f0d0863c3b5b095f6120",
+                "sha1": "645f18de6dc0193f2850903f0ae09fda0ba83917"
             },
             "./js/ithoughts_tt_gl-atoz.js": {
-                "sha1": "eabf04551570a029d0254d5c0ad9e43efbd8739f",
-                "md5": "2275b1f0393a26b4b2d6300869bebc12"
+                "sha1": "0c30cc30771c42e4ec7c71c6b1b3fb5c6573c900",
+                "md5": "2f452b74e2f8d5a42297d100bd0484b7"
             },
             "./js/ithoughts_tt_gl-floater.js": {
-                "md5": "ec2eb79e0ad4e085863a7ed110a92e8a",
-                "sha1": "99e1225fb35b3beb9459c7921c01285cd4c4c60a"
+                "sha1": "a0baa28a5dd80abb0d485e351ae9f11a847e207d",
+                "md5": "f32c69e0697fdd8fb2707d0c05d24c2d"
+            },
+            "./js/ithoughts_tt_gl-editor.js": {
+                "sha1": "c68df58b54723e9e424c7c283805f921412de7ee",
+                "md5": "850194cee8243e61d123c102629a2488"
             },
             "./js/ithoughts_tt_gl-qtip2.js": {
-                "sha1": "77fb3231aecce8819180b340ad1eabc6e29c1419",
-                "md5": "1bf6057cf3aeb12451226452f37ead88"
+                "sha1": "6681af7cdbbe5addfb7bba5cdb9ef5e8b6856765",
+                "md5": "4e4b009672d5280db1d5db1ec559fd08"
             },
             "./js/ithoughts_tt_gl-styleeditor.js": {
-                "sha1": "91fb411738265e003ebaee9182f377fb2a5c5b77",
-                "md5": "fe6e0e42c733ba5e07f5bd43a578c469"
+                "sha1": "6103ab5417a567b86bb7e8c92a1db3190a3b2fb3",
+                "md5": "8a1aa3f8fc78481982bf0eba179e0c3d"
             },
             "./js/ithoughts_tt_gl-tinymce-forms.js": {
-                "sha1": "44cdf52727c5469961950ef78a005b0630960653",
-                "md5": "9e9989345abde04756cf0a6478f88454"
+                "sha1": "b26ef1fa394ca4a49519ccb6430b5337a92f9253",
+                "md5": "3c888f0f5af1917138a6553e9df9a689"
             },
             "./js/ithoughts_tt_gl-tinymce.js": {
-                "sha1": "efe057b5ba519fde87b8af5fbae7972b3a7ebc1e",
-                "md5": "815f24608b4e827fbe67e7642cbb4599"
-            },
-            "./js/ithoughts_tt_gl-utils.js": {
-                "sha1": "d49603d170fb0b8c1be727a9e56596f489bd0372",
-                "md5": "c3d8871bb886cd8cfb09aed9d4bb27b4"
+                "md5": "ae1e096eac81ca25d72d0be069359588",
+                "sha1": "e3eed9b97e98ee392745b43cba893097726523f8"
             },
             "./js/ithoughts_tt_gl-updater.js": {
-                "sha1": "84b5314cf500bc63e7684ae2663e56d8a388e098",
-                "md5": "2b15320d5b9f1868297cbb89ab4bdaf0"
+                "sha1": "ced2ac7260c00fafd8b04aed3a1e2bf5d489ef5a",
+                "md5": "61be78079a442cb9611787096665062b"
             },
-            "./submodules/iThoughts-WordPress-Plugin-Toolbox/js/ithoughts_aliases.js": {
-                "sha1": "0fdb95b5e8d6cb7332b6fe16edbb4580c2ba97c2",
-                "md5": "ac65cea400f2a9820083ff18929f8815"
+            "./submodules/iThoughts-WordPress-Plugin-Toolbox/js/ithoughts-core-v4.js": {
+                "sha1": "419288d4e647f4a0a58bf4db8a672a611a6956d9",
+                "md5": "3ff133a43383cb7e6200f277289b3796"
             },
-            "./submodules/iThoughts-WordPress-Plugin-Toolbox/js/jquery-serialize-object.js": {
-                "sha1": "f99e55808e820f834143543df53a4de87abf0839",
-                "md5": "ce13f0f6847b020eaadf8d7dfb834f04"
+            "./submodules/iThoughts-WordPress-Plugin-Toolbox/js/jquery-serialize-object-v3.js": {
+                "sha1": "950d6092448fca1079840923f14a71d24b51e147",
+                "md5": "2bc670acb758a4fbf512a0cbfd90ae03"
             },
-            "./submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form.js": {
-                "sha1": "46ce1e98e5456fe231f1b763f18d566e54a370b3",
-                "md5": "020591662dbd49664cc10c9c26296b49"
+            "./submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form-v3.js": {
+                "sha1": "f004b50531e72f2183406aa06fb2f846b3acb506",
+                "md5": "9ca147b23e04348717c6665be1487d41"
             }
         }
     }

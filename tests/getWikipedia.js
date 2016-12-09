@@ -1,3 +1,14 @@
+/**
+ * @file NodeJS test script for loading from Wikipedia a random article
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license https://tldrlegal.com/license/mit-license MIT
+ * @package ithoughts-tooltip-glossary
+ *
+ * @version 2.7.0
+ */
+
 var wikiApi = require('casper').create({
     clientScripts:  [],
     pageSettings: {
