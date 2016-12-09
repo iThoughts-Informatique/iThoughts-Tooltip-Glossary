@@ -14,7 +14,9 @@
 
 namespace ithoughts\tooltip_glossary\shortcode;
 
-if ( ! defined( 'ABSPATH' ) ) { 
+use \ithoughts\v4_0\Toolbox as TB;
+
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
@@ -42,7 +44,7 @@ if(!class_exists(__NAMESPACE__."\\GlossaryList")){
 				$linkdata["linkAttrs"]["link-".$key] = $linkAttr;
 				unset($linkdata["linkAttrs"][$key]);
 			}
-			$linkdata = \ithoughts\v1_2\Toolbox::array_flatten($linkdata);
+			$linkdata = \ithoughts\v4_0\Toolbox::array_flatten($linkdata);
 
 			return array(
 				"data" => &$data,
@@ -50,7 +52,7 @@ if(!class_exists(__NAMESPACE__."\\GlossaryList")){
 			);
 		}
 
-		protected function get_lists_terms($group_slugs = NULL, $pagination = NULL){
+		protected function get_lists_terms($group_ids = NULL, $alphas = NULL){
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 
 			// Post status array depending on user capabilities
@@ -59,12 +61,9 @@ if(!class_exists(__NAMESPACE__."\\GlossaryList")){
 				$statii[] = 'private';
 			}
 
-			if($pagination == NULL)
-				$pagination = $backbone->get_option("lists_size");
-
 			$args = array(
 				'post_type'           => "glossary",
-				'posts_per_page'      => $pagination,
+				'posts_per_page'      => -1,
 				'orderby'             => 'title',
 				'order'               => 'ASC',
 				'ignore_sticky_posts' => 1,
@@ -75,41 +74,89 @@ if(!class_exists(__NAMESPACE__."\\GlossaryList")){
 			}
 
 			// Restrict list to specific glossary group or groups
-			if( $group_slugs ){
-				$tax_query = array(
-					'taxonomy' => 'glossary_group',
-					'field'    => 'slug',
-					'terms'    => $group_slugs,
-				);
-				$args['tax_query'] = array( $tax_query );
+			if( $group_ids ){
+				$tax_query = array();
+				// If search for ungrouped
+				if(($noGroup = array_search(0, $group_ids)) !== false){
+					// Get all terms
+					unset($group_ids[$noGroup]);
+					$groups = get_terms(array(
+						"taxonomy"		=> 'glossary_group',
+						'hide_empty'	=> false,
+					));
+					// Exclude them
+					$tax_query[] = array(
+						'taxonomy'	=> 'glossary_group',
+						'field'		=> 'id',
+						'terms'		=> $groups,
+						'operator'	=> "NOT IN"
+					);
+				}
+				if( count($group_ids) > 0 ){
+					$tax_query[] = array(
+						'taxonomy' => 'glossary_group',
+						'field'    => 'id',
+						'terms'    => $group_ids,
+					);
+				}
+				$args['tax_query'] = $tax_query;
 			}
 			$query = new \WP_Query($args);
 			$glossaries = get_posts( $args );
 
+			$filteredGlossaries;
+			if($alphas && count($alphas) > 0){
+				$filteredGlossaries = array();
+				$regexStr = '/'.$this->alpha_array_to_regex_str($alphas).'/';
+				foreach($glossaries as $glossary){
+					if(preg_match($regexStr, $glossary->post_title)){
+						$filteredGlossaries[] = &$glossary;
+					}
+				}
+			} else {
+				$filteredGlossaries = &$glossaries;
+			}
+
 			return array(
-				"terms" => &$glossaries,
+				"terms" => &$filteredGlossaries,
 				"count" => $query->found_posts
 			);
 		}
 
-		final protected function get_miscroposts(){
+		final protected function get_microposts($groups = false, $alphas = false){
 			global $wpdb;
 			$fields = \ithoughts\tooltip_glossary\MicroPost::getFields();
 			$table = "{$wpdb->prefix}posts";
 			$queryComponents = array();
+
+			// Static select
 			$queryComponents["pre"] = "
-SELECT
+SELECT DISTINCT
 	";
+
+			// Posts table name
 			$queryComponents["from"] = "
 FROM
 	$table AS p";
+
+			// WPML support
 			if(function_exists('icl_object_id')){ // Add join to current language for WPML
 				$queryComponents["from"] .= "
-	JOIN {$wpdb->prefix}icl_translations t
-	ON
-		p.ID = t.element_id AND
-		t.element_type = CONCAT('post_', p.post_type)";
+JOIN {$wpdb->prefix}icl_translations t
+ON
+	p.ID = t.element_id AND
+	t.element_type = CONCAT('post_', p.post_type)";
 			}
+
+			// Group join
+			if($groups !== false && count($groups) > 0){
+				$queryComponents["from"] .= "
+LEFT JOIN {$wpdb->prefix}term_relationships AS r
+ON
+	p.ID = r.object_id";
+			}
+
+			// Selection criteria (post type + post status)
 			$queryComponents["where"] = "
 WHERE
 	p.post_type = 'glossary' AND
@@ -129,10 +176,47 @@ WHERE
 			}
 			$queryComponents["where"] .= "
 	)";
+
+			// Selection criteria (lang translate)
 			if(function_exists('icl_object_id')){ // Select only current language
 				$queryComponents["where"] .= " AND
 	t.language_code = '".ICL_LANGUAGE_CODE."'";
 			}
+
+			// Selection criteria (group)
+			if($groups !== false && count($groups) > 0){
+				$queryComponents["where"] .= " AND
+	";
+				$hasNoGroup = in_array(0, $groups);
+				$groups = array_diff( $groups, [0] );
+				$pre = "";
+				$join = "";
+				$post = "";
+				if($hasNoGroup && count($groups) > 0){
+					$pre = "(
+		";
+					$join = " OR
+		";
+					$post = ")";
+				}
+				$queryComponents["where"] .= $pre;
+				if($hasNoGroup){
+					"r.term_taxonomy_id IS NULL".$join;
+				}
+				if(count($groups) > 0){
+					$queryComponents["where"] .= "r.term_taxonomy_id in (".implode(',',$groups).")";
+				}
+				$queryComponents["where"] .= $post;
+			}
+
+			// Selection criteria (first letter)
+			if(count($alphas) > 0){
+				$regexStr = $this->alpha_array_to_regex_str($alphas);
+				$queryComponents["where"] .= " AND
+	p.post_title REGEXP '$regexStr'";
+			}
+
+			// Sort
 			$queryComponents["order"] = "
 ORDER BY
 	p.post_title ASC";
@@ -143,14 +227,15 @@ ORDER BY
 			foreach($fields as $field){
 				if($loopIndicator)
 					$selectFields .= ",
-	";
+					";
 				$loopIndicator = true;
 				$selectFields .= "p.$field";
 			}
 
 			$querySelect = $queryComponents["pre"].$selectFields.$queryComponents["from"].$queryComponents["where"].$queryComponents["order"];
 			$queryCount = $queryComponents["pre"]."COUNT(*)".$queryComponents["from"].$queryComponents["where"].$queryComponents["order"];
-			
+			//\ithoughts\v4_0\Toolbox::prettyDump($querySelect, $queryCount);
+
 			$res = $wpdb->get_results($querySelect, ARRAY_A);
 			$ret = array();
 			foreach($res as $micropost){
@@ -161,16 +246,52 @@ ORDER BY
 				"terms" => $ret,
 				"count" => $wpdb->get_var($queryCount)
 			);
-			/*echo "<pre>$querySelect</pre>";
-		echo "<pre>";
-		print_r($return["terms"]);
-		echo "</pre><br/>";
-		echo "<pre>$queryCount</pre>";
-		echo "<pre>";
-		print_r($return["count"]);
-		echo "</pre><br/>";*/
 
 			return $return;
+		}
+
+		private function alpha_array_to_regex_str($alphas){
+			$specIndex = array_search("#", $alphas);
+			$regexStr = "^(";
+			if($specIndex !== false){
+				unset($alphas[$specIndex]);
+				$regexStr .= '[^A-Za-z]';
+			}
+			if(count($alphas) > 0){
+				if($specIndex !== false){
+					$regexStr .= '|';
+				}
+				if(count($alphas) > 1){
+					$regexStr .= '['.implode('', $alphas).']';
+				} else {
+					$regexStr .= $alphas[0];
+				}
+			}
+			$regexStr .= ')';
+			return $regexStr;
+		}
+
+		final protected function filter_alphas_to_array($alphasStr = NULL){
+			// Sanity check the list of letters (if set by user).
+			$alphas = array();
+			if( $alphasStr != NULL ) {
+				$alpha_list = array_unique(str_split($alphasStr));
+				foreach( $alpha_list as $alpha_item ) {
+					$alphas[] = $this->get_type_char($alpha_item);
+				} //alpha_list
+				$alphas = array_unique( $alphas );
+			}
+			$alphas = count($alphas) > 0 ? $alphas : NULL;
+			return $alphas;
+		}
+
+		final protected function filter_groupIds_to_array($group_idsStr = NULL){
+			// Sanity check the groups (if set by user).
+			$group_ids = NULL;
+			if($group_idsStr != NULL){
+				$group_ids = array_unique(array_map('trim', explode(',', $group_idsStr)));
+			}
+			return $group_ids;
 		}
 
 		final protected function dispatch_per_char(&$terms, $index = NULL, $type = NULL){
@@ -182,24 +303,24 @@ ORDER BY
 			$sorted = array();
 			switch($type){
 				case "WP_Post":{
-					foreach($terms as &$post){
-						$title      = $post->post_title;
-						$titlealpha = $this->get_type_char($title, $index);
-						if(!isset($sorted[$titlealpha]))
-							$sorted[$titlealpha] = array();
-						$sorted[$titlealpha][] = &$post;
-					}
-				} break;
+				foreach($terms as &$post){
+					$title      = $post->post_title;
+					$titlealpha = $this->get_type_char($title, $index);
+					if(!isset($sorted[$titlealpha]))
+						$sorted[$titlealpha] = array();
+					$sorted[$titlealpha][] = &$post;
+				}
+			} break;
 
 				case "array":{
-					foreach($terms as &$post){
-						$title      = $post["post_title"];
-						$titlealpha = $this->get_type_char($title, $index);
-						if(!isset($sorted[$titlealpha]))
-							$sorted[$titlealpha] = array();
-						$sorted[$titlealpha][] = &$post;
-					}
-				} break;
+				foreach($terms as &$post){
+					$title      = $post["post_title"];
+					$titlealpha = $this->get_type_char($title, $index);
+					if(!isset($sorted[$titlealpha]))
+						$sorted[$titlealpha] = array();
+					$sorted[$titlealpha][] = &$post;
+				}
+			} break;
 			}
 
 			return $sorted;
@@ -211,11 +332,11 @@ ORDER BY
 	 * @param integer	$index	The index in the string to check
 	 * @return string	The extracted char
 	 */
-		final private function get_type_char($string, $index = NULL){
+		final protected function get_type_char($string, $index = NULL){
 			if($index == NULL)
 				$index = 0;
 
-			$stringAlpha = strtoupper( \ithoughts\v1_2\Toolbox::unaccent(mb_substr($string,$index,1, "UTF-8")) );
+			$stringAlpha = strtoupper( \ithoughts\v4_0\Toolbox::unaccent(mb_substr($string,$index,1, "UTF-8")) );
 			if(!preg_match("/[A-Z]/", $stringAlpha)){
 				return "#";
 			}

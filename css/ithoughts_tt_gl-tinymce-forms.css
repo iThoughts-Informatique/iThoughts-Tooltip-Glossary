@@ -90,6 +90,15 @@
   top: 295px;
   max-height: 90%;
   max-width: 90%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 .itg-window .itg-reset {
   display: -webkit-box;
@@ -108,6 +117,10 @@
   -webkit-align-items: stretch;
       -ms-flex-align: stretch;
           align-items: stretch;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
 }
 .itg-window .itg-reset > * {
   -webkit-box-flex: 0;
@@ -116,10 +129,14 @@
           flex: 0 0 auto;
 }
 .itg-window .itg-reset > .itg-window-body {
+  overflow: auto;
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
+  max-height: none;
+  min-height: 0;
+  padding: 0 10px;
 }
 .itg-window .itg-foot {
   text-align: right;
@@ -129,7 +146,6 @@
   box-sizing: border-box;
 }
 .itg-window .tab-container {
-  position: relative;
   margin: 0 auto;
   padding: 0;
   -webkit-box-flex: 1;
@@ -173,16 +189,29 @@
   cursor: pointer;
   bottom: -1px;
   position: relative;
-  margin-right: -4px;
+  margin: 0 4px 0 0;
   border-bottom: 1px solid #c5c5c5;
   -webkit-transition: 0.25s border-bottom-color;
   transition: 0.25s border-bottom-color;
+}
+.itg-window .tab-container .tabs li:not(.topLiner) {
+  position: relative;
+  background: #fff;
+  z-index: 1;
 }
 .itg-window .tab-container .tabs li:hover,
 .itg-window .tab-container .tabs li.active {
   border-bottom: 1px solid rgba(197, 197, 197, 0);
   -webkit-transition: 0.25s border-bottom-color;
   transition: 0.25s border-bottom-color;
+}
+.itg-window .tab-container .tabs li.topLiner {
+  width: 100%;
+  position: absolute;
+  border-width: 0;
+  border-bottom-width: 1px;
+  left: 0;
+  pointer-events: none;
 }
 .itg-window .tab-container .tabs.active,
 .itg-window .tab-container .tabs:hover,
@@ -216,12 +245,14 @@
   -webkit-transition: 0.5s 0.5s display;
   transition: 0.5s 0.5s display;
   opacity: 1;
+  border: 1px solid #c5c5c5;
+  border-top: none;
 }
 .itg-window table {
   width: 100%;
 }
 .itg-window table td {
-  position: relative;
+  /*position: relative;*/
   word-wrap: break-word;
   white-space: normal;
 }
@@ -256,7 +287,6 @@
 }
 .itg-window #glossary_term_completer_container {
   position: absolute;
-  width: 100%;
   box-shadow: 0px 0px 6px 2px grey;
   background: #fff;
   z-index: 1;
@@ -277,6 +307,65 @@
 }
 .itg-window #glossary_term_completer_container .completer .option:hover,
 .itg-window #glossary_term_completer_container .completer .option:focus {
+  background-color: #f4f4f4;
+}
+.itg-window #groupspicker {
+  opacity: 1;
+  position: absolute;
+  z-index: 999;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+.itg-window #groupspicker.hidden {
+  pointer-events: none;
+  opacity: 0;
+  -webkit-transition: 0.5s all;
+  transition: 0.5s all;
+}
+.itg-window .group-select {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+}
+.itg-window .group-select input {
+  display: none;
+}
+.itg-window .group-select input:checked + label.group-label {
+  background-color: #e0f8fe;
+}
+.itg-window .group-select input:checked + label.group-label:hover,
+.itg-window .group-select input:checked + label.group-label:focus {
+  background-color: #eaf6f9;
+}
+.itg-window .group-select label.group-label {
+  display: block;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  -webkit-transition: 0.5s all;
+  transition: 0.5s all;
+  background-color: #fff;
+  text-align: center;
+}
+.itg-window .group-select label.group-label:hover,
+.itg-window .group-select label.group-label:focus {
   background-color: #f4f4f4;
 }
 .itg-window #image-box {

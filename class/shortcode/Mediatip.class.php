@@ -19,7 +19,7 @@
 
 namespace ithoughts\tooltip_glossary\shortcode;
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
@@ -67,7 +67,7 @@ if(!class_exists(__NAMESPACE__."\\Mediatip")){
 
 			switch($mediatipType){
 				case $mediatipTypes[0]:{
-					$dat = \ithoughts\v1_2\Toolbox::decode_json_attr($datas["handled"]["mediatip-content"], true);
+					$dat = \ithoughts\v4_0\Toolbox::decode_json_attr($datas["handled"]["mediatip-content"], true);
 					// Compat with old format
 					if($dat == NULL)
 						$dat = json_decode(str_replace('&quot;', '"', $datas["handled"]["mediatip-content"]), true);
@@ -76,10 +76,10 @@ if(!class_exists(__NAMESPACE__."\\Mediatip")){
 					if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
 						$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-					$linkArgs = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["linkAttrs"]);
+					$linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
 					$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-					$args = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["attributes"]);
+					$args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
 					// Span that qtip finds
 					$span = '<span '.$args.'>' . $linkElement . '</span>';
 					return $span;
@@ -91,10 +91,10 @@ if(!class_exists(__NAMESPACE__."\\Mediatip")){
 					if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
 						$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-					$linkArgs = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["linkAttrs"]);
+					$linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
 					$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-					$args = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["attributes"]);
+					$args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
 					// Span that qtip finds
 					$span = '<span '.$args.'>' . $linkElement . '</span>';
 					return $span;
@@ -106,10 +106,10 @@ if(!class_exists(__NAMESPACE__."\\Mediatip")){
 					if(!(isset($datas["linkAttrs"]["href"]) && $datas["linkAttrs"]["href"]))
 						$datas["linkAttrs"]["href"] = 'javascript:void(0);';
 
-					$linkArgs = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["linkAttrs"]);
+					$linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
 					$linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-					$args = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["attributes"]);
+					$args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
 					// Span that qtip finds
 					$span = '<span '.$args.'>' . $linkElement . '</span>';
 					return $span;

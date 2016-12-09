@@ -12,7 +12,7 @@ Create beautiful tooltips for descriptions or glossary terms easily
 
 Build a glossary on your site that link terms in your posts to it via tooltips. You can also create unlinked tooltips to bring some precision to a term or expression in a single post.
 
-This plugin is optimized for responsive web design, SEO, usability, and more. 
+This plugin is optimized for responsive web design, SEO, usability, and more.
 
 Reasons for using iThoughts Tooltip Glossary plugin:
 
@@ -153,7 +153,7 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 * NEW Add attributes filtering & appending to plugin generated HTML
 * NEW Display compiled shortcodes into tooltip
 * NEW Filtering JS Mediatips to prepare compatibility with iThoughts Lightbox
-* UPD Remove versionning on resources when useless to improve browser caching capability 
+* UPD Remove versionning on resources when useless to improve browser caching capability
 * UPD Remove obsolete & uncompatible trigger option "mouseenter"
 * UPD Tooltip links now overlined & underlined by default, to be easily recognized
 * UPD List display split in columns more intuitive
@@ -300,7 +300,7 @@ Now fully compatible with WPML!
 WPML is now supported! Please post possible bugs or unexpected behavior on the support forum.
 
 = 2.3.1 =
-WARNING! THIS IS AN EXPERIMENTAL UPDATE! 
+WARNING! THIS IS AN EXPERIMENTAL UPDATE!
 If you encounter an error with this version, please inform me as soon as possib$
 
 = 2.3.0 =

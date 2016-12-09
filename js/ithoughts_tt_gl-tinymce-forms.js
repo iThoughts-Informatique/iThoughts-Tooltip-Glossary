@@ -553,6 +553,62 @@
 		} else if(formType == "LIST"){
 			(function initListForm(){
 				initTab($('.tabs li'));
+
+				(function initGroupsPicker(){
+					var $ids = $("#groups"),
+						$text = $("#groups_text"),
+						$groupsPicker = $("#groupspicker"),
+						$catchEvent = $([$groupsPicker.get(0), $text.parent().get(0)]),
+						$checkboxes = $("#groupspicker .group-select input");
+					$text.focusin(function(){
+						$groupsPicker.toggleClass("hidden");
+
+						function hide(){
+							$groupsPicker.toggleClass("hidden");
+							$catchEvent.off('click', catchEvent);
+						}
+						function catchEvent(e){
+							e.stopImmediatePropagation();
+						}
+						$catchEvent.click(catchEvent);
+						$w.one("click", hide)
+					});
+					$checkboxes.change(function(){
+						var $checked = $checkboxes.filter(':checked'),
+							texts = [],
+							ids = [];
+
+						$checked.each(function(){
+							texts.push($(this).parent().find(".group-title").text());
+							ids.push($(this).val());
+						})
+						$ids.val(ids.join(','));
+						$text.val(texts.join(', '));
+					}).change();
+				}());
+
+				$("#ithoughts_tt_gl-tinymce-validate").click(function(){
+					var data = {
+						type: ["atoz", "list"][$('.tabs li.active').index()],
+						alpha: $("#letters").val(),
+						group: $("#groups").val()
+					};
+					if(!data.alpha) delete data.alpha;
+					if(!data.group) delete data.group;
+
+					switch(data.type){
+						case "list":{
+							$.extend(data, {
+								desc: $("#description_mode").val(),
+								cols: $("#columns_count").val()
+							});
+						} break;
+					}
+					i_t_g_e.finishListTinymce(data);
+				});
+				$(".ithoughts_tt_gl-tinymce-discard").click(function(){
+					i_t_g_e.finishListTinymce();
+				});
 			}());
 		}
 	});

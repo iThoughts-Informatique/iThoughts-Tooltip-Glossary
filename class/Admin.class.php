@@ -12,7 +12,7 @@
 
 namespace ithoughts\tooltip_glossary;
 
-use \ithoughts\v1_2\Toolbox as TB;
+use \ithoughts\v4_0\Toolbox as TB;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -1063,44 +1063,53 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				"taxonomy"		=> 'glossary_group',
 				'hide_empty'	=> false,
 			));
-			$groupOpts = array();
-			foreach($groups as $group){
-				$groupOpts[$group->id] = $group->name;
-			}
+			$noGroups = (new \WP_Query(array(
+				"post_type"			=> "glossary",
+				'post_status'		=> 'publish',
+				'tax_query' => array(array(
+				'taxonomy' => 'glossary_group',
+				'field' => 'term_id',
+				'operator' => 'NOT IN',
+				'terms' => extractTermsIds($groups)
+			))
+			)))->post_count;
 
 			$inputs = array(
 				"letters" => TB::generate_input_text(
 				"letters",
 				array(
 				"type"	=> "text",
-				"value"	=> NULL,
+				"value"	=> isset($data["alpha"]) ? implode(", ", $data["alpha"]) : ""
+			)
+			),
+				"groups_text" => TB::generate_input_text(
+				'groups_text',
+				array(
+				"type"			=> "text",
+				'value'			=> NULL,
+				'attributes'	=> array(
+				'placeholder'	=> __('Click and pick some groups', 'ithoughts-tooltip-glossary'),
+				'readonly'	=> true
+			)
 			)
 			),
 				"groups" => TB::generate_input_text(
 				'groups',
 				array(
-				"type"			=> "text",
-				'value'			=> NULL,
+				"type"			=> "hidden",
+				'value'			=> isset($data["group"]) ? implode(", ", $data["group"]) : "",
 				'attributes'	=> array(
-				'readonly'	=> true
-				)
+				'readonly'	=> true,
 			)
-			),/*
-				"groups" => TB::generate_input_select(
-				'groups',
-				array(
-				'allow_blank'	=> __("All", "ithoughts-tooltip-glossary"),
-				'multiple'		=> true,
-				'selected'		=> array(),
-				'options'		=> $groupOpts
 			)
-			),*/
+			),
 				"description_mode"	=> TB::generate_input_select(
 				'description_mode',
 				array(
-				'selected'	=> NULL,
+				'selected'	=> isset($data["desc"]) ? $data["desc"] : NULL,
 				'options'	=> array(
 				'none'		=> __("None", "ithoughts-tooltip-glossary"),
+				'tip'		=> __("Tooltip", "ithoughts-tooltip-glossary"),
 				'excerpt'	=> __("Excerpt", "ithoughts-tooltip-glossary"),
 				'full'		=> __("Full", "ithoughts-tooltip-glossary"),
 			)
@@ -1110,7 +1119,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				"columns_count",
 				array(
 				"type"			=> "number",
-				"value"			=> NULL,
+				"value"			=> isset($data["cols"]) ? $data["cols"] : 1,
 				"attributes"	=> array(
 				"min"	=> 1,
 				"max"	=> 5
@@ -1607,5 +1616,12 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				$str
 			);
 		}
+	}
+	function extractTermsIds($objs){
+		$ret = array();
+		foreach($objs as $obj){
+			$ret[] = $obj->term_id;
+		}
+		return $ret;
 	}
 }

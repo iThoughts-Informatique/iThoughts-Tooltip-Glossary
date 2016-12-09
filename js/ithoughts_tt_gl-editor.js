@@ -147,41 +147,31 @@
 				var mode = "insert_content",
 					node	= selection.start,
 					values = {
-						list: {
-							alpha: "",
-							cols: "",
-							desc: "",
-							group: ""
-						},
-						atoz: {
-							group: "",
-							alpha: "",
-							lazy: true
-						},
-						type: 0
+						type: "atoz",
+						alpha: [],
+						group: []
 					},
-					listtabI,
 					loader;
+				function trimFilter(attrsStr){
+					return (attrsStr||"").split(",").map(Function.prototype.call, String.prototype.trim).filter(function(e){return e});
+				}
 				if (!isNA(selection.start) && selection.start === selection.end) {
 					i_t_g_e.log("Start & End node are the same, operating on a node of type " + node.nodeName);
 					if(node && node.nodeName != "#text"){
+						$.extend(values, {
+							alpha: trimFilter(node.getAttribute("data-alpha")),
+							group: trimFilter(node.getAttribute("data-group"))
+						});
 						if (node.getAttribute("data-type") === "ithoughts-tooltip-glossary-atoz") { // Is atoz
 							mode = "load";
-							values.type = 1;
-							values.atoz = {
-								alpha: node.getAttribute("data-alpha"),
-								group: node.getAttribute("data-group"),
-								lazy: node.getAttribute("data-lazy") === "true"
-							};
+							values.type = "atoz";
 						} else if (node.getAttribute("data-type") === "ithoughts-tooltip-glossary-term_list") { // Is term_list
 							mode = "load";
-							values.type = 0;
-							values.list = {
-								alpha: node.getAttribute("data-alpha"),
-								cols: node.getAttribute("data-cols"),
-								desc: node.getAttribute("data-desc"),
-								group: node.getAttribute("data-group")
-							};
+							values.type = "list";
+							$.extend(values, {
+								cols: parseInt(node.getAttribute("data-cols")),
+								desc: node.getAttribute("data-desc")
+							});
 						}
 					}
 				}
@@ -198,19 +188,7 @@
 					},
 					success:	function createTinyMCEFormAjaxed(out) {
 						loader.remove();
-						var newDom = $($.parseHTML(out, true)),
-							h = 400,
-							w = 455,
-							popupTooltip = newDom.find("#" + prefix1 + "-list-form");
-						/*$w.on("resize", function resizeTinyMCEForm() {
-							var opts = {
-								width:	w + "px",
-								height:	h + "px",
-								left:	(($w.width() - w) / 2) + "px",
-								top:	(($w.height() - h) / 2) + "px"
-							};
-							popupTooltip.css(opts);
-						}).resize();*/
+						var newDom = $($.parseHTML(out, true));
 
 						$(document.body).append(newDom.css({opacity: 0}).animate({opacity: 1}, 500));
 
@@ -223,121 +201,32 @@
 									domC.remove();
 								});
 								if (typeof data === "undefined") { return; }
-								var arr,
-									text,
-									attributesList	= domC.find("#attributes-list option").map(function () {
-										return this.value;
-									}).toArray(),
+
+								var shortcode = "glossary_" + ({atoz: "atoz", list: "term_list"})[data.type],
+									tail = (mode !== "load" && content.length === 0) ? " " : "",
 									optsStrs		= [],
-									opts			= data.opts || values.opts,
-									generateAttr	= function generateAttr(label, value, specEncode) {
-										value = String(value).trim();
-										if (!label.match(/^[\w_\-]*$/)) { return null; }
-										return stripQuotes(label.trim(), true) + '="' + (!isNA(specEncode) && specEncode ? value.replace(/"/g, "&aquot;").replace(/\n/g, "<br/>") : stripQuotes(value, true)) + '"';
-									},
 									addOpt			= function addOpt(label, value, specEncode) {
 										optsStrs.push(generateAttr(label, value, specEncode));
 										optsStrs = optsStrs.filter(function (val) {
 											return !isNA(val);
 										});
-									},
-									my,
-									types			= ["span", "link"],
-									typesLength		= types.length,
-									i				= -1,
-									j,
-									prefix,
-									midPart,
-									optsAttrs		= (opts && opts.attributes) || {},
-									shortcode		= prefix4 + '-' + data.type,
-									tail			= (mode !== "load" && content.length === 0) ? " " : "";
+									};
 
-								if (!isNA(opts)) {
-									if (opts['qtip-content']) {
-										addOpt('data-termcontent', opts['qtip-content']);
-									}
-									if (opts['qtip-keep-open']) {
-										addOpt('data-qtip-keep-open', "true");
-									}
-									if (!isNA(opts.qtiprounded)) {
-										addOpt("data-qtiprounded", String(opts.qtiprounded));
-									}
-									if (!isNA(opts.qtipshadow)) {
-										addOpt("data-qtipshadow", String(opts.qtipshadow));
-									}
-									if (opts.qtipstyle) {
-										addOpt("data-qtipstyle", opts.qtipstyle);
-									}
-									if (opts.qtiptrigger) {
-										addOpt("data-qtiptrigger", opts.qtiptrigger);
-									}
-									if (opts.position) {
-										if (opts.position.at && opts.position.at[1] && opts.position.at[2]) {
-											addOpt("data-position-at", opts.position.at[1] + " " + opts.position.at[2]);
-										}
-										if (opts.position.my && opts.position.my[1] && opts.position.my[2]) {
-											my = [opts.position.my[1], opts.position.my[2]];
-											if (opts.position.my.invert) { my.reverse(); }
-											addOpt("data-position-my", my.join(" "));
-										}
-									}
-									if (opts.anim) {
-										if (opts.anim['in']) {
-											addOpt("data-animation_in", opts.anim['in']);
-										}
-										if (opts.anim.out) {
-											addOpt("data-animation_out", opts.anim.out);
-										}
-										if (opts.anim.time) {
-											addOpt("data-animation_time", opts.anim.time);
-										}
-									}
-									if (opts.maxwidth) {
-										addOpt("data-tooltip-maxwidth", opts.maxwidth);
-									}
-									while ((i += 1) < typesLength) {
-										if (optsAttrs.hasOwnProperty(i)) {
-											for (j in optsAttrs[types[i]]) {
-												if (optsAttrs[types[i]].hasOwnProperty(j)) {
-													prefix = attributesList.indexOf(j) > -1 ? "" : 'data-';
-													midPart = types[i] === "link" ? 'link-' : '';
-													addOpt(prefix + midPart + j, optsAttrs[types[i]][j], true);
-												}
-											}
-										}
-									}
+
+								var attrs = ["alpha", "group"];
+								switch(data.type){
+									case "list":{
+										attrs = attrs.concat(["cols", "desc"]);
+									} break;
 								}
-								if (data.link) {
-									addOpt('href', encodeURI(data.link));
+								for(var i = 0, I = attrs.length; i < I; i++){
+									var attr = attrs[i];
+									if(data.hasOwnProperty(attr)){
+										addOpt(attr, data[attr]);
+									}
 								}
 
-								if (data.type === "glossary") {
-									if (!data.glossary_id || !data.text) {
-										return;
-									} else {
-										addOpt("glossary-id", data.glossary_id);
-										if (data.disable_auto_translation) {
-											addOpt("disable_auto_translation", "true");
-										}
-									}
-								} else if (data.type === "tooltip") {
-									if (!data.tooltip_content || !data.text) {
-										return;
-									} else {
-										addOpt("tooltip-content", data.tooltip_content, true);
-									}
-								} else if (data.type === "mediatip") {
-									if (!data.mediatip_type || !data.mediatip_content || !data.text) {
-										return;
-									} else {
-										addOpt("mediatip-type", data.mediatip_type);
-										addOpt("mediatip-content", data.mediatip_content, true);
-										if (data.mediatip_caption) {
-											addOpt("mediatip-caption", data.mediatip_caption, true);
-										}
-									}
-								}
-								var finalContent = '[' + shortcode + ' ' + optsStrs.join(" ") + ']' + data.text + "[/" + shortcode + "]" + tail;
+								var finalContent = '[' + shortcode + ' ' + optsStrs.join(" ") + '/]' + tail;
 								i_t_g_e.log("Final content:", finalContent)
 								return callback(finalContent, mode);
 							};
@@ -348,125 +237,6 @@
 						i_t_g_e.error("Error while getting TinyMCE form for Tip: ", arguments);
 					}
 				});
-
-				listtabI = values.type;
-
-				/*tinyMCE.activeEditor.windowManager.open({
-                    title: getLang('insert_index'),
-                    margin:		"0 0 0 0",
-                    padding:	"0 0 0 0",
-                    border:		"0 0 0 0",
-                    body:		[
-                        new tinyMCE.ui.TabPanel({
-                            margin:		"0 0 0 0",
-                            padding:	"0 0 0 0",
-                            border:		"0 0 0 0",
-                            onclick:	function (event) {
-                                try {
-                                    if (event.target.id.match(/^mceu_\d+-t(\d+)$/)) {
-                                        listtabI = event.target.id.replace(/^mceu_\d+-t(\d+)$/, "$1");
-                                    }
-                                } catch (e) {}// Nothing to do, private
-                            },
-                            items:		[
-                                new tinyMCE.ui.Factory.create({
-                                    type:	"form",
-                                    title:	getLang('list'),
-                                    items:	[
-                                        {
-                                            type:		"textbox",
-                                            label:		getLang('letters'),
-                                            name:		"ll",
-                                            value:		values.list.alpha,
-                                            tooltip:	getLang('letters_explain')
-                                        },
-                                        {
-                                            type:		"textbox",
-                                            label:		getLang('columns'),
-                                            name:		"lc",
-                                            value:		values.list.cols,
-                                            tooltip:	getLang('columns_explain')
-                                        },
-                                        {
-                                            type:		"listbox",
-                                            label:		getLang('description'),
-                                            name:		"ld",
-                                            values:		[
-                                                {
-                                                    text:	"None",
-                                                    value:	""
-                                                },
-                                                {
-                                                    text:	getLang('excerpt'),
-                                                    value:	"excerpt"
-                                                },
-                                                {
-                                                    text:	getLang('full'),
-                                                    value:	"full"
-                                                },
-                                                {
-                                                    text:	getLang('glossarytips'),
-                                                    value:	"glossarytips"
-                                                }
-                                            ],
-                                            value:		values.list.desc,
-                                            tooltip:	getLang('description_explain')
-                                        },
-                                        {
-                                            type:		"textbox",
-                                            label:		getLang('group'),
-                                            name:		"lg",
-                                            value:		values.list.group,
-                                            tooltip:	getLang('group_explain')
-                                        }
-                                    ]
-                                }),
-                                new tinyMCE.ui.Factory.create({
-                                    type:	"form",
-                                    title:	getLang('atoz'),
-                                    items:	[
-                                        {
-                                            type:		"textbox",
-                                            label:		getLang('letters'),
-                                            name:		"al",
-                                            value:		values.atoz.alpha,
-                                            tooltip:	getLang('letters_explain')
-                                        },
-                                        {
-                                            type:		"textbox",
-                                            label:		getLang('group'),
-                                            name:		"ag",
-                                            value:		values.atoz.group,
-                                            tooltip:	getLang('group_explain')
-                                        }
-                                    ]
-                                })
-                            ],
-                            activeTab:	values.type
-                        })
-                    ],
-                    onsubmit: function (e) {
-                        if (mode === "load") {
-                            sel.select(sel.getStart());
-                        }
-                        var listtabIInt = parseInt(listtabI, 10),
-                            opts,
-                            data = e.data;
-                        if (listtabIInt === 0) {
-                            opts = [];
-                            if (!!data.ll) { opts.push('alpha="' + stripQuotes(data.ll, true) + '"'); }
-                            if (!!data.lg) { opts.push('group="' + stripQuotes(data.lg, true) + '"'); }
-                            if (!!data.lc) { opts.push('cols="' + stripQuotes(data.lc, true) + '"'); }
-                            if (!!data.ld) { opts.push('desc="' + stripQuotes(data.ld, true) + '"'); }
-                            return callback('[glossary_term_list' + ((opts.length > 0) ? ' ' + opts.join(' ') : '') + ' /]');
-                        } else if (listtabIInt === 1) {
-                            opts = [];
-                            if (!!data.al) { opts.push('alpha="' + stripQuotes(data.al, true) + '"'); }
-                            if (!!data.ag) { opts.push('group="' + stripQuotes(data.ag, true) + '"'); }
-                            return callback('[glossary_atoz' + ((opts.length > 0) ? ' ' + opts.join(' ') : '') + ' /]');
-                        }
-                    }
-                });*/
 			},
 			tip: function glossarytermfct(selection, callback, escapeContent) {
 				i_t_g_e.info("Selection infos to load TIP: ", selection);
@@ -484,7 +254,8 @@
 					position_at,
 					position_my,
 					my_inverted,
-					tristate, loader;
+					tristate,
+					loader;
 				if (!isNA(selection.start) && selection.start === selection.end) {
 					i_t_g_e.log("Start & End node are the same, operating on a node of type " + node.nodeName);
 					content = (node && node.text) || selection.html; // Get node text if any or get selection
@@ -620,22 +391,7 @@
 					},
 					success:	function createTinyMCEFormAjaxed(out) {
 						loader.remove();
-						var newDom = $($.parseHTML(out, true)),
-							h = 400,
-							w = 455,
-							popupTooltip = newDom.find("#" + prefix1 + "-tooltip-form"),
-							popupTooltipOptions = newDom.find("#" + prefix1 + "-tooltip-form-options");
-						/*$w.on("resize", function resizeTinyMCEForm() {
-							var opts = {
-								width:	w + "px",
-								height:	h + "px",
-								left:	(($w.width() - w) / 2) + "px",
-								top:	(($w.height() - h) / 2) + "px"
-							};
-							popupTooltip.css(opts);
-							popupTooltipOptions.css(opts);
-						}).resize();*/
-
+						var newDom = $($.parseHTML(out, true));
 						$(document.body).append(newDom.css({opacity: 1}).animate({opacity: 1}, 500));
 
 
@@ -654,11 +410,6 @@
 									}).toArray(),
 									optsStrs		= [],
 									opts			= data.opts || values.opts,
-									generateAttr	= function generateAttr(label, value, specEncode) {
-										value = String(value).trim();
-										if (!label.match(/^[\w_\-]*$/)) { return null; }
-										return stripQuotes(label.trim(), true) + '="' + (!isNA(specEncode) && specEncode ? value.replace(/"/g, "&aquot;").replace(/\n/g, "<br/>") : stripQuotes(value, true)) + '"';
-									},
 									addOpt			= function addOpt(label, value, specEncode) {
 										optsStrs.push(generateAttr(label, value, specEncode));
 										optsStrs = optsStrs.filter(function (val) {
@@ -785,6 +536,11 @@
 			sel.start = $(sel.DOM).first().get(0);
 			sel.end = $(sel.DOM).last().get(0);
 			return sel;
+		}
+		function generateAttr(label, value, specEncode) {
+			value = String(value).trim();
+			if (!label.match(/^[\w_\-]*$/)) { return null; }
+			return stripQuotes(label.trim(), true) + '="' + (!isNA(specEncode) && specEncode ? value.replace(/"/g, "&aquot;").replace(/\n/g, "<br/>") : stripQuotes(value, true)) + '"';
 		}
 		QTags.addButton( 'ithoughts_tt_gl-tip', 'ITG Tip', function(){
 			i_t_g_e.editorForms.tip(generateSelObject(), QTags.insertContent, true)

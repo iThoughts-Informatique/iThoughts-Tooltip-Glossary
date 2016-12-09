@@ -12,13 +12,13 @@
 
 namespace ithoughts\tooltip_glossary;
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
 
 if(!class_exists(__NAMESPACE__."\\Backbone")){
-    class Backbone extends \ithoughts\v3_0\Backbone{
+    class Backbone extends \ithoughts\v4_0\Backbone{
         private $defaults;
         private $overridesjsdat;
         private $overridesopts;
@@ -44,7 +44,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
                 "cliensideOverride"	=> true,
                 "accepted"		=> array(
                 'full',
-                'excerpt', 
+                'excerpt',
                 'off',
             ),
             ),
@@ -72,11 +72,11 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
                 "serversideOverride"	=> false,
                 "cliensideOverride"	=> true,
                 "accepted"		=> array(
-                'cream', 
-                'dark', 
-                'green', 
-                'light', 
-                'red', 
+                'cream',
+                'dark',
+                'green',
+                'light',
+                'red',
                 'blue',
                 'plain',
                 'bootstrap',
@@ -218,7 +218,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
             add_action( 'init',                  		array(&$this,	'ajaxHooks')							);
             add_action( 'wp_footer',             		array(&$this,	'wp_footer')							);
             add_action( 'wp_print_footer_scripts',		array(&$this,	'afterScripts'), 100000					);
-            add_action( 'admin_print_footer_scripts',	array(&$this,	'afterScripts'), 100000					);	
+            add_action( 'admin_print_footer_scripts',	array(&$this,	'afterScripts'), 100000					);
             add_action( 'wp_enqueue_scripts',    		array(&$this,	'wp_enqueue_styles')					);
             add_action( 'pre_get_posts',         		array(&$this,	'order_core_archive_list')     			);
 
@@ -392,7 +392,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
             }
         }
 
-        /** 
+        /**
 	 * Translation support
 	 */
         public function ithoughts_tt_gl_term_link( $url ){
@@ -567,7 +567,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
             }
 
             // Content
-            // Merge with static shortcode method 
+            // Merge with static shortcode method
             switch( $_POST['content'] ){
                 case 'full':{
                 $content = apply_filters('ithoughts_tt_gl-term-content', $termob);

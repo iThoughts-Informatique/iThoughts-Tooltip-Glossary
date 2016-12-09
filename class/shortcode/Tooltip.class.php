@@ -19,7 +19,7 @@
 
 namespace ithoughts\tooltip_glossary\shortcode;
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
@@ -34,7 +34,7 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 			// Help functions..
 			add_action( 'wp_insert_post_data',  array(&$this, 'parse_pseudo_links_to_shortcode'));
 			add_action( 'edit_post',  array(&$this, 'convert_shortcodes'));
-            
+
             add_filter( 'ithoughts-tt-gl_tooltip', array(&$this, 'generateTooltip'), 1000, 3);
 		}
 
@@ -58,7 +58,7 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 
 			return apply_filters('ithoughts-tt-gl_tooltip', $text, $content, $datas);
 		}
-        
+
         /**
          * Create a tooltip HTML markup with given text content $text, tooltip content $tip & provided options $options
          * @author Gerkin
@@ -81,13 +81,13 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 			if(!(isset($datas["linkAttrs"]["title"]) && $options["linkAttrs"]["title"]))
 				$options["linkAttrs"]["title"] = esc_attr($text);
 
-			$linkArgs = \ithoughts\v1_2\Toolbox::concat_attrs( $options["linkAttrs"] );
+			$linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $options["linkAttrs"] );
 			$link   = '<a '.$linkArgs.'>' . $text . '</a>';
 			// Span that qtip finds
 			$options["attributes"]["class"] = "ithoughts_tooltip_glossary-tooltip".((isset($options["attributes"]["class"]) && $options["attributes"]["class"]) ? " ".$options["attributes"]["class"] : "");
-			$args = \ithoughts\v1_2\Toolbox::concat_attrs( $options["attributes"] );
+			$args = \ithoughts\v4_0\Toolbox::concat_attrs( $options["attributes"] );
 			$span = '<span '.$args.' data-tooltip-content="'.do_shortcode($tip).'">' . $link . '</span>';
-            
+
             return $span;
         }
 	}

@@ -19,7 +19,7 @@
 
 namespace ithoughts\tooltip_glossary\shortcode;
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
@@ -96,7 +96,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
             $href="javascript::void(0)";
             if($datas["options"]["termlinkopt"] != "none"){// If theere need a link
                 if($term["post_name"]){
-                    $href   = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v1_2\Toolbox::get_permalink_light($term, "glossary") );
+                    $href   = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v4_0\Toolbox::get_permalink_light($term, "glossary") );
                 } else {
                     $href   = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term["ID"]) );
                 }
@@ -111,11 +111,11 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
             }
 
 
-            $linkArgs = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["linkAttrs"]);
+            $linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
             $linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
             $datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
-            $args = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["attributes"]);
+            $args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
 
             $backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
             $backbone->add_script('qtip');
@@ -163,7 +163,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
                     return $text;
                 }
             }
-			
+
             if($backbone->get_option("staticterms")){
                 if(!($term instanceof \WP_Post)){
                     // Error
@@ -214,7 +214,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
             if(!isset($datas["linkAttrs"]["href"])){
                 $href="javascript::void(0)";
                 if($datas["options"]["termlinkopt"] != "none")// If theere need a link
-                    $href   = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v1_2\Toolbox::get_permalink_light($term,"glossary") );
+                    $href   = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v4_0\Toolbox::get_permalink_light($term,"glossary") );
                 $datas["linkAttrs"]["href"] = $href;
             }
 
@@ -226,11 +226,11 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
             }
 
 
-            $linkArgs = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["linkAttrs"]);
+            $linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
             $linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
             $datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
-            $args = \ithoughts\v1_2\Toolbox::concat_attrs( $datas["attributes"]);
+            $args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
 
             $backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
             $backbone->add_script('qtip');
@@ -249,7 +249,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
             return $post;
         }
 
-        /** 
+        /**
 	 * If post has glossary shortcode in it when it is saved, mark the post as needing be updated
 	 */
         public function save_post_check_for_glossary_usage( $post_id, $post ){
@@ -273,7 +273,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
             return $post;
         }
 
-        /** 
+        /**
 	 * If current post (or page or whatever) has been marked as needing updating,
 	 *  then delete all the meta entries for this post.
 	 * These are stored on the glossary term meta
@@ -317,7 +317,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
             $id = $atts['glossary-id'];
             return apply_filters("ithoughts_tt_gl_get_glossary_term_element", $id, $text, $atts);
         }
-		
+
 		public function termContent($post){
 			return do_shortcode(apply_filters ("the_content", $post->post_content));
 		}

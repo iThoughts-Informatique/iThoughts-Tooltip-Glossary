@@ -12,7 +12,7 @@
 
 namespace ithoughts\tooltip_glossary\widgets;
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
@@ -23,7 +23,7 @@ if(!class_exists(__NAMESPACE__."\\RandomTerm")){
 			parent::__construct(
 				'ithoughts_tt_gl-random-term',
 				__('Random Term From Glossary', 'ithoughts-tooltip-glossary' ),
-				array( 
+				array(
 					'classname'   => '\\ithoughts\\tooltip_glossary\\widgets\\RandomTerm',
 					'description' => __('Add a random glossary term to your sidebar', 'ithoughts-tooltip-glossary' ),
 				)
@@ -49,11 +49,11 @@ if(!class_exists(__NAMESPACE__."\\RandomTerm")){
 			$groups    = array();
 			foreach( $groupsraw as $group ){
 				if(isset($group->slug) && isset($group->name)){
-					$groups[$group->slug] = $group->name; 
+					$groups[$group->slug] = $group->name;
 				}
 			}
 
-			$groupdd = \ithoughts\v1_2\Toolbox::generate_input_select(
+			$groupdd = \ithoughts\v4_0\Toolbox::generate_input_select(
 				$this->get_field_name('group') . "[]",
 				array(
 					'multiple'	  => true,
@@ -69,16 +69,16 @@ if(!class_exists(__NAMESPACE__."\\RandomTerm")){
 			echo $groupdd . '</p>';
 
 			// Display
-			$displaydd = \ithoughts\v1_2\Toolbox::generate_input_select(
+			$displaydd = \ithoughts\v4_0\Toolbox::generate_input_select(
 				$this->get_field_name('display'),
 				array(
 					'selected'   => isset($instance['display']) ? $instance['display'] : "tooltip",
 					'attributes'	  => array(
 						"id" => $this->get_field_id('display')
 					),
-					'options'    => array( 
-						'title'   =>__('Title Only', 'ithoughts-tooltip-glossary' ), 
-						'excerpt' =>__('Excerpt', 'ithoughts-tooltip-glossary' ), 
+					'options'    => array(
+						'title'   =>__('Title Only', 'ithoughts-tooltip-glossary' ),
+						'excerpt' =>__('Excerpt', 'ithoughts-tooltip-glossary' ),
 						'full'    =>__('Full', 'ithoughts-tooltip-glossary' ),
 						'tooltip' =>_x('Glossary Tooltip', 'Random Widget Tooltip', 'ithoughts-tooltip-glossary' ),
 					),

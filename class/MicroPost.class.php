@@ -12,14 +12,14 @@
 
 namespace ithoughts\tooltip_glossary;
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 if(!class_exists(__NAMESPACE__."\\MicroPost")){
 	$backbone = Backbone::get_instance();
 
 	if($backbone->get_option("staticterms")){ // Depending on the option, the class will have different constraints
-		
+
 		/**
 		 * @description This class is intended to be used exactly the same as WP_Post through the plugin, but stores less data
 		 */
@@ -34,7 +34,6 @@ if(!class_exists(__NAMESPACE__."\\MicroPost")){
 
 			public function __construct(array $data){
 				if(!(isset($data["ID"]) && isset($data["post_title"]) && isset($data["post_name"]) && isset($data["post_content"]) && isset($data["post_excerpt"]))){
-					var_dump($data);
 					throw new \Exception("Missing required property for instanciate MicroPost");
 				}
 
@@ -53,7 +52,7 @@ if(!class_exists(__NAMESPACE__."\\MicroPost")){
 			public static function getFields(){
 				return self::$fields;
 			}
-			
+
 			/**
 			 * Cast to \WP_Post
 			 * @author Gerkin
@@ -61,7 +60,7 @@ if(!class_exists(__NAMESPACE__."\\MicroPost")){
 			 */
 			public function to_WP_Post(){
 				$post = new \WP_Post((object)$this);
-				
+
 				return $post;
 			}
 		}
@@ -75,7 +74,6 @@ if(!class_exists(__NAMESPACE__."\\MicroPost")){
 
 			public function __construct(array $data){
 				if(!(isset($data["ID"]) && isset($data["post_title"]) && isset($data["post_name"]))){
-					var_dump($data);
 					throw new \Exception("Missing required property for instanciate MicroPost");
 				}
 
@@ -87,10 +85,10 @@ if(!class_exists(__NAMESPACE__."\\MicroPost")){
 			public static function getFields(){
 				return self::$fields;
 			}
-			
+
 			public function to_WP_Post(){
 				$post = new \WP_Post((object)$this);
-				
+
 				return $post;
 			}
 		}

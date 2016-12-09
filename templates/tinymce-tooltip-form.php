@@ -94,6 +94,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<li class="<?php echo ("mediatip" === $data['type']) ? "active" : ""; ?>" role="tab" tabindex="-1">
 										<?php _e("Mediatip", 'ithoughts-tooltip-glossary' ); ?>
 									</li>
+									<li class="topLiner"></li>
 								</ul>
 
 
@@ -291,6 +292,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<li role="tab" tabindex="-1">
 											<?php _e("Attributes", 'ithoughts-tooltip-glossary' ); ?>
 										</li>
+										<li class="topLiner"></li>
 									</ul>
 
 									<div class="tab active">

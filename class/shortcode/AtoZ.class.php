@@ -30,23 +30,19 @@ if(!class_exists(__NAMESPACE__."\\AtoZ")){
 		}
 
 		public function glossary_atoz( $atts, $content='' ){
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+
 			$out = $this->init_list_atts($atts);
 			$data = &$out["data"];
 			$linkdata = &$out["linkdata"];
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 
 			// Sanity check the list of letters (if set by user).
-			$alphas = array();
-			if( isset($data["handled"]["alpha"]) && $data["handled"]["alpha"] ) {
-				$alpha_list = str_split($data["handled"]["alpha"]);
-				foreach( $alpha_list as $alpha_item ) {
-					$alphas[] = $this->get_type_char($alpha_item);
-				} //alpha_list
-			}
-			$alphas = array_unique( $alphas );
-			$alphas = count($alphas) > 0 ? $alphas : NULL;
-			$group_slugs = isset($data["handled"]) && isset($data["handled"]["group"]) ? $data["handled"]["group"] : NULL;
-			$termsInfos = $this->get_miscroposts($group_slugs,$alphas);
+			$alphas = $this->filter_alphas_to_array(isset($data["handled"]) && isset($data["handled"]["alpha"]) && $data["handled"]["alpha"] ? $data["handled"]["alpha"] : NULL );
+			// Checks for partial listing options (on first letter, or group)
+			$group_ids = $this->filter_groupIds_to_array(isset($data["handled"]) && isset($data["handled"]["group"]) ? $data["handled"]["group"] : NULL);
+
+			// Fetch
+			$termsInfos = $this->get_microposts($group_ids,$alphas);
 			$terms = &$termsInfos["terms"];
 			$count = $termsInfos["count"];
 
@@ -56,7 +52,7 @@ if(!class_exists(__NAMESPACE__."\\AtoZ")){
 			$atoz = array();
 			foreach( $terms as $post ) {
 				$title = $post->post_title;
-				$alpha = strtoupper( \ithoughts\v1_2\Toolbox::unaccent(mb_substr($title,0,1, "UTF-8")) );
+				$alpha = strtoupper( \ithoughts\v4_0\Toolbox::unaccent(mb_substr($title,0,1, "UTF-8")) );
 				if(!preg_match("/[A-Z]/", $alpha))
 					$alpha = "#";
 				$alpha_attribute = $alpha;
@@ -95,7 +91,7 @@ if(!class_exists(__NAMESPACE__."\\AtoZ")){
 
 			$clear    = '<div style="clear: both;"></div>';
 			$data["attributes"]["class"] = "glossary-atoz-wrapper".((isset($data["attributes"]["class"]) && $data["attributes"]["class"]) ? " ".$data["attributes"]["class"] : "");
-			$args = \ithoughts\v1_2\Toolbox::concat_attrs( $data["attributes"]);
+			$args = \ithoughts\v4_0\Toolbox::concat_attrs( $data["attributes"]);
 			$plsclick = apply_filters( 'ithoughts_tt_gl_please_select', '<div class="ithoughts_tt_gl-please-select"><p>' . __('Please select from the menu above', 'ithoughts-tooltip-glossary' ) . '</p></div>' );
 			// Global variable that tells WP to print related js files.
 			$backbone->add_scripts(array('qtip','atoz'));

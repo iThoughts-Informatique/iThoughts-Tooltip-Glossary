@@ -26,8 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form-v3.js" defer></script>
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-tinymce-forms.js" defer></script>
 		<!--<script>
-			ithoughts_tt_gl_editor.groups = <?php echo json_encode($groups); ?>;
-		</script>-->
+ithoughts_tt_gl_editor.groups = <?php echo json_encode($groups); ?>;
+</script>-->
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-qtip2.js" defer></script>
 	</div>
 	<div aria-label="<?php _e('Insert Glossary Index', 'ithoughts-tooltip-glossary'); ?>" role="dialog" style="border-width: 1px; z-index: 999999;" class="itg-panel itg-floatpanel itg-window itg-in" hidefocus="1" id="ithoughts_tt_gl-list-form">
@@ -70,7 +70,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</label>
 										</td>
 										<td>
+											<?php echo $inputs["groups_text"]; ?>
 											<?php echo $inputs["groups"]; ?>
+											<div id="groupspicker" class="hidden">
+												<div class="group-select" data-groupid="0">
+													<input type="checkbox" <?php echo in_array(0, $data["group"]) ? "checked " : ""; ?> name="group_check" value="0" id="group_check_0">
+													<label for="group_check_0" class="group-label">
+														<span class="group-title"><em><?php _e('No group', 'ithoughts-tooltip-glossary'); ?></em></span>&nbsp;<span class="group-count">(<?php echo $noGroups ?>)</span>
+													</label>
+												</div>
+												<?php
+	foreach($groups as $group){
+												?>
+												<div class="group-select" data-groupid="<?php echo $group->term_id; ?>">
+													<input type="checkbox" <?php echo in_array($group->term_id, $data["group"]) ? "checked " : ""; ?> name="group_check" value="<?php echo $group->term_id; ?>" id="group_check_<?php echo $group->term_id; ?>">
+													<label for="group_check_<?php echo $group->term_id; ?>" class="group-label">
+														<span class="group-title"><?php echo $group->name; ?></span>&nbsp;<span class="group-count">(<?php echo $group->count; ?>)</span>
+													</label>
+												</div>
+												<?php
+	}
+												?>
+											</div>
 										</td>
 									</tr>
 								</table>
@@ -84,10 +105,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<li class="<?php echo ("list" === $data['type']) ? "active" : ""; ?>" role="tab" tabindex="-1">
 											<?php _e("List", 'ithoughts-tooltip-glossary' ); ?>
 										</li>
+										<li class="topLiner"></li>
 									</ul>
 
 
 
+									<div class="tab">
+										<?php _e("No additionnal options", "ithoughts-tooltip-glossary"); ?>
+									</div>
 									<div class="tab">
 										<table>
 											<tr>
@@ -112,9 +137,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 										</table>
 									</div>
-									<div class="tab">
-										<?php _e("No additionnal options", "ithoughts-tooltip-glossary"); ?>
-									</div>
 								</div>
 							</div>
 						</form>
@@ -124,12 +146,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="itg-panel itg-foot" tabindex="-1" role="group">
 				<div class="">
 					<div class="itg-btn itg-primary itg-first itg-btn-has-text" tabindex="-1" role="button">
-						<button role="presentation" type="button" tabindex="-1" style="height: 100%; width: 100%;" id="ithoughts_tt_gl-tinyitg-validate">
+						<button role="presentation" type="button" tabindex="-1" style="height: 100%; width: 100%;" id="ithoughts_tt_gl-tinymce-validate">
 							<?php _e('OK', 'ithoughts-tooltip-glossary'); ?>
 						</button>
 					</div>
 					<div class="itg-btn itg-last itg-btn-has-text" tabindex="-1" role="button">
-						<button role="presenation" type="button" tabindex="-1" style="height: 100%; width: 100%;" class="ithoughts_tt_gl-tinyitg-discard">
+						<button role="presenation" type="button" tabindex="-1" style="height: 100%; width: 100%;" class="ithoughts_tt_gl-tinymce-discard">
 							<?php _e('Cancel', 'ithoughts-tooltip-glossary'); ?>
 						</button>
 					</div>
