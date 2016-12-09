@@ -8,7 +8,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
  * @package ithoughts-tooltip-glossary
  *
- * @version 2.6.4
+ * @version 2.7.0
  */
 
 
@@ -16,14 +16,14 @@
 Plugin Name: iThoughts Tooltip Glossary
 Plugin URI:  http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Description: Create beautiful tooltips for descriptions or glossary terms easily
-Version:     2.6.4
+Version:     2.7.0
 Author:      Gerkin
 License:     GPLv3
 Text Domain: ithoughts-tooltip-glossary
 Domain Path: /lang
 */
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 

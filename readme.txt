@@ -2,8 +2,8 @@
 Contributors: Gerkin
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments, index, dictionnary, ajax, custom post type, post type, documentation, database, help, jquery, quote
 Requires at least: 3.3
-Tested up to: 4.5
-Stable tag: 2.6.4
+Tested up to: 4.7
+Stable tag: 2.7.0
 License: GPLv3
 
 Create beautiful tooltips for descriptions or glossary terms easily
@@ -71,8 +71,16 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Changelog ==
 
+= 2.7.0 =
+* NEW Support of QuickTags to use plugin shortcodes even in text mode (see [ist4000 request feature](https://wordpress.org/support/topic/buttons-in-the-text-mode/))
+* UPD List form now more flexible
+* UPD Lists queries more performant
+* FIX Form styles improved
+* FIX Advanced Tooltip attributes now functionnal
+* FIX Lists not doing group/alpha filters well in every situations
+
 = 2.6.4 =
-* FIX obsolete variable in A-to-Z js script (see [support forum](https://wordpress.org/support/topic/glossary_atoz-not-working?replies=2))
+* FIX Obsolete variable in A-to-Z js script (see [support forum](https://wordpress.org/support/topic/glossary_atoz-not-working?replies=2))
 
 = 2.6.3 =
 * FIX Moved JS TinyMCE form data object.
@@ -278,6 +286,8 @@ some useless files
 
 == Upgrade Notice ==
 
+= 2.7.0 =
+Overall improvements and add support of QuickTags for text mode (see [ist4000 request feature](https://wordpress.org/support/topic/buttons-in-the-text-mode/))
 = 2.6.4 =
 Minor fixes
 
