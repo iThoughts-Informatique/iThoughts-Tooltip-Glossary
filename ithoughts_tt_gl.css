@@ -149,44 +149,44 @@
   border: 1px solid grey;
   background: #ffffff;
 }
-#ithoughts_tooltip_glossary-tipsContainer {
+#i_t_g-tipsContainer {
   position: absolute;
   z-index: 9999999;
   width: 100%;
 }
-span.ithoughts_tooltip_glossary-glossary > a,
-span.ithoughts_tooltip_glossary-tooltip > a,
-span.ithoughts_tooltip_glossary-mediatip > a,
-span.ithoughts_tooltip_glossary-glossary > a:hover,
-span.ithoughts_tooltip_glossary-tooltip > a:hover,
-span.ithoughts_tooltip_glossary-mediatip > a:hover,
-span.ithoughts_tooltip_glossary-glossary > a:visited,
-span.ithoughts_tooltip_glossary-tooltip > a:visited,
-span.ithoughts_tooltip_glossary-mediatip > a:visited,
-span.ithoughts_tooltip_glossary-glossary > a:active,
-span.ithoughts_tooltip_glossary-tooltip > a:active,
-span.ithoughts_tooltip_glossary-mediatip > a:active {
+span.i_t_g-glossary > a,
+span.i_t_g-tooltip > a,
+span.i_t_g-mediatip > a,
+span.i_t_g-glossary > a:hover,
+span.i_t_g-tooltip > a:hover,
+span.i_t_g-mediatip > a:hover,
+span.i_t_g-glossary > a:visited,
+span.i_t_g-tooltip > a:visited,
+span.i_t_g-mediatip > a:visited,
+span.i_t_g-glossary > a:active,
+span.i_t_g-tooltip > a:active,
+span.i_t_g-mediatip > a:active {
   text-decoration: overline underline;
   box-shadow: none;
 }
 /****************************************************
 Specific styles for tip
 ****************************************************/
-.ithoughts_tooltip_glossary-mediatip {
+.i_t_g-mediatip {
   max-width: 350px;
 }
-.ithoughts_tooltip_glossary-mediatip .qtip-content {
+.i_t_g-mediatip .qtip-content {
   padding: 0px;
 }
-.ithoughts_tooltip_glossary-mediatip .qtip-content p,
-.ithoughts_tooltip_glossary-mediatip .qtip-content *:last-child {
+.i_t_g-mediatip .qtip-content p,
+.i_t_g-mediatip .qtip-content *:last-child {
   margin-bottom: 0;
 }
-.ithoughts_tooltip_glossary-mediatip .qtip-content img {
+.i_t_g-mediatip .qtip-content img {
   max-height: 75vh!important;
   vertical-align: middle;
 }
-.ithoughts_tooltip_glossary-mediatip .ithoughts_tooltip_glossary_pin_container {
+.i_t_g-mediatip .itg_pin_container {
   border: 1px solid;
   display: inline-block;
   height: 2em;
@@ -195,7 +195,7 @@ Specific styles for tip
   border-radius: 0.5em;
   float: right;
 }
-.ithoughts_tooltip_glossary-mediatip .ithoughts_tooltip_glossary_pin_container .ithoughts_tooltip_glossary_pin {
+.i_t_g-mediatip .itg_pin_container .itg_pin {
   display: block;
   cursor: pointer;
   margin: 0.25em;
@@ -203,7 +203,7 @@ Specific styles for tip
   fill: currentColor;
   transition: all 0.25s ease 0s;
 }
-.ithoughts_tooltip_glossary-mediatip .ithoughts_tooltip_glossary_pin_container.pined .ithoughts_tooltip_glossary_pin {
+.i_t_g-mediatip .itg_pin_container.pined .itg_pin {
   transform: rotate(-45deg);
   transition: 0.25s all;
 }

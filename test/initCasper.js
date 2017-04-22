@@ -13,4 +13,6 @@ var casper = require('casper').create({
     }
 });
 
+casper.config = require("./config.json");
+
 module.exports = casper;

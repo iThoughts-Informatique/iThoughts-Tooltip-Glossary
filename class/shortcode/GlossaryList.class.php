@@ -327,11 +327,11 @@ ORDER BY
 		}
 
 		/**
-	 * @description Extracts the index symbol corresponding to the given string at given index. Concretely, it will return the unaccented letter uppercase or # symbol.
-	 * @param string	$string	The string to analyze
-	 * @param integer	$index	The index in the string to check
-	 * @return string	The extracted char
-	 */
+		 * @description Extracts the index symbol corresponding to the given string at given index. Concretely, it will return the unaccented letter uppercase or # symbol.
+		 * @param string	$string	The string to analyze
+		 * @param integer	$index	The index in the string to check
+		 * @return string	The extracted char
+		 */
 		final protected function get_type_char($string, $index = NULL){
 			if($index == NULL)
 				$index = 0;

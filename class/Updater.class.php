@@ -214,14 +214,14 @@ if(!class_exists(__NAMESPACE__."\\Updater")){
 
 
 						// Replace old mediatips
-						if(preg_match_all('/\[ithoughts_tooltip_glossary-mediatip(.*?)(?:(?:(?:link="([^"]*)")|(?:image="([^"]*)")|(?:imageid="([^"]*)"))\s*)+(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-mediatip\]/', $postUpdateArray ['post_content'], $matches)){
+						if(preg_match_all('/\[itg-mediatip(.*?)(?:(?:(?:link="([^"]*)")|(?:image="([^"]*)")|(?:imageid="([^"]*)"))\s*)+(.*?)\](.*?)\[\/itg-mediatip\]/', $postUpdateArray ['post_content'], $matches)){
 							foreach($matches[0] as $index => $matched){
 								$arr = array(
 									"url"	=>	$matches[3][$index],
 									"id"	=>	$matches[4][$index],
 									"link"	=>	$matches[2][$index],
 								);
-								$newstr = '[ithoughts_tooltip_glossary-mediatip mediatip-type="localimage"'.$matches[1][$index].'mediatip-content="'.ithoughts_tt_gl_stipQuotes(json_encode($arr)).'" '.$matches[5][$index].']'.$matches[6][$index].'[/ithoughts_tooltip_glossary-mediatip]';
+								$newstr = '[itg-mediatip mediatip-type="localimage"'.$matches[1][$index].'mediatip-content="'.ithoughts_tt_gl_stipQuotes(json_encode($arr)).'" '.$matches[5][$index].']'.$matches[6][$index].'[/itg-mediatip]';
 								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
 							}
 						}
@@ -241,23 +241,23 @@ if(!class_exists(__NAMESPACE__."\\Updater")){
 								$id = "";
 								if($post_array)
 									$id = $post_array->ID;
-								$newstr = '[ithoughts_tooltip_glossary-glossary glossary-id="'.$id.'"'.$matches[1][$index].$matches[4][$index].']'.$matches[5][$index].'[/ithoughts_tooltip_glossary-glossary]';
+								$newstr = '[itg-glossary glossary-id="'.$id.'"'.$matches[1][$index].$matches[4][$index].']'.$matches[5][$index].'[/itg-glossary]';
 								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
 							}
 						}
 
 						// Replace old glossary shortcode with wrong attribue name
-						if(preg_match_all('/\[ithoughts_tooltip_glossary-glossary(?!.*glossary-id)(.*?)id="(.*?)"(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-glossary\]/', $postUpdateArray ['post_content'], $matches)){
+						if(preg_match_all('/\[itg-glossary(?!.*glossary-id)(.*?)id="(.*?)"(.*?)\](.*?)\[\/itg-glossary\]/', $postUpdateArray ['post_content'], $matches)){
 							foreach($matches[0] as $index => $matched){
-								$newstr = '[ithoughts_tooltip_glossary-glossary glossary-id="'.$matches[2][$index].'"'.$matches[1][$index].$matches[3][$index].']'.$matches[4][$index].'[/ithoughts_tooltip_glossary-glossary]';
+								$newstr = '[itg-glossary glossary-id="'.$matches[2][$index].'"'.$matches[1][$index].$matches[3][$index].']'.$matches[4][$index].'[/itg-glossary]';
 								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
 							}
 						}
 
 						// Replace old tooptip shortcode with wrong attribue name
-						if(preg_match_all('/\[ithoughts_tooltip_glossary-tooltip(?!.*tooltip-content)(.*?)content="(.*?)"(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-tooltip\]/', $postUpdateArray ['post_content'], $matches)){
+						if(preg_match_all('/\[itg-tooltip(?!.*tooltip-content)(.*?)content="(.*?)"(.*?)\](.*?)\[\/itg-tooltip\]/', $postUpdateArray ['post_content'], $matches)){
 							foreach($matches[0] as $index => $matched){
-								$newstr = '[ithoughts_tooltip_glossary-tooltip tooltip-content="'.$matches[2][$index].'"'.$matches[1][$index].$matches[3][$index].']'.$matches[4][$index].'[/ithoughts_tooltip_glossary-tooltip]';
+								$newstr = '[itg-tooltip tooltip-content="'.$matches[2][$index].'"'.$matches[1][$index].$matches[3][$index].']'.$matches[4][$index].'[/itg-tooltip]';
 								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
 							}
 						}
@@ -340,7 +340,7 @@ if(!class_exists(__NAMESPACE__."\\Updater")){
 								"type" => "info",
 								"text" => "Updating post <b>{$post->ID}</b> of type <b>{$post->post_type}</b> and status <b>{$post->post_status}</b> with post_content <em>".htmlentities(preg_replace('/(\n+\s*)+/', '', $post->post_content))."</em>..."
 							);
-							if(preg_match_all("/\[ithoughts_tooltip_glossary-glossary(.*?)(?:slug=\"([^\"]+?)\")(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-glossary\]/", $postUpdateArray ['post_content'], $matches)){
+							if(preg_match_all("/\[itg-glossary(.*?)(?:slug=\"([^\"]+?)\")(.*?)\](.*?)\[\/itg-glossary\]/", $postUpdateArray ['post_content'], $matches)){
 								foreach($matches[0] as $index => $matched){
 									$args = array(
 										'posts_per_page'   => 1,
@@ -359,7 +359,7 @@ if(!class_exists(__NAMESPACE__."\\Updater")){
 											"type" => "info",
 											"text" => "For post <b>{$post->ID}</b>, matched string '<em>{$matched}</em>'. Slug of term is <b>{$matches[2][$index]}</b>, which is term id <b>$glossaryIndex</b>"
 										);
-										$newstr = '[ithoughts_tooltip_glossary-glossary'.$matches[1][$index].$matches[3][$index].' glossary-id="'.$glossaryIndex.'"]'.$matches[4][$index].'[/ithoughts_tooltip_glossary-glossary]';
+										$newstr = '[itg-glossary'.$matches[1][$index].$matches[3][$index].' glossary-id="'.$glossaryIndex.'"]'.$matches[4][$index].'[/itg-glossary]';
 									} else {
 										$verbose[] = array(
 											"type" => "warn",

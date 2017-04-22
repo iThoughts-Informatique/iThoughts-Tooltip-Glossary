@@ -158,7 +158,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				'verbosity'     => $backbone->get_option("verbosity"),
 			) );
 
-			wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	$backbone->get_base_url() . '/css/ithoughts_tt_gl-tinymce-forms'.$backbone->get_minify().'.css', null, "2.7.0");
+			wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	$backbone->get_base_url() . '/css/ithoughts_tt_gl-tinymce-forms.min.css', null, "2.7.0");
 			wp_register_style( 'ithoughts_tooltip_glossary-admin',			$backbone->get_base_url() . '/css/ithoughts_tt_gl-admin'.$backbone->get_minify().'.css', null, "2.7.0" );
 		}
 

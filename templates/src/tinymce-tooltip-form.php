@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div id="ithoughts_tt_gl-tooltip-form-container">
 	<!--<pre style="display:none;"><?php var_dump($data); ?></pre>-->
 	<div id="pseudohead">
-		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo Backbone::get_instance()->get_base_url(); ?>/css/ithoughts_tt_gl-tinymce-forms.css" type="text/css" media="all">
+		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo Backbone::get_instance()->get_base_url(); ?>/css/ithoughts_tt_gl-tinymce-forms.min.css" type="text/css" media="all">
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form-v3.js" defer></script>
 		<script>
 			ithoughts_tt_gl_editor.terms = <?php echo json_encode($terms); ?>;

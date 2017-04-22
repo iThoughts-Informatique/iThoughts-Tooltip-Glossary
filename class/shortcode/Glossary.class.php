@@ -28,7 +28,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
     class Glossary extends \ithoughts\v1_0\Singleton{
         public function __construct() {
             // Shortcode
-            add_shortcode( "ithoughts_tooltip_glossary-glossary", array(&$this, "glossary_shortcode") );
+            add_shortcode( "itg-glossary", array(&$this, "glossary_shortcode") );
             add_shortcode( "glossary", array(&$this, "glossary_shortcode") );
 
             // Help functions..
@@ -114,7 +114,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
             $linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
             $linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-            $datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
+            $datas["attributes"]["class"] = "itg-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
             $args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
 
             $backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
@@ -229,7 +229,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
             $linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["linkAttrs"]);
             $linkElement   = '<a '.$linkArgs.'>' . $text . '</a>';
 
-            $datas["attributes"]["class"] = "ithoughts_tooltip_glossary-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
+            $datas["attributes"]["class"] = "itg-glossary".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
             $args = \ithoughts\v4_0\Toolbox::concat_attrs( $datas["attributes"]);
 
             $backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
@@ -239,13 +239,13 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
         }
 
         public function parse_pseudo_links_to_shortcode( $data ){
-            $data['post_content'] = preg_replace('/<a\s+?data-ithoughts_tt_gl-glossary-slug=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[ithoughts_tooltip_glossary-glossary slug="$1"]$2[/ithoughts_tooltip_glossary-glossary]', $data['post_content']);
+            $data['post_content'] = preg_replace('/<a\s+?data-ithoughts_tt_gl-glossary-slug=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[itg-glossary slug="$1"]$2[/itg-glossary]', $data['post_content']);
             return $data;
         }
 
         public function convert_shortcodes($post_id){
             $post = get_post($post_id);
-            $post->post_content = preg_replace('/\[ithoughts_tooltip_glossary-glossary(.*?)(?: slug="(.+?)")(.*?)\](.+?)\[\/ithoughts_tooltip_glossary-glossary\]/', '<a data-ithoughts_tt_gl-glossary-slug="$2" $1 $3>$4</a>', $post->post_content);
+            $post->post_content = preg_replace('/\[itg-glossary(.*?)(?: slug="(.+?)")(.*?)\](.+?)\[\/itg-glossary\]/', '<a data-ithoughts_tt_gl-glossary-slug="$2" $1 $3>$4</a>', $post->post_content);
             return $post;
         }
 
@@ -260,7 +260,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
                 return $post_id;
 
             if( !wp_is_post_revision($post_id)  ){
-                if( strpos($post->post_content,'[ithoughts_tooltip_glossary-glossary ') !== false || strpos($post->post_content,'[ithoughts_tooltip_glossary-glossary]') !== false ){
+                if( strpos($post->post_content,'[itg-glossary ') !== false || strpos($post->post_content,'[itg-glossary]') !== false ){
                     update_post_meta( $post_id, 'ithoughts_tt_gl_update_term_usage', current_time('mysql') );
                 } else {
                     if(get_post_meta( $post_id, 'ithoughts_tt_gl_has_terms', $single=true) ){

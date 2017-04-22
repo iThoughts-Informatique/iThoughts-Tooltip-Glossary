@@ -20,17 +20,18 @@
 
 		var preventHashChange = false;
 		// Handle clicking
-		$('.atoz-clickable').click(function(){
+		$('.itg-atoz-clickable').click(function(){
+			// Keep track of the scroll
 			lastPos = $w.scrollTop();
-			$('.atoz-clickable').removeClass('atozmenu-on').addClass('atozmenu-off');
-			$(this).removeClass('atozmenu-off').addClass('atozmenu-on');
+			$(this).removeClass('itg-atoz-menu-off').addClass('itg-atoz-menu-on');
+			$('.itg-atoz-clickable').removeClass('itg-atoz-menu-on').addClass('itg-atoz-menu-off');
 			var alpha = $(this).data('alpha');
 			preventHashChange = true;
 			location.hash = alpha;
 
 			var $parent = $(this).parent().parent();
-			$parent.find('.glossary-atoz').removeClass('atozitems-on').addClass('atozitems-off');
-			$parent.find('.glossary-atoz-' + alpha).removeClass('atozitems-off').addClass('atozitems-on');
+			$parent.find('.glossary-atoz').removeClass('itg-atoz-items-on').addClass('itg-atoz-items-off');
+			$parent.find('.glossary-atoz-' + alpha).removeClass('itg-atoz-items-off').addClass('itg-atoz-items-on');
 			$parent.find('.ithoughts_tt_gl-please-select').hide();
 		});
 
@@ -42,7 +43,7 @@
 				var alpha = location.hash.replace('#','');
 				$w.scrollTop(lastPos);
 				location.hash = alpha;
-				$('.atoz-clickable').filter(function(i){return $(this).data('alpha') == alpha;}).click();
+				$('.itg-atoz-clickable').filter(function(i){return $(this).data('alpha') == alpha;}).click();
 				$('.ithoughts_tt_gl-please-select').hide();
 			}
 		});
@@ -50,50 +51,19 @@
 		// Page load hash management:
 		//  - Look for first available if none specified
 		//  - Trigger click if exists
-		var myLocation = document.location.toString();
-		var myAlpha    = '';
+		var myLocation = document.location.toString(),
+			myAlpha    = '';
 		if( myLocation.match('#') )
 			myAlpha = myLocation.split('#')[1];
 		if( ! myAlpha.length ){
-			//myAlpha = $('.atoz-clickable:eq(0)').data('alpha');
-			$('.atoz-clickable').removeClass('atozmenu-on').addClass('atozmenu-off');
-			$('.glossary-atoz').removeClass('atozitems-on').addClass('atozitems-off');
+			//myAlpha = $('.itg-atoz-clickable:eq(0)').data('alpha');
+			$('.glossary-atoz').removeClass('itg-atoz-items-on').addClass('itg-atoz-items-off');
+			$('.itg-atoz-clickable').removeClass('itg-atoz-menu-on').addClass('itg-atoz-menu-off');
 			$('.ithoughts_tt_gl-please-select').show();
 		}
 		if( myAlpha.length ){
 			$('.ithoughts_tt_gl-please-select').hide();
-			$('.atoz-clickable').filter(function(i){return $(this).data('alpha') == myAlpha;}).click();
+			$('.itg-atoz-clickable').filter(function(i){return $(this).data('alpha') == myAlpha;}).click();
 		}
-
-
-		var glossaryIndexes = $("#glossary-index");
-		// Tile-based glossary
-		for(var i = 0,j = glossaryIndexes.length;i<j;i++){
-			var glossaryIndex = $(glossaryIndexes[i]);
-			var bodydiv = glossaryIndex.find("#glossary-container");
-			switch(glossaryIndex.data("type")){
-				case "tile":{
-					var headTiles = glossaryIndex.find("header p[data-empty=\"false\"]");
-					headTiles.click(function(e){
-						glossaryIndex.find('article[data-active="true"]').attr("data-active", false);
-						var newDisplayed = glossaryIndex.find('article[data-chartype="' + $(e.target).data("chartype") + '"]');
-						newDisplayed.attr("data-active", "true");
-						bodydiv.animate({
-							height: newDisplayed.outerHeight(true)
-						},{
-							duration: 500,
-							queue: false,
-							step:function(){
-								bodydiv.css("overflow","visible");
-							},
-							complete: function() {
-								bodydiv.css("overflow","visible");
-							}
-						});
-					});
-				} break;
-			}
-		}
-
 	});
 })(Ithoughts.v4);

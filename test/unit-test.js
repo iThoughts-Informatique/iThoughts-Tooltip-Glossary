@@ -4,7 +4,7 @@ const assert = require('assert'),
 function slimerScript(scriptPath){
 	return function(done) {
 		this.timeout(100000);
-		return exec(`casperjs --engine=slimerjs unit-tests/${scriptPath}`, function(end, stdout, stderr){
+		return exec(`casperjs --engine=slimerjs unit-test/${scriptPath}`, function(end, stdout, stderr){
 			if (end == null || end.code == 0)
 				return done(null);
 			return done(new Error(stderr || "An error occured"));
@@ -14,7 +14,7 @@ function slimerScript(scriptPath){
 
 describe('Admin', function() {
 	describe('#setStatus', function() {
-		it('should set the plugin as active', slimerScript("admin/setStatus/01-switch.js"));
+		it.skip('should set the plugin as active', slimerScript("admin/setStatus/01-switch.js"));
 	});
 	describe('#options', function(){
 		describe('#persistance', function(){

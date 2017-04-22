@@ -28,7 +28,7 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 	class Tooltip extends \ithoughts\v1_0\Singleton{
 		public function __construct() {
 			// Shortcode
-			add_shortcode( "ithoughts_tooltip_glossary-tooltip", array(&$this, "tooltip_shortcode") );
+			add_shortcode( "itg-tooltip", array(&$this, "tooltip_shortcode") );
 			add_shortcode( "tooltip", array(&$this, "tooltip_shortcode") );
 
 			// Help functions..
@@ -39,13 +39,13 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 		}
 
 		public function parse_pseudo_links_to_shortcode( $data ){
-			$data['post_content'] = preg_replace('/<a\s+?data-tooltip-content=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[ithoughts_tooltip_glossary-tooltip content="$1"]$2[/ithoughts_tooltip_glossary-tooltip]', $data['post_content']);
+			$data['post_content'] = preg_replace('/<a\s+?data-tooltip-content=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[itg-tooltip content="$1"]$2[/itg-tooltip]', $data['post_content']);
 			return $data;
 		}
 
 		public function convert_shortcodes($post_id){
 			$post = get_post($post_id);
-			$post->post_content = preg_replace('/\[ithoughts_tooltip_glossary-tooltip(.*?)(?: content="(.+?)")(.*?)\](.+?)\[\/ithoughts_tooltip_glossary-tooltip\]/', '<a data-tooltip-content="$2" $1 $3>$4</a>', $post->post_content);
+			$post->post_content = preg_replace('/\[itg-tooltip(.*?)(?: content="(.+?)")(.*?)\](.+?)\[\/itg-tooltip\]/', '<a data-tooltip-content="$2" $1 $3>$4</a>', $post->post_content);
 			return $post;
 		}
 
@@ -84,7 +84,7 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 			$linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $options["linkAttrs"] );
 			$link   = '<a '.$linkArgs.'>' . $text . '</a>';
 			// Span that qtip finds
-			$options["attributes"]["class"] = "ithoughts_tooltip_glossary-tooltip".((isset($options["attributes"]["class"]) && $options["attributes"]["class"]) ? " ".$options["attributes"]["class"] : "");
+			$options["attributes"]["class"] = "itg-tooltip".((isset($options["attributes"]["class"]) && $options["attributes"]["class"]) ? " ".$options["attributes"]["class"] : "");
 			$args = \ithoughts\v4_0\Toolbox::concat_attrs( $options["attributes"] );
 			$span = '<span '.$args.' data-tooltip-content="'.do_shortcode($tip).'">' . $link . '</span>';
 

@@ -183,7 +183,7 @@ if(!class_exists(__NAMESPACE__."\\RandomTerm")){
 							}
 
 							$link   = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '" target="_blank" title="' . esc_attr(get_the_title($term->ID)) . '">' . get_the_title($term->ID) . '</a>';
-							$content = '<span class="ithoughts_tooltip_glossary-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';
+							$content = '<span class="itg-glossary" '.implode(' ',$jsdata).'>' . $link . '</span>';
 
 
 							//$content = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink($term->ID) ) . '">' . get_the_title($term->ID) . '</a>';

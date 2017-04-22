@@ -28,7 +28,7 @@
 			stripQuotes		= i_t_g.stripQuotes,
 			prefix1	= 'ithoughts_tt_gl',
 			prefix3			= "ithoughts-tooltip-glossary",
-			prefix4			= "ithoughts_tooltip_glossary",
+			prefix4			= "itg",
 			tipsTypes		= ["ithoughts-tooltip-glossary-term", "ithoughts-tooltip-glossary-tooltip", "ithoughts-tooltip-glossary-mediatip"],
 			htmlAttrs		= ["href"],
 			isNA			= ithoughts.isNA;
@@ -60,7 +60,7 @@
 		}
 		i_t_g_e.replaceShortcodesEl = [
 			function (content) { // For [glossary]
-				return content.replace(/\[(?:ithoughts_tooltip_glossary-)?(glossary|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/(?:ithoughts_tooltip_glossary-)?(glossary|tooltip|mediatip)\]/g, function (all, balise, inner, text) {
+				return content.replace(/\[(?:itg-)?(glossary|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/(?:itg-)?(glossary|tooltip|mediatip)\]/g, function (all, balise, inner, text) {
 					var attrs	= {},
 						regex	= /([\w\d\-]+?)="(.+?)"/g,
 						matched	= null,

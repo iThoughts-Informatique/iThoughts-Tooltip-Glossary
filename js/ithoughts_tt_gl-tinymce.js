@@ -41,7 +41,7 @@
 
 	tinymce.PluginManager.add(prefix2, function registerTinyMCEPlugin(editor, url) {
 		//CSS
-		editor.contentCSS.push(url + '/../css/' + prefix1 + '-admin.css?v=2.1.7');
+		editor.contentCSS.push(url + '/../css/' + prefix1 + '-admin.min.css?v=2.7.0');
 /*
 
 		function getLang(str) {

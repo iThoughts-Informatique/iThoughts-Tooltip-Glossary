@@ -28,7 +28,7 @@ if(!class_exists(__NAMESPACE__."\\Mediatip")){
 	class Mediatip extends \ithoughts\v1_0\Singleton{
 		public function __construct() {
 			// Shortcode
-			add_shortcode( "ithoughts_tooltip_glossary-mediatip", array(&$this, "mediatip_shortcode") );
+			add_shortcode( "itg-mediatip", array(&$this, "mediatip_shortcode") );
 			add_shortcode( "mediatip", array(&$this, "mediatip_shortcode") );
 
 			// Help functions..
@@ -37,13 +37,13 @@ if(!class_exists(__NAMESPACE__."\\Mediatip")){
 		}
 
 		public function parse_pseudo_links_to_shortcode( $data ){
-			$data['post_content'] = preg_replace('/<a(?=[^>]*data-type="ithoughts-tooltip-glossary-mediatip")(.*?)(?:(?:(?:data-type="([^"]*)")|(?:data-link="([^"]*)")|(?:data-image="([^"]*)")|(?:data-imageid="([^"]*)"))\s*)+(.*?)>(.*?)<\/a>/', '  [ithoughts_tooltip_glossary-mediatip link="$3" image="$4" imageid="$5" $1 $6]$7[/ithoughts_tooltip_glossary-mediatip]', $data['post_content']);
+			$data['post_content'] = preg_replace('/<a(?=[^>]*data-type="ithoughts-tooltip-glossary-mediatip")(.*?)(?:(?:(?:data-type="([^"]*)")|(?:data-link="([^"]*)")|(?:data-image="([^"]*)")|(?:data-imageid="([^"]*)"))\s*)+(.*?)>(.*?)<\/a>/', '  [itg-mediatip link="$3" image="$4" imageid="$5" $1 $6]$7[/itg-mediatip]', $data['post_content']);
 			return $data;
 		}
 
 		public function convert_shortcodes($post_id){
 			$post = get_post($post_id);
-			$post->post_content = preg_replace('/\[ithoughts_tooltip_glossary-mediatip(.*?)(?:(?:(?:link="([^"]*)")|(?:image="([^"]*)")|(?:imageid="([^"]*)"))\s*)+(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-mediatip\]/', '<a data-type="ithoughts-tooltip-glossary-mediatip" data-link="$2" data-image="$3" data-imageid="$4" $1 $5]$6</a>', $post->post_content);
+			$post->post_content = preg_replace('/\[itg-mediatip(.*?)(?:(?:(?:link="([^"]*)")|(?:image="([^"]*)")|(?:imageid="([^"]*)"))\s*)+(.*?)\](.*?)\[\/itg-mediatip\]/', '<a data-type="ithoughts-tooltip-glossary-mediatip" data-link="$2" data-image="$3" data-imageid="$4" $1 $5]$6</a>', $post->post_content);
 			return $post;
 		}
 
@@ -62,7 +62,7 @@ if(!class_exists(__NAMESPACE__."\\Mediatip")){
 				$backbone->add_script('qtip');
 			}
 
-			$datas["attributes"]["class"] = "ithoughts_tooltip_glossary-mediatip".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
+			$datas["attributes"]["class"] = "itg-mediatip".((isset($datas["attributes"]["class"]) && $datas["attributes"]["class"]) ? " ".$datas["attributes"]["class"] : "");
 			$datas["linkAttrs"]["title"] = esc_attr($text);
 
 			switch($mediatipType){

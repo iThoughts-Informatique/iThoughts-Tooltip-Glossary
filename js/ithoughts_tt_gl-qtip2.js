@@ -22,7 +22,12 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 		isNA = ithoughts.isNA,
 		redimWait,
 		extend = $.extend,
-		prefix1 = "ithoughts_tooltip_glossary";
+		prefix1 = "itg",
+		types = [
+			'glossary',
+			'tooltip',
+			'mediatip'
+		];
 
 	ithoughts.initLoggers(i_t_g, "iThoughts Tooltip Glossary", i_t_g.verbosity);
 
@@ -52,7 +57,7 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 	i_t_g.doInitTooltips = function doInitTooltips(){
 		//Create container
 		if(isNA(tooltipsContainer) && (tooltipsContainer = $('#'+prefix1+'-tipsContainer')).length == 0){
-			tooltipsContainer = $($.parseHTML('<div id="'+prefix1+'-tipsContainer"></div>'));
+			tooltipsContainer = $($.parseHTML('<div id="'+prefix1+'-tipsContainer" class="'+prefix1+'-tipsContainer"></div>'));
 			$(document.body).append(tooltipsContainer);
 		}
 		var evts = {
@@ -62,7 +67,12 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 		if(ithoughts.isIos)
 			$("body").css({cursor: "pointer"});
 
-		$('span[class^='+prefix1+'-]').each(function doInitTooltip(){
+		var $tooltipSpans = $(types.map(function(v){
+			return 'span.' + prefix1 + '-' + v
+		}).join(','));
+		i_t_g.log("Having following elements to init tooltpis on: ", $tooltipSpans);
+		$tooltipSpans.each(function doInitTooltip(){
+			// ## Init tooltip
 			var $tooltipSpan = $(this),
 				/* Use provided data or use the default settings */
 				qtipstyle	= ($tooltipSpan.data('qtipstyle'))   || i_t_g.qtipstyle,
@@ -126,24 +136,33 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 				tooltipTypeSpecific,
 				tooltipOverrides = {};
 			if($tooltipSpan.hasClass(prefix1+'-glossary')){
+				// ### Glossary tips
 				i_t_g.info("Do init a GLOSSARYTIP");
 				if($tooltipSpan.data("termid") && termcontent != "off"){
+					// Define the `ajaxPostData` that will be used bellow to send the request to the API
 					var ajaxPostData = {
 						action: 'ithoughts_tt_gl_get_term_details',
 						content: termcontent,
 						termid: $tooltipSpan.data()["termid"]
 					};
+					// If WPML is installed, the tooltip editor allow the user to check the *disable auto translation* option, and this option should be used when querying the API
 					if($tooltipSpan.data("disable_auto_translation") == "true")
 						ajaxPostData["disable_auto_translation"] = true;
+					// #### Load via Ajax
 					tooltipTypeSpecific = {
 						content: {
+							// Before doing API call, define the content with `Please wait` texts
+							title: { text: i_t_g.lang.qtip.pleasewait_ajaxload.title },
 							text: i_t_g.lang.qtip.pleasewait_ajaxload.content,
 							ajax: {
-								url     : i_t_g.admin_ajax,
+								// Use the [admin_ajax](http://www.google.com) endpoint provided by wordpress
+								url     : i_t_g.admin_ajax, 
 								type    : 'POST',
+								// `ajaxPostData` was defined [above](#)
 								data    : ajaxPostData,
 								dataType: 'json',
 								loading : false,
+								// Display the received content on success, or `Error`
 								success : function(resp, status){
 									if( resp.success ) {
 										this.set( 'content.title', resp.data.title );
@@ -153,13 +172,14 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 									}
 								}
 							},
-							title: { text: i_t_g.lang.qtip.pleasewait_ajaxload.title }
 						},
+						// Apply the style settings
 						style: {
 							classes: tipClass + prefix1+'-glossary'
 						}
 					};
 				} else if ($tooltipSpan.data("term-content") && $tooltipSpan.data("term-title")){
+					// #### Static term
 					tooltipTypeSpecific = {
 						content: {
 							title: {text: $tooltipSpan.data("term-title")},
@@ -171,6 +191,7 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 					};
 				}
 			} else if($tooltipSpan.hasClass(prefix1+'-tooltip')){
+				// ### Tooltip
 				i_t_g.info("Do init a TOOLTIP");
 				tooltipTypeSpecific = {
 					style: {
@@ -182,6 +203,7 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 					}
 				};
 			} else if($tooltipSpan.hasClass(prefix1+'-mediatip')){
+				// ### Mediatip
 				i_t_g.info("Do init a MEDIATIP");
 				tooltipTypeSpecific = {
 					style: {
@@ -206,6 +228,7 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 					}
 				};
 				if($tooltipSpan.data("mediatip-image")){
+					// #### Image
 					var attrs = {
 						src: $tooltipSpan.data("mediatip-image"),
 						alt: $tooltipSpan.text()
@@ -240,6 +263,7 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 								api.enable();
 						})
 					});
+					// #### Iframe / HTML
 					extend(true, tooltipTypeSpecific, {
 						content: {
 							text: redimedInfos["text"],
@@ -256,6 +280,7 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 			} else
 				return;
 
+			// ## Override defaults
 			if($tooltipSpan.data("tooltip-autoshow") == "true"){
 				extend(true, tooltipOverrides, {show: {ready: true}});
 			}
@@ -274,10 +299,7 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 			if($tooltipSpan.data("tooltip-prerender") == true){
 				extend(true, tooltipOverrides, {prerender: true});
 			}
-
-			/***************************************************************************************************\
-			|************************************** GLOBAL OPTIONS *********************************************|
-			\***************************************************************************************************/
+			// ## Global option
 			tooltipComon = {
 				prerender: false,
 				suppress: false,

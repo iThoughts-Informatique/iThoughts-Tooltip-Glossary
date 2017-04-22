@@ -73,17 +73,17 @@ if(!class_exists(__NAMESPACE__."\\AtoZ")){
 				$count = count( $atoz[$alpha] );
 				$alpha_attribute = $alpha;
 				$alpha_attribute = $alpha_attribute == "#" ? "other" : $alpha_attribute ;
-				$menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha_attribute . ' atoz-clickable atozmenu-off" title="" alt="' . esc_attr__('Terms','ithoughts-tooltip-glossary') . ': ' . $count . '"  data-alpha="' . $alpha_attribute . '">';
+				$menu .= '<li class="glossary-menu-item atoz-menu-' . $alpha_attribute . ' itg-atoz-clickable itg-atoz-menu-off" title="'.strtoupper($alpha).'" alt="' . esc_attr__('Terms','ithoughts-tooltip-glossary') . ': ' . $count . '"  data-alpha="' . $alpha_attribute . '">';
 				$menu .= '<a href="#' . $alpha_attribute . '">' . strtoupper($alpha) . '</a></li>';
 			}
 			$menu .= '</ul>';
 
 			// Items
-			$list = '<div class="glossary-atoz-wrapper">';
+			$list = '<div class="itg-glossary-atoz-wrapper">';
 			foreach( $atoz as $alpha => $items ) {
 				$alpha_attribute = $alpha;
 				$alpha_attribute = $alpha_attribute == "#" ? "other" : $alpha_attribute ;
-				$list .= '<ul class="glossary-atoz glossary-atoz-' . $alpha_attribute . ' atozitems-off">';
+				$list .= '<ul class="glossary-atoz glossary-atoz-' . $alpha_attribute . ' itg-atoz-items-off">';
 				$list .= implode( '', $items );
 				$list .= '</ul>';
 			}

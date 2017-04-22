@@ -8,6 +8,7 @@ module.exports = function(grunt) {
 		dest: 'css/',
 		rename: (dst, src) => dst + src.replace(/\.less$/, '.min.css')
 	}];
+	const jsDocPath = '../../doc/<%= pkg.name %>/<%= pkg.version.replace(/.\\d+$/, "") %>/javascript';
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -60,13 +61,14 @@ module.exports = function(grunt) {
 				src: ['js/*.js'],
 				options: {
 					private: true,
-					destination: '../../doc/<%= pkg.name %>/<%= pkg.version.replace(/.\\d+$/, "") %>/javascript/'
+					destination: jsDocPath
 				}
 			}
 		},
 		replace: {
 			headers: {
 				src: [
+					'tests/**/*.js',
 					'js/**/*.js',
 					'!js/**/*.min.js',
 					'less/**/*.less',
@@ -134,6 +136,18 @@ module.exports = function(grunt) {
 				"class/**/*.php",
 				"class/**/*.php",
 			],
+		},
+		docco: {
+			debug: {
+				src: [
+					'js/**/*.js',
+					'!js/**/*.min.js',
+					'tests/**/*.js',
+				],
+				options: {
+					output: `${jsDocPath}/docco`
+				}
+			}
 		}
 	});
 
@@ -141,25 +155,37 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-htmlmin');
+	grunt.loadNpmTasks('grunt-text-replace');
 	grunt.loadNpmTasks('grunt-changed');
 	grunt.loadNpmTasks('grunt-jsdoc');
-	grunt.loadNpmTasks('grunt-text-replace');
+	grunt.loadNpmTasks('grunt-docco');
 	grunt.loadNpmTasks('grunt-lesslint');
 	grunt.loadNpmTasks("gruntify-eslint");
 	grunt.loadNpmTasks("grunt-phplint");
 
 	// Default task(s).
-	grunt.registerTask('documentate', ['jsdoc']);
-	grunt.registerTask('refreshStyles', ['lesslint', 'less']);
-	grunt.registerTask('default', [
+	grunt.registerTask('versionUpgrade', [
 		'changed:replace:headers',
-		'uglifySeparate', 
-		'htmlmin'
+		'refreshUpgrade',
+		/* Add unit tests here */
 	]);
-	grunt.registerTask('uglifySeparate', [
+	grunt.registerTask('documentate', [
+		'jsdoc',
+		'docco',
+	]);
+	grunt.registerTask('refreshStyles', [
+		'lesslint',
+		'less'
+	]);
+	grunt.registerTask('refreshScripts', [
 		'eslint:browser',
 		'changed:uglify:header',
-		'uglify:noheader'
+		'uglify:noheader', 
+	]);
+	grunt.registerTask('refreshResources', [
+		'refreshStyles',
+		'refreshScripts',
+		'htmlmin',
 	]);
 	grunt.registerTask('lint', [
 		'eslint:browser',
@@ -167,5 +193,4 @@ module.exports = function(grunt) {
 		'phplint',
 		'lesslint'
 	])
-
 };
