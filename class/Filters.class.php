@@ -19,7 +19,7 @@
 
 namespace ithoughts\tooltip_glossary;
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
@@ -78,7 +78,7 @@ if(!class_exists(__NAMESPACE__."\\Filters")){
 				'label','lang','longdesc',
 				'marginheight','marginwidth','maxlength','media','method','multiple',
 				'name','nohref','noresize',
-				'onblur','onchange','onclick','ondblclick','onfocus','onkeydown','onkeypress','onkeyup','onload','onmousedown','onmousemove','onmouseout','onmouseover','onmouseup','onreset','onselect','onsubmit','onunload', 
+				'onblur','onchange','onclick','ondblclick','onfocus','onkeydown','onkeypress','onkeyup','onload','onmousedown','onmousemove','onmouseout','onmouseover','onmouseup','onreset','onselect','onsubmit','onunload',
 				'profile',
 				'readonly','rel','rev','rows','rowspan','rules',
 				'scheme','scope','scrolling','selected','shape','size','span','src','standby','style','summary',
@@ -172,37 +172,6 @@ if(!class_exists(__NAMESPACE__."\\Filters")){
 				$ret['linkAttrs']["href"] = $ret['attributes']["href"];
 				unset($ret['attributes']["href"]);
 			}
-
-			/*/
-		echo "Serverside: <pre>";
-		var_dump(parent::$serversideOverridable);
-		echo "</pre>";
-
-		echo "Clientside: <pre>";
-		var_dump(parent::$clientsideOverridable);
-		echo "</pre>";
-
-		echo "Options: <pre>";
-		var_dump(parent::$options);
-		echo "</pre>";
-
-		echo "Datas: <pre>";
-		var_dump($datas);
-		echo "</pre>";
-
-		echo "Overrides server: <pre>";
-		var_dump($ret["options"]);
-		echo "</pre>";
-
-		echo "Overrides client; <pre>";
-		var_dump($overridesClient);
-		echo "</pre>";
-
-		//
-		echo "Returned: <pre>";
-		var_dump($ret);
-		echo "</pre>";
-		/**/
 
 			return $ret;
 		}

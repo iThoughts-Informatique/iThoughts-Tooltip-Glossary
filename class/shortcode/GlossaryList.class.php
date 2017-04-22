@@ -27,10 +27,10 @@ if(!class_exists(__NAMESPACE__."\\GlossaryList")){
 	abstract class GlossaryList extends \ithoughts\v1_0\Singleton{
 
 		/**
-         * Sort attributes, prepare linkdata & get posts
-         * @author Gerkin
-         * @param Array $atts Attributes set on shortcode call
-         */
+		 * Sort attributes, prepare linkdata & get posts
+		 * @author Gerkin
+		 * @param Array $atts Attributes set on shortcode call
+		 */
 		final protected function init_list_atts($atts){
 			// Parse attributes and sort them
 			$data = apply_filters("ithoughts_tt_gl-split-args", $atts);
@@ -188,7 +188,7 @@ WHERE
 				$queryComponents["where"] .= " AND
 	";
 				$hasNoGroup = in_array(0, $groups);
-				$groups = array_diff( $groups, [0] );
+				$groups = array_diff( $groups, array(0) );
 				$pre = "";
 				$join = "";
 				$post = "";

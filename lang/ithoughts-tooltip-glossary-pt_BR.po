@@ -43,28 +43,28 @@ msgstr ""
 msgid "Gerkin"
 msgstr "Gerkin"
 
-#: ../templates/customizing_form.php:7 ../templates/customizing_form.php:25 ..
+#: ../templates/src/customizing_form.php:7 ../templates/src/customizing_form.php:25 ..
 #: /class/Admin.class.php:258 ../class/Admin.class.php:259
 msgid "Theme editor"
 msgstr "Editor de tema"
 
-#: ../templates/customizing_form.php:13
+#: ../templates/src/customizing_form.php:13
 msgid "Load a theme"
 msgstr "Carregar um tema"
 
-#: ../templates/customizing_form.php:17
+#: ../templates/src/customizing_form.php:17
 msgid "Theme to load"
 msgstr "Tema para carregar"
 
-#: ../templates/customizing_form.php:19
+#: ../templates/src/customizing_form.php:19
 msgid "Load"
 msgstr "Carregar"
 
-#: ../templates/customizing_form.php:32
+#: ../templates/src/customizing_form.php:32
 msgid "Theme name"
 msgstr "Nome do Tema"
 
-#: ../templates/customizing_form.php:35
+#: ../templates/src/customizing_form.php:35
 msgid ""
 "At least 3 letters (lowercase and uppercase), numbers, _ or -, and not "
 "starting or ending with symbol"
@@ -72,58 +72,58 @@ msgstr ""
 "Pelo menos 3 letras (maiúsculas e minúsculas), números, _ ou - e não "
 "começando ou terminando com símbolo"
 
-#: ../templates/customizing_form.php:40
+#: ../templates/src/customizing_form.php:40
 msgid "Global"
 msgstr "Global"
 
-#: ../templates/customizing_form.php:41
+#: ../templates/src/customizing_form.php:41
 msgid "Title Bar"
 msgstr "Título"
 
-#: ../templates/customizing_form.php:42
-#: ../templates/tinymce-tooltip-form.php:104
+#: ../templates/src/customizing_form.php:42
+#: ../templates/src/tinymce-tooltip-form.php:104
 #: ../lang/ithoughts_tt_gl_tinymce_lang.php:20
 msgid "Content"
 msgstr "Conteúdo"
 
-#: ../templates/customizing_form.php:47
+#: ../templates/src/customizing_form.php:47
 msgid "Background"
 msgstr "Fundo (background)"
 
-#: ../templates/customizing_form.php:52
+#: ../templates/src/customizing_form.php:52
 msgid "Type"
 msgstr "Tipo"
 
-#: ../templates/customizing_form.php:54
+#: ../templates/src/customizing_form.php:54
 msgctxt "A plain color"
 msgid "Plain"
 msgstr "Cor Lisa"
 
-#: ../templates/customizing_form.php:55
+#: ../templates/src/customizing_form.php:55
 msgid "Gradient"
 msgstr "Gradiente"
 
-#: ../templates/customizing_form.php:64
+#: ../templates/src/customizing_form.php:64
 msgid "Top to bottom"
 msgstr "Cima para baixo"
 
-#: ../templates/customizing_form.php:65
+#: ../templates/src/customizing_form.php:65
 msgid "Bottom to top"
 msgstr "Baixo para cima"
 
-#: ../templates/customizing_form.php:66
+#: ../templates/src/customizing_form.php:66
 msgid "Left to right"
 msgstr "Esquerda para direita"
 
-#: ../templates/customizing_form.php:67
+#: ../templates/src/customizing_form.php:67
 msgid "Right to left"
 msgstr "Direita para esquerda"
 
-#: ../templates/customizing_form.php:77
+#: ../templates/src/customizing_form.php:77
 msgid "Padding"
 msgstr "Preenchimento"
 
-#: ../templates/customizing_form.php:81
+#: ../templates/src/customizing_form.php:81
 #, php-format
 msgid ""
 "Valid padding value: 0, inherit, initial, or 1 to 4 values in rem, em, px, "
@@ -132,19 +132,19 @@ msgstr ""
 "Valores de Preenchimento Válidos: 0, inherit, initial, ou valores de 1 até 4 "
 "em rem, em, px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, ou vmax"
 
-#: ../templates/customizing_form.php:87
+#: ../templates/src/customizing_form.php:87
 msgid "Shadow"
 msgstr "Sombra"
 
-#: ../templates/customizing_form.php:93
+#: ../templates/src/customizing_form.php:93
 msgid "Enable box-shadow"
 msgstr "Ativar Caixa de Sombra"
 
-#: ../templates/customizing_form.php:99
+#: ../templates/src/customizing_form.php:99
 msgid "Width"
 msgstr "Largura"
 
-#: ../templates/customizing_form.php:100 ../templates/customizing_form.php:130
+#: ../templates/src/customizing_form.php:100 ../templates/src/customizing_form.php:130
 #, php-format
 msgid ""
 "Valid distance value: 0, inherit, initial, or a value in rem, em, px, %, ex, "
@@ -153,11 +153,11 @@ msgstr ""
 "Valores de Distância Válidos: 0, inherit, initial, ou um valor em rem, em, "
 "px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, ou vmax. Negativos são aceitos."
 
-#: ../templates/customizing_form.php:107
+#: ../templates/src/customizing_form.php:107
 msgid "Shadow spread"
 msgstr "Propagação da Sombra"
 
-#: ../templates/customizing_form.php:108
+#: ../templates/src/customizing_form.php:108
 #, php-format
 msgid ""
 "Valid distance value: 0, inherit, initial, or a value in rem, em, px, %, ex, "
@@ -167,27 +167,27 @@ msgstr ""
 "px, %, ex, pt, cm, mm, in, pc, vh, vw, vmin, ou vmax. Negativos não são "
 "aceitos."
 
-#: ../templates/customizing_form.php:111
+#: ../templates/src/customizing_form.php:111
 msgid "Shadow color"
 msgstr "Cor da Sombra"
 
-#: ../templates/customizing_form.php:115
+#: ../templates/src/customizing_form.php:115
 msgid "Inset"
 msgstr "Inserção"
 
-#: ../templates/customizing_form.php:129
+#: ../templates/src/customizing_form.php:129
 msgid "Height"
 msgstr "Altura"
 
-#: ../templates/customizing_form.php:138
+#: ../templates/src/customizing_form.php:138
 msgid "Outline border"
 msgstr "Contorno"
 
-#: ../templates/customizing_form.php:141
+#: ../templates/src/customizing_form.php:141
 msgid "Border width"
 msgstr "Largura da Borda"
 
-#: ../templates/customizing_form.php:142
+#: ../templates/src/customizing_form.php:142
 #, php-format
 msgid ""
 "Valid border-width value: 0, inherit, initial, or a value in rem, em, px, %, "
@@ -196,60 +196,60 @@ msgstr ""
 "Largura de Borda Válida: 0, inherit, initial, ou um valor em rem, em, px, %, "
 "ex, pt, cm, mm, in, pc, vh, vw, vmin, ou vmax. Negativos não são aceitos."
 
-#: ../templates/customizing_form.php:147
+#: ../templates/src/customizing_form.php:147
 msgid "Border style"
 msgstr "Estilo da Borda"
 
-#: ../templates/customizing_form.php:149
+#: ../templates/src/customizing_form.php:149
 msgid "Solid"
 msgstr "Sólido"
 
-#: ../templates/customizing_form.php:150
+#: ../templates/src/customizing_form.php:150
 msgid "Dotted"
 msgstr "Pontilhado"
 
-#: ../templates/customizing_form.php:151
+#: ../templates/src/customizing_form.php:151
 msgid "Dashed"
 msgstr "Tracejado"
 
-#: ../templates/customizing_form.php:152
+#: ../templates/src/customizing_form.php:152
 msgid "Double"
 msgstr "Duplo"
 
-#: ../templates/customizing_form.php:153
+#: ../templates/src/customizing_form.php:153
 msgid "Groove"
 msgstr "Entalhe"
 
-#: ../templates/customizing_form.php:154
+#: ../templates/src/customizing_form.php:154
 msgid "Ridge"
 msgstr "Dordilheira"
 
-#: ../templates/customizing_form.php:155
+#: ../templates/src/customizing_form.php:155
 msgctxt "Border property"
 msgid "Inset"
 msgstr "Inserção"
 
-#: ../templates/customizing_form.php:156
+#: ../templates/src/customizing_form.php:156
 msgid "Outset"
 msgstr "Inicio"
 
-#: ../templates/customizing_form.php:157
+#: ../templates/src/customizing_form.php:157
 msgid "None"
 msgstr "Nada"
 
-#: ../templates/customizing_form.php:158
+#: ../templates/src/customizing_form.php:158
 msgid "Hidden"
 msgstr "Escondido"
 
-#: ../templates/customizing_form.php:164
+#: ../templates/src/customizing_form.php:164
 msgid "Border color"
 msgstr "Cor da Borda"
 
-#: ../templates/customizing_form.php:170
+#: ../templates/src/customizing_form.php:170
 msgid "Text size"
 msgstr "Tamanho do Texto"
 
-#: ../templates/customizing_form.php:174
+#: ../templates/src/customizing_form.php:174
 #, php-format
 msgid ""
 "Valid font-size value: xx-small, x-small, smaller, small, medium, large, "
@@ -260,11 +260,11 @@ msgstr ""
 "larger, x-large, xx-large, ou um valor em rem, em, px, %, ex, pt, cm, mm, "
 "in, pc, vh, vw, vmin, or vmax"
 
-#: ../templates/customizing_form.php:180
+#: ../templates/src/customizing_form.php:180
 msgid "Line height"
 msgstr "Altura da Linha"
 
-#: ../templates/customizing_form.php:184
+#: ../templates/src/customizing_form.php:184
 #, php-format
 msgid ""
 "Valid line-height value: xx-small, x-small, smaller, small, medium, large, "
@@ -275,47 +275,47 @@ msgstr ""
 "larger, x-large, xx-large, ou um valor em rem, em, px, %, ex, pt, cm, mm, "
 "in, pc, vh, vw, vmin, or vmax"
 
-#: ../templates/customizing_form.php:190
+#: ../templates/src/customizing_form.php:190
 msgid "Text color"
 msgstr "Cor do Texto"
 
-#: ../templates/customizing_form.php:200
+#: ../templates/src/customizing_form.php:200
 msgid "Text emphasis color"
 msgstr "Cor de Texto Destacada"
 
-#: ../templates/customizing_form.php:205
+#: ../templates/src/customizing_form.php:205
 msgid "Text align"
 msgstr "Alinhamento do Texto"
 
-#: ../templates/customizing_form.php:211
+#: ../templates/src/customizing_form.php:211
 msgid "Left"
 msgstr "Esquerda"
 
-#: ../templates/customizing_form.php:212
+#: ../templates/src/customizing_form.php:212
 msgid "Right"
 msgstr "Direita"
 
-#: ../templates/customizing_form.php:213
+#: ../templates/src/customizing_form.php:213
 msgid "Center"
 msgstr "Centro"
 
-#: ../templates/customizing_form.php:214
+#: ../templates/src/customizing_form.php:214
 msgid "Justify"
 msgstr "Justificado (ajustável)"
 
-#: ../templates/customizing_form.php:222
+#: ../templates/src/customizing_form.php:222
 msgid "Text font"
 msgstr "Fonte do Texto"
 
-#: ../templates/customizing_form.php:228
+#: ../templates/src/customizing_form.php:228
 msgid "Please wait..."
 msgstr "Por favor, aguarde..."
 
-#: ../templates/customizing_form.php:236
+#: ../templates/src/customizing_form.php:236
 msgid "Other custom CSS"
 msgstr "CSS Personalizado"
 
-#: ../templates/customizing_form.php:236
+#: ../templates/src/customizing_form.php:236
 msgid ""
 "Following CSS rules will be copied to output compiled CSS for that part of "
 "the tooltip. Use selectors to select childs."
@@ -323,21 +323,21 @@ msgstr ""
 "As seguintes regras CSS serão copiadas para compilar o CSS para esta parte "
 "do tooltip. Use os seletores para selecionar os filhos (parentes)."
 
-#: ../templates/customizing_form.php:236 ../templates/options.php:30 ..
-#: /templates/options.php:38 ../templates/options.php:101
-#: ../templates/options. php:109
+#: ../templates/src/customizing_form.php:236 ../templates/src/options.php:30 ..
+#: /templates/src/options.php:38 ../templates/src/options.php:101
+#: ../templates/src/options. php:109
 msgid "infos"
 msgstr "Informação"
 
-#: ../templates/customizing_form.php:251
+#: ../templates/src/customizing_form.php:251
 msgid "Save theme"
 msgstr "Salvar Tema"
 
-#: ../templates/customizing_form.php:252
+#: ../templates/src/customizing_form.php:252
 msgid "Preview"
 msgstr "Visualizar"
 
-#: ../templates/customizing_form.php:265 ../templates/options.php:123
+#: ../templates/src/customizing_form.php:265 ../templates/src/options.php:123
 msgid ""
 "The <b>tooltip</b> or <b>infotip</b> or a <b>hint</b> is a common <a href=\"/"
 "wiki/Graphical_user_interface\" title=\"Graphical user interface\">graphical "
@@ -375,11 +375,11 @@ msgstr ""
 "quando usado o <a href=\"/wiki/Mouse_(computing)\" title=\"Mouse "
 "(computing)\">mouse</a>).</p>"
 
-#: ../templates/customizing_form.php:265 ../templates/options.php:123
+#: ../templates/src/customizing_form.php:265 ../templates/src/options.php:123
 msgid "Activate me"
 msgstr "Ative-me"
 
-#: ../templates/customizing_form.php:268 ../templates/options.php:126
+#: ../templates/src/customizing_form.php:268 ../templates/src/options.php:126
 msgid ""
 "This is an example tooltip, with content such as <a>a tag for link</a>, "
 "<em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</"
@@ -389,136 +389,136 @@ msgstr ""
 "<em>tags em para ênfase</em>, <b>tab b para negrito</b> e <i>tag i para "
 "itálico</i>"
 
-#: ../templates/customizing_form.php:268 ../templates/options.php:126
+#: ../templates/src/customizing_form.php:268 ../templates/src/options.php:126
 msgid "Example Tooltip"
 msgstr "Exemplo de Tooltip"
 
-#: ../templates/tinymce-tooltip-form.php:8
-#: ../templates/tinymce-tooltip-form.php:12
+#: ../templates/src/tinymce-tooltip-form.php:8
+#: ../templates/src/tinymce-tooltip-form.php:12
 msgid "Insert a Tooltip"
 msgstr "Insira um Tooltip"
 
-#: ../templates/tinymce-tooltip-form.php:34
+#: ../templates/src/tinymce-tooltip-form.php:34
 #: ../lang/ithoughts_tt_gl_tinymce_lang. php:15
 msgid "Text"
 msgstr "Texto"
 
-#: ../templates/tinymce-tooltip-form.php:44 ../class/PostTypes.class.php:78
+#: ../templates/src/tinymce-tooltip-form.php:44 ../class/PostTypes.class.php:78
 msgid "Link"
 msgstr "Link"
 
-#: ../templates/tinymce-tooltip-form.php:63
+#: ../templates/src/tinymce-tooltip-form.php:63
 msgid "Glossary term"
 msgstr "Termo do Glossário"
 
-#: ../templates/tinymce-tooltip-form.php:68
+#: ../templates/src/tinymce-tooltip-form.php:68
 #: ../lang/ithoughts_tt_gl_tinymce_lang. php:19
 msgid "Tooltip"
 msgstr "Tooltip"
 
-#: ../templates/tinymce-tooltip-form.php:73
+#: ../templates/src/tinymce-tooltip-form.php:73
 #: ../lang/ithoughts_tt_gl_tinymce_lang. php:22
 msgid "Mediatip"
 msgstr "Mediatip"
 
-#: ../templates/tinymce-tooltip-form.php:84
+#: ../templates/src/tinymce-tooltip-form.php:84
 #: ../lang/ithoughts_tt_gl_tinymce_lang. php:18
 msgid "Term"
 msgstr "Termo"
 
-#: ../templates/tinymce-tooltip-form.php:121
+#: ../templates/src/tinymce-tooltip-form.php:121
 msgid "Mediatip type"
 msgstr "Tipo de Mediatip"
 
-#: ../templates/tinymce-tooltip-form.php:142
+#: ../templates/src/tinymce-tooltip-form.php:142
 #: ../lang/ithoughts_tt_gl_tinymce_lang. php:23
 msgid "Select an image"
 msgstr "Selecione uma imagem"
 
-#: ../templates/tinymce-tooltip-form.php:150
+#: ../templates/src/tinymce-tooltip-form.php:150
 msgid "Image url"
 msgstr "Link da Imagem"
 
-#: ../templates/tinymce-tooltip-form.php:160
+#: ../templates/src/tinymce-tooltip-form.php:160
 msgid "Caption"
 msgstr "Legenda/Subtitulo"
 
-#: ../templates/tinymce-tooltip-form.php:170
+#: ../templates/src/tinymce-tooltip-form.php:170
 msgid "Video integration code"
 msgstr "Code de Integração de Vídeo"
 
-#: ../templates/tinymce-tooltip-form.php:202
-#: ../templates/tinymce-tooltip-form. php:367
+#: ../templates/src/tinymce-tooltip-form.php:202
+#: ../templates/src/tinymce-tooltip-form. php:367
 msgid "Ok"
 msgstr "Ok"
 
-#: ../templates/tinymce-tooltip-form.php:209
-#: ../templates/tinymce-tooltip-form. php:372
+#: ../templates/src/tinymce-tooltip-form.php:209
+#: ../templates/src/tinymce-tooltip-form. php:372
 msgid "Discard"
 msgstr "Descartar"
 
-#: ../templates/tinymce-tooltip-form.php:216
-#: ../templates/tinymce-tooltip-form. php:220
+#: ../templates/src/tinymce-tooltip-form.php:216
+#: ../templates/src/tinymce-tooltip-form. php:220
 msgid "Tooltip options"
 msgstr "Opções do Tooltip"
 
-#: ../templates/tinymce-tooltip-form.php:233
+#: ../templates/src/tinymce-tooltip-form.php:233
 msgid "Tooltip content"
 msgstr "Conteúdo do Tooltip"
 
-#: ../templates/tinymce-tooltip-form.php:243
+#: ../templates/src/tinymce-tooltip-form.php:243
 msgid "Tooltip trigger"
 msgstr "Gatilho/Evento do Tooltip"
 
-#: ../templates/tinymce-tooltip-form.php:253
+#: ../templates/src/tinymce-tooltip-form.php:253
 msgid "Tooltip style"
 msgstr "Estilo do Tooltip"
 
-#: ../templates/tinymce-tooltip-form.php:263 ../templates/options.php:101
+#: ../templates/src/tinymce-tooltip-form.php:263 ../templates/src/options.php:101
 msgid "Tooltip shadow"
 msgstr "Sombra do Tooltip"
 
-#: ../templates/tinymce-tooltip-form.php:273 ../templates/options.php:109
+#: ../templates/src/tinymce-tooltip-form.php:273 ../templates/src/options.php:109
 msgid "Rounded corners"
 msgstr "Cantos Redondos"
 
-#: ../templates/tinymce-tooltip-form.php:285
+#: ../templates/src/tinymce-tooltip-form.php:285
 msgid "Attributes"
 msgstr "Atributos"
 
-#: ../templates/tinymce-tooltip-form.php:299
+#: ../templates/src/tinymce-tooltip-form.php:299
 msgid "Span attribute"
 msgstr "Atributo Span"
 
-#: ../templates/tinymce-tooltip-form.php:307
-#: ../templates/tinymce-tooltip-form. php:335
+#: ../templates/src/tinymce-tooltip-form.php:307
+#: ../templates/src/tinymce-tooltip-form. php:335
 msgid "Key"
 msgstr "Key (chave)"
 
-#: ../templates/tinymce-tooltip-form.php:313
-#: ../templates/tinymce-tooltip-form. php:341
+#: ../templates/src/tinymce-tooltip-form.php:313
+#: ../templates/src/tinymce-tooltip-form. php:341
 msgid "Value"
 msgstr "Valor"
 
-#: ../templates/tinymce-tooltip-form.php:318
-#: ../templates/tinymce-tooltip-form. php:346
+#: ../templates/src/tinymce-tooltip-form.php:318
+#: ../templates/src/tinymce-tooltip-form. php:346
 msgid "Add"
 msgstr "Adicionar"
 
-#: ../templates/tinymce-tooltip-form.php:327
+#: ../templates/src/tinymce-tooltip-form.php:327
 msgid "Link attribute"
 msgstr "Atributo do Link"
 
-#: ../templates/options.php:7 ../class/Admin.class.php:218
+#: ../templates/src/options.php:7 ../class/Admin.class.php:218
 #: ../class/Admin.class. php:219
 msgid "Options"
 msgstr "Opções"
 
-#: ../templates/options.php:13
+#: ../templates/src/options.php:13
 msgid "Note"
 msgstr "Nota"
 
-#: ../templates/options.php:13
+#: ../templates/src/options.php:13
 msgid ""
 "Labels in <span class=\"nonoverridable\">red</span> indicate global options, "
 "not overridable by tips."
@@ -526,19 +526,19 @@ msgstr ""
 "Rótulos em <span class=\"nonoverridable\">vermelho</span>indicam opções "
 "globais, não serão reescritas por tips."
 
-#: ../templates/options.php:16
+#: ../templates/src/options.php:16
 msgid "Term Options"
 msgstr "Opções do Termo"
 
-#: ../templates/options.php:22
+#: ../templates/src/options.php:22
 msgid "Term link"
 msgstr "Link do Termo"
 
-#: ../templates/options.php:30
+#: ../templates/src/options.php:30
 msgid "Static terms"
 msgstr "Estatísticas do Termo"
 
-#: ../templates/options.php:30
+#: ../templates/src/options.php:30
 msgid ""
 "Include term content directly into the pages to avoid use of Ajax. This can "
 "slow down your page generation."
@@ -546,11 +546,11 @@ msgstr ""
 "Incluir conteúdo do termo diretamente em páginas para evitar o uso de Ajax. "
 "Isso pode atrasar o carregamento de suas páginas."
 
-#: ../templates/options.php:38
+#: ../templates/src/options.php:38
 msgid "Force load resources"
 msgstr "Forçar o Carregamento de Recursos"
 
-#: ../templates/options.php:38
+#: ../templates/src/options.php:38
 msgid ""
 "Load scripts on every pages, even if not required. This option can be useful "
 "if some cache plugins are active, or if you think that scripts are not "
@@ -560,23 +560,23 @@ msgstr ""
 "pode ser interessante se algum plugin de cache estiver ativo, or se você "
 "acha que existe algum script que não está sendo carregado quando deveria."
 
-#: ../templates/options.php:46 ../class/Admin.class.php:516
+#: ../templates/src/options.php:46 ../class/Admin.class.php:516
 msgid "Base Permalink"
 msgstr "Base de Links Permanentes (Permalinks)"
 
-#: ../templates/options.php:54 ../class/Admin.class.php:520
+#: ../templates/src/options.php:54 ../class/Admin.class.php:520
 msgid "Taxonomy group prefix"
 msgstr "Prefixo do Grupo de Taxonomia"
 
-#: ../templates/options.php:62
+#: ../templates/src/options.php:62
 msgid "Glossary Tip Content"
 msgstr "Conteúdo do Glossário Tip"
 
-#: ../templates/options.php:74
+#: ../templates/src/options.php:74
 msgid "qTip2 Tooltip Options"
 msgstr "qTip2 Opções do Tooltip"
 
-#: ../templates/options.php:80
+#: ../templates/src/options.php:80
 msgid ""
 "iThoughts Tooltip Glossary uses the jQuery based <a href=\"http://qtip2.com/"
 "\">qTip2</a> library for tooltips"
@@ -584,19 +584,19 @@ msgstr ""
 "iThoughts Tooltip Glossary usa <a href=\"http://qtip2.com/\">qTip2</"
 "a>biblioteca jQuery para tooltips"
 
-#: ../templates/options.php:85
+#: ../templates/src/options.php:85
 msgid "Tooltip activation"
 msgstr "Ativação do Tooltip"
 
-#: ../templates/options.php:93
+#: ../templates/src/options.php:93
 msgid "Tooltip Style (qTip)"
 msgstr "Estilo do Tooltip (qTip)"
 
-#: ../templates/options.php:101 ../templates/options.php:109
+#: ../templates/src/options.php:101 ../templates/src/options.php:109
 msgid "This option can be overriden by some tooltip styles."
 msgstr "Esta opção pode ser reescrita por alguns estilos dos tooltip."
 
-#: ../templates/options.php:136
+#: ../templates/src/options.php:136
 msgid "Update Options"
 msgstr "Atualizar Opções"
 

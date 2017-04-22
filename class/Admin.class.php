@@ -148,7 +148,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			wp_register_script(
 				'ithoughts_tooltip_glossary-editor',
 				$backbone->get_base_url() . '/js/ithoughts_tt_gl-editor'.$backbone->get_minify().'.js',
-				array("ithoughts-core-v4"),
+				array("ithoughts-core-v4", "ithoughts_tooltip_glossary-qtip"),
 				"2.7.0"
 			);
 
@@ -227,6 +227,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			} else {
 				$currentVersion = "0.0";
 			}
+
 			$menu = add_menu_page("iThoughts Tooltip Glossary", "Tooltip Glossary", "edit_others_posts", "ithoughts-tooltip-glossary", null, $backbone->get_base_url()."/js/icon/icon.svg");
 
 			$submenu_pages = array(
@@ -583,7 +584,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				"value" => (strpos($optionsInputs["qtipstyle"], 'selected="selected"') === false) ? $options["qtipstyle"] : ""
 			)
 			);
-			require($backbone->get_base_path() . "/templates/options.php");
+			require($backbone->get_base_path() . "/templates/dist/options.php");
 		}
 
 		/**
@@ -887,7 +888,6 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				"qtiprounded",
 				array(
 				"radio" => false,
-				"selected" => NULL,//$options["qtiprounded"],
 				"options" => array(
 				"enabled" => array(
 				"attributes" => array(
@@ -1026,7 +1026,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			);
 
 			ob_start();
-			include $backbone->get_base_path()."/templates/tinymce-tooltip-form.php";
+			include $backbone->get_base_path()."/templates/dist/tinymce-tooltip-form.php";
 
 			$output = ob_get_clean();
 			echo $output;
@@ -1131,7 +1131,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			wp_reset_postdata();
 
 			ob_start();
-			include $backbone->get_base_path()."/templates/tinymce-list-form.php";
+			include $backbone->get_base_path()."/templates/dist/tinymce-list-form.php";
 
 			$output = ob_get_clean();
 			echo $output;
@@ -1140,7 +1140,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 
 		/**
          * Initialize the customizing form for custom themes. If the POST request specifies a theme name, it will be parsed then loaded.
-         * @uses `templates/customizing_form.php`
+         * @uses `templates/src/customizing_form.php`
          * @author Gerkin
          */
 		public function theme_editor(){
@@ -1234,7 +1234,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			)
 			)
 			);
-			require $backbone->get_base_path()."/templates/customizing_form.php";
+			require $backbone->get_base_path()."/templates/dist/customizing_form.php";
 		}
 
 		private function loadtheme($themename = NULL){

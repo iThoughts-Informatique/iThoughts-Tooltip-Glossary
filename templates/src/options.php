@@ -75,7 +75,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                     </ul>', 'ithoughts-tooltip-glossary' ), array("attributes" => array('data-tooltip-nosolo'=>"true", "data-qtip-keep-open" => "true"))); ?>:</label>
 												</th>
 												<td>
-                                                    <?php echo $optionsInputs["verbosity"]; ?>&nbsp;<label for="verbosity" id="iithoughts_tt_gl-verbosity_label" style="display:inline-block;line-height:27px;vertical-align:top;" data-labels='["<?php _e('Silent', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('Errors', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('Warnings', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('Infos', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('All', 'ithoughts-tooltip-glossary' ); ?>"]'></label>
+                                                    <?php echo $optionsInputs["verbosity"]; ?>&nbsp;<label for="verbosity" id="ithoughts_tt_gl-verbosity_label" style="display:inline-block;line-height:27px;vertical-align:top;" data-labels='["<?php _e('Silent', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('Errors', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('Warnings', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('Infos', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('All', 'ithoughts-tooltip-glossary' ); ?>"]'></label>
 												</td>
 											</tr>
 											<tr class="nonoverridable">

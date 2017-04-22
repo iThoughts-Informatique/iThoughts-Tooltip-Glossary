@@ -16,7 +16,7 @@
 if ( ! defined( 'ABSPATH' ) ) { 
 	exit; // Exit if accessed directly
 }
-
+ 
 ?>
 <div class="wrap">
 	<div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">

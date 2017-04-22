@@ -9,7 +9,7 @@
  * @version 2.7.0
  */
 
-(function(ithoughts){
+(function(ithoughts){ 
     'use strict';
     var $ = ithoughts.$,
         i_t_g = ithoughts_tt_gl;
@@ -41,7 +41,7 @@
         $("#tooltips,#qtiptrigger,#anim_in,#anim_out,#anim_time").bind(e, updateActivationPreview);
         (function(){
             var verbosityInput = $("#verbosity"),
-                verbosityLabel = $("#iithoughts_tt_gl-verbosity_label"),
+                verbosityLabel = $("#ithoughts_tt_gl-verbosity_label"),
                 verbosityLabels = verbosityLabel.data("labels");
             verbosityInput.on('input', function(){
                 verbosityLabel.text(verbosityLabels[$(this).val()]);

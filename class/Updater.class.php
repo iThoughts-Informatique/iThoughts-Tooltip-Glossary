@@ -12,7 +12,7 @@
 
 namespace ithoughts\tooltip_glossary;
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
@@ -77,7 +77,7 @@ if(!class_exists(__NAMESPACE__."\\Updater")){
 	<p><?php _e( 'Thank you for using iThoughts Tooltip Glossary v2.0! This update comes with some big refactoring to improve evolution flexibility, compatibility, and much more. But it requires also a global update of <b>each of your posts</b> to apply the new format. If you don\'t apply this update, none of your tooltips will work properly.', 'ithoughts-tooltip-glossary' ); ?></p>
 	<a class="button button-secondary" href="<?php echo admin_url("admin.php?page=ithoughts_tt_gl_update"); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php _e('Update now!', 'ithoughts-tooltip-glossary' ); ?></a>
 </div>
-<?php		
+<?php
 					   } break;
 
 				case 1:{
@@ -101,7 +101,7 @@ if(!class_exists(__NAMESPACE__."\\Updater")){
 	<p><?php _e( 'An error in the updater have been spotted. This update will replace old slug-based tooltips to id-based ones on post types other than "post", for example on pages. See <a href="https://wordpress.org/support/topic/shortcode-parameter-slug-not-working-after-update-116-222?replies=29#post-7941781">this thread</a> for more informations. If you are not concerned by this problem, simply dismiss this alert with the button on the right.', 'ithoughts-tooltip-glossary' ); ?></p>
 	<a class="button button-secondary" href="<?php echo admin_url("admin.php?page=ithoughts_tt_gl_update"); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php _e('Update now!', 'ithoughts-tooltip-glossary' ); ?></a>
 </div>
-<?php	
+<?php
 					   } break;
 			}
 		}
@@ -170,8 +170,6 @@ if(!class_exists(__NAMESPACE__."\\Updater")){
 		function applyUpdates(){
 			$data = array();
 			isset($_POST['data']) && $data=$_POST['data'];
-			/*		if($data["versions"]["from"] == $data["versions"]["to"] && $data["versions"]["from"] == "2.2.3")
-			var_dump($this->versionIndex);*/
 			$return = array();
 			switch($this->versionIndex){
 				case 0:{

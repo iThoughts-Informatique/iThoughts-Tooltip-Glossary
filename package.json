@@ -1,0 +1,64 @@
+{
+  "name": "ithoughts-tooltip-glossary",
+  "version": "2.7.0",
+  "description": "Create beautiful tooltips for descriptions or glossary terms easily",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/unit-test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iThoughts-Informatique/iThoughts-Tooltip-Glossary.git"
+  },
+  "keywords": [
+    "wordpress",
+    "tooltip",
+    "dictionary",
+    "glossary",
+    "appendix",
+    "technical terms",
+    "popup",
+    "tooltips",
+    "infobulle",
+    "definition",
+    "definitions",
+    "définition",
+    "définitions",
+    "dictionnaire",
+    "dictionnaires",
+    "dictionnaries",
+    "precision",
+    "information",
+    "informations",
+    "widget",
+    "widgets",
+    "shortocde",
+    "shortcodes",
+    "images",
+    "image",
+    "comment",
+    "comments"
+  ],
+  "author": {
+    "name": "Alexandre Germain",
+    "homepage": "http://www.gerkindevelopment.net/",
+    "email": "agermain@gerkindevelopment.net",
+    "role": "Developer"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iThoughts-Informatique/iThoughts-Tooltip-Glossary/issues"
+  },
+  "homepage": "https://github.com/iThoughts-Informatique/iThoughts-Tooltip-Glossary#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-changed": "^1.1.1",
+    "grunt-contrib-htmlmin": "^2.3.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-uglify": "^2.3.0",
+    "grunt-jsdoc": "^2.1.0",
+    "grunt-text-replace": "^0.4.0"
+  }
+}

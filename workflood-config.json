@@ -51,7 +51,7 @@
                         "next": {
                             "action": "minify",
                             "data": {
-                                "from": "^(.*)(\\.(?:cs|j)s)$",
+                                "from": "^(js|ext|css|less)(.*)(\\.(?:cs|j)s)$",
                                 "to": "$1.min$2"
                             }
                         }
@@ -59,8 +59,8 @@
                     {
                         "action": "minify",
                         "data": {
-                            "from": "^(.*)(\\.(?:cs|j)s)$",
-                            "to": "$1.min$2"
+                            "from": "^(js|ext|css|less)(.*)(\\.(?:cs|j)s)$",
+                            "to": "$1$2.min$3"
                         },
                         "events": {
                             "onchange": {
@@ -68,7 +68,8 @@
                                     "^(.*)(\\.(?:cs|j)s)$": true,
                                     "^(.*\\/)?docs\\/(.*\\.(?:cs|j)s)$": false,
                                     "\\.min\\.(cs|j)s$": false,
-                                    "^\\.\\/submodules": false
+                                    "^\\.\\/submodules": false,
+                                    "node_modules": false
                                 },
                                 "warmup": false
                             }
@@ -444,7 +445,8 @@
                                     "^(.*)(\\.(?:cs|j)s)$": true,
                                     "^(.*\\/)?docs\\/(.*\\.(?:cs|j)s)$": false,
                                     "\\.min\\.(cs|j)s$": false,
-                                    "^\\.\\/submodules": false
+                                    "^\\.\\/submodules": false,
+                                    "^\\.\\/tests": false
                                 },
                                 "warmup": true
                             }

@@ -217,9 +217,11 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
             add_action( 'init',                  		array(&$this,	'register_scripts_and_styles')			);
             add_action( 'init',                  		array(&$this,	'ajaxHooks')							);
             add_action( 'wp_footer',             		array(&$this,	'wp_footer')							);
+            add_action( 'admin_footer',            		array(&$this,	'wp_footer')							);
             add_action( 'wp_print_footer_scripts',		array(&$this,	'afterScripts'), 100000					);
             add_action( 'admin_print_footer_scripts',	array(&$this,	'afterScripts'), 100000					);
             add_action( 'wp_enqueue_scripts',    		array(&$this,	'wp_enqueue_styles')					);
+            add_action( 'admin_enqueue_scripts',   		array(&$this,	'wp_enqueue_styles')					);
             add_action( 'pre_get_posts',         		array(&$this,	'order_core_archive_list')     			);
 
             add_filter( 'ithoughts_tt_gl_term_link',	array(&$this,	'ithoughts_tt_gl_term_link')			);
