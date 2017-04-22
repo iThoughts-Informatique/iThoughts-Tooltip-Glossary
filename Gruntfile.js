@@ -57,13 +57,12 @@ module.exports = function(grunt) {
 		},
 		replace: {
 			headers: {
+				src: ['js/**/*.js', '!**/*.min.js'],
 				overwrite: true,
-				cwd: '.',
-				src: ['templates/src/*.php'],  
 				replacements: [
 					{
-						from: /@version \d+\.\d+\.\d+/,
-						to: '<%= pkg.version %>'
+						from: /(@version) \d+\.\d+\.\d+/,
+						to: '$1 <%= pkg.version %>'
 					}
 				]
 			}
@@ -80,7 +79,7 @@ module.exports = function(grunt) {
 	// Default task(s).
 	grunt.registerTask('documentate', ['jsdoc']);
 	grunt.registerTask('default', [
-		'changed:replace:headers',
+		'replace:headers',
 		'uglify_separate', 
 		'htmlmin'
 	]);
