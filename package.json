@@ -53,12 +53,26 @@
   },
   "homepage": "https://github.com/iThoughts-Informatique/iThoughts-Tooltip-Glossary#readme",
   "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "grunt": "^1.0.1",
     "grunt-changed": "^1.1.1",
+    "grunt-contrib-eslint": "0.0.5",
     "grunt-contrib-htmlmin": "^2.3.0",
     "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-less": "^1.4.1",
     "grunt-contrib-uglify": "^2.3.0",
+    "grunt-eslint": "^19.0.0",
     "grunt-jsdoc": "^2.1.0",
-    "grunt-text-replace": "^0.4.0"
+    "grunt-jslint": "^1.1.14",
+    "grunt-phplint": "^0.1.0",
+    "grunt-postcss": "^0.8.0",
+    "grunt-text-replace": "^0.4.0",
+    "gruntify-eslint": "^3.1.0",
+    "less-plugin-autoprefix": "^1.5.1",
+    "less-plugin-clean-css": "^1.5.1",
+    "load-grunt-tasks": "^3.5.2"
   }
 }

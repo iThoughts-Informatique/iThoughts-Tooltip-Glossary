@@ -41,21 +41,11 @@
   padding: 5px 5px 10px 20px;
 }
 .glossary-list-details {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  flex-direction: row;
 }
 .glossary-list-details .glossary-list {
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 1 100%;
-      -ms-flex: 0 1 100%;
-          flex: 0 1 100%;
+  flex: 0 1 100%;
   padding: 0 10px;
 }
 .glossary-list-details .glossary-list li {
@@ -106,31 +96,14 @@
   padding: 5px 10px;
 }
 #glossary-index header {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-  -webkit-align-content: stretch;
-      -ms-flex-line-pack: stretch;
-          align-content: stretch;
-  -webkit-box-align: stretch;
-  -webkit-align-items: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: stretch;
+  align-items: stretch;
 }
 #glossary-index header p.tileHead {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  flex: 1 1 auto;
   margin: 5px 2.5px;
   padding: 5px;
   background: #ffffff;
@@ -158,14 +131,12 @@
   position: absolute;
   top: 0;
   opacity: 1;
-  -webkit-transition: .5s opacity;
   transition: .5s opacity;
   pointer-events: all;
 }
 #glossary-index[data-type=tile] article[data-active="false"] {
   visibility: hidden;
   opacity: 0;
-  -webkit-transition: .5s opacity,.5s .5s visibility;
   transition: .5s opacity,.5s .5s visibility;
   pointer-events: none;
 }
@@ -230,13 +201,10 @@ Specific styles for tip
   margin: 0.25em;
   box-sizing: border-box;
   fill: currentColor;
-  -webkit-transition: all 0.25s ease 0s;
   transition: all 0.25s ease 0s;
 }
 .ithoughts_tooltip_glossary-mediatip .ithoughts_tooltip_glossary_pin_container.pined .ithoughts_tooltip_glossary_pin {
-  -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
-  -webkit-transition: 0.25s all;
+  transform: rotate(-45deg);
   transition: 0.25s all;
 }
 .qtip-content p {

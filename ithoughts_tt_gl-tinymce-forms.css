@@ -94,50 +94,23 @@
   top: 295px;
   max-height: 90%;
   max-width: 90%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
 .itg-window .itg-reset {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-flex-flow: column nowrap;
-      -ms-flex-flow: column nowrap;
-          flex-flow: column nowrap;
+  flex-flow: column nowrap;
   height: 100%;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: stretch;
-  -webkit-align-items: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  justify-content: center;
+  align-items: stretch;
+  flex: 1 1 auto;
 }
 .itg-window .itg-reset > * {
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 0 auto;
-      -ms-flex: 0 0 auto;
-          flex: 0 0 auto;
+  flex: 0 0 auto;
 }
 .itg-window .itg-reset > .itg-window-body {
   overflow: auto;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  flex: 1 1 auto;
   max-height: none;
   min-height: 0;
   padding: 0 10px;
@@ -152,29 +125,16 @@
 .itg-window .tab-container {
   margin: 0 auto;
   padding: 0;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  flex: 1 1 auto;
   width: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
 .itg-window .tab-container .tabs {
   margin: 0;
   padding: 0;
   display: block;
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 0 auto;
-      -ms-flex: 0 0 auto;
-          flex: 0 0 auto;
+  flex: 0 0 auto;
 }
 .itg-window .tab-container .tabs li {
   display: inline-block;
@@ -184,8 +144,7 @@
   -moz-border-right-colors: none;
   -moz-border-bottom-colors: none;
   -moz-border-left-colors: none;
-  -o-border-image: none;
-     border-image: none;
+  border-image: none;
   border-width: 1px 1px 0px 1px;
   padding: 8px;
   text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
@@ -195,7 +154,6 @@
   position: relative;
   margin: 0 4px 0 0;
   border-bottom: 1px solid #c5c5c5;
-  -webkit-transition: 0.25s border-bottom-color;
   transition: 0.25s border-bottom-color;
 }
 .itg-window .tab-container .tabs li:not(.topLiner) {
@@ -206,7 +164,6 @@
 .itg-window .tab-container .tabs li:hover,
 .itg-window .tab-container .tabs li.active {
   border-bottom: 1px solid rgba(197, 197, 197, 0);
-  -webkit-transition: 0.25s border-bottom-color;
   transition: 0.25s border-bottom-color;
 }
 .itg-window .tab-container .tabs li.topLiner {
@@ -230,23 +187,17 @@
   width: 100%;
   margin: 0 auto;
   opacity: 0;
-  -webkit-transition: 0.5s all;
   transition: 0.5s all;
   pointer-events: none;
   display: none;
-  -webkit-transition: 0.5s 0.5s display;
   transition: 0.5s 0.5s display;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 .itg-window .tab-container .tab.active {
   background: #FDFDFD none repeat scroll 0% 0%;
   border-bottom-color: transparent;
   pointer-events: all;
   display: block;
-  -webkit-transition: 0.5s 0.5s display;
   transition: 0.5s 0.5s display;
   opacity: 1;
   border: 1px solid #c5c5c5;
@@ -264,20 +215,10 @@
   font-weight: 600;
 }
 .itg-window form {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   height: 100%;
-  -webkit-box-align: stretch;
-  -webkit-align-items: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
+  align-items: stretch;
 }
 .itg-window .foreign-language {
   background-color: #FFFCAB;
@@ -320,34 +261,18 @@
   left: 0;
   width: 100%;
   border: 1px solid #ccc;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-  -webkit-box-align: stretch;
-  -webkit-align-items: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
 }
 .itg-window #groupspicker.hidden {
   pointer-events: none;
   opacity: 0;
-  -webkit-transition: 0.5s all;
   transition: 0.5s all;
 }
 .itg-window .group-select {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 .itg-window .group-select input {
   display: none;
@@ -363,7 +288,6 @@
   display: block;
   padding: 10px;
   border: 1px solid #e0e0e0;
-  -webkit-transition: 0.5s all;
   transition: 0.5s all;
   background-color: #fff;
   text-align: center;
@@ -425,11 +349,15 @@
   line-height: normal;
   font-weight: normal;
   text-align: left;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
   box-sizing: content-box;
   direction: ltr;
   max-width: none;
 }
 .itg-widget button {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 .itg-fade {
@@ -461,7 +389,6 @@
   background: #fff;
   position: fixed;
   opacity: 0;
-  -webkit-transition: opacity 150ms ease-in;
   transition: opacity 150ms ease-in;
   border-width: 1px;
   z-index: 999999;
@@ -470,8 +397,7 @@
   max-width: 90%;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 .itg-window.itg-in {
   opacity: 1;

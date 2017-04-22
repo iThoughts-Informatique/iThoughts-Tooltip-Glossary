@@ -9,8 +9,9 @@
  * @version 2.7.0
  */
 
-(function(ithoughts){ 
+(function (ithoughts) {
     'use strict';
+	
     var $ = ithoughts.$,
         i_t_g = ithoughts_tt_gl;
 

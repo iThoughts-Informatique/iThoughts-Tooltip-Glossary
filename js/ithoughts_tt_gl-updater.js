@@ -9,15 +9,17 @@
  * @version 2.7.0
  */
 
-(function(){
-	var progress;
-	var text;
-	var initData;
-	var verboseArea;
+ithoughts_tt_gl = ithoughts_tt_gl || {};
+(function (ithoughts) {
+	var $ = ithoughts.$,
+		progress,
+		text,
+		initData,
+		verboseArea;
 
 	function runUpdate(progression){
 		$.post(ithoughts_tt_gl.admin_ajax, {
-			action: "ithoughts_tt_gl_update", data: {
+			action: 'ithoughts_tt_gl_update', data: {
 				versions: Updater,
 				progression: progression,
 				maxAdvandement: initData.max
@@ -42,7 +44,7 @@
 			} else {
 				Updater.from = initData.targetversion;
 				jQuery.post(ithoughts_tt_gl.admin_ajax, {
-					action: "ithoughts_tt_gl_update_done", data: {
+					action: 'ithoughts_tt_gl_update_done', data: {
 						newversion: Updater.from,
 					}
 				}, function(out){
@@ -55,13 +57,13 @@
 
 	function initUpdate(versions){
 		$.post(ithoughts_tt_gl.admin_ajax, {
-			action: "ithoughts_tt_gl_update", data: {
+			action: 'ithoughts_tt_gl_update', data: {
 				versions: versions,
 				progression: -1,
 				maxAdvandement: -1
 			}
 		}, function(out){
-			var updaterSection = $("#Updater");
+			var updaterSection = $('#Updater');
 
 			verboseArea = '<div class="verboseContainer postbox closed"><div class="handlediv" title="Cliquer pour inverser."></div><h4 class="hndle ui-sortable-handle">Logs</h4><div class="inside"><pre class="verboseArea">';
 			if(out.data.verbose){
@@ -78,14 +80,13 @@
 				updaterSection.append($.parseHTML('<article data-version="' + out.data.targetversion + '"><h3>V' + out.data.targetversion + '</h3><p class="updatedescription">' + out.data.text + '</p><progress class="updateprogress" min="0" max="' + out.data.max + '" value="0"></progress><span class="updateprogresstext">0/' + out.data.max + ' (<em>0%</em>)</span>' + verboseArea + '</article>'));
 				postboxes.add_postbox_toggles(pagenow);
 				initData = out.data;
-				progress = qs("[data-version=\"" + out.data.targetversion + "\"] .updateprogress");
-				text = qs("[data-version=\"" + out.data.targetversion + "\"] .updateprogresstext");
-				verboseArea = qs("[data-version=\"" + out.data.targetversion + "\"] .verboseArea");
+				progress = qs('[data-version=\"" + out.data.targetversion + "\"] .updateprogress');
+				text = qs('[data-version=\"" + out.data.targetversion + "\"] .updateprogresstext');
+				verboseArea = qs('[data-version=\"" + out.data.targetversion + "\"] .verboseArea');
 
 				runUpdate(0);
 			}
 		});
 	}
-
 	initUpdate(Updater);
-})();
+})(Ithoughts.v4);
