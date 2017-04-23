@@ -1,3 +1,5 @@
+/* global __utils__: false */
+
 var fs = require('fs');
 var currentFile = require('system').args[3];
 var curFilePath = fs.absolute(currentFile).split('/');
@@ -6,39 +8,33 @@ if (curFilePath.length > 1) {
 	fs.changeWorkingDirectory(curFilePath.join('/'));
 }
 
-var config = require("config.json");
+var config = require('config.json');
 
-var casper = require("initCasper.js");
+var casper = require('initCasper.js');
 
 var postSelector = 'table.wp-list-table.posts tr.type-glossary';
 var postsCount;
-casper
-	.start(`${config.test_site.site_url}/wp-admin`, function() {
-	this.fill("#loginform", {
+casper.start(`${config.test_site.site_url}/wp-admin`, function() {
+	this.fill('#loginform', {
 		log: config.test_site.login,
-		pwd: config.test_site.password
+		pwd: config.test_site.password,
 	}, true);
-})
-	.thenOpen(`${config.test_site.site_url}/wp-admin/edit.php?post_type=glossary`)
-	.then(function(){
+}).thenOpen(`${config.test_site.site_url}/wp-admin/edit.php?post_type=glossary`).then(function(){
 	postsCount = this.evaluate(function(postSelector){
-		return __utils__.findAll(postSelector).length
+		return __utils__.findAll(postSelector).length;
 	}, postSelector);
-})
-	.thenClick('#cb-select-all-1', function(){
+}).thenClick('#cb-select-all-1', function(){
 	this.wait(100);
-})
-	.then(function(){
+}).then(function(){
 	this.fill('#posts-filter', {
-		action: 'trash'
+		action: 'trash',
 	}, true);
-})
-	.then(function(){
+}).then(function(){
 	var count = this.evaluate(function(postSelector){
-		return __utils__.findAll(postSelector).length
+		return __utils__.findAll(postSelector).length;
 	}, postSelector);
 	if (postsCount == count){
-		console.error("No post removed");
+		console.error('No post removed');
 		this.exit(1);
 	}
 });

@@ -1,5 +1,6 @@
-const assert = require('assert'),
-	  exec = require('child_process').exec;
+/* global describe: false, it: false */
+
+const exec = require('child_process').exec;
 
 function slimerScript(scriptPath){
 	return function(done) {
@@ -7,14 +8,14 @@ function slimerScript(scriptPath){
 		return exec(`casperjs --engine=slimerjs unit-test/${scriptPath}`, function(end, stdout, stderr){
 			if (end == null || end.code == 0)
 				return done(null);
-			return done(new Error(stderr || "An error occured"));
+			return done(new Error(stderr || 'An error occured'));
 		});
 	};
 }
 
 describe('Admin', function() {
 	describe('#setStatus', function() {
-		it.skip('should set the plugin as active', slimerScript("admin/setStatus/01-switch.js"));
+		it.skip('should set the plugin as active', slimerScript('admin/setStatus/01-switch.js'));
 	});
 	describe('#options', function(){
 		describe('#persistance', function(){
@@ -41,8 +42,8 @@ describe('Admin', function() {
 
 describe('Content', function() {
 	describe('#terms', function() {
-		it('should create a term', slimerScript("content/terms/01-create1.js"));
-		it('should delete all terms', slimerScript("content/terms/02-deleteAll.js"));
+		it('should create a term', slimerScript('content/terms/01-create1.js'));
+		it('should delete all terms', slimerScript('content/terms/02-deleteAll.js'));
 		it('should create 5 terms');
 		it('should delete 1 term');
 		it('should allow comments');

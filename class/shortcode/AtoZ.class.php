@@ -83,7 +83,7 @@ if(!class_exists(__NAMESPACE__."\\AtoZ")){
 			foreach( $atoz as $alpha => $items ) {
 				$alpha_attribute = $alpha;
 				$alpha_attribute = $alpha_attribute == "#" ? "other" : $alpha_attribute ;
-				$list .= '<ul class="glossary-atoz glossary-atoz-' . $alpha_attribute . ' itg-atoz-items-off">';
+				$list .= '<ul class="itg-atoz-items itg-atoz-items-' . $alpha_attribute . ' itg-atoz-items-off">';
 				$list .= implode( '', $items );
 				$list .= '</ul>';
 			}

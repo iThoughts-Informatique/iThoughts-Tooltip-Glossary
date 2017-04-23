@@ -9,7 +9,7 @@
  * @version 2.7.0
  */
 
-/* global tinymce:false */
+/* global tinymce:false, ithoughts_tt_gl_editor: false */
 
 /**
  * @function initTinyMCEPlugin
@@ -85,7 +85,7 @@
 		function generateSelObject(){
 			var tinymceSel = editor.selection,
 				sel = {
-					DOM: $(tinymceSel.getNode()).closest(tipsSelector).toArray()
+					DOM: $(tinymceSel.getNode()).closest(tipsSelector).toArray(),
 				};
 			sel.html = tinymceSel.getContent({format : 'html'});
 			sel.start = tinymceSel.getStart();
@@ -130,7 +130,7 @@
 			onPostRender:	setToggleable('glossarylist', editor),
 			onclick:		function(){
 				var sel = {
-					selection: editor.selection
+					selection: editor.selection,
 				};
 				sel.start = sel.selection.getStart();
 				sel.end = sel.selection.getEnd();

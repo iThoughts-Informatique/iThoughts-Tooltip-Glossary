@@ -1,7 +1,7 @@
 {
     "env": {
         "browser": true,
-        "es6": true
+        "es6": false
     },
     "extends": "eslint:recommended",
     "parserOptions": {
@@ -10,13 +10,16 @@
 	"globals": {
 		"ithoughts_tt_gl": true,
 		"jQuery": false,
-		"ithoughts_tt_gl_editor": true,
-		"Ithoughts": false
+		"Ithoughts": false,
+		"wp": false
 	},
     "rules": {
         "indent": [
             "error",
-            "tab"
+            "tab",
+			{
+				"SwitchCase": 1
+			}
         ],
         "linebreak-style": [
             "error",
@@ -29,6 +32,13 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+		"valid-jsdoc": [
+			"error"
+		],
+		"comma-dangle": [
+			"error",
+			"always-multiline"
+		]
     }
 }

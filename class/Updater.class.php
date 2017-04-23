@@ -106,11 +106,14 @@ if(!class_exists(__NAMESPACE__."\\Updater")){
 			}
 		}
 		public function updater(){
+			global $pagenow;
+			
 			if( $this->parentC->isUnderVersionned() ){
 				wp_enqueue_script('ithoughts_tooltip_glossary-updater');
-				wp_localize_script('ithoughts_tooltip_glossary-updater', "Updater", array(
-					"from"	=>	$this->from,
-					"to"	=>	$this->to
+				wp_localize_script('ithoughts_tooltip_glossary-updater', "ithoughts_tt_gl_updater", array(
+					"from"		=> $this->from,
+					"to"		=> $this->to,
+					"pagenow"	=> $pagenow
 				));
 				wp_enqueue_script( 'ithoughts_tooltip_glossary-qtip' );
 				wp_enqueue_script('postbox');

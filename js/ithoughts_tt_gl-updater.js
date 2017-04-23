@@ -9,28 +9,37 @@
  * @version 2.7.0
  */
 
+/* global postboxes:false, ithoughts_tt_gl_updater: false */
+
 ithoughts_tt_gl = ithoughts_tt_gl || {};
 (function (ithoughts) {
-	var $ = ithoughts.$,
+	'use strict';
+	
+	var $		= ithoughts.$,
+		qs		= ithoughts.qs,
+		updater	= ithoughts_tt_gl_updater,
+		pagenow	= updater.pagenow,
 		progress,
 		text,
 		initData,
 		verboseArea;
+	delete updater.pagenow;
 
 	function runUpdate(progression){
 		$.post(ithoughts_tt_gl.admin_ajax, {
-			action: 'ithoughts_tt_gl_update', data: {
-				versions: Updater,
+			action: 'ithoughts_tt_gl_update',
+			data: {
+				versions: updater,
 				progression: progression,
-				maxAdvandement: initData.max
-			}
+				maxAdvandement: initData.max,
+			},
 		}, function(out){
 			if(verboseArea.parentElement.scrollTop > (verboseArea.parentElement.scrollHeight - verboseArea.parentElement.clientHeight) - 50){
 				verboseArea.parentElement.scrollTop = verboseArea.parentElement.scrollHeight;
 			}
 			var scrollValOld = (verboseArea.parentElement.scrollHeight - verboseArea.parentElement.clientHeight);
 			progress.value = out.data.progression;
-			text.innerHTML = progress.value + '/' + initData.max + ' (<em>' + (parseInt((progress.value / initData.max) * 100) + "").slice(0,3) + '%</em>)';
+			text.innerHTML = progress.value + '/' + initData.max + ' (<em>' + (parseInt((progress.value / initData.max) * 100) + '').slice(0,3) + '%</em>)';
 			if(out.data.verbose){
 				for(var i = 0,j = out.data.verbose.length; i < j; i++){
 					$(verboseArea).append($.parseHTML('<p class="' + out.data.verbose[i].type + '">' + out.data.verbose[i].text + '</p>'));
@@ -42,14 +51,15 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 			if(out.data.progression < initData.max){
 				runUpdate(out.data.progression);
 			} else {
-				Updater.from = initData.targetversion;
+				updater.from = initData.targetversion;
 				jQuery.post(ithoughts_tt_gl.admin_ajax, {
-					action: 'ithoughts_tt_gl_update_done', data: {
-						newversion: Updater.from,
-					}
+					action: 'ithoughts_tt_gl_update_done',
+					data: {
+						newversion: updater.from,
+					},
 				}, function(out){
 					if(out.success)
-						initUpdate(Updater);
+						initUpdate(updater);
 				});
 			}
 		});
@@ -57,11 +67,12 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 
 	function initUpdate(versions){
 		$.post(ithoughts_tt_gl.admin_ajax, {
-			action: 'ithoughts_tt_gl_update', data: {
+			action: 'ithoughts_tt_gl_update',
+			data: {
 				versions: versions,
 				progression: -1,
-				maxAdvandement: -1
-			}
+				maxAdvandement: -1,
+			},
 		}, function(out){
 			var updaterSection = $('#Updater');
 
@@ -80,13 +91,13 @@ ithoughts_tt_gl = ithoughts_tt_gl || {};
 				updaterSection.append($.parseHTML('<article data-version="' + out.data.targetversion + '"><h3>V' + out.data.targetversion + '</h3><p class="updatedescription">' + out.data.text + '</p><progress class="updateprogress" min="0" max="' + out.data.max + '" value="0"></progress><span class="updateprogresstext">0/' + out.data.max + ' (<em>0%</em>)</span>' + verboseArea + '</article>'));
 				postboxes.add_postbox_toggles(pagenow);
 				initData = out.data;
-				progress = qs('[data-version=\"" + out.data.targetversion + "\"] .updateprogress');
-				text = qs('[data-version=\"" + out.data.targetversion + "\"] .updateprogresstext');
-				verboseArea = qs('[data-version=\"" + out.data.targetversion + "\"] .verboseArea');
+				progress = qs('[data-version="' + out.data.targetversion + '"] .updateprogress');
+				text = qs('[data-version="' + out.data.targetversion + '"] .updateprogresstext');
+				verboseArea = qs('[data-version="' + out.data.targetversion + '"] .verboseArea');
 
 				runUpdate(0);
 			}
 		});
 	}
-	initUpdate(Updater);
+	initUpdate(updater);
 })(Ithoughts.v4);

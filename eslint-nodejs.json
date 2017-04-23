@@ -1,0 +1,45 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+	"globals": {
+		"ithoughts_tt_gl": true,
+		"jQuery": false,
+		"Ithoughts": false,
+		"wp": false
+	},
+    "rules": {
+        "indent": [
+            "error",
+            "tab",
+			{
+				"SwitchCase": 1
+			}
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+		"valid-jsdoc": [
+			"error"
+		],
+		"comma-dangle": [
+			"error",
+			"always-multiline"
+		],
+        "no-console": 0
+    }
+}

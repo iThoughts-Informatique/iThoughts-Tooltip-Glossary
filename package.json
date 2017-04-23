@@ -57,6 +57,7 @@
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "eslint-tap": "^2.0.0",
     "grunt": "^1.0.1",
     "grunt-changed": "^1.1.1",
     "grunt-contrib-eslint": "0.0.5",
