@@ -1,44 +1,38 @@
 {
-    "env": {
-        "browser": true,
-        "es6": false
-    },
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "sourceType": "script"
-    },
+	"env": {
+		"browser": true,
+		"es6": false
+	},
+	"extends": "eslint:recommended",
+	"parserOptions": {
+		"sourceType": "script"
+	},
 	"globals": {
 		"ithoughts_tt_gl": true,
 		"jQuery": false,
 		"Ithoughts": false,
 		"wp": false
 	},
-    "rules": {
-        "indent": [
-            "error",
-            "tab",
-			{
-				"SwitchCase": 1
-			}
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
-		"valid-jsdoc": [
-			"error"
-		],
-		"comma-dangle": [
-			"error",
-			"always-multiline"
-		]
-    }
+	"rules": {
+		"indent": ["error","tab",{"SwitchCase": 1}],
+		"linebreak-style": ["error","unix"],
+		"quotes": ["error","single"],
+		"semi": ["error","always"],
+		"valid-jsdoc": ["error"],
+		"comma-dangle": ["error","always-multiline"],
+		"comma-spacing": ["error", { "before": false, "after": true }],
+		"camelcase": ["error"],
+		"comma-style": ["error","last"],
+		"func-names": ["error", "always"],
+		"func-name-matching": ["error", "always"],
+		"keyword-spacing": ["error", { "before": true, "after": true }],
+		"new-parens": "error",	
+		"object-curly-newline": ["error", {
+			"minProperties": 1
+		}],
+		"space-in-parens": ["error", "always", {"exceptions": ["{}", "[]", "()", "empty"]}],
+		"space-before-function-paren": ["error", "never"],
+		"key-spacing": ["error", { "align": "value" }],
+		 "object-property-newline": ["error", { "allowMultiplePropertiesPerLine": true }]
+	}
 }

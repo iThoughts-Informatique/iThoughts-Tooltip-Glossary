@@ -13,267 +13,245 @@
 * Admin / Generic
 */
 .updating{
-    background-color: #e0ffe0;
-    border-color: #00ff00;
-    border-radius: 3px 3px 3px 3px;
-    border-style: solid;
-    border-width: 1px;
+	background-color: #e0ffe0;
+	border-color: #00ff00;
+	border-radius: 3px 3px 3px 3px;
+	border-style: solid;
+	border-width: 1px;
 
-    p{
-        margin-top: 6px;
-        margin-bottom: 6px;
-        margin-left: 6px;
-        margin-right: 6px;
-        padding: 2px;
-    }
+	p{
+		margin: 6px;
+		padding: 2px;
+	}
 }
 
 .wp-picker-container{
-    position: relative;
-    width: 100%;
+	position: relative;
+	width: 100%;
 }
 .wp-picker-input-wrap{
-    position: absolute;
-    left: 0px;
-    width: 100%;
-    top: 2em;
+	left: 0;
+	position: absolute;
+	top: 2em;
+	width: 100%;
 }
 .wp-picker-holder{
-    position: absolute;
-    z-index: 1;
-    top: 3.5em;
+	position: absolute;
+	top: 3.5em;
+	z-index: 1;
 }
 .form-table.stripped{
-    > tr:nth-child(odd), > tbody > tr:nth-child(even), > thead > tr{
-        background-color: rgba(0,0,0,0.025);
-    }
-    > * > * {
-        > td,.form-table.stripped > * > * > th{
-            padding: 5px;
-            vertical-align: middle;
-        }
-        > th{
-            text-align: center;
-        }
-    }
-    .new-section, > tbody{
-        border-top: 2px solid #ddd;
-    }
-    > thead{
-        border-bottom: 2px solid #ddd;
-    }
-}
-#ithoughts_tt_gl-customstyle{
-    max-width:1160px;
+	> tr:nth-child(odd), > tbody > tr:nth-child(even), > thead > tr{
+		background-color: rgb(64,64,64);
+		background-color: rgba(0,0,0,0.025);
+	}
+	> * > * {
+		> td,.form-table.stripped > * > * > th{
+			padding: 5px;
+			vertical-align: middle;
+		}
+		> th{
+			text-align: center;
+		}
+	}
+	.new-section, > tbody{
+		border-top: 2px solid #ddd;
+	}
+	> thead{
+		border-bottom: 2px solid #ddd;
+	}
 }
 
 tr.nonoverridable label, .nonoverridable:not(tr){
-    color: #B73535;
+	color: #B73535;
 }
-#tinymce{
-    a{
-        &[data-type="ithoughts-tooltip-glossary-term"],
-        &[data-type="ithoughts-tooltip-glossary-tooltip"],
-        &[data-type="ithoughts-tooltip-glossary-mediatip"]{
-            font-style: italic;
-            text-decoration: overline underline;
-        }
-    }
-    span{
-        &[data-type="ithoughts-tooltip-glossary-atoz"],
-        &[data-type="ithoughts-tooltip-glossary-term_list"]{
-            &::after{
-                content: "]";
-                font-size: 1.5em;
-                vertical-align: baseline;
-            }
-            &::before{
-                content: "[";
-                font-size: 1.5em;
-                vertical-align: baseline;
-            }
-        }
-    }
-}
-
-
-#image-box,#image-box-body{
-    text-align: center;
-}
-#image-box-body img {
-    max-width: 100%;
-    max-height: 100%;
+.content.wp-editor{
+	a{
+		&[data-type="ithoughts-tooltip-glossary-term"],
+		&[data-type="ithoughts-tooltip-glossary-tooltip"],
+		&[data-type="ithoughts-tooltip-glossary-mediatip"]{
+			font-style: italic;
+			text-decoration: overline underline;
+		}
+	}
+	span{
+		&[data-type="ithoughts-tooltip-glossary-atoz"],
+		&[data-type="ithoughts-tooltip-glossary-term_list"]{
+			&::after{
+				content: "]";
+				font-size: 1.5em;
+				vertical-align: baseline;
+			}
+			&::before{
+				content: "[";
+				font-size: 1.5em;
+				vertical-align: baseline;
+			}
+		}
+	}
 }
 
 
-#customizing-form input:disabled {
-    background: #dddddd;
+.image-box img {
+	max-height: 100%;
+	max-width: 100%;
+}
+
+
+.less-form input:disabled {
+	background: #dddddd;
 }
 .ithoughts_tt_gl.update-nag{
-    margin-left: 15px;
-    display: block;
+	display: block;
+	margin-left: 15px;
 
-    &.is-dismissable{
-        .dismiss{
-            float:right;
+	&.is-dismissable{
+		.dismiss{
+			float:right;
 
-            &::after{
-                content: "\00D7";
-            }
-        }
-    }
+			&::after{
+				content: "\00D7";
+			}
+		}
+	}
 }
 
 .verboseContainer{
-    width: 100%;
-    border: 1px solid black;
-    box-sizing: border-box;
+	border: 1px solid black;
+	box-sizing: border-box;
+	width: 100%;
 
-    &.inside{
-        max-height: 200px;
-        overflow: auto;
-        margin: 0!important;
-        width: 100%;
-        box-sizing: border-box;
-    }
+	&.inside{
+		box-sizing: border-box;
+		margin: 0;
+		max-height: 200px;
+		overflow: auto;
+		width: 100%;
+	}
 }
 .verboseArea{
-    word-break: break-word;
-    padding: 5px;
-    margin: 0;
+	margin: 0;
+	padding: 5px;
+	word-break: break-all;
 
-    p{
-        &.info{
-            color: darkblue;
-        }
-        &.warn{
-            color: darkorange;
-        }
-        &.error{
-            color: darkred;
-        }
-    }
+	.info{
+		color: darkblue;
+	}
+	.warn{
+		color: darkorange;
+	}
+	.error{
+		color: darkred;
+	}
 }
-#dashboard-widgets{
-    h2, h3, h4{
-        &.hndle{
-            padding: 0.25em 12px;
-            margin: 0;
-        }
-    }
+.dashboard-widgets{
+	h2, h3, h4{
+		&.hndle{
+			margin: 0;
+			padding: 0.25em 12px;
+		}
+	}
+	.postbox .inside {
+		margin-bottom: 0;
+	}
 }
 
-#ithoughts-tt-gl-styleeditor .inside{
-    &, .form-table{
-        margin: 0;
-        padding: 0;
-    }
+.ithoughts-tt-gl-lesseditor .inside{
+	&, .form-table{
+		margin: 0;
+		padding: 0;
+	}
 }
 
 .ace-editor{
-    min-height: 200px;
-    width:100%;
+	min-height: 200px;
+	width:100%;
 }
 .wp-picker-holder{
-    z-index: 100;
+	z-index: 100;
 }
 
 
 
 
 .ithoughts_tt_gl-loader {
-    margin: -100px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 100px;
-    height: 100px;
-    z-index: 99999;
-    pointer-events: none;
-    color: #FFF;
-    border-radius: 100%;
-    padding: 0;
-    margin: 0;
-    -webkit-transition: .2s opacity;
-    transition: .2s opacity;
+	border-radius: 100%;
+	color: #FFF;
+	height: 100px;
+	left: 50%;
+	margin: 0;
+	padding: 0;
+	pointer-events: none;
+	position: fixed;
+	top: 50%;
+	transition: .2s opacity;
+	width: 100px;
+	z-index: 99999;
 
-    * {
-        overflow: hidden;
-    }
-    &[data-loader-status="shown"] {
-        opacity: 1;
-    }
-    &[data-loader-status="hidden"] {
-        opacity: 0!important;
-    }
-    .centerer {
-        background-color: #FFF;
-        border-radius: 100%;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        left: -50%;
-        top: -50%;
-    }
-    .loader {
-        content: '';
-        position: absolute;
-        top: 9%;
-        bottom: 9%;
-        left: 9%;
-        right: 9%;
-        border-radius: 100%;
-        border: 4px solid transparent;
-        border-top-color: #1FA67A;
-        opacity: .99;
-        -webkit-animation: ithoughts_tt_gl-loaderspin 2s linear infinite;
-        animation: ithoughts_tt_gl-loaderspin 2s linear infinite;
+	* {
+		overflow: hidden;
+	}
+	&[data-loader-status="shown"] {
+		opacity: 1;
+	}
+	&[data-loader-status="hidden"] {
+		opacity: 0;
+	}
+	.centerer {
+		background-color: #FFF;
+		border-radius: 100%;
+		height: 100%;
+		left: -50%;
+		position: absolute;
+		top: -50%;
+		width: 100%;
+	}
+	.loader {
+		animation: ithoughts_tt_gl-loaderspin 2s linear infinite;
+		border: 4px solid transparent;
+		border-radius: 100%;
+		border-top-color: #1FA67A;
+		bottom: 9%;
+		content: '';
+		left: 9%;
+		opacity: .99;
+		position: absolute;
+		right: 9%;
+		top: 9%;
 
-        &:after {
-            top: 10%;
-            bottom: 10%;
-            left: 10%;
-            right: 10%;
-            border: 3px solid transparent;
-            opacity: .7;
-            -webkit-animation: ithoughts_tt_gl-loaderspin 3s linear infinite;
-            animation: ithoughts_tt_gl-loaderspin 3s linear infinite;
-        }
-        &:before {
-            top: 26%;
-            bottom: 26%;
-            left: 26%;
-            right: 26%;
-            border: 2px solid transparent;
-            opacity: .4;
-            -webkit-animation: ithoughts_tt_gl-loaderspin 2s linear infinite;
-            animation: ithoughts_tt_gl-loaderspin 2s linear infinite;
-        }
-        &:after,
-        &:before {
-            content: '';
-            position: absolute;
-            border-radius: 100%;
-            border-top-color: inherit;
-        }
-    }
+		&:after {
+			animation: ithoughts_tt_gl-loaderspin 3s linear infinite;
+			border: 3px solid transparent;
+			bottom: 10%;
+			left: 10%;
+			opacity: .7;
+			right: 10%;
+			top: 10%;
+		}
+		&:before {
+			animation: ithoughts_tt_gl-loaderspin 2s linear infinite;
+			border: 2px solid transparent;
+			bottom: 26%;
+			left: 26%;
+			opacity: .4;
+			right: 26%;
+			top: 26%;
+		}
+		&:after,
+		&:before {
+			border-radius: 100%;
+			border-top-color: inherit;
+			content: '';
+			position: absolute;
+		}
+	}
 }
 
 @keyframes ithoughts_tt_gl-loaderspin {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-@-webkit-keyframes ithoughts_tt_gl-loaderspin {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-    }
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }

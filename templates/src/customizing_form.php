@@ -16,7 +16,7 @@
 if ( ! defined( 'ABSPATH' ) ) { 
 	exit; // Exit if accessed directly
 }
- 
+
 ?>
 <div class="wrap">
 	<div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">
@@ -26,9 +26,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 			<h2><?php _e('Theme editor', 'ithoughts-tooltip-glossary' ); ?></h2>
 			<div id="dashboard-widgets-wrap">
-				<div id="dashboard-widgets">
+				<div class="dashboard-widgets">
+					<p style="font-size:17px;"><em><?php _e("Need help? Check out the full plugin manual at ", 'ithoughts-tooltip-glossary' ); ?> <a href="https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/" target="_blank">GerkinDevelopment.net</a>.</em></p> 
 					<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
-						<p style="font-size:17px;"><em><?php _e("Need help? Check out the full plugin manual at ", 'ithoughts-tooltip-glossary' ); ?> <a href="https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/" target="_blank">GerkinDevelopment.net</a>.</em></p> 
 						<div id="normal-sortables" class="" style="flex:1 1 auto;"><!--Old removed classes: "meta-box-sortables ui-sortable"-->
 							<div class="postbox">
 								<h3 class="hndle"><span><?php _e('Load a theme', 'ithoughts-tooltip-glossary' ); ?></span></h3>
@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<div class="postbox" id="ithoughts-tt-gl-lesseditor">
 								<h3 class="hndle"><span><?php _e('LESS editor', 'ithoughts-tooltip-glossary' ); ?></span></h3>
 								<div class="inside">
-									<form id="LESS-form" action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post" class="simpleajaxform" data-target="update-response">
+									<form id="LESS-form" class="less-form" action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post" class="simpleajaxform" data-target="update-response">
 										<input type="hidden" name="action" id="action"/>
 										<?php echo $inputs["splittedHead"]; ?>
 										<?php echo $inputs["file"]; ?>

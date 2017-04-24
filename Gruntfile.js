@@ -23,6 +23,8 @@ module.exports = function(grunt) {
 				csslint: {
 					'box-sizing': false,
 					'adjoining-classes': false,
+					'qualified-headings': false,
+					'universal-selector': false,
 				},
 			},
 		};
@@ -120,12 +122,12 @@ module.exports = function(grunt) {
 			},
 		},
 		lesslint: {
-			info: _.extend({}, lesslint, {
+			info: _.merge({}, lesslint, {
 				options: {
 					failOnWarning: false,
 				},
 			}),
-			strict: _.extend({}, lesslint, {
+			strict: _.merge({}, lesslint, {
 				options: {
 					failOnWarning: true,
 				},
@@ -383,7 +385,7 @@ module.exports = function(grunt) {
 	grunt.registerTask(
 		'refreshScripts',
 		[
-			'eslint:info:browser',
+			'eslint:info_browser',
 			'changed:uglify:header',
 			'uglify:noheader', 
 		]
@@ -399,10 +401,10 @@ module.exports = function(grunt) {
 	grunt.registerTask(
 		'lint',
 		[
-			'eslint:info:browser',
-			'eslint:info:nodejs',
+			'eslint:info_browser',
+			'eslint:info_nodejs',
+			'lesslint:info',
 			'phplint',
-			'lesslint',
 		]
 	);
 };

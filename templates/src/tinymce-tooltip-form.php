@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-tinymce-forms.js" defer></script>
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-qtip2.js" defer></script>
 	</div>
-	<div aria-label="<?php _e("Insert a Tooltip", 'ithoughts-tooltip-glossary' ); ?>" role="dialog" style="border-width: 1px; z-index: 999999;" class="itg-panel itg-floatpanel itg-window itg-in" hidefocus="1" id="ithoughts_tt_gl-tooltip-form">
+	<div aria-label="<?php _e("Insert a Tooltip", 'ithoughts-tooltip-glossary' ); ?>" role="dialog" style="border-width: 1px; z-index: 100101;" class="itg-panel itg-floatpanel itg-window itg-in" hidefocus="1" id="ithoughts_tt_gl-tooltip-form">
 		<div class="itg-reset" role="application">
 			<div class="itg-window-head">
 				<div class="itg-title">
@@ -121,7 +121,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</td>
 											<td>
 												<input autocomplete="off" type="text" id="glossary_term" name="glossary_term" value="<?php echo (isset($data["term_title"])) ? $data["term_title"] : $data["term_search"]; ?>" class="completed"/>
-												<div id="glossary_term_completer_container" class="hidden">
+												<div class="glossary_term_completer_container" class="hidden">
 													<div id="glossary_term_completer" class="completer">
 													</div>
 												</div>
@@ -180,7 +180,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										</tr>
 										<tr data-mediatip_type="mediatip-localimage-type">
 											<td colspan="2">
-												<div class="" id="image-box">
+												<div class="image-box" id="image-box">
 													<?php
 	if(isset($data["mediatip_content"]['url']) && $data["mediatip_content"]['url']):
 													?>
@@ -419,7 +419,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															echo "<option value=\"$attr\"/>";
 														?>
 													</datalist>
-													<div id="ithoughts_tt_gl-attrs-table">
+													<div class="ithoughts_tt_gl-attrs-table">
 														<h3 style="text-align: center;">
 															<b>
 																<?php _e("Attributes", 'ithoughts-tooltip-glossary' ); ?>
@@ -455,7 +455,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																															  } ?>
 																	</div>
 																	<div style="clear:both;"></div>
-																	<button type="button" id="kv-pair-span-attrs-add" class="button button-primary button-large"><?php _e("Add", 'ithoughts-tooltip-glossary' ); ?></button>
+																	<button type="button" class="kv-pair-span-attrs-add" class="button button-primary button-large"><?php _e("Add", 'ithoughts-tooltip-glossary' ); ?></button>
 																</div>
 															</div>
 														</div>
@@ -489,7 +489,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																															  } ?>
 																	</div>
 																	<div style="clear:both;"></div>
-																	<button type="button" id="kv-pair-link-attrs-add" class="button button-primary button-large"><?php _e("Add", 'ithoughts-tooltip-glossary' ); ?></button>
+																	<button type="button" class="kv-pair-link-attrs-add" class="button button-primary button-large"><?php _e("Add", 'ithoughts-tooltip-glossary' ); ?></button>
 																</div>
 															</div>
 														</div>
@@ -520,6 +520,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 	</div>
-	<div style="z-index: 100100;" id="itg-modal-block" class="itg-reset itg-fade itg-in">
+	<div style="z-index: 100100;" class="itg-modal-block" class="itg-reset itg-fade itg-in">
 	</div>
 </div>

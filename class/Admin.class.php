@@ -159,7 +159,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			) );
 
 			wp_register_style( "ithoughts_tooltip_glossary-tinymce_form",	$backbone->get_base_url() . '/css/ithoughts_tt_gl-tinymce-forms.min.css', null, "2.7.0");
-			wp_register_style( 'ithoughts_tooltip_glossary-admin',			$backbone->get_base_url() . '/css/ithoughts_tt_gl-admin'.$backbone->get_minify().'.css', null, "2.7.0" );
+			wp_register_style( 'ithoughts_tooltip_glossary-admin',			$backbone->get_base_url() . '/css/ithoughts_tt_gl-admin.min.css', null, "2.7.0" );
 		}
 
 		/**
@@ -663,7 +663,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 			{
 			$mediatiptypes = array(
 				'localimage' => array(
-				'text' => __('Local image', 'ithoughts-tooltip-glossary' ),
+				'text' => __('Image from the media library', 'ithoughts-tooltip-glossary' ),
 				'attributes' => array(
 				'title'=> __('Image from site library', 'ithoughts-tooltip-glossary' )
 			)

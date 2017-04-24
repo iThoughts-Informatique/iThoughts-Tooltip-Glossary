@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div id="pseudohead">
 		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo Backbone::get_instance()->get_base_url(); ?>/css/ithoughts_tt_gl-tinymce-forms.min.css" type="text/css" media="all">
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form-v3.js" defer></script>
-		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-tinymce-forms.js" defer></script>
+		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-tinymce-forms.js?v=2.7.0" defer></script>
 		<!--<script>
 ithoughts_tt_gl_editor.groups = <?php echo json_encode($groups); ?>;
 </script>-->
@@ -72,7 +72,7 @@ ithoughts_tt_gl_editor.groups = <?php echo json_encode($groups); ?>;
 										<td>
 											<?php echo $inputs["groups_text"]; ?>
 											<?php echo $inputs["groups"]; ?>
-											<div id="groupspicker" class="hidden">
+											<div class="groupspicker" class="hidden">
 												<div class="group-select" data-groupid="0">
 													<input type="checkbox" <?php echo in_array(0, $data["group"]) ? "checked " : ""; ?> name="group_check" value="0" id="group_check_0">
 													<label for="group_check_0" class="group-label">
@@ -162,6 +162,6 @@ ithoughts_tt_gl_editor.groups = <?php echo json_encode($groups); ?>;
 
 
 
-	<div style="z-index: 100100;" id="itg-modal-block" class="itg-reset itg-fade itg-in">
+	<div style="z-index: 100100;" class="itg-modal-block" class="itg-reset itg-fade itg-in">
 	</div>
 </div>

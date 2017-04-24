@@ -9,44 +9,44 @@
  * @version 2.7.0
  */
 
-(function (ithoughts) {
+( function( ithoughts ) {
 	'use strict';
 
 	var $ = ithoughts.$,
-		i_t_g = ithoughts_tt_gl;
+		 i_t_g = ithoughts_tt_gl;
 
-	ithoughts.$d.ready(function(){
+	ithoughts.$d.ready( function(){
 		var u = i_t_g.updateStyle,
-			e = 'change blur keyup mouseup',
-			updateActivationPreview = (function(){
-				var triggerI = $('#qtiptrigger'),
-					animInI = $('#anim_in'),
-					animOutI = $('#anim_out'),
-					animTimeI = $('#anim_time');
+			 e = 'change blur keyup mouseup',
+			 updateActivationPreview = ( function(){
+				var triggerI = $( '#qtiptrigger' ),
+					 animInI = $( '#anim_in' ),
+					 animOutI = $( '#anim_out' ),
+					 animTimeI = $( '#anim_time' );
 				return function(){
 					var trigger = triggerI.val();
-					try{
+					try {
 						$demotip
-							.qtip('option', 'show.event', trigger)
-							.qtip('option', 'hide.event', (trigger == 'responsive') ? 'responsiveout' : 'mouseleave')
-							.qtip('option', 'show.effect', i_t_g.animationFunctions.in[animInI.val()])
-							.qtip('option', 'hide.effect', i_t_g.animationFunctions.out[animOutI.val()])
-							.prop('animation_duration', parseInt(animTimeI.val()||500));
-					} catch(e){
-						i_t_g.error(e);
+							.qtip( 'option', 'show.event', trigger )
+							.qtip( 'option', 'hide.event', ( trigger == 'responsive' ) ? 'responsiveout' : 'mouseleave' )
+							.qtip( 'option', 'show.effect', i_t_g.animationFunctions.in[animInI.val()])
+							.qtip( 'option', 'hide.effect', i_t_g.animationFunctions.out[animOutI.val()])
+							.prop( 'animation_duration', parseInt( animTimeI.val()||500 ));
+					} catch ( e ){
+						i_t_g.error( e );
 					}
 				};
 			})(),
-			$demotip = $('#qtip-exampleStyle');
-		$('#qtiprounded,#qtipshadow,#qtipstyle').bind(e, function(e){u(e, $('#qtipstyle').val(), $demotip);});
-		$('#tooltips,#qtiptrigger,#anim_in,#anim_out,#anim_time').bind(e, updateActivationPreview);
-		(function(){
-			var verbosityInput = $('#verbosity'),
-				verbosityLabel = $('#ithoughts_tt_gl-verbosity_label'),
-				verbosityLabels = verbosityLabel.data('labels');
-			verbosityInput.on('input', function(){
-				verbosityLabel.text(verbosityLabels[$(this).val()]);
-			}).trigger('input');
+			 $demotip = $( '#qtip-exampleStyle' );
+		$( '#qtiprounded,#qtipshadow,#qtipstyle' ).bind( e, function( e ){u( e, $( '#qtipstyle' ).val(), $demotip );});
+		$( '#tooltips,#qtiptrigger,#anim_in,#anim_out,#anim_time' ).bind( e, updateActivationPreview );
+		( function(){
+			var verbosityInput = $( '#verbosity' ),
+				 verbosityLabel = $( '#ithoughts_tt_gl-verbosity_label' ),
+				 verbosityLabels = verbosityLabel.data( 'labels' );
+			verbosityInput.on( 'input', function(){
+				verbosityLabel.text( verbosityLabels[$( this ).val()]);
+			}).trigger( 'input' );
 		}());
 	});
-})(Ithoughts.v4);
+})( Ithoughts.v4 );
