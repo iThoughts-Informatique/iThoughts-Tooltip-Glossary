@@ -9,19 +9,19 @@
  * @version 2.7.0
  */
 
-( function( ithoughts ){
+( function selfCalling( ithoughts ) {
 	'use strict';
 
 	var lastPos,
-		 $ = ithoughts.$,
-		 $w = ithoughts.$w,
-		 pleaseSelect = $( '.ithoughts_tt_gl-please-select' ),
-		 clickable = $( '.itg-atoz-clickable' );
+		$ = ithoughts.$,
+		$w = ithoughts.$w,
+		pleaseSelect = $( '.ithoughts_tt_gl-please-select' ),
+		clickable = $( '.itg-atoz-clickable' );
 
-	function setShow( $parent, alpha ){
+	function setShow( $parent, alpha ) {
 		var fct1k,
-			 fct2k;
-		if ( alpha ){
+			fct2k;
+		if ( alpha ) {
 			fct1k = 'removeClass';
 			fct2k = 'addClass';
 		} else {
@@ -30,19 +30,20 @@
 		}
 		$parent.find( '.itg-atoz-items' )[fct1k]( 'itg-atoz-items-on' )[fct2k]( 'itg-atoz-items-off' );
 		$parent.find( '.ithoughts_tt_gl-please-select' )[alpha ? 'hide' : 'show']();
-		if ( alpha ){
+		if ( alpha ) {
 			$parent.find( '.itg-atoz-items-' + alpha ).removeClass( 'itg-atoz-items-off' ).addClass( 'itg-atoz-items-on' );
 		}
 	}
-	function setCurrentTab( alpha ){
+	function setCurrentTab( alpha ) {
 		pleaseSelect.hide();
-		clickable.filter( function(){return $( this ).data( 'alpha' ) == alpha;}).click();
+		clickable.filter( function filterAlphaTab() {
+			return $( this ).data( 'alpha' ) === alpha;
+		}).click();
 	}
-	ithoughts.$d.ready( function(){
-
+	ithoughts.$d.ready( function onDocumentReady() {
 		var preventHashChange = false;
 		// Handle clicking
-		$( '.itg-atoz-clickable' ).click( function(){
+		$( '.itg-atoz-clickable' ).click( function onClickTab() {
 			// Keep track of the scroll
 			lastPos = $w.scrollTop();
 			$( this ).removeClass( 'itg-atoz-menu-off' ).addClass( 'itg-atoz-menu-on' );
@@ -55,8 +56,8 @@
 		});
 
 		// Manual hash change - trigger click
-		$w.bind( 'hashchange', function(){
-			if ( preventHashChange ){
+		$w.bind( 'hashchange', function onHashChange() {
+			if ( preventHashChange ) {
 				preventHashChange = false;
 			} else {
 				var alpha = location.hash.replace( '#', '' );
@@ -70,10 +71,11 @@
 		//  - Look for first available if none specified
 		//  - Trigger click if exists
 		var myLocation = document.location.toString(),
-			 myAlpha = '';
-		if ( myLocation.match( '#' ))
+			myAlpha = '';
+		if ( myLocation.match( '#' ))			{
 			myAlpha = myLocation.split( '#' )[1];
-		if ( !myAlpha.length ){
+		}
+		if ( !myAlpha.length ) {
 			$( '.itg-atoz-items' ).removeClass( 'itg-atoz-items-on' ).addClass( 'itg-atoz-items-off' );
 			clickable.removeClass( 'itg-atoz-menu-on' ).addClass( 'itg-atoz-menu-off' );
 			$( '.ithoughts_tt_gl-please-select' ).show();

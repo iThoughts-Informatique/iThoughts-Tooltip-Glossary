@@ -9,15 +9,15 @@
  * @version 2.7.0
  */
 
-( function( ithoughts ){
+( function selfCalling( ithoughts ) {
 	'use strict';
 	var $ = ithoughts.$;
 
-	ithoughts.$d.ready( function(){
-		$( '#LESS-form' )[0].simple_ajax_callback = function( res ){
-			if ( res.valid ){
+	ithoughts.$d.ready( function onDocumentReady() {
+		var ajaxCallback = function ajaxCallback( res ) {
+			if ( res.valid ) {
 				var styleTag = $( '#ithoughts_tt_gl-custom_theme' );
-				if ( styleTag.length == 0 ){
+				if ( 0 === styleTag.length ) {
 					styleTag = $( $.parseHTML( '<style id="ithoughts_tt_gl-custom_theme"></style>' ));
 					$( 'body' ).append( styleTag );
 				}
@@ -25,14 +25,15 @@
 
 				window.updateStyle( null, res.theme_name );
 			} else {
-				ithoughts_tt_gl.error( 'Error while getting preview style', res );
+				iThoughtsTooltipGlossary.error( 'Error while getting preview style', res );
 			}
 		};
+		$( '#LESS-form' )[0].simpleAjaxCallback = ajaxCallback;
 		var theme = $( '[name="themename"]' ).val();
-		if ( theme != '' && theme ){
+		if ( theme !== '' && theme ) {
 			window.updateStyle( null, theme );
 		}
-		$( '[name="themename"]' ).change( function(){
+		$( '[name="themename"]' ).change( function onThemeChange() {
 			$( this ).parent().find( 'button' ).prop( 'disabled', !this.value );
 		}).change();
 	});

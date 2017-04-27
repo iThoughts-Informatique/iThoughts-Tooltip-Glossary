@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo Backbone::get_instance()->get_base_url(); ?>/css/ithoughts_tt_gl-tinymce-forms.min.css" type="text/css" media="all">
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form-v3.js" defer></script>
 		<script>
-			ithoughts_tt_gl_editor.terms = <?php echo json_encode($terms); ?>;
+			iThoughtsTooltipGlossaryEditor.terms = <?php echo json_encode($terms); ?>;
 		</script>
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-tinymce-forms.js" defer></script>
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-qtip2.js" defer></script>
@@ -189,7 +189,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													endif;
 													?>
 												</div>
-												<input id="image-box-data" style="display: none;" value="<?php echo $data["mediatip_content_json"]; ?>">
+												<input id="image-box-data" type="hidden" value="<?php echo $data["mediatip_content_json"]; ?>">
 												<div class="itg-widget itg-btn itg-last itg-btn-has-text" role="button" style="width: 100%; height: 30px;" tabindex="-1">
 													<button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl_select_image">
 														<?php _e("Select an image", 'ithoughts-tooltip-glossary' ); ?>

@@ -253,7 +253,7 @@ if(!class_exists(__NAMESPACE__."\\Glossary")){
 	 * If post has glossary shortcode in it when it is saved, mark the post as needing be updated
 	 */
         public function save_post_check_for_glossary_usage( $post_id, $post ){
-            $glossary_options = get_option( 'ithoughts_tt_gl' );
+            $glossary_options = get_option( 'iThoughtsTooltipGlossary' );
             $termusage        = isset($glossary_options['termusage'] )  ? $glossary_options['termusage']   : 'on';
 
             if( $termusage != 'on' )

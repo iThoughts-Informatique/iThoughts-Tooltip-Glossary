@@ -110,7 +110,7 @@ if(!class_exists(__NAMESPACE__."\\Updater")){
 			
 			if( $this->parentC->isUnderVersionned() ){
 				wp_enqueue_script('ithoughts_tooltip_glossary-updater');
-				wp_localize_script('ithoughts_tooltip_glossary-updater', "ithoughts_tt_gl_updater", array(
+				wp_localize_script('ithoughts_tooltip_glossary-updater', "iThoughtsTooltipGlossaryUpdater", array(
 					"from"		=> $this->from,
 					"to"		=> $this->to,
 					"pagenow"	=> $pagenow

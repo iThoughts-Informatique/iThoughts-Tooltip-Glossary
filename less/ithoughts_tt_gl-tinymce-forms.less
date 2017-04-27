@@ -158,14 +158,12 @@
 			flex: 0 0 auto;
 			margin:0;
 			padding:0;
+			position: relative;
 
 
 			li{
-				border-bottom: 1px solid @bordercolor;
-				border-color: #C5C5C5;
-				border-image: none;
-				border-style: solid;
-				border-width: 1px 1px 0 1px;
+				border: 1px solid #C5C5C5;
+				border-bottom: 0 solid @bordercolor;
 				bottom: -1px;
 				cursor: pointer;
 				display: inline-block;
@@ -178,23 +176,23 @@
 
 				&:not(.topLiner){
 					background: #fff;
-					position: relative;
-					z-index: 1;
 				}
 				&:hover,
 				&.active{
 					border-bottom: 1px solid #C5C5C5;
 					border-bottom: 1px solid fadeout(#C5C5C5, 100);
 					transition:0.25s border-bottom-color;
+					z-index: 2;
 				}
 			}
 			.topLiner{
-				border-bottom-width: 1px;
-				border-width: 0;
+				border-width: 0 0 1px;
+				bottom: 0;
 				left: 0;
 				pointer-events: none;
 				position: absolute;
 				width: 100%;
+				z-index: 1;
 			}
 			&.active,
 			&:hover,

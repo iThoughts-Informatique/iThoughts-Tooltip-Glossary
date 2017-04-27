@@ -9,31 +9,28 @@
  * @version 2.7.0
  */
 
-/* global tinymce:false, ithoughts_tt_gl_editor: false */
+/* global tinymce:false, iThoughtsTooltipGlossaryEditor: false */
 
-/**
- * @function initTinyMCEPlugin
- * @description Namespace & register both term & list TinyMCE plugins for iThoughts Tooltip Glossary
- * @param {Object} ithoughts Appropriate version of iThoughts Tooltip Glossary helper
- */
-( function initTinyMCEPlugin( ithoughts ) {
+( function selfCalling( ithoughts ) {
 	'use strict';
 
 	var $				= ithoughts.$,
-		 i_t_g_e         = ithoughts_tt_gl_editor,
-		 prefix1			= 'ithoughts_tt_gl',
-		 prefix2			= prefix1 + '_tinymce',
-		 prefix3			= 'ithoughts-tooltip-glossary',
-		 tipsTypes		= [
-			'ithoughts-tooltip-glossary-term',
-			 'ithoughts-tooltip-glossary-tooltip',
-			 'ithoughts-tooltip-glossary-mediatip'],
-		 tipsSelector	= tipsTypes.map( function( e ) { return '[data-type="' + e + '"]'; }).join( ',' );
+		itge			= iThoughtsTooltipGlossaryEditor,
+		prefix2			= 'ithoughts_tt_gl_tinymce',
+		prefix3			= 'ithoughts-tooltip-glossary',
+		tipsTypes		= [
+			'itg-term',
+			'itg-tooltip',
+			'itg-mediatip',
+		],
+		tipsSelector	= tipsTypes.map( function wrapTypes( e ) {
+			return '[data-type="' + e + '"]'; 
+		}).join( ',' );
 
 	function setToggleable( element, editor ) {
-		return function() {
+		return function toggle() {
 			var self = this;
-			editor.on( element, function( e ) {
+			editor.on( element, function setElementActive( e ) {
 				self.active( e.active );
 			});
 		};
@@ -41,8 +38,8 @@
 
 	tinymce.PluginManager.add( prefix2, function registerTinyMCEPlugin( editor, url ) {
 		//CSS
-		editor.contentCSS.push( url + '/../css/' + prefix1 + '-admin.min.css?v=2.7.0' );
-/*
+		editor.contentCSS.push( url + '/../css/ithoughts_tt_gl-admin.min.css?v=2.7.0' );
+		/*
 
 		function getLang(str) {
 			editor.getLang(prefix2 + str);
@@ -51,21 +48,21 @@
 
 		function glossarytermremovefct() {
 			var currentNode = editor.selection.getNode(),
-				 $currentNode = $( currentNode ),
-				 $node = $currentNode.closest( tipsSelector ),
-				 node = $node.get( 0 );
-			if ( !node ){
+				$currentNode = $( currentNode ),
+				$node = $currentNode.closest( tipsSelector ),
+				node = $node.get( 0 );
+			if ( !node ) {
 				return;
 			}
 			var html = node.innerHTML;
 			$node.replaceWith( html );
 		}
 
-		editor.on( 'BeforeSetcontent', function i_t_g_BeforeSetcontent( event ) { //replace from shortcode to displayable html content
-			event.content = i_t_g_e.replaceShortcodes( event.content );
-		}).on( 'GetContent', function i_t_g_GetContent( event ) { //replace from displayable html content to shortcode
-			event.content = i_t_g_e.restoreShortcodes( event.content );
-		}).on( 'NodeChange', function( event ) {
+		editor.on( 'BeforeSetcontent', function beforeSetContent( event ) { //replace from shortcode to displayable html content
+			event.content = itge.replaceShortcodes( event.content );
+		}).on( 'GetContent', function getContent( event ) { //replace from displayable html content to shortcode
+			event.content = itge.restoreShortcodes( event.content );
+		}).on( 'NodeChange', function nodeChange( event ) {
 			var element = event.element;
 			if ( $( element ).closest( tipsSelector ).length > 0 ) {
 				editor.fire( 'glossaryterm', {
@@ -82,7 +79,7 @@
 					active: false,
 				});
 			}
-			if ([prefix3 + '-term_list', prefix3 + '-atoz'].indexOf( element.getAttribute( 'data-type' )) !== -1 ) {
+			if ([ prefix3 + '-term_list', prefix3 + '-atoz' ].indexOf( element.getAttribute( 'data-type' )) !== -1 ) {
 				editor.fire( 'glossarylist', {
 					active: true,
 				});
@@ -94,9 +91,9 @@
 		});
 
 
-		function generateSelObject(){
+		function generateSelObject() {
 			var tinymceSel = editor.selection,
-				 sel = {
+				sel = {
 					DOM: $( tinymceSel.getNode()).closest( tipsSelector ).toArray(),
 				};
 			sel.html = tinymceSel.getContent({
@@ -106,17 +103,12 @@
 			sel.end = tinymceSel.getEnd();
 			return sel;
 		}
-		function insertInTinyMCE( shortcode, mode ){
+		function insertInTinyMCE( shortcode, mode ) {
 			// Insert content when the window form is submitted
-			if ( mode === 'load' ) {
+			if ( 'load' === mode ) {
 				editor.selection.select( editor.selection.getStart());
 			} else if ( mode.indexOf( 'extend' ) > -1 ) {
-				i_t_g_e.error( 'Unhandled mode "extend" during writing of new tooltip shortcode' );/*
-								rng = sel.getRng(true);
-								arr = JSON.parse(mode.match(/extend(.*)$/)[1]);
-								text = rng.commonAncestorContainer.textContent;
-								rng.commonAncestorContainer.textContent = text.slice(0, arr[0]) + text.slice(arr[1], text.length - 1);
-								editor.fire("DblClick");*/
+				itge.error( 'Unhandled mode "extend" during writing of new tooltip shortcode' );
 			}
 			editor.insertContent( shortcode );
 		}
@@ -124,32 +116,32 @@
 		// Add a button that opens a window
 		editor.addButton( 'glossaryterm', {
 			title:        editor.getLang( prefix2 + '.add_tooltip' ),
-			 image:        url + '/icon/glossaryterm.png',
-			 onPostRender: setToggleable( 'glossaryterm', editor ),
-			 onclick:      function(){
-				i_t_g_e.editorForms.tip( generateSelObject(), insertInTinyMCE );
+			image:        url + '/icon/glossaryterm.png',
+			onPostRender: setToggleable( 'glossaryterm', editor ),
+			onclick:      function onclick() {
+				itge.editorForms.tip( generateSelObject(), insertInTinyMCE );
 			},
 		});
 		// Add the equivalent delete button
 		editor.addButton( 'glossaryterm-d', {
 			title:        editor.getLang( prefix2 + '.remove_tooltip' ),
-			 image:        url + '/icon/glossaryterm-d.png',
-			 onPostRender: setToggleable( 'glossaryterm-d', editor ),
-			 onclick:      glossarytermremovefct,
+			image:        url + '/icon/glossaryterm-d.png',
+			onPostRender: setToggleable( 'glossaryterm-d', editor ),
+			onclick:      glossarytermremovefct,
 		});
 
 		editor.addButton( 'glossarylist', {
 			title:			     editor.getLang( prefix2 + '.add_index' ),
-			 image:			     url + '/icon/glossaryindex.png',
-			 onPostRender:	setToggleable( 'glossarylist', editor ),
-			 onclick:		    function(){
+			image:			     url + '/icon/glossaryindex.png',
+			onPostRender:	setToggleable( 'glossarylist', editor ),
+			onclick:		    function onclick() {
 				var sel = {
 					selection: editor.selection,
 				};
 				sel.start = sel.selection.getStart();
 				sel.end = sel.selection.getEnd();
 				sel.DOM = $.parseHTML( sel.selection );
-				i_t_g_e.editorForms.list( generateSelObject(), insertInTinyMCE );
+				itge.editorForms.list( generateSelObject(), insertInTinyMCE );
 			},
 		});
 	});

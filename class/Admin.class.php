@@ -152,7 +152,7 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 				"2.7.0"
 			);
 
-			wp_localize_script( 'ithoughts_tooltip_glossary-editor', 'ithoughts_tt_gl_editor', array(
+			wp_localize_script( 'ithoughts_tooltip_glossary-editor', 'iThoughtsTooltipGlossaryEditor', array(
 				"admin_ajax"    => admin_url('admin-ajax.php'),
 				"base_tinymce"  => $backbone->get_base_url() . '/js/tinymce',
 				'verbosity'     => $backbone->get_option("verbosity"),
@@ -1388,11 +1388,11 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 		}
 
 		/**
-	 * Update a custom theme
-	 * @author Gerkin
-	 * @param string $themeName The name of the theme to update
-	 * @param string $themeContent The theme's CSS stylesheet
-	 */
+		 * Update a custom theme
+		 * @author Gerkin
+		 * @param string $themeName    The name of the theme to update
+		 * @param string $themeContent The theme's CSS stylesheet
+		 */
 		private function update_theme($themeName, $filename, $themeContent){
 			$reformatedThemeName = preg_replace("/[^a-z]/", "_", strtolower($themeName));
 			$themeInfos = $this->get_custom_theme_infos();
@@ -1411,10 +1411,10 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 		}
 
 		/**
-	 * Remove a custom theme
-	 * @author Gerkin
-	 * @param string $themeName The name of the theme to delete
-	 */
+		 * Remove a custom theme
+		 * @author Gerkin
+		 * @param string $themeName The name of the theme to delete
+		 */
 		private function remove_theme($themeName){
 			$reformatedThemeName = preg_replace("/[^a-z]/", "_", strtolower($themeName));
 			$themeInfos = $this->get_custom_theme_infos();
@@ -1431,9 +1431,9 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 		}
 
 		/**
-	 * Recompile the whole custom themes stylesheet. The URL to the output file is stored in the option "custom_styles_path", with the timestamp of generation.
-	 * @author Gerkin
-	 */
+		 * Recompile the whole custom themes stylesheet. The URL to the output file is stored in the option "custom_styles_path", with the timestamp of generation.
+		 * @author Gerkin
+		 */
 		private function recompile_custom_themes(){
 			$themeInfos = $this->get_custom_theme_infos();
 			$errs = array();
@@ -1509,10 +1509,10 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 		}
 
 		/**
-	 * Return comon infos about custom themes, like the absolute directory for subthemes, the absolute path for the custom theme's CSS file, and the URL to the themes file.
-	 * @return string[] An associative array with infos. ["absdir"] returns the absolute path to the themes dir. ["absfile"] returns the absolute path to the concatenated themes file. ["urlfile"] returns the URL to the concatenated themes file.
-	 * @author Gerkin
-	 */
+		 * Return comon infos about custom themes, like the absolute directory for subthemes, the absolute path for the custom theme's CSS file, and the URL to the themes file.
+		 * @return string[] An associative array with infos. ["absdir"] returns the absolute path to the themes dir. ["absfile"] returns the absolute path to the concatenated themes file. ["urlfile"] returns the URL to the concatenated themes file.
+		 * @author Gerkin
+		 */
 		public function get_custom_theme_infos(){
 			$wp_upload = wp_upload_dir();
 			$dir = "/ithoughts_tooltip_glossary";
@@ -1526,11 +1526,11 @@ if(!class_exists(__NAMESPACE__."\\Admin")){
 		}
 
 		/**
-	 * Get the list of available themes. Since v2.4, it also display a list of custom themes
-	 * @author Gerkin
-	 * @param  boolean [$disableDefaults = false] Returns default text with attributes configured to be displayed as disabled in the dropdown
-	 * @return Array[] Themes formated for being injected in {@link Toolbox::generate_input_select}
-	 */
+		 * Get the list of available themes. Since v2.4, it also display a list of custom themes
+		 * @author Gerkin
+		 * @param  boolean [$disableDefaults          = false] Returns default text with attributes configured to be displayed as disabled in the dropdown
+		 * @return Array[] Themes formated for being injected in {@link Toolbox::generate_input_select}
+		 */
 		private function get_themes($disableNonEditable = false){
 			$themeInfos = $this->get_custom_theme_infos();
 			$opts = array(

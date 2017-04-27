@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form-v3.js" defer></script>
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-tinymce-forms.js?v=2.7.0" defer></script>
 		<!--<script>
-ithoughts_tt_gl_editor.groups = <?php echo json_encode($groups); ?>;
+iThoughtsTooltipGlossaryEditor.groups = <?php echo json_encode($groups); ?>;
 </script>-->
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-qtip2.js" defer></script>
 	</div>
