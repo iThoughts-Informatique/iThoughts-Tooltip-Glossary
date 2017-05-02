@@ -12,5 +12,9 @@
     "chai": "^3.5.0",
     "commander": "^2.9.0",
     "fs-extra": "^2.1.2"
+  },
+  "devDependencies": {
+    "check-types": "^7.1.5",
+    "lodash": "^4.17.4"
   }
 }

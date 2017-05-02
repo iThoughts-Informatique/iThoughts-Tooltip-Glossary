@@ -23,13 +23,12 @@ casper.start( config.test_site.site_url + '/wp-admin', function start() {
 	postsCount = this.evaluate( function countPostsEvaluate( postSelector ) {
 		return __utils__.findAll( postSelector ).length;
 	}, postSelector );
-}).thenClick( '.submitdelete').then( function recountPosts() {
+}).thenClick( '.submitdelete' ).then( function recountPosts() {
 	var count = this.evaluate( function countPostsEvaluate( postSelector ) {
 		return __utils__.findAll( postSelector ).length;
 	}, postSelector );
 	if ( count !== postsCount - 1 ) {
-		console.error( 'No post deleted' );
-		this.exit( 1 );
+		return this.triggerError( 1, 'No post deleted' );
 	}
 });
 

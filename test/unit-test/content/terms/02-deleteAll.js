@@ -34,8 +34,7 @@ casper.start( `${config.test_site.site_url}/wp-admin`, function start() {
 		return __utils__.findAll( postSelector ).length;
 	}, postSelector );
 	if ( postsCount === count ) {
-		console.error( 'No post removed' );
-		this.exit( 1 );
+		return this.triggerError( 1, 'No post removed' );
 	}
 });
 

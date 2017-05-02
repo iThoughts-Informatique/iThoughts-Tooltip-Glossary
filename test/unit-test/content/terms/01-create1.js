@@ -34,16 +34,14 @@ casper.start( config.test_site.site_url + '/wp-admin', function start() {
 	var url = this.getCurrentUrl(),
 		idMatch = url.match( /post=(\d+)/ );
 	if ( !idMatch ) {
-		console.error( 'Unable to retrieve new term id' );
-		this.exit( 1 );
+		return this.triggerError( 1, 'Unable to retrieve new term id' );
 	}
 }).thenOpen( config.test_site.site_url + '/wp-admin/edit.php?post_type=glossary' ).then( function recountPosts() {
 	var count = this.evaluate( function countPostsEvaluate( postSelector ) {
 		return __utils__.findAll( postSelector ).length;
 	}, postSelector );
 	if ( count !== postsCount + 1 ) {
-		console.error( 'No post created' );
-		this.exit( 1 );
+		return this.triggerError( 1, 'No post created' );
 	}
 });
 
