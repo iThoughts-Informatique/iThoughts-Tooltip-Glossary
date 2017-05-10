@@ -242,7 +242,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			return $this->handledAttributes;
 		}
 		public function add_filters(){
-			require_once( $this->base_class_path . '/Filters.class.php' );
+			require_once( $this->base_class_path . '/class-filters.php' );
 			new filters();
 		}
 		public function addScript($newArray){
@@ -257,37 +257,41 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 		}
 
 		public function localisation(){
-			load_plugin_textdomain( 'ithoughts-tooltip-glossary', false, plugin_basename( dirname( __FILE__ ) )."/../lang" );
-			require_once( $this->base_class_path . '/MicroPost.class.php' );
+			if (load_plugin_textdomain( 'ithoughts-tooltip-glossary', false, plugin_basename( dirname( __FILE__ ) )."/../lang" ) === false) {
+				//
+			} else {
+				//
+			}
+			require_once( $this->base_class_path . '/class-micropost.php' );
 		}
 
 		private function register_post_types(){
-			require_once( $this->base_class_path . '/PostTypes.class.php' );
+			require_once( $this->base_class_path . '/class-posttypes.php' );
 			PostTypes::get_instance();
 		}
 
 		private function register_taxonmies(){
-			require_once( $this->base_class_path . '/Taxonomies.class.php' );
+			require_once( $this->base_class_path . '/class-taxonomies.php' );
 			Taxonomies::get_instance();
 		}
 
 		private function add_shortcodes(){
-			require_once( $this->base_class_path . '/shortcode/Tooltip.class.php' );
+			require_once( $this->base_class_path . '/shortcode/class-tooltip.php' );
 			shortcode\Tooltip::get_instance();
-			require_once( $this->base_class_path . '/shortcode/Mediatip.class.php' );
+			require_once( $this->base_class_path . '/shortcode/class-mediatip.php' );
 			shortcode\Mediatip::get_instance();
-			require_once( $this->base_class_path . '/shortcode/Glossary.class.php' );
+			require_once( $this->base_class_path . '/shortcode/class-glossary.php' );
 			shortcode\Glossary::get_instance();
-			require_once( $this->base_class_path . '/shortcode/GlossaryList.class.php' );
+			require_once( $this->base_class_path . '/shortcode/class-glossarylist.php' );
 			//new shortcode\List();
-			require_once( $this->base_class_path . '/shortcode/AtoZ.class.php' );
+			require_once( $this->base_class_path . '/shortcode/class-atoz.php' );
 			shortcode\AtoZ::get_instance();
-			require_once( $this->base_class_path . '/shortcode/TermList.class.php' );
+			require_once( $this->base_class_path . '/shortcode/class-termlist.php' );
 			shortcode\TermList::get_instance();
 		}
 
 		private function add_widgets(){
-			require_once( $this->base_class_path . '/RandomTerm.class.php' );
+			require_once( $this->base_class_path . '/class-randomterm.php' );
 			add_action( 'widgets_init', array($this, 'widgets_init') );
 		}
 

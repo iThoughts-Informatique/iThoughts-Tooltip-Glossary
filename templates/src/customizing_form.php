@@ -17,6 +17,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+
+$url;
+switch(substr(get_locale(), 0, 2)) {
+	case "fr":
+		$url = "https://www.gerkindevelopment.net/portfolio/ithoughts-tooltip-glossary/";
+		break;
+		
+	default:
+		$url = "https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/";
+		break;
+}
 ?>
 <div class="wrap">
 	<div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">
@@ -24,21 +35,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="icon32" id="icon-options-general">
 				<br>
 			</div>
-			<h2><?php _e('Theme editor', 'ithoughts-tooltip-glossary' ); ?></h2>
+			<h2><?php esc_html_e('Theme editor', 'ithoughts-tooltip-glossary' ); ?></h2>
 			<div id="dashboard-widgets-wrap">
 				<div class="dashboard-widgets">
-					<p style="font-size:17px;"><em><?php _e("Need help? Check out the full plugin manual at ", 'ithoughts-tooltip-glossary' ); ?> <a href="https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/" target="_blank">GerkinDevelopment.net</a>.</em></p> 
+					<p style="font-size:17px;"><em><?php printf(
+	wp_kses(
+		__(
+			'Need help? Check out the full plugin manual at <a href="%s">GerkinDevelopment.net</a>.', 'ithoughts-tooltip-glossary'
+		),
+		array(
+			'a' => array(
+				'href' => array()
+			)
+		)
+	),
+	esc_url($url)
+); ?></em></p> 
 					<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
 						<div id="normal-sortables" class="" style="flex:1 1 auto;"><!--Old removed classes: "meta-box-sortables ui-sortable"-->
 							<div class="postbox">
-								<h3 class="hndle"><span><?php _e('Load a theme', 'ithoughts-tooltip-glossary' ); ?></span></h3>
+								<h3 class="hndle"><span><?php esc_html_e('Load a theme', 'ithoughts-tooltip-glossary' ); ?></span></h3>
 								<div class="inside">
 									<form id="ithoughts_loadtheme" method="get">
 										<input type="hidden" name="page" value="ithoughts-tooltip-glossary-themes"/>
-										<label for="themename"><?php _e('Theme to load', 'ithoughts-tooltip-glossary' ); ?></label>
+										<label for="themename"><?php esc_html_e('Theme to load', 'ithoughts-tooltip-glossary' ); ?></label>
 										<?php echo $inputs["themeselect"]; ?>
-										<button type="submit" name="action" class="button button-primary" value="load"><?php _e('Load', 'ithoughts-tooltip-glossary' ); ?></button>
-										<button type="submit" class="button button-secondary" name="action" value="delete" onclick="var themename=gei('themename');return ((themename&&themename.value&&(themename=themename.value))?confirm('<?php _e('Are you sure you want to delete the theme %s?', 'ithoughts-tooltip-glossary'); ?>'.replace('%s', themename)):false);"><?php _e('Delete', 'ithoughts-tooltip-glossary' ); ?></button>
+										<button type="submit" name="action" class="button button-primary" value="load"><?php esc_html_e('Load', 'ithoughts-tooltip-glossary' ); ?></button>
+										<button type="submit" class="button button-secondary" name="action" value="delete" onclick="var themename=gei('themename');return ((themename&&themename.value&&(themename=themename.value))?confirm('<?php esc_html_e('Are you sure you want to delete the theme %s?', 'ithoughts-tooltip-glossary'); ?>'.replace('%s', themename)):false);"><?php esc_html_e('Delete', 'ithoughts-tooltip-glossary' ); ?></button>
 									</form>
 								</div>
 							</div>

@@ -1,0 +1,30 @@
+
+module my-phpfpm 1.0;
+
+require {
+	type var_t;
+	type user_home_t;
+	type redis_port_t;
+	type httpd_t;
+	class lnk_file { create getattr read };
+	class file { create getattr open read setattr unlink write };
+	class tcp_socket name_connect;
+	class dir { add_name create read remove_name rmdir setattr };
+}
+
+#============= httpd_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t redis_port_t:tcp_socket name_connect;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t user_home_t:dir { add_name create read remove_name rmdir setattr };
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t user_home_t:file { create open read setattr unlink write };
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t user_home_t:lnk_file { create getattr read };
+
+#!!!! WARNING: 'var_t' is a base type.
+allow httpd_t var_t:file getattr;

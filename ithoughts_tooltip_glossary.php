@@ -28,9 +28,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once( dirname(__FILE__) . '/submodules/iThoughts-WordPress-Plugin-Toolbox/class/includer.php' );
-require_once( dirname(__FILE__) . '/class/Backbone.class.php' );
+require_once( dirname(__FILE__) . '/class/class-backbone.php' );
 ithoughts\tooltip_glossary\Backbone::get_instance( __FILE__ );
 if(is_admin()){
-	require_once( dirname(__FILE__) . '/class/Admin.class.php' );
+	require_once( dirname(__FILE__) . '/class/class-admin.php' );
 	ithoughts\tooltip_glossary\Admin::get_instance();
 }

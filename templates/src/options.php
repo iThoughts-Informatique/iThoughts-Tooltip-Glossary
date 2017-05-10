@@ -30,17 +30,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div id="normal-sortables" class=""><!--Old removed classes: "meta-box-sortables ui-sortable"-->
 						<form action="<?php echo $ajax; ?>" method="post" class="simpleajaxform" data-target="update-response">
 
-							<p style="font-size:17px;"><em><?php _e("Need help? Check out the full plugin manual at ", 'ithoughts-tooltip-glossary' ); ?> <a href="https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/" target="_blank">GerkinDevelopment.net</a>.</em></p>
-							<p><strong><?php _e("Note", 'ithoughts-tooltip-glossary' ); ?>:</strong>&nbsp;<?php _e("Labels in <span class=\"nonoverridable\">red</span> indicate global options, not overridable by tips.", 'ithoughts-tooltip-glossary' ); ?></p>
+							<p style="font-size:17px;"><em><?php printf(wp_kses(__('Need help? Check out the full plugin manual at <a href="%s">GerkinDevelopment.net</a>.', 'ithoughts-tooltip-glossary'), array('a' => array('href' => array()))), esc_url($url)); ?></em></p>
+							<p><strong><?php _e("Note", 'ithoughts-tooltip-glossary' ); ?>:</strong>&nbsp;<?php printf(wp_kses(__('Labels in <span class=\"nonoverridable\">red</span> indicate global options, not overridable by tips.', 'ithoughts-tooltip-glossary'), array('span' => array('class' => array())))); ?></p>
 
 							<div id="ithoughts_tt_gllossary_options_1" class="postbox">
-								<div class="handlediv" title="Cliquer pour inverser."><br></div><h3 class="hndle"><span><?php _e('Term Options', 'ithoughts-tooltip-glossary' ); ?></span></h3>
+								<div class="handlediv" title="Cliquer pour inverser."><br></div><h3 class="hndle"><span><?php esc_html_e('Term Options', 'ithoughts-tooltip-glossary' ); ?></span></h3>
 								<div class="inside">
 									<table class="form-table">
 										<tbody>
 											<tr>
 												<th>
-													<label for="termlinkopt"><?php _e('Term link', 'ithoughts-tooltip-glossary' ); ?>:</label>
+													<label for="termlinkopt"><?php esc_html_e('Term link', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
 													<?php echo $optionsInputs["termlinkopt"]; ?>
@@ -48,7 +48,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr class="nonoverridable">
 												<th>
-													<label for="staticterms"><?php _e('Static terms', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.__("infos", 'ithoughts-tooltip-glossary' ).')', __('Include term content directly into the pages to avoid use of Ajax. This can slow down your page generation.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>
+													<label for="staticterms"><?php esc_html_e('Static terms', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.esc_html__("infos", 'ithoughts-tooltip-glossary' ).')', esc_html__('Include term content directly into the pages to avoid use of Ajax. This can slow down your page generation.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>
 														
 														
 												</th>
@@ -58,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr class="nonoverridable">
 												<th>
-													<label for="forceloadresources"><?php _e('Force load resources', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.__("infos", 'ithoughts-tooltip-glossary' ).')', __('Load scripts on every pages, even if not required. This option can be useful if some cache plugins are active, or if you think that scripts are not loaded when required.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>:</label>
+													<label for="forceloadresources"><?php esc_html_e('Force load resources', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.esc_html__("infos", 'ithoughts-tooltip-glossary' ).')', esc_html__('Load scripts on every pages, even if not required. This option can be useful if some cache plugins are active, or if you think that scripts are not loaded when required.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>:</label>
 												</th>
 												<td>
 													<?php echo $optionsInputs["forceloadresources"]; ?>
@@ -66,21 +66,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr class="nonoverridable">
 												<th>
-													<label for="verbosity"><?php _e('Log level', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.__("infos", 'ithoughts-tooltip-glossary' ).')', __('Print more infos to the browser console & the server logs.<ul>
+													<label for="verbosity"><?php esc_html_e('Log level', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.esc_html__("infos", 'ithoughts-tooltip-glossary' ).')', wp_kses(__('Print more infos to the browser console & the server logs.<ul>
                                                     <li>&aquot;Silent&aquot; will output nothing. Use it if all works fine and you are in production site</li>
                                                     <li>&aquot;Errors&aquot; will only output if something was wrong. This is recomended on most sites</li>
                                                     <li>&aquot;Warnings&aquot; should be used on test sites</li>
                                                     <li>&aquot;Infos&aquot; is the mode to use when asking for help on support thread, except if we ask you to use the mode &aquot;All&aquot;</li>
                                                     <li>&aquot;All&aquot; will print many informations usefull for advanced debugging, but also a lot of trash. Post your logs in this mode ONLY if asked by the maintainer</li>
-                                                    </ul>', 'ithoughts-tooltip-glossary' ), array("attributes" => array('data-tooltip-nosolo'=>"true", "data-qtip-keep-open" => "true"))); ?>:</label>
+                                                    </ul>.', 'ithoughts-tooltip-glossary'), array('ul' => array(), 'li' => array())), array("attributes" => array('data-tooltip-nosolo'=>"true", "data-qtip-keep-open" => "true"))); ?>:</label>
 												</th>
 												<td>
-                                                    <?php echo $optionsInputs["verbosity"]; ?>&nbsp;<label for="verbosity" id="ithoughts_tt_gl-verbosity_label" style="display:inline-block;line-height:27px;vertical-align:top;" data-labels='["<?php _e('Silent', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('Errors', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('Warnings', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('Infos', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('All', 'ithoughts-tooltip-glossary' ); ?>"]'></label>
+                                                    <?php echo $optionsInputs["verbosity"]; ?>&nbsp;<label for="verbosity" id="ithoughts_tt_gl-verbosity_label" style="display:inline-block;line-height:27px;vertical-align:top;" data-labels='["<?php esc_attr_e('Silent', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e('Errors', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e('Warnings', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e('Infos', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('All', 'ithoughts-tooltip-glossary' ); ?>"]'></label>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
 												<th>
-													<label for="termtype"><?php _e('Base Permalink', 'ithoughts-tooltip-glossary' ); ?>:</label>
+													<label for="termtype"><?php esc_html_e('Base Permalink', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
 													<code>/</code><?php echo $optionsInputs["termtype"]; ?><code>/</code>
@@ -88,7 +88,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr class="nonoverridable">
 												<th>
-													<label for="grouptype"><?php _e('Taxonomy group prefix', 'ithoughts-tooltip-glossary' ); ?>:</label>
+													<label for="grouptype"><?php esc_html_e('Taxonomy group prefix', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
 													<code>/<?php echo $options["termtype"]; ?>/</code><?php echo $optionsInputs["grouptype"]; ?><code>/</code>
@@ -96,7 +96,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr>
 												<th>
-													<label for="termcontent"><?php _e('Glossary Tip Content', 'ithoughts-tooltip-glossary' ); ?>:</label>
+													<label for="termcontent"><?php esc_html_e('Glossary Tip Content', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
 													<?php echo $optionsInputs["termcontent"]; ?>
@@ -104,10 +104,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr>
 												<th>
-													<label for="termscomment"><?php _e('Enable comments on glossary terms', 'ithoughts-tooltip-glossary' ); ?>:</label>
+													<label for="termscomment"><?php esc_html_e('Enable comments on glossary terms', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<?php echo $optionsInputs["termscomment"]; ?><p><em><strong>Note: </strong>You may need to enable manually the comments on each glossary terms posted before enabling this option.</em></p>
+													<?php echo $optionsInputs["termscomment"]; ?><p><em><strong><?php esc_html_e("Note:", 'ithoughts-tooltip-glossary'); ?> </strong><?php esc_html_e("You may need to enable manually the comments on each glossary terms posted before enabling this option.", 'ithoughts-tooltip-glossary'); ?></em></p>
 												</td>
 											</tr>
 										</tbody>
@@ -116,18 +116,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 							</div>
 
 							<div class="postbox" id="ithoughts_tt_gllossary_options_2">
-								<div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat(this);"><br></div><h3 onclick="window.refloat(this);" class="hndle"><span><?php _e('qTip2 Tooltip Options', 'ithoughts-tooltip-glossary' ); ?></span></h3>
+								<div class="handlediv" title="Cliquer pour inverser." onclick="window.refloat(this);"><br></div><h3 onclick="window.refloat(this);" class="hndle"><span><?php esc_html_e('qTip2 Tooltip Options', 'ithoughts-tooltip-glossary' ); ?></span></h3>
 								<div class="inside">
 									<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
 										<div style="flex:1 1 auto;">
 
 
-											<p><?php _e('iThoughts Tooltip Glossary uses the jQuery based <a href="http://qtip2.com/">qTip2</a> library for tooltips', 'ithoughts-tooltip-glossary' ); ?></p>
+											<p><?php printf(wp_kses(__('iThoughts Tooltip Glossary uses the jQuery based <a href="http://qtip2.com/">qTip2</a> library for tooltips.', 'ithoughts-tooltip-glossary'), array('a' => array('href'=>array())))); ?></p>
 											<table class="form-table">
 												<tbody>
 													<tr>
 														<th>
-															<label for="qtiptrigger"><?php _e('Tooltip activation', 'ithoughts-tooltip-glossary' ); ?>:</label>
+															<label for="qtiptrigger"><?php esc_html_e('Tooltip activation', 'ithoughts-tooltip-glossary' ); ?>:</label>
 														</th>
 														<td>
 															<?php echo $optionsInputs["qtiptrigger"]; ?>
@@ -135,7 +135,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</tr>
 													<tr>
 														<th>
-															<label for="qtipstyle"><?php _e('Tooltip Style (qTip)', 'ithoughts-tooltip-glossary' ); ?>:</label>
+															<label for="qtipstyle"><?php esc_html_e('Tooltip Style (qTip)', 'ithoughts-tooltip-glossary' ); ?>:</label>
 														</th>
 														<td>
 															<?php echo $optionsInputs["qtipstyle"]; ?>
@@ -143,7 +143,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</tr>
 													<tr>
 														<th>
-															<label for="qtipshadow"><?php _e('Tooltip shadow', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip','('.__("infos", 'ithoughts-tooltip-glossary' ).')', __('This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>:</label>
+															<label for="qtipshadow"><?php esc_html_e('Tooltip shadow', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip','('.esc_html__("infos", 'ithoughts-tooltip-glossary' ).')', esc_html__('This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>:</label>
 														</th>
 														<td>
 															<?php echo $optionsInputs["qtipshadow"]; ?>
@@ -151,8 +151,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</tr>
 													<tr>
 														<th>
-															<label for="qtiprounded"><?php _e('Rounded corners', 'ithoughts-tooltip-glossary' ); ?>&nbsp;
-														<?php echo apply_filters('ithoughts-tt-gl_tooltip','('.__("infos", 'ithoughts-tooltip-glossary' ).')', __('This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>:</label>
+															<label for="qtiprounded"><?php esc_html_e('Rounded corners', 'ithoughts-tooltip-glossary' ); ?>&nbsp;
+														<?php echo apply_filters('ithoughts-tt-gl_tooltip','('.esc_html__("infos", 'ithoughts-tooltip-glossary' ).')', esc_html__('This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>:</label>
 														</th>
 														<td>
 															<?php echo $optionsInputs["qtiprounded"]; ?>
@@ -160,12 +160,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</tr>
 													<tr>
 														<th>
-															<label for="anims"><?php _e('Animations', 'ithoughts-tooltip-glossary' ); ?></label>
+															<label for="anims"><?php esc_html_e('Animations', 'ithoughts-tooltip-glossary' ); ?></label>
 														</th>
 														<td>
-															<label for="anim_in"><?php _e('Animation in', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $optionsInputs["anim_in"]; ?></label><br/>
-															<label for="anim_out"><?php _e('Animation out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $optionsInputs["anim_out"]; ?></label><br/>
-															<label for="anim_time"><?php _e('Animation duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $optionsInputs["anim_time"]; ?>ms</label>
+															<label for="anim_in"><?php esc_html_e('Animation in', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $optionsInputs["anim_in"]; ?></label><br/>
+															<label for="anim_out"><?php esc_html_e('Animation out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $optionsInputs["anim_out"]; ?></label><br/>
+															<label for="anim_time"><?php esc_html_e('Animation duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $optionsInputs["anim_time"]; ?>ms</label>
 														</td>
 													</tr>
 												</tbody>
@@ -176,7 +176,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<div style="flex:1 1 auto;;position:relative;">
 											<div id="floater" style="display:flex;flex-direction:row;width:100%;">
 												<p style="flex:1 1 auto;text-align:center">
-													<span class="itg-tooltip" data-tooltip-autoshow="true" data-tooltip-prerender="true" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php _e('This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts-tooltip-glossary' ); ?>"><a href="javascript:void(0)" title=""><?php _e('Example Tooltip', 'ithoughts-tooltip-glossary' ); ?></a></span>
+													<span class="itg-tooltip" data-tooltip-autoshow="true" data-tooltip-prerender="true" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php echo esc_attr(wp_kses(__('This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts-tooltip-glossary'), array('a' => array(), 'em' => array(), 'b' => array(), 'i' => array()))); ?>"><a href="javascript:void(0)" title=""><?php esc_html_e('Example Tooltip', 'ithoughts-tooltip-glossary' ); ?></a></span>
 												</p>
 											</div>
 										</div>
@@ -186,7 +186,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 							<p>
 								<input autocomplete="off" type="hidden" name="action" value="ithoughts_tt_gl_update_options"/>
-								<button name="submit" class="alignleft button-primary"><?php _e('Update Options', 'ithoughts-tooltip-glossary' ); ?></button>
+								<button name="submit" class="alignleft button-primary"><?php esc_html_e('Update Options', 'ithoughts-tooltip-glossary' ); ?></button>
 							</p>
 
 						</form>

@@ -287,7 +287,7 @@ some useless files
 == Upgrade Notice ==
 
 = 2.7.0 =
-Overall improvements and add support of QuickTags for text mode (see [ist4000 request feature](https://wordpress.org/support/topic/buttons-in-the-text-mode/))
+Overall improvements and add support of QuickTags for text mode (see [ist4000 feature request](https://wordpress.org/support/topic/buttons-in-the-text-mode/))
 = 2.6.4 =
 Minor fixes
 
@@ -377,11 +377,12 @@ The menu of the plugin is now complete and clean, not dirty as it was until now.
 
 == Thanks to & Resources ==
 
-Icon from [allur.co](http://allur.co/minimalist-edit-icon-tooltip-psd-ai/)
 TCBarrett for his [WP Glossary plugin](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/)
 [Laurent Pelleray](http://lpelleray.wix.com/laurent-pelleray#!infographie/c1vmr) for graphical elements
 Tammi Coles for corrections to readme description
 Rikengct for a LOT of usefull suggestions
+TinyMCE tooltip icon  by Darren Northcott from the [Noun Project](https://thenounproject.com/term/tooltip/82869/)
+Wordpress PHP CodeSniffer ruleset https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
 
 https://github.com/23r9i0/wp-color-picker-alpha
 http://codologic.com/page/gradx-jquery-javascript-gradient-selector-library
