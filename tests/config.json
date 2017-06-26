@@ -1,0 +1,11 @@
+{
+	"test_site": {
+		"site_url": "http://localhost:8888/wordpress/",
+		"login": "admin",
+		"password": "admin"
+	},
+	"plugin": {
+		"slug": "ithoughts-tooltip-glossary",
+		"name": "iThoughts Tooltip Glossary"
+	}
+}
