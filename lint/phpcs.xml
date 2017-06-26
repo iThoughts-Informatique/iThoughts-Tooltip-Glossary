@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset name="Custom Standard">
+	<description>A custom coding standard</description>
+
+	<rule ref="PHPCompatibility" />
+	<rule ref="WordPress" />
+	<rule ref="WordPress-Core">
+		<exclude name="Generic.Files.LowercasedFilename" />
+		<exclude name="WordPress.NamingConventions.ValidVariableName" />
+	</rule>
+</ruleset>

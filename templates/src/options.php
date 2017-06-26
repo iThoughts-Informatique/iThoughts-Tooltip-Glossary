@@ -13,7 +13,7 @@
 
 
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
@@ -49,8 +49,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<tr class="nonoverridable">
 												<th>
 													<label for="staticterms"><?php esc_html_e('Static terms', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.esc_html__("infos", 'ithoughts-tooltip-glossary' ).')', esc_html__('Include term content directly into the pages to avoid use of Ajax. This can slow down your page generation.', 'ithoughts-tooltip-glossary' ), array("attributes" => array('tooltip-nosolo'=>"true"))); ?>
-														
-														
+
+
 												</th>
 												<td>
 													<?php echo $optionsInputs["staticterms"]; ?>
@@ -67,15 +67,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<tr class="nonoverridable">
 												<th>
 													<label for="verbosity"><?php esc_html_e('Log level', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php echo apply_filters('ithoughts-tt-gl_tooltip', '('.esc_html__("infos", 'ithoughts-tooltip-glossary' ).')', wp_kses(__('Print more infos to the browser console & the server logs.<ul>
-                                                    <li>&aquot;Silent&aquot; will output nothing. Use it if all works fine and you are in production site</li>
-                                                    <li>&aquot;Errors&aquot; will only output if something was wrong. This is recomended on most sites</li>
-                                                    <li>&aquot;Warnings&aquot; should be used on test sites</li>
-                                                    <li>&aquot;Infos&aquot; is the mode to use when asking for help on support thread, except if we ask you to use the mode &aquot;All&aquot;</li>
-                                                    <li>&aquot;All&aquot; will print many informations usefull for advanced debugging, but also a lot of trash. Post your logs in this mode ONLY if asked by the maintainer</li>
-                                                    </ul>.', 'ithoughts-tooltip-glossary'), array('ul' => array(), 'li' => array())), array("attributes" => array('data-tooltip-nosolo'=>"true", "data-qtip-keep-open" => "true"))); ?>:</label>
+													<li>&aquot;Silent&aquot; will output nothing. Use it if all works fine and you are in production site</li>
+													<li>&aquot;Errors&aquot; will only output if something was wrong. This is recomended on most sites</li>
+													<li>&aquot;Warnings&aquot; should be used on test sites</li>
+													<li>&aquot;Infos&aquot; is the mode to use when asking for help on support thread, except if we ask you to use the mode &aquot;All&aquot;</li>
+													<li>&aquot;All&aquot; will print many informations usefull for advanced debugging, but also a lot of trash. Post your logs in this mode ONLY if asked by the maintainer</li>
+													</ul>.', 'ithoughts-tooltip-glossary'), array('ul' => array(), 'li' => array())), array("attributes" => array('data-tooltip-nosolo'=>"true", "data-qtip-keep-open" => "true"))); ?>:</label>
 												</th>
 												<td>
-                                                    <?php echo $optionsInputs["verbosity"]; ?>&nbsp;<label for="verbosity" id="ithoughts_tt_gl-verbosity_label" style="display:inline-block;line-height:27px;vertical-align:top;" data-labels='["<?php esc_attr_e('Silent', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e('Errors', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e('Warnings', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e('Infos', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('All', 'ithoughts-tooltip-glossary' ); ?>"]'></label>
+													<?php echo $optionsInputs["verbosity"]; ?>&nbsp;<label for="verbosity" id="ithoughts_tt_gl-verbosity_label" style="display:inline-block;line-height:27px;vertical-align:top;" data-labels='["<?php esc_attr_e('Silent', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e('Errors', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e('Warnings', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e('Infos', 'ithoughts-tooltip-glossary' ); ?>","<?php _e('All', 'ithoughts-tooltip-glossary' ); ?>"]'></label>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -92,6 +92,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</th>
 												<td>
 													<code>/<?php echo $options["termtype"]; ?>/</code><?php echo $optionsInputs["grouptype"]; ?><code>/</code>
+												</td>
+											</tr>
+											<tr class="nonoverridable">
+												<th>
+													<label for="exclude_search"><?php esc_html_e('Exclude from search', 'ithoughts-tooltip-glossary' ); ?>:</label>
+												</th>
+												<td>
+													<?php echo $optionsInputs["exclude_search"]; ?>
 												</td>
 											</tr>
 											<tr>

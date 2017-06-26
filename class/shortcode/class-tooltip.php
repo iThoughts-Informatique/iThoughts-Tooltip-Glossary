@@ -35,7 +35,7 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 			add_action( 'wp_insert_post_data',  array(&$this, 'parse_pseudo_links_to_shortcode'));
 			add_action( 'edit_post',  array(&$this, 'convert_shortcodes'));
 
-            add_filter( 'ithoughts-tt-gl_tooltip', array(&$this, 'generateTooltip'), 1000, 3);
+			add_filter( 'ithoughts-tt-gl_tooltip', array(&$this, 'generateTooltip'), 1000, 3);
 		}
 
 		public function parse_pseudo_links_to_shortcode( $data ){
@@ -59,15 +59,15 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 			return apply_filters('ithoughts-tt-gl_tooltip', $text, $content, $datas);
 		}
 
-        /**
-         * Create a tooltip HTML markup with given text content $text, tooltip content $tip & provided options $options
-         * @author Gerkin
-         * @param  string $text    Text content of the highlighted word
-         * @param  string $tip     Text content into the tooltip
-         * @param  [array] $options Attributes & other options modifying the behaviour of the HTML generation. Usually provided by filter `ithoughts_tt_gl-split-args`
-         * @return string The formatted HTML markup
-         */
-        public function generateTooltip($text, $tip, $options = array('linkAttrs'=>array(),'attributes'=>array())){
+		/**
+		 * Create a tooltip HTML markup with given text content $text, tooltip content $tip & provided options $options
+		 * @author Gerkin
+		 * @param  string $text    Text content of the highlighted word
+		 * @param  string $tip     Text content into the tooltip
+		 * @param  [array] $options Attributes & other options modifying the behaviour of the HTML generation. Usually provided by filter `ithoughts_tt_gl-split-args`
+		 * @return string The formatted HTML markup
+		 */
+		public function generateTooltip($text, $tip, $options = array('linkAttrs'=>array(),'attributes'=>array())){
 			// Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
 			if( empty($tip) ) $tip = $text;
 
@@ -88,7 +88,7 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 			$args = \ithoughts\v4_0\Toolbox::concat_attrs( $options["attributes"] );
 			$span = '<span '.$args.' data-tooltip-content="'.do_shortcode($tip).'">' . $link . '</span>';
 
-            return $span;
-        }
+			return $span;
+		}
 	}
 }

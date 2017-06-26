@@ -34,148 +34,157 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 
 			$optionsConfig = array(
 				'version'		=> array(
-				"default"		=> '-1',
-				"serversideOverride"	=> false,
-				"cliensideOverride"	=> false,
-			),
+					"default"		=> '-1',
+					"serversideOverride"	=> false,
+					"cliensideOverride"	=> false,
+				),
 				'termcontent'		=> array(
-				"default"		=> 'excerpt',
-				"serversideOverride"	=> true,
-				"cliensideOverride"	=> true,
-				"accepted"		=> array(
-				'full',
-				'excerpt',
-				'off',
-			),
-			),
+					"default"		=> 'excerpt',
+					"serversideOverride"	=> true,
+					"cliensideOverride"	=> true,
+					"accepted"		=> array(
+						'full',
+						'excerpt',
+						'off',
+					),
+				),
 				'termscomment'		=> array(
-				"default"		=> false,
-				"serversideOverride"	=> false,
-				"cliensideOverride"	=> false,
-				"accepted"		=> array(
-				true,
-				false,
-			),
-			),
+					"default"		=> false,
+					"serversideOverride"	=> false,
+					"cliensideOverride"	=> false,
+					"accepted"		=> array(
+						true,
+						false,
+					),
+				),
 				'termtype'		=> array(
-				"default"		=> 'glossary',
-				"serversideOverride"	=> false,
-				"cliensideOverride"	=> false,
-			),
+					"default"		=> 'glossary',
+					"serversideOverride"	=> false,
+					"cliensideOverride"	=> false,
+				),
 				'grouptype'		=> array(
-				"default"		=> 'group',
-				"serversideOverride"	=> false,
-				"cliensideOverride"	=> false,
-			),
+					"default"		=> 'group',
+					"serversideOverride"	=> false,
+					"cliensideOverride"	=> false,
+				),
 				'qtipstyle'		=> array(
-				"default"		=> 'cream',
-				"serversideOverride"	=> false,
-				"cliensideOverride"	=> true,
-				"accepted"		=> array(
-				'cream',
-				'dark',
-				'green',
-				'light',
-				'red',
-				'blue',
-				'plain',
-				'bootstrap',
-				'youtube',
-				'tipsy',
-			),
-			),
+					"default"		=> 'cream',
+					"serversideOverride"	=> false,
+					"cliensideOverride"	=> true,
+					"accepted"		=> array(
+						'cream',
+						'dark',
+						'green',
+						'light',
+						'red',
+						'blue',
+						'plain',
+						'bootstrap',
+						'youtube',
+						'tipsy',
+					),
+				),
 				'termlinkopt'	=> array(
-				"default"		=> 'standard',
-				"serversideOverride"	=> true,
-				"cliensideOverride"	=> false,// Not a js data
-				"accepted"		=> array(
-				'standard',
-				'none',
-				'blank',
-			),
-			),
+					"default"		=> 'standard',
+					"serversideOverride"	=> true,
+					"cliensideOverride"	=> false,// Not a js data
+					"accepted"		=> array(
+						'standard',
+						'none',
+						'blank',
+					),
+				),
 				'qtiptrigger'	=> array(
-				"default"		=> 'click',
-				"serversideOverride"	=> false,
-				"cliensideOverride"	=> true,
-				"accepted"		=> array(
-				'click',
-				'responsive',
-			),
-			),
+					"default"		=> 'click',
+					"serversideOverride"	=> false,
+					"cliensideOverride"	=> true,
+					"accepted"		=> array(
+						'click',
+						'responsive',
+					),
+				),
 				'qtipshadow'	=> array(
-				"default"		=> true,
-				"serversideOverride"	=> false,
-				"cliensideOverride"	=> true,
-				"accepted"		=> array(
-				true,
-				false,
-			),
-			),
+					"default"		=> true,
+					"serversideOverride"	=> false,
+					"cliensideOverride"	=> true,
+					"accepted"		=> array(
+						true,
+						false,
+					),
+				),
 				'qtiprounded'	=> array(
-				"default"		=> false,
-				"serversideOverride"	=> false,
-				"cliensideOverride"	=> true,
-				"accepted"		=> array(
-				true,
-				false,
-			),
-			),
+					"default"		=> false,
+					"serversideOverride"	=> false,
+					"cliensideOverride"	=> true,
+					"accepted"		=> array(
+						true,
+						false,
+					),
+				),
 				'staticterms'	=> array(
-				"default"		=> false,
-				"serversideOverride"	=> false,// If required once, required everywhere
-				"cliensideOverride"	=> false,// Not a js data
-				"accepted"		=> array(
-				true,
-				false,
-			),
-			),
+					"default"		=> false,
+					"serversideOverride"	=> false,// If required once, required everywhere
+					"cliensideOverride"	=> false,// Not a js data
+					"accepted"		=> array(
+						true,
+						false,
+					),
+				),
 				'forceloadresources'	=> array(
-				"default"		=> false,
-				"serversideOverride"	=> false,// If required once, required everywhere
-				"cliensideOverride"	=> false,// Not a js data
-				"accepted"		=> array(
-				true,
-				false,
-			),
-			),
+					"default"		=> false,
+					"serversideOverride"	=> false,// If required once, required everywhere
+					"cliensideOverride"	=> false,// Not a js data
+					"accepted"		=> array(
+						true,
+						false,
+					),
+				),
 				'verbosity'	=> array(
-				"default"		=> 0,
-				"serversideOverride"	=> false,// If required once, required everywhere
-				"cliensideOverride"	=> false,// Not a js data
-				"accepted"		=> array(
-				0,
-				1,
-				2,
-				3,
-				4,
-			),
-			),
+					"default"		=> 0,
+					"serversideOverride"	=> false,// If required once, required everywhere
+					"cliensideOverride"	=> false,// Not a js data
+					"accepted"		=> array(
+						0,
+						1,
+						2,
+						3,
+						4,
+					),
+				),
 				'anim_in'		=> array(
-				"default"		=> 'none',
-				"serversideOverride"	=> false,
-				"cliensideOverride"	=> true,
-			),
+					"default"		=> 'none',
+					"serversideOverride"	=> false,
+					"cliensideOverride"	=> true,
+				),
 				'anim_out'		=> array(
-				"default"		=> 'none',
-				"serversideOverride"	=> false,
-				"cliensideOverride"	=> true,
-			),
+					"default"		=> 'none',
+					"serversideOverride"	=> false,
+					"cliensideOverride"	=> true,
+				),
 				'anim_time'		=> array(
-				"default"		=> 500,
-				"serversideOverride"	=> false,
-				"cliensideOverride"	=> true,
-			),
+					"default"		=> 500,
+					"serversideOverride"	=> false,
+					"cliensideOverride"	=> true,
+				),
 				'custom_styles_path'	=> array(
-				"default"		=> null,
-				"serversideOverride"	=> false,// If required once, required everywhere
-				"cliensideOverride"	=> false,// Not a js data
-			),
+					"default"		=> null,
+					"serversideOverride"	=> false,// If required once, required everywhere
+					"cliensideOverride"	=> false,// Not a js data
+				),
 				"lists_size"			=> array(
-				"default"		=> -1,
-				"serversideOverride"	=> true,
-				"cliensideOverride"	=> false,// Not a js data
-			)
+					"default"		=> -1,
+					"serversideOverride"	=> true,
+					"cliensideOverride"	=> false,// Not a js data
+				),
+				'exclude_search'	=> array(
+					"default"		=> false,
+					"serversideOverride"	=> false,// If required once, required everywhere
+					"cliensideOverride"	=> false,// Not a js data
+					"accepted"		=> array(
+						true,
+						false,
+					),
+				),
 			);
 
 
@@ -302,7 +311,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 		public function register_scripts_and_styles(){
 			wp_register_script('imagesloaded', $this->base_url . '/ext/imagesloaded.min.js',										null, null, true);
 			wp_register_script('qtip', $this->base_url . '/ext/jquery.qtip'.$this->minify.'.js',												array('jquery', 'imagesloaded'), "2.2.1:2", null, true);
-			wp_register_script( 'ithoughts_tooltip_glossary-qtip',  $this->base_url . '/js/ithoughts_tt_gl-qtip2'.$this->minify.'.js',	array('qtip', "ithoughts-core-v4"), "2.7.0" );
+			wp_register_script( 'ithoughts_tooltip_glossary-qtip',  $this->base_url . '/js/ithoughts_tt_gl-qtip2'.$this->minify.'.js',	array('qtip', "ithoughts-core-v4"), "2.8.0" );
 			wp_localize_script( 'ithoughts_tooltip_glossary-qtip', 'iThoughtsTooltipGlossary', array(
 				'admin_ajax'    => admin_url('admin-ajax.php'),
 				'baseurl'		=> $this->base_url,
@@ -313,24 +322,24 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 				'termcontent'	=> $this->get_option("termcontent"),
 				'verbosity'     	=> $this->get_option("verbosity"),
 				'anims'			=> array(
-				"in"	=> $this->get_option("anim_in"),
-				"out"	=> $this->get_option("anim_out"),
-				"duration"	=> $this->get_option("anim_time")
-			),
+					"in"	=> $this->get_option("anim_in"),
+					"out"	=> $this->get_option("anim_out"),
+					"duration"	=> $this->get_option("anim_time")
+				),
 				'lang'			=> array(
-				"qtip" => array(
-				"pleasewait_ajaxload" => array(
-				"title" => __('Please wait', 'ithoughts-tooltip-glossary' ),
-				"content" => __('Loading glossary term', 'ithoughts-tooltip-glossary' )
-			)
-			)
-			)
+					"qtip" => array(
+						"pleasewait_ajaxload" => array(
+							"title" => __('Please wait', 'ithoughts-tooltip-glossary' ),
+							"content" => __('Loading glossary term', 'ithoughts-tooltip-glossary' )
+						)
+					)
+				)
 			) );
-			wp_register_script( 'ithoughts_tooltip_glossary-atoz',  $this->base_url . '/js/ithoughts_tt_gl-atoz'.$this->minify.'.js',  array('jquery', "ithoughts-core-v4"), "2.4.0" );
-			wp_register_script( 'ithoughts_tooltip_glossary-list',  $this->base_url . '/js/ithoughts_tt_gl-glossary-list'.$this->minify.'.js',  array('jquery', "ithoughts-core-v4", "masonry"), "2.5.0" );
+			wp_register_script( 'ithoughts_tooltip_glossary-atoz',  $this->base_url . '/js/ithoughts_tt_gl-atoz'.$this->minify.'.js',  array('jquery', "ithoughts-core-v4"), "2.8.0" );
+			wp_register_script( 'ithoughts_tooltip_glossary-list',  $this->base_url . '/js/ithoughts_tt_gl-glossary-list'.$this->minify.'.js',  array('jquery', "ithoughts-core-v4"/*, "masonry"*/), "2.8.0" );
 
 
-			wp_register_style( 'ithoughts_tooltip_glossary-css', $this->base_url . '/css/ithoughts_tt_gl.min.css', null, "2.7.0" );
+			wp_register_style( 'ithoughts_tooltip_glossary-css', $this->base_url . '/css/ithoughts_tt_gl.min.css', null, "2.8.0" );
 			wp_register_style( 'ithoughts_tooltip_glossary-qtip-css', $this->base_url . '/ext/jquery.qtip.min.css', null, "2.2.2");
 			if(isset($this->options["custom_styles_path"]))
 				wp_register_style( 'ithoughts_tooltip_glossary-customthemes', $this->options["custom_styles_path"], null, null);
@@ -522,14 +531,14 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 		public function getTermsListAjax(){
 			$output = array(
 				"terms" => $this->searchTerms(array(
-				'post_type'			=> 'glossary',
-				'post_status'		=> 'publish',
-				'posts_per_page'	=> 25,
-				'orderby'       	=> 'title',
-				'order'         	=> 'ASC',
-				's'             	=> $_POST["search"],
-				'suppress_filters'	=> false
-			)),
+					'post_type'			=> 'glossary',
+					'post_status'		=> 'publish',
+					'posts_per_page'	=> 25,
+					'orderby'       	=> 'title',
+					'order'         	=> 'ASC',
+					's'             	=> $_POST["search"],
+					'suppress_filters'	=> false
+				)),
 				"searched" => $_POST["search"],
 			);
 			wp_send_json_success($output);
@@ -576,16 +585,16 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			// Merge with static shortcode method
 			switch( $_POST['content'] ){
 				case 'full':{
-				$content = apply_filters('ithoughts_tt_gl-term-content', $termob);
-			}break;
+					$content = apply_filters('ithoughts_tt_gl-term-content', $termob);
+				}break;
 
 				case 'excerpt':{
-				$content = apply_filters("ithoughts_tt_gl-term-excerpt", $termob);
-			}break;
+					$content = apply_filters("ithoughts_tt_gl-term-excerpt", $termob);
+				}break;
 
 				case 'off':{
-				$content = "";
-			}break;
+					$content = "";
+				}break;
 			}
 
 			// No content found, assume due to clash in settings and fetch full post content just in case.
