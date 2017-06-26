@@ -1,6 +1,6 @@
 [submodule "submodules/iThoughts-WordPress-Plugin-Toolbox"]
 	path = submodules/iThoughts-WordPress-Plugin-Toolbox
-	url = git@github.com:Nihilivin/iThoughts-WordPress-Plugin-Toolbox.git
+	url = https://github.com/iThoughts-Informatique/iThoughts-WordPress-Plugin-Toolbox.git
 [submodule "submodules/lessphp"]
 	path = submodules/lessphp
 	url = git@github.com:leafo/lessphp.git
