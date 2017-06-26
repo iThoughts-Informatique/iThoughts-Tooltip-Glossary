@@ -12,6 +12,8 @@
 
 namespace ithoughts\tooltip_glossary;
 
+use \ithoughts\v4_0\Resource as Resource;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -223,7 +225,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			$this->add_shortcodes();
 			$this->add_widgets();
 			$this->add_filters();
-			add_action( 'init',                  		array(&$this,	'register_scripts_and_styles')			);
+			add_action( 'init',                  		array(&$this,	'declare_resources')			);
 			add_action( 'init',                  		array(&$this,	'ajaxHooks')							);
 			add_action( 'wp_footer',             		array(&$this,	'wp_footer')							);
 			add_action( 'admin_footer',            		array(&$this,	'wp_footer')							);
@@ -237,6 +239,49 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			add_filter( 'ithoughts_tt_gl_get_overriden_opts',	array(&$this,	'ithoughts_tt_gl_override'), 	10,	2	);
 
 			add_action( 'plugins_loaded',				array($this,	'localisation')							);
+		}
+
+		/**
+		 * Register all public scripts & styles
+		 *
+		 * @author Gerkin
+		 */
+		public function declare_resources(){
+			// Generate all Script resources
+			$this->declare_resource('imagesloaded', 'ext/imagesloaded.min.js');
+			$this->declare_resource( 'qtip', 'ext/jquery.qtip.js', array('jquery', 'imagesloaded'));
+			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'js/ithoughts_tt_gl-qtip2.js', array('qtip', 'ithoughts-core-v4'), false, 'iThoughtsTooltipGlossary', array(
+				'admin_ajax'    => admin_url('admin-ajax.php'),
+				'baseurl'		=> $this->base_url,
+				'qtipstyle'     => $this->get_option("qtipstyle"),
+				'qtiptrigger'   => $this->get_option("qtiptrigger"),
+				'qtipshadow'    => $this->get_option("qtipshadow"),
+				'qtiprounded'   => $this->get_option("qtiprounded"),
+				'termcontent'	=> $this->get_option("termcontent"),
+				'verbosity'     	=> $this->get_option("verbosity"),
+				'anims'			=> array(
+					"in"	=> $this->get_option("anim_in"),
+					"out"	=> $this->get_option("anim_out"),
+					"duration"	=> $this->get_option("anim_time")
+				),
+				'lang'			=> array(
+					"qtip" => array(
+						"pleasewait_ajaxload" => array(
+							"title" => __('Please wait', 'ithoughts-tooltip-glossary' ),
+							"content" => __('Loading glossary term', 'ithoughts-tooltip-glossary' )
+						)
+					)
+				)
+			) );
+			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'js/ithoughts_tt_gl-atoz.js', array('jquery', 'ithoughts-core-v4'));
+			$this->declare_resource( 'ithoughts_tooltip_glossary-list', 'js/ithoughts_tt_gl-glossary-list.js', array('jquery', 'ithoughts-core-v4'));
+
+			// Generate all Style resources
+			$this->declare_resource( 'ithoughts_tooltip_glossary-css', 'css/ithoughts_tt_gl.min.css');
+			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip-css', 'ext/jquery.qtip.min.css');
+			if( isset($this->options["custom_styles_path"]) ) {
+				$this->declare_resource( 'ithoughts_tooltip_glossary-customthemes', $this->options["custom_styles_path"]);
+			}
 		}
 
 		public function get_client_side_overridable(){

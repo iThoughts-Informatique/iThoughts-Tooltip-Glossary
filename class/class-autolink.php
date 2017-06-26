@@ -18,8 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if(!class_exists(__NAMESPACE__."\\AutoLink")){
 	class AutoLink extends \ithoughts\v1_0\Singleton{
-		private $ignoredWords = explode(" ", _x("the a an of in", "A list of words to be ignored when trying to match with glossary terms title", "ithoughts-tooltip-glossary"));
+		private $ignoredWords;
 		public function __construct() {
+			$this->ignoredWords =  = explode(" ", _x("the a an of in", "A list of words to be ignored when trying to match with glossary terms title", "ithoughts-tooltip-glossary"));
 		}
 
 		private function setSessionText($text) {
