@@ -2,3 +2,4 @@
 *~
 *-backup-*.pot
 node_modules
+package-lock.json

@@ -226,28 +226,23 @@ module.exports = function gruntInit( grunt ) {
 							choices: [
 								{
 									value: 'build',
-									name:  `${chalk.yellow(`Build:  ${currentVersion}-?` )}
-Unstable, betas, and release candidates.`,
+									name:  `${chalk.yellow(`Build:  ${currentVersion}-?` )} > Unstable, betas, and release candidates.`,
 								},
 								{
 									value: 'patch',
-									name:  `${chalk.yellow(`Patch:  ${semver.inc( currentVersion, 'patch' )}` )}
-Backwards-compatible bug fixes.`,
+									name:  `${chalk.yellow(`Patch:  ${semver.inc( currentVersion, 'patch' )}` )}   > Backwards-compatible bug fixes.`,
 								},
 								{
 									value: 'minor',
-									name:  `${chalk.yellow(`Minor:  ${semver.inc( currentVersion, 'minor' )}` )}
-Add functionality in a backwards-compatible manner.`,
+									name:  `${chalk.yellow(`Minor:  ${semver.inc( currentVersion, 'minor' )}` )}   > Add functionality in a backwards-compatible manner.`,
 								},
 								{
 									value: 'major',
-									name:  `${chalk.yellow(`Major:  ${semver.inc( currentVersion, 'major' )}` )}
-Incompatible API changes.`,
+									name:  `${chalk.yellow(`Major:  ${semver.inc( currentVersion, 'major' )}` )}   > Incompatible API changes.`,
 								},
 								{
 									value: 'custom',
-									name:  `${chalk.yellow(`Custom:  ?.?.?` )}
-Specify version...`,
+									name:  `${chalk.yellow(`Custom: ?.?.?` )}   > Specify version...`,
 								},
 							],
 						},
