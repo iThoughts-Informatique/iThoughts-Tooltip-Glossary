@@ -4,6 +4,3 @@
 [submodule "submodules/lessphp"]
 	path = submodules/lessphp
 	url = https://github.com/leafo/lessphp.git
-[submodule "submodules/masonry"]
-	path = submodules/masonry
-	url = https://github.com/desandro/masonry.git

@@ -210,7 +210,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @author Gerkin
 		 */
 		public function enqueue_scripts_and_styles() {
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-admin-css' );
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+			$backbone->get_resource( 'ithoughts_tooltip_glossary-admin-css' )->enqueue();
 
 			$this->ifPageType();
 		}
@@ -236,10 +237,10 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		public function tinymce_add_plugin( $plugin_array ) {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			wp_enqueue_script( 'ithoughts_tooltip_glossary-qtip' );
-			wp_enqueue_script( 'ithoughts-serialize-object-v3' );
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-qtip-css' );
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-css' );
+			$backbone->get_resource( 'ithoughts_tooltip_glossary-qtip' )->enqueue();
+			$backbone->get_resource( 'ithoughts-serialize-object-v3' )->enqueue();
+			$backbone->get_resource( 'ithoughts_tooltip_glossary-qtip-css' )->enqueue();
+			$backbone->get_resource( 'ithoughts_tooltip_glossary-css' )->enqueue();
 			$version = 't=2.8';
 			if ( defined( WP_DEBUG ) && WP_DEBUG ) {
 				$version = 't=' . time();
@@ -375,7 +376,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			global $pagenow;
 			if ( is_admin() ) {
 				if ( 'post-new.php' === $pagenow || 'post.php' === $pagenow ) {
-					wp_enqueue_script( 'ithoughts_tooltip_glossary-editor' );
+					$backbone->get_resource( 'ithoughts_tooltip_glossary-editor' )->enqueue();
 				}
 			}
 		}
@@ -408,11 +409,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$ajax         = admin_url( 'admin-ajax.php' );
 			$options      = $backbone->get_options();
 
-			wp_enqueue_script( 'ithoughts_tooltip_glossary-admin' );
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-admin' );
 
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-css' );
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-qtip-css' );
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-customthemes' );
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-glossary-css' );
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-qtip-css' );
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-editor' );
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-customthemes' );
 
 			/* Add required scripts for WordPress Spoilers (AKA PostBox) */
 			wp_enqueue_script( 'postbox' );
@@ -1338,14 +1340,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			wp_enqueue_script( 'post' );
 
 			/* Add required resources for wpColorPicker */
-			wp_enqueue_script( 'ithoughts_tooltip_glossary-styleeditor' );
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-styleeditor' );
 
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-colorpicker' );
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-qtip-css' );
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-customthemes' );
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-colorpicker' );
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-qtip-css' );
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-customthemes' );
 
 			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-gradx' );
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-gradx' );
 
 			$themeInfos = $this->get_custom_theme_infos();
 			$themeEditorEnabled = ! is_writable( $themeInfos['absdir'] . '/' . ($themedata['file'] ? $themedata['file'] : '') );

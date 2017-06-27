@@ -138,13 +138,15 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 
 			if( $this->parentC->isUnderVersionned() ){
 				\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v4_0\LogLevel::Info, "Access to the update page (version from $this->from to $this->to) received, prepare update.");
-				wp_enqueue_script('ithoughts_tooltip_glossary-updater');
-				wp_localize_script('ithoughts_tooltip_glossary-updater', 'iThoughtsTooltipGlossaryUpdater', array(
+				$updater_script = $backbone->resources[ 'ithoughts_tooltip_glossary-updater' ];
+				$updater_script->localizeId = 'iThoughtsTooltipGlossaryUpdater';
+				$updater_script->localizeData = array(
 					'from'		=>	$this->from,
 					'to'		=>	$this->to,
 					'pagenow'	=> $pagenow,
 				));
-				wp_enqueue_script( 'ithoughts_tooltip_glossary-qtip' );
+				$updater_script->enqueue();
+				$backbone->resources[ 'ithoughts_tooltip_glossary-qtip' ]->enqueue();
 				wp_enqueue_script('postbox');
 				wp_enqueue_script('post');
 ?>

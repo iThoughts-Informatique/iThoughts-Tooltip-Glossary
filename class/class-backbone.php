@@ -409,13 +409,14 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 				return;
 
 			if($this->get_script('qtip') || $this->options["forceloadresources"] === true){
-				wp_enqueue_script( 'ithoughts_tooltip_glossary-qtip' );
+				$this->resources[ 'ithoughts_tooltip_glossary-qtip' ]->enqueue();
 			}
 			if($this->get_script('atoz') || $this->options["forceloadresources"] === true)
-				wp_enqueue_script( 'ithoughts_tooltip_glossary-atoz' );
+				$this->resources[ 'ithoughts_tooltip_glossary-atoz' ]->enqueue();
 			if($this->get_script('list') || $this->options["forceloadresources"] === true)
-				wp_enqueue_script( 'ithoughts_tooltip_glossary-list' );
+				$this->resources[ 'ithoughts_tooltip_glossary-list' ]->enqueue();
 		}
+
 		public function afterScripts(){
 			if( !$this->scripts && $this->options["forceloadresources"] !== true)
 				return;
@@ -442,12 +443,15 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 		}
 
 		public function wp_enqueue_styles(){
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-css' );
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-qtip-css' );
-			wp_enqueue_style('ithoughts_tooltip_glossary-customthemes');
+			$this->resources[ 'ithoughts_tooltip_glossary-css' ]->enqueue();
+			$this->resources[ 'ithoughts_tooltip_glossary-qtip-css' ]->enqueue();
+
+			if(isset($this->resources[ 'ithoughts_tooltip_glossary-customthemes' ])){
+				$this->resources[ 'ithoughts_tooltip_glossary-customthemes' ]->enqueue();
+			}
 		}
 		public function wp_enqueue_scripts_hight_priority(){
-			wp_enqueue_script('ithoughts-core-v4');
+			$this->resources[ 'ithoughts-core-v4' ]->enqueue();
 		}
 
 		/**
