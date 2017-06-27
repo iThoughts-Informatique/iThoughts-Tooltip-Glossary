@@ -41,14 +41,17 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 		}
 
 		static private function getVersions(){
-			return array('2.0', '2.3.0');
+			return array('2.0', '2.3.0', '3.0.0');
 		}
+
 		private function getLastVersionUp(){
 			return self::getLastVUp($this->from, $this->to);
 		}
+
 		public function dismiss_update(){
 			$this->setVersion($this->to);
 		}
+
 		static private function getLastVUp($from, $max = NULL){
 			if($max != NULL){
 				if(version_compare($max, $from) <= 0)
@@ -66,16 +69,28 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 			return $versionIndex;
 		}
 
-		function addAdminNotice(){
+		/**
+		 * Register the update notice for being printed when appropriate
+		 *
+		 * @author Gerkin
+		 */
+		public function add_admin_notice(){
 			add_action( 'admin_notices', array(&$this, 'admin_notice') );
 		}
+
+		/**
+		 * Print the current version update notification on the admin panel
+		 * @action admin_notices
+		 *
+		 * @author Gerkin
+		 */
 		function admin_notice(){
 			switch($this->versionIndex){
 				case 0:{
 ?>
 <div class="update-nag notice">
-	<p><?php _e( 'Thank you for using iThoughts Tooltip Glossary v2.0! This update comes with some big refactoring to improve evolution flexibility, compatibility, and much more. But it requires also a global update of <b>each of your posts</b> to apply the new format. If you don\'t apply this update, none of your tooltips will work properly.', 'ithoughts-tooltip-glossary' ); ?></p>
-	<a class="button button-secondary" href="<?php echo admin_url("admin.php?page=ithoughts_tt_gl_update"); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php _e('Update now!', 'ithoughts-tooltip-glossary' ); ?></a>
+	<p><?php echo wp_kses(__("Thank you for using iThoughts Tooltip Glossary v2.0! This update comes with some big refactoring to improve evolution flexibility, compatibility, and much more. But it requires also a global update of <b>each of your posts</b> to apply the new format. If you don't apply this update, none of your tooltips will work properly.", 'ithoughts-tooltip-glossary'), array('b' => array())); ?></p>
+	<a class="button button-secondary" href="<?php echo admin_url('admin.php?page=ithoughts_tt_gl_update'); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php esc_html_e('Update now!', 'ithoughts-tooltip-glossary' ); ?></a>
 </div>
 <?php
 					   } break;
@@ -85,7 +100,6 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 <div class="update-nag is-dismissable ithoughts_tt_gl">
 	<script>
 		jQuery(document).on( 'click', '.update-nag.is-dismissable.ithoughts_tt_gl .dismiss', function() {
-
 			jQuery.ajax({
 				url: ajaxurl,
 				data: {
@@ -93,22 +107,37 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 				}
 			}, function(){
 				location.reload();
-			})
-
-		})
+			});
+		});
 	</script>
 	<button class="dismiss button"></button>
-	<p><?php _e( 'An error in the updater have been spotted. This update will replace old slug-based tooltips to id-based ones on post types other than "post", for example on pages. See <a href="https://wordpress.org/support/topic/shortcode-parameter-slug-not-working-after-update-116-222?replies=29#post-7941781">this thread</a> for more informations. If you are not concerned by this problem, simply dismiss this alert with the button on the right.', 'ithoughts-tooltip-glossary' ); ?></p>
-	<a class="button button-secondary" href="<?php echo admin_url('admin.php?page=ithoughts_tt_gl_update'); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php _e('Update now!', 'ithoughts-tooltip-glossary' ); ?></a>
+	<p><?php printf(wp_kses(__('An error in the updater have been spotted. This update will replace old slug-based tooltips to id-based ones on post types other than "post", for example on pages. See <a href="%s">this thread</a> for more informations. If you are not concerned by this problem, simply dismiss this alert with the button on the right.', 'ithoughts-tooltip-glossary'), array('a' => array('href')), esc_url('https://wordpress.org/support/topic/shortcode-parameter-slug-not-working-after-update-116-222?replies=29#post-7941781'))); ?></p>
+	<a class="button button-secondary" href="<?php echo admin_url('admin.php?page=ithoughts_tt_gl_update'); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php esc_html_e('Update now!', 'ithoughts-tooltip-glossary' ); ?></a>
+</div>
+<?php
+					   } break;
+				case 2:{
+?>
+<div class="update-nag notice">
+	<p><?php echo wp_kses(__("Thank you for using iThoughts Tooltip Glossary v3.0! This update ships a big review of the code, a better API documentation, and an optimized code for size. The plugin need some database update to work properly. Please do the update by clicking the button bellow", 'ithoughts-tooltip-glossary'), array('b' => array())); ?></p>
+	<a class="button button-secondary" href="<?php echo admin_url('admin.php?page=ithoughts_tt_gl_update'); ?>" style="width:100%;height:3em;text-align:center;line-height:3em;"><?php esc_html_e('Update now!', 'ithoughts-tooltip-glossary' ); ?></a>
 </div>
 <?php
 					   } break;
 			}
 		}
+
+		/**
+		 * Show the Updater page
+		 * @action admin_notices
+		 *
+		 * @author Gerkin
+		 */
 		public function updater(){
 			global $pagenow;
 
 			if( $this->parentC->isUnderVersionned() ){
+				\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v4_0\LogLevel::Info, "Access to the update page (version from $this->from to $this->to) received, prepare update.");
 				wp_enqueue_script('ithoughts_tooltip_glossary-updater');
 				wp_localize_script('ithoughts_tooltip_glossary-updater', 'iThoughtsTooltipGlossaryUpdater', array(
 					'from'		=>	$this->from,
@@ -128,7 +157,7 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 						<br>
 					</div>
 					<section id="Updater">
-						<h2><?php _e('Updating iThoughts Tooltip Glossary', 'ithoughts-tooltip-glossary' ); ?></h2>
+						<h2><?php esc_html_e('Updating iThoughts Tooltip Glossary', 'ithoughts-tooltip-glossary' ); ?></h2>
 					</section>
 				</div>
 			</div>
@@ -137,6 +166,7 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 </div>
 <?php
 			} else {
+				\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v4_0\LogLevel::Error, "Access to the update page (version from $this->from to $this->to) received, but nothing to do.");
 ?>
 <div class="wrap">
 	<div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">
@@ -145,27 +175,27 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 				<br>
 			</div>
 			<section id="Updater">
-				<h2><?php _e('Updating iThoughts Tooltip Glossary', 'ithoughts-tooltip-glossary' ); ?></h2>
-				<p><?php _e('No update required.', 'ithoughts-tooltip-glossary' ); ?></p>
+				<h2><?php esc_html_e('Updating iThoughts Tooltip Glossary', 'ithoughts-tooltip-glossary' ); ?></h2>
+				<p><?php esc_html_e('No update required.', 'ithoughts-tooltip-glossary' ); ?></p>
 			</section>
 		</div>
 	</div>
 </div>
 <?php
-				   }
+			}
 		}
 
 
 		public function setVersion($version = NULL){
-			$opts = $this->parentC->getOptions();
+			$version_new;
 			if($version == NULL){
 				$data = array();
 				isset($_POST['data']) && $data=$_POST['data'];
-				$opts['version'] = $data['newversion'];
+				$version_new = $data['newversion'];
 			} else {
-				$opts['version'] = $version;
+				$version_new = $version;
 			}
-			update_option( 'ithoughts_tt_gl', $opts );
+			\ithoughts\tooltip_glossary\Backbone::get_instance()->set_option('version', $version_new);
 			wp_send_json_success(array('Ok' => 'OK'));
 			wp_die();
 		}
@@ -174,6 +204,11 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 			$data = array();
 			isset($_POST['data']) && $data=$_POST['data'];
 			$return = array();
+			$end_data = array(
+				'Ended' => true,
+				'title' => esc_html__('Update finished!', 'ithoughts-tooltip-glossary' ),
+				'text' => esc_html__('The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)', 'ithoughts-tooltip-glossary' )
+			);
 			switch($this->versionIndex){
 				case 0:{
 					global $post;
@@ -195,7 +230,7 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 							array(
 								'max' => $totalCount,
 								'targetversion' => $versions[$this->versionIndex],
-								'text' => __('Applying new format.', 'ithoughts-tooltip-glossary' )
+								'text' => esc_html__('Applying new format.', 'ithoughts-tooltip-glossary' )
 							)
 						);
 						wp_die();
@@ -217,14 +252,14 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 
 
 						// Replace old mediatips
-						if(preg_match_all('/\[itg-mediatip(.*?)(?:(?:(?:link="([^"]*)")|(?:image="([^"]*)")|(?:imageid="([^"]*)"))\s*)+(.*?)\](.*?)\[\/itg-mediatip\]/', $postUpdateArray ['post_content'], $matches)){
+						if(preg_match_all('/\[ithoughts_tooltip_glossary-mediatip(.*?)(?:(?:(?:link="([^"]*)")|(?:image="([^"]*)")|(?:imageid="([^"]*)"))\s*)+(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-mediatip\]/', $postUpdateArray ['post_content'], $matches)){
 							foreach($matches[0] as $index => $matched){
 								$arr = array(
 									'url'	=>	$matches[3][$index],
 									'id'	=>	$matches[4][$index],
 									'link'	=>	$matches[2][$index],
 								);
-								$newstr = '[itg-mediatip mediatip-type="localimage"'.$matches[1][$index].'mediatip-content="'.ithoughts_tt_gl_stipQuotes(json_encode($arr)).'" '.$matches[5][$index].']'.$matches[6][$index].'[/itg-mediatip]';
+								$newstr = '[ithoughts_tooltip_glossary-mediatip mediatip-type="localimage"'.$matches[1][$index].'mediatip-content="'.ithoughts_tt_gl_stipQuotes(json_encode($arr)).'" '.$matches[5][$index].']'.$matches[6][$index].'[/ithoughts_tooltip_glossary-mediatip]';
 								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
 							}
 						}
@@ -244,23 +279,23 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 								$id = "";
 								if($post_array)
 									$id = $post_array->ID;
-								$newstr = '[itg-glossary glossary-id="'.$id.'"'.$matches[1][$index].$matches[4][$index].']'.$matches[5][$index].'[/itg-glossary]';
+								$newstr = '[ithoughts_tooltip_glossary-glossary glossary-id="'.$id.'"'.$matches[1][$index].$matches[4][$index].']'.$matches[5][$index].'[/ithoughts_tooltip_glossary-glossary]';
 								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
 							}
 						}
 
 						// Replace old glossary shortcode with wrong attribue name
-						if(preg_match_all('/\[itg-glossary(?!.*glossary-id)(.*?)id="(.*?)"(.*?)\](.*?)\[\/itg-glossary\]/', $postUpdateArray ['post_content'], $matches)){
+						if(preg_match_all('/\[ithoughts_tooltip_glossary-glossary(?!.*glossary-id)(.*?)id="(.*?)"(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-glossary\]/', $postUpdateArray ['post_content'], $matches)){
 							foreach($matches[0] as $index => $matched){
-								$newstr = '[itg-glossary glossary-id="'.$matches[2][$index].'"'.$matches[1][$index].$matches[3][$index].']'.$matches[4][$index].'[/itg-glossary]';
+								$newstr = '[ithoughts_tooltip_glossary-glossary glossary-id="'.$matches[2][$index].'"'.$matches[1][$index].$matches[3][$index].']'.$matches[4][$index].'[/ithoughts_tooltip_glossary-glossary]';
 								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
 							}
 						}
 
 						// Replace old tooptip shortcode with wrong attribue name
-						if(preg_match_all('/\[itg-tooltip(?!.*tooltip-content)(.*?)content="(.*?)"(.*?)\](.*?)\[\/itg-tooltip\]/', $postUpdateArray ['post_content'], $matches)){
+						if(preg_match_all('/\[ithoughts_tooltip_glossary-tooltip(?!.*tooltip-content)(.*?)content="(.*?)"(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-tooltip\]/', $postUpdateArray ['post_content'], $matches)){
 							foreach($matches[0] as $index => $matched){
-								$newstr = '[itg-tooltip tooltip-content="'.$matches[2][$index].'"'.$matches[1][$index].$matches[3][$index].']'.$matches[4][$index].'[/itg-tooltip]';
+								$newstr = '[ithoughts_tooltip_glossary-tooltip tooltip-content="'.$matches[2][$index].'"'.$matches[1][$index].$matches[3][$index].']'.$matches[4][$index].'[/ithoughts_tooltip_glossary-tooltip]';
 								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
 							}
 						}
@@ -343,7 +378,7 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 								'type' => 'info',
 								'text' => "Updating post <b>{$post->ID}</b> of type <b>{$post->post_type}</b> and status <b>{$post->post_status}</b> with post_content <em>".htmlentities(preg_replace('/(\n+\s*)+/', '', $post->post_content)).'</em>...'
 							);
-							if(preg_match_all("/\[itg-glossary(.*?)(?:slug=\"([^\"]+?)\")(.*?)\](.*?)\[\/itg-glossary\]/", $postUpdateArray ['post_content'], $matches)){
+							if(preg_match_all("/\[ithoughts_tooltip_glossary-glossary(.*?)(?:slug=\"([^\"]+?)\")(.*?)\](.*?)\[\/ithoughts_tooltip_glossary-glossary\]/", $postUpdateArray ['post_content'], $matches)){
 								foreach($matches[0] as $index => $matched){
 									$args = array(
 										'posts_per_page'   => 1,
@@ -362,7 +397,7 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 											'type' => 'info',
 											'text' => "For post <b>{$post->ID}</b>, matched string '<em>{$matched}</em>'. Slug of term is <b>{$matches[2][$index]}</b>, which is term id <b>$glossaryIndex</b>"
 										);
-										$newstr = '[itg-glossary'.$matches[1][$index].$matches[3][$index].' glossary-id="'.$glossaryIndex.'"]'.$matches[4][$index].'[/itg-glossary]';
+										$newstr = '[ithoughts_tooltip_glossary-glossary'.$matches[1][$index].$matches[3][$index].' glossary-id="'.$glossaryIndex.'"]'.$matches[4][$index].'[/ithoughts_tooltip_glossary-glossary]';
 									} else {
 										$verbose[] = array(
 											'type' => 'warn',
@@ -375,7 +410,7 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 							} else {
 								$verbose[] = array(
 									'type' => 'info',
-									'text' => 'For post <b>{$post->ID}</b>, no matches were found'
+									'text' => "For post <b>{$post->ID}</b>, no matches were found"
 								);
 							}
 
@@ -384,7 +419,7 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 					} else {
 						$verbose[] = array(
 							'type' => 'info',
-							'text' => 'Query with pagination <b>$paged</b> and count <b>$maxCount</b> returned 0 posts'
+							'text' => "Query with pagination <b>$paged</b> and count <b>$maxCount</b> returned 0 posts"
 						);
 					}
 					wp_reset_postdata();
@@ -400,17 +435,105 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 					);
 				} break;
 
+				case 2:{
+					global $post;
+					$maxCount = 20;
+					$postTypes = get_post_types(array(), 'names');
+					$updatedStatus = array('publish', 'pending', 'draft', 'future', 'private', 'inherit');
+
+					if($data['progression'] == -1){
+						$totalCount = 0;
+						foreach($postTypes as $postType){
+							$count_posts = wp_count_posts($postType);
+							foreach($count_posts as $postStatus => $count){
+								if(array_search($postStatus, $updatedStatus) !== false)
+									$totalCount += intval($count);
+							}
+						}
+						$versions = self::getVersions();
+						wp_send_json_success(
+							array(
+								'max' => $totalCount,
+								'targetversion' => $versions[$this->versionIndex],
+								'text' => esc_html__('Applying new format.', 'ithoughts-tooltip-glossary' ),
+								'verbose' => array(
+									array(
+										'type' => 'info',
+										'text' => "$totalCount potential posts to update"
+									),
+								),
+							)
+						);
+						wp_die();
+					}
+
+					$paged = intval($data['progression'] / $maxCount);
+					$queryargs = array(
+						'post_status' => $updatedStatus,
+						'posts_per_page' => $maxCount,
+						'paged'			=> $paged
+					);
+					$posts_to_update = new \WP_Query($queryargs);
+					while($posts_to_update->have_posts()){
+						$posts_to_update->the_post();
+						$postUpdateArray = array();
+						$postUpdateArray ['ID'] = $post->ID;//Don't remove this. The ID is mandatory
+						$postUpdateArray ['post_content'] = $post->post_content;
+						$matches;
+
+
+						// Replace old mediatips
+						if(preg_match_all('/\[ithoughts_tooltip_glossary-mediatip (.*?)\](.*?)\[\/ithoughts_tooltip_glossary-mediatip\]/', $postUpdateArray ['post_content'], $matches)){
+							foreach($matches[0] as $index => $matched){
+								$newstr = "[itg-mediatip {$matches[1][$index]}]{$matches[2][$index]}[/itg-mediatip]";
+								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
+							}
+						}
+
+						// Replace old glossary shortcodes
+						if(preg_match_all('/\[ithoughts_tooltip_glossary-glossary (.*?)\](.+?)\[\/ithoughts_tooltip_glossary-glossary\]/', $postUpdateArray ['post_content'], $matches)){
+							foreach($matches[0] as $index => $matched){
+								$newstr = "[itg-glossary {$matches[1][$index]}]{$matches[2][$index]}[/itg-glossary]";
+								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
+							}
+						}
+
+						// Replace old tooptip shortcode
+						if(preg_match_all('/\[ithoughts_tooltip_glossary-tooltip (.*?)\](.*?)\[\/ithoughts_tooltip_glossary-tooltip\]/', $postUpdateArray ['post_content'], $matches)){
+							foreach($matches[0] as $index => $matched){
+								$newstr = "[itg-tooltip {$matches[1][$index]}]{$matches[2][$index]}[/itg-tooltip]";
+								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
+							}
+						}
+						if($post->post_content != $postUpdateArray ['post_content']){
+							\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v4_0\LogLevel::Info, "Updated post $post->ID: \"$post->post_title\"", $data);
+						}
+						wp_update_post( $postUpdateArray );
+					}
+					wp_reset_postdata();
+
+					$current_page = $posts_to_update->get( 'paged' );
+					if ( ! $current_page ) {
+						$current_page = 1;
+					}
+
+					$return = array('progression' => ($paged + 1) * $maxCount);
+				} break;
+
 				case -1:{
-					$return = array('Ended' => true, 'title' => __('Update finished!', 'ithoughts-tooltip-glossary' ), 'text' => __('The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)', 'ithoughts-tooltip-glossary' ));
+					$return = $end_data;
 				}break;
+
 				default: {
-					$return = array('Ended' => true, 'title' => __('Update finished!', 'ithoughts-tooltip-glossary' ), 'text' => __('The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)', 'ithoughts-tooltip-glossary' ));
+					$return = $end_data;
 				} break;
 			}
 
-			if($data['maxAdvandement'] > -1){
-				if($return['progression'] >= $data['maxAdvandement']){
-					$return = array_merge(array('Ended' => true, 'title' => __('Update finished!', 'ithoughts-tooltip-glossary' ), 'text' => __('The update finished successfully. Thank you for using iThoughts Tooltip Glossary :)', 'ithoughts-tooltip-glossary' )), $return);
+			\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v4_0\LogLevel::Info, 'Ended update step with data: ', $data);
+
+			if($data['maxAdvancement'] > -1){
+				if($return['progression'] >= $data['maxAdvancement']){
+					$return = array_merge($end_data, $return);
 					wp_send_json_success($return);
 					wp_die();
 				}

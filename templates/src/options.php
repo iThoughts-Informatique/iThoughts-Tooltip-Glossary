@@ -80,6 +80,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr class="nonoverridable">
 												<th>
+													<label for="itg-purge"><?php esc_html_e('Empty log file', 'ithoughts-tooltip-glossary' ); ?>:</label>
+												</th>
+												<td>
+													<button id="itg-purge" class="button button-link-delete"><?php esc_html_e('Empty', 'ithoughts-tooltip-glossary' ); ?></button>
+												</td>
+											</tr>
+											<tr class="nonoverridable">
+												<th>
 													<label for="termtype"><?php esc_html_e('Base Permalink', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>

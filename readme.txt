@@ -3,7 +3,7 @@ Contributors: Gerkin
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments, index, dictionnary, ajax, custom post type, post type, documentation, database, help, jquery, quote
 Requires at least: 3.3
 Tested up to: 4.8
-Stable tag: 2.8.0
+Stable tag: 3.0.0
 License: GPLv3
 
 Create beautiful tooltips for descriptions or glossary terms easily

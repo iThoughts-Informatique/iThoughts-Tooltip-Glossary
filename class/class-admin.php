@@ -72,10 +72,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				if ( $backbone->get_option( 'version' ) == -1 ) {
 					$backbone->set_option( 'version',$this->currentVersion );
 				} elseif ( $this->isUnderVersionned() || (isset( $_POST ) && isset( $_POST['data'] ) && isset( $_POST['data']['versions'] )) ) {
+					$backbone->log(\ithoughts\v4_0\LogLevel::Warn, "Plugin settings are under versionned. Installed version is {$plugindata['Version']}, and config is {$backbone->get_option( 'version' )}");
 					require_once( $backbone->get_base_class_path() . '/class-updater.php' );
 					$this->updater = new Updater( $backbone->get_option( 'version' ), $this->currentVersion, $this );
 					if ( Updater::requiresUpdate( $backbone->get_option( 'version' ), $this->currentVersion ) ) {
-						$this->updater->addAdminNotice();
+						$backbone->log(\ithoughts\v4_0\LogLevel::Info, "An update process is available to step to {$plugindata['Version']}.");
+						$this->updater->add_admin_notice();
 					} else {
 						if ( $this->currentVersion != $backbone->get_option( 'version' ) ) {
 							$backbone->set_option( 'version',$this->currentVersion );
@@ -148,7 +150,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'js/ithoughts_tt_gl-updater.js',
 				array(
 					'jquery',
-					'ithoughts-core-v4'
+					'ithoughts-core-v4',
+					'ithoughts_tooltip_glossary-qtip'
 				),
 				true
 			);
@@ -207,7 +210,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @author Gerkin
 		 */
 		public function enqueue_scripts_and_styles() {
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-admin' );
+			wp_enqueue_style( 'ithoughts_tooltip_glossary-admin-css' );
 
 			$this->ifPageType();
 		}
@@ -639,6 +642,20 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					'value' => (strpos( $optionsInputs['qtipstyle'], 'selected="selected"' ) === false) ? $options['qtipstyle'] : '',
 				)
 			);
+
+			// Switch for the plugin man page
+			$url;
+			switch(substr(get_locale(), 0, 2)){
+				case 'fr': {
+					$url = 'https://www.gerkindevelopment.net/portfolio/ithoughts-tooltip-glossary/';
+				} break;
+
+				case 'fr': {
+					$url = 'http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/';
+				} break;
+			}
+
+			// Print the option page
 			require( $backbone->get_base_path() . '/templates/dist/options.php' );
 		}
 

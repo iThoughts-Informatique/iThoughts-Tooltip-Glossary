@@ -13,6 +13,7 @@
 namespace ithoughts\tooltip_glossary;
 
 use \ithoughts\v4_0\Resource as Resource;
+use \ithoughts\v4_0\LogLevel as LogLevel;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -142,15 +143,15 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 					),
 				),
 				'verbosity'	=> array(
-					"default"		=> 0,
+					"default"		=> LogLevel::Error,
 					"serversideOverride"	=> false,// If required once, required everywhere
 					"cliensideOverride"	=> false,// Not a js data
 					"accepted"		=> array(
-						0,
-						1,
-						2,
-						3,
-						4,
+						LogLevel::Silent,
+						LogLevel::Error,
+						LogLevel::Warn,
+						LogLevel::Info,
+						LogLevel::Silly,
 					),
 				),
 				'anim_in'		=> array(
@@ -219,6 +220,14 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 				//"masonry",
 				"list-mode",
 			);
+
+			// Print the load message
+			$tail = '';
+			if(defined("WP_DEBUG") && WP_DEBUG){
+				$tail = ' in DEBUG mode';
+			}
+			$this->log(LogLevel::Silly, "Loaded plugin iThoughts Tooltip Glossary v{$this->get_option('version')}$tail.");
+
 
 			$this->register_post_types();
 			$this->register_taxonmies();
