@@ -121,13 +121,13 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 						$content = "";
 						switch($mode){
 							case self::LIST_MODE_NONE:{
-							$href  = apply_filters( 'ithoughts_tt_gl_term_link',  \ithoughts\v4_0\Toolbox::get_permalink_light($term_standardized_post, "glossary") );
+							$href  = apply_filters( 'ithoughts_tt_gl_term_link',  \ithoughts\v5_0\Toolbox::get_permalink_light($term_standardized_post, "glossary") );
 							$target = "";
 							if( $data["options"]["termlinkopt"] != 'none' ){
 								$linkAttrs["target"] = "_blank";
 							}
 							$linkAttrs["href"] = &$href;
-							$args = \ithoughts\v4_0\Toolbox::concat_attrs( $linkAttrs);
+							$args = \ithoughts\v5_0\Toolbox::concat_attrs( $linkAttrs);
 							$link   = '<a '.$args.'>' . $term_standardized_post->post_title . '</a>';
 						}break;
 
@@ -136,25 +136,25 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 						} break;
 
 							case self::LIST_MODE_EXCERPT:{
-							$href  = apply_filters( 'ithoughts_tt_gl_term_link',  \ithoughts\v4_0\Toolbox::get_permalink_light($term_standardized_post, "glossary") );
+							$href  = apply_filters( 'ithoughts_tt_gl_term_link',  \ithoughts\v5_0\Toolbox::get_permalink_light($term_standardized_post, "glossary") );
 							$target = "";
 							if( $data["options"]["termlinkopt"] != 'none' ){
 								$linkAttrs["target"] = "_blank";
 							}
 							$linkAttrs["href"] = &$href;
-							$args = \ithoughts\v4_0\Toolbox::concat_attrs( $linkAttrs);
+							$args = \ithoughts\v5_0\Toolbox::concat_attrs( $linkAttrs);
 							$link   = '<a '.$args.'>' . $term_standardized_post->post_title . '</a>';
 							$content = '<br>' . '<span class="glossary-item-desc">' . apply_filters("ithoughts_tt_gl-term-excerpt", $term_standardized_post) . '</span>';
 						} break;
 
 							case self::LIST_MODE_FULL:{
-							$href  = apply_filters( 'ithoughts_tt_gl_term_link',  \ithoughts\v4_0\Toolbox::get_permalink_light($term_standardized_post, "glossary") );
+							$href  = apply_filters( 'ithoughts_tt_gl_term_link',  \ithoughts\v5_0\Toolbox::get_permalink_light($term_standardized_post, "glossary") );
 							$target = "";
 							if( $data["options"]["termlinkopt"] != 'none' ){
 								$linkAttrs["target"] = "_blank";
 							}
 							$linkAttrs["href"] = &$href;
-							$args = \ithoughts\v4_0\Toolbox::concat_attrs( $linkAttrs);
+							$args = \ithoughts\v5_0\Toolbox::concat_attrs( $linkAttrs);
 							$link   = '<a '.$args.'>' . $term_standardized_post->post_title . '</a>';
 							$content = '<br>' . '<span class="glossary-item-desc">' . $term->post_content . '</span>';
 						} break;
@@ -187,7 +187,7 @@ if(!class_exists(__NAMESPACE__."\\TermList")){
 				$data["attributes"]["class"] = trim($data["attributes"]["class"]);
 				$data["attributes"]["data-cols"] = $data["handled"]["cols"];
 			}*/
-			$args = \ithoughts\v4_0\Toolbox::concat_attrs( $data["attributes"]);
+			$args = \ithoughts\v5_0\Toolbox::concat_attrs( $data["attributes"]);
 
 			$return = '<div '.$args.'>';
 			if(isset($data["handled"]["masonry"])){/*

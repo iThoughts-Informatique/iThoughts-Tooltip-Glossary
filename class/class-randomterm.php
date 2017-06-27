@@ -53,7 +53,7 @@ if(!class_exists(__NAMESPACE__."\\RandomTerm")){
 				}
 			}
 
-			$groupdd = \ithoughts\v4_0\Toolbox::generate_input_select(
+			$groupdd = \ithoughts\v5_0\Toolbox::generate_input_select(
 				$this->get_field_name('group') . "[]",
 				array(
 					'multiple'	  => true,
@@ -69,7 +69,7 @@ if(!class_exists(__NAMESPACE__."\\RandomTerm")){
 			echo $groupdd . '</p>';
 
 			// Display
-			$displaydd = \ithoughts\v4_0\Toolbox::generate_input_select(
+			$displaydd = \ithoughts\v5_0\Toolbox::generate_input_select(
 				$this->get_field_name('display'),
 				array(
 					'selected'   => isset($instance['display']) ? $instance['display'] : "tooltip",

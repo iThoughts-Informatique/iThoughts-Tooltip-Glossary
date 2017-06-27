@@ -137,16 +137,18 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 			global $pagenow;
 
 			if( $this->parentC->isUnderVersionned() ){
-				\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v4_0\LogLevel::Info, "Access to the update page (version from $this->from to $this->to) received, prepare update.");
-				$updater_script = $backbone->resources[ 'ithoughts_tooltip_glossary-updater' ];
-				$updater_script->localizeId = 'iThoughtsTooltipGlossaryUpdater';
-				$updater_script->localizeData = array(
-					'from'		=>	$this->from,
-					'to'		=>	$this->to,
-					'pagenow'	=> $pagenow,
-				));
-				$updater_script->enqueue();
-				$backbone->resources[ 'ithoughts_tooltip_glossary-qtip' ]->enqueue();
+				\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v5_0\LogLevel::Info, "Access to the update page (version from $this->from to $this->to) received, prepare update.");
+				$updater_script = $backbone->get_resource( 'ithoughts_tooltip_glossary-updater' );
+				if(isset($updater_script)){
+					$updater_script->localizeId = 'iThoughtsTooltipGlossaryUpdater';
+					$updater_script->localizeData = array(
+						'from'		=>	$this->from,
+						'to'		=>	$this->to,
+						'pagenow'	=> $pagenow,
+					);
+					$updater_script->enqueue();
+				}
+				$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-qtip' );
 				wp_enqueue_script('postbox');
 				wp_enqueue_script('post');
 ?>
@@ -168,7 +170,7 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 </div>
 <?php
 			} else {
-				\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v4_0\LogLevel::Error, "Access to the update page (version from $this->from to $this->to) received, but nothing to do.");
+				\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v5_0\LogLevel::Error, "Access to the update page (version from $this->from to $this->to) received, but nothing to do.");
 ?>
 <div class="wrap">
 	<div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">
@@ -508,7 +510,7 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 							}
 						}
 						if($post->post_content != $postUpdateArray ['post_content']){
-							\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v4_0\LogLevel::Info, "Updated post $post->ID: \"$post->post_title\"", $data);
+							\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v5_0\LogLevel::Info, "Updated post $post->ID: \"$post->post_title\"", $data);
 						}
 						wp_update_post( $postUpdateArray );
 					}
@@ -531,7 +533,7 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 				} break;
 			}
 
-			\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v4_0\LogLevel::Info, 'Ended update step with data: ', $data);
+			\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v5_0\LogLevel::Info, 'Ended update step with data: ', $data);
 
 			if($data['maxAdvancement'] > -1){
 				if($return['progression'] >= $data['maxAdvancement']){

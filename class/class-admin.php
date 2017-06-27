@@ -12,7 +12,7 @@
 
 namespace ithoughts\tooltip_glossary;
 
-use \ithoughts\v4_0\Toolbox as TB;
+use \ithoughts\v5_0\Toolbox as TB;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -72,11 +72,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				if ( $backbone->get_option( 'version' ) == -1 ) {
 					$backbone->set_option( 'version',$this->currentVersion );
 				} elseif ( $this->isUnderVersionned() || (isset( $_POST ) && isset( $_POST['data'] ) && isset( $_POST['data']['versions'] )) ) {
-					$backbone->log(\ithoughts\v4_0\LogLevel::Warn, "Plugin settings are under versionned. Installed version is {$plugindata['Version']}, and config is {$backbone->get_option( 'version' )}");
+					$backbone->log(\ithoughts\v5_0\LogLevel::Warn, "Plugin settings are under versionned. Installed version is {$plugindata['Version']}, and config is {$backbone->get_option( 'version' )}");
 					require_once( $backbone->get_base_class_path() . '/class-updater.php' );
 					$this->updater = new Updater( $backbone->get_option( 'version' ), $this->currentVersion, $this );
 					if ( Updater::requiresUpdate( $backbone->get_option( 'version' ), $this->currentVersion ) ) {
-						$backbone->log(\ithoughts\v4_0\LogLevel::Info, "An update process is available to step to {$plugindata['Version']}.");
+						$backbone->log(\ithoughts\v5_0\LogLevel::Info, "An update process is available to step to {$plugindata['Version']}.");
 						$this->updater->add_admin_notice();
 					} else {
 						if ( $this->currentVersion != $backbone->get_option( 'version' ) ) {
@@ -211,7 +211,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		public function enqueue_scripts_and_styles() {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			$backbone->get_resource( 'ithoughts_tooltip_glossary-admin-css' )->enqueue();
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-admin-css' );
 
 			$this->ifPageType();
 		}
@@ -237,10 +237,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		public function tinymce_add_plugin( $plugin_array ) {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			$backbone->get_resource( 'ithoughts_tooltip_glossary-qtip' )->enqueue();
-			$backbone->get_resource( 'ithoughts-serialize-object-v3' )->enqueue();
-			$backbone->get_resource( 'ithoughts_tooltip_glossary-qtip-css' )->enqueue();
-			$backbone->get_resource( 'ithoughts_tooltip_glossary-css' )->enqueue();
+			$backbone->enqueue_resources( array(
+				'ithoughts_tooltip_glossary-qtip',
+				'ithoughts-serialize-object-v3',
+				'ithoughts_tooltip_glossary-qtip-css',
+				'ithoughts_tooltip_glossary-css'
+			) );
 			$version = 't=2.8';
 			if ( defined( WP_DEBUG ) && WP_DEBUG ) {
 				$version = 't=' . time();
@@ -376,7 +378,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			global $pagenow;
 			if ( is_admin() ) {
 				if ( 'post-new.php' === $pagenow || 'post.php' === $pagenow ) {
-					$backbone->get_resource( 'ithoughts_tooltip_glossary-editor' )->enqueue();
+					$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-editor' );
 				}
 			}
 		}
@@ -409,12 +411,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$ajax         = admin_url( 'admin-ajax.php' );
 			$options      = $backbone->get_options();
 
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-admin' );
-
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-glossary-css' );
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-qtip-css' );
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-editor' );
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-customthemes' );
+			$backbone->enqueue_resources( array(
+				'ithoughts_tooltip_glossary-admin',
+				'ithoughts_tooltip_glossary-glossary-css',
+				'ithoughts_tooltip_glossary-qtip-css',
+				'ithoughts_tooltip_glossary-editor',
+				'ithoughts_tooltip_glossary-customthemes'
+			) );
 
 			/* Add required scripts for WordPress Spoilers (AKA PostBox) */
 			wp_enqueue_script( 'postbox' );
@@ -1340,11 +1343,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			wp_enqueue_script( 'post' );
 
 			/* Add required resources for wpColorPicker */
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-styleeditor' );
-
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-colorpicker' );
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-qtip-css' );
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-customthemes' );
+			$backbone->enqueue_resources( array(
+				'ithoughts_tooltip_glossary-styleeditor',
+				'ithoughts_tooltip_glossary-colorpicker',
+				'ithoughts_tooltip_glossary-qtip-css',
+				'ithoughts_tooltip_glossary-customthemes'
+			) );
 
 			wp_enqueue_style( 'wp-color-picker' );
 			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-gradx' );

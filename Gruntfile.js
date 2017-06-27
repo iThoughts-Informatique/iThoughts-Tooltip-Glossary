@@ -27,9 +27,10 @@ module.exports = function gruntInit( grunt ) {
 					'universal-selector': false,
 				},
 			},
-		};
+		},
+		gruntLocalconfig = require('./grunt_localconfig.json');
 
-	grunt.initConfig({
+	const gruntConfig = {
 		pkg:    grunt.file.readJSON( 'package.json' ),
 		uglify: {
 			options: {
@@ -314,7 +315,33 @@ module.exports = function gruntInit( grunt ) {
 				},
 			},
 		},
-	});
+	};
+	if(typeof gruntLocalconfig !== 'undefined' && typeof gruntLocalconfig.svn_path !== 'undefined'){
+		gruntConfig.rsync = {
+			svn: {
+				options: {
+					src: '.',
+					dest: `${gruntLocalconfig.svn_path}/trunk`,
+					deleteAll: true,
+					exclude: [
+						'.*',
+						'node_modules',
+						'test',
+						'templates/src',
+						'lint',
+						'*.log',
+						'docs',
+						'Gruntfile.js',
+						'grunt_localconfig.json',
+						'package-lock.json',
+						'less'
+					],
+					recursive: true,
+				},
+			},
+		};
+	}
+	grunt.initConfig(gruntConfig);
 
 	// Load the plugin that provides the 'uglify' task.
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
@@ -329,7 +356,8 @@ module.exports = function gruntInit( grunt ) {
 	grunt.loadNpmTasks( 'grunt-phplint' );
 	grunt.loadNpmTasks( 'grunt-prompt' );
 	grunt.loadNpmTasks( 'grunt-phpdoc' );
-	grunt.loadNpmTasks('grunt-wp-readme-to-markdown');
+	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
+	grunt.loadNpmTasks( 'grunt-rsync' );
 
 	// Default task(s).
 	grunt.registerTask( 'bumpVersionDo', '', function bumpVersionDo() {

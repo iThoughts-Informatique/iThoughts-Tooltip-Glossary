@@ -14,7 +14,7 @@
 
 namespace ithoughts\tooltip_glossary\shortcode;
 
-use \ithoughts\v4_0\Toolbox as TB;
+use \ithoughts\v5_0\Toolbox as TB;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -44,7 +44,7 @@ if(!class_exists(__NAMESPACE__."\\GlossaryList")){
 				$linkdata["linkAttrs"]["link-".$key] = $linkAttr;
 				unset($linkdata["linkAttrs"][$key]);
 			}
-			$linkdata = \ithoughts\v4_0\Toolbox::array_flatten($linkdata);
+			$linkdata = \ithoughts\v5_0\Toolbox::array_flatten($linkdata);
 
 			return array(
 				"data" => &$data,
@@ -234,7 +234,7 @@ ORDER BY
 
 			$querySelect = $queryComponents["pre"].$selectFields.$queryComponents["from"].$queryComponents["where"].$queryComponents["order"];
 			$queryCount = $queryComponents["pre"]."COUNT(*)".$queryComponents["from"].$queryComponents["where"].$queryComponents["order"];
-			//\ithoughts\v4_0\Toolbox::prettyDump($querySelect, $queryCount);
+			//\ithoughts\v5_0\Toolbox::prettyDump($querySelect, $queryCount);
 
 			$res = $wpdb->get_results($querySelect, ARRAY_A);
 			$ret = array();
@@ -336,7 +336,7 @@ ORDER BY
 			if($index == NULL)
 				$index = 0;
 
-			$stringAlpha = strtoupper( \ithoughts\v4_0\Toolbox::unaccent(mb_substr($string,$index,1, "UTF-8")) );
+			$stringAlpha = strtoupper( \ithoughts\v5_0\Toolbox::unaccent(mb_substr($string,$index,1, "UTF-8")) );
 			if(!preg_match("/[A-Z]/", $stringAlpha)){
 				return "#";
 			}

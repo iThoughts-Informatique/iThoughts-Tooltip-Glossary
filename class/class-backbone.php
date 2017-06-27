@@ -12,8 +12,8 @@
 
 namespace ithoughts\tooltip_glossary;
 
-use \ithoughts\v4_0\Resource as Resource;
-use \ithoughts\v4_0\LogLevel as LogLevel;
+use \ithoughts\v5_0\Resource as Resource;
+use \ithoughts\v5_0\LogLevel as LogLevel;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 if(!class_exists(__NAMESPACE__."\\Backbone")){
-	class Backbone extends \ithoughts\v4_0\Backbone{
+	class Backbone extends \ithoughts\v5_0\Backbone{
 		private $defaults;
 		private $overridesjsdat;
 		private $overridesopts;
@@ -409,12 +409,12 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 				return;
 
 			if($this->get_script('qtip') || $this->options["forceloadresources"] === true){
-				$this->resources[ 'ithoughts_tooltip_glossary-qtip' ]->enqueue();
+				$this->enqueue_resource( 'ithoughts_tooltip_glossary-qtip' );
 			}
 			if($this->get_script('atoz') || $this->options["forceloadresources"] === true)
-				$this->resources[ 'ithoughts_tooltip_glossary-atoz' ]->enqueue();
+				$this->enqueue_resource( 'ithoughts_tooltip_glossary-atoz' );
 			if($this->get_script('list') || $this->options["forceloadresources"] === true)
-				$this->resources[ 'ithoughts_tooltip_glossary-list' ]->enqueue();
+				$this->enqueue_resource( 'ithoughts_tooltip_glossary-list' );
 		}
 
 		public function afterScripts(){
@@ -443,15 +443,17 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 		}
 
 		public function wp_enqueue_styles(){
-			$this->resources[ 'ithoughts_tooltip_glossary-css' ]->enqueue();
-			$this->resources[ 'ithoughts_tooltip_glossary-qtip-css' ]->enqueue();
+			$this->enqueue_resources( array(
+				'ithoughts_tooltip_glossary-css',
+				'ithoughts_tooltip_glossary-qtip-css'
+			) );
 
 			if(isset($this->resources[ 'ithoughts_tooltip_glossary-customthemes' ])){
-				$this->resources[ 'ithoughts_tooltip_glossary-customthemes' ]->enqueue();
+				$this->enqueue_resource( 'ithoughts_tooltip_glossary-customthemes' );
 			}
 		}
 		public function wp_enqueue_scripts_hight_priority(){
-			$this->resources[ 'ithoughts-core-v4' ]->enqueue();
+			$this->enqueue_resource( 'ithoughts-core-v4' );
 		}
 
 		/**

@@ -81,11 +81,11 @@ if(!class_exists(__NAMESPACE__."\\Tooltip")){
 			if(!(isset($datas["linkAttrs"]["title"]) && $options["linkAttrs"]["title"]))
 				$options["linkAttrs"]["title"] = esc_attr($text);
 
-			$linkArgs = \ithoughts\v4_0\Toolbox::concat_attrs( $options["linkAttrs"] );
+			$linkArgs = \ithoughts\v5_0\Toolbox::concat_attrs( $options["linkAttrs"] );
 			$link   = '<a '.$linkArgs.'>' . $text . '</a>';
 			// Span that qtip finds
 			$options["attributes"]["class"] = "itg-tooltip".((isset($options["attributes"]["class"]) && $options["attributes"]["class"]) ? " ".$options["attributes"]["class"] : "");
-			$args = \ithoughts\v4_0\Toolbox::concat_attrs( $options["attributes"] );
+			$args = \ithoughts\v5_0\Toolbox::concat_attrs( $options["attributes"] );
 			$span = '<span '.$args.' data-tooltip-content="'.do_shortcode($tip).'">' . $link . '</span>';
 
 			return $span;
