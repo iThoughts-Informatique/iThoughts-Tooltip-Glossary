@@ -1,12 +1,15 @@
 # iThoughts Tooltip Glossary #
-**Contributors:** [Gerkin](https://profiles.wordpress.org/Gerkin)  
+**Contributors:** [Gerkin](https://profiles.wordpress.org/Gerkin), [TCBarrett](https://profiles.wordpress.org/TCBarrett)  
+**Donate link:** https://www.gerkindevelopment.net/en/support-my-plugins/  
+**Author URI:** https://www.gerkindevelopment.net/  
+**Plugin URI:** https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/  
 **Tags:** tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments, index, dictionnary, ajax, custom post type, post type, documentation, database, help, jquery, quote  
 **Requires at least:** 3.3  
 **Tested up to:** 4.8  
-**Stable tag:** 2.8.0  
+**Stable tag:** 3.0.0  
 **License:** GPLv3  
 
-Create beautiful tooltips for descriptions or glossary terms easily
+Create beautiful tooltips for descriptions or glossary terms, easily
 
 ## Description ##
 
@@ -70,6 +73,14 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 
 ## Changelog ##
+
+### 3.0.0 ###
+* NEW Exclude glossary terms from search
+* NEW Automated tests, linting, docs, etc etc
+* UPD Changed shortcodes for prefix *itg* instead of *ithoughts_tooltip_glossary*
+* UPD Improved updater performaces
+* UPD Styles & scripts refactoring
+* UPD Resource management process reviewed
 
 ### 2.7.0 ###
 * NEW Support of QuickTags to use plugin shortcodes even in text mode (see [ist4000 request feature](https://wordpress.org/support/topic/buttons-in-the-text-mode/))
@@ -285,6 +296,9 @@ some useless files
 
 
 ## Upgrade Notice ##
+
+### 3.0.0 ###
+Now, you can exclude terms from search (see [ambertmg feature request](https://wordpress.org/support/topic/hide-glossary-terms-from-search/). This update is a preparation for incoming features
 
 ### 2.7.0 ###
 Overall improvements and add support of QuickTags for text mode (see [ist4000 feature request](https://wordpress.org/support/topic/buttons-in-the-text-mode/))

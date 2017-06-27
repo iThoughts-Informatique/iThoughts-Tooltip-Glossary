@@ -26,18 +26,17 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 		updaterSection;
 	delete updater.pagenow;
 
-	function printError(error, data){
-		verboseArea = `<div class="update-nag error">
-<p>An error occured during the update. Please see below for details</p>
-</div>
-<div class="verboseContainer postbox">
-<div class="handlediv"></div><h4 class="hndle ui-sortable-handle">Logs</h4>
-<div class="inside">
-<pre class="verboseArea">${error.stack}
-
-Response from server: ${JSON.stringify(data, null, 4)}</pre>
-</div>
-</div>`;
+	function printError( error, data ) {
+		verboseArea = '<div class="update-nag error">\
+<p>An error occured during the update. Please see below for details</p>\
+</div>\
+<div class="verboseContainer postbox">\
+<div class="handlediv"></div><h4 class="hndle ui-sortable-handle">Logs</h4>\
+<div class="inside">\
+<pre class="verboseArea">'+error.stack+'\
+Response from server: '+JSON.stringify( data, null, 4 )+'</pre>\
+</div>\
+</div>';
 		updaterSection.append( verboseArea );
 	}
 
@@ -54,7 +53,7 @@ Response from server: ${JSON.stringify(data, null, 4)}</pre>
 				verboseArea.parentElement.scrollTop = verboseArea.parentElement.scrollHeight;
 			}
 			var scrollValOld = ( verboseArea.parentElement.scrollHeight - verboseArea.parentElement.clientHeight );
-			try{
+			try {
 				progress.value = out.data.progression;
 				text.innerHTML = progress.value + '/' + initData.max + ' (<em>' + ( parseInt(( progress.value / initData.max ) * 100 ) + '' ).slice( 0, 3 ) + '%</em>)';
 				if ( out.data.verbose ) {
@@ -78,13 +77,13 @@ Response from server: ${JSON.stringify(data, null, 4)}</pre>
 						if ( serverResponse.success ) {
 							initUpdate( updater );
 						} else {
-							var message_end = `<hr/><h4>${out.data.title}</h4><p>${out.data.text}</p>`;
-							updaterSection.append( message_end );
+							var messageEnd = '<hr/><h4>'+out.data.title+'</h4><p>'+out.data.text+'</p>';
+							updaterSection.append( messageEnd );
 						}
 					});
 				}
-			} catch(e) {
-				printError(e, out)
+			} catch ( e ) {
+				printError( e, out );
 			}
 		});
 	}
@@ -99,9 +98,9 @@ Response from server: ${JSON.stringify(data, null, 4)}</pre>
 			},
 		}, function onUpdateInit( out ) {
 			updaterSection = $( '#Updater' );
-			try{
-				if(typeof out === 'undefined' || typeof out.data === 'undefined' ){
-					throw new Error('Empty server response')
+			try {
+				if ( 'undefined' === typeof out || 'undefined' === typeof out.data ) {
+					throw new Error( 'Empty server response' );
 				}
 				verboseArea = '<div class="verboseContainer postbox closed"><div class="handlediv" title="Cliquer pour inverser."></div><h4 class="hndle ui-sortable-handle">Logs</h4><div class="inside"><pre class="verboseArea">';
 				if ( out.data.verbose ) {
@@ -123,8 +122,8 @@ Response from server: ${JSON.stringify(data, null, 4)}</pre>
 
 					runUpdate( 0 );
 				}
-			} catch(e) {
-				printError(e, out)
+			} catch ( e ) {
+				printError( e, out );
 			}
 		});
 	}

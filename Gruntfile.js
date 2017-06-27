@@ -114,7 +114,15 @@ module.exports = function gruntInit( grunt ) {
 					{
 						from: /Tested up to: \d+\.\d+/,
 						to:   function to() {
-							var versionNumbers = fs.readFileSync( '/var/www/wordpress/wp-includes/version.php', 'UTF-8' ).match( /^\$wp_version\s*=\s*'(\d+)\.(\d+)\.(\d+)';$/m ).slice( 1 ).map( Number );
+							const wpVersionFile = require('path').resolve(
+								gruntLocalconfig.wordpress_base_path,
+								'wp-includes/version.php'
+							);
+							const wpVersionFileContent = fs.readFileSync(
+								wpVersionFile,
+								'UTF-8'
+							);
+							var versionNumbers = wpVersionFileContent.match( /^\$wp_version\s*=\s*'(\d+)\.(\d+)(?:\.(\d+))?';$/m ).slice( 1 ).map( Number );
 							[ wpVersion.major, wpVersion.minor, wpVersion.fix ] = versionNumbers;
 							return `Tested up to: ${wpVersion.major}.${wpVersion.minor}`;
 						},
@@ -151,13 +159,14 @@ module.exports = function gruntInit( grunt ) {
 		},
 		eslint: {
 			options: {
-				format: 'stylish', //'node_modules/eslint-tap',
+				format: 'stylish',
+				fix:			true,
+				useEslintrc:	false,
 			},
 			info_browser: {
 				options: {
 					configFile: 'lint/eslint-browser.json',
 					silent:     true,
-					useEslintrc: false,
 				},
 				src: [
 					'js/**.js',
@@ -168,7 +177,6 @@ module.exports = function gruntInit( grunt ) {
 				options: {
 					configFile: 'lint/eslint-nodejs.json',
 					silent:     true,
-					useEslintrc: false,
 				},
 				src: [
 					'Gruntfile.js',
@@ -179,7 +187,6 @@ module.exports = function gruntInit( grunt ) {
 			strict_browser: {
 				options: {
 					configFile: 'lint/eslint-browser.json',
-					useEslintrc: false,
 				},
 				src: [
 					'js/**.js',
@@ -189,7 +196,6 @@ module.exports = function gruntInit( grunt ) {
 			strict_nodejs: {
 				options: {
 					configFile: 'lint/eslint-nodejs.json',
-					useEslintrc: false,
 				},
 				src: [
 					'Gruntfile.js',
@@ -281,7 +287,7 @@ module.exports = function gruntInit( grunt ) {
 								},
 							],
 						},
-						{
+						/*						{
 							config:   'bump.changelogs',
 							type:     'editor',
 							message:  `What are the changes from v<%= pkg.version %> to put in "${chalk.green.bold('Changelogs')}" section ? `,
@@ -291,7 +297,7 @@ module.exports = function gruntInit( grunt ) {
 							config:  'bump.upgradeNotice',
 							type:    'editor',
 							message: `What are the changes from v<%= pkg.version %> to put in "${chalk.green.bold('Upgrade Notice')}" section ? (optionnal)`,
-						},
+						},*/
 					],
 				},
 			},
@@ -321,7 +327,7 @@ module.exports = function gruntInit( grunt ) {
 			svn: {
 				options: {
 					src: '.',
-					dest: `${gruntLocalconfig.svn_path}/trunk`,
+					dest: require('path').resolve(gruntLocalconfig.svn_path, 'trunk'),
 					deleteAll: true,
 					exclude: [
 						'.*',
@@ -385,7 +391,6 @@ module.exports = function gruntInit( grunt ) {
 				grunt.log.error( 'Update of "' + 'package.json'.red + '" failed: ' + e.toString());
 			}
 		}
-		process.exit();
 
 		if ( _( grunt.config( 'bump.files' )).includes( 'bower' )) {
 			if ( !grunt.file.isFile( 'bower.json' )) {
@@ -418,6 +423,7 @@ module.exports = function gruntInit( grunt ) {
 			'replace:readmeVersion',
 			'refreshResources',
 			'wp_readme_to_markdown',
+			'rsync:svn',
 			/* Add unit tests here */
 		]
 	);
