@@ -376,6 +376,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		private function ifPageType() {
 			global $pagenow;
+
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			if ( is_admin() ) {
 				if ( 'post-new.php' === $pagenow || 'post.php' === $pagenow ) {
 					$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-editor' );

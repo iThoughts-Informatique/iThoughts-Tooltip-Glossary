@@ -137,15 +137,15 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 			global $pagenow;
 
 			if( $this->parentC->isUnderVersionned() ){
-				\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v5_0\LogLevel::Info, "Access to the update page (version from $this->from to $this->to) received, prepare update.");
+				$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+				$backbone->log(\ithoughts\v5_0\LogLevel::Info, "Access to the update page (version from $this->from to $this->to) received, prepare update.");
 				$updater_script = $backbone->get_resource( 'ithoughts_tooltip_glossary-updater' );
 				if(isset($updater_script)){
-					$updater_script->localizeId = 'iThoughtsTooltipGlossaryUpdater';
-					$updater_script->localizeData = array(
+					$updater_script->set_localize_data('iThoughtsTooltipGlossaryUpdater', array(
 						'from'		=>	$this->from,
 						'to'		=>	$this->to,
 						'pagenow'	=> $pagenow,
-					);
+					) );
 					$updater_script->enqueue();
 				}
 				$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-qtip' );
@@ -440,9 +440,10 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 				} break;
 
 				case 2:{
-					global $post;
+					\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v5_0\LogLevel::Silly, "Doing update to $this->to");
+					$verbose = array();
 					$maxCount = 20;
-					$postTypes = get_post_types(array(), 'names');
+					$postTypes = get_post_types('', 'names');
 					$updatedStatus = array('publish', 'pending', 'draft', 'future', 'private', 'inherit');
 
 					if($data['progression'] == -1){
@@ -471,57 +472,82 @@ if(!class_exists(__NAMESPACE__.'\\Updater')){
 						wp_die();
 					}
 
-					$paged = intval($data['progression'] / $maxCount);
 					$queryargs = array(
-						'post_status' => $updatedStatus,
-						'posts_per_page' => $maxCount,
-						'paged'			=> $paged
+						'post_status'					=> $updatedStatus,
+						'post_type'						=> $postTypes,
+						'posts_per_page'				=> $maxCount,
+						'offset'						=> $data['progression'],
+						'update_post_term_cache'		=> false,
+						'no_found_rows'					=> true,
 					);
-					$posts_to_update = new \WP_Query($queryargs);
-					while($posts_to_update->have_posts()){
-						$posts_to_update->the_post();
-						$postUpdateArray = array();
-						$postUpdateArray ['ID'] = $post->ID;//Don't remove this. The ID is mandatory
-						$postUpdateArray ['post_content'] = $post->post_content;
-						$matches;
+					$posts_to_update = get_posts($queryargs);
+					if(count($posts_to_update) > 0){
+						foreach($posts_to_update as $post){
+							$postUpdateArray = array();
+							$postUpdateArray ['ID'] = $post->ID;//Don't remove this. The ID is mandatory
+							$postUpdateArray ['post_content'] = $post->post_content;
+							$matches;
+
+							$counters = array(
+								'mediatip' => 0,
+								'tooltip' => 0,
+								'glossary' => 0
+							);
 
 
-						// Replace old mediatips
-						if(preg_match_all('/\[ithoughts_tooltip_glossary-mediatip (.*?)\](.*?)\[\/ithoughts_tooltip_glossary-mediatip\]/', $postUpdateArray ['post_content'], $matches)){
-							foreach($matches[0] as $index => $matched){
-								$newstr = "[itg-mediatip {$matches[1][$index]}]{$matches[2][$index]}[/itg-mediatip]";
-								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
+							// Replace old mediatips
+							if(preg_match_all('/\[ithoughts_tooltip_glossary-mediatip (.*?)\](.*?)\[\/ithoughts_tooltip_glossary-mediatip\]/', $postUpdateArray ['post_content'], $matches)){
+								$counters['mediatip'] = count($matches[0]);
+								foreach($matches[0] as $index => $matched){
+									$newstr = "[itg-mediatip {$matches[1][$index]}]{$matches[2][$index]}[/itg-mediatip]";
+									$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
+								}
 							}
-						}
 
-						// Replace old glossary shortcodes
-						if(preg_match_all('/\[ithoughts_tooltip_glossary-glossary (.*?)\](.+?)\[\/ithoughts_tooltip_glossary-glossary\]/', $postUpdateArray ['post_content'], $matches)){
-							foreach($matches[0] as $index => $matched){
-								$newstr = "[itg-glossary {$matches[1][$index]}]{$matches[2][$index]}[/itg-glossary]";
-								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
+							// Replace old glossary shortcodes
+							if(preg_match_all('/\[ithoughts_tooltip_glossary-glossary (.*?)\](.+?)\[\/ithoughts_tooltip_glossary-glossary\]/', $postUpdateArray ['post_content'], $matches)){
+								$counters['glossary'] = count($matches[0]);
+								foreach($matches[0] as $index => $matched){
+									$newstr = "[itg-glossary {$matches[1][$index]}]{$matches[2][$index]}[/itg-glossary]";
+									$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
+								}
 							}
-						}
 
-						// Replace old tooptip shortcode
-						if(preg_match_all('/\[ithoughts_tooltip_glossary-tooltip (.*?)\](.*?)\[\/ithoughts_tooltip_glossary-tooltip\]/', $postUpdateArray ['post_content'], $matches)){
-							foreach($matches[0] as $index => $matched){
-								$newstr = "[itg-tooltip {$matches[1][$index]}]{$matches[2][$index]}[/itg-tooltip]";
-								$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
+							// Replace old tooptip shortcode
+							if(preg_match_all('/\[ithoughts_tooltip_glossary-tooltip (.*?)\](.*?)\[\/ithoughts_tooltip_glossary-tooltip\]/', $postUpdateArray ['post_content'], $matches)){
+								$counters['tooltip'] = count($matches[0]);
+								foreach($matches[0] as $index => $matched){
+									$newstr = "[itg-tooltip {$matches[1][$index]}]{$matches[2][$index]}[/itg-tooltip]";
+									$postUpdateArray ['post_content'] = str_replace($matched, $newstr, $postUpdateArray ['post_content']);
+								}
 							}
+
+							if($post->post_content != $postUpdateArray ['post_content']){
+								clean_post_cache($post->ID);
+								\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v5_0\LogLevel::Info, "Updated post $post->ID: \"$post->post_title\":", $counters);
+								$verbose[] = array(
+									'type' => 'info',
+									'text' => "In $post->post_title ($post->ID), replaced {$counters['tooltip']} tooltips, {$counters['glossary']} glossaries, and {$counters['mediatip']} mediatips."
+								);
+								wp_update_post( $postUpdateArray );
+							} else {
+								\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v5_0\LogLevel::Silly, "Post $post->ID: \"$post->post_title\" was not modified");
+							}
+							wp_cache_delete( $post->ID, 'posts' );
+							wp_cache_delete( $post->ID, 'post_meta' );
 						}
-						if($post->post_content != $postUpdateArray ['post_content']){
-							\ithoughts\tooltip_glossary\Backbone::get_instance()->log(\ithoughts\v5_0\LogLevel::Info, "Updated post $post->ID: \"$post->post_title\"", $data);
-						}
-						wp_update_post( $postUpdateArray );
+					} else {
+						$verbose[] = array(
+							'type' => 'info',
+							'text' => "Query from <b>{$data['progression']}</b> and count <b>$maxCount</b> returned 0 posts"
+						);
 					}
 					wp_reset_postdata();
 
-					$current_page = $posts_to_update->get( 'paged' );
-					if ( ! $current_page ) {
-						$current_page = 1;
-					}
-
-					$return = array('progression' => ($paged + 1) * $maxCount);
+					$return = array(
+						'progression' => $data['progression'] + $maxCount,
+						'verbose' => $verbose,
+					);
 				} break;
 
 				case -1:{
