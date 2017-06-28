@@ -91,8 +91,7 @@ module.exports = function gruntInit( grunt ) {
 			headers: {
 				src: [
 					'tests/**/*.js',
-					'js/**/*.js',
-					'!js/**/*.min.js',
+					'js/src/**/*.js',
 					'less/**/*.less',
 					'class/**/*.php',
 					'templates/src/*.php',
@@ -397,6 +396,9 @@ module.exports = function gruntInit( grunt ) {
 		} else {
 			version = semver.inc( currentVersion, grunt.config( 'bump.increment' ));
 			grunt.log.ok( 'Bumping up ' + grunt.config( 'bump.increment' ).yellow + ' version number.' );
+		}
+		if(version == null){
+			version = currentVersion;
 		}
 
 

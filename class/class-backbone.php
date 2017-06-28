@@ -289,7 +289,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 				)
 			) );
 			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'js/dist/ithoughts_tt_gl-atoz.js', array('jquery', 'ithoughts-core-v5'));
-//			$this->declare_resource( 'ithoughts_tooltip_glossary-list', 'js/dist/ithoughts_tt_gl-glossary-list.js', array('jquery', 'ithoughts-core-v5'));
+			//			$this->declare_resource( 'ithoughts_tooltip_glossary-list', 'js/dist/ithoughts_tt_gl-glossary-list.js', array('jquery', 'ithoughts-core-v5'));
 
 			// Generate all Style resources
 			$this->declare_resource( 'ithoughts_tooltip_glossary-css', 'css/ithoughts_tt_gl.min.css');
@@ -425,8 +425,8 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 				'ithoughts_tooltip_glossary-qtip-css'
 			) );
 
-			if(isset($this->resources[ 'ithoughts_tooltip_glossary-customthemes' ])){
-				$this->enqueue_resource( 'ithoughts_tooltip_glossary-customthemes' );
+			if(isset($this->options["custom_styles_path"])){
+				wp_enqueue_style( 'ithoughts_tooltip_glossary-customthemes' );
 			}
 		}
 		public function wp_enqueue_scripts_hight_priority(){

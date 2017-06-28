@@ -6,7 +6,7 @@ Plugin URI: https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glo
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments, index, dictionnary, ajax, custom post type, post type, documentation, database, help, jquery, quote
 Requires at least: 3.3
 Tested up to: 4.8
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 License: GPLv3
 
 Create beautiful tooltips for descriptions or glossary terms, easily
@@ -77,6 +77,10 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 5. Glossary index shortcodes
 
 == Changelog ==
+
+= 3.0.1 =
+* FIX Fatal error in Resource management (see [the forum thread](https://wordpress.org/support/topic/php-fatal-error-115/))
+* FIX Theme Editor
 
 = 3.0.0 =
 * NEW Exclude glossary terms from search

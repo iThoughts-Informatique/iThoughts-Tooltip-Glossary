@@ -416,14 +416,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 			$backbone->enqueue_resources( array(
 				'ithoughts_tooltip_glossary-admin',
-				'ithoughts_tooltip_glossary-glossary-css',
+				'ithoughts_tooltip_glossary-css',
 				'ithoughts_tooltip_glossary-qtip-css',
-				'ithoughts_tooltip_glossary-customthemes'
 			) );
 
 			/* Add required scripts for WordPress Spoilers (AKA PostBox) */
 			wp_enqueue_script( 'postbox' );
 			wp_enqueue_script( 'post' );
+			wp_enqueue_style( 'ithoughts_tooltip_glossary-customthemes' );
 
 			$optionsInputs = array(
 				'termlinkopt' => TB::generate_input_select(
@@ -1348,15 +1348,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			/* Add required resources for wpColorPicker */
 			$backbone->enqueue_resources( array(
 				'ithoughts_tooltip_glossary-styleeditor',
-				'ithoughts_tooltip_glossary-colorpicker',
+				'ithoughts_tooltip_glossary-admin',
 				'ithoughts_tooltip_glossary-qtip-css',
 			) );
 			wp_enqueue_style('ithoughts_tooltip_glossary-customthemes');
 
 			wp_enqueue_style( 'wp-color-picker' );
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-gradx' );
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-admin' );
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-customthemes' );
 
 			$themeInfos = $this->get_custom_theme_infos();
 			$themeEditorEnabled = is_writable( $themeInfos['absdir'] . '/' . ($themedata['file'] ? $themedata['file'] : '') );
@@ -1414,7 +1411,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		}
 
 		private function loadtheme( $themename = null ) {
-			$defaultContent = '.qtip{ /* Global tip style (eg: borders, shadow, etc) */
+			$defaultContent = '&.qtip{ /* Global tip style (eg: borders, shadow, etc) */
 }
 .qtip-titlebar{ /* Title specific rules */
 }
@@ -1449,7 +1446,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 			$content = file_get_contents( $themeInfos['absdir'] . '/' . $file );
 
-			$matchHeadRegex = "/^\\.qtip-$reformatedThemeName\\s*{[\\n\\s]*&/";
+			$matchHeadRegex = "/^\\.qtip-$reformatedThemeName\\s*{[\\n\\s]*/";
 			$splittedHead = false;
 			if ( preg_match( $matchHeadRegex, $content ) === 1 ) { // If normal header
 				if (
@@ -1538,7 +1535,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			if ( isset( $theme['content'] ) && $theme['content'] ) {
 				if ( isset( $theme['splittedHead'] ) && $theme['splittedHead'] == 'yes' ) {
 					$content .= ".qtip-$theme_name{" . PHP_EOL;
-					$content .= '&' . $theme['content'] . PHP_EOL . '}';
+					$content .= $theme['content'] . PHP_EOL . '}';
 				} else {
 					$content = $theme['content'];
 				}
@@ -1547,7 +1544,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			}
 
 			$ret = array(
-				'less' => $this->auto_indent( $content ),
+				'less' => preg_replace('/\\\/', '', $this->auto_indent( $content )),
 				'theme_name' => $theme_name,
 			);
 			return $ret;
