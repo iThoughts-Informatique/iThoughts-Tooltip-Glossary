@@ -9,8 +9,9 @@
  * @version 2.7.0
  */
 
+'use strict';
+
 ( function selfCalling( ithoughts ) {
-	'use strict';
 	var $ = ithoughts.$;
 
 	ithoughts.$d.ready( function onDocumentReady() {
@@ -37,4 +38,4 @@
 			$( this ).parent().find( 'button' ).prop( 'disabled', !this.value );
 		}).change();
 	});
-})( Ithoughts.v4 );
+})( iThoughts.v5 );

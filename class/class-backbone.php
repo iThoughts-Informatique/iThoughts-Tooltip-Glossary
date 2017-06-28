@@ -234,8 +234,12 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			$this->add_shortcodes();
 			$this->add_widgets();
 			$this->add_filters();
+			/*//TEST
+			require_once( $this->base_class_path . '/class-autolink.php' );
+			AutoLink::get_instance();
+			//ENDTEST*/
 			add_action( 'init',                  		array(&$this,	'declare_resources')			);
-			add_action( 'init',                  		array(&$this,	'ajaxHooks')							);
+			add_action( 'init',                  		array(&$this,	'ajax_hooks')							);
 			add_action( 'wp_footer',             		array(&$this,	'wp_footer')							);
 			add_action( 'admin_footer',            		array(&$this,	'wp_footer')							);
 			add_action( 'wp_print_footer_scripts',		array(&$this,	'afterScripts'), 100000					);
@@ -259,8 +263,10 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			// Generate all Script resources
 			$this->declare_resource('imagesloaded', 'ext/imagesloaded.min.js');
 			$this->declare_resource( 'qtip', 'ext/jquery.qtip.js', array('jquery', 'imagesloaded'));
-			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'js/ithoughts_tt_gl-qtip2.js', array('qtip', 'ithoughts-core-v4'), false, 'iThoughtsTooltipGlossary', array(
+			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'js/ithoughts_tt_gl-qtip2.js', array('qtip', 'ithoughts-core-v5'), false, 'iThoughtsTooltipGlossary', array(
 				'admin_ajax'    => admin_url('admin-ajax.php'),
+				// Get the API endpoint. See https://wordpress.stackexchange.com/questions/144822/what-is-the-best-practice-to-check-for-pretty-permalinks
+				'apiurl'		=> get_site_url(null, get_option('permalink_structure') != '' ? 'wp-json' : '?rest_route=').'/wp/v2',
 				'baseurl'		=> $this->base_url,
 				'qtipstyle'     => $this->get_option("qtipstyle"),
 				'qtiptrigger'   => $this->get_option("qtiptrigger"),
@@ -282,8 +288,8 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 					)
 				)
 			) );
-			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'js/ithoughts_tt_gl-atoz.js', array('jquery', 'ithoughts-core-v4'));
-			$this->declare_resource( 'ithoughts_tooltip_glossary-list', 'js/ithoughts_tt_gl-glossary-list.js', array('jquery', 'ithoughts-core-v4'));
+			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'js/ithoughts_tt_gl-atoz.js', array('jquery', 'ithoughts-core-v5'));
+//			$this->declare_resource( 'ithoughts_tooltip_glossary-list', 'js/ithoughts_tt_gl-glossary-list.js', array('jquery', 'ithoughts-core-v5'));
 
 			// Generate all Style resources
 			$this->declare_resource( 'ithoughts_tooltip_glossary-css', 'css/ithoughts_tt_gl.min.css');
@@ -293,12 +299,11 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			}
 		}
 
-		public function get_client_side_overridable(){
-			return $this->clientsideOverridable;
-		}
-
 		public function get_server_side_overridable(){
 			return $this->serversideOverridable;
+		}
+		public function get_client_side_overridable(){
+			return $this->clientsideOverridable;
 		}
 
 		public function get_handled_attributes(){
@@ -311,12 +316,22 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 		public function addScript($newArray){
 			$this->scripts = array_merge($this->scripts, $newArray);
 		}
-		public function ajaxHooks(){
-			add_action( 'wp_ajax_ithoughts_tt_gl_get_terms_list',			array(&$this, 'getTermsListAjax') );
-			add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_terms_list',	array(&$this, 'getTermsListAjax') );
 
-			add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_term_details', array(&$this, 'getTermDetailsAjax') );
-			add_action( 'wp_ajax_ithoughts_tt_gl_get_term_details',        array(&$this, 'getTermDetailsAjax') );
+		/**
+		 * Set up ajax hooks used by the plugin.
+		 * Public ajax hooks are:
+		 * 	* getting terms list (wp_ajax_ithoughts_tt_gl_get_terms_list & wp_ajax_nopriv_ithoughts_tt_gl_get_terms_list)
+		 * 	* getting term content (wp_ajax_ithoughts_tt_gl_get_term_details & wp_ajax_nopriv_ithoughts_tt_gl_get_term_details)
+		 *  @action init
+		 *
+		 * @author Gerkin
+		 */
+		public function ajax_hooks(){
+			add_action( 'wp_ajax_ithoughts_tt_gl_get_terms_list',			array(&$this, 'get_terms_list_ajax') );
+			add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_terms_list',	array(&$this, 'get_terms_list_ajax') );
+
+			add_action( 'wp_ajax_ithoughts_tt_gl_get_term_details',        array(&$this, 'get_term_details_ajax') );
+			add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_term_details', array(&$this, 'get_term_details_ajax') );
 		}
 
 		public function localisation(){
@@ -362,46 +377,8 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			register_widget( '\\ithoughts\\tooltip_glossary\\widgets\\RandomTerm' );
 		}
 
-		public function register_scripts_and_styles(){
-			wp_register_script('imagesloaded', $this->base_url . '/ext/imagesloaded.min.js',										null, null, true);
-			wp_register_script('qtip', $this->base_url . '/ext/jquery.qtip'.$this->minify.'.js',												array('jquery', 'imagesloaded'), "2.2.1:2", null, true);
-			wp_register_script( 'ithoughts_tooltip_glossary-qtip',  $this->base_url . '/js/ithoughts_tt_gl-qtip2'.$this->minify.'.js',	array('qtip', "ithoughts-core-v4"), "2.8.0" );
-			wp_localize_script( 'ithoughts_tooltip_glossary-qtip', 'iThoughtsTooltipGlossary', array(
-				'admin_ajax'    => admin_url('admin-ajax.php'),
-				'baseurl'		=> $this->base_url,
-				'qtipstyle'     => $this->get_option("qtipstyle"),
-				'qtiptrigger'   => $this->get_option("qtiptrigger"),
-				'qtipshadow'    => $this->get_option("qtipshadow"),
-				'qtiprounded'   => $this->get_option("qtiprounded"),
-				'termcontent'	=> $this->get_option("termcontent"),
-				'verbosity'     	=> $this->get_option("verbosity"),
-				'anims'			=> array(
-					"in"	=> $this->get_option("anim_in"),
-					"out"	=> $this->get_option("anim_out"),
-					"duration"	=> $this->get_option("anim_time")
-				),
-				'lang'			=> array(
-					"qtip" => array(
-						"pleasewait_ajaxload" => array(
-							"title" => __('Please wait', 'ithoughts-tooltip-glossary' ),
-							"content" => __('Loading glossary term', 'ithoughts-tooltip-glossary' )
-						)
-					)
-				)
-			) );
-			wp_register_script( 'ithoughts_tooltip_glossary-atoz',  $this->base_url . '/js/ithoughts_tt_gl-atoz'.$this->minify.'.js',  array('jquery', "ithoughts-core-v4"), "2.8.0" );
-			wp_register_script( 'ithoughts_tooltip_glossary-list',  $this->base_url . '/js/ithoughts_tt_gl-glossary-list'.$this->minify.'.js',  array('jquery', "ithoughts-core-v4"/*, "masonry"*/), "2.8.0" );
-
-
-			wp_register_style( 'ithoughts_tooltip_glossary-css', $this->base_url . '/css/ithoughts_tt_gl.min.css', null, "2.8.0" );
-			wp_register_style( 'ithoughts_tooltip_glossary-qtip-css', $this->base_url . '/ext/jquery.qtip.min.css', null, "2.2.2");
-			if(isset($this->options["custom_styles_path"]))
-				wp_register_style( 'ithoughts_tooltip_glossary-customthemes', $this->options["custom_styles_path"], null, null);
-
-		}
-
 		/**
-		 * Print additionnal resources in the footer
+		 * Print required resources in the footer
 		 * @author Gerkin
 		 */
 		public function wp_footer(){
@@ -453,12 +430,12 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			}
 		}
 		public function wp_enqueue_scripts_hight_priority(){
-			$this->enqueue_resource( 'ithoughts-core-v4' );
+			$this->enqueue_resource( 'ithoughts-core-v5' );
 		}
 
 		/**
-	 * Order post and taxonomy archives alphabetically
-	 */
+		 * Order post and taxonomy archives alphabetically
+		 */
 		public function order_core_archive_list( $query ){
 			if( is_post_type_archive("glossary") || is_tax('glossary_group') ){
 				$query->set( 'orderby', 'title' );
@@ -468,8 +445,8 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 		}
 
 		/**
-	 * Translation support
-	 */
+		 * Translation support
+		 */
 		public function ithoughts_tt_gl_term_link( $url ){
 			// qTranslate plugin
 			if( function_exists('qtrans_convertURL') ):
@@ -588,7 +565,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			return $posts;
 		}
 
-		public function getTermsListAjax(){
+		public function get_terms_list_ajax(){
 			$output = array(
 				"terms" => $this->searchTerms(array(
 					'post_type'			=> 'glossary',
@@ -604,7 +581,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			wp_send_json_success($output);
 			return;
 		}
-		public function getTermDetailsAjax(){
+		public function get_term_details_ajax(){
 			// Sanity and security checks:
 			//  - we have a termid (post id)
 			//  - it is post of type 'glossary' (don't display other post types!)

@@ -11,14 +11,14 @@
 
 /*global QTags: false, iThoughtsTooltipGlossaryEditor: false */
 
+'use strict';
+
 /**
  * @function initTinyMCEPlugin
  * @description Namespace & register both term & list TinyMCE plugins for iThoughts Tooltip Glossary
  * @param {Object} ithoughts Appropriate version of iThoughts Tooltip Glossary helper
  */
 ( function initTinyMCEPlugin( ithoughts ) {
-	'use strict';
-
 	ithoughts.$d.ready( function onDocumentReady() {
 		var $    			= ithoughts.$,
 			itg				= iThoughtsTooltipGlossary,
@@ -156,11 +156,11 @@
 					var attrs	= {},
 						regex	= /([\w\d\-]+?)="(.+?)"/g,
 						matched	= null,
-						ret		= '<a data-type="' + prefix3 + '-' + {
+						ret		= `<a data-type="${  prefix3  }-${  {
 							glossary: 'term',
 							tooltip:  'tooltip',
 							mediatip: 'mediatip',
-						}[balise] + '"',
+						}[balise]  }"`,
 						i;
 					while ( true === Boolean( matched = regex.exec( inner ))) {
 						attrs[matched[1]] = matched[2];
@@ -168,13 +168,13 @@
 					for ( i in attrs ) {
 						if ( attrs.hasOwnProperty( i )) {
 							if ( htmlAttrs.indexOf( i ) > -1 || 0 === i.indexOf( 'data-' )) {
-								ret += ' ' + i + '="' + attrs[i] + '"';
+								ret += ` ${  i  }="${  attrs[i]  }"`;
 							} else {
-								ret += ' data-' + i + '="' + attrs[i] + '"';
+								ret += ` data-${  i  }="${  attrs[i]  }"`;
 							}
 						}
 					}
-					return ret + '>' + text + '</a>';
+					return `${ ret  }>${  text  }</a>`;
 				});
 			},
 			function replaceShortcodeElList( content ) { // For [glossary_(term_list|atoz)]
@@ -182,7 +182,7 @@
 					var attrs	= {},
 						regex	= /([\w\d\-]+?)="(.+?)"/g,
 						matched	= null,
-						ret		= '<span data-type="' + prefix3 + '-' + type + '"',
+						ret		= `<span data-type="${  prefix3  }-${  type  }"`,
 						i;
 					while ( true === Boolean( matched = regex.exec( attrStr ))) {
 						attrs[matched[1]] = matched[2];
@@ -190,13 +190,13 @@
 					for ( i in attrs ) {
 						if ( attrs.hasOwnProperty( i )) {
 							if ( htmlAttrs.indexOf( i ) > -1 || 0 === i.indexOf( 'data-' )) {
-								ret += ' ' + i + '="' + attrs[i] + '"';
+								ret += ` ${  i  }="${  attrs[i]  }"`;
 							} else {
-								ret += ' data-' + i + '="' + attrs[i] + '"';
+								ret += ` data-${  i  }="${  attrs[i]  }"`;
 							}
 						}
 					}
-					return ret + '>Glossary ' + (( 'term_list' === type ) ? 'List' : 'A-to-Z' ) + '</span>';
+					return `${ ret  }>Glossary ${  ( 'term_list' === type ) ? 'List' : 'A-to-Z'  }</span>`;
 				});
 			},
 		];
@@ -211,7 +211,7 @@
 							tooltip:  'tooltip',
 							mediatip: 'mediatip',
 						}[type],
-						ret		= '[' + prefix4 + '-' + b,
+						ret		= `[${  prefix4  }-${  b }`,
 						i;
 					while ( true === Boolean( matched = regex.exec( inner ))) {
 						if ( matched[1] !== 'data-' || matched[2] !== 'type' ) {
@@ -224,10 +224,10 @@
 					}
 					for ( i in attrs ) {
 						if ( attrs.hasOwnProperty( i )) {
-							ret += ' ' + i + '="' + attrs[i] + '"'; 
+							ret += ` ${  i  }="${  attrs[i]  }"`;
 						}
 					}
-					return ret + ']' + text + '[/' + prefix4 + '-' + b + ']';
+					return `${ ret  }]${  text  }[/${  prefix4  }-${  b  }]`;
 				});
 			},
 			function restoreShortcodeElList( content ) { // For [glossary_(term_list|atoz)]
@@ -235,7 +235,7 @@
 					var attrs	= {},
 						regex	= /(data-)?([\w\d\-]+?)="(.+?)"/g,
 						matched	= null,
-						ret		= '[glossary_' + type,
+						ret		= `[glossary_${  type }`,
 						i;
 					while ( true === Boolean( matched = regex.exec( attrStr ))) {
 						if ( matched[1] !== 'data-' || matched[2] !== 'type' ) {
@@ -248,10 +248,10 @@
 					}
 					for ( i in attrs ) {
 						if ( attrs.hasOwnProperty( i )) {
-							ret += ' ' + i + '="' + attrs[i] + '"'; 
+							ret += ` ${  i  }="${  attrs[i]  }"`;
 						}
 					}
-					return ret + '/]';
+					return `${ ret  }/]`;
 				});
 			},
 		];
@@ -273,7 +273,7 @@
 					});
 				}
 				if ( !isNA( selection.start ) && selection.start === selection.end ) {
-					itge.log( 'Start & End node are the same, operating on a node of type ' + node.nodeName );
+					itge.log( `Start & End node are the same, operating on a node of type ${  node.nodeName }` );
 					if ( node && node.nodeName !== '#text' ) {
 						$.extend( values, {
 							alpha: trimFilter( node.getAttribute( 'data-alpha' )),
@@ -324,13 +324,13 @@
 									domC.remove();
 								});
 								if ( 'undefined' === typeof data ) {
-									return; 
+									return;
 								}
 
-								var shortcode = 'glossary_' + ({
+								var shortcode = `glossary_${  ({
 										atoz: 'atoz',
 										list: 'term_list',
-									})[data.type],
+									})[data.type] }`,
 									tail = ( mode !== 'load' ) ? ' ' : '',
 									optsStrs		= [],
 									addOpt			= function addOpt( label, value, specEncode ) {
@@ -346,7 +346,7 @@
 									case 'list': {
 										attrs = attrs.concat([ 'cols', 'desc' ]);
 									} break;
-								}
+												   }
 								for ( var i = 0, I = attrs.length; i < I; i++ ) {
 									var attr = attrs[i];
 									if ( data.hasOwnProperty( attr )) {
@@ -354,7 +354,7 @@
 									}
 								}
 
-								var finalContent = '[' + shortcode + ' ' + optsStrs.join( ' ' ) + '/]' + tail;
+								var finalContent = `[${  shortcode  } ${  optsStrs.join( ' ' )  }/]${  tail }`;
 								itge.log( 'Final content:', finalContent );
 								return callback( finalContent, mode );
 							};
@@ -384,7 +384,7 @@
 					tristate,
 					loader;
 				if ( !isNA( selection.start ) && selection.start === selection.end ) {
-					itge.log( 'Start & End node are the same, operating on a node of type ' + node.nodeName );
+					itge.log( `Start & End node are the same, operating on a node of type ${  node.nodeName }` );
 					content = ( node && node.text ) || selection.html; // Get node text if any or get selection
 					itge.log( 'Loading content: ', content );
 					if ( node && node.nodeName !== '#text' && tipsTypes.indexOf( node.getAttribute( 'data-type' )) > -1 ) { // On Glossary Term or Tooltip or Mediatip, load data
@@ -398,7 +398,7 @@
 						}
 						takeAttr = function takeAttr( label, nodata ) {
 							if ( isNA( nodata ) || !nodata ) {
-								label = 'data-' + label; 
+								label = `data-${  label }`;
 							}
 							var val = attrs[label];
 							delete attrs[label];
@@ -421,10 +421,10 @@
 
 						tristate = function tristate( val ) {
 							if ( 'true' === val ) {
-								return true; 
+								return true;
 							}
 							if ( 'false' === val ) {
-								return false; 
+								return false;
 							}
 							return null;
 						};
@@ -467,7 +467,7 @@
 								},
 								maxwidth: takeAttr( 'tooltip-maxwidth' ),
 							},
-							
+
 							glossary_disable_auto_translation: 'true' === ( takeAttr( 'disable_auto_translation' ) || false ),
 						};
 						for ( i in attrs ) {
@@ -491,7 +491,7 @@
 							mediatip_content: '',
 							mediatip_caption: '',
 							type:             'tooltip',
-							
+
 							glossary_disable_auto_translation:	false,
 						};
 						// If something is selected, load the content as text, content for tooltip & search
@@ -538,7 +538,7 @@
 									domC.remove();
 								});
 								if ( 'undefined' === typeof data ) {
-									return; 
+									return;
 								}
 								var optsStrs		= [],
 									attributesList	= domC.find( '#attributes-list option' ).map( function domToValue() {
@@ -559,7 +559,7 @@
 									prefix,
 									midPart,
 									optsAttrs		= ( opts && opts.attributes ) || {},
-									shortcode		= prefix4 + '-' + data.type,
+									shortcode		= `${ prefix4  }-${  data.type }`,
 									tail			= ( mode !== 'load' && 0 === content.length ) ? ' ' : '';
 
 								if ( !isNA( opts )) {
@@ -583,12 +583,12 @@
 									}
 									if ( opts.position ) {
 										if ( opts.position.at && opts.position.at[1] && opts.position.at[2]) {
-											addOpt( 'data-position-at', opts.position.at[1] + ' ' + opts.position.at[2]);
+											addOpt( 'data-position-at', `${ opts.position.at[1]  } ${  opts.position.at[2] }` );
 										}
 										if ( opts.position.my && opts.position.my[1] && opts.position.my[2]) {
 											my = [ opts.position.my[1], opts.position.my[2] ];
 											if ( opts.position.my.invert ) {
-												my.reverse(); 
+												my.reverse();
 											}
 											addOpt( 'data-position-my', my.join( ' ' ));
 										}
@@ -650,7 +650,7 @@
 										}
 									}
 								}
-								var finalContent = '[' + shortcode + ' ' + optsStrs.join( ' ' ) + ']' + data.text + '[/' + shortcode + ']' + tail;
+								var finalContent = `[${  shortcode  } ${  optsStrs.join( ' ' )  }]${  data.text  }[/${  shortcode  }]${  tail }`;
 								itge.log( 'Final content:', finalContent );
 								return callback( finalContent, mode );
 							};
@@ -677,9 +677,9 @@
 		function generateAttr( label, value, specEncode ) {
 			value = String( value ).trim();
 			if ( !label.match( /^[\w_\-]*$/ )) {
-				return null; 
+				return null;
 			}
-			return stripQuotes( label.trim(), true ) + '="' + ( !isNA( specEncode ) && specEncode ? value.replace( /"/g, '&aquot;' ).replace( /\n/g, '<br/>' ) : stripQuotes( value, true )) + '"';
+			return `${ stripQuotes( label.trim(), true )  }="${   !isNA( specEncode ) && specEncode ? value.replace( /"/g, '&aquot;' ).replace( /\n/g, '<br/>' ) : stripQuotes( value, true )  }"`;
 		}
 		QTags.addButton( 'ithoughts_tt_gl-tip', 'ITG Tip', function onClickButton() {
 			itge.editorForms.tip( generateSelObject(), QTags.insertContent, true );
@@ -688,4 +688,4 @@
 			itge.editorForms.list( generateSelObject(), QTags.insertContent, true );
 		});
 	});
-})( Ithoughts.v4 );
+})( iThoughts.v5 );

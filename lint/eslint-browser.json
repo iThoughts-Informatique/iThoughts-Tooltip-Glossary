@@ -1,20 +1,21 @@
 {
 	"env": {
-		"browser": true,
-		"es6": false
+		"es6": true,
+		"browser": true
 	},
 	"extends": "eslint:recommended",
 	"parserOptions": {
 		"sourceType": "script"
 	},
 	"globals": {
-		"iThoughtsTooltipGlossary": true,
-		"jQuery": false,
-		"Ithoughts": false,
+		"iThoughtsTooltipGlossary": false,
+		"iThoughts": false,
+		"window": false,
 		"wp": false
 	},
 	"rules": {
-		"strict": ["error", "function"],
+		"no-console": 0,
+		"strict": ["error", "global"],
 		"indent": ["error","tab",{"SwitchCase": 1}],
 		"linebreak-style": ["error","unix"],
 		"quotes": ["error","single"],
@@ -27,7 +28,7 @@
 		"func-names": ["error", "always"],
 		"func-name-matching": ["error", "always"],
 		"keyword-spacing": ["error", { "before": true, "after": true }],
-		"new-parens": "error",	
+		"new-parens": "error",
 		"object-curly-newline": ["error", {
 			"minProperties": 1
 		}],
@@ -43,6 +44,17 @@
 		"eol-last": ["error", "always"],
 		"no-lonely-if": "error",
 		"curly": "error",
-		"space-before-blocks": "error"
+		"space-before-blocks": "error",
+		"require-jsdoc": ["warn", {
+			"require": {
+				"FunctionDeclaration": true,
+				"MethodDefinition": true,
+				"ClassDeclaration": true,
+				"ArrowFunctionExpression": false
+			}
+		}],
+		"prefer-template": "error",
+		"no-useless-concat": "error",
+		"template-curly-spacing": ["error", "always"]
 	}
 }

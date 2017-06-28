@@ -9,9 +9,9 @@
  * @version 2.7.0
  */
 
-( function selfCalling( ithoughts ) {
-	'use strict';
+'use strict';
 
+( function selfCalling( ithoughts ) {
 	var $ = ithoughts.$,
 		itg = iThoughtsTooltipGlossary;
 
@@ -51,4 +51,4 @@
 			}).trigger( 'input' );
 		}());
 	});
-})( Ithoughts.v4 );
+})( iThoughts.v5 );

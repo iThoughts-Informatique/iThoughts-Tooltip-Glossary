@@ -50,6 +50,7 @@ if(!class_exists(__NAMESPACE__.'\\PostTypes')){
 				'menu_position'			=> 105,
 				'has_archive'			=> true,
 				'exclude_from_search'	=> $options['exclude_search'],
+				'show_in_rest'			=> true,
 				'supports'				=> $supports,
 				'labels' => array(
 					'name'					=> __( 'Glossary Terms', 'ithoughts-tooltip-glossary' ),

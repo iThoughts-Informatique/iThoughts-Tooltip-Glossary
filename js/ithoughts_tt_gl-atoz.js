@@ -9,9 +9,9 @@
  * @version 2.7.0
  */
 
-( function selfCalling( ithoughts ) {
-	'use strict';
+'use strict';
 
+( function selfCalling( ithoughts ) {
 	var lastPos,
 		$ = ithoughts.$,
 		$w = ithoughts.$w,
@@ -31,7 +31,7 @@
 		$parent.find( '.itg-atoz-items' )[fct1k]( 'itg-atoz-items-on' )[fct2k]( 'itg-atoz-items-off' );
 		$parent.find( '.ithoughts_tt_gl-please-select' )[alpha ? 'hide' : 'show']();
 		if ( alpha ) {
-			$parent.find( '.itg-atoz-items-' + alpha ).removeClass( 'itg-atoz-items-off' ).addClass( 'itg-atoz-items-on' );
+			$parent.find( `.itg-atoz-items-${  alpha }` ).removeClass( 'itg-atoz-items-off' ).addClass( 'itg-atoz-items-on' );
 		}
 	}
 	function setCurrentTab( alpha ) {
@@ -83,4 +83,4 @@
 			setCurrentTab( myAlpha );
 		}
 	});
-})( Ithoughts.v4 );
+})( iThoughts.v5 );

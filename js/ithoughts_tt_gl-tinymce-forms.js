@@ -9,10 +9,11 @@
  * @version 2.7.0
  */
 
+'use strict';
+
 /*global tinymce:false, iThoughtsTooltipGlossaryEditor: false */
 
 ( function selfCalling( ithoughts ) {
-	'use strict';
 
 	// As usual, assign our most comon globals usage to local ones for minification
 	var $		= ithoughts.$,
@@ -73,8 +74,8 @@
 				// Mode switcher for mediatips.  Hide all except the selected mode
 				$( '.modeswitcher' ).on( 'click keyup', function switchMode() {
 					var id = this.id;
-					$( '[data-' + id + ']:not([data-' + id + '="mediatip-' + this.value + '-type"])' ).hide();
-					$( '[data-' + id + '~="mediatip-' + this.value + '-type"]' ).show();
+					$( `[data-${  id  }]:not([data-${  id  }="mediatip-${  this.value  }-type"])` ).hide();
+					$( `[data-${  id  }~="mediatip-${  this.value  }-type"]` ).show();
 				}).keyup();
 
 				// ##### `removeEditor`: Clean an editor
@@ -117,7 +118,7 @@
 					$editors.each( function findNewEditor( index, editor ) {
 						// Find a free id. If our editor does not have an ID, we have to generate one
 						while ( null == editor.getAttribute( 'id' )) {
-							var newId = 'editor' + Math.random().toString( 36 ).replace( /[^a-z]+/g, '' ).substr( 0, 10 );
+							var newId = `editor${  Math.random().toString( 36 ).replace( /[^a-z]+/g, '' ).substr( 0, 10 ) }`;
 							// If this editor ID is free, then set it. Else, loop using the parent `while`
 							if ( 0 === $( newId ).length ) {
 								editor.setAttribute( 'id', newId );
@@ -128,11 +129,11 @@
 						var text = editor.value;
 						// Do effective call to tinymce & init the editor
 						tinymce.init({
-							selector:         '#' + editorId,
+							selector:         `#${  editorId }`,
 							menubar:          false,
 							external_plugins: {
-								code:      itge.base_tinymce + '/code/plugin.min.js',
-								wordcount: itge.base_tinymce + '/wordcount/plugin.min.js',
+								code:      `${ itge.base_tinymce  }/code/plugin.min.js`,
+								wordcount: `${ itge.base_tinymce  }/wordcount/plugin.min.js`,
 							},
 							plugins: 'wplink',
 							toolbar: [
@@ -184,7 +185,7 @@
 							link: json.link,
 						}));
 						// Display selected image
-						$( '#image-box' ).html( '<img src="' + json.url + '"/>' );
+						$( '#image-box' ).html( `<img src="${  json.url  }"/>` );
 						$( '#mediatip_caption' ).val( json.caption );
 						$( '#ithoughts_tt_gl_link' ).val( json.link );
 					});
@@ -201,7 +202,7 @@
 						searchedString = '',
 						request = null;
 
-					// ##### `losefocustest`: Check if the completer holder or the input has the focus 
+					// ##### `losefocustest`: Check if the completer holder or the input has the focus
 					function losefocustest() {
 						// The timeout is required to let some time to the browser to change the focus status of the elements
 						setTimeout( function waitedForFocus() {
@@ -221,7 +222,7 @@
 						itge.terms.map( function mapTerms( element ) {
 							var indx = element.title.toLowerCase().indexOf( searchedString );
 							if ( -1 === indx )							{
-								indx = element.slug.toLowerCase().indexOf( searchedString ); 
+								indx = element.slug.toLowerCase().indexOf( searchedString );
 							}
 							if ( -1 === indx ) {
 								return;
@@ -244,9 +245,9 @@
 								var item = searchResults[i];
 								// If WPML is installed, `item` should contain the property `thislang`. If `thislang` is set to false, then the term is in another language than the current one, and we display it with a particular class
 								if ( typeof item.thislang != 'undefined' && false === item.thislang )								{
-									completerHolder.append( $.parseHTML( '<div tabindex="0" class="option foreign-language" data-id="' + item.id + '" data-excerpt="' + item.content + '"><p><b>' + item.title + '</b><br><em>' + item.slug + '</em></p></div>' ));
+									completerHolder.append( $.parseHTML( `<div tabindex="0" class="option foreign-language" data-id="${  item.id  }" data-excerpt="${  item.content  }"><p><b>${  item.title  }</b><br><em>${  item.slug  }</em></p></div>` ));
 								}							else								{
-									completerHolder.append( $.parseHTML( '<div tabindex="0" class="option" data-id="' + item.id + '" data-excerpt="' + item.content + '"><p><b>' + item.title + '</b><br><em>' + item.slug + '</em></p></div>' ));
+									completerHolder.append( $.parseHTML( `<div tabindex="0" class="option" data-id="${  item.id  }" data-excerpt="${  item.content  }"><p><b>${  item.title  }</b><br><em>${  item.slug  }</em></p></div>` ));
 								}
 							}
 						} else {
@@ -263,7 +264,7 @@
 							completerHolderContainer.addClass( 'hidden' );
 						});
 					}
-					// ##### `resizeWindow`: Set styles of the completer holder 
+					// ##### `resizeWindow`: Set styles of the completer holder
 					function resizeWindow() {
 						// The `completerHolder` element has to be positionned by JS. In fact, to overflow outside from the modal, it must not be a descendent of the modal. Thus, we can't position it via CSS
 						var top = completerHolder.offset().top - $w.scrollTop();
@@ -279,7 +280,7 @@
 					input.on( 'keyup focusin', function focusin() {
 						// First, check if we don't have any request currently running. If we have one, we have to `abort()` it
 						if ( request )						{
-							request.abort(); 
+							request.abort();
 						}
 						// Then, compose the search string by removing accents or special characters
 						searchedString = itge.removeAccents( $( this ).val().toLowerCase());
@@ -369,7 +370,7 @@
 							// Create the store
 							attributes[type] = {};
 							// Iterate on each category to get the value
-							for ( var arrK = opts['attributes-' + type + '-key'] || [], arrV = opts['attributes-' + type + '-value'] || [], j = 0, J = Math.min( arrK.length, arrV.length ); j < J; j++ ) {
+							for ( var arrK = opts[`attributes-${  type  }-key`] || [], arrV = opts[`attributes-${  type  }-value`] || [], j = 0, J = Math.min( arrK.length, arrV.length ); j < J; j++ ) {
 								if ( arrK[j] && arrV[j]) {
 									// If the key is not in the list of standard DOM attributes, we have to prefix it
 									var prefix = attributesList.indexOf( arrK[j]) > -1 ? '' : 'data-';
@@ -377,8 +378,8 @@
 								}
 							}
 							// Clean the options object afterwars
-							delete opts['attributes-' + type + '-value'];
-							delete opts['attributes-' + type + '-key'];
+							delete opts[`attributes-${  type  }-value`];
+							delete opts[`attributes-${  type  }-key`];
 						}
 						// Add the attributes in the options object, then return it;
 						opts['attributes'] = attributes;
@@ -473,18 +474,18 @@
 					// Bind Position selects
 					$( '[name^="position[my]"]' ).change( function onPositionMyChange() {
 						var base = '#position[my][',
-							inputV = $( base + '1]' ),
-							inputH = $( base + '2]' ),
+							inputV = $( `${ base  }1]` ),
+							inputH = $( `${ base  }2]` ),
 							inputsHV = $( inputH.get( 0 ), inputV.get( 0 )),
-							inputS = $( base + 'invert]' );
+							inputS = $( `${ base  }invert]` );
 						return function changePositionMy() {
 							inputsHV.prop( 'required', inputV.val() || inputH.val() || inputS.prop( 'checked' ));
 						};
 					}());
 					$( '[name^="position[at]"]' ).change( function onPositionAtChange() {
 						var base = '#position[at][',
-							inputV = $( base + '1]' ),
-							inputH = $( base + '2]' ),
+							inputV = $( `${ base  }1]` ),
+							inputH = $( `${ base  }2]` ),
 							inputsHV = $( inputH.get( 0 ), inputV.get( 0 ));
 						return function changePositionMy() {
 							inputsHV.prop( 'required', inputV.val() || inputH.val());
@@ -509,8 +510,8 @@
 						var $prototype = $container.find( '.ithoughts-prototype' ),
 							$clone = $prototype.clone().removeClass( 'ithoughts-prototype' ),
 							newIdParts = [
-								'attributes-'+type+'-',
-								'-'+( new Date().getTime()),
+								`attributes-${ type }-`,
+								`-${ new Date().getTime() }`,
 							];
 						// Set the id/for attribute in the template
 						$clone.find( '.dynamicId' ).each( function setForOrId() {
@@ -526,8 +527,8 @@
 					$( '.ithoughts-attrs-container input' ).blur( checkRemoveAttr );
 					tooltipOpts = getOptsObject();
 				})();
-				
-				// This event listener generate a different tag with a different base url depending on the source of the video. 
+
+				// This event listener generate a different tag with a different base url depending on the source of the video.
 				$( '#mediatip_url_video_link' ).bind( 'keyup mouseup change click focusin focusout', function videoUrlChanged() {
 					var videodata = null,
 						value = this.value,
@@ -569,7 +570,7 @@
 						$( this ).val( videodata.video );
 					}
 				}).keyup();
-				
+
 				// On click on the validate button, extract all required data from the form
 				$( '#ithoughts_tt_gl-tinymce-validate' ).click( function validate() {
 					var data = {
@@ -623,7 +624,7 @@
 								} break;
 							}
 						} break;
-					}
+									   }
 					closeForm( data );
 				});
 				$( '.ithoughts_tt_gl-tinymce-discard' ).click( closeForm.bind( null, null ));
@@ -676,7 +677,7 @@
 					};
 					// Remove useless fields
 					if ( !data.alpha ) {
-						delete data.alpha; 
+						delete data.alpha;
 					}
 					if ( !data.group ) {
 						delete data.group;
@@ -690,7 +691,7 @@
 								cols: $( '#columns_count' ).val(),
 							});
 						} break;
-					}
+									   }
 					// Finally, return the data
 					itge.finishListTinymce( data );
 				});
@@ -700,4 +701,4 @@
 			}());
 		}
 	});
-})( Ithoughts.v4 );
+})( iThoughts.v5 );

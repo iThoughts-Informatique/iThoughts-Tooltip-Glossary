@@ -129,8 +129,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'ithoughts_tooltip_glossary-admin',
 				'js/ithoughts_tt_gl-admin.js',
 				array(
-					'ithoughts-simple-ajax-v3',
-					'ithoughts-core-v4',
+					'ithoughts-simple-ajax-v5',
+					'ithoughts-core-v5',
 					'ithoughts_tooltip_glossary-floater'
 				),
 				true
@@ -140,8 +140,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'js/ithoughts_tt_gl-tinymce-forms.js',
 				array(
 					'jquery',
-					'ithoughts-core-v4',
-					'ithoughts-simple-ajax-v3'
+					'ithoughts-core-v5',
+					'ithoughts-simple-ajax-v5'
 				),
 				true
 			);
@@ -150,7 +150,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'js/ithoughts_tt_gl-updater.js',
 				array(
 					'jquery',
-					'ithoughts-core-v4',
+					'ithoughts-core-v5',
 					'ithoughts_tooltip_glossary-qtip'
 				),
 				true
@@ -160,7 +160,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'js/ithoughts_tt_gl-floater.js',
 				array(
 					'jquery',
-					'ithoughts-core-v4', 'ithoughts_tooltip_glossary-qtip'
+					'ithoughts-core-v5',
+					'ithoughts_tooltip_glossary-qtip'
 				),
 				true
 			);
@@ -168,9 +169,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'ithoughts_tooltip_glossary-styleeditor',
 				'js/ithoughts_tt_gl-styleeditor.js',
 				array(
-					'ithoughts-core-v4',
+					'ithoughts-core-v5',
 					'ithoughts_tooltip_glossary-floater',
-					'ithoughts-simple-ajax-v3'
+					'ithoughts-simple-ajax-v5'
 				),
 				true
 			);
@@ -178,7 +179,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'ithoughts_tooltip_glossary-editor',
 				'js/ithoughts_tt_gl-editor.js',
 				array(
-					'ithoughts-core-v4',
+					'ithoughts-core-v5',
 					'ithoughts_tooltip_glossary-qtip',
 				),
 				true,
@@ -239,7 +240,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$backbone->enqueue_resources( array(
 				'ithoughts_tooltip_glossary-qtip',
-				'ithoughts-serialize-object-v3',
+				'ithoughts-serialize-object-v5',
 				'ithoughts_tooltip_glossary-qtip-css',
 				'ithoughts_tooltip_glossary-css'
 			) );

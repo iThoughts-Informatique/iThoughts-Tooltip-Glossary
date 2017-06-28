@@ -1,19 +1,19 @@
 {
-    "env": {
-        "es6": true,
-        "node": true
-    },
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "sourceType": "module"
-    },
+	"env": {
+		"es6": true,
+		"node": true
+	},
+	"extends": "eslint:recommended",
+	"parserOptions": {
+		"sourceType": "module"
+	},
 	"globals": {
 		"iThoughtsTooltipGlossary": true,
 		"jQuery": false,
-		"Ithoughts": false,
+		"iThoughts": false,
 		"wp": false
 	},
-    "rules": {
+	"rules": {
 		"no-console": 0,
 		"strict": ["error", "function"],
 		"indent": ["error","tab",{"SwitchCase": 1}],
@@ -28,7 +28,7 @@
 		"func-names": ["error", "always"],
 		"func-name-matching": ["error", "always"],
 		"keyword-spacing": ["error", { "before": true, "after": true }],
-		"new-parens": "error",	
+		"new-parens": "error",
 		"object-curly-newline": ["error", {
 			"minProperties": 1
 		}],
@@ -45,5 +45,5 @@
 		"no-lonely-if": "error",
 		"curly": "error",
 		"space-before-blocks": "error"
-    }
+	}
 }

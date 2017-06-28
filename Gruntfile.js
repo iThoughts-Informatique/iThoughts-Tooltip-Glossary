@@ -204,6 +204,24 @@ module.exports = function gruntInit( grunt ) {
 				],
 			},
 		},
+		babel: {
+			options: {
+				sourceMap: true,
+				presets:   [ 'es2015' ],
+			},
+			dist: {
+				files: [{
+					'expand': true,
+					'cwd':    'js/',
+					'src':    [
+						'js/**.js',
+						'!js/**.min.js',
+					],
+					'dest': 'js/',
+					'ext':  '.min.js',
+				}],
+			},
+		},
 		phplint: {
 			check: [
 				'class/**/*.php',
@@ -364,6 +382,7 @@ module.exports = function gruntInit( grunt ) {
 	grunt.loadNpmTasks( 'grunt-phpdoc' );
 	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
 	grunt.loadNpmTasks( 'grunt-rsync' );
+	grunt.loadNpmTasks( 'grunt-babel' );
 
 	// Default task(s).
 	grunt.registerTask( 'bumpVersionDo', '', function bumpVersionDo() {
@@ -446,6 +465,7 @@ module.exports = function gruntInit( grunt ) {
 		'refreshScripts',
 		[
 			'eslint:info_browser',
+			'babel:dist',
 			'changed:uglify:header',
 			'uglify:noheader',
 		]

@@ -9,10 +9,9 @@
  * @version 2.7.0
  */
 
+'use strict';
 
-iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 ( function selfCalling( ithoughts ) {
-	'use strict';
 
 	var tooltipsContainer,
 		$ = ithoughts.$,
@@ -59,8 +58,8 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 	 */
 	itg.doInitTooltips = function doInitTooltips() {
 		//Create container
-		if ( isNA( tooltipsContainer ) && 0 === ( tooltipsContainer = $( '#'+prefix1+'-tipsContainer' )).length ) {
-			tooltipsContainer = $( $.parseHTML( '<div id="'+prefix1+'-tipsContainer" class="'+prefix1+'-tipsContainer"></div>' ));
+		if ( isNA( tooltipsContainer ) && 0 === ( tooltipsContainer = $( `#${ prefix1 }-tipsContainer` )).length ) {
+			tooltipsContainer = $( $.parseHTML( `<div id="${ prefix1 }-tipsContainer" class="${ prefix1 }-tipsContainer"></div>` ));
 			$( document.body ).append( tooltipsContainer );
 		}
 		var evts = {
@@ -70,11 +69,11 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 		if ( ithoughts.isIos )			{
 			$( 'body' ).css({
 				cursor: 'pointer',
-			}); 
+			});
 		}
 
 		var $tooltipSpans = $( types.map( function typesToSelectorMap( v ) {
-			return 'span.' + prefix1 + '-' + v;
+			return `span.${  prefix1  }-${  v }`;
 		}).join( ',' ));
 		itg.log( 'Having following elements to init tooltpis on: ', $tooltipSpans );
 		$tooltipSpans.each( function doInitTooltip() {
@@ -132,11 +131,11 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 
 			var tipClass;
 			if ( $tooltipSpan.data( 'qtipstyle' )) {
-				tipClass = 'qtip-'+$tooltipSpan.data( 'qtipstyle' ) + ( qtipshadow ? ' qtip-shadow' : '' ) + ( qtiprounded ? ' qtip-rounded' : '' ) + ' ' ;
+				tipClass = `qtip-${ $tooltipSpan.data( 'qtipstyle' )   }${ qtipshadow ? ' qtip-shadow' : ''   }${ qtiprounded ? ' qtip-rounded' : ''  } ` ;
 			} else if ( $tooltipSpan.data( 'tooltip-classes' )) {
 				tipClass = $tooltipSpan.data( 'tooltip-classes' );
 			} else {
-				tipClass = 'qtip-' + qtipstyle + ( qtipshadow ? ' qtip-shadow' : '' ) + ( qtiprounded ? ' qtip-rounded' : '' ) + ' ' ;
+				tipClass = `qtip-${  qtipstyle   }${ qtipshadow ? ' qtip-shadow' : ''   }${ qtiprounded ? ' qtip-rounded' : ''  } ` ;
 			}
 			var tooltipComon,
 				tooltipTypeSpecific,
@@ -166,7 +165,7 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 				},
 				events: {
 					render: function render( event, api ) {
-					// $tooltipSpan refers to the span
+						// $tooltipSpan refers to the span
 						$( this ).css({
 							maxWidth: $tooltipSpan.data( 'tooltip-maxwidth' ),
 						});
@@ -185,7 +184,7 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 					classes: tipClass,
 				},
 			};
-			if ( $tooltipSpan.hasClass( prefix1+'-glossary' )) {
+			if ( $tooltipSpan.hasClass( `${ prefix1 }-glossary` )) {
 				// ### Glossary tips
 				itg.info( 'Do init a GLOSSARYTIP' );
 				if ( $tooltipSpan.data( 'termid' ) && termcontent !== 'off' ) {
@@ -197,19 +196,19 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 					};
 					// If WPML is installed, the tooltip editor allow the user to check the *disable auto translation* option, and this option should be used when querying the API
 					if ( 'true' === $tooltipSpan.data( 'disable_auto_translation' ))						{
-						ajaxPostData['disable_auto_translation'] = true; 
+						ajaxPostData['disable_auto_translation'] = true;
 					}
 					// #### Load via Ajax
 					tooltipTypeSpecific = {
 						content: {
 							// Before doing API call, define the content with `Please wait` texts
 							title: {
-								text: itg.lang.qtip.pleasewait_ajaxload.title, 
+								text: itg.lang.qtip.pleasewait_ajaxload.title,
 							},
 							text: itg.lang.qtip.pleasewait_ajaxload.content,
 							ajax: {
 								// Use the [admin_ajax](http://www.google.com) endpoint provided by wordpress
-								url:      itg.admin_ajax, 
+								url:      itg.admin_ajax,
 								type:     'POST',
 								// `ajaxPostData` was defined [above](#)
 								data:     ajaxPostData,
@@ -228,7 +227,7 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 						},
 						// Apply the style settings
 						style: {
-							classes: tipClass + prefix1+'-glossary',
+							classes: `${ tipClass + prefix1 }-glossary`,
 						},
 					};
 				} else if ( $tooltipSpan.data( 'term-content' ) && $tooltipSpan.data( 'term-title' )) {
@@ -241,30 +240,30 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 							text: $tooltipSpan.data( 'term-content' ),
 						},
 						style: {
-							classes: tipClass + prefix1+'-glossary',
+							classes: `${ tipClass + prefix1 }-glossary`,
 						},
 					};
 				}
-			} else if ( $tooltipSpan.hasClass( prefix1+'-tooltip' )) {
+			} else if ( $tooltipSpan.hasClass( `${ prefix1 }-tooltip` )) {
 				// ### Tooltip
 				itg.info( 'Do init a TOOLTIP' );
 				tooltipTypeSpecific = {
 					style: {
-						classes: tipClass + prefix1+'-tooltip',
+						classes: `${ tipClass + prefix1 }-tooltip`,
 					},
 					content: {
 						text:  itg.stripQuotes( $tooltipSpan.data( 'tooltip-content' ), false ), /*.replace(/&/g, '&amp;')*/
 						title: {
-							text: $tooltipSpan.text(), 
+							text: $tooltipSpan.text(),
 						},
 					},
 				};
-			} else if ( $tooltipSpan.hasClass( prefix1+'-mediatip' )) {
+			} else if ( $tooltipSpan.hasClass( `${ prefix1 }-mediatip` )) {
 				// ### Mediatip
 				itg.info( 'Do init a MEDIATIP' );
 				tooltipTypeSpecific = {
 					style: {
-						classes: tipClass + prefix1+'-mediatip',
+						classes: `${ tipClass + prefix1 }-mediatip`,
 					},
 					position: {
 						adjust: {
@@ -296,33 +295,33 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 					}
 					var attrsStr = '';
 					for ( var key in attrs ) {
-						attrsStr += key + '="' + attrs[key] + '" ';
+						attrsStr += `${ key  }="${  attrs[key]  }" `;
 					}
-					tooltipTypeSpecific.content['text'] = '<img ' + attrsStr + '>';
+					tooltipTypeSpecific.content['text'] = `<img ${  attrsStr  }>`;
 					var caption = $tooltipSpan.data( 'mediatip-caption' );
 					if ( caption ) {
-						tooltipTypeSpecific.content['text'] += '<div class="ithoughts_tt_gl-caption">' + caption.replace( /&aquot;/g, '"' ) + '</div>';
+						tooltipTypeSpecific.content['text'] += `<div class="ithoughts_tt_gl-caption">${  caption.replace( /&aquot;/g, '"' )  }</div>`;
 					}
 				} else if ( $tooltipSpan.data( 'mediatip-html' )) {
 					var text = $tooltipSpan.data( 'mediatip-html' ),
 						replacedText = ( function htmlEntitiesDecode() {
-							return $( '<textarea />' ).html( text ).text(); 
+							return $( '<textarea />' ).html( text ).text();
 						}()).trim().replace( /&aquot;/g, '"' ),
 						redimedInfos = ( function getRedimInfos( element ) {
 							if ( 1 === element.length && (( 'IFRAME' === element[0].nodeName && element[0].src.match( /youtube|dailymotion/ )) || 'VIDEO' === element[0].nodeName )) {
 								return redimVid( element );
 							} else {
-								itg.warn( 'Not an IFRAME from youtube OR a VIDEO', element ); 
+								itg.warn( 'Not an IFRAME from youtube OR a VIDEO', element );
 							}
 						})( $( $.parseHTML( replacedText )));
 					renderFcts.push( function pinableMediaTip( event, api ) {
 						// Grab the tooltip element from the API elements object
 						// Notice the 'tooltip' prefix of the event name!
-						api.elements.title.find( '.'+prefix1+'_pin_container' ).click( function clickPinKeepOpen() {
+						api.elements.title.find( `.${ prefix1 }_pin_container` ).click( function clickPinKeepOpen() {
 							if ( $( this ).toggleClass( 'pined' ).hasClass( 'pined' )) {
-								api.disable(); 
+								api.disable();
 							} else {
-								api.enable(); 
+								api.enable();
 							}
 						});
 					});
@@ -331,7 +330,7 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 						content: {
 							text:  redimedInfos['text'],
 							title: {
-								text: '<span class="'+prefix1+'_pin_container"><svg viewBox="0 0 26 26" class="'+prefix1+'_pin"><use xlink:href="#icon-pin"></use></svg></span><span class="ithoughts_tt_gl-title_with_pin">' + tooltipTypeSpecific.content.title.text + '</span>',
+								text: `<span class="${ prefix1 }_pin_container"><svg viewBox="0 0 26 26" class="${ prefix1 }_pin"><use xlink:href="#icon-pin"></use></svg></span><span class="ithoughts_tt_gl-title_with_pin">${  tooltipTypeSpecific.content.title.text  }</span>`,
 							},
 						},
 						style: {
@@ -372,7 +371,7 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 					id: $tooltipSpan.data( 'tooltip-id' ),
 				});
 			}
-			if ( $tooltipSpan.data( 'qtip-keep-open' ) || $tooltipSpan.hasClass( prefix1+'-mediatip' )) {
+			if ( $tooltipSpan.data( 'qtip-keep-open' ) || $tooltipSpan.hasClass( `${ prefix1 }-mediatip` )) {
 				extend( true, tooltipOverrides, {
 					hide: {
 						fixed: true,
@@ -488,7 +487,7 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 		 */
 		easeOutBack: function easeOutBack( x, t, b, c, d, s ) {
 			if ( null == s ) {
-				s = 1.70158; 
+				s = 1.70158;
 			}
 			return c*(( t=t/d-1 )*t*(( s+1 )*t + s ) + 1 ) + b;
 		},
@@ -531,11 +530,11 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 							destFactor = 1 * factorProgress,
 							scale = origFactor + destFactor;
 						if ( scale !== 1 && scale !== 0 )							{
-							$tooltip.prop( 'scale', scale ); 
+							$tooltip.prop( 'scale', scale );
 						}
-						var advance = 'scale('+scale+')',
+						var advance = `scale(${ scale })`,
 							origin = $tip.css([ 'left', 'top' ]);
-						origin = origin.left + ' ' + origin.top + ' 0';
+						origin = `${ origin.left  } ${  origin.top  } 0`;
 						$tooltip.css({
 							'-webkit-transform':        advance,
 							'-moz-transform':           advance,
@@ -641,7 +640,7 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 					$tip = qtip.elements.tip;
 				$tooltip.prop( 'scale_start', $tooltip.prop( 'scale' ) || 1 );
 				$tooltip.animate({
-					z: 1, 
+					z: 1,
 				}, {
 					progress: function progress( infos, percent, timeLeft ) {
 						var factorProgress = $.easing.swing( percent, infos.duration - timeLeft, 0, 1, infos.duration ),
@@ -649,11 +648,11 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 							destFactor = 0,
 							scale = origFactor + destFactor;
 						if ( scale !== 1 && scale !== 0 )							{
-							$tooltip.prop( 'scale', scale ); 
+							$tooltip.prop( 'scale', scale );
 						}
-						var advance = 'scale('+scale+')',
+						var advance = `scale(${ scale })`,
 							origin = $tip.css([ 'left', 'top' ]);
-						origin = origin.left + ' ' + origin.top + ' 0';
+						origin = `${ origin.left  } ${  origin.top  } 0`;
 						$tooltip.css({
 							'-webkit-transform':        advance,
 							'-moz-transform':           advance,
@@ -698,4 +697,4 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 			},
 		},
 	});
-}( Ithoughts.v4 ));
+}( iThoughts.v5 ));

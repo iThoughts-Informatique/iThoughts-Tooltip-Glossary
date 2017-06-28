@@ -9,11 +9,11 @@
  * @version 2.7.0
  */
 
+'use strict';
+
 /* global tinymce:false, iThoughtsTooltipGlossaryEditor: false */
 
 ( function selfCalling( ithoughts ) {
-	'use strict';
-
 	var $				= ithoughts.$,
 		itge			= iThoughtsTooltipGlossaryEditor,
 		prefix2			= 'ithoughts_tt_gl_tinymce',
@@ -24,7 +24,7 @@
 			'itg-mediatip',
 		],
 		tipsSelector	= tipsTypes.map( function wrapTypes( e ) {
-			return '[data-type="' + e + '"]'; 
+			return `[data-type="${  e  }"]`;
 		}).join( ',' );
 
 	function setToggleable( element, editor ) {
@@ -38,7 +38,7 @@
 
 	tinymce.PluginManager.add( prefix2, function registerTinyMCEPlugin( editor, url ) {
 		//CSS
-		editor.contentCSS.push( url + '/../css/ithoughts_tt_gl-admin.min.css?v=2.7.0' );
+		editor.contentCSS.push( `${ url  }/../css/ithoughts_tt_gl-admin.min.css?v=2.7.0` );
 		/*
 
 		function getLang(str) {
@@ -79,7 +79,7 @@
 					active: false,
 				});
 			}
-			if ([ prefix3 + '-term_list', prefix3 + '-atoz' ].indexOf( element.getAttribute( 'data-type' )) !== -1 ) {
+			if ([ `${ prefix3  }-term_list`, `${ prefix3  }-atoz` ].indexOf( element.getAttribute( 'data-type' )) !== -1 ) {
 				editor.fire( 'glossarylist', {
 					active: true,
 				});
@@ -115,8 +115,8 @@
 
 		// Add a button that opens a window
 		editor.addButton( 'glossaryterm', {
-			title:        editor.getLang( prefix2 + '.add_tooltip' ),
-			image:        url + '/icon/glossaryterm.png',
+			title:        editor.getLang( `${ prefix2  }.add_tooltip` ),
+			image:        `${ url  }/icon/glossaryterm.png`,
 			onPostRender: setToggleable( 'glossaryterm', editor ),
 			onclick:      function onclick() {
 				itge.editorForms.tip( generateSelObject(), insertInTinyMCE );
@@ -124,15 +124,15 @@
 		});
 		// Add the equivalent delete button
 		editor.addButton( 'glossaryterm-d', {
-			title:        editor.getLang( prefix2 + '.remove_tooltip' ),
-			image:        url + '/icon/glossaryterm-d.png',
+			title:        editor.getLang( `${ prefix2  }.remove_tooltip` ),
+			image:        `${ url  }/icon/glossaryterm-d.png`,
 			onPostRender: setToggleable( 'glossaryterm-d', editor ),
 			onclick:      glossarytermremovefct,
 		});
 
 		editor.addButton( 'glossarylist', {
-			title:			     editor.getLang( prefix2 + '.add_index' ),
-			image:			     url + '/icon/glossaryindex.png',
+			title:			     editor.getLang( `${ prefix2  }.add_index` ),
+			image:			     `${ url  }/icon/glossaryindex.png`,
 			onPostRender:	setToggleable( 'glossarylist', editor ),
 			onclick:		    function onclick() {
 				var sel = {
@@ -145,4 +145,4 @@
 			},
 		});
 	});
-}( Ithoughts.v4 ));
+}( iThoughts.v5 ));

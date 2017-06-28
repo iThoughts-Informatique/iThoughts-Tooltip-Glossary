@@ -9,11 +9,11 @@
  * @version 2.7.0
  */
 
+'use strict';
+
 /* global postboxes:false, iThoughtsTooltipGlossaryUpdater: false */
 
-iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 ( function selfCalling( ithoughts ) {
-	'use strict';
 
 	var $		= ithoughts.$,
 		qs		= ithoughts.qs,
@@ -27,16 +27,16 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 	delete updater.pagenow;
 
 	function printError( error, data ) {
-		verboseArea = '<div class="update-nag error">\
+		verboseArea = `<div class="update-nag error">\
 <p>An error occured during the update. Please see below for details</p>\
 </div>\
 <div class="verboseContainer postbox">\
 <div class="handlediv"></div><h4 class="hndle ui-sortable-handle">Logs</h4>\
 <div class="inside">\
-<pre class="verboseArea">'+error.stack+'\
-Response from server: '+JSON.stringify( data, null, 4 )+'</pre>\
+<pre class="verboseArea">${ error.stack }\
+Response from server: ${ JSON.stringify( data, null, 4 ) }</pre>\
 </div>\
-</div>';
+</div>`;
 		updaterSection.append( verboseArea );
 	}
 
@@ -55,10 +55,10 @@ Response from server: '+JSON.stringify( data, null, 4 )+'</pre>\
 			var scrollValOld = ( verboseArea.parentElement.scrollHeight - verboseArea.parentElement.clientHeight );
 			try {
 				progress.value = out.data.progression;
-				text.innerHTML = progress.value + '/' + initData.max + ' (<em>' + ( parseInt(( progress.value / initData.max ) * 100 ) + '' ).slice( 0, 3 ) + '%</em>)';
+				text.innerHTML = `${ progress.value  }/${  initData.max  } (<em>${  ( `${ parseInt(( progress.value / initData.max ) * 100 )  }` ).slice( 0, 3 )  }%</em>)`;
 				if ( out.data.verbose ) {
 					for ( var i = 0, j = out.data.verbose.length; i < j; i++ ) {
-						$( verboseArea ).append( $.parseHTML( '<p class="' + out.data.verbose[i].type + '">' + out.data.verbose[i].text + '</p>' ));
+						$( verboseArea ).append( $.parseHTML( `<p class="${  out.data.verbose[i].type  }">${  out.data.verbose[i].text  }</p>` ));
 					}
 				}
 				if ( verboseArea.parentElement.scrollTop > scrollValOld - 50 ) {
@@ -77,7 +77,7 @@ Response from server: '+JSON.stringify( data, null, 4 )+'</pre>\
 						if ( serverResponse.success ) {
 							initUpdate( updater );
 						} else {
-							var messageEnd = '<hr/><h4>'+out.data.title+'</h4><p>'+out.data.text+'</p>';
+							var messageEnd = `<hr/><h4>${ out.data.title }</h4><p>${ out.data.text }</p>`;
 							updaterSection.append( messageEnd );
 						}
 					});
@@ -105,20 +105,20 @@ Response from server: '+JSON.stringify( data, null, 4 )+'</pre>\
 				verboseArea = '<div class="verboseContainer postbox closed"><div class="handlediv" title="Cliquer pour inverser."></div><h4 class="hndle ui-sortable-handle">Logs</h4><div class="inside"><pre class="verboseArea">';
 				if ( out.data.verbose ) {
 					for ( var i = 0, j = out.data.verbose.length; i < j; i++ ) {
-						verboseArea += '<p class="' + out.data.verbose[i].type + '">' + out.data.verbose[i].text + '</p>';
+						verboseArea += `<p class="${  out.data.verbose[i].type  }">${  out.data.verbose[i].text  }</p>`;
 					}
 				}
 				verboseArea += '</pre></div></div>';
 				if ( out.data.Ended ) {
-					updaterSection.append( $.parseHTML( '<article data-version="ended"><h3>' + out.data.title + '</h3><p class="updatedescription">' + out.data.text + '</p></article>' ));
+					updaterSection.append( $.parseHTML( `<article data-version="ended"><h3>${  out.data.title  }</h3><p class="updatedescription">${  out.data.text  }</p></article>` ));
 					postboxes.add_postbox_toggles( pagenow );
 				} else {
-					updaterSection.append( $.parseHTML( '<article data-version="' + out.data.targetversion + '"><h3>V' + out.data.targetversion + '</h3><p class="updatedescription">' + out.data.text + '</p><progress class="updateprogress" min="0" max="' + out.data.max + '" value="0"></progress><span class="updateprogresstext">0/' + out.data.max + ' (<em>0%</em>)</span>' + verboseArea + '</article>' ));
+					updaterSection.append( $.parseHTML( `<article data-version="${  out.data.targetversion  }"><h3>V${  out.data.targetversion  }</h3><p class="updatedescription">${  out.data.text  }</p><progress class="updateprogress" min="0" max="${  out.data.max  }" value="0"></progress><span class="updateprogresstext">0/${  out.data.max  } (<em>0%</em>)</span>${  verboseArea  }</article>` ));
 					postboxes.add_postbox_toggles( pagenow );
 					initData = out.data;
-					progress = qs( '[data-version="' + out.data.targetversion + '"] .updateprogress' );
-					text = qs( '[data-version="' + out.data.targetversion + '"] .updateprogresstext' );
-					verboseArea = qs( '[data-version="' + out.data.targetversion + '"] .verboseArea' );
+					progress = qs( `[data-version="${  out.data.targetversion  }"] .updateprogress` );
+					text = qs( `[data-version="${  out.data.targetversion  }"] .updateprogresstext` );
+					verboseArea = qs( `[data-version="${  out.data.targetversion  }"] .verboseArea` );
 
 					runUpdate( 0 );
 				}
@@ -128,4 +128,4 @@ Response from server: '+JSON.stringify( data, null, 4 )+'</pre>\
 		});
 	}
 	initUpdate( updater );
-})( Ithoughts.v4 );
+})( iThoughts.v5 );

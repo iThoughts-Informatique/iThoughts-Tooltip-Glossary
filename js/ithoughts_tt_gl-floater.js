@@ -9,9 +9,9 @@
  * @version 2.7.0
  */
 
-( function selfCalling( ithoughts ) {
-	'use strict';
+'use strict';
 
+( function selfCalling( ithoughts ) {
 	var $ = ithoughts.$,
 		$d = ithoughts.$d,
 		$w = ithoughts.$w;
@@ -29,13 +29,13 @@
 				var style = [
 					'ithoughts_tt_gl-tooltip',
 					'qtip-pos-br',
-					'qtip-'+themename,
+					`qtip-${ themename }`,
 				];
 				if ( shadowI.is( ':checked' ))					{
 					style.push( 'qtip-shadow' );
 				}
 				if ( roundedI.is( ':checked' ))					{
-					style.push( 'qtip-rounded' ); 
+					style.push( 'qtip-rounded' );
 				}
 				target.qtip( 'option', 'style.classes', style.join( ' ' ));
 			};
@@ -53,7 +53,7 @@
 				}
 				var baseOffset = $w.scrollTop() - min;
 				var offset = Math.min( Math.max( baseOffset + centerOffset, 0 ), max );
-				floaterObj.body.css( 'top', offset + 'px' );
+				floaterObj.body.css( 'top', `${ offset  }px` );
 			};
 		})();
 
@@ -75,4 +75,4 @@
 			}, 25 );
 		};
 	});
-})( Ithoughts.v4 );
+})( iThoughts.v5 );
