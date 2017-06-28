@@ -13,7 +13,7 @@
 
 
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
@@ -23,7 +23,7 @@ switch(substr(get_locale(), 0, 2)) {
 	case "fr":
 		$url = "https://www.gerkindevelopment.net/portfolio/ithoughts-tooltip-glossary/";
 		break;
-		
+
 	default:
 		$url = "https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/";
 		break;
@@ -50,7 +50,7 @@ switch(substr(get_locale(), 0, 2)) {
 		)
 	),
 	esc_url($url)
-); ?></em></p> 
+); ?></em></p>
 					<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
 						<div id="normal-sortables" class="" style="flex:1 1 auto;"><!--Old removed classes: "meta-box-sortables ui-sortable"-->
 							<div class="postbox">
@@ -58,8 +58,8 @@ switch(substr(get_locale(), 0, 2)) {
 								<div class="inside">
 									<form id="ithoughts_loadtheme" method="get">
 										<input type="hidden" name="page" value="ithoughts-tooltip-glossary-themes"/>
-										<label for="themename"><?php esc_html_e('Theme to load', 'ithoughts-tooltip-glossary' ); ?></label>
-										<?php echo $inputs["themeselect"]; ?>
+										<label for="theme_select"><?php esc_html_e('Theme to load', 'ithoughts-tooltip-glossary' ); ?></label>
+										<?php echo $inputs["theme_select"]; ?>
 										<button type="submit" name="action" class="button button-primary" value="load"><?php esc_html_e('Load', 'ithoughts-tooltip-glossary' ); ?></button>
 										<button type="submit" class="button button-secondary" name="action" value="delete" onclick="var themename=gei('themename');return ((themename&&themename.value&&(themename=themename.value))?confirm('<?php esc_html_e('Are you sure you want to delete the theme %s?', 'ithoughts-tooltip-glossary'); ?>'.replace('%s', themename)):false);"><?php esc_html_e('Delete', 'ithoughts-tooltip-glossary' ); ?></button>
 									</form>
@@ -74,7 +74,7 @@ switch(substr(get_locale(), 0, 2)) {
 							<div class="postbox" id="ithoughts-tt-gl-lesseditor">
 								<h3 class="hndle"><span><?php _e('LESS editor', 'ithoughts-tooltip-glossary' ); ?></span></h3>
 								<div class="inside">
-									<form id="LESS-form" class="less-form" action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post" class="simpleajaxform" data-target="update-response">
+									<form id="LESS-form" class="less-form simpleajaxform" action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post" data-target="update-response">
 										<input type="hidden" name="action" id="action"/>
 										<?php echo $inputs["splittedHead"]; ?>
 										<?php echo $inputs["file"]; ?>

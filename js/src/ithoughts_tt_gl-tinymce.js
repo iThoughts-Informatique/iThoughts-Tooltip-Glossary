@@ -15,6 +15,7 @@
 
 ( function selfCalling( ithoughts ) {
 	var $				= ithoughts.$,
+		itg				= iThoughtsTooltipGlossary,
 		itge			= iThoughtsTooltipGlossaryEditor,
 		prefix2			= 'ithoughts_tt_gl_tinymce',
 		prefix3			= 'ithoughts-tooltip-glossary',
@@ -36,9 +37,9 @@
 		};
 	}
 
-	tinymce.PluginManager.add( prefix2, function registerTinyMCEPlugin( editor, url ) {
+	tinymce.PluginManager.add( prefix2, function registerTinyMCEPlugin( editor ) {
 		//CSS
-		editor.contentCSS.push( `${ url  }/../css/ithoughts_tt_gl-admin.min.css?v=2.7.0` );
+		editor.contentCSS.push( `${ itg.baseurl }/css/ithoughts_tt_gl-admin.min.css?v=2.7.0` );
 		/*
 
 		function getLang(str) {
@@ -116,7 +117,7 @@
 		// Add a button that opens a window
 		editor.addButton( 'glossaryterm', {
 			title:        editor.getLang( `${ prefix2  }.add_tooltip` ),
-			image:        `${ url  }/icon/glossaryterm.png`,
+			image:        `${ itge.base_tinymce }/icon/glossaryterm.png`,
 			onPostRender: setToggleable( 'glossaryterm', editor ),
 			onclick:      function onclick() {
 				itge.editorForms.tip( generateSelObject(), insertInTinyMCE );
@@ -125,14 +126,14 @@
 		// Add the equivalent delete button
 		editor.addButton( 'glossaryterm-d', {
 			title:        editor.getLang( `${ prefix2  }.remove_tooltip` ),
-			image:        `${ url  }/icon/glossaryterm-d.png`,
+			image:        `${ itge.base_tinymce  }/icon/glossaryterm-d.png`,
 			onPostRender: setToggleable( 'glossaryterm-d', editor ),
 			onclick:      glossarytermremovefct,
 		});
 
 		editor.addButton( 'glossarylist', {
 			title:			     editor.getLang( `${ prefix2  }.add_index` ),
-			image:			     `${ url  }/icon/glossaryindex.png`,
+			image:			     `${ itge.base_tinymce }/icon/glossaryindex.png`,
 			onPostRender:	setToggleable( 'glossarylist', editor ),
 			onclick:		    function onclick() {
 				var sel = {

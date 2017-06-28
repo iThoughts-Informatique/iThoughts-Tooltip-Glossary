@@ -22,13 +22,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div id="ithoughts_tt_gl-tooltip-form-container">
 	<!--<pre style="display:none;"><?php var_dump($data); ?></pre>-->
 	<div id="pseudohead">
-		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo Backbone::get_instance()->get_base_url(); ?>/css/ithoughts_tt_gl-tinymce-forms.min.css" type="text/css" media="all">
-		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/submodules/iThoughts-WordPress-Plugin-Toolbox/js/simple-ajax-form-v5.js" defer></script>
+		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo Backbone::get_instance()->get_resource('ithoughts_tooltip_glossary-tinymce_form-css')->get_file_url(); ?>" type="text/css" media="all">
+		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_resource('ithoughts-simple-ajax-v5')->get_file_url(); ?>" defer></script>
+		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_resource('ithoughts_tooltip_glossary-tinymce_form')->get_file_url(); ?>?v=3.0.1" defer></script>
+		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_resource('ithoughts_tooltip_glossary-qtip')->get_file_url(); ?>" defer></script>
 		<script>
 			iThoughtsTooltipGlossaryEditor.terms = <?php echo json_encode($terms); ?>;
 		</script>
-		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-tinymce-forms.js" defer></script>
-		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_base_url(); ?>/js/ithoughts_tt_gl-qtip2.js" defer></script>
 	</div>
 	<div aria-label="<?php esc_html_e("Insert a Tooltip", 'ithoughts-tooltip-glossary' ); ?>" role="dialog" style="border-width: 1px; z-index: 100101;" class="itg-panel itg-floatpanel itg-window itg-in" hidefocus="1" id="ithoughts_tt_gl-tooltip-form">
 		<div class="itg-reset" role="application">

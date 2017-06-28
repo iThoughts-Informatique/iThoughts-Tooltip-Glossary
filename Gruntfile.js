@@ -45,8 +45,10 @@ module.exports = function gruntInit( grunt ) {
 				files: [
 					{
 						expand: true,
-						src:    [ 'js/**/*.js', '!**/*.min.js' ],
-						cwd:    '.',
+						src:    [
+							'js/dist/**.js',
+							'!js/dist/**.min.js',
+						],
 						rename: ( dst, src ) => src.replace( /.js$/, '.min.js' ),
 					},
 				],
@@ -167,16 +169,18 @@ module.exports = function gruntInit( grunt ) {
 				options: {
 					configFile: 'lint/eslint-browser.json',
 					silent:     true,
+					fix:		true,
 				},
 				src: [
-					'js/**.js',
-					'!js/**.min.js',
+					'js/src/**.js',
+					'!js/src/**.min.js',
 				],
 			},
 			info_nodejs: {
 				options: {
 					configFile: 'lint/eslint-nodejs.json',
 					silent:     true,
+					fix:		true,
 				},
 				src: [
 					'Gruntfile.js',
@@ -211,14 +215,14 @@ module.exports = function gruntInit( grunt ) {
 			},
 			dist: {
 				files: [{
-					'expand': true,
-					'cwd':    'js/',
-					'src':    [
-						'js/**.js',
-						'!js/**.min.js',
+					expand: true,
+					cwd : 'js/src',
+					src:    [
+						'**/*.js',
+						'!**/*.min.js',
 					],
-					'dest': 'js/',
-					'ext':  '.min.js',
+					dest: 'js/dist',
+					ext:  '.js',
 				}],
 			},
 		},

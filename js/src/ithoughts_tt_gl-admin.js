@@ -15,9 +15,23 @@
 	var $ = ithoughts.$,
 		itg = iThoughtsTooltipGlossary;
 
+	itg.updateStyle = ( keepDefaults, themename, target ) => {
+		var styles = [ `qtip-${ themename }` ];
+		if ( true === keepDefaults ) {
+			styles = [
+				'ithoughts_tt_gl-tooltip',
+				'qtip-pos-br',
+			].concat( styles );
+		} else if ( typeof keepDefaults !== 'undefined' && keepDefaults && 'Array' === keepDefaults.constructor.name ) {
+			styles = keepDefaults.concat( styles );
+		}
+
+		target.qtip( 'option', 'style.classes', styles.join( ' ' ));
+	};
+
 	ithoughts.$d.ready( function onDocumentReady() {
-		var updateStyle = itg.updateStyle,
-			events = 'change blur keyup mouseup',
+		$( '[data-tooltip-id="exampleStyle"]' ).qtip( 'api' ).show();
+		var events = 'change blur keyup mouseup',
 			updateActivationPreview = ( function updateActivationPreviewWrapper() {
 				var triggerI = $( '#qtiptrigger' ),
 					animInI = $( '#anim_in' ),
@@ -38,9 +52,27 @@
 				};
 			})(),
 			$demotip = $( '#qtip-exampleStyle' );
-		$( '#qtiprounded,#qtipshadow,#qtipstyle' ).bind( events, function bindEvent( event ) {
-			updateStyle( event, $( '#qtipstyle' ).val(), $demotip );
-		});
+		$( '#qtiprounded,#qtipshadow,#qtipstyle' ).bind( events, ( function updateStyleWrapper() {
+			var styleI = $( '#qtipstyle' ),
+				shadowI = $( '#qtipshadow' ),
+				roundedI = $( '#qtiprounded' );
+			return function updateStyle( event, themename ) {
+				if ( 'undefined' == typeof themename ) {
+					themename = styleI.val();
+				}
+				var style = [
+					'ithoughts_tt_gl-tooltip',
+					'qtip-pos-br',
+				];
+				if ( shadowI.is( ':checked' )) {
+					style.push( 'qtip-shadow' );
+				}
+				if ( roundedI.is( ':checked' )) {
+					style.push( 'qtip-rounded' );
+				}
+				itg.updateStyle( style, $( '#qtipstyle' ).val(), $demotip );
+			};
+		})());
 		$( '#tooltips,#qtiptrigger,#anim_in,#anim_out,#anim_time' ).bind( events, updateActivationPreview );
 		( function doWrapInit() {
 			var verbosityInput = $( '#verbosity' ),

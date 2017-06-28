@@ -347,6 +347,7 @@
 										attrs = attrs.concat([ 'cols', 'desc' ]);
 									} break;
 												   }
+
 								for ( var i = 0, I = attrs.length; i < I; i++ ) {
 									var attr = attrs[i];
 									if ( data.hasOwnProperty( attr )) {
@@ -537,7 +538,7 @@
 								}, 500, function animateAfter() {
 									domC.remove();
 								});
-								if ( 'undefined' === typeof data ) {
+								if ( 'undefined' === typeof data || null === data ) {
 									return;
 								}
 								var optsStrs		= [],
@@ -545,7 +546,7 @@
 										return this.value;
 									}).toArray(),
 									opts			= data.opts || values.opts,
-									addOpt			= function addOpt( label, value, specEncode ) {
+									addOpt			= ( label, value, specEncode ) => {
 										optsStrs.push( generateAttr( label, value, specEncode ));
 										optsStrs = optsStrs.filter( function filterNoNA( val ) {
 											return !isNA( val );

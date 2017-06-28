@@ -17,30 +17,6 @@
 		$w = ithoughts.$w;
 
 	$d.ready( function onDocumentReady() {
-
-		iThoughtsTooltipGlossary.updateStyle = ( function updateStyleWrapper() {
-			var styleI = $( '#qtipstyle' ),
-				shadowI = $( '#qtipshadow' ),
-				roundedI = $( '#qtiprounded' );
-			return function updateStyle( event, themename, target ) {
-				if ( 'undefined' == typeof themename )					{
-					themename = styleI.val();
-				}
-				var style = [
-					'ithoughts_tt_gl-tooltip',
-					'qtip-pos-br',
-					`qtip-${ themename }`,
-				];
-				if ( shadowI.is( ':checked' ))					{
-					style.push( 'qtip-shadow' );
-				}
-				if ( roundedI.is( ':checked' ))					{
-					style.push( 'qtip-rounded' );
-				}
-				target.qtip( 'option', 'style.classes', style.join( ' ' ));
-			};
-		})();
-
 		var updateFloaterPosition = ( function updateFloaterPositionWrapper() {
 			var min,
 				centerOffset,

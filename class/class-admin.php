@@ -127,7 +127,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$backbone->declare_resource(
 				'ithoughts_tooltip_glossary-admin',
-				'js/ithoughts_tt_gl-admin.js',
+				'js/dist/ithoughts_tt_gl-admin.js',
 				array(
 					'ithoughts-simple-ajax-v5',
 					'ithoughts-core-v5',
@@ -137,7 +137,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			);
 			$backbone->declare_resource(
 				'ithoughts_tooltip_glossary-tinymce_form',
-				'js/ithoughts_tt_gl-tinymce-forms.js',
+				'js/dist/ithoughts_tt_gl-tinymce-forms.js',
 				array(
 					'jquery',
 					'ithoughts-core-v5',
@@ -147,7 +147,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			);
 			$backbone->declare_resource(
 				'ithoughts_tooltip_glossary-updater',
-				'js/ithoughts_tt_gl-updater.js',
+				'js/dist/ithoughts_tt_gl-updater.js',
 				array(
 					'jquery',
 					'ithoughts-core-v5',
@@ -157,7 +157,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			);
 			$backbone->declare_resource(
 				'ithoughts_tooltip_glossary-floater',
-				'js/ithoughts_tt_gl-floater.js',
+				'js/dist/ithoughts_tt_gl-floater.js',
 				array(
 					'jquery',
 					'ithoughts-core-v5',
@@ -167,7 +167,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			);
 			$backbone->declare_resource(
 				'ithoughts_tooltip_glossary-styleeditor',
-				'js/ithoughts_tt_gl-styleeditor.js',
+				'js/dist/ithoughts_tt_gl-styleeditor.js',
 				array(
 					'ithoughts-core-v5',
 					'ithoughts_tooltip_glossary-floater',
@@ -177,7 +177,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			);
 			$backbone->declare_resource(
 				'ithoughts_tooltip_glossary-editor',
-				'js/ithoughts_tt_gl-editor.js',
+				'js/dist/ithoughts_tt_gl-editor.js',
 				array(
 					'ithoughts-core-v5',
 					'ithoughts_tooltip_glossary-qtip',
@@ -186,7 +186,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'iThoughtsTooltipGlossaryEditor',
 				array(
 					'admin_ajax'	=> admin_url( 'admin-ajax.php' ),
-					'base_tinymce'  => $backbone->get_base_url() . '/js/tinymce',
+					'base_tinymce'  => $backbone->get_base_url() . '/ext/tinymce',
 					'verbosity'     => $backbone->get_option( 'verbosity' ),
 				)
 			);
@@ -244,11 +244,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'ithoughts_tooltip_glossary-qtip-css',
 				'ithoughts_tooltip_glossary-css'
 			) );
-			$version = 't=2.8';
+			$version = 't=3.0.1';
 			if ( defined( WP_DEBUG ) && WP_DEBUG ) {
 				$version = 't=' . time();
 			}
-			$plugin_array['ithoughts_tt_gl_tinymce'] = $backbone->get_base_url() . '/js/ithoughts_tt_gl-tinymce' . $backbone->get_minify() . '.js?' . $version;
+			$plugin_array['ithoughts_tt_gl_tinymce'] = $backbone->get_base_url() . '/js/dist/ithoughts_tt_gl-tinymce' . ($backbone->get_minify() ? '.min' : '') . '.js?' . $version;
 			return $plugin_array;
 		}
 
@@ -279,7 +279,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				$currentVersion = '0.0';
 			}
 
-			$menu = add_menu_page( 'iThoughts Tooltip Glossary', 'Tooltip Glossary', 'edit_others_posts', 'ithoughts-tooltip-glossary', null, $backbone->get_base_url() . '/js/icon/icon.svg' );
+			$menu = add_menu_page( 'iThoughts Tooltip Glossary', 'Tooltip Glossary', 'edit_others_posts', 'ithoughts-tooltip-glossary', null, $backbone->get_base_url() . '/ext/tinymce/icon/icon.svg' );
 
 			$submenu_pages = array(
 				// Options
@@ -418,7 +418,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'ithoughts_tooltip_glossary-admin',
 				'ithoughts_tooltip_glossary-glossary-css',
 				'ithoughts_tooltip_glossary-qtip-css',
-				'ithoughts_tooltip_glossary-editor',
 				'ithoughts_tooltip_glossary-customthemes'
 			) );
 
@@ -1226,7 +1225,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			// Retrieve terms
 			$form_data = array(
 				'admin_ajax'    => admin_url( 'admin-ajax.php' ),
-				'base_tinymce'  => $backbone->get_base_url() . '/js/tinymce',
+				'base_tinymce'  => $backbone->get_base_url() . '/ext/tinymce',
 				'groups'		=> array(),
 			);
 			$groups = get_terms(array(
@@ -1317,7 +1316,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		public function theme_editor() {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			$themename = isset( $_GET['themename'] ) ? $_GET['themename'] : null;
+			$themename = isset( $_GET['theme_select'] ) ? $_GET['theme_select'] : null;
 			$action = isset( $_GET['action'] ) ? $_GET['action'] : 'load';
 			$themedata;
 			switch ( $action ) {
@@ -1337,9 +1336,10 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			}
 
 			if ( isset( $themedata['error'] ) || isset( $ret['error'] ) ) {
-?><div class="notice notice-error"><p><?php _e( 'Error while generating the theme editor: ', 'ithoughts-tooltip-glossary' );
-																		   echo $themedata['error']; echo $ret['error'] ?></p></div><?php
-																		  }
+?><div class="notice notice-error"><p><?php
+				_e( 'Error while generating the theme editor: ', 'ithoughts-tooltip-glossary' );
+				echo $themedata['error']; echo $ret['error'] ?></p></div><?php
+			}
 
 			/* Add required scripts for WordPress Spoilers (AKA PostBox) */
 			wp_enqueue_script( 'postbox' );
@@ -1350,18 +1350,21 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'ithoughts_tooltip_glossary-styleeditor',
 				'ithoughts_tooltip_glossary-colorpicker',
 				'ithoughts_tooltip_glossary-qtip-css',
-				'ithoughts_tooltip_glossary-customthemes'
 			) );
+			wp_enqueue_style('ithoughts_tooltip_glossary-customthemes');
 
 			wp_enqueue_style( 'wp-color-picker' );
 			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-gradx' );
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-admin' );
+			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-customthemes' );
 
 			$themeInfos = $this->get_custom_theme_infos();
-			$themeEditorEnabled = ! is_writable( $themeInfos['absdir'] . '/' . ($themedata['file'] ? $themedata['file'] : '') );
+			$themeEditorEnabled = is_writable( $themeInfos['absdir'] . '/' . ($themedata['file'] ? $themedata['file'] : '') );
+			$themeEditorEnabled = is_writable( $themeInfos['absdir'] . '/' . ($themedata['file'] ? $themedata['file'] : '') );
 
 			$inputs = array(
-				'themeselect' => TB::generate_input_select(
-					'themename',
+				'theme_select' => TB::generate_input_select(
+					'theme_select',
 					array(
 						'allow_blank' => __( 'Select one', 'ithoughts-tooltip-glossary' ),
 						'selected' => $themename,
@@ -1375,7 +1378,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 						'required' => true,
 						'attributes' => array(
 							'minlength' => 3,
-							'pattern' => '^[a-zA-Z0-9][a-zA-Z0-9\-\_]+[a-zA-Z0-9]',
+							'pattern' => '^[a-zA-Z0-9][a-zA-Z0-9\-_]+[a-zA-Z0-9]',
 							'data-pattern-infos' => __( 'At least 3 letters (lowercase and uppercase), numbers, _ or -, and not starting or ending with symbol', 'ithoughts-tooltip-glossary' ),
 						),
 					)
@@ -1400,7 +1403,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 						'textarea' => true,
 						'value' => $themedata['content'],
 						'attributes' => array(
-							'disabled' => $themeEditorEnabled,
+							'disabled' => $themeEditorEnabled === true ? null : 'disabled',
 							'class' => 'ace-editor',
 							'data-lang' => 'css',
 						),
@@ -1413,7 +1416,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		private function loadtheme( $themename = null ) {
 			$defaultContent = '.qtip{ /* Global tip style (eg: borders, shadow, etc) */
 }
-.qtip-title{ /* Title specific rules */
+.qtip-titlebar{ /* Title specific rules */
 }
 .qtip-content{ /* Content specific rules */
 }';

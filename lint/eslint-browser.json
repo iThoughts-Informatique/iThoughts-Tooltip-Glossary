@@ -55,6 +55,7 @@
 		}],
 		"prefer-template": "error",
 		"no-useless-concat": "error",
-		"template-curly-spacing": ["error", "always"]
+		"template-curly-spacing": ["error", "always"],
+		"no-mixed-spaces-and-tabs": "warn"
 	}
 }

@@ -690,8 +690,8 @@
 								desc: $( '#description_mode' ).val(),
 								cols: $( '#columns_count' ).val(),
 							});
-						} break;
-									   }
+						} break; 
+					}
 					// Finally, return the data
 					itge.finishListTinymce( data );
 				});

@@ -13,7 +13,7 @@
 
 # -*- coding: utf-8 -*-
 
-// This file is based on wp-includes/js/tinymce/langs/wp-langs.php
+// This file is based on wp-includes/ext/tinymce/langs/wp-langs.php
 
 if ( ! defined( 'ABSPATH' ) )
 	exit;

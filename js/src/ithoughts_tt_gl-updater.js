@@ -68,7 +68,7 @@ Response from server: ${ JSON.stringify( data, null, 4 ) }</pre>\
 					runUpdate( out.data.progression );
 				} else {
 					updater.from = initData.targetversion;
-					jQuery.post( iThoughtsTooltipGlossary.admin_ajax, {
+					ithoughts.$.post( iThoughtsTooltipGlossary.admin_ajax, {
 						action: 'ithoughts_tt_gl_update_done',
 						data:   {
 							newversion: updater.from,

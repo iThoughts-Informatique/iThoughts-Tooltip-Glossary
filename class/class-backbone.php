@@ -263,7 +263,7 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			// Generate all Script resources
 			$this->declare_resource('imagesloaded', 'ext/imagesloaded.min.js');
 			$this->declare_resource( 'qtip', 'ext/jquery.qtip.js', array('jquery', 'imagesloaded'));
-			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'js/ithoughts_tt_gl-qtip2.js', array('qtip', 'ithoughts-core-v5'), false, 'iThoughtsTooltipGlossary', array(
+			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'js/dist/ithoughts_tt_gl-qtip2.js', array('qtip', 'ithoughts-core-v5'), false, 'iThoughtsTooltipGlossary', array(
 				'admin_ajax'    => admin_url('admin-ajax.php'),
 				// Get the API endpoint. See https://wordpress.stackexchange.com/questions/144822/what-is-the-best-practice-to-check-for-pretty-permalinks
 				'apiurl'		=> get_site_url(null, get_option('permalink_structure') != '' ? 'wp-json' : '?rest_route=').'/wp/v2',
@@ -288,14 +288,14 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 					)
 				)
 			) );
-			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'js/ithoughts_tt_gl-atoz.js', array('jquery', 'ithoughts-core-v5'));
-//			$this->declare_resource( 'ithoughts_tooltip_glossary-list', 'js/ithoughts_tt_gl-glossary-list.js', array('jquery', 'ithoughts-core-v5'));
+			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'js/dist/ithoughts_tt_gl-atoz.js', array('jquery', 'ithoughts-core-v5'));
+//			$this->declare_resource( 'ithoughts_tooltip_glossary-list', 'js/dist/ithoughts_tt_gl-glossary-list.js', array('jquery', 'ithoughts-core-v5'));
 
 			// Generate all Style resources
 			$this->declare_resource( 'ithoughts_tooltip_glossary-css', 'css/ithoughts_tt_gl.min.css');
 			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip-css', 'ext/jquery.qtip.min.css');
 			if( isset($this->options["custom_styles_path"]) ) {
-				$this->declare_resource( 'ithoughts_tooltip_glossary-customthemes', $this->options["custom_styles_path"]);
+				wp_register_style( 'ithoughts_tooltip_glossary-customthemes', $this->options["custom_styles_path"]);
 			}
 		}
 
