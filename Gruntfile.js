@@ -193,8 +193,8 @@ module.exports = function gruntInit( grunt ) {
 					configFile: 'lint/eslint-browser.json',
 				},
 				src: [
-					'js/**.js',
-					'!js/**.min.js',
+					'js/src/**.js',
+					'!js/src/**.min.js',
 				],
 			},
 			strict_nodejs: {

@@ -1,6 +1,6 @@
 # iThoughts Tooltip Glossary #
-**Contributors:** [Gerkin](https://profiles.wordpress.org/Gerkin), [TCBarrett](https://profiles.wordpress.org/TCBarrett)  
-**Donate link:** https://www.gerkindevelopment.net/en/support-my-plugins/  
+**Contributors:** [Gerkin](https://profiles.wordpress.org/Gerkin)  
+**Donate link:** https://www.gerkindevelopment.net/en/support-ithoughts-plugins/  
 **Author URI:** https://www.gerkindevelopment.net/  
 **Plugin URI:** https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/  
 **Tags:** tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments, index, dictionnary, ajax, custom post type, post type, documentation, database, help, jquery, quote  
@@ -17,13 +17,15 @@ Build a glossary on your site that link terms in your posts to it via tooltips. 
 
 This plugin is optimized for responsive web design, SEO, usability, and more.
 
-Reasons for using iThoughts Tooltip Glossary plugin:
+### Features ###
 
-* You use the old and unsupported WP Glossary plugin from TCBarrett
-* External glossary sites don't have all the words and terms you need.
-* You want to keep your visitors on your site, not send them to an external glossary site.
-* You don't want the adverts that external site popups come with.
-* You need greater precision for some of your readers.
+* Manage your *glossaries* on your own site
+* Add tooltips with fully customizable content (*text* or *medias*)
+* Several kind of lists to display your glossary terms
+* Group your terms by categories
+* Fully responsive tooltips, with *6 animations* and *10 themes*.
+* Theme editor & easy animation customization. Keep control of your site appearance.
+* Support of WPML for multilingual terms
 
 iThoughts Tooltip Glossary works well with [iThoughts Lightbox](http://www.gerkindevelopment.net/en/portfolio/ithoughts-lightbox/), which allow you to create responsive lightboxes that includes your mediatip images.
 
@@ -39,28 +41,31 @@ Either install through admin panel (this is the eaiest way), or:
 
 ## Frequently Asked Questions ##
 
-### Does this plugin create any new tables? ###
+> Does this plugin create any new tables?
 
 No. It uses custom post types and taxonomies.
 
-### Can I link it to an external glossary ###
-
-Yes. It is a feature from WP Glossary since version 1.2, so it is still present.
-
-### None of the details pages are working! ###
+> None of the details pages are working!
 
 Please resave your rewrite rules: Settings > Permalinks > Save Changes (just click the button)
 
-### It doesn't do anything? ###
+> I got an error when loading my glossary tips
+
+It may be a permalink problem. Go to *Settings* > *Permalinks* and click *Save Changes*
+
+> It doesn't do anything?
 
 Check if jQuery is loaded.
 For glossary terms only, you have to add the terms (Tooltip Glossary > Add New Term) and then use the appropriate TinyMCE button to link the text with that glossary term
 
-### Further Information ###
+## Further Information ##
 
-**Please, don't annoy TCBarrett with questions about that plugin. The original plugin links given are for credits *ONLY*.**
-[For further details visit my dedicated plugin landing page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/)
-[Or see the original plugin landing page](http://www.tcbarrett.com/wordpress-plugins/wp-glossary/).
+Browse the full developer documentation on [GitHub Pages](ithoughts-informatique.github.io/iThoughts-Tooltip-Glossary/)
+
+If you want to contribute, feel free to check the [GitHub repository](ithoughts-informatique.github.io/iThoughts-Tooltip-Glossary/)
+
+User manual available on [gerkindevelopment.net](http://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/)
+
 For bug repports or unexpected behaviors, please see the dedicated [WordPress support forum](https://wordpress.org/support/plugin/ithoughts-tooltip-glossary)
 
 ## Screenshots ##
@@ -70,7 +75,6 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 3. Example TinyMCE tooltip form
 4. jQuery based Glossary term A to Z and term list
 5. Glossary index shortcodes
-
 
 ## Changelog ##
 
@@ -287,12 +291,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 * NEW Added ability to set the main glossary page url, which is also the term prefix (http://www.yourblog.com/*whatever*/...)
 * UPD Group terms in ATOZ even with accents. "ù" will be in "U" section.
 * UPD Clean Theme editor improved with more flexibility. Thrown away useless theme form
-Theme editor improved with more flexibility. Thrown away useless theme form
-Theme editor improved with more flexibility. Thrown away useless theme form
-some useless files
 
 ### 0.0 ###
-* Please see previous changes from the old plugin [here](https://wordpress.org/plugins/wp-glossary/changelog/)
+* Please see previous changes from [WP Glossary](https://wordpress.org/plugins/wp-glossary/changelog/)
 
 
 ## Upgrade Notice ##
@@ -398,5 +399,6 @@ Rikengct for a LOT of usefull suggestions
 TinyMCE tooltip icon  by Darren Northcott from the [Noun Project](https://thenounproject.com/term/tooltip/82869/)
 Wordpress PHP CodeSniffer ruleset https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
 
-https://github.com/23r9i0/wp-color-picker-alpha
-http://codologic.com/page/gradx-jquery-javascript-gradient-selector-library
+## Support this plugin ##
+
+Maintaining this plugin takes a lot of time, time that I have to share with my work and my studies. If you appreciate my work, feel free to comment, rate, or even [donate to the plugin](https://www.gerkindevelopment.net/en/support-ithoughts-plugins/). I need your help to continue maintaining the plugin, and bringing more features.

@@ -1,6 +1,6 @@
 {
   "name": "ithoughts-tooltip-glossary",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Create beautiful tooltips for descriptions or glossary terms easily",
   "directories": {
 	"test": "test"
