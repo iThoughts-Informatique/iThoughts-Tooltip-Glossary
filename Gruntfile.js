@@ -342,6 +342,18 @@ module.exports = function gruntInit( grunt ) {
 				},
 			},
 		},
+		phpcbf: {
+			options: {
+				standard: 'lint/phpcs.xml'
+			},
+			files: {
+				src: [
+					'class/**/*.php',
+					'templates/src/**/*.php',
+					'*.php',
+				],
+			},
+		},
 	};
 	if(typeof gruntLocalconfig !== 'undefined' && typeof gruntLocalconfig.svn_path !== 'undefined'){
 		gruntConfig.rsync = {
@@ -355,6 +367,7 @@ module.exports = function gruntInit( grunt ) {
 						'node_modules',
 						'test',
 						'templates/src',
+						'js/src',
 						'lint',
 						'*.log',
 						'docs',
@@ -386,6 +399,7 @@ module.exports = function gruntInit( grunt ) {
 	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
 	grunt.loadNpmTasks( 'grunt-rsync' );
 	grunt.loadNpmTasks( 'grunt-babel' );
+	grunt.loadNpmTasks('grunt-phpcbf');
 
 	// Default task(s).
 	grunt.registerTask( 'bumpVersionDo', '', function bumpVersionDo() {
@@ -440,6 +454,7 @@ module.exports = function gruntInit( grunt ) {
 		'versionUpgrade',
 		'Do the process to change version number',
 		[
+			'phpcbf',
 			'eslint:strict_browser',
 			//'eslint:strict_nodejs',
 			'lesslint:strict',

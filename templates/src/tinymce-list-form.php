@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <div id="ithoughts_tt_gl-list-form-container">
-	<!--<pre style="display:none;"><?php var_dump($data); ?></pre>-->
+	<pre style="display:none;"><?php var_dump($data); ?></pre>
 	<div id="pseudohead">
 		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo Backbone::get_instance()->get_resource('ithoughts_tooltip_glossary-tinymce_form-css')->get_file_url(); ?>" type="text/css" media="all">
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_resource('ithoughts-simple-ajax-v5')->get_file_url(); ?>" defer></script>
@@ -76,7 +76,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo json_encode($groups); ?>;
 												<div class="group-select" data-groupid="0">
 													<input type="checkbox" <?php echo in_array(0, $data["group"]) ? "checked " : ""; ?> name="group_check" value="0" id="group_check_0">
 													<label for="group_check_0" class="group-label">
-														<span class="group-title"><em><?php esc_html_e('No group', 'ithoughts-tooltip-glossary'); ?></em></span>&nbsp;<span class="group-count">(<?php echo $noGroups ?>)</span>
+														<span class="group-title"><em><?php esc_html_e('No group', 'ithoughts-tooltip-glossary'); ?></em></span>&nbsp;<span class="group-count">(<?php echo $no_groups ?>)</span>
 													</label>
 												</div>
 												<?php

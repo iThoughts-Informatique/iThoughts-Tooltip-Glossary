@@ -5,7 +5,5 @@
 	<rule ref="PHPCompatibility" />
 	<rule ref="WordPress" />
 	<rule ref="WordPress-Core">
-		<exclude name="Generic.Files.LowercasedFilename" />
-		<exclude name="WordPress.NamingConventions.ValidVariableName" />
 	</rule>
 </ruleset>

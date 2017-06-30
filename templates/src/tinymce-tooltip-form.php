@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <div id="ithoughts_tt_gl-tooltip-form-container">
-	<!--<pre style="display:none;"><?php var_dump($data); ?></pre>-->
+	<pre style="display:none;"><?php var_dump($data); ?></pre>
 	<div id="pseudohead">
 		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo Backbone::get_instance()->get_resource('ithoughts_tooltip_glossary-tinymce_form-css')->get_file_url(); ?>" type="text/css" media="all">
 		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_resource('ithoughts-simple-ajax-v5')->get_file_url(); ?>" defer></script>

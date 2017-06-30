@@ -78,6 +78,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 ## Changelog ##
 
+### 3.0.2 ###
+* FIX Singleton structure
+
 ### 3.0.1 ###
 * FIX Fatal error in Resource management (see [the forum thread](https://wordpress.org/support/topic/php-fatal-error-115/))
 * FIX Theme Editor

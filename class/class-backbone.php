@@ -1,5 +1,6 @@
 <?php
 /**
+ * iThoughts Tooltip Glossary main file.
  * @file Main class file. Dispatch everything else through all plugin classes
  *
  * @author Gerkin
@@ -20,16 +21,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-if(!class_exists(__NAMESPACE__."\\Backbone")){
-	class Backbone extends \ithoughts\v5_0\Backbone{
+if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
+	/**
+	 * Main class of iThoughts Tooltip Glossary
+	 *
+	 * @author Gerkin
+	 */
+	class Backbone extends \ithoughts\v5_0\Backbone {
 		private $defaults;
 		private $overridesjsdat;
 		private $overridesopts;
 		private $optionsConfig;
 		private $handledAttributes;
 
-		function __construct($plugin_base) {
-			$this->optionsName		= "ithoughts_tt_gl";
+		function __construct( $plugin_base ) {
+			$this->optionsName		= 'ithoughts_tt_gl';
 
 			$this->base_path		= $plugin_base;
 
@@ -37,44 +43,44 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 
 			$optionsConfig = array(
 				'version'		=> array(
-					"default"		=> '-1',
-					"serversideOverride"	=> false,
-					"cliensideOverride"	=> false,
+					'default'		=> '-1',
+					'serversideOverride'	=> false,
+					'cliensideOverride'	=> false,
 				),
 				'termcontent'		=> array(
-					"default"		=> 'excerpt',
-					"serversideOverride"	=> true,
-					"cliensideOverride"	=> true,
-					"accepted"		=> array(
+					'default'		=> 'excerpt',
+					'serversideOverride'	=> true,
+					'cliensideOverride'	=> true,
+					'accepted'		=> array(
 						'full',
 						'excerpt',
 						'off',
 					),
 				),
 				'termscomment'		=> array(
-					"default"		=> false,
-					"serversideOverride"	=> false,
-					"cliensideOverride"	=> false,
-					"accepted"		=> array(
+					'default'		=> false,
+					'serversideOverride'	=> false,
+					'cliensideOverride'	=> false,
+					'accepted'		=> array(
 						true,
 						false,
 					),
 				),
 				'termtype'		=> array(
-					"default"		=> 'glossary',
-					"serversideOverride"	=> false,
-					"cliensideOverride"	=> false,
+					'default'		=> 'glossary',
+					'serversideOverride'	=> false,
+					'cliensideOverride'	=> false,
 				),
 				'grouptype'		=> array(
-					"default"		=> 'group',
-					"serversideOverride"	=> false,
-					"cliensideOverride"	=> false,
+					'default'		=> 'group',
+					'serversideOverride'	=> false,
+					'cliensideOverride'	=> false,
 				),
 				'qtipstyle'		=> array(
-					"default"		=> 'cream',
-					"serversideOverride"	=> false,
-					"cliensideOverride"	=> true,
-					"accepted"		=> array(
+					'default'		=> 'cream',
+					'serversideOverride'	=> false,
+					'cliensideOverride'	=> true,
+					'accepted'		=> array(
 						'cream',
 						'dark',
 						'green',
@@ -88,65 +94,65 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 					),
 				),
 				'termlinkopt'	=> array(
-					"default"		=> 'standard',
-					"serversideOverride"	=> true,
-					"cliensideOverride"	=> false,// Not a js data
-					"accepted"		=> array(
+					'default'		=> 'standard',
+					'serversideOverride'	=> true,
+					'cliensideOverride'	=> false,// Not a js data
+					'accepted'		=> array(
 						'standard',
 						'none',
 						'blank',
 					),
 				),
 				'qtiptrigger'	=> array(
-					"default"		=> 'click',
-					"serversideOverride"	=> false,
-					"cliensideOverride"	=> true,
-					"accepted"		=> array(
+					'default'		=> 'click',
+					'serversideOverride'	=> false,
+					'cliensideOverride'	=> true,
+					'accepted'		=> array(
 						'click',
 						'responsive',
 					),
 				),
 				'qtipshadow'	=> array(
-					"default"		=> true,
-					"serversideOverride"	=> false,
-					"cliensideOverride"	=> true,
-					"accepted"		=> array(
+					'default'		=> true,
+					'serversideOverride'	=> false,
+					'cliensideOverride'	=> true,
+					'accepted'		=> array(
 						true,
 						false,
 					),
 				),
 				'qtiprounded'	=> array(
-					"default"		=> false,
-					"serversideOverride"	=> false,
-					"cliensideOverride"	=> true,
-					"accepted"		=> array(
+					'default'		=> false,
+					'serversideOverride'	=> false,
+					'cliensideOverride'	=> true,
+					'accepted'		=> array(
 						true,
 						false,
 					),
 				),
 				'staticterms'	=> array(
-					"default"		=> false,
-					"serversideOverride"	=> false,// If required once, required everywhere
-					"cliensideOverride"	=> false,// Not a js data
-					"accepted"		=> array(
+					'default'		=> false,
+					'serversideOverride'	=> false,// If required once, required everywhere
+					'cliensideOverride'	=> false,// Not a js data
+					'accepted'		=> array(
 						true,
 						false,
 					),
 				),
 				'forceloadresources'	=> array(
-					"default"		=> false,
-					"serversideOverride"	=> false,// If required once, required everywhere
-					"cliensideOverride"	=> false,// Not a js data
-					"accepted"		=> array(
+					'default'		=> false,
+					'serversideOverride'	=> false,// If required once, required everywhere
+					'cliensideOverride'	=> false,// Not a js data
+					'accepted'		=> array(
 						true,
 						false,
 					),
 				),
 				'verbosity'	=> array(
-					"default"		=> LogLevel::Error,
-					"serversideOverride"	=> false,// If required once, required everywhere
-					"cliensideOverride"	=> false,// Not a js data
-					"accepted"		=> array(
+					'default'		=> LogLevel::Error,
+					'serversideOverride'	=> false,// If required once, required everywhere
+					'cliensideOverride'	=> false,// Not a js data
+					'accepted'		=> array(
 						LogLevel::Silent,
 						LogLevel::Error,
 						LogLevel::Warn,
@@ -155,103 +161,104 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 					),
 				),
 				'anim_in'		=> array(
-					"default"		=> 'none',
-					"serversideOverride"	=> false,
-					"cliensideOverride"	=> true,
+					'default'		=> 'none',
+					'serversideOverride'	=> false,
+					'cliensideOverride'	=> true,
 				),
 				'anim_out'		=> array(
-					"default"		=> 'none',
-					"serversideOverride"	=> false,
-					"cliensideOverride"	=> true,
+					'default'		=> 'none',
+					'serversideOverride'	=> false,
+					'cliensideOverride'	=> true,
 				),
 				'anim_time'		=> array(
-					"default"		=> 500,
-					"serversideOverride"	=> false,
-					"cliensideOverride"	=> true,
+					'default'		=> 500,
+					'serversideOverride'	=> false,
+					'cliensideOverride'	=> true,
 				),
 				'custom_styles_path'	=> array(
-					"default"		=> null,
-					"serversideOverride"	=> false,// If required once, required everywhere
-					"cliensideOverride"	=> false,// Not a js data
+					'default'		=> null,
+					'serversideOverride'	=> false,// If required once, required everywhere
+					'cliensideOverride'	=> false,// Not a js data
 				),
-				"lists_size"			=> array(
-					"default"		=> -1,
-					"serversideOverride"	=> true,
-					"cliensideOverride"	=> false,// Not a js data
+				'lists_size'			=> array(
+					'default'		=> -1,
+					'serversideOverride'	=> true,
+					'cliensideOverride'	=> false,// Not a js data
 				),
 				'exclude_search'	=> array(
-					"default"		=> false,
-					"serversideOverride"	=> false,// If required once, required everywhere
-					"cliensideOverride"	=> false,// Not a js data
-					"accepted"		=> array(
+					'default'		=> false,
+					'serversideOverride'	=> false,// If required once, required everywhere
+					'cliensideOverride'	=> false,// Not a js data
+					'accepted'		=> array(
 						true,
 						false,
 					),
 				),
 			);
 
-
 			$this->defaultOptions = array();
-			foreach($optionsConfig as $opt => $val){
-				$this->defaultOptions[$opt] = $val["default"];
+			foreach ( $optionsConfig as $opt => $val ) {
+				$this->defaultOptions[ $opt ] = $val['default'];
 			}
 			$this->clientsideOverridable = array();
-			foreach($optionsConfig as $opt => $val){
-				if($val["cliensideOverride"])
+			foreach ( $optionsConfig as $opt => $val ) {
+				if ( $val['cliensideOverride'] ) {
 					$this->clientsideOverridable[] = $opt;
+				}
 			}
 			$this->serversideOverridable = array();
-			foreach($optionsConfig as $opt => $val){
-				if($val["serversideOverride"])
+			foreach ( $optionsConfig as $opt => $val ) {
+				if ( $val['serversideOverride'] ) {
 					$this->serversideOverridable[] = $opt;
+				}
 			}
 
 			$this->handledAttributes = array(
-				"tooltip-content",
-				"glossary-id",
-				"mediatip-type",
-				"mediatip-content",
-				"mediatip-link",
-				"cols",
-				"group",
-				"alpha",
-				"desc",
-				"disable_auto_translation",
-				//"masonry",
-				"list-mode",
+				'tooltip-content',
+				'glossary-id',
+				'mediatip-type',
+				'mediatip-content',
+				'mediatip-link',
+				'cols',
+				'group',
+				'alpha',
+				'desc',
+				'disable_auto_translation',
+				// "masonry",
+				'list-mode',
 			);
 
 			// Print the load message
 			$tail = '';
-			if(defined("WP_DEBUG") && WP_DEBUG){
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				$tail = ' in DEBUG mode';
 			}
-			$this->log(LogLevel::Silly, "Loaded plugin iThoughts Tooltip Glossary v{$this->get_option('version')}$tail.");
-
+			$this->log( LogLevel::Silly, "Loaded plugin iThoughts Tooltip Glossary v{$this->get_option('version')}$tail." );
 
 			$this->register_post_types();
 			$this->register_taxonmies();
 			$this->add_shortcodes();
 			$this->add_widgets();
 			$this->add_filters();
-			/*//TEST
+			/*
+			//TEST
 			require_once( $this->base_class_path . '/class-autolink.php' );
 			AutoLink::get_instance();
 			//ENDTEST*/
-			add_action( 'init',                  		array(&$this,	'declare_resources')			);
-			add_action( 'init',                  		array(&$this,	'ajax_hooks')							);
-			add_action( 'wp_footer',             		array(&$this,	'wp_footer')							);
-			add_action( 'admin_footer',            		array(&$this,	'wp_footer')							);
-			add_action( 'wp_print_footer_scripts',		array(&$this,	'afterScripts'), 100000					);
-			add_action( 'admin_print_footer_scripts',	array(&$this,	'afterScripts'), 100000					);
-			add_action( 'wp_enqueue_scripts',    		array(&$this,	'wp_enqueue_styles')					);
-			add_action( 'admin_enqueue_scripts',   		array(&$this,	'wp_enqueue_styles')					);
-			add_action( 'pre_get_posts',         		array(&$this,	'order_core_archive_list')     			);
+			add_action( 'init',                  		array( &$this, 'declare_resources' ) );
+			add_action( 'init',                  		array( &$this, 'ajax_hooks' ) );
+			add_action( 'wp_footer',             		array( &$this, 'wp_footer' ) );
+			add_action( 'admin_footer',            		array( &$this, 'wp_footer' ) );
+			add_action( 'wp_print_footer_scripts',		array( &$this, 'afterScripts' ), 100000 );
+			add_action( 'admin_print_footer_scripts',	array( &$this, 'afterScripts' ), 100000 );
+			add_action( 'wp_enqueue_scripts',    		array( &$this, 'wp_enqueue_styles' ) );
+			add_action( 'admin_enqueue_scripts',   		array( &$this, 'wp_enqueue_styles' ) );
+			add_action( 'pre_get_posts',         		array( &$this, 'order_core_archive_list' ) );
 
-			add_filter( 'ithoughts_tt_gl_term_link',	array(&$this,	'ithoughts_tt_gl_term_link')			);
-			add_filter( 'ithoughts_tt_gl_get_overriden_opts',	array(&$this,	'ithoughts_tt_gl_override'), 	10,	2	);
+			add_filter( 'ithoughts_tt_gl_term_link',	array( &$this, 'ithoughts_tt_gl_term_link' ) );
+			add_filter( 'ithoughts_tt_gl_get_overriden_opts',	array( &$this, 'ithoughts_tt_gl_override' ), 	10,	2 );
 
-			add_action( 'plugins_loaded',				array($this,	'localisation')							);
+			add_action( 'plugins_loaded',				array( $this, 'localisation' ) );
 		}
 
 		/**
@@ -259,62 +266,61 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 		 *
 		 * @author Gerkin
 		 */
-		public function declare_resources(){
+		public function declare_resources() {
 			// Generate all Script resources
-			$this->declare_resource('imagesloaded', 'ext/imagesloaded.min.js');
-			$this->declare_resource( 'qtip', 'ext/jquery.qtip.js', array('jquery', 'imagesloaded'));
-			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'js/dist/ithoughts_tt_gl-qtip2.js', array('qtip', 'ithoughts-core-v5'), false, 'iThoughtsTooltipGlossary', array(
-				'admin_ajax'    => admin_url('admin-ajax.php'),
+			$this->declare_resource( 'imagesloaded', 'ext/imagesloaded.min.js' );
+			$this->declare_resource( 'qtip', 'ext/jquery.qtip.js', array( 'jquery', 'imagesloaded' ) );
+			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'js/dist/ithoughts_tt_gl-qtip2.js', array( 'qtip', 'ithoughts-core-v5' ), false, 'iThoughtsTooltipGlossary', array(
+				'admin_ajax'    => admin_url( 'admin-ajax.php' ),
 				// Get the API endpoint. See https://wordpress.stackexchange.com/questions/144822/what-is-the-best-practice-to-check-for-pretty-permalinks
-				'apiurl'		=> get_site_url(null, get_option('permalink_structure') != '' ? 'wp-json' : '?rest_route=').'/wp/v2',
+				'apiurl'		=> get_site_url( null, get_option( 'permalink_structure' ) != '' ? 'wp-json' : '?rest_route=' ) . '/wp/v2',
 				'baseurl'		=> $this->base_url,
-				'qtipstyle'     => $this->get_option("qtipstyle"),
-				'qtiptrigger'   => $this->get_option("qtiptrigger"),
-				'qtipshadow'    => $this->get_option("qtipshadow"),
-				'qtiprounded'   => $this->get_option("qtiprounded"),
-				'termcontent'	=> $this->get_option("termcontent"),
-				'verbosity'     	=> $this->get_option("verbosity"),
+				'qtipstyle'     => $this->get_option( 'qtipstyle' ),
+				'qtiptrigger'   => $this->get_option( 'qtiptrigger' ),
+				'qtipshadow'    => $this->get_option( 'qtipshadow' ),
+				'qtiprounded'   => $this->get_option( 'qtiprounded' ),
+				'termcontent'	=> $this->get_option( 'termcontent' ),
+				'verbosity'     	=> $this->get_option( 'verbosity' ),
 				'anims'			=> array(
-					"in"	=> $this->get_option("anim_in"),
-					"out"	=> $this->get_option("anim_out"),
-					"duration"	=> $this->get_option("anim_time")
+					'in'	=> $this->get_option( 'anim_in' ),
+					'out'	=> $this->get_option( 'anim_out' ),
+					'duration'	=> $this->get_option( 'anim_time' ),
 				),
 				'lang'			=> array(
-					"qtip" => array(
-						"pleasewait_ajaxload" => array(
-							"title" => __('Please wait', 'ithoughts-tooltip-glossary' ),
-							"content" => __('Loading glossary term', 'ithoughts-tooltip-glossary' )
-						)
-					)
-				)
+					'qtip' => array(
+						'pleasewait_ajaxload' => array(
+							'title' => __( 'Please wait', 'ithoughts-tooltip-glossary' ),
+							'content' => __( 'Loading glossary term', 'ithoughts-tooltip-glossary' ),
+						),
+					),
+				),
 			) );
-			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'js/dist/ithoughts_tt_gl-atoz.js', array('jquery', 'ithoughts-core-v5'));
-			//			$this->declare_resource( 'ithoughts_tooltip_glossary-list', 'js/dist/ithoughts_tt_gl-glossary-list.js', array('jquery', 'ithoughts-core-v5'));
-
+			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'js/dist/ithoughts_tt_gl-atoz.js', array( 'jquery', 'ithoughts-core-v5' ) );
+			// $this->declare_resource( 'ithoughts_tooltip_glossary-list', 'js/dist/ithoughts_tt_gl-glossary-list.js', array('jquery', 'ithoughts-core-v5'));
 			// Generate all Style resources
-			$this->declare_resource( 'ithoughts_tooltip_glossary-css', 'css/ithoughts_tt_gl.min.css');
-			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip-css', 'ext/jquery.qtip.min.css');
-			if( isset($this->options["custom_styles_path"]) ) {
-				wp_register_style( 'ithoughts_tooltip_glossary-customthemes', $this->options["custom_styles_path"]);
+			$this->declare_resource( 'ithoughts_tooltip_glossary-css', 'css/ithoughts_tt_gl.min.css' );
+			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip-css', 'ext/jquery.qtip.min.css' );
+			if ( isset( $this->options['custom_styles_path'] ) ) {
+				wp_register_style( 'ithoughts_tooltip_glossary-customthemes', $this->options['custom_styles_path'] );
 			}
 		}
 
-		public function get_server_side_overridable(){
+		public function get_server_side_overridable() {
 			return $this->serversideOverridable;
 		}
-		public function get_client_side_overridable(){
+		public function get_client_side_overridable() {
 			return $this->clientsideOverridable;
 		}
 
-		public function get_handled_attributes(){
+		public function get_handled_attributes() {
 			return $this->handledAttributes;
 		}
-		public function add_filters(){
+		public function add_filters() {
 			require_once( $this->base_class_path . '/class-filters.php' );
 			new filters();
 		}
-		public function addScript($newArray){
-			$this->scripts = array_merge($this->scripts, $newArray);
+		public function addScript( $newArray ) {
+			$this->scripts = array_merge( $this->scripts, $newArray );
 		}
 
 		/**
@@ -322,38 +328,37 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 		 * Public ajax hooks are:
 		 * 	* getting terms list (wp_ajax_ithoughts_tt_gl_get_terms_list & wp_ajax_nopriv_ithoughts_tt_gl_get_terms_list)
 		 * 	* getting term content (wp_ajax_ithoughts_tt_gl_get_term_details & wp_ajax_nopriv_ithoughts_tt_gl_get_term_details)
+		 *
 		 *  @action init
 		 *
 		 * @author Gerkin
 		 */
-		public function ajax_hooks(){
-			add_action( 'wp_ajax_ithoughts_tt_gl_get_terms_list',			array(&$this, 'get_terms_list_ajax') );
-			add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_terms_list',	array(&$this, 'get_terms_list_ajax') );
+		public function ajax_hooks() {
+			add_action( 'wp_ajax_ithoughts_tt_gl_get_terms_list',			array( &$this, 'get_terms_list_ajax' ) );
+			add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_terms_list',	array( &$this, 'get_terms_list_ajax' ) );
 
-			add_action( 'wp_ajax_ithoughts_tt_gl_get_term_details',        array(&$this, 'get_term_details_ajax') );
-			add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_term_details', array(&$this, 'get_term_details_ajax') );
+			add_action( 'wp_ajax_ithoughts_tt_gl_get_term_details',        array( &$this, 'get_term_details_ajax' ) );
+			add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_term_details', array( &$this, 'get_term_details_ajax' ) );
 		}
 
-		public function localisation(){
-			if (load_plugin_textdomain( 'ithoughts-tooltip-glossary', false, plugin_basename( dirname( __FILE__ ) )."/../lang" ) === false) {
-				//
+		public function localisation() {
+			if ( load_plugin_textdomain( 'ithoughts-tooltip-glossary', false, plugin_basename( dirname( __FILE__ ) ) . '/../lang' ) === false ) {
 			} else {
-				//
 			}
 			require_once( $this->base_class_path . '/class-micropost.php' );
 		}
 
-		private function register_post_types(){
+		private function register_post_types() {
 			require_once( $this->base_class_path . '/class-posttypes.php' );
 			PostTypes::get_instance();
 		}
 
-		private function register_taxonmies(){
+		private function register_taxonmies() {
 			require_once( $this->base_class_path . '/class-taxonomies.php' );
 			Taxonomies::get_instance();
 		}
 
-		private function add_shortcodes(){
+		private function add_shortcodes() {
 			require_once( $this->base_class_path . '/shortcode/class-tooltip.php' );
 			shortcode\Tooltip::get_instance();
 			require_once( $this->base_class_path . '/shortcode/class-mediatip.php' );
@@ -361,51 +366,56 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			require_once( $this->base_class_path . '/shortcode/class-glossary.php' );
 			shortcode\Glossary::get_instance();
 			require_once( $this->base_class_path . '/shortcode/class-glossarylist.php' );
-			//new shortcode\List();
+			// new shortcode\List();
 			require_once( $this->base_class_path . '/shortcode/class-atoz.php' );
 			shortcode\AtoZ::get_instance();
 			require_once( $this->base_class_path . '/shortcode/class-termlist.php' );
 			shortcode\TermList::get_instance();
 		}
 
-		private function add_widgets(){
+		private function add_widgets() {
 			require_once( $this->base_class_path . '/class-randomterm.php' );
-			add_action( 'widgets_init', array($this, 'widgets_init') );
+			add_action( 'widgets_init', array( $this, 'widgets_init' ) );
 		}
 
-		public function widgets_init(){
+		public function widgets_init() {
 			register_widget( '\\ithoughts\\tooltip_glossary\\widgets\\RandomTerm' );
 		}
 
 		/**
 		 * Print required resources in the footer
+		 *
 		 * @author Gerkin
 		 */
-		public function wp_footer(){
-			if( !$this->scripts && $this->options["forceloadresources"] !== true)
+		public function wp_footer() {
+			if ( ! $this->scripts && $this->options['forceloadresources'] !== true ) {
 				return;
+			}
 
-			if($this->get_script('qtip') || $this->options["forceloadresources"] === true){
+			if ( $this->get_script( 'qtip' ) || $this->options['forceloadresources'] === true ) {
 				$this->enqueue_resource( 'ithoughts_tooltip_glossary-qtip' );
 			}
-			if($this->get_script('atoz') || $this->options["forceloadresources"] === true)
+			if ( $this->get_script( 'atoz' ) || $this->options['forceloadresources'] === true ) {
 				$this->enqueue_resource( 'ithoughts_tooltip_glossary-atoz' );
-			if($this->get_script('list') || $this->options["forceloadresources"] === true)
+			}
+			if ( $this->get_script( 'list' ) || $this->options['forceloadresources'] === true ) {
 				$this->enqueue_resource( 'ithoughts_tooltip_glossary-list' );
+			}
 		}
 
-		public function afterScripts(){
-			if( !$this->scripts && $this->options["forceloadresources"] !== true)
+		public function afterScripts() {
+			if ( ! $this->scripts && $this->options['forceloadresources'] !== true ) {
 				return;
+			}
 
-			if($this->get_script('qtip') || $this->options["forceloadresources"] === true){
-				$animsCustomIn = apply_filters("ithoughts-tt-gl_tooltip-anim-in", array(), true);
-				$animsCustomOut = apply_filters("ithoughts-tt-gl_tooltip-anim-out", array(), true);
-				if(count($animsCustomIn) || count($animsCustomOut)){
+			if ( $this->get_script( 'qtip' ) || $this->options['forceloadresources'] === true ) {
+				$animsCustomIn = apply_filters( 'ithoughts_tt_gl_tooltip_anim_in', array(), true );
+				$animsCustomOut = apply_filters( 'ithoughts_tt_gl_tooltip_anim_out', array(), true );
+				if ( count( $animsCustomIn ) || count( $animsCustomOut ) ) {
 ?>
-<script id="ithoughts_tt_gl-custom-anims">iThoughtsTooltipGlossary.animationFunctions = jQuery.extend(!0,iThoughtsTooltipGlossary.animationFunctions,{<?php if(count($animsCustomIn)){ ?>in:{<?php foreach($animsCustomIn as $name => $animInfos){ ?><?php echo '"'.$name.'":'.$animInfos["js"].',' ?><?php } ?>}<?php } ?><?php echo count($animsCustomIn) ? "," : "" ?><?php if(count($animsCustomOut)){ ?>out:{<?php foreach($animsCustomOut as $name => $animInfos){ ?><?php echo '"'.$name.'":'.$animInfos["js"].',' ?><?php } ?>}<?php } ?>});</script>
+<script id="ithoughts_tt_gl-custom-anims">iThoughtsTooltipGlossary.animationFunctions = jQuery.extend(!0,iThoughtsTooltipGlossary.animationFunctions,{<?php if ( count( $animsCustomIn ) ) { ?>in:{<?php foreach ( $animsCustomIn as $name => $animInfos ) { ?><?php echo '"' . $name . '":' . $animInfos['js'] . ',' ?><?php } ?>}<?php } ?><?php echo count( $animsCustomIn ) ? ',' : '' ?><?php if ( count( $animsCustomOut ) ) { ?>out:{<?php foreach ( $animsCustomOut as $name => $animInfos ) { ?><?php echo '"' . $name . '":' . $animInfos['js'] . ',' ?><?php } ?>}<?php } ?>});</script>
 <?php
-																   }
+				}
 ?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: none;">
 	<defs>
@@ -419,25 +429,25 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 			}
 		}
 
-		public function wp_enqueue_styles(){
+		public function wp_enqueue_styles() {
 			$this->enqueue_resources( array(
 				'ithoughts_tooltip_glossary-css',
-				'ithoughts_tooltip_glossary-qtip-css'
+				'ithoughts_tooltip_glossary-qtip-css',
 			) );
 
-			if(isset($this->options["custom_styles_path"])){
+			if ( isset( $this->options['custom_styles_path'] ) ) {
 				wp_enqueue_style( 'ithoughts_tooltip_glossary-customthemes' );
 			}
 		}
-		public function wp_enqueue_scripts_hight_priority(){
+		public function wp_enqueue_scripts_hight_priority() {
 			$this->enqueue_resource( 'ithoughts-core-v5' );
 		}
 
 		/**
 		 * Order post and taxonomy archives alphabetically
 		 */
-		public function order_core_archive_list( $query ){
-			if( is_post_type_archive("glossary") || is_tax('glossary_group') ){
+		public function order_core_archive_list( $query ) {
+			if ( is_post_type_archive( 'glossary' ) || is_tax( 'glossary_group' ) ) {
 				$query->set( 'orderby', 'title' );
 				$query->set( 'order',   'ASC' );
 				return;
@@ -447,201 +457,212 @@ if(!class_exists(__NAMESPACE__."\\Backbone")){
 		/**
 		 * Translation support
 		 */
-		public function ithoughts_tt_gl_term_link( $url ){
+		public function ithoughts_tt_gl_term_link( $url ) {
 			// qTranslate plugin
-			if( function_exists('qtrans_convertURL') ):
-			$url = qtrans_convertURL( $url );
+			if ( function_exists( 'qtrans_convertURL' ) ) :
+				$url = qtrans_convertURL( $url );
 			endif;
 
 			return $url;
 		}
-		public function ithoughts_tt_gl_override($data, $clientSide){
+		public function ithoughts_tt_gl_override( $data, $clientSide ) {
 			$overridden = array();
-			if($clientSide){
-				foreach($this->clientsideOverridable as $overrideable){
-					if(isset($data[$overrideable]) && ($data[$overrideable] != $this->options[$overrideable]))
-						$overridden[$overrideable] = $data[$overrideable];
+			if ( $clientSide ) {
+				foreach ( $this->clientsideOverridable as $overrideable ) {
+					if ( isset( $data[ $overrideable ] ) && ($data[ $overrideable ] != $this->options[ $overrideable ]) ) {
+						$overridden[ $overrideable ] = $data[ $overrideable ];
+					}
 				}
 			} else {
-				$overriddenConcat = array_merge($this->get_options(), $data);
-				foreach($this->serversideOverridable as $option){
-					if(isset($overriddenConcat[$option]))
-						$overridden[$option] = $overriddenConcat[$option];
+				$overriddenConcat = array_merge( $this->get_options(), $data );
+				foreach ( $this->serversideOverridable as $option ) {
+					if ( isset( $overriddenConcat[ $option ] ) ) {
+						$overridden[ $option ] = $overriddenConcat[ $option ];
+					}
 				}
 			}
 			return $overridden;
 		}
 
-		public function searchTerms($args){
+		public function searchTerms( $args ) {
 			$posts = array();
-			if ( function_exists('icl_object_id') ) {
+			if ( function_exists( 'icl_object_id' ) ) {
 				// With WPML
-				$originalLanguage = apply_filters( 'wpml_current_language', NULL );
+				$originalLanguage = apply_filters( 'wpml_current_language', null );
 
-				$args["suppress_filters"] = true;
+				$args['suppress_filters'] = true;
 				$posts = get_posts( $args );
-
-
 
 				$postIds = array();
 				$notTranslated = array();
-				foreach($posts as $post){
-					$id = apply_filters( 'wpml_object_id', $post->ID, "glossary", FALSE, $originalLanguage );
-					if($id != NULL)
-						$postIds[] = intval($id);
-					else
-						$notTranslated[] = intval($post->ID);
+				foreach ( $posts as $post ) {
+					$id = apply_filters( 'wpml_object_id', $post->ID, 'glossary', false, $originalLanguage );
+					if ( $id != null ) {
+						$postIds[] = intval( $id );
+					} else { $notTranslated[] = intval( $post->ID );
+					}
 				}
-				$postIds = array_unique($postIds);
-				$notTranslated = array_unique($notTranslated);
-				$notTranslated = array_diff($notTranslated,$postIds);
+				$postIds = array_unique( $postIds );
+				$notTranslated = array_unique( $notTranslated );
+				$notTranslated = array_diff( $notTranslated,$postIds );
 				$outPosts = array();
 
-				if(count($postIds) > 0){
+				if ( count( $postIds ) > 0 ) {
 					$argsP = array(
 						'post__in'				=> $postIds,
 						'orderby'				=> 'title',
 						'order'					=> 'ASC',
-						"suppress_filters"		=> true,
+						'suppress_filters'		=> true,
 						'post_type'				=> 'glossary',
 						'post_status'			=> 'publish',
 						'posts_per_page'		=> 25,
 						'ignore_sticky_posts'	=> true,
 					);
-					if(empty($postIds)){ // Remove empty array to avoid MySQL error
-						unset($argsP['post__in']);
+					if ( empty( $postIds ) ) { // Remove empty array to avoid MySQL error
+						unset( $argsP['post__in'] );
 					}
-					$postsQueried = get_posts($argsP);
-					foreach($postsQueried as $post){
+					$postsQueried = get_posts( $argsP );
+					foreach ( $postsQueried as $post ) {
 						$outPosts[] = array(
-							"slug"		=> $post->post_name,
-							"content"	=> wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
-							"title"     => $post->post_title,
-							"id"		=> $post->ID,
-							"thislang"	=> true
+							'slug'		=> $post->post_name,
+							'content'	=> wp_trim_words( wp_strip_all_tags( (isset( $post->post_excerpt )&&$post->post_excerpt)?$post->post_excerpt:$post->post_content ), 50, '...' ),
+							'title'     => $post->post_title,
+							'id'		=> $post->ID,
+							'thislang'	=> true,
 						);
 					}
 				}
 
-				if(count($notTranslated) > 0){
+				if ( count( $notTranslated ) > 0 ) {
 					$argsP = array(
 						'post__in'				=> $notTranslated,
 						'orderby'				=> 'title',
 						'order'					=> 'ASC',
-						"suppress_filters"		=> true,
+						'suppress_filters'		=> true,
 						'post_type'				=> 'glossary',
 						'post_status'			=> 'publish',
 						'posts_per_page'		=> 25,
 						'ignore_sticky_posts'	=> true,
 					);
-					if(empty($notTranslated)){ // Remove empty array to avoid MySQL error
-						unset($argsP['post__in']);
+					if ( empty( $notTranslated ) ) { // Remove empty array to avoid MySQL error
+						unset( $argsP['post__in'] );
 					}
-					$postsQueried = get_posts($argsP);
-					foreach($postsQueried as $post){
+					$postsQueried = get_posts( $argsP );
+					foreach ( $postsQueried as $post ) {
 						$outPosts[] = array(
-							"slug"		=> $post->post_name,
-							"content"	=> wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
-							"title"     => $post->post_title,
-							"id"		=> $post->ID,
-							"thislang"	=> false
+							'slug'		=> $post->post_name,
+							'content'	=> wp_trim_words( wp_strip_all_tags( (isset( $post->post_excerpt )&&$post->post_excerpt)?$post->post_excerpt:$post->post_content ), 50, '...' ),
+							'title'     => $post->post_title,
+							'id'		=> $post->ID,
+							'thislang'	=> false,
 						);
 					}
 				}
 				$posts = $outPosts;
 			} else {
 				$outPosts = array();
-				$posts = get_posts($args);
-				foreach($posts as $post){
+				$posts = get_posts( $args );
+				foreach ( $posts as $post ) {
 					$outPosts[] = array(
-						"slug"		=> $post->post_name,
-						"content"	=> wp_trim_words(wp_strip_all_tags((isset($post->post_excerpt)&&$post->post_excerpt)?$post->post_excerpt:$post->post_content), 50, '...'),
-						"title"		=> $post->post_title,
-						"id"		=> $post->ID,
+						'slug'		=> $post->post_name,
+						'content'	=> wp_trim_words( wp_strip_all_tags( (isset( $post->post_excerpt )&&$post->post_excerpt)?$post->post_excerpt:$post->post_content ), 50, '...' ),
+						'title'		=> $post->post_title,
+						'id'		=> $post->ID,
 					);
 				}
 				$posts = $outPosts;
-			}
+			}// End if().
 			return $posts;
 		}
 
-		public function get_terms_list_ajax(){
+		public function get_terms_list_ajax() {
 			$output = array(
-				"terms" => $this->searchTerms(array(
+				'terms' => $this->searchTerms(array(
 					'post_type'			=> 'glossary',
 					'post_status'		=> 'publish',
 					'posts_per_page'	=> 25,
 					'orderby'       	=> 'title',
 					'order'         	=> 'ASC',
-					's'             	=> $_POST["search"],
-					'suppress_filters'	=> false
+					's'             	=> $_POST['search'],
+					'suppress_filters'	=> false,
 				)),
-				"searched" => $_POST["search"],
+				'searched' => $_POST['search'],
 			);
-			wp_send_json_success($output);
+			wp_send_json_success( $output );
 			return;
 		}
-		public function get_term_details_ajax(){
+		public function get_term_details_ajax() {
 			// Sanity and security checks:
-			//  - we have a termid (post id)
-			//  - it is post of type 'glossary' (don't display other post types!)
-			//  - it has a valid post status and current user can read it.
+			// - we have a termid (post id)
+			// - it is post of type 'glossary' (don't display other post types!)
+			// - it has a valid post status and current user can read it.
 			$statii = array( 'publish', 'private' );
 			$term   = null;
-			if( isset($_POST['termid']) && $termid=$_POST['termid'] ){
+			if ( isset( $_POST['termid'] ) && $termid = $_POST['termid'] ) {
 				$termid = intval( $termid );
-				if( function_exists('icl_object_id')){
-					if(!(isset($_POST["disable_auto_translation"]) && $_POST["disable_auto_translation"])){
-						$termid = apply_filters( 'wpml_object_id', $termid, "glossary", true, apply_filters( 'wpml_current_language', NULL ) );
+				if ( function_exists( 'icl_object_id' ) ) {
+					if ( ! (isset( $_POST['disable_auto_translation'] ) && $_POST['disable_auto_translation']) ) {
+						$termid = apply_filters( 'wpml_object_id', $termid, 'glossary', true, apply_filters( 'wpml_current_language', null ) );
 					}
 				}
 				$termob = get_post( $termid );
-				if( get_post_type($termob) && get_post_type($termob) == "glossary" && in_array($termob->post_status, $statii) ){
+				if ( get_post_type( $termob ) && get_post_type( $termob ) == 'glossary' && in_array( $termob->post_status, $statii ) ) {
 					$term = $termob;
 				}
 			}
 
 			// Fail if no term found (either due to bad set up, or someone trying to be sneaky!)
-			if( !$term )
+			if ( ! $term ) {
 				wp_send_json_error();
+			}
 
 			// Title
 			$title = $term->post_title;
 
 			// Don't display private terms
-			if( $termob->post_status == 'private' && !current_user_can('read_private_posts') ){
-				wp_send_json_success( array('title'=>$title, 'content'=>'<p>'.__('Private glossary term', 'ithoughts-tooltip-glossary' ).'</p>') );
+			if ( $termob->post_status == 'private' && ! current_user_can( 'read_private_posts' ) ) {
+				wp_send_json_success( array(
+					'title' => $title,
+					'content' => '<p>' . __( 'Private glossary term', 'ithoughts-tooltip-glossary' ) . '</p>',
+				) );
 			}
 
 			// Don't display password protected items.
-			if( post_password_required($termid) ){
-				wp_send_json_success( array('title'=>$title, 'content'=>'<p>'.__('Protected glossary term', 'ithoughts-tooltip-glossary' ).'</p>') );
+			if ( post_password_required( $termid ) ) {
+				wp_send_json_success( array(
+					'title' => $title,
+					'content' => '<p>' . __( 'Protected glossary term', 'ithoughts-tooltip-glossary' ) . '</p>',
+				) );
 			}
 
 			// Content
 			// Merge with static shortcode method
-			switch( $_POST['content'] ){
+			switch ( $_POST['content'] ) {
 				case 'full':{
-					$content = apply_filters('ithoughts_tt_gl-term-content', $termob);
+					$content = apply_filters( 'ithoughts_tt_gl-term-content', $termob );
 				}break;
 
 				case 'excerpt':{
-					$content = apply_filters("ithoughts_tt_gl-term-excerpt", $termob);
+					$content = apply_filters( 'ithoughts_tt_gl-term-excerpt', $termob );
 				}break;
 
 				case 'off':{
-					$content = "";
+					$content = '';
 				}break;
 			}
 
 			// No content found, assume due to clash in settings and fetch full post content just in case.
-			if( empty($content) )
+			if ( empty( $content ) ) {
 				$content = $term->post_content ;
-			if( empty($content) )
-				$content = '<p>'.__('No content', 'ithoughts-tooltip-glossary' ).'...</p>';
+			}
+			if ( empty( $content ) ) {
+				$content = '<p>' . __( 'No content', 'ithoughts-tooltip-glossary' ) . '...</p>';
+			}
 
-
-			wp_send_json_success( array('title'=>$title, 'content'=>$content) );
+			wp_send_json_success( array(
+				'title' => $title,
+				'content' => $content,
+			) );
 		}
 	}
-}
+}// End if().

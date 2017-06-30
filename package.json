@@ -1,6 +1,6 @@
 {
   "name": "ithoughts-tooltip-glossary",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Create beautiful tooltips for descriptions or glossary terms easily",
   "directories": {
     "test": "test"
@@ -73,7 +73,7 @@
     "grunt-jsdoc": "^2.1.0",
     "grunt-jslint": "^1.1.14",
     "grunt-lesslint": "^4.0.0",
-    "grunt-phpcs": "^0.4.0",
+    "grunt-phpcbf": "^0.1.1",
     "grunt-phpdoc": "^1.0.0",
     "grunt-phplint": "^0.1.0",
     "grunt-postcss": "^0.8.0",
