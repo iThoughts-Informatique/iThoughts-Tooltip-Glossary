@@ -13,7 +13,7 @@
 namespace ithoughts\tooltip_glossary;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	 status_header( 403 );wp_die("Forbidden");// Exit if accessed directly
 }
 
 if ( ! class_exists( __NAMESPACE__ . '\\AutoLink' ) ) {

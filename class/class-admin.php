@@ -17,7 +17,9 @@ namespace ithoughts\tooltip_glossary;
 use \ithoughts\v5_0\Toolbox as TB;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	// Exit if accessed directly.
+	status_header( 403 );
+	wp_die( 'Forbidden' );
 }
 
 
@@ -83,7 +85,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				if ( $backbone->get_option( 'version' ) === -1 ) {
 					$backbone->set_option( 'version',$this->current_version );
 				} elseif ( $this->is_under_versionned() ) {
-					$backbone->log( \ithoughts\v5_0\LogLevel::Warn, "Plugin settings are under versionned. Installed version is {$plugindata['Version']}, and config is {$backbone->get_option( 'version' )}" );
+					$backbone->log( \ithoughts\v5_0\LogLevel::WARN, "Plugin settings are under versionned. Installed version is {$plugindata['Version']}, and config is {$backbone->get_option( 'version' )}" );
 					// Create the updater.
 					require_once( $backbone->get_base_class_path() . '/class-updater.php' );
 					$this->updater = new Updater( $backbone->get_option( 'version' ), $this->current_version, $this );
@@ -91,7 +93,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					// Do we need to apply a particular update process?
 					if ( $this->updater->requires_update() ) {
 						// If an update is required, apply it.
-						$backbone->log( \ithoughts\v5_0\LogLevel::Info, "An update process is available to step to {$plugindata['Version']}." );
+						$backbone->log( \ithoughts\v5_0\LogLevel::INFO, "An update process is available to step to {$plugindata['Version']}." );
 						// Show the update message.
 						$this->updater->add_admin_notice();
 					} else {
@@ -831,7 +833,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					case 'tooltip':{
 						$data['tooltip_content'] = inner_attr(
 							isset( $data['tooltip_content'] ) ? $data['tooltip_content'] : ''
-						, false);
+							, false);
 					} break;
 
 					case 'mediatip':{
@@ -1365,7 +1367,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		public function theme_editor() {
 			if ( ! current_user_can( 'edit_theme_options' ) ) {
-				// TODO Throw 403.
+				status_header( 403 );
+				wp_die( 'Forbidden' );
 			}
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$action = 'load';
@@ -1397,7 +1400,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 ?><div class="notice notice-error"><p><?php
 				esc_html_e( 'Error while generating the theme editor: ', 'ithoughts-tooltip-glossary' );
 				echo esc_html( $themedata['error'] );
-echo esc_html( $ret['error'] ); ?></p></div><?php
+				echo esc_html( $ret['error'] ); ?></p></div><?php
 			}
 
 			/* Add required scripts for WordPress Spoilers (AKA PostBox) */
@@ -1464,8 +1467,8 @@ echo esc_html( $ret['error'] ); ?></p></div><?php
 						),
 					)
 				),
-																							  );
-																							  require $backbone->get_base_path() . '/templates/dist/customizing_form.php';
+			);
+			require $backbone->get_base_path() . '/templates/dist/customizing_form.php';
 		}
 
 		/**
@@ -1507,6 +1510,19 @@ echo esc_html( $ret['error'] ); ?></p></div><?php
 					'error' => __( 'No matching file found. Try to load another theme', 'ithoughts-tooltip-glossary' ),
 				);
 			}
+
+
+			/*$url = wp_nonce_url("itg-load-theme?theme_name=$themename",'itg-load-theme');
+			if (false === ($creds = request_filesystem_credentials($url, '', false, false, null) ) ) {
+				return; // stop processing here.
+			} else {
+				if ( ! \WP_Filesystem($creds) ) {
+					request_filesystem_credentials($url, '', true, false, null);
+					return;
+				}
+			}*/
+
+
 
 			$content = file_get_contents( $theme_infos['absdir'] . '/' . $file );
 
@@ -1634,7 +1650,7 @@ echo esc_html( $ret['error'] ); ?></p></div><?php
 				if ( strlen( $line ) > 0 ) {
 					$indented .= str_repeat( $indent, $indent_level ) . $line . PHP_EOL;
 				} else { $indented .= PHP_EOL;
-				}
+					   }
 				$indent_level += preg_match( '/\{(\s*(\\/\\*.*\\*\\/)*)*$/',$line );
 			}
 			return preg_replace( "/[\n\r\s]*$/",'',$indented );

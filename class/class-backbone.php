@@ -17,7 +17,7 @@ use \ithoughts\v5_0\Resource as Resource;
 use \ithoughts\v5_0\LogLevel as LogLevel;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	 status_header( 403 );wp_die("Forbidden");// Exit if accessed directly
 }
 
 
@@ -149,15 +149,15 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 					),
 				),
 				'verbosity'	=> array(
-					'default'		=> LogLevel::Error,
+					'default'		=> LogLevel::ERROR,
 					'serversideOverride'	=> false,// If required once, required everywhere
 					'cliensideOverride'	=> false,// Not a js data
 					'accepted'		=> array(
-						LogLevel::Silent,
-						LogLevel::Error,
-						LogLevel::Warn,
-						LogLevel::Info,
-						LogLevel::Silly,
+						LogLevel::SILENT,
+						LogLevel::ERROR,
+						LogLevel::WARN,
+						LogLevel::INFO,
+						LogLevel::SILLY,
 					),
 				),
 				'anim_in'		=> array(
@@ -233,7 +233,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				$tail = ' in DEBUG mode';
 			}
-			$this->log( LogLevel::Silly, "Loaded plugin iThoughts Tooltip Glossary v{$this->get_option('version')}$tail." );
+			$this->log( LogLevel::SILLY, "Loaded plugin iThoughts Tooltip Glossary v{$this->get_option('version')}$tail." );
 
 			$this->register_post_types();
 			$this->register_taxonmies();
