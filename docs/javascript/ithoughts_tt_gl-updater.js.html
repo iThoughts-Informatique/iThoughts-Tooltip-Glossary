@@ -37,11 +37,11 @@
  * @version 2.7.0
  */
 
+'use strict';
+
 /* global postboxes:false, iThoughtsTooltipGlossaryUpdater: false */
 
-iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 ( function selfCalling( ithoughts ) {
-	'use strict';
 
 	var $		= ithoughts.$,
 		qs		= ithoughts.qs,
@@ -50,8 +50,23 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 		progress,
 		text,
 		initData,
-		verboseArea;
+		verboseArea,
+		updaterSection;
 	delete updater.pagenow;
+
+	function printError( error, data ) {
+		verboseArea = `&lt;div class="update-nag error">\
+&lt;p>An error occured during the update. Please see below for details&lt;/p>\
+&lt;/div>\
+&lt;div class="verboseContainer postbox">\
+&lt;div class="handlediv">&lt;/div>&lt;h4 class="hndle ui-sortable-handle">Logs&lt;/h4>\
+&lt;div class="inside">\
+&lt;pre class="verboseArea">${ error.stack }\
+Response from server: ${ JSON.stringify( data, null, 4 ) }&lt;/pre>\
+&lt;/div>\
+&lt;/div>`;
+		updaterSection.append( verboseArea );
+	}
 
 	function runUpdate( progression ) {
 		$.post( iThoughtsTooltipGlossary.admin_ajax, {
@@ -59,37 +74,44 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 			data:   {
 				versions:       updater,
 				progression:    progression,
-				maxAdvandement: initData.max,
+				maxAdvancement: initData.max,
 			},
 		}, function onUpdateRun( out ) {
 			if ( verboseArea.parentElement.scrollTop > ( verboseArea.parentElement.scrollHeight - verboseArea.parentElement.clientHeight ) - 50 ) {
 				verboseArea.parentElement.scrollTop = verboseArea.parentElement.scrollHeight;
 			}
 			var scrollValOld = ( verboseArea.parentElement.scrollHeight - verboseArea.parentElement.clientHeight );
-			progress.value = out.data.progression;
-			text.innerHTML = progress.value + '/' + initData.max + ' (&lt;em>' + ( parseInt(( progress.value / initData.max ) * 100 ) + '' ).slice( 0, 3 ) + '%&lt;/em>)';
-			if ( out.data.verbose ) {
-				for ( var i = 0, j = out.data.verbose.length; i &lt; j; i++ ) {
-					$( verboseArea ).append( $.parseHTML( '&lt;p class="' + out.data.verbose[i].type + '">' + out.data.verbose[i].text + '&lt;/p>' ));
-				}
-			}
-			if ( verboseArea.parentElement.scrollTop > scrollValOld - 50 ) {
-				verboseArea.parentElement.scrollTop = verboseArea.parentElement.scrollHeight;
-			}
-			if ( out.data.progression &lt; initData.max ) {
-				runUpdate( out.data.progression );
-			} else {
-				updater.from = initData.targetversion;
-				jQuery.post( iThoughtsTooltipGlossary.admin_ajax, {
-					action: 'ithoughts_tt_gl_update_done',
-					data:   {
-						newversion: updater.from,
-					},
-				}, function onUpdateDone( out ) {
-					if ( out.success )						{
-						initUpdate( updater ); 
+			try {
+				progress.value = out.data.progression;
+				text.innerHTML = `${ progress.value  }/${  initData.max  } (&lt;em>${  ( `${ parseInt(( progress.value / initData.max ) * 100 )  }` ).slice( 0, 3 )  }%&lt;/em>)`;
+				if ( out.data.verbose ) {
+					for ( var i = 0, j = out.data.verbose.length; i &lt; j; i++ ) {
+						$( verboseArea ).append( $.parseHTML( `&lt;p class="${  out.data.verbose[i].type  }">${  out.data.verbose[i].text  }&lt;/p>` ));
 					}
-				});
+				}
+				if ( verboseArea.parentElement.scrollTop > scrollValOld - 50 ) {
+					verboseArea.parentElement.scrollTop = verboseArea.parentElement.scrollHeight;
+				}
+				if ( out.data.progression &lt; initData.max ) {
+					runUpdate( out.data.progression );
+				} else {
+					updater.from = initData.targetversion;
+					ithoughts.$.post( iThoughtsTooltipGlossary.admin_ajax, {
+						action: 'ithoughts_tt_gl_update_done',
+						data:   {
+							newversion: updater.from,
+						},
+					}, function onUpdateDone( serverResponse ) {
+						if ( serverResponse.success ) {
+							initUpdate( updater );
+						} else {
+							var messageEnd = `&lt;hr/>&lt;h4>${ out.data.title }&lt;/h4>&lt;p>${ out.data.text }&lt;/p>`;
+							updaterSection.append( messageEnd );
+						}
+					});
+				}
+			} catch ( e ) {
+				printError( e, out );
 			}
 		});
 	}
@@ -100,36 +122,41 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 			data:   {
 				versions:       versions,
 				progression:    -1,
-				maxAdvandement: -1,
+				maxAdvancement: -1,
 			},
 		}, function onUpdateInit( out ) {
-			var updaterSection = $( '#Updater' );
-
-			verboseArea = '&lt;div class="verboseContainer postbox closed">&lt;div class="handlediv" title="Cliquer pour inverser.">&lt;/div>&lt;h4 class="hndle ui-sortable-handle">Logs&lt;/h4>&lt;div class="inside">&lt;pre class="verboseArea">';
-			if ( out.data.verbose ) {
-				for ( var i = 0, j = out.data.verbose.length; i &lt; j; i++ ) {
-					verboseArea += '&lt;p class="' + out.data.verbose[i].type + '">' + out.data.verbose[i].text + '&lt;/p>';
+			updaterSection = $( '#Updater' );
+			try {
+				if ( 'undefined' === typeof out || 'undefined' === typeof out.data ) {
+					throw new Error( 'Empty server response' );
 				}
-			}
-			verboseArea += '&lt;/pre>&lt;/div>&lt;/div>';
-			postboxes.add_postbox_toggles( pagenow );
-			if ( out.data.Ended ) {
-				updaterSection.append( $.parseHTML( '&lt;article data-version="ended">&lt;h3>' + out.data.title + '&lt;/h3>&lt;p class="updatedescription">' + out.data.text + '&lt;/p>&lt;/article>' ));
-				postboxes.add_postbox_toggles( pagenow );
-			} else {
-				updaterSection.append( $.parseHTML( '&lt;article data-version="' + out.data.targetversion + '">&lt;h3>V' + out.data.targetversion + '&lt;/h3>&lt;p class="updatedescription">' + out.data.text + '&lt;/p>&lt;progress class="updateprogress" min="0" max="' + out.data.max + '" value="0">&lt;/progress>&lt;span class="updateprogresstext">0/' + out.data.max + ' (&lt;em>0%&lt;/em>)&lt;/span>' + verboseArea + '&lt;/article>' ));
-				postboxes.add_postbox_toggles( pagenow );
-				initData = out.data;
-				progress = qs( '[data-version="' + out.data.targetversion + '"] .updateprogress' );
-				text = qs( '[data-version="' + out.data.targetversion + '"] .updateprogresstext' );
-				verboseArea = qs( '[data-version="' + out.data.targetversion + '"] .verboseArea' );
+				verboseArea = '&lt;div class="verboseContainer postbox closed">&lt;div class="handlediv" title="Cliquer pour inverser.">&lt;/div>&lt;h4 class="hndle ui-sortable-handle">Logs&lt;/h4>&lt;div class="inside">&lt;pre class="verboseArea">';
+				if ( out.data.verbose ) {
+					for ( var i = 0, j = out.data.verbose.length; i &lt; j; i++ ) {
+						verboseArea += `&lt;p class="${  out.data.verbose[i].type  }">${  out.data.verbose[i].text  }&lt;/p>`;
+					}
+				}
+				verboseArea += '&lt;/pre>&lt;/div>&lt;/div>';
+				if ( out.data.Ended ) {
+					updaterSection.append( $.parseHTML( `&lt;article data-version="ended">&lt;h3>${  out.data.title  }&lt;/h3>&lt;p class="updatedescription">${  out.data.text  }&lt;/p>&lt;/article>` ));
+					postboxes.add_postbox_toggles( pagenow );
+				} else {
+					updaterSection.append( $.parseHTML( `&lt;article data-version="${  out.data.targetversion  }">&lt;h3>V${  out.data.targetversion  }&lt;/h3>&lt;p class="updatedescription">${  out.data.text  }&lt;/p>&lt;progress class="updateprogress" min="0" max="${  out.data.max  }" value="0">&lt;/progress>&lt;span class="updateprogresstext">0/${  out.data.max  } (&lt;em>0%&lt;/em>)&lt;/span>${  verboseArea  }&lt;/article>` ));
+					postboxes.add_postbox_toggles( pagenow );
+					initData = out.data;
+					progress = qs( `[data-version="${  out.data.targetversion  }"] .updateprogress` );
+					text = qs( `[data-version="${  out.data.targetversion  }"] .updateprogresstext` );
+					verboseArea = qs( `[data-version="${  out.data.targetversion  }"] .verboseArea` );
 
-				runUpdate( 0 );
+					runUpdate( 0 );
+				}
+			} catch ( e ) {
+				printError( e, out );
 			}
 		});
 	}
 	initUpdate( updater );
-})( Ithoughts.v4 );
+})( iThoughts.v5 );
 </code></pre>
         </article>
     </section>
@@ -146,7 +173,7 @@ iThoughtsTooltipGlossary = iThoughtsTooltipGlossary || {};
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Jun 26 2017 15:04:55 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Jul 05 2017 15:23:10 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

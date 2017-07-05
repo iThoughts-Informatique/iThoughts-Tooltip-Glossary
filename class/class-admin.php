@@ -22,7 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Forbidden' );
 }
 
-
 if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 	/**
 	 * Main class for iThoughts Tooltip Glossary backend
@@ -68,12 +67,34 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		}
 
 		/**
+		 * Opens a connection with the filesystem. Once done, you can write & read files
+		 * @param  [[Type]] $url             [[Description]]
+		 * @param  [[Type]] $method          [[Description]]
+		 * @param  [[Type]] $context         [[Description]]
+		 * @param  [[Type]] [$fields = null] [[Description]]
+		 * @return boolean  True if connection is successful, false otherwise
+		 */
+		public function connect_fs( $url, $method, $context, $fields = null ) {
+			global $wp_filesystem;
+			if ( false === ($credentials = request_filesystem_credentials( $url, $method, false, $context, $fields )) ) {
+				return false;
+			}
+
+			// check if credentials are correct or not.
+			if ( ! WP_Filesystem( $credentials ) ) {
+				request_filesystem_credentials( $url, $method, true, $context );
+				return false;
+			}
+
+			return true;
+		}
+		/**
 		 * Trigger check to see if update steps are available. Include and create an {@link \ithoughts\tooltip_glossary\Updater Updater} instance if required.
 		 *
 		 * @throws \Exception Throws an Exception if the plugin was unable to read its own informations.
 		 * @author Gerkin
 		 */
-		public function set_version() {
+		public function set_version() {			
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			try {
 				$plugindata = get_plugin_data( $backbone->get_base_path() . '/ithoughts_tooltip_glossary.php' );
@@ -1290,13 +1311,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$no_groups = (new \WP_Query(array(
 				'post_type'			=> 'glossary',
 				'post_status'		=> 'publish',
-				'tax_query' => array(array(
-					'taxonomy' => 'glossary_group',
-					'field' => 'term_id',
-					'operator' => 'NOT IN',
-					'terms' => extract_terms_ids( $groups ),
+				'tax_query' => array( // WPCS: tax_query ok.
+					array(
+						'taxonomy' => 'glossary_group',
+						'field' => 'term_id',
+						'operator' => 'NOT IN',
+						'terms' => extract_terms_ids( $groups ),
+					),
 				),
-									),
 			)))->post_count;
 
 			$inputs = array(
@@ -1511,8 +1533,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				);
 			}
 
-
-			/*$url = wp_nonce_url("itg-load-theme?theme_name=$themename",'itg-load-theme');
+			/*
+			$url = wp_nonce_url("itg-load-theme?theme_name=$themename",'itg-load-theme');
 			if (false === ($creds = request_filesystem_credentials($url, '', false, false, null) ) ) {
 				return; // stop processing here.
 			} else {
@@ -1521,8 +1543,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					return;
 				}
 			}*/
-
-
 
 			$content = file_get_contents( $theme_infos['absdir'] . '/' . $file );
 

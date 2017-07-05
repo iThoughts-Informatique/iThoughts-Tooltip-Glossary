@@ -28,6 +28,11 @@ module.exports = function gruntInit( grunt ) {
 				},
 			},
 		},
+		jsPaths = [
+			'js/**/*.js',
+			'!js/**/*.min.js',
+			'tests/**/*.js',
+		],
 		gruntLocalconfig = require('./grunt_localconfig.json');
 
 	const gruntConfig = {
@@ -80,7 +85,7 @@ module.exports = function gruntInit( grunt ) {
 		},
 		jsdoc: {
 			dist: {
-				src:     [ 'js/*.js' ],
+				src:     jsPaths,
 				options: {
 					private:     true,
 					destination: jsDocPath,
@@ -233,11 +238,7 @@ module.exports = function gruntInit( grunt ) {
 		},
 		docco: {
 			debug: {
-				src: [
-					'js/*.js',
-					'!js/*.min.js',
-					'tests/**/*.js',
-				],
+				src: jsPaths,
 				options: {
 					output: `${jsDocPath}/docco`,
 				},
