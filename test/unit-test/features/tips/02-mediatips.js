@@ -9,7 +9,7 @@ fs.changeWorkingDirectory( curFilePath.join( '/' ));
 var casper = require( './initCasper.js' );
 var config = casper.config;
 
-function doTrigger(selector, trigger) {
+function doTrigger( selector, trigger ) {
 	if ( 'click' === trigger ) {
 		casper.click( selector );
 	} else {
@@ -45,7 +45,7 @@ casper.start( config.test_site.site_url + '/wp-admin', function start() {
 		doTrigger( '.itg-mediatip[data-hasqtip="0"] a', trigger );
 	});
 	target = '.qtip.itg-mediatip#qtip-0';
-	this.waitForSelector( target, (function(){
+	this.waitForSelector( target, ( function() {
 		var t = target;
 		return function foundTip() {
 			if ( !this.visible( t )) {
@@ -60,7 +60,7 @@ casper.start( config.test_site.site_url + '/wp-admin', function start() {
 				return this.triggerError( 1, 'Tooltip isn\'t properly configured' );
 			}
 			if ( this.getElementInfo( t + ' .qtip-titlebar' ).text !== 'mediatip' ) {
-				console.log('"'+this.getElementInfo( t + ' .qtip-titlebar' ).text+'"');
+				console.log( '"'+this.getElementInfo( t + ' .qtip-titlebar' ).text+'"' );
 				return this.triggerError( 1, 'Wrong title in title bar' );
 			}
 			if ( this.getElementInfo( t + ' .qtip-content' ).text !== 'This is the caption' ) {
@@ -71,7 +71,7 @@ casper.start( config.test_site.site_url + '/wp-admin', function start() {
 		};
 	})());
 	target = '.qtip.itg-mediatip#qtip-0';
-	this.waitForSelector( target, (function(){
+	this.waitForSelector( target, ( function() {
 		var t = target;
 		return function foundTip() {
 			if ( !this.visible( t )) {

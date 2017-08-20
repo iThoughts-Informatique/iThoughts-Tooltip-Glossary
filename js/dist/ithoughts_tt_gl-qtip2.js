@@ -189,7 +189,8 @@
 					var ajaxPostData = {
 						action: 'ithoughts_tt_gl_get_term_details',
 						content: termcontent,
-						termid: $tooltipSpan.data()['termid']
+						termid: $tooltipSpan.data()['termid'],
+						_ajax_nonce: itg.nonce
 					};
 					// If WPML is installed, the tooltip editor allow the user to check the *disable auto translation* option, and this option should be used when querying the API
 					if ('true' === $tooltipSpan.data('disable_auto_translation')) {
@@ -206,13 +207,15 @@
 							ajax: {
 								// Use the [admin_ajax](http://www.google.com) endpoint provided by wordpress
 								url: itg.admin_ajax,
-								type: 'POST',
+								type: 'GET',
 								// `ajaxPostData` was defined [above](#)
 								data: ajaxPostData,
-								dataType: 'json',
 								loading: false,
 								// Display the received content on success, or `Error`
 								success: function success(resp) {
+									if (resp.data && resp.data.refresh_nonce) {
+										itg.nonce = resp.data.refresh_nonce;
+									}
 									if (resp.success) {
 										this.set('content.title', resp.data.title);
 										this.set('content.text', resp.data.content);

@@ -47,7 +47,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 
 			// Filters.
 			add_filter( 'ithoughts_tt_gl_get_glossary_term_element', array( $this, 'ithoughts_tt_gl_get_glossary_term_element' ), 10, 3 );
-			add_filter( 'ithoughts_tt_gl-term-content', array( $this, 'termContent' ) );
+			add_filter( 'ithoughts_tt_gl_term_content', array( $this, 'termContent' ) );
 		}
 
 		/**
@@ -183,7 +183,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 
 				switch ( $termcontent ) {
 					case 'full':{
-						$content = apply_filters( 'ithoughts_tt_gl-term-content', $term );
+						$content = apply_filters( 'ithoughts_tt_gl_term_content', $term );
 					}break;
 
 					case 'excerpt':{

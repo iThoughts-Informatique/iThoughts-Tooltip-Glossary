@@ -311,6 +311,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 						),
 					),
 				),
+				'nonce'			=> wp_create_nonce( 'ithoughts_tt_gl-get_term_details' ),
 			) );
 			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'js/dist/ithoughts_tt_gl-atoz.js', array( 'jquery', 'ithoughts-core-v5' ) );
 			// Generate all Style resources.
@@ -357,19 +358,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		}
 
 		/**
-		 * Set up ajax hooks used by the plugin.
-		 * Public ajax hooks are:
-		 * 	* getting terms list (wp_ajax_ithoughts_tt_gl_get_terms_list & wp_ajax_nopriv_ithoughts_tt_gl_get_terms_list)
-		 * 	* getting term content (wp_ajax_ithoughts_tt_gl_get_term_details & wp_ajax_nopriv_ithoughts_tt_gl_get_term_details)
+		 * Set up ajax hooks used by both logged-in and non logged-in users for getting term details.
 		 *
 		 * @action init
 		 *
 		 * @author Gerkin
 		 */
 		public function ajax_hooks() {
-			add_action( 'wp_ajax_ithoughts_tt_gl_get_terms_list',			array( &$this, 'get_terms_list_ajax' ) );
-			add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_terms_list',	array( &$this, 'get_terms_list_ajax' ) );
-
 			add_action( 'wp_ajax_ithoughts_tt_gl_get_term_details',        array( &$this, 'get_term_details_ajax' ) );
 			add_action( 'wp_ajax_nopriv_ithoughts_tt_gl_get_term_details', array( &$this, 'get_term_details_ajax' ) );
 		}
@@ -403,12 +398,16 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		 * Load & instanciate all shortcode classes.
 		 */
 		private function add_shortcodes() {
+			// Tooltips.
 			require_once( $this->base_class_path . '/shortcode/class-tooltip.php' );
 			shortcode\Tooltip::get_instance();
 			require_once( $this->base_class_path . '/shortcode/class-mediatip.php' );
 			shortcode\Mediatip::get_instance();
 			require_once( $this->base_class_path . '/shortcode/class-glossary.php' );
 			shortcode\Glossary::get_instance();
+
+			// Lists.
+			require_once( $this->base_class_path . '/shortcode/class-glossarylist.php' );
 			require_once( $this->base_class_path . '/shortcode/class-atoz.php' );
 			shortcode\AtoZ::get_instance();
 			require_once( $this->base_class_path . '/shortcode/class-termlist.php' );
@@ -467,20 +466,20 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				if ( count( $anims_custom_in ) > 0 || count( $anims_custom_out ) > 0 ) {
 ?>
 <script id="ithoughts_tt_gl-custom-anims">iThoughtsTooltipGlossary.animationFunctions = jQuery.extend(!0,iThoughtsTooltipGlossary.animationFunctions,{<?php
-					if ( $anims_custom_in_count > 0 ) {
-						echo 'in:{';
-						foreach ( $anims_custom_in as $name => $anim_infos ) {
-							echo '"' . esc_js( $name ) . '":' . esc_js( $anim_infos['js'] ) . ',';
-						}
-						echo '},';
-					}
-					if ( $anims_custom_out_count > 0 ) {
-						echo 'out:{';
-						foreach ( $anims_custom_out as $name => $anim_infos ) {
-							echo '"' . esc_js( $name ) . '":' . esc_js( $anim_infos['js'] ) . ',';
-						}
-						echo '},';
-					}
+if ( $anims_custom_in_count > 0 ) {
+	echo 'in:{';
+	foreach ( $anims_custom_in as $name => $anim_infos ) {
+		echo '"' . esc_js( $name ) . '":' . esc_js( $anim_infos['js'] ) . ',';
+	}
+	echo '},';
+}
+if ( $anims_custom_out_count > 0 ) {
+	echo 'out:{';
+	foreach ( $anims_custom_out as $name => $anim_infos ) {
+		echo '"' . esc_js( $name ) . '":' . esc_js( $anim_infos['js'] ) . ',';
+	}
+	echo '},';
+}
 		?>});</script>
 <?php
 				}
@@ -572,13 +571,19 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			return $overridden;
 		}
 
-		public function searchTerms( $args ) {
-			$posts = array();
+		/**
+		 * Seach terms matching query, using WPML functions if available.
+		 *
+		 * @param  array $args Base query to execute.
+		 * @return array Matched posts
+		 */
+		public function search_terms( $args ) {
+			$out_posts = array();
 			if ( function_exists( 'icl_object_id' ) ) {// If WPML is installed...
 				$original_language = apply_filters( 'wpml_current_language', null );
 
 				$args['suppress_filters'] = true;
-				$posts = get_posts( $args );
+				$posts = (new \WP_Query( $args ))->get_posts();
 
 				$post_ids = array();
 				$not_translated = array();
@@ -593,7 +598,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				$post_ids = array_unique( $post_ids );
 				$not_translated = array_unique( $not_translated );
 				$not_translated = array_diff( $not_translated,$post_ids );
-				$out_posts = array();
 
 				if ( count( $post_ids ) > 0 ) {
 					$query = array(
@@ -609,7 +613,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 					if ( empty( $post_ids ) ) { // Remove empty array to avoid MySQL error.
 						unset( $query['post__in'] );
 					}
-					$posts_queried = get_posts( $query );
+					$posts_queried = (new \WP_Query( $query ))->get_posts();
 					foreach ( $posts_queried as $post ) {
 						$out_posts[] = array(
 							'slug'		=> $post->post_name,
@@ -632,86 +636,70 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 						'posts_per_page'		=> 25,
 						'ignore_sticky_posts'	=> true,
 					);
-					if ( empty( $not_translated ) ) { // Remove empty array to avoid MySQL error
+					if ( empty( $not_translated ) ) { // Remove empty array to avoid MySQL error.
 						unset( $query['post__in'] );
 					}
-					$posts_queried = get_posts( $query );
-					foreach ( $posts_queried as $post ) {
-						$out_posts[] = array(
-							'slug'		=> $post->post_name,
-							'content'	=> wp_trim_words( wp_strip_all_tags( (isset( $post->post_excerpt )&&$post->post_excerpt)?$post->post_excerpt:$post->post_content ), 50, '...' ),
-							'title'     => $post->post_title,
-							'id'		=> $post->ID,
-							'thislang'	=> false,
-						);
-					}
 				}
-				$posts = $out_posts;
 			} else {
-				$out_posts = array();
-				$posts = get_posts( $args );
-				foreach ( $posts as $post ) {
-					$out_posts[] = array(
-						'slug'		=> $post->post_name,
-						'content'	=> wp_trim_words( wp_strip_all_tags( (isset( $post->post_excerpt )&&$post->post_excerpt)?$post->post_excerpt:$post->post_content ), 50, '...' ),
-						'title'		=> $post->post_title,
-						'id'		=> $post->ID,
-					);
-				}
-				$posts = $out_posts;
+				$query = $args;
 			}// End if().
-			return $posts;
+			$posts_queried = (new \WP_Query( $query ))->get_posts();
+			foreach ( $posts_queried as $post ) {
+				$content = (isset( $post->post_excerpt ) && $post->post_excerpt) ? $post->post_excerpt : $post->post_content;
+				$new_post = array(
+					'slug'		=> $post->post_name,
+					'content'	=> wp_trim_words( wp_strip_all_tags( $content , 50, '...' ) ),
+					'title'     => $post->post_title,
+					'id'		=> $post->ID,
+				);
+				if ( function_exists( 'icl_object_id' ) ) {// If WPML is installed...
+					$new_post['thislang'] = false;
+				}
+				$out_posts[] = $new_post;
+			}
+			return $out_posts;
 		}
 
-		public function get_terms_list_ajax() {
-			$output = array(
-				'terms' => $this->searchTerms(array(
-					'post_type'			=> 'glossary',
-					'post_status'		=> 'publish',
-					'posts_per_page'	=> 25,
-					'orderby'       	=> 'title',
-					'order'         	=> 'ASC',
-					's'             	=> $_POST['search'],
-					'suppress_filters'	=> false,
-				)),
-				'searched' => $_POST['search'],
-			);
-			wp_send_json_success( $output );
-			return;
-		}
+		/**
+		 * Retrieve a single term by id.
+		 */
 		public function get_term_details_ajax() {
-			// Sanity and security checks:
-			// - we have a termid (post id)
-			// - it is post of type 'glossary' (don't display other post types!)
-			// - it has a valid post status and current user can read it.
+			/*
+			Sanity and security checks:
+			 - we have a termid (post id)
+			 - it is post of type 'glossary' (don't display other post types!)
+			 - it has a valid post status and current user can read it.
+			 */
+			check_ajax_referer( 'ithoughts_tt_gl-get_term_details' );
 			$statii = array( 'publish', 'private' );
 			$term   = null;
-			if ( isset( $_POST['termid'] ) && $termid = $_POST['termid'] ) {
-				$termid = intval( $termid );
+			if ( isset( $_GET['termid'] ) ) { // Input var okay.
+				$termid = absint( $_GET['termid'] ); // Input var okay.
 				if ( function_exists( 'icl_object_id' ) ) {
-					if ( ! (isset( $_POST['disable_auto_translation'] ) && $_POST['disable_auto_translation']) ) {
+					if ( ! (isset( $_GET['disable_auto_translation'] ) && 0 !== absint( $_GET['disable_auto_translation'] )) ) { // Input var okay.
 						$termid = apply_filters( 'wpml_object_id', $termid, 'glossary', true, apply_filters( 'wpml_current_language', null ) );
 					}
 				}
 				$termob = get_post( $termid );
-				if ( get_post_type( $termob ) && get_post_type( $termob ) == 'glossary' && in_array( $termob->post_status, $statii ) ) {
+				if ( get_post_type( $termob ) && 'glossary' === get_post_type( $termob ) && in_array( $termob->post_status, $statii, true ) ) {
 					$term = $termob;
 				}
 			}
 
-			// Fail if no term found (either due to bad set up, or someone trying to be sneaky!)
+			// Fail if no term found (either due to bad set up, or someone trying to be sneaky!).
 			if ( ! $term ) {
 				wp_send_json_error();
+				wp_die();
 			}
 
-			// Title
 			$title = $term->post_title;
-
-			// Don't display private terms
-			if ( $termob->post_status == 'private' && ! current_user_can( 'read_private_posts' ) ) {
+			$nonce = wp_create_nonce( 'ithoughts_tt_gl-get_term_details' );
+			// Don't display private terms.
+			if ( 'private' === $termob->post_status && ! current_user_can( 'read_private_posts' ) ) {
 				wp_send_json_success( array(
 					'title' => $title,
 					'content' => '<p>' . __( 'Private glossary term', 'ithoughts-tooltip-glossary' ) . '</p>',
+					'nonce_refresh' => $nonce,
 				) );
 			}
 
@@ -720,26 +708,29 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				wp_send_json_success( array(
 					'title' => $title,
 					'content' => '<p>' . __( 'Protected glossary term', 'ithoughts-tooltip-glossary' ) . '</p>',
+					'nonce_refresh' => $nonce,
 				) );
 			}
 
-			// Content
-			// Merge with static shortcode method
-			switch ( $_POST['content'] ) {
-				case 'full':{
-					$content = apply_filters( 'ithoughts_tt_gl-term-content', $termob );
-				}break;
+			// Merge with static shortcode method.
+			if ( isset( $_GET['content'] ) ) { // Input var okay.
+				$content_type = sanitize_text_field( wp_unslash( $_GET['content'] ) ); // Input var okay.
+				switch ( $content_type ) {
+					case 'full':{
+						$content = apply_filters( 'ithoughts_tt_gl_term_content', $termob );
+					}break;
 
-				case 'excerpt':{
-					$content = apply_filters( 'ithoughts_tt_gl_term_excerpt', $termob );
-				}break;
+					case 'excerpt':{
+						$content = apply_filters( 'ithoughts_tt_gl_term_excerpt', $termob );
+					}break;
 
-				case 'off':{
-					$content = '';
-				}break;
+					case 'off':{
+						$content = '';
+					}break;
+				}
 			}
 
-			// No content found, assume due to clash in settings and fetch full post content just in case.
+			// If content is empty, assume due to clash in settings and fetch full post content just in case.
 			if ( empty( $content ) ) {
 				$content = $term->post_content ;
 			}
@@ -750,7 +741,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			wp_send_json_success( array(
 				'title' => $title,
 				'content' => $content,
+				'nonce_refresh' => $nonce,
 			) );
+			wp_die();
 		}
 	}
 }// End if().

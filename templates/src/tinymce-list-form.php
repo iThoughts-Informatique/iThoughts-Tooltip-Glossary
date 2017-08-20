@@ -57,7 +57,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo json_encode( $groups ); ?>;
 									<tr>
 										<td>
 											<label for="letters">
-												<?php echo apply_filters( 'ithoughts-tt-gl_tooltip', esc_html__( 'Letters', 'ithoughts-tooltip-glossary' ), esc_html__( 'Letters to be displayed in the list. If not specified, all letters will be displayed', 'ithoughts-tooltip-glossary' ) ); ?>
+												<?php echo apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Letters', 'ithoughts-tooltip-glossary' ), esc_html__( 'Letters to be displayed in the list. If not specified, all letters will be displayed', 'ithoughts-tooltip-glossary' ) ); ?>
 											</label>
 										</td>
 										<td>
@@ -67,7 +67,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo json_encode( $groups ); ?>;
 									<tr>
 										<td>
 											<label for="groups">
-												<?php echo apply_filters( 'ithoughts-tt-gl_tooltip', esc_html__( 'Groups', 'ithoughts-tooltip-glossary' ), esc_html( 'Glossary group(s) to list. If empty, any groups will be displayed', 'ithoughts-tooltip-glossary' ) ); ?>
+												<?php echo apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Groups', 'ithoughts-tooltip-glossary' ), esc_html( 'Glossary group(s) to list. If empty, any groups will be displayed', 'ithoughts-tooltip-glossary' ) ); ?>
 											</label>
 										</td>
 										<td>
@@ -119,7 +119,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo json_encode( $groups ); ?>;
 											<tr>
 												<td>
 													<label for="description_mode">
-														<?php echo apply_filters( 'ithoughts-tt-gl_tooltip', __( 'Description', 'ithoughts-tooltip-glossary' ), __( 'Description mode: Full/Excerpt/None', 'ithoughts-tooltip-glossary' ) ); ?>
+														<?php echo apply_filters( 'ithoughts_tt_gl_tooltip', __( 'Description', 'ithoughts-tooltip-glossary' ), __( 'Description mode: Full/Excerpt/None', 'ithoughts-tooltip-glossary' ) ); ?>
 													</label>
 												</td>
 												<td>
@@ -129,7 +129,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo json_encode( $groups ); ?>;
 											<tr>
 												<td>
 													<label for="columns_count">
-														<?php echo apply_filters( 'ithoughts-tt-gl_tooltip', esc_html__( 'Columns', 'ithoughts-tooltip-glossary' ), esc_html__( 'Number of columns to show for list', 'ithoughts-tooltip-glossary' ) ); ?>
+														<?php echo apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Columns', 'ithoughts-tooltip-glossary' ), esc_html__( 'Number of columns to show for list', 'ithoughts-tooltip-glossary' ) ); ?>
 													</label>
 												</td>
 												<td>

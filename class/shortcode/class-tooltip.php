@@ -36,7 +36,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 			add_action( 'wp_insert_post_data',  array( &$this, 'parse_pseudo_links_to_shortcode' ) );
 			add_action( 'edit_post',  array( &$this, 'convert_shortcodes' ) );
 
-			add_filter( 'ithoughts-tt-gl_tooltip', array( &$this, 'generateTooltip' ), 1000, 3 );
+			add_filter( 'ithoughts_tt_gl_tooltip', array( &$this, 'generateTooltip' ), 1000, 3 );
 		}
 
 		public function parse_pseudo_links_to_shortcode( $data ) {
@@ -56,7 +56,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 
 			$content = (isset( $datas['handled']['tooltip-content'] ) && $datas['handled']['tooltip-content']) ? $datas['handled']['tooltip-content'] : '';
 
-			return apply_filters( 'ithoughts-tt-gl_tooltip', $text, $content, $datas );
+			return apply_filters( 'ithoughts_tt_gl_tooltip', $text, $content, $datas );
 		}
 
 		/**
@@ -73,8 +73,10 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 			'attributes' => array(),
 		) ) {
 			// Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
-			if ( empty( $tip ) ) { $tip = $text;
+			if ( empty( $tip ) ) {
+				$tip = $text;
 			}
+			$tip = esc_attr($tip);
 
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$backbone->add_script( 'qtip' );

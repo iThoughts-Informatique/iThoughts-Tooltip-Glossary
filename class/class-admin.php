@@ -151,6 +151,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @author Gerkin
 		 */
 		public function ajax_hooks() {
+			add_action( 'wp_ajax_ithoughts_tt_gl_get_terms_list',			array( &$this, 'get_terms_list_ajax' ) );
+
 			add_action( 'wp_ajax_ithoughts_tt_gl_get_tinymce_tooltip_form',	array( &$this, 'get_tinymce_tooltip_form_ajax' ) );
 			add_action( 'wp_ajax_ithoughts_tt_gl_get_tinymce_list_form',	array( &$this, 'get_tinymce_list_form_ajax' ) );
 			add_action( 'wp_ajax_ithoughts_tt_gl_update_options',			array( &$this, 'update_options' ) );
@@ -435,6 +437,35 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			}
 			$version_diff = version_compare( $backbone->get_option( 'version' ), $this->current_version );
 			return -1 === $version_diff;
+		}
+
+		/**
+		 * Retrieve terms matching the string searched.
+		 */
+		public function get_terms_list_ajax() {
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+			if ( false === check_ajax_referer( 'ithoughts_tt_gl-get_terms_list', false, false ) ) {
+				wp_send_json_error(array(
+					'status' => 'error',
+					'reason' => 'nonce',
+				));
+				wp_die();
+			}
+			$output = array(
+				'terms' => $backbone->search_terms(array(
+					'post_type'			=> 'glossary',
+					'post_status'		=> 'publish',
+					'posts_per_page'	=> 25,
+					'orderby'       	=> 'title',
+					'order'         	=> 'ASC',
+					's'             	=> wp_unslash( $_POST['search'] ),// Input var okay.
+					'suppress_filters'	=> false,
+				)),
+				'searched' => $_POST['search'],
+				'nonce_refresh'	=> wp_create_nonce( 'ithoughts_tt_gl-get_terms_list' ),
+			);
+			wp_send_json_success( $output );
+			wp_die();
 		}
 
 		/**
@@ -861,20 +892,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					} break;
 				}
 			} catch ( Exception $e ) {
-				$data['type'] = 'tooltip';
-				$data['text'] = '';
-				$data['glossary_id'] = null;
-				$data['term_search'] = '';
-				$data['mediatip_type'] = $mediatiptypes_keys[0];
-				$data['mediatip_content_json'] = '';
-				$data['mediatip_content'] = '';
-				$data['tooltip_content'] = '';
+				$data = $default_data;
 			}
 
 			// Retrieve terms.
 			$terms = array();
-			if ( null === $data['glossary_id'] ) {
-				$terms = $backbone->searchTerms(array(
+			if ( null === $data['glossary']['id'] ) {
+				$terms = $backbone->search_terms(array(
 					'post_type'			=> 'glossary',
 					'post_status'		=> 'publish',
 					'orderby'			=> 'title',
@@ -884,7 +908,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					'suppress_filters'	=> false,
 				));
 			} else {
-				$post = get_post( $data['glossary_id'] );
+				$post = get_post( $data['glossary']['id'] );
 				$terms[] = array(
 					'slug'      => $post->post_name,
 					'content'   => wp_trim_words( wp_strip_all_tags( (isset( $post->post_excerpt )&&$post->post_excerpt)?$post->post_excerpt:$post->post_content ), 50, '...' ),

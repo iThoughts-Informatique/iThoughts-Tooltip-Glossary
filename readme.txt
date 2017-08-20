@@ -78,6 +78,14 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Changelog ==
 
+= 3.0.3=
+* UPD Renamed filters `ithoughts_tt_gl-term-content` & `ithoughts_tt_gl-term-excerpt` to `ithoughts_tt_gl_term_content` & `ithoughts_tt_gl_term_excerpt` (according to [WordPress naming conventions](https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/#naming-conventions))
+* UPD Improved security by adding nonces
+* UPD Expose ajax action `ithoughts_tt_gl_get_terms_list` to logged-in users only
+* FIX Avoid crash if the glossary id in shortcode isn't present or does not match any post (see [Catchable fatal error](https://wordpress.org/support/topic/catchable-fatal-error-76/) support ticket)
+* UPD Reduced tooltip link style selector weight (see [style for the tooltip word](https://wordpress.org/support/topic/style-for-the-tooltip-word/))
+* UPD Log file now contains file & line of log.
+
 = 3.0.2 =
 * FIX Singleton structure
 
@@ -94,7 +102,7 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 * UPD Resource management process reviewed
 
 = 2.7.0 =
-* NEW Support of QuickTags to use plugin shortcodes even in text mode (see [ist4000 request feature](https://wordpress.org/support/topic/buttons-in-the-text-mode/))
+* NEW Support of QuickTags to use plugin shortcodes even in text mode (see [ist4000 feature request](https://wordpress.org/support/topic/buttons-in-the-text-mode/))
 * UPD List form now more flexible
 * UPD Lists queries more performant
 * FIX Form styles improved

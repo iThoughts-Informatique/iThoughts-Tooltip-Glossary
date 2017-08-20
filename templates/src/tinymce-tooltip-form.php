@@ -52,6 +52,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 						<form>
+							<?php wp_nonce_field( 'ithoughts_tt_gl-get_terms_list' ) ?>
 							<div style="padding:10px;flex:0 0 auto;">
 								<table>
 									<tr>
@@ -311,7 +312,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<tr>
 												<td>
 													<label for="qtip-keep-open">
-														<?php echo apply_filters( 'ithoughts-tt-gl_tooltip', esc_html__( 'Delay tooltip hide', 'ithoughts-tooltip-glossary' ), esc_html__( 'Add a timer of 500ms before hiding the tooltip. This allow the user to click into the tip. This option is enabled by default for video mediatips.', 'ithoughts-tooltip-glossary' ) ); ?>
+														<?php echo apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Delay tooltip hide', 'ithoughts-tooltip-glossary' ), esc_html__( 'Add a timer of 500ms before hiding the tooltip. This allow the user to click into the tip. This option is enabled by default for video mediatips.', 'ithoughts-tooltip-glossary' ) ); ?>
 													</label>
 												</td>
 												<td>
@@ -362,7 +363,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<tr>
 												<td>
 													<label for="position_my">
-														<?php echo apply_filters( 'ithoughts-tt-gl_tooltip', esc_html__( 'Position of the tip', 'ithoughts-tooltip-glossary' ), esc_html__( 'Position of the sharp tip around the tooltip. By default, the main axis is vertical', 'ithoughts-tooltip-glossary' ) ); ?>
+														<?php echo apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Position of the tip', 'ithoughts-tooltip-glossary' ), esc_html__( 'Position of the sharp tip around the tooltip. By default, the main axis is vertical', 'ithoughts-tooltip-glossary' ) ); ?>
 													</label>
 												</td>
 												<td>
@@ -377,7 +378,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<tr>
 												<td>
 													<label for="position_at">
-														<?php echo apply_filters( 'ithoughts-tt-gl_tooltip', esc_html__( 'Position of the tooltip', 'ithoughts-tooltip-glossary' ), esc_html__( 'Position of the tooltip around the target area', 'ithoughts-tooltip-glossary' ) ); ?>
+														<?php echo apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Position of the tooltip', 'ithoughts-tooltip-glossary' ), esc_html__( 'Position of the tooltip around the target area', 'ithoughts-tooltip-glossary' ) ); ?>
 													</label>
 												</td>
 												<td>
@@ -402,7 +403,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<tr>
 												<td>
 													<label for="maxwidth">
-														<?php echo apply_filters( 'ithoughts-tt-gl_tooltip', esc_html__( 'Max width', 'ithoughts-tooltip-glossary' ), esc_html__( 'Maximum width of the tooltip. The default value of this property is 280px. Be carefull about this option: a too high value may overflow outside small devices.', 'ithoughts-tooltip-glossary' ) ); ?>
+														<?php echo apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Max width', 'ithoughts-tooltip-glossary' ), esc_html__( 'Maximum width of the tooltip. The default value of this property is 280px. Be carefull about this option: a too high value may overflow outside small devices.', 'ithoughts-tooltip-glossary' ) ); ?>
 													</label>
 												</td>
 												<td>
