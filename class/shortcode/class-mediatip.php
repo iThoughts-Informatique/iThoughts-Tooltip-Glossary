@@ -20,7 +20,8 @@
 namespace ithoughts\tooltip_glossary\shortcode;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );wp_die("Forbidden");// Exit if accessed directly
+	 status_header( 403 );
+	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 
 

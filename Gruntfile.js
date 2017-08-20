@@ -33,6 +33,13 @@ module.exports = function gruntInit( grunt ) {
 			'!js/**/*.min.js',
 			'tests/**/*.js',
 		],
+		phpFiles = {
+			src: [
+				'class/**/*.php',
+				'templates/src/**/*.php',
+				'*.php',
+			],
+		},
 		gruntLocalconfig = require('./grunt_localconfig.json');
 
 	const gruntConfig = {
@@ -230,12 +237,6 @@ module.exports = function gruntInit( grunt ) {
 				}],
 			},
 		},
-		phplint: {
-			check: [
-				'class/**/*.php',
-				'*.php',
-			],
-		},
 		docco: {
 			debug: {
 				src: jsPaths,
@@ -345,15 +346,15 @@ module.exports = function gruntInit( grunt ) {
 		},
 		phpcbf: {
 			options: {
+				standard: 'lint/phpcs.xml',
+			},
+			files: phpFiles,
+		},
+		phpcs: {
+			options: {
 				standard: 'lint/phpcs.xml'
 			},
-			files: {
-				src: [
-					'class/**/*.php',
-					'templates/src/**/*.php',
-					'*.php',
-				],
-			},
+			files: phpFiles,
 		},
 	};
 	if(typeof gruntLocalconfig !== 'undefined' && typeof gruntLocalconfig.svn_path !== 'undefined'){
@@ -394,13 +395,13 @@ module.exports = function gruntInit( grunt ) {
 	grunt.loadNpmTasks( 'grunt-docco' );
 	grunt.loadNpmTasks( 'grunt-lesslint' );
 	grunt.loadNpmTasks( 'grunt-eslint' );
-	grunt.loadNpmTasks( 'grunt-phplint' );
 	grunt.loadNpmTasks( 'grunt-prompt' );
 	grunt.loadNpmTasks( 'grunt-phpdoc' );
 	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
 	grunt.loadNpmTasks( 'grunt-rsync' );
 	grunt.loadNpmTasks( 'grunt-babel' );
 	grunt.loadNpmTasks('grunt-phpcbf');
+	grunt.loadNpmTasks('grunt-phpcs');
 
 	// Default task(s).
 	grunt.registerTask( 'bumpVersionDo', '', function bumpVersionDo() {
@@ -501,12 +502,19 @@ module.exports = function gruntInit( grunt ) {
 		]
 	);
 	grunt.registerTask(
+		'lintPHP',
+		[
+			'phpcbf',
+			'phpcs',
+		]
+	);
+	grunt.registerTask(
 		'lint',
 		[
 			'eslint:info_browser',
 			'eslint:info_nodejs',
 			'lesslint:info',
-			'phplint',
+			'lintPHP',
 		]
 	);
 };

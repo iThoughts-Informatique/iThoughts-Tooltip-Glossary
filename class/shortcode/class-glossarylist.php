@@ -17,7 +17,8 @@ namespace ithoughts\tooltip_glossary\shortcode;
 use \ithoughts\v5_0\Toolbox as TB;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );wp_die("Forbidden");// Exit if accessed directly
+	 status_header( 403 );
+	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 
 /**
@@ -126,6 +127,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 
 		final protected function get_microposts( $groups = false, $alphas = false ) {
 			global $wpdb;
+			require_once( $this->base_class_path . '/class-micropost.php' );
 			$fields = \ithoughts\tooltip_glossary\MicroPost::getFields();
 			$table = "{$wpdb->prefix}posts";
 			$queryComponents = array();

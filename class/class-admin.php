@@ -68,15 +68,17 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 		/**
 		 * Opens a connection with the filesystem. Once done, you can write & read files
-		 * @param  string $url             [[Description]]
-		 * @param  string $method          [[Description]]
-		 * @param  TODO $context         [[Description]]
-		 * @param  TODO [$fields = null] [[Description]]
+		 *
+		 * @param  string $url             [[Description]].
+		 * @param  string $method          [[Description]].
+		 * @param  TODO   $context         [[Description]].
+		 * @param  TODO [ $fields = null] [[Description]].
 		 * @return boolean  True if connection is successful, false otherwise
 		 */
 		public function connect_fs( $url, $method, $context, $fields = null ) {
 			global $wp_filesystem;
-			if ( false === ($credentials = request_filesystem_credentials( $url, $method, false, $context, $fields )) ) {
+			$credentials = request_filesystem_credentials( $url, $method, false, $context, $fields );
+			if ( false === $credentials ) {
 				return false;
 			}
 
@@ -94,7 +96,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @throws \Exception Throws an Exception if the plugin was unable to read its own informations.
 		 * @author Gerkin
 		 */
-		public function set_version() {			
+		public function set_version() {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			try {
 				$plugindata = get_plugin_data( $backbone->get_base_path() . '/ithoughts_tooltip_glossary.php' );
@@ -852,9 +854,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					} break;
 
 					case 'tooltip':{
-						$data['tooltip_content'] = inner_attr(
-							isset( $data['tooltip_content'] ) ? $data['tooltip_content'] : ''
-							, false);
+						$data['tooltip_content'] = inner_attr( isset( $data['tooltip_content'] ) ? $data['tooltip_content'] : '', false );
 					} break;
 
 					case 'mediatip':{
@@ -918,6 +918,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$opts['attributes']['span'] = $span_arr;
 
 			$link_arr = array(
+				// Create the first input slot.
 				'' => '',
 			);
 			foreach ( $opts['attributes']['link'] as $key => $value ) {
@@ -1160,107 +1161,110 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				);
 			}
 
-			$attrs = array(
-				'abbr',
-				'accept-charset',
-				'accept',
-				'accesskey',
-				'action',
-				'align',
-				'alt',
-				'archive',
-				'axis',
-				'border',
-				'cellpadding',
-				'cellspacing',
-				'char',
-				'charoff',
-				'charset',
-				'checked',
-				'cite',
-				'class',
-				'classid',
-				'codebase',
-				'codetype',
-				'cols',
-				'colspan',
-				'content',
-				'coords',
-				'data',
-				'datetime',
-				'declare',
-				'defer',
-				'dir',
-				'disabled',
-				'enctype',
-				'for',
-				'frame',
-				'frameborder',
-				'headers',
-				'height',
-				'href',
-				'hreflang',
-				'http-equiv',
-				'id',
-				'ismap',
-				'label',
-				'lang',
-				'longdesc',
-				'marginheight',
-				'marginwidth',
-				'maxlength',
-				'media',
-				'method',
-				'multiple',
-				'name',
-				'nohref',
-				'noresize',
-				'onblur',
-				'onchange',
-				'onclick',
-				'ondblclick',
-				'onfocus',
-				'onkeydown',
-				'onkeypress',
-				'onkeyup',
-				'onload',
-				'onmousedown',
-				'onmousemove',
-				'onmouseout',
-				'onmouseover',
-				'onmouseup',
-				'onreset',
-				'onselect',
-				'onsubmit',
-				'onunload',
-				'profile',
-				'readonly',
-				'rel',
-				'rev',
-				'rows',
-				'rowspan',
-				'rules',
-				'scheme',
-				'scope',
-				'scrolling',
-				'selected',
-				'shape',
-				'size',
-				'span',
-				'src',
-				'standby',
-				'style',
-				'summary',
-				'tabindex',
-				'target',
-				'title',
-				'type',
-				'usemap',
-				'valign',
-				'value',
-				'valuetype',
-				'width',
-			);
+			$attrs;
+			{
+				$attrs = array(
+					'abbr',
+					'accept-charset',
+					'accept',
+					'accesskey',
+					'action',
+					'align',
+					'alt',
+					'archive',
+					'axis',
+					'border',
+					'cellpadding',
+					'cellspacing',
+					'char',
+					'charoff',
+					'charset',
+					'checked',
+					'cite',
+					'class',
+					'classid',
+					'codebase',
+					'codetype',
+					'cols',
+					'colspan',
+					'content',
+					'coords',
+					'data',
+					'datetime',
+					'declare',
+					'defer',
+					'dir',
+					'disabled',
+					'enctype',
+					'for',
+					'frame',
+					'frameborder',
+					'headers',
+					'height',
+					'href',
+					'hreflang',
+					'http-equiv',
+					'id',
+					'ismap',
+					'label',
+					'lang',
+					'longdesc',
+					'marginheight',
+					'marginwidth',
+					'maxlength',
+					'media',
+					'method',
+					'multiple',
+					'name',
+					'nohref',
+					'noresize',
+					'onblur',
+					'onchange',
+					'onclick',
+					'ondblclick',
+					'onfocus',
+					'onkeydown',
+					'onkeypress',
+					'onkeyup',
+					'onload',
+					'onmousedown',
+					'onmousemove',
+					'onmouseout',
+					'onmouseover',
+					'onmouseup',
+					'onreset',
+					'onselect',
+					'onsubmit',
+					'onunload',
+					'profile',
+					'readonly',
+					'rel',
+					'rev',
+					'rows',
+					'rowspan',
+					'rules',
+					'scheme',
+					'scope',
+					'scrolling',
+					'selected',
+					'shape',
+					'size',
+					'span',
+					'src',
+					'standby',
+					'style',
+					'summary',
+					'tabindex',
+					'target',
+					'title',
+					'type',
+					'usemap',
+					'valign',
+					'value',
+					'valuetype',
+					'width',
+				);
+			}
 
 			include $backbone->get_base_path() . '/templates/dist/tinymce-tooltip-form.php';
 			wp_die();
@@ -1489,8 +1493,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 						),
 					)
 				),
-			);
-			require $backbone->get_base_path() . '/templates/dist/customizing_form.php';
+															);
+															require $backbone->get_base_path() . '/templates/dist/customizing_form.php';
 		}
 
 		/**
@@ -1532,17 +1536,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					'error' => __( 'No matching file found. Try to load another theme', 'ithoughts-tooltip-glossary' ),
 				);
 			}
-
-			/*
-			$url = wp_nonce_url("itg-load-theme?theme_name=$themename",'itg-load-theme');
-			if (false === ($creds = request_filesystem_credentials($url, '', false, false, null) ) ) {
-				return; // stop processing here.
-			} else {
-				if ( ! \WP_Filesystem($creds) ) {
-					request_filesystem_credentials($url, '', true, false, null);
-					return;
-				}
-			}*/
 
 			$content = file_get_contents( $theme_infos['absdir'] . '/' . $file );
 
@@ -1670,7 +1663,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				if ( strlen( $line ) > 0 ) {
 					$indented .= str_repeat( $indent, $indent_level ) . $line . PHP_EOL;
 				} else { $indented .= PHP_EOL;
-					   }
+				}
 				$indent_level += preg_match( '/\{(\s*(\\/\\*.*\\*\\/)*)*$/',$line );
 			}
 			return preg_replace( "/[\n\r\s]*$/",'',$indented );

@@ -113,7 +113,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				}
 			}
 			$datas['linkAttrs']['href'] = $href;
-			return $this->generate_glossary_tip_html($text, $datas);
+			return $this->generate_glossary_tip_html( $term, $text, $datas );
 		}
 
 		public function ithoughts_tt_gl_get_glossary_term_element( $term, $text = null, $options = array() ) {
@@ -176,7 +176,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				$termcontent;
 				if ( isset( $datas['attributes']['termcontent'] ) ) {
 					$termcontent = $datas['attributes']['termcontent'];
-					unset( $datas['attributes']['data-termcontent'] );
+					unset( $datas['attributes']['termcontent'] );
 				} else {
 					$termcontent = $datas['options']['termcontent'];
 				}
@@ -215,12 +215,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				}
 				$datas['linkAttrs']['href'] = $href;
 			}
-			return $this->generate_glossary_tip_html($text, $datas);
+			return $this->generate_glossary_tip_html( $term, $text, $datas );
 		}
-		
-		private function generate_glossary_tip_html($text, $datas) {
+
+		private function generate_glossary_tip_html( $term, $text, $datas ) {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			
+
 			$link;
 			if ( ! (isset( $datas['linkAttrs']['title'] ) && $datas['linkAttrs']['title']) ) {
 				$datas['linkAttrs']['title'] = $text;
@@ -242,7 +242,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 
 			return '<span ' . $args . '>' . $link_element . '</span>';
 		}
-		
+
 
 		public function parse_pseudo_links_to_shortcode( $data ) {
 			$data['post_content'] = preg_replace( '/<a\s+?data-ithoughts_tt_gl-glossary-slug=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[itg-glossary slug="$1"]$2[/itg-glossary]', $data['post_content'] );
