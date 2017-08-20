@@ -12,185 +12,193 @@
 /* A-Z shortcode */
 
 .glossary-menu-atoz{
-    border-bottom: 2px solid #000;
-    box-sizing: border-box;
-    display: block;
-    height: 25px;
-    line-height: 1em;
-    margin: auto;
-    padding: 5px 0 10px;
-    text-transform: uppercase;
-    width: 100%;
+	border-bottom: 2px solid #000;
+	box-sizing: border-box;
+	display: block;
+	height: 25px;
+	line-height: 1em;
+	margin: auto;
+	padding: 5px 0 10px;
+	text-transform: uppercase;
+	width: 100%;
 
-    .glossary-menu-item{
-        box-sizing: border-box;
-        float: left;
-        height: 22px;
-        list-style: none;
-        margin: 0 0 0 0.5em;
-        padding: 1px 1%;
-    }
-    &:after {
-        clear: both;
-        content: "";
-        display: block;
-    }
+	.glossary-menu-item{
+		box-sizing: border-box;
+		float: left;
+		height: 22px;
+		list-style: none;
+		margin: 0 0 0 0.5em;
+		padding: 1px 1%;
+	}
+	&:after {
+		clear: both;
+		content: "";
+		display: block;
+	}
 }
 
 .glossary-atoz-wrapper .itg-atoz-items{
-    padding: 5px 5px 10px 20px;
+	padding: 5px 5px 10px 20px;
 }
 
 .glossary-list-details{
-    display: flex;
-    flex-direction: row;
+	display: flex;
+	flex-direction: row;
 
-    .glossary-list{
-        flex: 0 1 100%;
-        padding: 0 10px;
+	.glossary-list{
+		flex: 0 1 100%;
+		padding: 0 10px;
 
-        li{
-            list-style: none;
-            padding-left: 0;
+		li{
+			list-style: none;
+			padding-left: 0;
 
-            .glossary-item-header{
-                border-bottom: 1px solid #eee;
-                text-align: center;
-                text-transform: uppercase;
-            }
-            .glossary-item{
-                max-width: 100%;
-                text-align: justify;
-            }
-        }
-    }
+			.glossary-item-header{
+				border-bottom: 1px solid #eee;
+				text-align: center;
+				text-transform: uppercase;
+			}
+			.glossary-item{
+				max-width: 100%;
+				text-align: justify;
+			}
+		}
+	}
 }
 
 .glossary-menu-item a{
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .atozmenu-empty{
-    color: #ccc;
+	color: #ccc;
 }
 .itg-atoz-menu-off{
-    color: #333;
+	color: #333;
 
-    &:hover{
-        background-color: #333;
-        color: #eee;
-    }
+	&:hover{
+		background-color: #333;
+		color: #eee;
+	}
 }
 .itg-atoz-menu-off{
-    text-decoration: underline;
+	text-decoration: underline;
 }
 .itg-atoz-items-off{
-    display: none;
+	display: none;
 }
 
 
 
 /* Popup tooltip */
 .tooltip {
-    background:  #f4f4f4;
-    border:      1px solid #ddd;
-    box-sizing: border-box;
-    color:       #333;
-    display:     none;
-    font-size:   1.1em;
-    line-height: 1.5em;
-    padding:     10px;
-    width:       20%;
+	background:  #f4f4f4;
+	border:      1px solid #ddd;
+	box-sizing: border-box;
+	color:       #333;
+	display:     none;
+	font-size:   1.1em;
+	line-height: 1.5em;
+	padding:     10px;
+	width:       20%;
 }
 .glossary-index{// Warning, was #glossary-index
-    margin: 15px auto;
-    padding: 5px 10px;
+	margin: 15px auto;
+	padding: 5px 10px;
 
-    header{
-        align-content: stretch;
-        align-items: stretch;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+	header{
+		align-content: stretch;
+		align-items: stretch;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
 
-        p.tileHead{
-            background: #ffffff;
-            border: 1px solid #999999;
-            cursor: pointer;
-            flex: 1 1 auto;
-            line-height: 1;
-            margin:5px 2.5px;
-            padding: 5px;
-            text-align: center;
+		p.tileHead{
+			background: #ffffff;
+			border: 1px solid #999999;
+			cursor: pointer;
+			flex: 1 1 auto;
+			line-height: 1;
+			margin:5px 2.5px;
+			padding: 5px;
+			text-align: center;
 
-            &[data-empty="true"]{
-                color: #999999;
-                cursor: auto;
-            }
-        }
+			&[data-empty="true"]{
+				color: #999999;
+				cursor: auto;
+			}
+		}
 
-        p.tile[data-hasglossaryItem]{
-            color: #fff;
-        }
-    }
+		p.tile[data-hasglossaryItem]{
+			color: #fff;
+		}
+	}
 
-    &[data-type=tile]{
-        text-align: justify;
+	&[data-type=tile]{
+		text-align: justify;
 
-        .glossary-atoz-wrapper{
-            margin: 0 -10px;
-            position: relative;
-        }
-        article{
-            opacity: 1;
-            pointer-events: all;
-            position: absolute;
-            top:0;
-            transition:.5s opacity;
-            visibility: visible;
+		.glossary-atoz-wrapper{
+			margin: 0 -10px;
+			position: relative;
+		}
+		article{
+			opacity: 1;
+			pointer-events: all;
+			position: absolute;
+			top:0;
+			transition:.5s opacity;
+			visibility: visible;
 
-            &[data-active="false"]{
-                opacity: 0;
-                pointer-events: none;
-                transition:.5s opacity,.5s .5s visibility;
-                visibility: hidden;
-            }
-        }
+			&[data-active="false"]{
+				opacity: 0;
+				pointer-events: none;
+				transition:.5s opacity,.5s .5s visibility;
+				visibility: hidden;
+			}
+		}
 
-        p.tile{
-            display: inline-block;
-            margin: 30px 15px;
+		p.tile{
+			display: inline-block;
+			margin: 30px 15px;
 
-            span a{
-                background: #ffffff;
-                border: 1px solid grey;
-                padding: 15px;
-            }
-        }
-    }
+			span a{
+				background: #ffffff;
+				border: 1px solid grey;
+				padding: 15px;
+			}
+		}
+	}
 }
 
 
 
 .itg-tipsContainer{
-    position: absolute;
-    width:100%;
-    z-index: 9999999;
+	position: absolute;
+	width:100%;
+	z-index: 9999999;
 }
 
-span{
-    &.itg-glossary,
-    &.itg-tooltip,
-    &.itg-mediatip{
-        & > a,
-        & > a:hover,
-        & > a:visited,
-        & > a:active
-        {
-            box-shadow: none;
-            text-decoration: overline underline;
-        }
-    }
+.itg-glossary,
+.itg-tooltip,
+.itg-mediatip{
+	& > a {
+		&,
+		&:hover,
+		&:visited,
+		&:active
+		{
+			box-shadow: none;
+			text-decoration: overline underline;
+		}
+	}
+	&.itg-notfound > a {
+		&,
+		&:hover,
+		&:visited,
+		&:active{
+			text-decoration: underline wavy;
+		}
+	}
 }
 
 
@@ -198,82 +206,82 @@ span{
 Specific styles for tip
 ****************************************************/
 .itg-mediatip{
-    max-width: 350px;
+	max-width: 350px;
 
-    .qtip-content{
-        padding: 0;
+	.qtip-content{
+		padding: 0;
 
-        p,:last-child{
-            margin-bottom: 0;
-        }
-        img{
-            max-height: 75vh;
-            vertical-align: middle;
-        }
-    }
-    .itg_pin_container{
-        border: 1px solid;
-        border-radius: 0.5em;
-        box-sizing: border-box;
-        float: right;
-        height: 2em;
-        width: 2em;
+		p,:last-child{
+			margin-bottom: 0;
+		}
+		img{
+			max-height: 75vh;
+			vertical-align: middle;
+		}
+	}
+	.itg_pin_container{
+		border: 1px solid;
+		border-radius: 0.5em;
+		box-sizing: border-box;
+		float: right;
+		height: 2em;
+		width: 2em;
 
-        .itg_pin{
-            box-sizing: border-box;
-            cursor: pointer;
-            display: block;
-            fill: currentColor;
-            margin: 0.25em;
-            transition: all 0.25s ease 0s;
-        }
+		.itg_pin{
+			box-sizing: border-box;
+			cursor: pointer;
+			display: block;
+			fill: currentColor;
+			margin: 0.25em;
+			transition: all 0.25s ease 0s;
+		}
 
-        &.pined .itg_pin{
-            transform: rotate(-45deg);
-            transition: 0.25s all;
-        }
-    }
+		&.pined .itg_pin{
+			transform: rotate(-45deg);
+			transition: 0.25s all;
+		}
+	}
 }
 
 
 .qtip-content{
-    p{
-        line-height: 1.5em;
-        padding-bottom: 1em;
-    }
-    :last-child{
-        line-height: 1.5em;
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
-    a{
-        color: inherit;
-        text-decoration: underline;
-    }
+	p{
+		line-height: 1.5em;
+		padding-bottom: 1em;
+	}
+	:last-child{
+		line-height: 1.5em;
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+	a{
+		color: inherit;
+		text-decoration: underline;
+	}
 }
 
 .ithoughts_tt_gl-force_no_pad .qtip-content{
-    vertical-align: top;
+	vertical-align: top;
 }
 
 .ithoughts_tt_gl-video_tip,
 .ithoughts_tt_gl-video_tip iframe,
 .ithoughts_tt_gl-video_tip video{
-    max-width: none;
-    vertical-align: top;
+	max-width: none;
+	vertical-align: top;
 }
 
 .ithoughts_tt_gl-title_with_pin{
-    vertical-align: sub;
+	vertical-align: sub;
 
-    .qtip-titlebar .qtip-title{
-        display: block;
-        width: 100%;
-    }
+	.qtip-titlebar .qtip-title{
+		display: block;
+		width: 100%;
+	}
 }
 .ithoughts_tt_gl-caption{
-    border-top: 1px solid currentColor;
-    font-size: 1.1em;
-    padding-top: 5px;
-    text-align: justify;
+	border-top: 1px solid currentColor;
+	font-size: 1.1em;
+	padding-top: 5px;
+	text-align: justify;
 }

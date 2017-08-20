@@ -6,3 +6,4 @@ package-lock.json
 .DS_Store
 ithoughts_tt_gl.log
 grunt_localconfig.json
+less/*.css

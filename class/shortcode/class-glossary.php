@@ -20,7 +20,7 @@
 namespace ithoughts\tooltip_glossary\shortcode;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );wp_die("Forbidden");// Exit if accessed directly
+	status_header( 403 );wp_die("Forbidden");// Exit if accessed directly
 }
 
 
@@ -157,10 +157,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				}
 			} else {
 				if ( is_numeric( $term ) ) {
-					$term = get_post( $term );
+					$termRetrieved = get_post( $term );
+					if(NULL === $termRetrieved){
+						$backbone->log( \ithoughts\v5_0\LogLevel::WARN, "Term with id \"$term\" and text \"$text\" does not exists.");
+					}
+					$term = $termRetrieved;
 				} else if ( ! ($term instanceof \WP_Post) ) {
-					// Error
-					return $text;
+					$backbone->log( \ithoughts\v5_0\LogLevel::WARN, "Unhandled term descriptor provided:", $term, gettype($term));
+					$term = NULL;
 				}
 			}
 
@@ -213,8 +217,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 
 			if ( ! isset( $datas['linkAttrs']['href'] ) ) {
 				$href = 'javascript::void(0)';
-				if ( $datas['options']['termlinkopt'] != 'none' ) { // If theere need a link
-					$href   = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v5_0\Toolbox::get_permalink_light( $term,'glossary' ) );
+				if ( $datas['options']['termlinkopt'] != 'none' ) { // If there need a link
+					if ( NULL !== $term ) {
+						$href = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v5_0\Toolbox::get_permalink_light( $term,'glossary' ) );
+					} else {
+						$backbone->log( \ithoughts\v5_0\LogLevel::WARN, "Tried to call get_permalink_light on NULL term with text \"$text\".");
+					}
 				}
 				$datas['linkAttrs']['href'] = $href;
 			}
@@ -231,9 +239,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 			$linkElement   = '<a ' . $linkArgs . '>' . $text . '</a>';
 
 			$datas['attributes']['class'] = 'itg-glossary' . ((isset( $datas['attributes']['class'] ) && $datas['attributes']['class']) ? ' ' . $datas['attributes']['class'] : '');
+			if(NULL === $term){
+				$datas['attributes']['class'] .= ' itg-notfound';
+			}
 			$args = \ithoughts\v5_0\Toolbox::concat_attrs( $datas['attributes'] );
 
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$backbone->add_script( 'qtip' );
 
 			return '<span ' . $args . '>' . $linkElement . '</span>';
@@ -283,8 +293,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 		public function glossary_usage_reset_for_post() {
 			global $post;
 			if ( is_singular() && get_post_meta( $post->ID, 'ithoughts_tt_gl_update_term_usage' ) ) :
-				// Find all glossary terms that have this post noted.
-				$args = array(
+			// Find all glossary terms that have this post noted.
+			$args = array(
 				'post_type'   => 'glossary',
 				'numberposts' => -1,
 				'post_status' => 'publish',
@@ -293,12 +303,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 					'value' => $post->ID,
 					'type'  => 'DECIMAL',
 				),
-				),
-				);
-				$terms = get_posts( $args );
-				foreach ( $terms as $term ) :
-					// Delete the meta entry
-					delete_post_meta( $term->ID, 'ithoughts_tt_gl_term_used', $post->ID );
+									  ),
+			);
+			$terms = get_posts( $args );
+			foreach ( $terms as $term ) :
+			// Delete the meta entry
+			delete_post_meta( $term->ID, 'ithoughts_tt_gl_term_used', $post->ID );
 			endforeach;
 			endif;
 		}
@@ -314,9 +324,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 
 		/** */
 		public function glossary_shortcode( $atts, $text = '' ) {
+			/*			echo '<hr/>Found shortcode: <pre>';
+			var_dump(array('atts' => $atts, 'text' => $text));
+			echo '</pre>';
+*/
 
 			if ( ! isset( $atts['glossary-id'] ) || ! $atts['glossary-id'] ) {
-				return $text;
+				return apply_filters( 'ithoughts_tt_gl_get_glossary_term_element', NULL, $text, $atts );
 			}
 			$id = $atts['glossary-id'];
 			return apply_filters( 'ithoughts_tt_gl_get_glossary_term_element', $id, $text, $atts );

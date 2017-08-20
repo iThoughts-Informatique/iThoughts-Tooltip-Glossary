@@ -47,6 +47,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Filters' ) ) {
 			} else {
 				$content = wp_trim_words( $term->post_content, 25, '...' );
 			}
+			$content = strip_shortcodes($content);
 			return $content;
 		}
 
