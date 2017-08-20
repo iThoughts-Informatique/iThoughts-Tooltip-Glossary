@@ -68,10 +68,10 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 		/**
 		 * Opens a connection with the filesystem. Once done, you can write & read files
-		 * @param  [[Type]] $url             [[Description]]
-		 * @param  [[Type]] $method          [[Description]]
-		 * @param  [[Type]] $context         [[Description]]
-		 * @param  [[Type]] [$fields = null] [[Description]]
+		 * @param  string $url             [[Description]]
+		 * @param  string $method          [[Description]]
+		 * @param  TODO $context         [[Description]]
+		 * @param  TODO [$fields = null] [[Description]]
 		 * @return boolean  True if connection is successful, false otherwise
 		 */
 		public function connect_fs( $url, $method, $context, $fields = null ) {

@@ -643,7 +643,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				}break;
 
 				case 'excerpt':{
-					$content = apply_filters( 'ithoughts_tt_gl-term-excerpt', $termob );
+					$content = apply_filters( 'ithoughts_tt_gl_term_excerpt', $termob );
 				}break;
 
 				case 'off':{

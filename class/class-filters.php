@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( __NAMESPACE__ . '\\Filters' ) ) {
 	class Filters extends \ithoughts\v1_0\Singleton {
 		public function __construct() {
-			add_filter( 'ithoughts_tt_gl-term-excerpt', array( &$this, 'getTermExcerpt' ) );
+			add_filter( 'ithoughts_tt_gl_term_excerpt', array( &$this, 'getTermExcerpt' ) );
 			add_filter( 'ithoughts-split-args', array( &$this, 'splitArgs' ), 10, 5 );
 			add_filter( 'ithoughts-join-args', array( &$this, 'joinArgs' ), 10, 1 );
 			add_filter( 'ithoughts_tt_gl-split-args', array( &$this, 'ithoughts_tt_gl_splitArgs' ), 10, 1 );
