@@ -1412,7 +1412,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		/**
 		 * Initialize the customizing form for custom themes. If the POST request specifies a theme name, it will be parsed then loaded.
 		 *
-		 * @uses `templates/src/customizing_form.php`
+		 * @uses `templates/src/customizing-form.php`
 		 * @author Gerkin
 		 */
 		public function theme_editor() {
@@ -1518,7 +1518,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					)
 				),
 															);
-															require $backbone->get_base_path() . '/templates/dist/customizing_form.php';
+															require $backbone->get_base_path() . '/templates/dist/customizing-form.php';
 		}
 
 		/**
@@ -1585,7 +1585,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		}
 
 		/**
-		 * Sends the generated CSS from `customizing_form.php` to be previewed
+		 * Sends the generated CSS from `customizing-form.php` to be previewed
 		 *
 		 * @author Gerkin
 		 */
@@ -1619,7 +1619,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		}
 
 		/**
-		 * Save the POSTed theme. It should not be used from other where than in an Ajax call in `customizing_form.php`
+		 * Save the POSTed theme. It should not be used from other where than in an Ajax call in `customizing-form.php`
 		 *
 		 * @author Gerkin
 		 */

@@ -126,8 +126,8 @@ msgstr "Groupes du glossaire"
 
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-admin.php:372
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-admin.php:373
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:32
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:39
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:32
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:39
 msgid "Theme editor"
 msgstr "Editeur de thème"
 
@@ -675,9 +675,9 @@ msgstr "Termes"
 msgid "Please select from the menu above"
 msgstr "Veuillez sélectionner un élément"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:34
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:34
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/options.php:24
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:44
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/options.php:37
 #, php-format
 msgid ""
@@ -687,65 +687,65 @@ msgstr ""
 "Besoin d'aide? Trouvez le manuel complet sur <a href=\"%s\">"
 "GerkinDevelopment.net</a>."
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:58
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:58
 msgid "Load a theme"
 msgstr "Charger un thème"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:62
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:62
 msgid "Theme to load"
 msgstr "Thème à éditer"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:64
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:64
 msgid "Load"
 msgstr "Charger"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:65
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:65
 #, php-format
 msgid "Are you sure you want to delete the theme %s?"
 msgstr "Êtes vous sûr de vouloir supprimer le thème %s?"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:65
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:65
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:72
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:72
 msgid "Recompile all stylesheets"
 msgstr "Recompiler toutes les feuilles de style"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:76
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:76
 msgid "LESS editor"
 msgstr "Editeur LESS"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:85
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:85
 msgid "Theme name"
 msgstr "Nom du thème"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:89
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:89
 msgid "Theme content"
 msgstr "Contenu du thème"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:95
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:95
 msgid "Save theme"
 msgstr "Sauvegarder le thème"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:96
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:96
 msgid "Preview"
 msgstr "Prévisualiser"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/options.php:224
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:117
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:117
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/options.php:498
 msgid ""
 "This is an example tooltip, with content such as <a>a tag for link</a>, <em>"
@@ -755,9 +755,9 @@ msgstr ""
 "lien</a>, un <em>tag em pour l'emphase</em>, un <b>tag b pour le gras</b> et "
 "un <i>tag i pour l'italique</i>."
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing_form.php:44
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/customizing-form.php:44
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/options.php:229
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:117
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:117
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/options.php:503
 msgid "Example Tooltip"
 msgstr "Infobulle d'exemple"
@@ -1273,7 +1273,7 @@ msgstr "Attributs du lien <em>a</em>"
 msgid "Close"
 msgstr "Fermer"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:114
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:114
 msgid ""
 "The <b>tooltip</b> or <b>infotip</b> or a <b>hint</b> is a common <a "
 "href=\"/wiki/Graphical_user_interface\" title=\"Graphical user interface\">"
@@ -1342,7 +1342,7 @@ msgstr ""
 "dessinées</a>. Depuis, ce nom est également utilisé pour désigner tout texte "
 "surgissant apportant de l’aide.</p>"
 
-#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing_form.php:114
+#: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/customizing-form.php:114
 msgid "Activate me"
 msgstr "Activez-moi"
 

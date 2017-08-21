@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * This file is used to edit custom styles
+ *
  * @file Template file for the style editor
  *
  * @author Gerkin
