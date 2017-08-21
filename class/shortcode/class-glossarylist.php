@@ -127,7 +127,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 
 		final protected function get_microposts( $groups = false, $alphas = false ) {
 			global $wpdb;
-			require_once( $this->base_class_path . '/class-micropost.php' );
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+			require_once( $backbone->get_base_class_path() . '/class-micropost.php' );
 			$fields = \ithoughts\tooltip_glossary\MicroPost::getFields();
 			$table = "{$wpdb->prefix}posts";
 			$queryComponents = array();

@@ -15,7 +15,7 @@ use \ithoughts\tooltip_glossary\Backbone as Backbone;
 
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );
+	status_header( 403 );
 	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 
@@ -73,7 +73,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo json_encode( $groups ); ?>;
 										<td>
 											<?php echo $inputs['groups_text']; ?>
 											<?php echo $inputs['groups']; ?>
-											<div class="groupspicker" class="hidden">
+											<div class="groupspicker hidden">
 												<div class="group-select" data-groupid="0">
 													<input type="checkbox" <?php echo in_array( 0, $data['group'] ) ? 'checked ' : ''; ?> name="group_check" value="0" id="group_check_0">
 													<label for="group_check_0" class="group-label">
@@ -81,16 +81,16 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo json_encode( $groups ); ?>;
 													</label>
 												</div>
 												<?php
-												foreach ( $groups as $group ) {
-																							?>
-																							<div class="group-select" data-groupid="<?php echo $group->term_id; ?>">
-																								<input type="checkbox" <?php echo in_array( $group->term_id, $data['group'] ) ? 'checked ' : ''; ?> name="group_check" value="<?php echo $group->term_id; ?>" id="group_check_<?php echo $group->term_id; ?>">
-																								<label for="group_check_<?php echo $group->term_id; ?>" class="group-label">
-																									<span class="group-title"><?php echo esc_html( $group->name ); ?></span>&nbsp;<span class="group-count">(<?php echo $group->count; ?>)</span>
-																								</label>
-																							</div>
-																							<?php
-												}
+	foreach ( $groups as $group ) {
+												?>
+												<div class="group-select" data-groupid="<?php echo $group->term_id; ?>">
+													<input type="checkbox" <?php echo in_array( $group->term_id, $data['group'] ) ? 'checked ' : ''; ?> name="group_check" value="<?php echo $group->term_id; ?>" id="group_check_<?php echo $group->term_id; ?>">
+													<label for="group_check_<?php echo $group->term_id; ?>" class="group-label">
+														<span class="group-title"><?php echo esc_html( $group->name ); ?></span>&nbsp;<span class="group-count">(<?php echo $group->count; ?>)</span>
+													</label>
+												</div>
+												<?php
+	}
 												?>
 											</div>
 										</td>

@@ -1,7 +1,7 @@
 <?php
 /**
  * Template file for managing iThoughts Tooltip Glossary options.
- * 
+ *
  * @file Template file for options form
  *
  * @author Gerkin
@@ -50,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															'selected' => true,
 														),
 													)); ?> </td></tr><tr class="nonoverridable"><th><label for="staticterms"><?php esc_html_e( 'Static terms', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php
-														$tooltip = apply_filters( 'ithoughts-tt-gl_tooltip', '(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'Include term content directly into the pages to avoid use of Ajax. This can slow down your page generation.', 'ithoughts-tooltip-glossary' ), array(
+														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', '(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'Include term content directly into the pages to avoid use of Ajax. This can slow down your page generation.', 'ithoughts-tooltip-glossary' ), array(
 															'attributes' => array(
 																'tooltip-nosolo' => 'true',
 															),
@@ -78,7 +78,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															'checked' => true,
 														),
 													)); ?> </td></tr><tr class="nonoverridable"><th><label for="forceloadresources"><?php esc_html_e( 'Force load resources', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php
-														$tooltip = apply_filters( 'ithoughts-tt-gl_tooltip', '(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'Load scripts on every pages, even if not required. This option can be useful if some cache plugins are active, or if you think that scripts are not loaded when required.', 'ithoughts-tooltip-glossary' ), array(
+														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', '(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'Load scripts on every pages, even if not required. This option can be useful if some cache plugins are active, or if you think that scripts are not loaded when required.', 'ithoughts-tooltip-glossary' ), array(
 															'attributes' => array(
 																'tooltip-nosolo' => 'true',
 															),
@@ -107,7 +107,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 														),
 													)); ?> </td></tr><tr class="nonoverridable"><th><label for="verbosity"><?php esc_html_e( 'Log level', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php
 														$tooltip = apply_filters(
-															'ithoughts-tt-gl_tooltip',
+															'ithoughts_tt_gl_tooltip',
 															'(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')',
 															wp_kses(
 																__('Print more infos to the browser console & the server logs.<ul>
@@ -146,13 +146,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 														$options_inputs['verbosity'],
 														array(
 															'input' => array(
-																"name" => true,
-																"id" => true,
-																"max" => true,
-																"min" => true,
-																"autocomplete" => true,
-																"type" => true,
-																"value" => true,
+																'name' => true,
+																'id' => true,
+																'max' => true,
+																'min' => true,
+																'autocomplete' => true,
+																'type' => true,
+																'value' => true,
 															),
 														)
 													); ?>&nbsp;<label for="verbosity" id="ithoughts_tt_gl-verbosity_label" style="display:inline-block;line-height:27px;vertical-align:top" data-labels='["<?php esc_attr_e( 'Silent', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e( 'Errors', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e( 'Warnings', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e( 'Infos', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e( 'All', 'ithoughts-tooltip-glossary' ); ?>"]'></label></td></tr><tr class="nonoverridable"><th><label for="itg-purge"><?php esc_html_e( 'Empty log file', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td><button id="itg-purge" class="button button-link-delete"><?php esc_html_e( 'Empty', 'ithoughts-tooltip-glossary' ); ?></button></td></tr><tr class="nonoverridable"><th><label for="termtype"><?php esc_html_e( 'Base Permalink', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td><code>/</code><?php
@@ -164,7 +164,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															'value' => true,
 															'autocomplete' => true,
 														),
-													)); ?><code>/</code></td></tr><tr class="nonoverridable"><th><label for="grouptype"><?php esc_html_e( 'Taxonomy group prefix', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td><code>/<?php echo $options['termtype']; ?>/</code><?php
+													)); ?><code>/</code></td></tr><tr class="nonoverridable"><th><label for="grouptype"><?php esc_html_e( 'Taxonomy group prefix', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td><code>/<?php echo esc_html( $options['termtype'] ); ?>/</code><?php
 													echo wp_kses($options_inputs['grouptype'], array(
 														'input' => array(
 															'id' => true,
@@ -183,7 +183,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															'autocomplete' => true,
 															'checked' => true,
 														),
-													)); ?> </td></tr><tr><th><label for="termcontent"><?php esc_html_e( 'Glossary Tip Content', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td> <?php 
+													)); ?> </td></tr><tr><th><label for="termcontent"><?php esc_html_e( 'Glossary Tip Content', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td> <?php
 													echo wp_kses($options_inputs['termcontent'], array(
 														'select' => array(
 															'name' => true,
@@ -195,7 +195,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															'value' => true,
 															'selected' => true,
 														),
-													)); ?> </td></tr><tr><th><label for="termscomment"><?php esc_html_e( 'Enable comments on glossary terms', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td> <?php 
+													)); ?> </td></tr><tr><th><label for="termscomment"><?php esc_html_e( 'Enable comments on glossary terms', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td> <?php
 													echo wp_kses($options_inputs['termscomment'], array(
 														'input' => array(
 															'id' => true,
@@ -210,17 +210,123 @@ if ( ! defined( 'ABSPATH' ) ) {
 													'a' => array(
 														'href' => array(),
 													),
-												) ) ); ?></p><table class="form-table"><tbody><tr><th><label for="qtiptrigger"><?php esc_html_e( 'Tooltip activation', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td> <?php echo $options_inputs['qtiptrigger']; ?> </td></tr><tr><th><label for="qtipstyle"><?php esc_html_e( 'Tooltip Style (qTip)', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td> <?php echo $options_inputs['qtipstyle']; ?> </td></tr><tr><th><label for="qtipshadow"><?php esc_html_e( 'Tooltip shadow', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php
-																echo apply_filters( 'ithoughts-tt-gl_tooltip','(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array(
+												) ) ); ?></p><table class="form-table"><tbody><tr><th><label for="qtiptrigger"><?php esc_html_e( 'Tooltip activation', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td> <?php
+															echo wp_kses($options_inputs['qtiptrigger'], array(
+																'select' => array(
+																	'name' => true,
+																	'id' => true,
+																	'autocomplete' => true,
+																),
+																'option' => array(
+																	'title' => true,
+																	'value' => true,
+																	'selected' => true,
+																),
+															)); ?> </td></tr><tr><th><label for="qtipstyle"><?php esc_html_e( 'Tooltip Style (qTip)', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td> <?php
+															echo wp_kses($options_inputs['qtipstyle'], array(
+																'select' => array(
+																	'name' => true,
+																	'id' => true,
+																	'autocomplete' => true,
+																),
+																'option' => array(
+																	'title' => true,
+																	'value' => true,
+																	'selected' => true,
+																),
+															)); ?> </td></tr><tr><th><label for="qtipshadow"><?php esc_html_e( 'Tooltip shadow', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php
+																$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip','(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array(
 																	'attributes' => array(
 																		'tooltip-nosolo' => 'true',
 																	),
-																) ); ?>:</label></th><td> <?php echo $options_inputs['qtipshadow']; ?> </td></tr><tr><th><label for="qtiprounded"><?php esc_html_e( 'Rounded corners', 'ithoughts-tooltip-glossary' ); ?>&nbsp; <?php
-																echo apply_filters( 'ithoughts-tt-gl_tooltip','(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array(
+																) );
+																echo wp_kses(
+																	$tooltip,
+																	array(
+																		'span' => array(
+																			'tooltip-nosolo' => true,
+																			'class' => true,
+																			'data-tooltip-content' => true,
+																		),
+																		'a' => array(
+																			'href' => true,
+																		),
+																	)
+																); ?>:</label></th><td> <?php
+															echo wp_kses($options_inputs['qtipshadow'], array(
+																'input' => array(
+																	'id' => true,
+																	'name' => true,
+																	'type' => true,
+																	'value' => true,
+																	'autocomplete' => true,
+																	'checked' => true,
+																),
+															)); ?> </td></tr><tr><th><label for="qtiprounded"><?php esc_html_e( 'Rounded corners', 'ithoughts-tooltip-glossary' ); ?>&nbsp; <?php
+																$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip','(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array(
 																	'attributes' => array(
 																		'tooltip-nosolo' => 'true',
 																	),
-																) ); ?>:</label></th><td> <?php echo $options_inputs['qtiprounded']; ?> </td></tr><tr><th><label for="anims"><?php esc_html_e( 'Animations', 'ithoughts-tooltip-glossary' ); ?></label></th><td><label for="anim_in"><?php esc_html_e( 'Animation in', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $options_inputs['anim_in']; ?></label><br><label for="anim_out"><?php esc_html_e( 'Animation out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $options_inputs['anim_out']; ?></label><br><label for="anim_time"><?php esc_html_e( 'Animation duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $options_inputs['anim_time']; ?>ms</label></td></tr></tbody></table></div><div style="flex:1 1 auto;;position:relative"><div id="floater" style="display:flex;flex-direction:row;width:100%"><p style="flex:1 1 auto;text-align:center"><span class="itg-tooltip" data-tooltip-autoshow="true" data-tooltip-prerender="true" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php
+																) );
+																echo wp_kses(
+																	$tooltip,
+																	array(
+																		'span' => array(
+																			'tooltip-nosolo' => true,
+																			'class' => true,
+																			'data-tooltip-content' => true,
+																		),
+																		'a' => array(
+																			'href' => true,
+																		),
+																	)
+																); ?>:</label></th><td> <?php
+															echo wp_kses($options_inputs['qtiprounded'], array(
+																'input' => array(
+																	'id' => true,
+																	'name' => true,
+																	'type' => true,
+																	'value' => true,
+																	'autocomplete' => true,
+																	'checked' => true,
+																),
+															)); ?> </td></tr><tr><th><label for="anims"><?php esc_html_e( 'Animations', 'ithoughts-tooltip-glossary' ); ?></label></th><td><label for="anim_in"><?php esc_html_e( 'Animation in', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php
+																echo wp_kses($options_inputs['anim_in'], array(
+																	'select' => array(
+																		'name' => true,
+																		'id' => true,
+																		'autocomplete' => true,
+																	),
+																	'option' => array(
+																		'title' => true,
+																		'value' => true,
+																		'selected' => true,
+																	),
+																)); ?></label><br><label for="anim_out"><?php esc_html_e( 'Animation out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php
+																echo wp_kses($options_inputs['anim_out'], array(
+																	'select' => array(
+																		'name' => true,
+																		'id' => true,
+																		'autocomplete' => true,
+																	),
+																	'option' => array(
+																		'title' => true,
+																		'value' => true,
+																		'selected' => true,
+																	),
+																)); ?></label><br><label for="anim_time"><?php esc_html_e( 'Animation duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php
+																echo wp_kses($options_inputs['anim_time'], array(
+																	'select' => array(
+																		'name' => true,
+																		'id' => true,
+																		'autocomplete' => true,
+																	),
+																	'option' => array(
+																		'title' => true,
+																		'value' => true,
+																		'selected' => true,
+																	),
+																)); ?>ms</label></td></tr></tbody></table></div><div style="flex:1 1 auto;;position:relative"><div id="floater" style="display:flex;flex-direction:row;width:100%"><p style="flex:1 1 auto;text-align:center"><span class="itg-tooltip" data-tooltip-autoshow="true" data-tooltip-prerender="true" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php
 													echo esc_attr( wp_kses( __( 'This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts-tooltip-glossary' ), array(
 														'a' => array(),
 														'em' => array(),

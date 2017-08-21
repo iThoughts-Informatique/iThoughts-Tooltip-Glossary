@@ -300,8 +300,9 @@
 					async:  true,
 					url:    itge.admin_ajax,
 					data:   {
-						action: 'ithoughts_tt_gl_get_tinymce_list_form',
-						data:   values,
+						action:   'ithoughts_tt_gl_get_tinymce_list_form',
+						data:     values,
+						_wpnonce: itge.nonce,
 					},
 					success: function success( out ) {
 						loader.remove();
