@@ -437,6 +437,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															'autocomplete' => true,
 															'checked' => true,
 															'data-state' => true,
+															'class' => true,
 														),
 													)); ?>
 												</td>
@@ -458,6 +459,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															'autocomplete' => true,
 															'checked' => true,
 															'data-state' => true,
+															'class' => true,
 														),
 													)); ?>
 												</td>
@@ -691,8 +693,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 																	<div class="ithoughts-attrs-container" data-attr-family="span">
 																		<?php
 																		$i = 0;
-																		foreach ( $opts['attributes']['span'] as $key => $value ) { ?>
-																		<div class="attribute-name-val <?php echo (0 === $i) ? 'ithoughts-prototype' : ''; ?>">
+																		foreach ( $opts['attributes']['span'] as $key => $value ) {
+																		?>
+																		<div class="attribute-name-val <?php echo ((0 === $i) ? 'ithoughts-prototype' : ''); ?>">
 																			<div class="kv-pair">
 																				<label for="attributes-span-key-<?php echo absint( $i ); ?>"class="dynamicId dynamicId-key">
 																					<?php esc_html_e( 'Key', 'ithoughts-tooltip-glossary' ); ?>
@@ -707,7 +710,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																			</div>
 																		</div>
 																		<?php
-																																   $i++;
+																			$i++;
 																		} ?>
 																	</div>
 																	<div style="clear:both;"></div>
@@ -727,7 +730,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 																	<div class="ithoughts-attrs-container" data-attr-family="link">
 																		<?php
 																		$i = 0;
-																		foreach ( $opts['attributes']['link'] as $key => $value ) { ?>
+																		foreach ( $opts['attributes']['link'] as $key => $value ) {
+																		?>
 																		<div class="attribute-name-val <?php echo (0 === $i) ? 'ithoughts-prototype' : ''; ?>">
 																			<div class="kv-pair">
 																				<label for="attributes-link-key-<?php echo absint( $i ); ?>" class="dynamicId dynamicId-key">
@@ -743,7 +747,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																			</div>
 																		</div>
 																		<?php
-																																   $i++;
+																			$i++;
 																		} ?>
 																	</div>
 																	<div style="clear:both;"></div>

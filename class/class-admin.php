@@ -861,7 +861,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				$data = array(
 					'type' => sanitize_text_field( $data['type'] ),
 					'text' => sanitize_text_field( $data['text'] ),
-					'link' => esc_url_raw( $data['type'] ),
+					'link' => esc_url_raw( $data['link'] ),
 					'glossary' => array(
 						'id' => absint( $data['glossary_id'] ),
 						'term_search' => sanitize_text_field( $data['term_search'] ),

@@ -95,7 +95,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																	'href' => true,
 																),
 															)
-														);?>:</label></th><td> <?php
+														); ?>:</label></th><td> <?php
 													echo wp_kses($options_inputs['forceloadresources'], array(
 														'input' => array(
 															'id' => true,
