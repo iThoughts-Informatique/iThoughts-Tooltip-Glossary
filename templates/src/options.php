@@ -135,7 +135,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																	'href' => true,
 																),
 															)
-														);?>:</label>
+														); ?>:</label>
 												</th>
 												<td>
 													<?php

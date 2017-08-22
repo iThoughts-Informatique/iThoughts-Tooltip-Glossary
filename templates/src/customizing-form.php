@@ -60,6 +60,7 @@ switch ( substr( get_locale(), 0, 2 ) ) {
 								<div class="inside">
 									<form id="ithoughts_loadtheme" method="get">
 										<input type="hidden" name="page" value="ithoughts-tooltip-glossary-themes"/>
+										<?php wp_nonce_field( 'ithoughts_tt_gl-loadtheme' ); ?>
 										<label for="theme_select"><?php esc_html_e( 'Theme to load', 'ithoughts-tooltip-glossary' ); ?></label>
 										<?php
 										echo wp_kses($inputs['theme_select'], array(
@@ -72,6 +73,7 @@ switch ( substr( get_locale(), 0, 2 ) ) {
 												'title' => true,
 												'value' => true,
 												'selected' => true,
+												'disabled' => true,
 											),
 										)); ?>
 										<button type="submit" name="action" class="button button-primary" value="load"><?php esc_html_e( 'Load', 'ithoughts-tooltip-glossary' ); ?></button>
@@ -85,6 +87,7 @@ switch ( substr( get_locale(), 0, 2 ) ) {
 
 							<form method="get">
 								<input type="hidden" name="page" value="ithoughts-tooltip-glossary-themes"/>
+								<?php wp_nonce_field( 'ithoughts_tt_gl-recompile_themes' ); ?>
 								<button type="submit" name="action" class="button button-secondary floatright" value="recompile" style="width:100%;margin:0 auto 25px;padding: 25px;line-height: 0;"><?php esc_html_e( 'Recompile all stylesheets', 'ithoughts-tooltip-glossary' ); ?></button>
 							</form>
 
@@ -93,6 +96,7 @@ switch ( substr( get_locale(), 0, 2 ) ) {
 								<div class="inside">
 									<form id="LESS-form" class="less-form simpleajaxform" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post" data-target="update-response">
 										<input type="hidden" name="action" id="action"/>
+										<?php wp_nonce_field( 'ithoughts_tt_gl-theme_editor' ); ?>
 										<?php
 										echo wp_kses($inputs['splittedHead'], array(
 											'input' => array(
@@ -131,12 +135,12 @@ switch ( substr( get_locale(), 0, 2 ) ) {
 												<th><?php esc_html_e( 'Theme content', 'ithoughts-tooltip-glossary' ); ?></th>
 												<td><?php
 													echo wp_kses($inputs['content'], array(
-														'input' => array(
+														'textarea' => array(
 															'id' => true,
 															'name' => true,
-															'type' => true,
-															'value' => true,
-															'autocomplete' => true,
+															'disabled' => true,
+															'class' => true,
+															'data-lang' => true,
 														),
 													)); ?></td>
 											</tr>

@@ -1,7 +1,7 @@
 <?php
-
-use \ithoughts\tooltip_glossary\Backbone as Backbone;
 /**
+ * This file is processed then sent via AJAX when adding/editing a tooltip
+ *
  * @file Template file for TinyMCE "Insert a tooltip" editor
  *
  * @author Gerkin
@@ -12,23 +12,22 @@ use \ithoughts\tooltip_glossary\Backbone as Backbone;
  * @version 2.5.0
  */
 
-
+use \ithoughts\tooltip_glossary\Backbone as Backbone;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );
-	wp_die( 'Forbidden' );// Exit if accessed directly
+	status_header( 403 );
+	wp_die( 'Forbidden' );// Exit if accessed directly.
 }
 
 ?>
 <div id="ithoughts_tt_gl-tooltip-form-container">
-	<pre style="display:none;"><?php var_dump( $data ); ?></pre>
 	<div id="pseudohead">
-		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo Backbone::get_instance()->get_resource( 'ithoughts_tooltip_glossary-tinymce_form-css' )->get_file_url(); ?>" type="text/css" media="all">
-		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_resource( 'ithoughts-simple-ajax-v5' )->get_file_url(); ?>" defer></script>
-		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_resource( 'ithoughts_tooltip_glossary-tinymce_form' )->get_file_url(); ?>?v=3.0.1" defer></script>
-		<script type="text/javascript" src="<?php echo Backbone::get_instance()->get_resource( 'ithoughts_tooltip_glossary-qtip' )->get_file_url(); ?>" defer></script>
+		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo esc_url( Backbone::get_instance()->get_resource( 'ithoughts_tooltip_glossary-tinymce_form-css' )->get_file_url() ); ?>" type="text/css" media="all">
+		<script type="text/javascript" src="<?php echo esc_url( Backbone::get_instance()->get_resource( 'ithoughts-simple-ajax-v5' )->get_file_url() ); ?>" defer></script>
+		<script type="text/javascript" src="<?php echo esc_url( Backbone::get_instance()->get_resource( 'ithoughts_tooltip_glossary-tinymce_form' )->get_file_url() ); ?>?v=3.0.1" defer></script>
+		<script type="text/javascript" src="<?php echo esc_url( Backbone::get_instance()->get_resource( 'ithoughts_tooltip_glossary-qtip' )->get_file_url() ); ?>" defer></script>
 		<script>
-			iThoughtsTooltipGlossaryEditor.terms = <?php echo json_encode( $terms ); ?>;
+			iThoughtsTooltipGlossaryEditor.terms = <?php echo wp_json_encode( $terms ); ?>;
 		</script>
 	</div>
 	<div aria-label="<?php esc_html_e( 'Insert a Tooltip', 'ithoughts-tooltip-glossary' ); ?>" role="dialog" style="border-width: 1px; z-index: 100101;" class="itg-panel itg-floatpanel itg-window itg-in" hidefocus="1" id="ithoughts_tt_gl-tooltip-form">
@@ -62,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</label>
 										</td>
 										<td>
-											<input type="text" autocomplete="off" id="ithoughts_tt_gl_text" name="ithoughts_tt_gl_text" value="<?php echo $data['text']; ?>">
+											<input type="text" autocomplete="off" id="ithoughts_tt_gl_text" name="ithoughts_tt_gl_text" value="<?php echo esc_attr( $data['text'] ); ?>">
 										</td>
 									</tr>
 									<tr>
@@ -73,10 +72,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										</td>
 										<td>
 											<input type="text" autocomplete="off" id="ithoughts_tt_gl_link" name="ithoughts_tt_gl_link" <?php
-											if ( in_array( $data['type'], array( 'tooltip', 'mediatip' ) ) ) {
-											?> value="<?php echo $data['link']; ?>"<?php
-											}
-													?>>
+											if ( in_array( $data['type'], array( 'tooltip', 'mediatip' ), true ) ) { ?> value="<?php echo esc_attr( $data['link'] ); ?>"<?php } ?>>
 										</td>
 									</tr>
 								</table>
@@ -122,12 +118,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<input autocomplete="off" type="text" id="glossary_term" name="glossary_term" value="<?php echo (isset( $data['term_title'] )) ? $data['term_title'] : $data['term_search']; ?>" class="completed"/>
+												<input autocomplete="off" type="text" id="glossary_term" name="glossary_term" value="<?php echo esc_attr( (isset( $data['term_title'] )) ? $data['term_title'] : $data['term_search'] ); ?>" class="completed"/>
 												<div class="glossary_term_completer_container" class="hidden">
 													<div id="glossary_term_completer" class="completer">
 													</div>
 												</div>
-												<input type="hidden" name="glossary_term_id" value="<?php echo $data['glossary_id']; ?>">
+												<input type="hidden" name="glossary_term_id" value="<?php echo esc_attr( $data['glossary_id'] ); ?>">
 											</td>
 										</tr>
 										<?php
@@ -159,7 +155,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<?php esc_html_e( 'Content', 'ithoughts-tooltip-glossary' ); ?>
 												</label>
 												<div style="margin:0 -11px;">
-													<textarea class="tinymce" id="ithoughts_tt_gl-tooltip-content"><?php echo htmlentities( $data['tooltip_content'] ); ?></textarea>
+													<textarea class="tinymce" id="ithoughts_tt_gl-tooltip-content"><?php echo esc_html( $data['tooltip_content'] ); ?></textarea>
 												</div>
 											</td>
 										</tr>
@@ -177,7 +173,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<?php echo $inputs['mediatip_type'] ?>
+												<?php
+												echo wp_kses($inputs['mediatip_type'], array(
+													'select' => array(
+														'name' => true,
+														'id' => true,
+														'autocomplete' => true,
+													),
+													'option' => array(
+														'title' => true,
+														'value' => true,
+														'selected' => true,
+														'disabled' => true,
+													),
+												)); ?>
 											</td>
 										</tr>
 										<tr data-mediatip_type="mediatip-localimage-type">
@@ -185,13 +194,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 												<div class="image-box" id="image-box">
 													<?php
 													if ( isset( $data['mediatip_content']['url'] ) && $data['mediatip_content']['url'] ) :
-																									?>
-																									<img src="<?php echo $data['mediatip_content']['url']; ?>"/>
-																									<?php
+													?>
+													<img src="<?php echo esc_attr( esc_url( $data['mediatip_content']['url'] ) ); ?>"/>
+													<?php
 													endif;
 													?>
 												</div>
-												<input id="image-box-data" type="hidden" value="<?php echo $data['mediatip_content_json']; ?>">
+												<input id="image-box-data" type="hidden" value="<?php echo esc_attr( $data['mediatip_content_json'] ); ?>">
 												<div class="itg-widget itg-btn itg-last itg-btn-has-text" role="button" style="width: 100%; height: 30px;" tabindex="-1">
 													<button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl_select_image">
 														<?php esc_html_e( 'Select an image', 'ithoughts-tooltip-glossary' ); ?>
@@ -206,7 +215,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<input autocomplete="off" type="url" name="mediatip_url_image" id="mediatip_url_image" value="<?php echo (($data['mediatip_type'] == 'webimage') ? $data['mediatip_content_json'] : ''); ?>"/>
+												<input autocomplete="off" type="url" name="mediatip_url_image" id="mediatip_url_image" value="<?php echo esc_attr( ('webimage' === $data['mediatip_type']) ? $data['mediatip_content_json'] : '' ); ?>"/>
 											</td>
 										</tr>
 										<tr data-mediatip_type="mediatip-webimage-type mediatip-localimage-type">
@@ -216,7 +225,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<textarea autocomplete="off" name="mediatip_caption" id="mediatip_caption" style="width:100%;border:1px solid #ccc;"><?php echo (in_array( $data['mediatip_type'], array( 'webimage', 'localimage' ) )) ? $data['mediatip_caption'] : '' ?></textarea>
+												<textarea autocomplete="off" name="mediatip_caption" id="mediatip_caption" style="width:100%;border:1px solid #ccc;"><?php echo esc_html( (in_array( $data['mediatip_type'], array( 'webimage', 'localimage' ), true )) ? $data['mediatip_caption'] : '' ) ?></textarea>
 											</td>
 										</tr>
 										<tr data-mediatip_type="mediatip-webvideo-type">
@@ -226,9 +235,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<input autocomplete="off" type="text" name="mediatip_url_video_link" id="mediatip_url_video_link" value="<?php echo (($data['mediatip_type'] == 'webvideo') ? $data['mediatip_link'] : ''); ?>"/>
-												<input autocomplete="off" type="hidden" name="mediatip_url_video_embed" id="mediatip_url_video_embed" value="<?php echo (($data['mediatip_type'] == 'webvideo') ? $data['mediatip_content'] : ''); ?>"/>
-												<input autocomplete="off" type="hidden" name="mediatip_url_video_link" id="mediatip_url_video_link" value="<?php echo (($data['mediatip_type'] == 'webvideo') ? $data['mediatip_link'] : ''); ?>"/>
+												<input autocomplete="off" type="text" name="mediatip_url_video_link" id="mediatip_url_video_link" value="<?php echo esc_attr( ('webvideo' === $data['mediatip_type']) ? $data['mediatip_link'] : '' ); ?>"/>
+												<input autocomplete="off" type="hidden" name="mediatip_url_video_embed" id="mediatip_url_video_embed" value="<?php echo esc_attr( ('webvideo' === $data['mediatip_type']) ? $data['mediatip_content'] : '' ); ?>"/>
+												<input autocomplete="off" type="hidden" name="mediatip_url_video_link" id="mediatip_url_video_link" value="<?php echo esc_attr( ('webvideo' === $data['mediatip_type']) ? $data['mediatip_link'] : '' ); ?>"/>
 											</td>
 										</tr>
 									</table>
@@ -306,17 +315,54 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php echo $inputs['qtip-content']; ?>
+													<?php
+													echo wp_kses($inputs['qtip-content'], array(
+														'select' => array(
+															'name' => true,
+															'id' => true,
+															'autocomplete' => true,
+														),
+														'option' => array(
+															'title' => true,
+															'value' => true,
+															'selected' => true,
+															'disabled' => true,
+														),
+													)); ?>
 												</td>
 											</tr>
 											<tr>
 												<td>
 													<label for="qtip-keep-open">
-														<?php echo apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Delay tooltip hide', 'ithoughts-tooltip-glossary' ), esc_html__( 'Add a timer of 500ms before hiding the tooltip. This allow the user to click into the tip. This option is enabled by default for video mediatips.', 'ithoughts-tooltip-glossary' ) ); ?>
+														<?php
+														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Delay tooltip hide', 'ithoughts-tooltip-glossary' ), esc_html__( 'Add a timer of 500ms before hiding the tooltip. This allow the user to click into the tip. This option is enabled by default for video mediatips.', 'ithoughts-tooltip-glossary' ) );
+														echo wp_kses(
+															$tooltip,
+															array(
+																'span' => array(
+																	'tooltip-nosolo' => true,
+																	'class' => true,
+																	'data-tooltip-content' => true,
+																),
+																'a' => array(
+																	'href' => true,
+																),
+															)
+														); ?>
 													</label>
 												</td>
 												<td>
-													<?php echo $inputs['qtip-keep-open']; ?>
+													<?php
+													echo wp_kses($inputs['qtip-keep-open'], array(
+														'input' => array(
+															'id' => true,
+															'name' => true,
+															'type' => true,
+															'value' => true,
+															'autocomplete' => true,
+															'checked' => true,
+														),
+													)); ?>
 												</td>
 											</tr>
 											<tr>
@@ -326,8 +372,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php echo $inputs['qtiptrigger']; ?>
-													<?php echo $inputs['qtiptriggerText']; ?>
+													<?php
+													echo wp_kses($inputs['qtiptrigger'], array(
+														'select' => array(
+															'name' => true,
+															'id' => true,
+															'autocomplete' => true,
+														),
+														'option' => array(
+															'title' => true,
+															'value' => true,
+															'selected' => true,
+															'disabled' => true,
+														),
+													));
+													echo wp_kses( $inputs['qtiptriggerText'], array(
+														'input' => array(
+															'id' => true,
+															'name' => true,
+															'type' => true,
+															'value' => true,
+															'autocomplete' => true,
+														),
+													) ); ?>
 												</td>
 											</tr>
 											<tr>
@@ -337,7 +404,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php echo $inputs['qtipstyle']; ?>
+													<?php
+													echo wp_kses($inputs['qtipstyle'], array(
+														'select' => array(
+															'name' => true,
+															'id' => true,
+															'autocomplete' => true,
+														),
+														'option' => array(
+															'title' => true,
+															'value' => true,
+															'selected' => true,
+															'disabled' => true,
+														),
+													)); ?>
 												</td>
 											</tr>
 											<tr>
@@ -347,7 +427,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php echo $inputs['qtipshadow']; ?>
+													<?php
+													echo wp_kses($inputs['qtipshadow'], array(
+														'input' => array(
+															'id' => true,
+															'name' => true,
+															'type' => true,
+															'value' => true,
+															'autocomplete' => true,
+															'checked' => true,
+															'data-state' => true,
+														),
+													)); ?>
 												</td>
 											</tr>
 											<tr>
@@ -357,34 +448,131 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php echo $inputs['qtiprounded']; ?>
+													<?php
+													echo wp_kses($inputs['qtiprounded'], array(
+														'input' => array(
+															'id' => true,
+															'name' => true,
+															'type' => true,
+															'value' => true,
+															'autocomplete' => true,
+															'checked' => true,
+															'data-state' => true,
+														),
+													)); ?>
 												</td>
 											</tr>
 											<tr>
 												<td>
 													<label for="position_my">
-														<?php echo apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Position of the tip', 'ithoughts-tooltip-glossary' ), esc_html__( 'Position of the sharp tip around the tooltip. By default, the main axis is vertical', 'ithoughts-tooltip-glossary' ) ); ?>
+														<?php
+														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Position of the tip', 'ithoughts-tooltip-glossary' ), esc_html__( 'Position of the sharp tip around the tooltip. By default, the main axis is vertical', 'ithoughts-tooltip-glossary' ) );
+														echo wp_kses(
+															$tooltip,
+															array(
+																'span' => array(
+																	'tooltip-nosolo' => true,
+																	'class' => true,
+																	'data-tooltip-content' => true,
+																),
+																'a' => array(
+																	'href' => true,
+																),
+															)
+														); ?>
 													</label>
 												</td>
 												<td>
 													<?php
-													echo '<div style="display:inline;">' . $inputs['position']['my'][1] . '</div>';
-													echo '<div style="display:inline;">' . $inputs['position']['my'][2] . '</div>';
+													echo '<div style="display:inline;">' . wp_kses($inputs['position']['my'][1], array(
+														'select' => array(
+															'name' => true,
+															'id' => true,
+															'autocomplete' => true,
+														),
+														'option' => array(
+															'title' => true,
+															'value' => true,
+															'selected' => true,
+															'disabled' => true,
+														),
+													)) . '</div>';
+													echo '<div style="display:inline;">' . wp_kses($inputs['position']['my'][2], array(
+														'select' => array(
+															'name' => true,
+															'id' => true,
+															'autocomplete' => true,
+														),
+														'option' => array(
+															'title' => true,
+															'value' => true,
+															'selected' => true,
+															'disabled' => true,
+														),
+													)) . '</div>';
 													?>
-													<label for="position_my_invert"><?php echo $inputs['position']['my']['invert'];
-													esc_html_e( 'Invert main axis', 'ithoughts-tooltip-glossary' ); ?></label>
+													<label for="position_my_invert"><?php
+														echo wp_kses($inputs['position']['my']['invert'], array(
+															'input' => array(
+																'id' => true,
+																'name' => true,
+																'type' => true,
+																'value' => true,
+																'autocomplete' => true,
+																'checked' => true,
+															),
+														));
+														esc_html_e( 'Invert main axis', 'ithoughts-tooltip-glossary' ); ?></label>
 												</td>
 											</tr>
 											<tr>
 												<td>
 													<label for="position_at">
-														<?php echo apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Position of the tooltip', 'ithoughts-tooltip-glossary' ), esc_html__( 'Position of the tooltip around the target area', 'ithoughts-tooltip-glossary' ) ); ?>
+														<?php
+														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Position of the tooltip', 'ithoughts-tooltip-glossary' ), esc_html__( 'Position of the tooltip around the target area', 'ithoughts-tooltip-glossary' ) );
+														echo wp_kses(
+															$tooltip,
+															array(
+																'span' => array(
+																	'tooltip-nosolo' => true,
+																	'class' => true,
+																	'data-tooltip-content' => true,
+																),
+																'a' => array(
+																	'href' => true,
+																),
+															)
+														); ?>
 													</label>
 												</td>
 												<td>
 													<?php
-													echo '<div style="display:inline;">' . $inputs['position']['at'][1] . '</div>';
-													echo '<div style="display:inline;">' . $inputs['position']['at'][2] . '</div>';
+													echo '<div style="display:inline;">' . wp_kses($inputs['position']['at'][1], array(
+														'select' => array(
+															'name' => true,
+															'id' => true,
+															'autocomplete' => true,
+														),
+														'option' => array(
+															'title' => true,
+															'value' => true,
+															'selected' => true,
+															'disabled' => true,
+														),
+													)) . '</div>';
+													echo '<div style="display:inline;">' . wp_kses($inputs['position']['at'][2], array(
+														'select' => array(
+															'name' => true,
+															'id' => true,
+															'autocomplete' => true,
+														),
+														'option' => array(
+															'title' => true,
+															'value' => true,
+															'selected' => true,
+															'disabled' => true,
+														),
+													)) . '</div>';
 													?>
 												</td>
 											</tr>
@@ -395,19 +583,79 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<label for="anim[in]"><?php esc_html_e( 'In', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $inputs['anim']['in']; ?></label>&nbsp;&nbsp;
-													<label for="anim[out]"><?php esc_html_e( 'Out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $inputs['anim']['out']; ?></label>&nbsp;&nbsp;
-													<label for="anim[time]"><?php esc_html_e( 'Duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php echo $inputs['anim']['time']; ?>ms</label>
+													<label for="anim[in]"><?php esc_html_e( 'In', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php
+														echo wp_kses($inputs['anim']['in'], array(
+															'select' => array(
+																'name' => true,
+																'id' => true,
+																'autocomplete' => true,
+															),
+															'option' => array(
+																'title' => true,
+																'value' => true,
+																'selected' => true,
+																'disabled' => true,
+															),
+														)); ?></label>&nbsp;&nbsp;
+													<label for="anim[out]"><?php esc_html_e( 'Out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php
+														echo wp_kses($inputs['anim']['out'], array(
+															'select' => array(
+																'name' => true,
+																'id' => true,
+																'autocomplete' => true,
+															),
+															'option' => array(
+																'title' => true,
+																'value' => true,
+																'selected' => true,
+																'disabled' => true,
+															),
+														)); ?></label>&nbsp;&nbsp;
+													<label for="anim[time]"><?php esc_html_e( 'Duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php
+														echo wp_kses($inputs['anim']['time'], array(
+															'input' => array(
+																'id' => true,
+																'name' => true,
+																'type' => true,
+																'value' => true,
+																'autocomplete' => true,
+																'style' => true,
+																'placeholder' => true,
+															),
+														)); ?>ms</label>
 												</td>
 											</tr>
 											<tr>
 												<td>
 													<label for="maxwidth">
-														<?php echo apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Max width', 'ithoughts-tooltip-glossary' ), esc_html__( 'Maximum width of the tooltip. The default value of this property is 280px. Be carefull about this option: a too high value may overflow outside small devices.', 'ithoughts-tooltip-glossary' ) ); ?>
+														<?php
+														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Max width', 'ithoughts-tooltip-glossary' ), esc_html__( 'Maximum width of the tooltip. The default value of this property is 280px. Be carefull about this option: a too high value may overflow outside small devices.', 'ithoughts-tooltip-glossary' ) );
+														echo wp_kses(
+															$tooltip,
+															array(
+																'span' => array(
+																	'tooltip-nosolo' => true,
+																	'class' => true,
+																	'data-tooltip-content' => true,
+																),
+																'a' => array(
+																	'href' => true,
+																),
+															)
+														); ?>
 													</label>
 												</td>
 												<td>
-													<?php echo $inputs['maxwidth']; ?>
+													<?php
+													echo wp_kses($inputs['maxwidth'], array(
+														'input' => array(
+															'id' => true,
+															'name' => true,
+															'type' => true,
+															'value' => true,
+															'autocomplete' => true,
+														),
+													)); ?>
 												</td>
 											</tr>
 										</table>
@@ -419,7 +667,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<datalist id="attributes-list">
 														<?php
 														foreach ( $attrs as $attr ) {
-															echo "<option value=\"$attr\"/>";
+														?><option value="<?php
+															echo esc_attr( $attr );
+															?>"/><?php
 														}
 														?>
 													</datalist>
@@ -439,23 +689,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 															<div>
 																<div>
 																	<div class="ithoughts-attrs-container" data-attr-family="span">
-																		<?php $i = 0;
+																		<?php
+																		$i = 0;
 																		foreach ( $opts['attributes']['span'] as $key => $value ) { ?>
-																		<div class="attribute-name-val <?php echo ($i == 0) ? 'ithoughts-prototype' : ''; ?>">
+																		<div class="attribute-name-val <?php echo (0 === $i) ? 'ithoughts-prototype' : ''; ?>">
 																			<div class="kv-pair">
-																				<label for="attributes-span-key-<?php echo $i; ?>"class="dynamicId dynamicId-key">
+																				<label for="attributes-span-key-<?php echo absint( $i ); ?>"class="dynamicId dynamicId-key">
 																					<?php esc_html_e( 'Key', 'ithoughts-tooltip-glossary' ); ?>
 																				</label>
-																				<input type="text" <?php echo ($i == 0) ? 'disabled' : ''; ?> class="dynamicId dynamicId-key" value="<?php echo $key; ?>" autocomplete="off" list="attributes-list" name="attributes-span-key[]" id="attributes-span-key-<?php echo $i; ?>" />
+																				<input type="text" <?php echo (0 === $i) ? 'disabled' : ''; ?> class="dynamicId dynamicId-key" value="<?php echo esc_attr( $key ); ?>" autocomplete="off" list="attributes-list" name="attributes-span-key[]" id="attributes-span-key-<?php echo absint( $i ); ?>" />
 																			</div>
 																			<div class="kv-pair">
-																				<label for="attributes-span-value-<?php echo $i; ?>"class="dynamicId dynamicId-value">
+																				<label for="attributes-span-value-<?php echo absint( $i ); ?>"class="dynamicId dynamicId-value">
 																					<?php esc_html_e( 'Value', 'ithoughts-tooltip-glossary' ); ?>
 																				</label>
-																				<input type="text" <?php echo ($i == 0) ? 'disabled' : ''; ?> class="dynamicId dynamicId-value" value="<?php echo $value; ?>" autocomplete="off" name="attributes-span-value[]" id="attributes-span-value-<?php echo $i; ?>" />
+																				<input type="text" <?php echo (0 === $i) ? 'disabled' : ''; ?> class="dynamicId dynamicId-value" value="<?php echo esc_attr( $value ); ?>" autocomplete="off" name="attributes-span-value[]" id="attributes-span-value-<?php echo absint( $i ); ?>" />
 																			</div>
 																		</div>
-																		<?php $i++;
+																		<?php
+																																   $i++;
 																		} ?>
 																	</div>
 																	<div style="clear:both;"></div>
@@ -473,23 +725,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 															<div>
 																<div>
 																	<div class="ithoughts-attrs-container" data-attr-family="link">
-																		<?php $i = 0;
+																		<?php
+																		$i = 0;
 																		foreach ( $opts['attributes']['link'] as $key => $value ) { ?>
-																		<div class="attribute-name-val <?php echo ($i == 0) ? 'ithoughts-prototype' : ''; ?>">
+																		<div class="attribute-name-val <?php echo (0 === $i) ? 'ithoughts-prototype' : ''; ?>">
 																			<div class="kv-pair">
-																				<label for="attributes-link-key-<?php echo $i; ?>" class="dynamicId dynamicId-key">
+																				<label for="attributes-link-key-<?php echo absint( $i ); ?>" class="dynamicId dynamicId-key">
 																					<?php esc_html_e( 'Key', 'ithoughts-tooltip-glossary' ); ?>
 																				</label>
-																				<input type="text" <?php echo ($i == 0) ? 'disabled' : ''; ?> class="dynamicId dynamicId-key" value="<?php echo $key; ?>" autocomplete="off" list="attributes-list" name="attributes-link-key[]" id="attributes-link-key-<?php echo $i; ?>" />
+																				<input type="text" <?php echo (0 === $i) ? 'disabled' : ''; ?> class="dynamicId dynamicId-key" value="<?php echo esc_attr( $key ); ?>" autocomplete="off" list="attributes-list" name="attributes-link-key[]" id="attributes-link-key-<?php echo absint( $i ); ?>" />
 																			</div>
 																			<div class="kv-pair">
-																				<label for="attributes-link-value-<?php echo $i; ?>" class="dynamicId dynamicId-value">
+																				<label for="attributes-link-value-<?php echo absint( $i ); ?>" class="dynamicId dynamicId-value">
 																					<?php esc_html_e( 'Value', 'ithoughts-tooltip-glossary' ); ?>
 																				</label>
-																				<input type="text" <?php echo ($i == 0) ? 'disabled' : ''; ?> class="dynamicId dynamicId-value" value="<?php echo $value; ?>" autocomplete="off" name="attributes-link-value[]" id="attributes-link-value-<?php echo $i; ?>" />
+																				<input type="text" <?php echo (0 === $i) ? 'disabled' : ''; ?> class="dynamicId dynamicId-value" value="<?php echo esc_attr( $value ); ?>" autocomplete="off" name="attributes-link-value[]" id="attributes-link-value-<?php echo absint( $i ); ?>" />
 																			</div>
 																		</div>
-																		<?php $i++;
+																		<?php
+																																   $i++;
 																		} ?>
 																	</div>
 																	<div style="clear:both;"></div>

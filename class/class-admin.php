@@ -1424,7 +1424,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$action = 'load';
 			$themename = null;
 			if ( isset( $_GET['theme_select'] ) && isset( $_GET['action'] ) ) { // Input var okay.
-				check_admin_referer( 'ithoughts_tt_gl-update_theme' );
+				if('recompile' === $_GET['action']){ // Input var okay.
+					check_admin_referer( 'ithoughts_tt_gl-theme_editor' );
+				} else {
+					check_admin_referer( 'ithoughts_tt_gl-loadtheme' );
+				}
 				$get_unslashed = wp_unslash( $_GET ); // Input var okay.
 				$themename = $get_unslashed['theme_select'];
 				$action = $get_unslashed['action'];
@@ -1517,8 +1521,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 						),
 					)
 				),
-															);
-															require $backbone->get_base_path() . '/templates/dist/customizing-form.php';
+			);
+			require $backbone->get_base_path() . '/templates/dist/customizing-form.php';
 		}
 
 		/**
@@ -1593,7 +1597,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			if ( ! isset( $_POST ) ) { // Input var okay.
 				wp_send_json_error( 'No post data.' );
 			}
-			check_admin_referer( 'ithoughts_tt_gl-themeeditor' );
+			check_admin_referer( 'ithoughts_tt_gl-theme_editor' );
 			$data = wp_unslash( $_POST ); // Input var okay.
 			unset( $data['action'] );
 
@@ -1614,6 +1618,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				$ret = array_merge( $tmp, $ret );
 				$ret['error'] = $e->getMessage();
 			}
+			$ret['nonce_refresh'] = wp_create_nonce('ithoughts_tt_gl-theme_editor');
 
 			wp_die( wp_json_encode( $ret ) );
 		}
@@ -1627,7 +1632,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			if ( ! isset( $_POST ) ) { // Input var okay.
 				wp_send_json_error( 'No post data.' );
 			}
-			check_admin_referer( 'ithoughts_tt_gl-themeeditor' );
+			check_admin_referer( 'ithoughts_tt_gl-theme_editor' );
 			$data = wp_unslash( $_POST ); // Input var okay.
 			unset( $data['action'] );
 
@@ -1637,6 +1642,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			wp_die( wp_json_encode( array(
 				'valid' => $out['valid'],
 				'text' => '<p>' . (($out['valid']) ? esc_html__( 'Theme saved.','ithoughts-tooltip-glossary' ) : __( 'Failed to save the theme.','ithoughts-tooltip-glossary' )) . '</p>',
+				'nonce_refresh' => wp_create_nonce('ithoughts_tt_gl-theme_editor'),
 			) ) );
 		}
 
@@ -1687,7 +1693,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				if ( strlen( $line ) > 0 ) {
 					$indented .= str_repeat( $indent, $indent_level ) . $line . PHP_EOL;
 				} else { $indented .= PHP_EOL;
-				}
+					   }
 				$indent_level += preg_match( '/\{(\s*(\\/\\*.*\\*\\/)*)*$/',$line );
 			}
 			return preg_replace( "/[\n\r\s]*$/",'',$indented );

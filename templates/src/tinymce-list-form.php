@@ -81,16 +81,16 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo json_encode( $groups ); ?>;
 													</label>
 												</div>
 												<?php
-	foreach ( $groups as $group ) {
-												?>
-												<div class="group-select" data-groupid="<?php echo $group->term_id; ?>">
-													<input type="checkbox" <?php echo in_array( $group->term_id, $data['group'] ) ? 'checked ' : ''; ?> name="group_check" value="<?php echo $group->term_id; ?>" id="group_check_<?php echo $group->term_id; ?>">
-													<label for="group_check_<?php echo $group->term_id; ?>" class="group-label">
-														<span class="group-title"><?php echo esc_html( $group->name ); ?></span>&nbsp;<span class="group-count">(<?php echo $group->count; ?>)</span>
-													</label>
-												</div>
-												<?php
-	}
+												foreach ( $groups as $group ) {
+																							?>
+																							<div class="group-select" data-groupid="<?php echo $group->term_id; ?>">
+																								<input type="checkbox" <?php echo in_array( $group->term_id, $data['group'] ) ? 'checked ' : ''; ?> name="group_check" value="<?php echo $group->term_id; ?>" id="group_check_<?php echo $group->term_id; ?>">
+																								<label for="group_check_<?php echo $group->term_id; ?>" class="group-label">
+																									<span class="group-title"><?php echo esc_html( $group->name ); ?></span>&nbsp;<span class="group-count">(<?php echo $group->count; ?>)</span>
+																								</label>
+																							</div>
+																							<?php
+												}
 												?>
 											</div>
 										</td>
