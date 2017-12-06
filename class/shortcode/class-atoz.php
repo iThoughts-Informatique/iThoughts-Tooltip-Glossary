@@ -54,7 +54,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\AtoZ' ) ) {
 			$atoz = array();
 			foreach ( $terms as $post ) {
 				$title = $post->post_title;
-				$alpha = strtoupper( \ithoughts\v5_0\Toolbox::unaccent( mb_substr( $title,0,1, 'UTF-8' ) ) );
+				$alpha = strtoupper( \ithoughts\v6_0\Toolbox::unaccent( mb_substr( $title,0,1, 'UTF-8' ) ) );
 				if ( ! preg_match( '/[A-Z]/', $alpha ) ) {
 					$alpha = '#';
 				}
@@ -94,7 +94,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\AtoZ' ) ) {
 
 			$clear    = '<div style="clear: both;"></div>';
 			$data['attributes']['class'] = 'glossary-atoz-wrapper' . ((isset( $data['attributes']['class'] ) && $data['attributes']['class']) ? ' ' . $data['attributes']['class'] : '');
-			$args = \ithoughts\v5_0\Toolbox::concat_attrs( $data['attributes'] );
+			$args = \ithoughts\v6_0\Toolbox::concat_attrs( $data['attributes'] );
 			$plsclick = apply_filters( 'ithoughts_tt_gl_please_select', '<div class="ithoughts_tt_gl-please-select"><p>' . __( 'Please select from the menu above', 'ithoughts-tooltip-glossary' ) . '</p></div>' );
 			// Global variable that tells WP to print related js files.
 			$backbone->add_scripts( array( 'qtip', 'atoz' ) );

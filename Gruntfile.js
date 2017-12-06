@@ -327,6 +327,7 @@ module.exports = function gruntInit( grunt ) {
 			dist: {
 				options: {
 					verbose: true,
+//					template: 'abstract',
 				},
 				src: [
 					'class/**/*.php',

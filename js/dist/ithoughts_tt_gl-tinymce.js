@@ -34,6 +34,8 @@
 	}
 
 	tinymce.PluginManager.add(prefix2, function registerTinyMCEPlugin(editor) {
+		itge.editor = editor;
+
 		//CSS
 		editor.contentCSS.push(itg.baseurl + '/css/ithoughts_tt_gl-admin.min.css?v=2.7.0');
 		/*

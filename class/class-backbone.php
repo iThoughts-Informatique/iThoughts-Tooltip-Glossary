@@ -14,22 +14,21 @@
 
 namespace ithoughts\tooltip_glossary;
 
-use \ithoughts\v5_0\Resource as Resource;
-use \ithoughts\v5_0\LogLevel as LogLevel;
+use \ithoughts\v6_0\Resource as Resource;
+use \ithoughts\v6_0\LogLevel as LogLevel;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	status_header( 403 );
-	wp_die( 'Forbidden' );// Exit if accessed directly.
+	status_header( 403 );wp_die( 'Forbidden' );// Exit if accessed directly.
 }
 
 
-if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
+if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) 
 	/**
 	 * Main class of iThoughts Tooltip Glossary
 	 *
 	 * @author Gerkin
 	 */
-	class Backbone extends \ithoughts\v5_0\Backbone {
+	class Backbone extends \ithoughts\v6_0\Backbone {
 		/**
 		 * Default options values.
 		 *

@@ -107,7 +107,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 			$href = 'javascript::void(0)';
 			if ( 'none' !== $datas['options']['termlinkopt'] ) {// If there need a link...
 				if ( $term['post_name'] ) {
-					$href = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v5_0\Toolbox::get_permalink_light( $term, 'glossary' ) );
+					$href = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v6_0\Toolbox::get_permalink_light( $term, 'glossary' ) );
 				} else {
 					$href = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink( $term['ID'] ) );
 				}
@@ -152,11 +152,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				if ( is_numeric( $term ) ) {
 					$termRetrieved = get_post( $term );
 					if ( null === $termRetrieved ) {
-						$backbone->log( \ithoughts\v5_0\LogLevel::WARN, "Term with id \"$term\" and text \"$text\" does not exists." );
+						$backbone->log( \ithoughts\v6_0\LogLevel::WARN, "Term with id \"$term\" and text \"$text\" does not exists." );
 					}
 					$term = $termRetrieved;
 				} elseif ( ! ($term instanceof \WP_Post) ) {
-					$backbone->log( \ithoughts\v5_0\LogLevel::WARN, 'Unhandled term descriptor provided:', $term, gettype( $term ) );
+					$backbone->log( \ithoughts\v6_0\LogLevel::WARN, 'Unhandled term descriptor provided:', $term, gettype( $term ) );
 					$term = null;
 				}
 			}
@@ -208,9 +208,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				$href = 'javascript::void(0)';
 				if ( $datas['options']['termlinkopt'] != 'none' ) { // If there need a link
 					if ( null !== $term ) {
-						$href = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v5_0\Toolbox::get_permalink_light( $term,'glossary' ) );
+						$href = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v6_0\Toolbox::get_permalink_light( $term,'glossary' ) );
 					} else {
-						$backbone->log( \ithoughts\v5_0\LogLevel::WARN, "Tried to call get_permalink_light on NULL term with text \"$text\"." );
+						$backbone->log( \ithoughts\v6_0\LogLevel::WARN, "Tried to call get_permalink_light on NULL term with text \"$text\"." );
 					}
 				}
 				$datas['linkAttrs']['href'] = $href;
@@ -229,14 +229,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				$datas['linkAttrs']['target'] = '_blank';
 			}
 
-			$link_args = \ithoughts\v5_0\Toolbox::concat_attrs( $datas['linkAttrs'] );
+			$link_args = \ithoughts\v6_0\Toolbox::concat_attrs( $datas['linkAttrs'] );
 			$link_element   = '<a ' . $link_args . '>' . $text . '</a>';
 
 			$datas['attributes']['class'] = 'itg-glossary' . ((isset( $datas['attributes']['class'] ) && $datas['attributes']['class']) ? ' ' . $datas['attributes']['class'] : '');
 			if ( null === $term ) {
 				$datas['attributes']['class'] .= ' itg-notfound';
 			}
-			$args = \ithoughts\v5_0\Toolbox::concat_attrs( $datas['attributes'] );
+			$args = \ithoughts\v6_0\Toolbox::concat_attrs( $datas['attributes'] );
 
 			$backbone->add_script( 'qtip' );
 

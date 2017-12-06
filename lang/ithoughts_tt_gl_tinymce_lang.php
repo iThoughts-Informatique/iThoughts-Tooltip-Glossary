@@ -26,6 +26,13 @@ function ithoughts_tt_gl_tinymce_plugin_translation() {
 		"add_index"			=> __('Add a Glossary Index', 'ithoughts-tooltip-glossary' ),
 		"add_tooltip"		=> __('Add a Tooltip', 'ithoughts-tooltip-glossary' ),
 		"remove_tooltip"	=> __('Remove a Tooltip', 'ithoughts-tooltip-glossary' ),
+		'error'				=> array(
+			'forbidden'		=> array(
+				'content_1' => __('Oops, you are not authorized to perform this action. Please refresh the page and retry', 'ithoughts-tooltip-glossary'),
+				'content_2'	=> __('Refresh the page', 'ithoughts-tooltip-glossary'),
+				'title'		=> __('Forbidden', 'ithoughts-tooltip-glossary'),
+			),
+		),
 	);
 
 	$locale = _WP_Editors::$mce_locale;

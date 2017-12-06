@@ -24,7 +24,7 @@ Domain Path: /lang
 */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );
+	status_header( 403 );
 	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 require_once( dirname( __FILE__ ) . '/submodules/iThoughts-WordPress-Plugin-Toolbox/includer.php' );

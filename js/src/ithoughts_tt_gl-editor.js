@@ -28,7 +28,8 @@
 			prefix4			= 'itg',
 			tipsTypes		= [ 'ithoughts-tooltip-glossary-term', 'ithoughts-tooltip-glossary-tooltip', 'ithoughts-tooltip-glossary-mediatip' ],
 			htmlAttrs		= [ 'href' ],
-			isNA			= ithoughts.isNA;
+			isNA			= ithoughts.isNA,
+			editor			= itge.editor;
 
 		ithoughts.initLoggers( itge, 'iThoughts Tooltip Glossary', itge.verbosity );
 		itge.removeAccents = function removeAccents( s ) {
@@ -659,9 +660,15 @@
 							};
 						}());
 					},
-					error: function error() {
+					error: function error( xhr ) {
 						loader.remove();
 						itge.error( 'Error while getting TinyMCE form for Tip: ', arguments );
+						if ( 403 === xhr.status ) {
+							$( $.parseHTML( `<p>${ editor.getLang( 'ithoughts_tt_gl_tinymce.error.forbidden.content_1' ) }<br/><a href="javascript:window.location.href=window.location.href">${ editor.getLang( 'ithoughts_tt_gl_tinymce.error.forbidden.content_2' ) }</a></p>` )).dialog({
+								title:  editor.getLang( 'ithoughts_tt_gl_tinymce.error.forbidden.title' ),
+								modale: true,
+							});
+						}
 					},
 				});
 			},

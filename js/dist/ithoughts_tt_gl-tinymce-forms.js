@@ -72,7 +72,7 @@
 				// Initialize the tab switcher of advanced options
 				initTab($('#ithoughts_tt_gl-tooltip-form-options .tabs li'));
 				// Mode switcher for mediatips.  Hide all except the selected mode
-				$('.modeswitcher').on('click keyup', function switchMode() {
+				$('.modeswitcher').on('click keyup change', function switchMode() {
 					var id = this.id;
 					$('[data-' + id + ']:not([data-' + id + '="mediatip-' + this.value + '-type"])').hide();
 					$('[data-' + id + '~="mediatip-' + this.value + '-type"]').show();
