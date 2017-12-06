@@ -6,7 +6,7 @@ engines:
     config:
       languages:
       - javascript
-	  - php
+      - php
   eslint:
     enabled: true
     channel: "eslint-4"
@@ -24,9 +24,9 @@ checks:
       threshold: 10
 exclude_patterns:
 - "bin/"
-- "assets/dist"
 - "assets/build"
 - "assets/deps"
+- "assets/dist"
 - "templates/deps"
 - "lang/"
 - "submodules/"
