@@ -20,7 +20,8 @@
 namespace ithoughts\tooltip_glossary\shortcode;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );wp_die("Forbidden");// Exit if accessed directly
+	 status_header( 403 );
+	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 
 
@@ -35,7 +36,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 			add_action( 'wp_insert_post_data',  array( &$this, 'parse_pseudo_links_to_shortcode' ) );
 			add_action( 'edit_post',  array( &$this, 'convert_shortcodes' ) );
 
-			add_filter( 'ithoughts-tt-gl_tooltip', array( &$this, 'generateTooltip' ), 1000, 3 );
+			add_filter( 'ithoughts_tt_gl_tooltip', array( &$this, 'generateTooltip' ), 1000, 3 );
 		}
 
 		public function parse_pseudo_links_to_shortcode( $data ) {
@@ -55,7 +56,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 
 			$content = (isset( $datas['handled']['tooltip-content'] ) && $datas['handled']['tooltip-content']) ? $datas['handled']['tooltip-content'] : '';
 
-			return apply_filters( 'ithoughts-tt-gl_tooltip', $text, $content, $datas );
+			return apply_filters( 'ithoughts_tt_gl_tooltip', $text, $content, $datas );
 		}
 
 		/**
@@ -72,8 +73,10 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 			'attributes' => array(),
 		) ) {
 			// Set text to default to content. This allows syntax like: [glossary]Cheddar[/glossary]
-			if ( empty( $tip ) ) { $tip = $text;
+			if ( empty( $tip ) ) {
+				$tip = $text;
 			}
+			$tip = esc_attr($tip);
 
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$backbone->add_script( 'qtip' );
@@ -86,11 +89,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 				$options['linkAttrs']['title'] = esc_attr( $text );
 			}
 
-			$linkArgs = \ithoughts\v5_0\Toolbox::concat_attrs( $options['linkAttrs'] );
+			$linkArgs = \ithoughts\v6_0\Toolbox::concat_attrs( $options['linkAttrs'] );
 			$link   = '<a ' . $linkArgs . '>' . $text . '</a>';
 			// Span that qtip finds
 			$options['attributes']['class'] = 'itg-tooltip' . ((isset( $options['attributes']['class'] ) && $options['attributes']['class']) ? ' ' . $options['attributes']['class'] : '');
-			$args = \ithoughts\v5_0\Toolbox::concat_attrs( $options['attributes'] );
+			$args = \ithoughts\v6_0\Toolbox::concat_attrs( $options['attributes'] );
 			$span = '<span ' . $args . ' data-tooltip-content="' . do_shortcode( $tip ) . '">' . $link . '</span>';
 
 			return $span;

@@ -175,7 +175,7 @@
 .itg-tipsContainer{
 	position: absolute;
 	width:100%;
-	z-index: 9999999;
+	z-index: 10000000;
 }
 
 .itg-glossary,
@@ -264,11 +264,16 @@ Specific styles for tip
 	vertical-align: top;
 }
 
-.ithoughts_tt_gl-video_tip,
-.ithoughts_tt_gl-video_tip iframe,
-.ithoughts_tt_gl-video_tip video{
-	max-width: none;
-	vertical-align: top;
+.qtip{
+	&.ithoughts_tt_gl-video_tip
+	{
+		&,
+		iframe,
+		video{
+			max-width: none;
+			vertical-align: top;
+		}
+	}
 }
 
 .ithoughts_tt_gl-title_with_pin{

@@ -21,7 +21,14 @@ module.exports = function gruntInit( grunt ) {
 			'assets/src/js/**/*.js',
 			'tests/**/*.js',
 		],
-		gruntLocalconfig = require('./grunt_localconfig.json');
+		phpFiles = {
+			src: [
+				'class/**/*.php',
+				'templates/src/**/*.php',
+				'*.php',
+			],
+		},
+		gruntLocalconfig = require( './grunt_localconfig.json' );
 
 	const gruntConfig = {
 		pkg:    grunt.file.readJSON( 'package.json' ),
@@ -127,7 +134,7 @@ module.exports = function gruntInit( grunt ) {
 					{
 						from: /Tested up to: \d+\.\d+/,
 						to:   function to() {
-							const wpVersionFile = require('path').resolve(
+							const wpVersionFile = require( 'path' ).resolve(
 								gruntLocalconfig.wordpress_base_path,
 								'wp-includes/version.php'
 							);
@@ -150,8 +157,8 @@ module.exports = function gruntInit( grunt ) {
 		},
 		eslint: {
 			options: {
-				format: 'stylish',
-				fix:			true,
+				format:			   'stylish',
+				fix:			      true,
 				useEslintrc:	false,
 				configFile: 'lint/eslint.json',
 				silent:     true,
@@ -176,7 +183,7 @@ module.exports = function gruntInit( grunt ) {
 		},
 		docco: {
 			debug: {
-				src: jsPaths,
+				src:     jsPaths,
 				options: {
 					output: `${jsDocPath}/docco`,
 				},
@@ -193,23 +200,23 @@ module.exports = function gruntInit( grunt ) {
 							choices: [
 								{
 									value: 'build',
-									name:  `${chalk.yellow(`Build:  ${currentVersion}-?` )} > Unstable, betas, and release candidates.`,
+									name:  `${chalk.yellow( `Build:  ${currentVersion}-?` )} > Unstable, betas, and release candidates.`,
 								},
 								{
 									value: 'patch',
-									name:  `${chalk.yellow(`Patch:  ${semver.inc( currentVersion, 'patch' )}` )}   > Backwards-compatible bug fixes.`,
+									name:  `${chalk.yellow( `Patch:  ${semver.inc( currentVersion, 'patch' )}` )}   > Backwards-compatible bug fixes.`,
 								},
 								{
 									value: 'minor',
-									name:  `${chalk.yellow(`Minor:  ${semver.inc( currentVersion, 'minor' )}` )}   > Add functionality in a backwards-compatible manner.`,
+									name:  `${chalk.yellow( `Minor:  ${semver.inc( currentVersion, 'minor' )}` )}   > Add functionality in a backwards-compatible manner.`,
 								},
 								{
 									value: 'major',
-									name:  `${chalk.yellow(`Major:  ${semver.inc( currentVersion, 'major' )}` )}   > Incompatible API changes.`,
+									name:  `${chalk.yellow( `Major:  ${semver.inc( currentVersion, 'major' )}` )}   > Incompatible API changes.`,
 								},
 								{
 									value: 'custom',
-									name:  `${chalk.yellow(`Custom: ?.?.?` )}   > Specify version...`,
+									name:  `${chalk.yellow( 'Custom: ?.?.?' )}   > Specify version...`,
 								},
 							],
 						},
@@ -222,7 +229,7 @@ module.exports = function gruntInit( grunt ) {
 							},
 							validate: function validate( value ) {
 								var valid = semver.valid( value ) && true;
-								return valid || `Must be a valid semver, such as 1.2.3-rc1. See ${chalk.blue.underline('http://semver.org/')} for more details.`;
+								return valid || `Must be a valid semver, such as 1.2.3-rc1. See ${chalk.blue.underline( 'http://semver.org/' )} for more details.`;
 							},
 						},
 						{
@@ -232,12 +239,12 @@ module.exports = function gruntInit( grunt ) {
 							choices: [
 								{
 									value:   'package',
-									name:    'package.json' + ( !grunt.file.isFile( 'package.json' ) ? chalk.grey(' file not found, will create one') : '' ),
+									name:    'package.json' + ( !grunt.file.isFile( 'package.json' ) ? chalk.grey( ' file not found, will create one' ) : '' ),
 									checked: grunt.file.isFile( 'package.json' ),
 								},
 								{
 									value:   'bower',
-									name:    'bower.json' + ( !grunt.file.isFile( 'bower.json' ) ? chalk.grey(' file not found, will create one') : '' ),
+									name:    'bower.json' + ( !grunt.file.isFile( 'bower.json' ) ? chalk.grey( ' file not found, will create one' ) : '' ),
 									checked: grunt.file.isFile( 'bower.json' ),
 								},
 								{
@@ -265,43 +272,44 @@ module.exports = function gruntInit( grunt ) {
 		phpdoc: {
 			dist: {
 				options: {
-					verbose: true
+					verbose: true,
+//					template: 'abstract',
 				},
 				src: [
 					'class/**/*.php',
 					'*.php',
 				],
 				dest: 'docs/php',
-			}
+			},
 		},
 		wp_readme_to_markdown: {
 			dist: {
 				files: {
-					'readme.md': 'readme.txt'
+					'readme.md': 'readme.txt',
 				},
 			},
 		},
 		phpcbf: {
 			options: {
-				standard: 'lint/phpcs.xml'
+				standard: 'lint/phpcs.xml',
 			},
-			files: {
-				src: [
-					'class/**/*.php',
-					'templates/src/**/*.php',
-					'*.php',
-				],
+			files: phpFiles,
+		},
+		phpcs: {
+			options: {
+				standard: 'lint/phpcs.xml',
 			},
+			files: phpFiles,
 		},
 	};
-	if(typeof gruntLocalconfig !== 'undefined' && typeof gruntLocalconfig.svn_path !== 'undefined'){
+	if ( typeof gruntLocalconfig !== 'undefined' && typeof gruntLocalconfig.svn_path !== 'undefined' ) {
 		gruntConfig.rsync = {
 			svn: {
 				options: {
-					src: '.',
-					dest: require('path').resolve(gruntLocalconfig.svn_path, 'trunk'),
+					src:       '.',
+					dest:      require( 'path' ).resolve( gruntLocalconfig.svn_path, 'trunk' ),
 					deleteAll: true,
-					exclude: [
+					exclude:   [
 						'.*',
 						'node_modules',
 						'test',
@@ -320,7 +328,7 @@ module.exports = function gruntInit( grunt ) {
 			},
 		};
 	}
-	grunt.initConfig(gruntConfig);
+	grunt.initConfig( gruntConfig );
 
 	// Load the plugin that provides the 'uglify' task.
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
@@ -338,7 +346,8 @@ module.exports = function gruntInit( grunt ) {
 	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
 	grunt.loadNpmTasks( 'grunt-rsync' );
 	grunt.loadNpmTasks( 'grunt-babel' );
-	grunt.loadNpmTasks('grunt-phpcbf');
+	grunt.loadNpmTasks( 'grunt-phpcbf' );
+	grunt.loadNpmTasks( 'grunt-phpcs' );
 
 	// Default task(s).
 	grunt.registerTask( 'bumpVersionDo', '', function bumpVersionDo() {
@@ -350,7 +359,7 @@ module.exports = function gruntInit( grunt ) {
 			version = semver.inc( currentVersion, grunt.config( 'bump.increment' ));
 			grunt.log.ok( 'Bumping up ' + grunt.config( 'bump.increment' ).yellow + ' version number.' );
 		}
-		if(version == null){
+		if ( null == version ) {
 			version = currentVersion;
 		}
 

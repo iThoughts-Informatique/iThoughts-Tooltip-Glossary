@@ -13,7 +13,8 @@
 namespace ithoughts\tooltip_glossary;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );wp_die("Forbidden");// Exit if accessed directly
+	 status_header( 403 );
+	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 
 
@@ -40,7 +41,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Updater' ) ) {
 		}
 
 		public function requires_update() {
-			return self::requires_update_s($this->from, $this->to);
+			return self::requires_update_s( $this->from, $this->to );
 		}
 
 		static private function getVersions() {
@@ -152,7 +153,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Updater' ) ) {
 
 			if ( $this->parentC->is_under_versionned() ) {
 				$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-				$backbone->log( \ithoughts\v5_0\LogLevel::INFO, "Access to the update page (version from $this->from to $this->to) received, prepare update." );
+				$backbone->log( \ithoughts\v6_0\LogLevel::INFO, "Access to the update page (version from $this->from to $this->to) received, prepare update." );
 				$updater_script = $backbone->get_resource( 'ithoughts_tooltip_glossary-updater' );
 				if ( isset( $updater_script ) ) {
 					$updater_script->set_localize_data('iThoughtsTooltipGlossaryUpdater', array(
@@ -184,7 +185,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Updater' ) ) {
 </div>
 <?php
 			} else {
-				\ithoughts\tooltip_glossary\Backbone::get_instance()->log( \ithoughts\v5_0\LogLevel::ERROR, "Access to the update page (version from $this->from to $this->to) received, but nothing to do." );
+				\ithoughts\tooltip_glossary\Backbone::get_instance()->log( \ithoughts\v6_0\LogLevel::ERROR, "Access to the update page (version from $this->from to $this->to) received, but nothing to do." );
 ?>
 <div class="wrap">
 	<div id="ithoughts-tooltip-glossary-options" class="meta-box meta-box-50 metabox-holder">
@@ -462,7 +463,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Updater' ) ) {
 				break;
 
 				case 2:{
-					\ithoughts\tooltip_glossary\Backbone::get_instance()->log( \ithoughts\v5_0\LogLevel::SILLY, "Doing update to $this->to" );
+					\ithoughts\tooltip_glossary\Backbone::get_instance()->log( \ithoughts\v6_0\LogLevel::SILLY, "Doing update to $this->to" );
 					$verbose = array();
 					$maxCount = 20;
 					$postTypes = get_post_types( '', 'names' );
@@ -546,14 +547,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Updater' ) ) {
 
 							if ( $post->post_content != $postUpdateArray ['post_content'] ) {
 								clean_post_cache( $post->ID );
-								\ithoughts\tooltip_glossary\Backbone::get_instance()->log( \ithoughts\v5_0\LogLevel::INFO, "Updated post $post->ID: \"$post->post_title\":", $counters );
+								\ithoughts\tooltip_glossary\Backbone::get_instance()->log( \ithoughts\v6_0\LogLevel::INFO, "Updated post $post->ID: \"$post->post_title\":", $counters );
 								$verbose[] = array(
 									'type' => 'info',
 									'text' => "In $post->post_title ($post->ID), replaced {$counters['tooltip']} tooltips, {$counters['glossary']} glossaries, and {$counters['mediatip']} mediatips.",
 								);
 								wp_update_post( $postUpdateArray );
 							} else {
-								\ithoughts\tooltip_glossary\Backbone::get_instance()->log( \ithoughts\v5_0\LogLevel::SILLY, "Post $post->ID: \"$post->post_title\" was not modified" );
+								\ithoughts\tooltip_glossary\Backbone::get_instance()->log( \ithoughts\v6_0\LogLevel::SILLY, "Post $post->ID: \"$post->post_title\" was not modified" );
 							}
 							wp_cache_delete( $post->ID, 'posts' );
 							wp_cache_delete( $post->ID, 'post_meta' );
@@ -582,7 +583,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Updater' ) ) {
 				} break;
 			}// End switch().
 
-			\ithoughts\tooltip_glossary\Backbone::get_instance()->log( \ithoughts\v5_0\LogLevel::INFO, 'Ended update step with data: ', $data );
+			\ithoughts\tooltip_glossary\Backbone::get_instance()->log( \ithoughts\v6_0\LogLevel::INFO, 'Ended update step with data: ', $data );
 
 			if ( $data['maxAdvancement'] > -1 ) {
 				if ( $return['progression'] >= $data['maxAdvancement'] ) {

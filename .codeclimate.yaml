@@ -1,0 +1,30 @@
+---
+version: "2"
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+	  - php
+  eslint:
+    enabled: true
+    channel: "eslint-4"
+  fixme:
+    enabled: true
+  nodesecurity:
+    enabled: true
+  markdownlint:
+    enabled: true
+    exclude_paths:
+    - "!**.md"
+checks:
+  method-complexity:
+    config:
+      threshold: 10
+exclude_patterns:
+- "bin/"
+- "assets/dist"
+- "lang/"
+- "submodules/"
+- "docs/"

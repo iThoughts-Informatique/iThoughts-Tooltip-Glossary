@@ -47,7 +47,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 
 			// Filters.
 			add_filter( 'ithoughts_tt_gl_get_glossary_term_element', array( $this, 'ithoughts_tt_gl_get_glossary_term_element' ), 10, 3 );
-			add_filter( 'ithoughts_tt_gl-term-content', array( $this, 'termContent' ) );
+			add_filter( 'ithoughts_tt_gl_term_content', array( $this, 'termContent' ) );
 		}
 
 		/**
@@ -107,13 +107,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 			$href = 'javascript::void(0)';
 			if ( 'none' !== $datas['options']['termlinkopt'] ) {// If there need a link...
 				if ( $term['post_name'] ) {
-					$href = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v5_0\Toolbox::get_permalink_light( $term, 'glossary' ) );
+					$href = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v6_0\Toolbox::get_permalink_light( $term, 'glossary' ) );
 				} else {
 					$href = apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink( $term['ID'] ) );
 				}
 			}
 			$datas['linkAttrs']['href'] = $href;
-			return $this->generate_glossary_tip_html($text, $datas);
+			return $this->generate_glossary_tip_html( $term, $text, $datas );
 		}
 
 		public function ithoughts_tt_gl_get_glossary_term_element( $term, $text = null, $options = array() ) {
@@ -152,11 +152,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				if ( is_numeric( $term ) ) {
 					$termRetrieved = get_post( $term );
 					if ( null === $termRetrieved ) {
-						$backbone->log( \ithoughts\v5_0\LogLevel::WARN, "Term with id \"$term\" and text \"$text\" does not exists." );
+						$backbone->log( \ithoughts\v6_0\LogLevel::WARN, "Term with id \"$term\" and text \"$text\" does not exists." );
 					}
 					$term = $termRetrieved;
 				} elseif ( ! ($term instanceof \WP_Post) ) {
-					$backbone->log( \ithoughts\v5_0\LogLevel::WARN, 'Unhandled term descriptor provided:', $term, gettype( $term ) );
+					$backbone->log( \ithoughts\v6_0\LogLevel::WARN, 'Unhandled term descriptor provided:', $term, gettype( $term ) );
 					$term = null;
 				}
 			}
@@ -176,14 +176,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				$termcontent;
 				if ( isset( $datas['attributes']['termcontent'] ) ) {
 					$termcontent = $datas['attributes']['termcontent'];
-					unset( $datas['attributes']['data-termcontent'] );
+					unset( $datas['attributes']['termcontent'] );
 				} else {
 					$termcontent = $datas['options']['termcontent'];
 				}
 
 				switch ( $termcontent ) {
 					case 'full':{
-						$content = apply_filters( 'ithoughts_tt_gl-term-content', $term );
+						$content = apply_filters( 'ithoughts_tt_gl_term_content', $term );
 					}break;
 
 					case 'excerpt':{
@@ -208,19 +208,19 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				$href = 'javascript::void(0)';
 				if ( $datas['options']['termlinkopt'] != 'none' ) { // If there need a link
 					if ( null !== $term ) {
-						$href = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v5_0\Toolbox::get_permalink_light( $term,'glossary' ) );
+						$href = apply_filters( 'ithoughts_tt_gl_term_link', \ithoughts\v6_0\Toolbox::get_permalink_light( $term,'glossary' ) );
 					} else {
-						$backbone->log( \ithoughts\v5_0\LogLevel::WARN, "Tried to call get_permalink_light on NULL term with text \"$text\"." );
+						$backbone->log( \ithoughts\v6_0\LogLevel::WARN, "Tried to call get_permalink_light on NULL term with text \"$text\"." );
 					}
 				}
 				$datas['linkAttrs']['href'] = $href;
 			}
-			return $this->generate_glossary_tip_html($text, $datas);
+			return $this->generate_glossary_tip_html( $term, $text, $datas );
 		}
-		
-		private function generate_glossary_tip_html($text, $datas) {
+
+		private function generate_glossary_tip_html( $term, $text, $datas ) {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			
+
 			$link;
 			if ( ! (isset( $datas['linkAttrs']['title'] ) && $datas['linkAttrs']['title']) ) {
 				$datas['linkAttrs']['title'] = $text;
@@ -229,20 +229,20 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				$datas['linkAttrs']['target'] = '_blank';
 			}
 
-			$link_args = \ithoughts\v5_0\Toolbox::concat_attrs( $datas['linkAttrs'] );
+			$link_args = \ithoughts\v6_0\Toolbox::concat_attrs( $datas['linkAttrs'] );
 			$link_element   = '<a ' . $link_args . '>' . $text . '</a>';
 
 			$datas['attributes']['class'] = 'itg-glossary' . ((isset( $datas['attributes']['class'] ) && $datas['attributes']['class']) ? ' ' . $datas['attributes']['class'] : '');
 			if ( null === $term ) {
 				$datas['attributes']['class'] .= ' itg-notfound';
 			}
-			$args = \ithoughts\v5_0\Toolbox::concat_attrs( $datas['attributes'] );
+			$args = \ithoughts\v6_0\Toolbox::concat_attrs( $datas['attributes'] );
 
 			$backbone->add_script( 'qtip' );
 
 			return '<span ' . $args . '>' . $link_element . '</span>';
 		}
-		
+
 
 		public function parse_pseudo_links_to_shortcode( $data ) {
 			$data['post_content'] = preg_replace( '/<a\s+?data-ithoughts_tt_gl-glossary-slug=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[itg-glossary slug="$1"]$2[/itg-glossary]', $data['post_content'] );

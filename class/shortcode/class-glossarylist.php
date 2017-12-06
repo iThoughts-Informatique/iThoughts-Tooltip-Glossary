@@ -14,10 +14,11 @@
 
 namespace ithoughts\tooltip_glossary\shortcode;
 
-use \ithoughts\v5_0\Toolbox as TB;
+use \ithoughts\v6_0\Toolbox as TB;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );wp_die("Forbidden");// Exit if accessed directly
+	 status_header( 403 );
+	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 
 /**
@@ -45,7 +46,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 				$linkdata['linkAttrs'][ 'link-' . $key ] = $linkAttr;
 				unset( $linkdata['linkAttrs'][ $key ] );
 			}
-			$linkdata = \ithoughts\v5_0\Toolbox::array_flatten( $linkdata );
+			$linkdata = \ithoughts\v6_0\Toolbox::array_flatten( $linkdata );
 
 			return array(
 				'data' => &$data,
@@ -126,6 +127,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 
 		final protected function get_microposts( $groups = false, $alphas = false ) {
 			global $wpdb;
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+			require_once( $backbone->get_base_class_path() . '/class-micropost.php' );
 			$fields = \ithoughts\tooltip_glossary\MicroPost::getFields();
 			$table = "{$wpdb->prefix}posts";
 			$queryComponents = array();
@@ -236,7 +239,7 @@ ORDER BY
 
 			$querySelect = $queryComponents['pre'] . $selectFields . $queryComponents['from'] . $queryComponents['where'] . $queryComponents['order'];
 			$queryCount = $queryComponents['pre'] . 'COUNT(*)' . $queryComponents['from'] . $queryComponents['where'] . $queryComponents['order'];
-			// \ithoughts\v5_0\Toolbox::prettyDump($querySelect, $queryCount);
+			// \ithoughts\v6_0\Toolbox::prettyDump($querySelect, $queryCount);
 			$res = $wpdb->get_results( $querySelect, ARRAY_A );
 			$ret = array();
 			foreach ( $res as $micropost ) {
@@ -342,7 +345,7 @@ ORDER BY
 				$index = 0;
 			}
 
-			$stringAlpha = strtoupper( \ithoughts\v5_0\Toolbox::unaccent( mb_substr( $string,$index,1, 'UTF-8' ) ) );
+			$stringAlpha = strtoupper( \ithoughts\v6_0\Toolbox::unaccent( mb_substr( $string,$index,1, 'UTF-8' ) ) );
 			if ( ! preg_match( '/[A-Z]/', $stringAlpha ) ) {
 				return '#';
 			}
