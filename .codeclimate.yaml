@@ -25,6 +25,9 @@ checks:
 exclude_patterns:
 - "bin/"
 - "assets/dist"
+- "assets/build"
+- "assets/deps"
+- "templates/deps"
 - "lang/"
 - "submodules/"
 - "docs/"

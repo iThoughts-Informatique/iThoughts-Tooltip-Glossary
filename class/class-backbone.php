@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) 
+if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 	/**
 	 * Main class of iThoughts Tooltip Glossary
 	 *
@@ -259,22 +259,22 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) )
 			$this->register_post_types();
 			$this->register_taxonmies();
 			$this->add_shortcodes();
-			$this->add_widgets();
 			$this->add_filters();
 
 			add_action( 'init',                  		array( &$this, 'declare_resources' ) );
 			add_action( 'init',                  		array( &$this, 'ajax_hooks' ) );
 			add_action( 'wp_footer',             		array( &$this, 'wp_footer' ) );
 			add_action( 'admin_footer',            		array( &$this, 'wp_footer' ) );
-			add_action( 'wp_print_footer_scripts',		array( &$this, 'afterScripts' ), 100000 );
-			add_action( 'admin_print_footer_scripts',	array( &$this, 'afterScripts' ), 100000 );
+			add_action( 'wp_print_footer_scripts',		array( &$this, 'after_scripts' ), 100000 );
+			add_action( 'admin_print_footer_scripts',	array( &$this, 'after_scripts' ), 100000 );
 			add_action( 'wp_enqueue_scripts',    		array( &$this, 'wp_enqueue_styles' ) );
 			add_action( 'admin_enqueue_scripts',   		array( &$this, 'wp_enqueue_styles' ) );
 			add_action( 'pre_get_posts',         		array( &$this, 'order_core_archive_list' ) );
-			add_action( 'plugins_loaded',				array( $this, 'localisation' ) );
+			add_action( 'plugins_loaded',				array( &$this, 'localisation' ) );
+			add_action( 'widgets_init',					array( &$this, 'widgets_init' ) );
 
-			add_filter( 'ithoughts_tt_gl_term_link',	array( &$this, 'ithoughts_tt_gl_term_link' ) );
-			add_filter( 'ithoughts_tt_gl_get_overriden_opts',	array( &$this, 'ithoughts_tt_gl_override' ), 	10,	2 );
+			add_filter( 'ithoughts_tt_gl_term_link',	array( &$this, 'term_link' ) );
+			add_filter( 'ithoughts_tt_gl_override_options',	array( &$this, 'override_options' ), 	10,	2 );
 		}
 
 		/**
@@ -284,9 +284,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) )
 		 */
 		public function declare_resources() {
 			// Generate all Script resources.
-			$this->declare_resource( 'imagesloaded', 'ext/imagesloaded.min.js' );
-			$this->declare_resource( 'qtip', 'ext/jquery.qtip.js', array( 'jquery', 'imagesloaded' ) );
-			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'js/dist/ithoughts_tt_gl-qtip2.js', array( 'qtip', 'ithoughts-core-v5' ), false, 'iThoughtsTooltipGlossary', array(
+			$this->declare_resource( 'imagesloaded', 'assets/deps/js/imagesloaded.min.js' );
+			$this->declare_resource( 'qtip', 'assets/deps/js/jquery.qtip.js', array( 'jquery', 'imagesloaded' ) );
+			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'assets/dist/js/main.js', array( 'qtip', 'ithoughts-core-v5' ), false, 'iThoughtsTooltipGlossary', array(
 				'admin_ajax'    => admin_url( 'admin-ajax.php' ),
 				// Get the API endpoint. See https://wordpress.stackexchange.com/questions/144822/what-is-the-best-practice-to-check-for-pretty-permalinks.
 				'apiurl'		=> get_site_url( null, '' !== get_option( 'permalink_structure' ) ? 'wp-json' : '?rest_route=' ) . '/wp/v2',
@@ -312,12 +312,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) )
 				),
 				'nonce'			=> wp_create_nonce( 'ithoughts_tt_gl-get_term_details' ),
 			) );
-			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'js/dist/ithoughts_tt_gl-atoz.js', array( 'jquery', 'ithoughts-core-v5' ) );
+			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'assets/dist/js/atoz.js', array( 'jquery', 'ithoughts-core-v5' ) );
 			// Generate all Style resources.
-			$this->declare_resource( 'ithoughts_tooltip_glossary-css', 'css/ithoughts_tt_gl.min.css' );
-			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip-css', 'ext/jquery.qtip.min.css' );
+			$this->declare_resource( 'ithoughts_tooltip_glossary-css', 'assets/dist/css/ithoughts_tt_gl.min.css' );
+			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip-css', 'assets/deps/jquery.qtip.min.css' );
 			if ( isset( $this->options['custom_styles_path'] ) ) {
-				wp_register_style( 'ithoughts_tooltip_glossary-customthemes', $this->options['custom_styles_path'] );
+				$this->declare_resource( 'ithoughts_tooltip_glossary-customthemes', $this->options['custom_styles_path'] );
 			}
 		}
 
@@ -369,7 +369,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) )
 		}
 
 		/**
-		 * Load plugin localization.
+		 * Load plugin localization. If it fails, it logs an error of type LogLevel::ERROR
 		 */
 		public function localisation() {
 			if ( load_plugin_textdomain( 'ithoughts-tooltip-glossary', false, plugin_basename( dirname( __FILE__ ) ) . '/../lang' ) === false ) {
@@ -394,7 +394,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) )
 		}
 
 		/**
-		 * Load & instanciate all shortcode classes.
+		 * Load & instanciate all shortcode singletons.
 		 */
 		private function add_shortcodes() {
 			// Tooltips.
@@ -411,13 +411,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) )
 			shortcode\AtoZ::get_instance();
 			require_once( $this->base_class_path . '/shortcode/class-termlist.php' );
 			shortcode\TermList::get_instance();
-		}
-
-		/**
-		 * Register actions for widgets.
-		 */
-		private function add_widgets() {
-			add_action( 'widgets_init', array( $this, 'widgets_init' ) );
 		}
 
 		/**
@@ -438,60 +431,38 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) )
 				return;
 			}
 
-			if ( $this->get_script( 'qtip' ) || true === $this->options['forceloadresources'] ) {
-				$this->enqueue_resource( 'ithoughts_tooltip_glossary-qtip' );
-			}
-			if ( $this->get_script( 'atoz' ) || true === $this->options['forceloadresources'] ) {
-				$this->enqueue_resource( 'ithoughts_tooltip_glossary-atoz' );
-			}
-			if ( $this->get_script( 'list' ) || true === $this->options['forceloadresources'] ) {
-				$this->enqueue_resource( 'ithoughts_tooltip_glossary-list' );
+			if(true === $this->options['forceloadresources']){
+				$this->enqueue_resources( array(
+					'ithoughts_tooltip_glossary-qtip',
+					'ithoughts_tooltip_glossary-atoz',
+					'ithoughts_tooltip_glossary-list',
+				));
+			} else {
+				if ( $this->get_script( 'qtip' ) ) {
+					$this->enqueue_resource( 'ithoughts_tooltip_glossary-qtip' );
+				}
+				if ( $this->get_script( 'atoz' ) ) {
+					$this->enqueue_resource( 'ithoughts_tooltip_glossary-atoz' );
+				}
+				if ( $this->get_script( 'list' ) ) {
+					$this->enqueue_resource( 'ithoughts_tooltip_glossary-list' );
+				}
 			}
 		}
 
 		/**
 		 * Print client-side script for custom animations & other inline resources.
 		 */
-		public function afterScripts() {
-			if ( ! $this->scripts && false === $this->options['forceloadresources'] ) {
-				return;
-			}
-
+		public function after_scripts() {
 			if ( $this->get_script( 'qtip' ) || true === $this->options['forceloadresources'] ) {
+				// Get registered functions
 				$anims_custom_in = apply_filters( 'ithoughts_tt_gl_tooltip_anim_in', array(), true );
 				$anims_custom_out = apply_filters( 'ithoughts_tt_gl_tooltip_anim_out', array(), true );
 				$anims_custom_in_count = count( $anims_custom_in );
 				$anims_custom_out_count = count( $anims_custom_out );
-				if ( count( $anims_custom_in ) > 0 || count( $anims_custom_out ) > 0 ) {
-?>
-<script id="ithoughts_tt_gl-custom-anims">iThoughtsTooltipGlossary.animationFunctions = jQuery.extend(!0,iThoughtsTooltipGlossary.animationFunctions,{<?php
-if ( $anims_custom_in_count > 0 ) {
-	echo 'in:{';
-	foreach ( $anims_custom_in as $name => $anim_infos ) {
-		echo '"' . esc_js( $name ) . '":' . esc_js( $anim_infos['js'] ) . ',';
-	}
-	echo '},';
-}
-if ( $anims_custom_out_count > 0 ) {
-	echo 'out:{';
-	foreach ( $anims_custom_out as $name => $anim_infos ) {
-		echo '"' . esc_js( $name ) . '":' . esc_js( $anim_infos['js'] ) . ',';
-	}
-	echo '},';
-}
-		?>});</script>
-<?php
-				}
-?>
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: none;">
-	<defs>
-		<g id="icon-pin">
-			<path
-				  d="M 0.25621998,25.646497 C 0.35412138,25.51563 8.5166343,14.857495 8.5374693,14.833322 c 0.01094,-0.0127 0.590149,0.546824 1.2871218,1.243379 l 1.2672239,1.266464 -0.113872,0.108034 c -0.06263,0.05942 -2.4218887,1.87452 -5.2427987,4.033559 -2.8209111,2.159038 -5.22033552,3.995592 -5.33205472,4.081231 -0.1117192,0.08564 -0.1778105,0.121867 -0.1468696,0.08051 z M 10.813205,15.081346 5.1765477,9.4410226 5.5066273,9.1363586 c 1.352333,-1.248209 3.394005,-2.021634 5.3421487,-2.02371 0.458009,-5.08e-4 1.41897,0.119826 1.818038,0.227623 0.153614,0.04149 0.294168,0.07572 0.312341,0.07605 0.01817,3.55e-4 1.092202,-1.489664 2.386729,-3.3111007 1.294528,-1.8214368 2.428561,-3.38662092 2.520075,-3.47818672 0.28165,-0.2818105 0.555582,-0.3909508 0.943521,-0.3759184 0.182951,0.00709 0.162107,-0.013074 3.864784,3.73859352 3.254781,3.2978453 3.086677,3.0918563 2.93667,3.5984923 -0.05076,0.17145 -0.146799,0.319619 -0.312683,0.482424 -0.13168,0.129236 -1.72794,1.247526 -3.547245,2.4850904 l -3.307827,2.250116 0.07053,0.238176 c 0.261983,0.884659 0.33256,2.448506 0.155133,3.437409 -0.207111,1.154346 -0.770968,2.461073 -1.459695,3.382811 -0.341163,0.456586 -0.692454,0.857442 -0.751422,0.857442 -0.01533,0 -2.564362,-2.538145 -5.664523,-5.640321 z m 1.183444,-3.15174 c 0.635549,-0.607589 1.394229,-1.208949 1.823733,-1.445565 0.189467,-0.104378 0.350419,-0.193746 0.357671,-0.198595 0.0073,-0.0049 -0.209838,-0.23123 -0.482424,-0.5030684 l -0.495609,-0.494252 -0.458787,0.02717 c -0.763005,0.04518 -1.725568,0.417431 -2.613089,1.0105574 -0.2096949,0.140138 -0.3897971,0.261798 -0.4002271,0.270355 -0.02985,0.02449 1.6821321,1.797302 1.7356301,1.797302 0.02632,0 0.266216,-0.208755 0.533102,-0.4639 z m 6.401659,-4.9697184 c 1.204232,-1.103227 2.189716,-2.019561 2.189964,-2.036297 0.0011,-0.07401 -1.735932,-1.6808181 -1.772946,-1.6400264 -0.02268,0.024997 -0.866374,1.1015034 -1.874874,2.3922374 l -1.833635,2.346789 0.493873,0.483774 c 0.27163,0.266075 0.519575,0.478287 0.550989,0.471582 0.03141,-0.0067 1.042397,-0.914832 2.246629,-2.018059 z" />
-		</g>
-	</defs>
-</svg>
-<?php
+				// Print our templates
+				include $backbone->get_base_path() . '/templates/dist/animations.php';
+				include $backbone->get_base_path() . '/templates/dist/icon.php';
 			}// End if().
 		}
 
@@ -499,14 +470,16 @@ if ( $anims_custom_out_count > 0 ) {
 		 * Ask WordPress to print required styles.
 		 */
 		public function wp_enqueue_styles() {
-			$this->enqueue_resources( array(
+			$resourcesToLoad = array(
 				'ithoughts_tooltip_glossary-css',
 				'ithoughts_tooltip_glossary-qtip-css',
-			) );
-
-			if ( isset( $this->options['custom_styles_path'] ) ) {
-				wp_enqueue_style( 'ithoughts_tooltip_glossary-customthemes' );
+			);
+			// If we are using a custom style, enqueue it
+			if(isset( $this->options['custom_styles_path'] )){
+				$resourcesToLoad[] = 'ithoughts_tooltip_glossary-customthemes';
 			}
+
+			$this->enqueue_resources( $resourcesToLoad );
 		}
 
 		/**
@@ -535,7 +508,7 @@ if ( $anims_custom_out_count > 0 ) {
 		 * @param  string $url Url to translate.
 		 * @return string Translated url, if appliable
 		 */
-		public function ithoughts_tt_gl_term_link( $url ) {
+		public function term_link( $url ) {
 			// qTranslate plugin.
 			if ( function_exists( 'qtrans_convertURL' ) ) {
 				$url = qtrans_convertURL( $url );
@@ -551,20 +524,15 @@ if ( $anims_custom_out_count > 0 ) {
 		 * @param  bool  $client_side True if the merge is for client-side config, false if the merge is for server-side config.
 		 * @return array Merged data
 		 */
-		public function ithoughts_tt_gl_override( $data, $client_side ) {
+		public function override_options( $data, $client_side ) {
 			$overridden = array();
-			if ( $client_side ) {
-				foreach ( $this->clientside_overridable as $overrideable ) {
-					if ( isset( $data[ $overrideable ] ) && ($data[ $overrideable ] !== $this->options[ $overrideable ]) ) {
-						$overridden[ $overrideable ] = $data[ $overrideable ];
-					}
-				}
-			} else {
-				$overridden_concat = array_merge( $this->get_options(), $data );
-				foreach ( $this->serverside_overridable as $option ) {
-					if ( isset( $overridden_concat[ $option ] ) ) {
-						$overridden[ $option ] = $overridden_concat[ $option ];
-					}
+			$defaults = $client_side ? $this->clientside_overridable : $this->serverside_overridable;
+
+			// Iterate on each option overridable by the target
+			foreach ( $defaults as $option ) {
+				// If we are overriding it, and value is different than set, inject it in the `overriden` array
+				if ( isset( $data[ $option ] ) && ($data[ $option ] !== $this->options[ $option ]) ) {
+					$overridden[ $option ] = $data[ $option ];
 				}
 			}
 			return $overridden;

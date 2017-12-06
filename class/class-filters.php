@@ -230,7 +230,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Filters' ) ) {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			$datas = apply_filters( 'ithoughts-split-args', $atts, $backbone->get_handled_attributes(), $backbone->get_server_side_overridable(), $backbone->get_client_side_overridable(), false );
 
-			$ret['options'] = apply_filters( 'ithoughts_tt_gl_get_overriden_opts', $datas['overridesServer'], false );
+			$ret['options'] = apply_filters( 'ithoughts_tt_gl_override_options', $datas['overridesServer'], false );
 
 			$linkAttrs = array();
 			foreach ( $datas['attributes'] as $key => $value ) {// Extract /^link-/ datas
@@ -242,7 +242,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Filters' ) ) {
 			$ret['linkAttrs'] = apply_filters( 'ithoughts-split-args', $linkAttrs );
 			$ret['linkAttrs'] = $ret['linkAttrs']['attributes'];
 
-			$overridesClient = apply_filters( 'ithoughts_tt_gl_get_overriden_opts', $datas['overridesClient'], true );
+			$overridesClient = apply_filters( 'ithoughts_tt_gl_override_options', $datas['overridesClient'], true );
 			$overridesDataPrefixed = array();
 			foreach ( $overridesClient as $override => $value ) {
 				$overridesDataPrefixed[ 'data-' . $override ] = $value;

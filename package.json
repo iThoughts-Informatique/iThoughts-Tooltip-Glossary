@@ -6,7 +6,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha test/unit-test.js"
+    "test": "mocha test/unit-test.js",
+	  "phpunit": "sh bin/install-wp-tests.sh"
   },
   "repository": {
     "type": "git",

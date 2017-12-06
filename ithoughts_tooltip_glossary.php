@@ -24,9 +24,9 @@ Domain Path: /lang
 */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	status_header( 403 );
-	wp_die( 'Forbidden' );// Exit if accessed directly
+	status_header( 403 );wp_die( 'Forbidden' );// Exit if accessed directly
 }
+
 require_once( dirname( __FILE__ ) . '/submodules/iThoughts-WordPress-Plugin-Toolbox/includer.php' );
 require_once( dirname( __FILE__ ) . '/class/class-backbone.php' );
 ithoughts\tooltip_glossary\Backbone::get_instance( __FILE__ );
