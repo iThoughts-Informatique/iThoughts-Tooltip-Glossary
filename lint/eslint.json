@@ -1,21 +1,22 @@
 {
+	"plugins": [
+		"jsdoc"
+	],
 	"env": {
 		"es6": true,
 		"node": true
 	},
 	"extends": "eslint:recommended",
 	"parserOptions": {
-		"sourceType": "module"
+		"sourceType": "script",
+		"ecmaVersion": 8
 	},
 	"globals": {
-		"iThoughtsTooltipGlossary": true,
-		"jQuery": false,
-		"iThoughts": false,
-		"wp": false
+		"global": false
 	},
 	"rules": {
 		"no-console": 0,
-		"strict": ["error", "function"],
+		"strict": ["error", "global"],
 		"indent": ["error","tab",{"SwitchCase": 1}],
 		"linebreak-style": ["error","unix"],
 		"quotes": ["error","single"],
@@ -29,9 +30,7 @@
 		"func-name-matching": ["error", "always"],
 		"keyword-spacing": ["error", { "before": true, "after": true }],
 		"new-parens": "error",
-		"object-curly-newline": ["error", {
-			"minProperties": 1
-		}],
+		"object-curly-newline": ["error", { "multiline": true, "consistent": true, "minProperties": 2 }],
 		"space-in-parens": ["error", "always", {"exceptions": ["{}", "[]", "()", "empty"]}],
 		"space-before-function-paren": ["error", "never"],
 		"key-spacing": ["error", { "align": "value" }],
@@ -44,6 +43,44 @@
 		"eol-last": ["error", "always"],
 		"no-lonely-if": "error",
 		"curly": "error",
-		"space-before-blocks": "error"
+		"space-before-blocks": "error",
+		"require-jsdoc": ["error", {
+			"require": {
+				"FunctionDeclaration": true,
+				"MethodDefinition": true,
+				"ClassDeclaration": true,
+				"ArrowFunctionExpression": false
+			}
+		}],
+		"prefer-template": "error",
+		"no-useless-concat": "error",
+		"template-curly-spacing": ["error", "always"],
+		"space-infix-ops": "error",
+		"space-unary-ops": [ 2, {
+			"words": true,
+			"nonwords": false
+		}],
+		"one-var": ["error", "never"],
+
+
+		"jsdoc/check-param-names": 1,
+		"jsdoc/check-tag-names": 1,
+		"jsdoc/check-types": 1,
+		"jsdoc/newline-after-description": 1,
+		"jsdoc/require-description-complete-sentence": 1,
+		"jsdoc/require-hyphen-before-param-description": 1,
+		"jsdoc/require-param": 1,
+		"jsdoc/require-param-description": 1,
+		"jsdoc/require-param-type": 1,
+		"jsdoc/require-returns-description": 1,
+		"jsdoc/require-returns-type": 1
+	},
+	"settings": {
+		"jsdoc": {
+			"tagNamePreference": {
+				"augments": "extends",
+				"function": "method"
+			}
+		}
 	}
 }

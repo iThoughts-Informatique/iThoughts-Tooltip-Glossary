@@ -10,27 +10,15 @@ module.exports = function gruntInit( grunt ) {
 	var jsDocPath = 'docs/javascript',
 		wpVersion = {},
 		currentVersion = require( './package.json' ).version,
-		lessFiles = [{
+		scssFiles = [{
 			expand: true,
-			cwd:    'less/',
-			src:    [ '*.less' ],
-			dest:   'css/',
-			rename: ( dst, src ) => dst + src.replace( /\.less$/, '.min.css' ),
+			cwd:    'assets/src/scss',
+			src:    [ '*.scss' ],
+			dest:   'assets/dist/css/',
+			ext: '.min.css',
 		}],
-		lesslint = {
-			files:   lessFiles,
-			options: {
-				csslint: {
-					'box-sizing':         false,
-					'adjoining-classes':  false,
-					'qualified-headings': false,
-					'universal-selector': false,
-				},
-			},
-		},
 		jsPaths = [
-			'js/**/*.js',
-			'!js/**/*.min.js',
+			'assets/src/js/**/*.js',
 			'tests/**/*.js',
 		],
 		gruntLocalconfig = require('./grunt_localconfig.json');
@@ -115,8 +103,8 @@ module.exports = function gruntInit( grunt ) {
 			headers: {
 				src: [
 					'tests/**/*.js',
-					'js/src/**/*.js',
-					'less/**/*.less',
+					'assets/src/js/**/*.js',
+					'assets/src/scss/**/*.scss',
 					'class/**/*.php',
 					'templates/src/*.php',
 				],
@@ -157,7 +145,7 @@ module.exports = function gruntInit( grunt ) {
 		},
 		sass: {
 			dist: {
-				files:   lessFiles,
+				files:   scssFiles,
 			},
 		},
 		eslint: {
@@ -165,43 +153,14 @@ module.exports = function gruntInit( grunt ) {
 				format: 'stylish',
 				fix:			true,
 				useEslintrc:	false,
+				configFile: 'lint/eslint.json',
+				silent:     true,
+				fix:		true,
 			},
-			info_browser: {
-				options: {
-					configFile: 'lint/eslint-browser.json',
-					silent:     true,
-					fix:		true,
-				},
-				src: [
-					'js/src/**.js',
-					'!js/src/**.min.js',
-				],
+			dist: {
+				src: jsPaths,
 			},
-			info_nodejs: {
-				options: {
-					configFile: 'lint/eslint-nodejs.json',
-					silent:     true,
-					fix:		true,
-				},
-				src: [
-					'Gruntfile.js',
-					'test/**/*.js',
-					'!test/node_modules/**/*.js',
-				],
-			},
-			strict_browser: {
-				options: {
-					configFile: 'lint/eslint-browser.json',
-				},
-				src: [
-					'js/src/**.js',
-					'!js/src/**.min.js',
-				],
-			},
-			strict_nodejs: {
-				options: {
-					configFile: 'lint/eslint-nodejs.json',
-				},
+			node: {
 				src: [
 					'Gruntfile.js',
 					'test/**/*.js',
@@ -347,14 +306,14 @@ module.exports = function gruntInit( grunt ) {
 						'node_modules',
 						'test',
 						'templates/src',
-						'js/src',
+						'assets/src',
+						'assets/build',
 						'lint',
 						'*.log',
 						'docs',
 						'Gruntfile.js',
 						'grunt_localconfig.json',
 						'package-lock.json',
-						'less'
 					],
 					recursive: true,
 				},
@@ -371,7 +330,6 @@ module.exports = function gruntInit( grunt ) {
 	grunt.loadNpmTasks( 'grunt-changed' );
 	grunt.loadNpmTasks( 'grunt-jsdoc' );
 	grunt.loadNpmTasks( 'grunt-docco' );
-	grunt.loadNpmTasks( 'grunt-lesslint' );
 	grunt.loadNpmTasks( 'grunt-eslint' );
 	grunt.loadNpmTasks( 'grunt-browserify' );
 	grunt.loadNpmTasks( 'grunt-phplint' );
@@ -424,69 +382,45 @@ module.exports = function gruntInit( grunt ) {
 		}
 	});
 
-	grunt.registerTask(
+	grunt.registerTask( 'bumpVersion', [
+		'prompt:upgrade',
+		'bumpVersionDo',
+	]);
+	grunt.registerTask( 'versionUpgrade', 'Do the process to change version number', [
+		'phpcbf',
+		'eslint:strict_browser',
+		//'eslint:strict_nodejs',
+		'lesslint:strict',
 		'bumpVersion',
-		[
-			'prompt:upgrade',
-			'bumpVersionDo',
-		]
-	);
-	grunt.registerTask(
-		'versionUpgrade',
-		'Do the process to change version number',
-		[
-			'phpcbf',
-			'eslint:strict_browser',
-			//'eslint:strict_nodejs',
-			'lesslint:strict',
-			'bumpVersion',
-			'changed:replace:headers',
-			'replace:readmeVersion',
-			'refreshResources',
-			'wp_readme_to_markdown',
-			'rsync:svn',
-			/* Add unit tests here */
-		]
-	);
-	grunt.registerTask(
-		'documentate',
-		[
-			'jsdoc',
-			'docco',
-			'phpdoc',
-		]
-	);
-	grunt.registerTask(
-		'refreshStyles',
-		[
-			'lesslint:info',
-			'less',
-		]
-	);
-	grunt.registerTask(
-		'refreshScripts',
-		[
-			'eslint:info_browser',
-			'babel:dist',
-			'changed:uglify:header',
-			'uglify:noheader',
-		]
-	);
-	grunt.registerTask(
+		'changed:replace:headers',
+		'replace:readmeVersion',
 		'refreshResources',
-		[
-			'refreshStyles',
-			'refreshScripts',
-			'htmlmin',
-		]
-	);
-	grunt.registerTask(
-		'lint',
-		[
-			'eslint:info_browser',
-			'eslint:info_nodejs',
-			'lesslint:info',
-			'phplint',
-		]
-	);
+		'wp_readme_to_markdown',
+		'rsync:svn',
+		/* Add unit tests here */
+	]);
+	grunt.registerTask( 'documentate', [
+		'jsdoc',
+		'docco',
+		'phpdoc',
+	]);
+	grunt.registerTask( 'buildStyles', [
+		'sass',
+	]);
+	grunt.registerTask( 'buildScripts', [
+		'eslint:dist',
+		'browserify:dist',
+		'babel:dist',
+		'uglify:dist',
+	]);
+	grunt.registerTask( 'build', [
+		'buildScripts',
+		'buildStyles',
+		'htmlmin',
+	]);
+	grunt.registerTask( 'lint', [
+		'eslint:node',
+		'eslint:dist',
+		'phplint',
+	]);
 };

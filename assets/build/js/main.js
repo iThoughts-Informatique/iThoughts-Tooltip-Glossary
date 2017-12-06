@@ -1,3 +1,4 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * @file Interface between plugin formatted data and qTip API
  *
@@ -408,7 +409,7 @@
 	function redimVid( video ) {
 		var h = $w.height(),
 			w = $w.width(),
-			i = 0,
+			i= 0,
 			dims = [[ 512, 288 ], [ 256, 144 ]],
 			l = dims.length;
 		for ( ;i < l;i++ ) {
@@ -470,7 +471,7 @@
 			if ( null == s ) {
 				s = 1.70158;
 			}
-			return c * ( t /= d ) * t * (( s + 1 ) * t - s ) + b;
+			return c*( t/=d )*t*(( s+1 )*t - s ) + b;
 		},
 		/**
 		 * @function easeOutBack
@@ -489,7 +490,7 @@
 			if ( null == s ) {
 				s = 1.70158;
 			}
-			return c * (( t = t / d - 1 ) * t * (( s + 1 ) * t + s ) + 1 ) + b;
+			return c*(( t=t/d-1 )*t*(( s+1 )*t + s ) + 1 ) + b;
 		},
 	});
 
@@ -698,3 +699,5 @@
 		},
 	});
 }( iThoughts.v5 ));
+
+},{}]},{},[1]);
