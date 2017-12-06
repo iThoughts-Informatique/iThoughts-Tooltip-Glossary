@@ -37,11 +37,40 @@ module.exports = function gruntInit( grunt ) {
 
 	const gruntConfig = {
 		pkg:    grunt.file.readJSON( 'package.json' ),
+		browserify: {
+			dist: {
+				files: {
+					'assets/build/js/admin.js': 'assets/src/js/admin.js',
+					'assets/build/js/atoz.js': 'assets/src/js/atoz.js',
+					'assets/build/js/main.js': 'assets/src/js/main.js',
+					'assets/build/js/style-editor.js': 'assets/src/js/style-editor.js',
+					'assets/build/js/updater.js': 'assets/src/js/updater.js',
+					'assets/build/js/tinymce/form-handler.js': 'assets/src/js/tinymce/form-handler.js',
+					'assets/build/js/tinymce/tinymce-utils.js': 'assets/src/js/tinymce/tinymce-utils.js',
+					'assets/build/js/tinymce/tinymce.js': 'assets/src/js/tinymce/tinymce.js',
+				},
+			},
+		},
+		babel: {
+			options: {
+				sourceMap: true,
+				presets:   [ 'es2015' ],
+			},
+			dist: {
+				files: [{
+					expand: true,
+					cwd : 'assets/build',
+					src:'**/*.js',
+					dest: 'assets/dist',
+					ext:  '.js',
+				}],
+			},
+		},
 		uglify: {
 			options: {
 				preserveComments: 'some',
 			},
-			header: {
+			dist: {
 				options: {
 					banner:    '/*! <%= pkg.name %> build on <%= grunt.template.today("yyyy-mm-dd hh:MM:ss") %> for v<%= pkg.version %> */',
 					sourceMap: false,
@@ -51,19 +80,9 @@ module.exports = function gruntInit( grunt ) {
 					{
 						expand: true,
 						src:    [
-							'js/dist/**.js',
-							'!js/dist/**.min.js',
+							'assets/dist/js/**.js',
+							'!**/*.min.js',
 						],
-						rename: ( dst, src ) => src.replace( /.js$/, '.min.js' ),
-					},
-				],
-			},
-			noheader: {
-				files: [
-					{
-						expand: true,
-						src:    [ 'ext/**/*.js', '!**/*.min.js' ],
-						cwd:    '.',
 						rename: ( dst, src ) => src.replace( /.js$/, '.min.js' ),
 					},
 				],
@@ -136,31 +155,9 @@ module.exports = function gruntInit( grunt ) {
 				],
 			},
 		},
-		lesslint: {
-			info: _.merge({}, lesslint, {
-				options: {
-					failOnWarning: false,
-				},
-			}),
-			strict: _.merge({}, lesslint, {
-				options: {
-					failOnWarning: true,
-				},
-			}),
-		},
-		less: {
+		sass: {
 			dist: {
 				files:   lessFiles,
-				options: {
-					plugins: [
-						new ( require( 'less-plugin-autoprefix' ))({
-							browsers: 'last 2 versions',
-						}), // add vendor prefixes
-						new ( require( 'less-plugin-clean-css' ))({
-							advanced: true,
-						}),
-					],
-				},
 			},
 		},
 		eslint: {
@@ -210,24 +207,6 @@ module.exports = function gruntInit( grunt ) {
 					'test/**/*.js',
 					'!test/node_modules/**/*.js',
 				],
-			},
-		},
-		babel: {
-			options: {
-				sourceMap: true,
-				presets:   [ 'es2015' ],
-			},
-			dist: {
-				files: [{
-					expand: true,
-					cwd : 'js/src',
-					src:    [
-						'**/*.js',
-						'!**/*.min.js',
-					],
-					dest: 'js/dist',
-					ext:  '.js',
-				}],
 			},
 		},
 		phplint: {
@@ -386,7 +365,7 @@ module.exports = function gruntInit( grunt ) {
 
 	// Load the plugin that provides the 'uglify' task.
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
-	grunt.loadNpmTasks( 'grunt-contrib-less' );
+	grunt.loadNpmTasks( 'grunt-contrib-sass' );
 	grunt.loadNpmTasks( 'grunt-contrib-htmlmin' );
 	grunt.loadNpmTasks( 'grunt-text-replace' );
 	grunt.loadNpmTasks( 'grunt-changed' );
@@ -394,6 +373,7 @@ module.exports = function gruntInit( grunt ) {
 	grunt.loadNpmTasks( 'grunt-docco' );
 	grunt.loadNpmTasks( 'grunt-lesslint' );
 	grunt.loadNpmTasks( 'grunt-eslint' );
+	grunt.loadNpmTasks( 'grunt-browserify' );
 	grunt.loadNpmTasks( 'grunt-phplint' );
 	grunt.loadNpmTasks( 'grunt-prompt' );
 	grunt.loadNpmTasks( 'grunt-phpdoc' );
