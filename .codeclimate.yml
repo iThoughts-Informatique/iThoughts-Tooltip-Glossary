@@ -27,7 +27,7 @@ exclude_patterns:
 - "assets/build"
 - "assets/deps"
 - "assets/dist"
-- "templates/deps"
+- "templates/dist"
 - "lang/"
 - "submodules/"
 - "docs/"
