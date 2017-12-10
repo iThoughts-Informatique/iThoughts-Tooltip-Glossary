@@ -20,7 +20,7 @@
 namespace ithoughts\tooltip_glossary\shortcode;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );
+	status_header( 403 );
 	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 
@@ -36,17 +36,29 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 			add_action( 'wp_insert_post_data',  array( &$this, 'parse_pseudo_links_to_shortcode' ) );
 			add_action( 'edit_post',  array( &$this, 'convert_shortcodes' ) );
 
-			add_filter( 'ithoughts_tt_gl_tooltip', array( &$this, 'generateTooltip' ), 1000, 3 );
+			add_filter( 'ithoughts_tt_gl_tooltip', array( &$this, 'generate_tooltip' ), 1000, 3 );
+		}
+
+		public function shortcode_to_tinymce_dom($str){
+			return preg_replace( '/<a\s+?data-tooltip-content=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[itg-tooltip content="$1"]$2[/itg-tooltip]', $str );
+		}
+
+		public function tinymce_dom_to_shortcode($str){
+			return preg_replace( '/\[itg-tooltip(.*?)(?: content="(.+?)")(.*?)\](.+?)\[\/itg-tooltip\]/', '<a data-tooltip-content="$2" $1 $3>$4</a>', $str );
 		}
 
 		public function parse_pseudo_links_to_shortcode( $data ) {
-			$data['post_content'] = preg_replace( '/<a\s+?data-tooltip-content=\\\\"(.+?)\\\\".*>(.*?)<\/a>/', '[itg-tooltip content="$1"]$2[/itg-tooltip]', $data['post_content'] );
+			$data['post_content'] = $this->shortcode_to_tinymce_dom( $data['post_content'] );
 			return $data;
 		}
 
-		public function convert_shortcodes( $post_id ) {
+		public function convert_shortcodes( $post_id, $post ) {
+			var_dump(array(
+				'$post_id' => $post_id,
+				'$post' => $post,
+			));
 			$post = get_post( $post_id );
-			$post->post_content = preg_replace( '/\[itg-tooltip(.*?)(?: content="(.+?)")(.*?)\](.+?)\[\/itg-tooltip\]/', '<a data-tooltip-content="$2" $1 $3>$4</a>', $post->post_content );
+			$post->post_content = $this->tinymce_dom_to_shortcode( $post->post_content );
 			return $post;
 		}
 
@@ -68,7 +80,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 		 * @param  [array] $options Attributes & other options modifying the behaviour of the HTML generation. Usually provided by filter `ithoughts_tt_gl-split-args`
 		 * @return string The formatted HTML markup
 		 */
-		public function generateTooltip( $text, $tip, $options = array(
+		public function generate_tooltip( $text, $tip, $options = array(
 			'linkAttrs' => array(),
 			'attributes' => array(),
 		) ) {
@@ -91,10 +103,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 
 			$linkArgs = \ithoughts\v6_0\Toolbox::concat_attrs( $options['linkAttrs'] );
 			$link   = '<a ' . $linkArgs . '>' . $text . '</a>';
+
 			// Span that qtip finds
 			$options['attributes']['class'] = 'itg-tooltip' . ((isset( $options['attributes']['class'] ) && $options['attributes']['class']) ? ' ' . $options['attributes']['class'] : '');
+			$options['attributes']['data-tooltip-content'] = do_shortcode( $tip );
+
 			$args = \ithoughts\v6_0\Toolbox::concat_attrs( $options['attributes'] );
-			$span = '<span ' . $args . ' data-tooltip-content="' . do_shortcode( $tip ) . '">' . $link . '</span>';
+			$span = '<span ' . $args . '>' . $link . '</span>';
 
 			return $span;
 		}

@@ -45,11 +45,19 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		private $updater = null;
 
 		/**
+		 * Backbone instance.
+		 *
+		 * @var Backbone $backbone
+		 */
+		private $backbone = null;
+
+		/**
 		 * Register admin specific hooks & construct an instance.
 		 *
 		 * @author Gerkin
 		 */
 		public function __construct() {
+			$this->backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			// Trigger version change function ?
 			add_action( 'admin_init',								array( &$this, 'set_version' ) );
 			add_action( 'admin_init',								array( &$this, 'ajax_hooks' ) );
@@ -70,7 +78,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		/**
 		 * Opens a connection with the filesystem. Once done, you can write & read files
 		 *
-		 * @param  string $url             [[Description]].
+		 * @param  string $url             Url of the file to write.
 		 * @param  string $method          [[Description]].
 		 * @param  TODO   $context         [[Description]].
 		 * @param  TODO [ $fields = null] [[Description]].
@@ -99,32 +107,32 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @author Gerkin
 		 */
 		public function set_version() {
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			try {
-				$plugindata = get_plugin_data( $backbone->get_base_path() . '/ithoughts_tooltip_glossary.php' );
+				// Read infos from base file
+				$plugindata = get_plugin_data( $this->backbone->get_base_path() . '/' . $this->backbone->get_name() . '.php' );
 				if ( $plugindata && is_array( $plugindata ) && $plugindata['Version'] ) {
 					$this->current_version = $plugindata['Version'];
 				} else {
 					throw new \Exception( 'unreadable_plugin_error' );
 				}
-				if ( $backbone->get_option( 'version' ) === -1 ) {
-					$backbone->set_option( 'version',$this->current_version );
+				if ( $this->backbone->get_option( 'version' ) === -1 ) {
+					$this->backbone->set_option( 'version',$this->current_version );
 				} elseif ( $this->is_under_versionned() ) {
-					$backbone->log( \ithoughts\v6_0\LogLevel::WARN, "Plugin settings are under versionned. Installed version is {$plugindata['Version']}, and config is {$backbone->get_option( 'version' )}" );
+					$this->backbone->log( \ithoughts\v6_0\LogLevel::WARN, "Plugin settings are under versionned. Installed version is {$plugindata['Version']}, and config is {$this->backbone->get_option( 'version' )}" );
 					// Create the updater.
-					require_once( $backbone->get_base_class_path() . '/class-updater.php' );
-					$this->updater = new Updater( $backbone->get_option( 'version' ), $this->current_version, $this );
+					require_once( $this->backbone->get_base_class_path() . '/class-updater.php' );
+					$this->updater = new Updater( $this->backbone->get_option( 'version' ), $this->current_version, $this );
 
 					// Do we need to apply a particular update process?
 					if ( $this->updater->requires_update() ) {
 						// If an update is required, apply it.
-						$backbone->log( \ithoughts\v6_0\LogLevel::INFO, "An update process is available to step to {$plugindata['Version']}." );
+						$this->backbone->log( \ithoughts\v6_0\LogLevel::INFO, "An update process is available to step to {$plugindata['Version']}." );
 						// Show the update message.
 						$this->updater->add_admin_notice();
 					} else {
 						// Else, simply update the option value.
-						if ( $this->current_version !== $backbone->get_option( 'version' ) ) {
-							$backbone->set_option( 'version', $this->current_version );
+						if ( $this->current_version !== $this->backbone->get_option( 'version' ) ) {
+							$this->backbone->set_option( 'version', $this->current_version );
 						}
 					}
 				}
@@ -168,10 +176,10 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @author Gerkin
 		 */
 		public function declare_resources() {
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			$backbone->declare_resource(
+
+			$this->backbone->declare_resource(
 				'ithoughts_tooltip_glossary-admin',
-				'js/dist/ithoughts_tt_gl-admin.js',
+				'assets/dist/js/admin.js',
 				array(
 					'ithoughts-simple-ajax-v5',
 					'ithoughts-core-v5',
@@ -179,9 +187,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				),
 				true
 			);
-			$backbone->declare_resource(
+			$this->backbone->declare_resource(
 				'ithoughts_tooltip_glossary-tinymce_form',
-				'js/dist/ithoughts_tt_gl-tinymce-forms.js',
+				'assets/dist/js/tinymce/form-handler.js',
 				array(
 					'jquery',
 					'ithoughts-core-v5',
@@ -189,9 +197,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				),
 				true
 			);
-			$backbone->declare_resource(
+			$this->backbone->declare_resource(
 				'ithoughts_tooltip_glossary-updater',
-				'js/dist/ithoughts_tt_gl-updater.js',
+				'assets/dist/js/updater.js',
 				array(
 					'jquery',
 					'ithoughts-core-v5',
@@ -199,9 +207,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				),
 				true
 			);
-			$backbone->declare_resource(
+			$this->backbone->declare_resource(
 				'ithoughts_tooltip_glossary-floater',
-				'js/dist/ithoughts_tt_gl-floater.js',
+				'assets/dist/js/ithoughts_tt_gl-floater.js',
 				array(
 					'jquery',
 					'ithoughts-core-v5',
@@ -209,9 +217,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				),
 				true
 			);
-			$backbone->declare_resource(
+			$this->backbone->declare_resource(
 				'ithoughts_tooltip_glossary-styleeditor',
-				'js/dist/ithoughts_tt_gl-styleeditor.js',
+				'assets/dist/js/style-editor.js',
 				array(
 					'ithoughts-core-v5',
 					'ithoughts_tooltip_glossary-floater',
@@ -219,32 +227,25 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				),
 				true
 			);
-			$backbone->declare_resource(
-				'ithoughts_tooltip_glossary-editor',
-				'js/dist/ithoughts_tt_gl-editor.js',
+			$this->backbone->declare_resource(
+				'ithoughts_tooltip_glossary-tinymce',
+				'assets/dist/js/tinymce/tinymce.js',
 				array(
 					'ithoughts-core-v5',
 					'ithoughts_tooltip_glossary-qtip',
 				),
-				true,
-				'iThoughtsTooltipGlossaryEditor',
-				array(
-					'admin_ajax'	=> admin_url( 'admin-ajax.php' ),
-					'base_tinymce'  => $backbone->get_base_url() . '/ext/tinymce',
-					'verbosity'     => $backbone->get_option( 'verbosity' ),
-					'nonce'			=> wp_create_nonce( 'ithoughts_tt_gl-ajax_forms' ),
-				)
+				true
 			);
 
-			$backbone->declare_resource(
+			$this->backbone->declare_resource(
 				'ithoughts_tooltip_glossary-tinymce_form-css',
-				'css/ithoughts_tt_gl-tinymce-forms.min.css',
+				'assets/dist/css/ithoughts_tt_gl-tinymce-forms.min.css',
 				null,
 				true
 			);
-			$backbone->declare_resource(
+			$this->backbone->declare_resource(
 				'ithoughts_tooltip_glossary-admin-css',
-				'css/ithoughts_tt_gl-admin.min.css',
+				'assets/dist/css/ithoughts_tt_gl-admin.min.css',
 				null,
 				true
 			);
@@ -257,13 +258,18 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		public function enqueue_scripts_and_styles() {
 			global $pagenow;
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-admin-css' );
 
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+			$this->backbone->enqueue_resource( 'ithoughts_tooltip_glossary-admin-css' );
+
+
 			if ( is_admin() ) {
 				if ( 'post-new.php' === $pagenow || 'post.php' === $pagenow ) {
-					$backbone->enqueue_resource( 'ithoughts_tooltip_glossary-editor' );
+					$this->backbone->get_resource('ithoughts_tooltip_glossary-qtip')->add_localized_data( 'iThoughtsTooltipGlossaryEditor', array(
+						'admin_ajax'    => admin_url( 'admin-ajax.php' ),
+						'base_assets'   => $this->backbone->get_base_url() . '/assets',
+						'verbosity'     => $this->backbone->get_option( 'verbosity' ),
+						'nonce'         => wp_create_nonce( 'ithoughts_tt_gl-ajax_forms' ),
+					));
 				}
 			}
 		}
@@ -276,7 +282,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @return string[] Original `$buttons` appended with this plugin's buttons.
 		 */
 		public function tinymce_register_buttons( $buttons ) {
-			array_push( $buttons, 'glossaryterm', 'glossaryterm-d', 'glossarylist' );
+			array_push( $buttons, 'separator', 'glossaryterm', 'glossaryterm-d', 'glossarylist' );
 			return $buttons;
 		}
 
@@ -289,22 +295,22 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @filter mce_external_plugins
 		 */
 		public function tinymce_add_plugin( $plugin_array ) {
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			$backbone->enqueue_resources( array(
+
+			$this->backbone->enqueue_resources( array(
 				'ithoughts_tooltip_glossary-qtip',
 				'ithoughts-serialize-object-v5',
 				'ithoughts_tooltip_glossary-qtip-css',
 				'ithoughts_tooltip_glossary-css',
 			) );
-			 // jquery and jquery-ui should be dependencies, for modales
+			// jquery and jquery-ui should be dependencies, for modals
 			wp_enqueue_script( 'jquery-ui-dialog' );
 			wp_enqueue_style( 'wp-jquery-ui-dialog' );
-			
+
 			$version = 't=3.0.1';
 			if ( defined( WP_DEBUG ) && WP_DEBUG ) {
 				$version = 't=' . time();
 			}
-			$plugin_array['ithoughts_tt_gl_tinymce'] = $backbone->get_base_url() . '/js/dist/ithoughts_tt_gl-tinymce' . ($backbone->get_minify() ? '.min' : '') . '.js?' . $version;
+			$plugin_array['ithoughts_tt_gl_tinymce'] = $this->backbone->get_resource('ithoughts_tooltip_glossary-tinymce')->get_file_url() . '?' . $version;
 			return $plugin_array;
 		}
 
@@ -317,8 +323,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @filter mce_external_languages
 		 */
 		public function tinymce_add_translations( $locales ) {
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			$locales ['ithoughts_tt_gl_tinymce'] = $backbone->get_base_lang_path() . '/ithoughts_tt_gl_tinymce_lang.php';
+
+			$locales ['ithoughts_tt_gl_tinymce'] = $this->backbone->get_base_lang_path() . '/ithoughts_tt_gl_tinymce_lang.php';
 			return $locales;
 		}
 
@@ -329,8 +335,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @action admin_menu
 		 */
 		public function get_menu() {
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			$plugindata = get_plugin_data( $backbone->get_base_path() . '/ithoughts_tooltip_glossary.php' );
+
+			$plugindata = get_plugin_data( $this->backbone->get_base_path() . '/' . $this->backbone->get_name() . '.php' );
 			$current_version = null;
 			if ( $plugindata && is_array( $plugindata ) && $plugindata['Version'] ) {
 				$this->current_version = $plugindata['Version'];
@@ -338,7 +344,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				$current_version = '0.0';
 			}
 
-			add_menu_page( 'iThoughts Tooltip Glossary', 'Tooltip Glossary', 'edit_others_posts', 'ithoughts-tooltip-glossary', null, $backbone->get_base_url() . '/ext/tinymce/icon/icon.svg' );
+			add_menu_page( 'iThoughts Tooltip Glossary', 'Tooltip Glossary', 'edit_others_posts', 'ithoughts-tooltip-glossary', null, $this->backbone->get_base_url() . '/assets/dist/imgs/icon.svg' );
 
 			$submenu_pages = array(
 				// Define the plugin options page.
@@ -389,8 +395,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			);
 
 			if ( $this->is_under_versionned() ) {
-				require_once( $backbone->get_base_class_path() . '/class-updater.php' );
-				if ( Updater::requires_update_s( $backbone->get_option( 'version' ), $this->current_version ) ) {
+				require_once( $this->backbone->get_base_class_path() . '/class-updater.php' );
+				if ( Updater::requires_update_s( $this->backbone->get_option( 'version' ), $this->current_version ) ) {
 					// If required, define the updater page.
 					$submenu_pages[] = array(
 						'parent_slug'   => 'ithoughts-tooltip-glossary',
@@ -405,7 +411,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 			// Add each submenu item to custom admin menu.
 			foreach ( $submenu_pages as $submenu ) {
-
 				add_submenu_page(
 					$submenu['parent_slug'],
 					$submenu['page_title'],
@@ -425,12 +430,10 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @return boolean Returns true if an update step is available, false otherwise
 		 */
 		public function is_under_versionned() {
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-
-			if ( '-1' === $backbone->get_option( 'version' ) ) {
+			if ( '-1' === $this->backbone->get_option( 'version' ) ) {
 				return false;
 			}
-			$version_diff = version_compare( $backbone->get_option( 'version' ), $this->current_version );
+			$version_diff = version_compare( $this->backbone->get_option( 'version' ), $this->current_version );
 			return -1 === $version_diff;
 		}
 
@@ -438,7 +441,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * Retrieve terms matching the string searched.
 		 */
 		public function get_terms_list_ajax() {
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+
 			if ( false === check_ajax_referer( 'ithoughts_tt_gl-get_terms_list', false, false ) ) {
 				wp_send_json_error(array(
 					'status' => 'error',
@@ -447,7 +450,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				wp_die();
 			}
 			$output = array(
-				'terms' => $backbone->search_terms(array(
+				'terms' => $this->backbone->search_terms(array(
 					'post_type'			=> 'glossary',
 					'post_status'		=> 'publish',
 					'posts_per_page'	=> 25,
@@ -469,21 +472,19 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @author Gerkin
 		 */
 		public function options() {
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-
 			$ajax         = admin_url( 'admin-ajax.php' );
-			$options      = $backbone->get_options();
+			$options      = $this->backbone->get_options();
 
-			$backbone->enqueue_resources( array(
+			$this->backbone->enqueue_resources( array(
 				'ithoughts_tooltip_glossary-admin',
 				'ithoughts_tooltip_glossary-css',
 				'ithoughts_tooltip_glossary-qtip-css',
+				'ithoughts_tooltip_glossary-customthemes',
 			) );
 
 			/* Add required scripts for WordPress Spoilers (AKA PostBox) */
 			wp_enqueue_script( 'postbox' );
 			wp_enqueue_script( 'post' );
-			wp_enqueue_style( 'ithoughts_tooltip_glossary-customthemes' );
 
 			$options_inputs = array();
 			$options_inputs['termlinkopt'] = Input::create_select_input(
@@ -721,7 +722,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			}
 
 			// Print the option page.
-			require( $backbone->get_base_path() . '/templates/dist/options.php' );
+			require( $this->backbone->get_base_path() . '/templates/dist/options.php' );
 		}
 
 		/**
@@ -731,7 +732,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		public function update_options() {
 			check_admin_referer( 'ithoughts_tt_gl-update_options' );
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+
 
 			$post_values = $_POST; // Input var okay.
 			$post_values['qtipshadow']  = TB::checkbox_to_bool( $post_values,'qtipshadow',  'enabled' );
@@ -746,9 +747,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			}
 			unset( $post_values['qtipstylecustom'] );
 
-			$glossary_options_old = $backbone->get_options();
+			$glossary_options_old = $this->backbone->get_options();
 			$glossary_options = \array_merge( $glossary_options_old, $post_values );
-			$defaults = $backbone->get_options( true );
+			$defaults = $this->backbone->get_options( true );
 			foreach ( $glossary_options as $optkey => $optvalue ) {
 				unset($optvalue);
 				if ( ! isset( $defaults[ $optkey ] ) ) {
@@ -783,7 +784,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					flush_rewrite_rules( false );
 					$outtxt .= '<p>' . __( 'Rewrite rule flushed', 'ithoughts-tooltip-glossary' ) . '</p>';
 				}
-				$backbone->set_options( $glossary_options );
+				$this->backbone->set_options( $glossary_options );
 				$outtxt .= ('<p>' . __( 'Options updated', 'ithoughts-tooltip-glossary' ) . '</p>') ;
 			}
 
@@ -802,7 +803,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		public function get_tinymce_tooltip_form_ajax() {
 			check_admin_referer( 'ithoughts_tt_gl-ajax_forms' );
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+
 			$data = array();
 
 			$mediatiptypes = array(
@@ -888,7 +889,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			// Retrieve terms.
 			$terms = array();
 			if ( null === $data['glossary']['id'] ) {
-				$terms = $backbone->search_terms(array(
+				$terms = $this->backbone->search_terms(array(
 					'post_type'			=> 'glossary',
 					'post_status'		=> 'publish',
 					'orderby'			=> 'title',
@@ -911,7 +912,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			wp_reset_postdata();
 
 			// form_data is printed directly in template.
-			$options = $backbone->get_options();
+			$options = $this->backbone->get_options();
 
 			$opts = $data['opts'] ?: array();
 			if ( ! isset( $opts['attributes'] ) ) {
@@ -1369,7 +1370,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				);
 			}
 
-			include $backbone->get_base_path() . '/templates/dist/tinymce-tooltip-form.php';
+			include $this->backbone->get_base_path() . '/templates/dist/tinymce-tooltip-form.php';
 			wp_die();
 		}
 
@@ -1380,7 +1381,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 */
 		public function get_tinymce_list_form_ajax() {
 			check_admin_referer( 'ithoughts_tt_gl-ajax_forms' );
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+
 			$data = array();
 
 			$types = array( 'atoz', 'list' );
@@ -1408,7 +1409,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			// Retrieve terms.
 			$form_data = array(
 				'admin_ajax'    => admin_url( 'admin-ajax.php' ),
-				'base_tinymce'  => $backbone->get_base_url() . '/ext/tinymce',
+				'base_tinymce'  => $this->backbone->get_base_url() . '/ext/tinymce',
 				'groups'		=> array(),
 			);
 			$groups = get_terms(array(
@@ -1484,22 +1485,22 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 			wp_reset_postdata();
 
-			include $backbone->get_base_path() . '/templates/dist/tinymce-list-form.php';
+			include $this->backbone->get_base_path() . '/templates/dist/tinymce-list-form.php';
 			wp_die();
 		}
 
 		/**
-* Initialize the customizing form for custom themes. If the POST request specifies a theme name, it will be parsed then loaded.
-*
-* @uses `templates/src/customizing-form.php`
-* @author Gerkin
-*/
+		 * Initialize the customizing form for custom themes. If the POST request specifies a theme name, it will be parsed then loaded.
+		 *
+		 * @uses `templates/src/customizing-form.php`
+		 * @author Gerkin
+		 */
 		public function theme_editor() {
 			if ( ! current_user_can( 'edit_theme_options' ) ) {
 				status_header( 403 );
 				wp_die( 'Forbidden' );
 			}
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+
 			$action = 'load';
 			$themename = null;
 			if ( isset( $_GET['theme_select'] ) && isset( $_GET['action'] ) ) { // Input var okay.
@@ -1541,7 +1542,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			wp_enqueue_script( 'post' );
 
 			/* Add required resources for wpColorPicker */
-			$backbone->enqueue_resources( array(
+			$this->backbone->enqueue_resources( array(
 				'ithoughts_tooltip_glossary-styleeditor',
 				'ithoughts_tooltip_glossary-admin',
 				'ithoughts_tooltip_glossary-qtip-css',
@@ -1601,7 +1602,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					)
 				),
 			);
-			require $backbone->get_base_path() . '/templates/dist/customizing-form.php';
+			require $this->backbone->get_base_path() . '/templates/dist/customizing-form.php';
 		}
 
 		/**

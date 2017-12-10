@@ -14,20 +14,20 @@
 		position: relative;
 
 		&::before{
-			@color: #04a4cc;
-			@padding: 3px;
+			$color: #04a4cc;
+			$padding: 3px;
 
-			background-color: @color;
-			bottom: @padding;
-			box-shadow: 0 0 7px 2px @color;
+			background-color: $color;
+			bottom: $padding;
+			box-shadow: 0 0 7px 2px $color;
 			box-sizing: border-box;
 			content: '';
 			display: block;
-			left: @padding;
+			left: $padding;
 			padding: 5px;
 			position: absolute;
-			right: @padding;
-			top: @padding;
+			right: $padding;
+			top: $padding;
 		}
 	}
 }
@@ -152,7 +152,7 @@
 		padding:0;
 		width: 100%;
 
-		@bordercolor: fadeout(#C5C5C5, 0);
+		$bordercolor: fadeout(#C5C5C5, 0);
 		.tabs {
 			display: block;
 			flex: 0 0 auto;
@@ -163,7 +163,7 @@
 
 			li{
 				border: 1px solid #C5C5C5;
-				border-bottom: 0 solid @bordercolor;
+				border-bottom: 0 solid $bordercolor;
 				bottom: -1px;
 				cursor: pointer;
 				display: inline-block;
@@ -216,7 +216,7 @@
 
 			&.active{
 				background: #FDFDFD none repeat scroll 0 0;
-				border: 1px solid @bordercolor;
+				border: 1px solid $bordercolor;
 				border-bottom-color: transparent;
 				border-top: none;
 				display: block;
@@ -251,9 +251,9 @@
 		position: relative;
 		z-index: 2;
 	}
-	@activecolor: lighten(#04b0db, 50%);
-	@bordercolor: #ccc;
-	@hovercolor: #f4f4f4;
+	$activecolor: lighten(#04b0db, 50%);
+	$bordercolor: #ccc;
+	$hovercolor: #f4f4f4;
 	.glossary_term_completer_container{
 		background: #fff;
 		box-shadow: 0 0 6px 2px grey;
@@ -273,18 +273,18 @@
 				padding: 5px;
 
 				&:not(:last-child){
-					border-bottom: 1px solid @hovercolor;
+					border-bottom: 1px solid $hovercolor;
 				}
 				&:hover,
 				&:focus{
-					background-color: @hovercolor;
+					background-color: $hovercolor;
 				}
 			}
 		}
 	}
 	.groupspicker{
 		align-items: stretch;
-		border: 1px solid @bordercolor;
+		border: 1px solid $bordercolor;
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: row;
@@ -308,17 +308,17 @@
 			display: none;
 
 			&:checked + label.group-label {
-				background-color: @activecolor;
+				background-color: $activecolor;
 
 				&:hover,
 				&:focus{
-					background-color: average(@activecolor, @hovercolor);
+					background-color: average($activecolor, $hovercolor);
 				}
 			}
 		}
 		label.group-label{
 			background-color: #fff;
-			border: 1px solid average(@hovercolor, @bordercolor);
+			border: 1px solid average($hovercolor, $bordercolor);
 			display: block;
 			padding: 10px;
 			text-align: center;
@@ -326,7 +326,7 @@
 
 			&:hover,
 			&:focus{
-				background-color: @hovercolor;
+				background-color: $hovercolor;
 			}
 		}
 	}

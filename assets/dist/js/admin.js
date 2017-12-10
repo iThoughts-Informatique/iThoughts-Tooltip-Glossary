@@ -26,64 +26,71 @@
 
 		'use strict';
 
-		(function selfCalling(ithoughts) {
-			var $ = ithoughts.$,
-			    itg = iThoughtsTooltipGlossary;
+		(function (ithoughts) {
+			var $ = ithoughts.$;
+			var itg = iThoughtsTooltipGlossary;
 
+			/**
+    * Set the style of the target, appending to a default classes array the *themename*
+    *
+    * @param  {boolean|string[]} keepDefaults - Set to `true` to use *default styles*. If an array is given, those classes are used as *default*.
+    * @param  {string}           themename    - Class name of the theme
+    * @param  {jQuery}           target       - QTip holder to edit
+    * @returns {undefined} This function does not have any return value.
+    */
 			itg.updateStyle = function (keepDefaults, themename, target) {
 				var styles = ["qtip-" + themename];
 				if (true === keepDefaults) {
-					styles = ['ithoughts_tt_gl-tooltip', 'qtip-pos-br'].concat(styles);
+					// iF we have simply `true`, add default styles
+					styles = styles.concat(['ithoughts_tt_gl-tooltip', 'qtip-pos-br']);
 				} else if (typeof keepDefaults !== 'undefined' && keepDefaults && 'Array' === keepDefaults.constructor.name) {
-					styles = keepDefaults.concat(styles);
+					// If having an array, use it as default styles
+					styles = styles.concat(keepDefaults);
 				}
 
 				target.qtip('option', 'style.classes', styles.join(' '));
 			};
 
-			ithoughts.$d.ready(function onDocumentReady() {
-				$('[data-tooltip-id="exampleStyle"]').qtip('api').show();
-				var events = 'change blur keyup mouseup',
-				    updateActivationPreview = function updateActivationPreviewWrapper() {
-					var triggerI = $('#qtiptrigger'),
-					    animInI = $('#anim_in'),
-					    animOutI = $('#anim_out'),
-					    animTimeI = $('#anim_time');
-					return function updateActivationPreview() {
-						var trigger = triggerI.val();
-						try {
-							$demotip.qtip('option', 'show.event', trigger).qtip('option', 'hide.event', 'responsive' === trigger ? 'responsiveout' : 'mouseleave').qtip('option', 'show.effect', itg.animationFunctions.in[animInI.val()]).qtip('option', 'hide.effect', itg.animationFunctions.out[animOutI.val()]).prop('animation_duration', parseInt(animTimeI.val() || 500));
-						} catch (e) {
-							itg.error(e);
-						}
-					};
-				}(),
-				    $demotip = $('#qtip-exampleStyle');
-				$('#qtiprounded,#qtipshadow,#qtipstyle').bind(events, function updateStyleWrapper() {
-					var styleI = $('#qtipstyle'),
-					    shadowI = $('#qtipshadow'),
-					    roundedI = $('#qtiprounded');
-					return function updateStyle(event, themename) {
-						if ('undefined' == typeof themename) {
-							themename = styleI.val();
-						}
-						var style = ['ithoughts_tt_gl-tooltip', 'qtip-pos-br'];
-						if (shadowI.is(':checked')) {
-							style.push('qtip-shadow');
-						}
-						if (roundedI.is(':checked')) {
-							style.push('qtip-rounded');
-						}
-						itg.updateStyle(style, $('#qtipstyle').val(), $demotip);
-					};
-				}());
-				$('#tooltips,#qtiptrigger,#anim_in,#anim_out,#anim_time').bind(events, updateActivationPreview);
-				(function doWrapInit() {
-					var verbosityInput = $('#verbosity'),
-					    verbosityLabel = $('#ithoughts_tt_gl-verbosity_label'),
-					    verbosityLabels = verbosityLabel.data('labels');
-					verbosityInput.on('input', function onInput() {
-						verbosityLabel.text(verbosityLabels[$(this).val()]);
+			ithoughts.$d.ready(function () {
+				// #### Get some DOMs
+				// Get the tip and show it
+				var $demotip = $('#qtip-exampleStyle').qtip('api').show();
+				// Class inputs
+				var $styleI = $('#qtipstyle');
+				var $shadowI = $('#qtipshadow');
+				var $roundedI = $('#qtiprounded');
+				// Behavior inputs
+				var $triggerI = $('#qtiptrigger');
+				var $animInI = $('#anim_in');
+				var $animOutI = $('#anim_out');
+				var $animTimeI = $('#anim_time');
+
+				var events = 'change blur keyup mouseup';
+				ithoughts.$merge($styleI, $shadowI, $roundedI).bind(events, function () {
+					var baseStyles = ['ithoughts_tt_gl-tooltip', 'qtip-pos-br'];
+					if ($shadowI.is(':checked')) {
+						baseStyles.push('qtip-shadow');
+					}
+					if ($roundedI.is(':checked')) {
+						baseStyles.push('qtip-rounded');
+					}
+					itg.updateStyle(baseStyles, $styleI.val(), $demotip);
+				});
+				ithoughts.$merge($triggerI, $animInI, $animOutI, $animTimeI).bind(events, function () {
+					// Set the demotip as configured in the inputs
+					var trigger = $triggerI.val();
+					try {
+						$demotip.qtip('option', 'show.event', trigger).qtip('option', 'hide.event', 'responsive' === trigger ? 'responsiveout' : 'mouseleave').qtip('option', 'show.effect', itg.animationFunctions.in[$animInI.val()]).qtip('option', 'hide.effect', itg.animationFunctions.out[$animOutI.val()]).prop('animation_duration', parseInt($animTimeI.val() || 500));
+					} catch (error) {
+						itg.error(error);
+					}
+				});
+				(function () {
+					var $verbosityInput = $('#verbosity');
+					var $verbosityLabel = $('#ithoughts_tt_gl-verbosity_label');
+					var verbosityLabels = $verbosityLabel.data('labels');
+					$verbosityInput.on('input', function () {
+						$verbosityLabel.text(verbosityLabels[$verbosityInput.val()]);
 					}).trigger('input');
 				})();
 			});

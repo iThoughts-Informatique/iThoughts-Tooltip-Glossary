@@ -34,6 +34,11 @@ module.exports = function gruntInit( grunt ) {
 		pkg:    grunt.file.readJSON( 'package.json' ),
 		browserify: {
 			dist: {
+				options:{
+					browserifyOptions: {
+						standalone: false,
+					},
+				},
 				files: {
 					'assets/build/js/admin.js': 'assets/src/js/admin.js',
 					'assets/build/js/atoz.js': 'assets/src/js/atoz.js',
@@ -41,21 +46,37 @@ module.exports = function gruntInit( grunt ) {
 					'assets/build/js/style-editor.js': 'assets/src/js/style-editor.js',
 					'assets/build/js/updater.js': 'assets/src/js/updater.js',
 					'assets/build/js/tinymce/form-handler.js': 'assets/src/js/tinymce/form-handler.js',
-					'assets/build/js/tinymce/tinymce-utils.js': 'assets/src/js/tinymce/tinymce-utils.js',
-					'assets/build/js/tinymce/tinymce.js': 'assets/src/js/tinymce/tinymce.js',
+					'assets/build/js/tinymce/tinymce.js': 'assets/src/js/tinymce/tinymce-plugin.js',
 				},
 			},
 		},
 		babel: {
 			options: {
 				sourceMap: true,
-				presets:   [ 'es2015' ],
+				presets:   [
+					[ 'env', {
+						//modules: 'umd',
+						//modules: 'systemjs',
+						targets: {
+							browsers: [ 
+								'>1%',
+								'last 4 versions',
+								'Firefox ESR',
+								'not ie < 9',
+							],
+						},
+						//						uglify:      false,
+						loose:       false,
+						debug:       false,
+						useBuiltIns: 'usage',
+					}],
+				],
 			},
 			dist: {
 				files: [{
 					expand: true,
 					cwd : 'assets/build',
-					src:'**/*.js',
+					src: '**/*.js',
 					dest: 'assets/dist',
 					ext:  '.js',
 				}],
@@ -75,7 +96,7 @@ module.exports = function gruntInit( grunt ) {
 					{
 						expand: true,
 						src:    [
-							'assets/dist/js/**.js',
+							'assets/dist/js/**/*.js',
 							'!**/*.min.js',
 						],
 						rename: ( dst, src ) => src.replace( /.js$/, '.min.js' ),
@@ -150,6 +171,19 @@ module.exports = function gruntInit( grunt ) {
 				],
 			},
 		},
+		imagemin: {
+			dynamic: {
+				options: {
+					optimizationLevel: 7,
+				},
+				files: [{
+					expand: true,
+					cwd: 'assets/src/imgs',
+					src: ['**/*.{png,jpg,gif,svg}'],
+					dest: 'assets/dist/imgs',
+				}],
+			},
+		},
 		sass: {
 			dist: {
 				files:   scssFiles,
@@ -157,12 +191,14 @@ module.exports = function gruntInit( grunt ) {
 		},
 		eslint: {
 			options: {
-				format:			   'stylish',
-				fix:			      true,
-				useEslintrc:	false,
-				configFile: 'lint/eslint.json',
-				silent:     true,
-				fix:		true,
+				format:      'stylish',
+				fix:         true,
+				useEslintrc: false,
+				configFile:  'lint/eslint.json',
+				quiet:       true,
+				maxWarnings: -1,
+				fix:         true,
+				silent:      true,
 			},
 			dist: {
 				src: jsPaths,
@@ -174,12 +210,6 @@ module.exports = function gruntInit( grunt ) {
 					'!test/node_modules/**/*.js',
 				],
 			},
-		},
-		phplint: {
-			check: [
-				'class/**/*.php',
-				'*.php',
-			],
 		},
 		docco: {
 			debug: {
@@ -273,7 +303,7 @@ module.exports = function gruntInit( grunt ) {
 			dist: {
 				options: {
 					verbose: true,
-//					template: 'abstract',
+					//					template: 'abstract',
 				},
 				src: [
 					'class/**/*.php',
@@ -340,7 +370,6 @@ module.exports = function gruntInit( grunt ) {
 	grunt.loadNpmTasks( 'grunt-docco' );
 	grunt.loadNpmTasks( 'grunt-eslint' );
 	grunt.loadNpmTasks( 'grunt-browserify' );
-	grunt.loadNpmTasks( 'grunt-phplint' );
 	grunt.loadNpmTasks( 'grunt-prompt' );
 	grunt.loadNpmTasks( 'grunt-phpdoc' );
 	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
@@ -348,6 +377,7 @@ module.exports = function gruntInit( grunt ) {
 	grunt.loadNpmTasks( 'grunt-babel' );
 	grunt.loadNpmTasks( 'grunt-phpcbf' );
 	grunt.loadNpmTasks( 'grunt-phpcs' );
+	grunt.loadNpmTasks('grunt-contrib-imagemin');
 
 	// Default task(s).
 	grunt.registerTask( 'bumpVersionDo', '', function bumpVersionDo() {
@@ -414,10 +444,10 @@ module.exports = function gruntInit( grunt ) {
 		'phpdoc',
 	]);
 	grunt.registerTask( 'buildStyles', [
-		'sass',
+		'changed:sass',
 	]);
 	grunt.registerTask( 'buildScripts', [
-		'eslint:dist',
+		//'eslint:dist',
 		'browserify:dist',
 		'babel:dist',
 		'uglify:dist',
@@ -425,11 +455,12 @@ module.exports = function gruntInit( grunt ) {
 	grunt.registerTask( 'build', [
 		'buildScripts',
 		'buildStyles',
-		'htmlmin',
+		'changed:imagemin',
+		'changed:htmlmin',
 	]);
 	grunt.registerTask( 'lint', [
 		'eslint:node',
 		'eslint:dist',
-		'phplint',
+		'phpcs',
 	]);
 };

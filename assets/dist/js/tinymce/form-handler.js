@@ -87,7 +87,7 @@
 						// Initialize the tab switcher of advanced options
 						initTab($('#ithoughts_tt_gl-tooltip-form-options .tabs li'));
 						// Mode switcher for mediatips.  Hide all except the selected mode
-						$('.modeswitcher').on('click keyup', function switchMode() {
+						$('.modeswitcher').on('click keyup change', function switchMode() {
 							var id = this.id;
 							$("[data-" + id + "]:not([data-" + id + "=\"mediatip-" + this.value + "-type\"])").hide();
 							$("[data-" + id + "~=\"mediatip-" + this.value + "-type\"]").show();
@@ -300,19 +300,22 @@
 								// Filter with already retrieved items. This is used to react before the real request is sent, then resulsq will be replaced with new retrieved ones
 								searchMatchingRes();
 								// Do the request to get elements
+								var $nonce = $('#ithoughts_tt_gl-tooltip-form-container [name="_wpnonce"]');
 								request = $.ajax({
 									url: itge.admin_ajax,
 									method: 'POST',
 									dataType: 'json',
 									data: {
 										action: 'ithoughts_tt_gl_get_terms_list',
-										search: searchedString
+										search: searchedString,
+										_ajax_nonce: $nonce.val()
 									},
 									complete: function complete(res) {
 										var response = res.responseJSON;
 										if ('undefined' == typeof response || !response.success) {
 											return;
 										}
+										$nonce.val(response.data.nonce_refresh);
 										// Check if the response contains a different search string as the current one. It serves as an *outdated filter*
 										if (response.data.searched !== searchedString) {
 											iThoughtsTooltipGlossary.info('Outdated response');

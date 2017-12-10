@@ -26,7 +26,7 @@
 
 		'use strict';
 
-		(function selfCalling(ithoughts) {
+		(function (ithoughts) {
 			var lastPos,
 			    $ = ithoughts.$,
 			    $w = ithoughts.$w,

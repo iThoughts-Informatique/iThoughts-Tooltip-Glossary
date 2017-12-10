@@ -29,6 +29,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 	 * @author Gerkin
 	 */
 	class Backbone extends \ithoughts\v6_0\Backbone {
+        const SERVER_OVR	= 1;
+		const CLIENT_OVR	= 2;
 		/**
 		 * Default options values.
 		 *
@@ -49,188 +51,31 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		 * @var string[] $handled_attributes
 		 */
 		private $handled_attributes;
-
+		
 		/**
 		 * Construct the plugin main handler.
 		 *
 		 * @private
 		 * @param string $plugin_base Path to the plugin relative to the WordPress install.
 		 */
-		function __construct( $plugin_base ) {
-			$this->options_name		= 'ithoughts_tt_gl';
+		function __construct( $plugin_base, $plugin_name, $options_name ) {
+			parent::__construct($plugin_base, $plugin_name, $options_name);
 
-			$this->base_path		= $plugin_base;
-
-			parent::__construct();
-
-			$options_config = array(
-				'version'		=> array(
-					'default'		=> '-1',
-					'serversideOverride'	=> false,
-					'cliensideOverride'	=> false,
-				),
-				'termcontent'		=> array(
-					'default'		=> 'excerpt',
-					'serversideOverride'	=> true,
-					'cliensideOverride'	=> true,
-					'accepted'		=> array(
-						'full',
-						'excerpt',
-						'off',
-					),
-				),
-				'termscomment'		=> array(
-					'default'		=> false,
-					'serversideOverride'	=> false,
-					'cliensideOverride'	=> false,
-					'accepted'		=> array(
-						true,
-						false,
-					),
-				),
-				'termtype'		=> array(
-					'default'		=> 'glossary',
-					'serversideOverride'	=> false,
-					'cliensideOverride'	=> false,
-				),
-				'grouptype'		=> array(
-					'default'		=> 'group',
-					'serversideOverride'	=> false,
-					'cliensideOverride'	=> false,
-				),
-				'qtipstyle'		=> array(
-					'default'		=> 'cream',
-					'serversideOverride'	=> false,
-					'cliensideOverride'	=> true,
-					'accepted'		=> array(
-						'cream',
-						'dark',
-						'green',
-						'light',
-						'red',
-						'blue',
-						'plain',
-						'bootstrap',
-						'youtube',
-						'tipsy',
-					),
-				),
-				'termlinkopt'	=> array(
-					'default'		=> 'standard',
-					'serversideOverride'	=> true,
-					'cliensideOverride'	=> false,// Not a js data.
-					'accepted'		=> array(
-						'standard',
-						'none',
-						'blank',
-					),
-				),
-				'qtiptrigger'	=> array(
-					'default'		=> 'click',
-					'serversideOverride'	=> false,
-					'cliensideOverride'	=> true,
-					'accepted'		=> array(
-						'click',
-						'responsive',
-					),
-				),
-				'qtipshadow'	=> array(
-					'default'		=> true,
-					'serversideOverride'	=> false,
-					'cliensideOverride'	=> true,
-					'accepted'		=> array(
-						true,
-						false,
-					),
-				),
-				'qtiprounded'	=> array(
-					'default'		=> false,
-					'serversideOverride'	=> false,
-					'cliensideOverride'	=> true,
-					'accepted'		=> array(
-						true,
-						false,
-					),
-				),
-				'staticterms'	=> array(
-					'default'		=> false,
-					'serversideOverride'	=> false,// If required once, required everywhere.
-					'cliensideOverride'	=> false,// Not a js data.
-					'accepted'		=> array(
-						true,
-						false,
-					),
-				),
-				'forceloadresources'	=> array(
-					'default'		=> false,
-					'serversideOverride'	=> false,// If required once, required everywhere.
-					'cliensideOverride'	=> false,// Not a js data.
-					'accepted'		=> array(
-						true,
-						false,
-					),
-				),
-				'verbosity'	=> array(
-					'default'		=> LogLevel::ERROR,
-					'serversideOverride'	=> false,// If required once, required everywhere.
-					'cliensideOverride'	=> false,// Not a js data.
-					'accepted'		=> array(
-						LogLevel::SILENT,
-						LogLevel::ERROR,
-						LogLevel::WARN,
-						LogLevel::INFO,
-						LogLevel::SILLY,
-					),
-				),
-				'anim_in'		=> array(
-					'default'		=> 'none',
-					'serversideOverride'	=> false,
-					'cliensideOverride'	=> true,
-				),
-				'anim_out'		=> array(
-					'default'		=> 'none',
-					'serversideOverride'	=> false,
-					'cliensideOverride'	=> true,
-				),
-				'anim_time'		=> array(
-					'default'		=> 500,
-					'serversideOverride'	=> false,
-					'cliensideOverride'	=> true,
-				),
-				'custom_styles_path'	=> array(
-					'default'		=> null,
-					'serversideOverride'	=> false,// If required once, required everywhere.
-					'cliensideOverride'	=> false,// Not a js data.
-				),
-				'lists_size'			=> array(
-					'default'		=> -1,
-					'serversideOverride'	=> true,
-					'cliensideOverride'	=> false,// Not a js data.
-				),
-				'exclude_search'	=> array(
-					'default'		=> false,
-					'serversideOverride'	=> false,// If required once, required everywhere.
-					'cliensideOverride'	=> false,// Not a js data.
-					'accepted'		=> array(
-						true,
-						false,
-					),
-				),
-			);
+			$options_config = require('config.php');
 
 			$this->default_options = array();
 			foreach ( $options_config as $opt => $val ) {
 				$this->default_options[ $opt ] = $val['default'];
 			}
+			
+			// Retrieve possible dynamic options
 			$this->clientside_overridable = array();
-			foreach ( $options_config as $opt => $val ) {
-				if ( $val['cliensideOverride'] ) {
-					$this->clientside_overridable[] = $opt;
-				}
-			}
 			$this->serverside_overridable = array();
 			foreach ( $options_config as $opt => $val ) {
-				if ( $val['serversideOverride'] ) {
+				if ( $val['type'] & self::CLIENT_OVR ) {
+					$this->clientside_overridable[] = $opt;
+				}
+				if ( $val['type'] & self::SERVER_OVR ) {
 					$this->serverside_overridable[] = $opt;
 				}
 			}
@@ -285,7 +130,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		public function declare_resources() {
 			// Generate all Script resources.
 			$this->declare_resource( 'imagesloaded', 'assets/deps/js/imagesloaded.min.js' );
-			$this->declare_resource( 'qtip', 'assets/deps/js/jquery.qtip.js', array( 'jquery', 'imagesloaded' ) );
+			$this->declare_resource( 'qtip', 'assets/deps/jquery.qtip.js', array( 'jquery', 'imagesloaded' ) );
 			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'assets/dist/js/main.js', array( 'qtip', 'ithoughts-core-v5' ), false, 'iThoughtsTooltipGlossary', array(
 				'admin_ajax'    => admin_url( 'admin-ajax.php' ),
 				// Get the API endpoint. See https://wordpress.stackexchange.com/questions/144822/what-is-the-best-practice-to-check-for-pretty-permalinks.

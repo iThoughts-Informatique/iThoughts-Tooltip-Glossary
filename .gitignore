@@ -8,3 +8,6 @@ ithoughts_tt_gl.log
 grunt_localconfig.json
 less/*.css
 /nbproject/private/
+\.sass-cache/
+
+assets/build/

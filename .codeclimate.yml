@@ -31,3 +31,4 @@ exclude_patterns:
 - "lang/"
 - "submodules/"
 - "docs/"
+- "test/"

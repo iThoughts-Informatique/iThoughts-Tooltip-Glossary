@@ -14,9 +14,6 @@ class ITGBackboneTest extends WP_UnitTestCase {
 	 * A single example test.
 	 */
 	function test_options_override() {
-		// Replace this with some actual testing code.
-		$this->assertTrue( true );
-
 		$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 
 		// Test for server overrides

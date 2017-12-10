@@ -1,0 +1,400 @@
+/**
+* @file iThoughts Tooltip Glossary tinymce form styles
+*
+* @author Gerkin
+* @copyright 2016 GerkinDevelopment
+* @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
+* @package ithoughts-tooltip-glossary
+*
+* @version 2.7.0
+*/
+.ithoughts-tristate:indeterminate {
+  position: relative; }
+  .ithoughts-tristate:indeterminate::before {
+    background-color: #04a4cc;
+    bottom: 3px;
+    box-shadow: 0 0 7px 2px #04a4cc;
+    box-sizing: border-box;
+    content: '';
+    display: block;
+    left: 3px;
+    padding: 5px;
+    position: absolute;
+    right: 3px;
+    top: 3px; }
+
+.ithoughts-prototype {
+  display: none; }
+
+.ithoughts_tt_gl-attrs-table h3 {
+  margin: 5px; }
+.ithoughts_tt_gl-attrs-table h4 {
+  margin: 5px; }
+.ithoughts_tt_gl-attrs-table > div {
+  box-sizing: border-box;
+  float: left;
+  padding: 5px;
+  width: 50%; }
+.ithoughts_tt_gl-attrs-table .kv-inputs {
+  float: left;
+  width: 185px; }
+.ithoughts_tt_gl-attrs-table .kv-delete {
+  color: darkred;
+  float: left;
+  height: 40px;
+  text-align: center;
+  width: 18px; }
+.ithoughts_tt_gl-attrs-table .kv-pair > * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+.ithoughts_tt_gl-attrs-table .kv-pair label {
+  float: left;
+  width: 25%; }
+.ithoughts_tt_gl-attrs-table .kv-pair input {
+  float: right;
+  width: 75%; }
+.ithoughts_tt_gl-attrs-table .button {
+  text-align: center;
+  width: 100%; }
+.ithoughts_tt_gl-attrs-table .kv {
+  display: block;
+  height: 42px;
+  overflow: hidden;
+  width: 205.5px; }
+  .ithoughts_tt_gl-attrs-table .kv .key {
+    font-weight: bold;
+    text-align: left; }
+  .ithoughts_tt_gl-attrs-table .kv .value {
+    font-style: italic;
+    text-align: right; }
+
+.itg-window {
+  border-width: 1px;
+  display: flex;
+  flex-direction: column;
+  left: 311px;
+  max-height: 90%;
+  max-width: 90%;
+  top: 295px;
+  width: 455px;
+  z-index: 999999; }
+  .itg-window b {
+    font-weight: bold; }
+  .itg-window em {
+    font-style: italic; }
+  .itg-window .itg-reset {
+    align-items: stretch;
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: column nowrap;
+    height: 100%;
+    justify-content: center; }
+    .itg-window .itg-reset > * {
+      flex: 0 0 auto; }
+    .itg-window .itg-reset > .itg-window-body {
+      flex: 1 1 auto;
+      max-height: none;
+      min-height: 0;
+      overflow: auto;
+      padding: 0 10px; }
+  .itg-window .itg-foot {
+    padding: 10px;
+    text-align: right; }
+  .itg-window * {
+    box-sizing: border-box; }
+  .itg-window .tab-container {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 0;
+    width: 100%; }
+    .itg-window .tab-container .tabs {
+      display: block;
+      flex: 0 0 auto;
+      margin: 0;
+      padding: 0;
+      position: relative; }
+      .itg-window .tab-container .tabs li {
+        border: 1px solid #C5C5C5;
+        border-bottom: 0 solid fadeout(#C5C5C5, 0);
+        bottom: -1px;
+        cursor: pointer;
+        display: inline-block;
+        height: auto;
+        margin: 0 4px 0 0;
+        padding: 8px;
+        position: relative;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+        transition: 0.25s border-bottom-color; }
+        .itg-window .tab-container .tabs li:not(.topLiner) {
+          background: #fff; }
+        .itg-window .tab-container .tabs li:hover, .itg-window .tab-container .tabs li.active {
+          border-bottom: 1px solid #C5C5C5;
+          border-bottom: 1px solid fadeout(#C5C5C5, 100);
+          transition: 0.25s border-bottom-color;
+          z-index: 2; }
+      .itg-window .tab-container .tabs .topLiner {
+        border: none;
+        border-bottom: 1px solid #C5C5C5;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+        position: absolute;
+        width: 100%;
+        z-index: 1; }
+      .itg-window .tab-container .tabs.active, .itg-window .tab-container .tabs:hover, .itg-window .tab-container .tabs:focus {
+        background: #FDFDFD none repeat scroll 0 0;
+        border-bottom-color: transparent;
+        opacity: 1; }
+    .itg-window .tab-container .tab {
+      box-sizing: border-box;
+      display: none;
+      flex: 1 1 auto;
+      margin: 0 auto;
+      opacity: 0;
+      padding: 10px;
+      pointer-events: none;
+      transition: 0.5s 0.5s display;
+      width: 100%; }
+      .itg-window .tab-container .tab.active {
+        background: #FDFDFD none repeat scroll 0 0;
+        border: 1px solid fadeout(#C5C5C5, 0);
+        border-bottom-color: transparent;
+        border-top: none;
+        display: block;
+        opacity: 1;
+        pointer-events: all;
+        transition: 0.5s 0.5s display; }
+  .itg-window table {
+    width: 100%; }
+    .itg-window table td {
+      /*position: relative;*/
+      white-space: normal;
+      word-wrap: break-word; }
+  .itg-window form {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    height: 100%; }
+  .itg-window .foreign-language {
+    background-color: #FFFCAB; }
+  .itg-window .hidden {
+    display: none; }
+  .itg-window .completed {
+    position: relative;
+    z-index: 2; }
+  .itg-window .glossary_term_completer_container {
+    background: #fff;
+    box-shadow: 0 0 6px 2px grey;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1; }
+    .itg-window .glossary_term_completer_container .completer p {
+      margin: 0; }
+    .itg-window .glossary_term_completer_container .completer .option {
+      max-width: 100%;
+      overflow-x: hidden;
+      padding: 5px; }
+      .itg-window .glossary_term_completer_container .completer .option:not(:last-child) {
+        border-bottom: 1px solid #f4f4f4; }
+      .itg-window .glossary_term_completer_container .completer .option:hover, .itg-window .glossary_term_completer_container .completer .option:focus {
+        background-color: #f4f4f4; }
+  .itg-window .groupspicker {
+    align-items: stretch;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    left: 0;
+    opacity: 1;
+    position: absolute;
+    width: 100%;
+    z-index: 999; }
+    .itg-window .groupspicker.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.5s all; }
+  .itg-window .group-select {
+    flex: 1 1 auto; }
+    .itg-window .group-select input {
+      display: none; }
+      .itg-window .group-select input:checked + label.group-label {
+        background-color: #e0f8fe; }
+        .itg-window .group-select input:checked + label.group-label:hover, .itg-window .group-select input:checked + label.group-label:focus {
+          background-color: average(#e0f8fe, #f4f4f4); }
+    .itg-window .group-select label.group-label {
+      background-color: #fff;
+      border: 1px solid average(#f4f4f4, #ccc);
+      display: block;
+      padding: 10px;
+      text-align: center;
+      transition: 0.5s all; }
+      .itg-window .group-select label.group-label:hover, .itg-window .group-select label.group-label:focus {
+        background-color: #f4f4f4; }
+  .itg-window .image-box {
+    max-height: 120px;
+    max-width: 100%;
+    text-align: center; }
+    .itg-window .image-box img {
+      height: auto;
+      max-height: 120px;
+      max-width: 100%;
+      width: auto; }
+  .itg-window input:disabled {
+    background: #f5f5f5;
+    border: 1px solid #ccc; }
+  .itg-window .itg-btn:not(.itg-widget) button {
+    background: inherit;
+    border: inherit; }
+
+.itg-container,
+.itg-container *,
+.itg-widget,
+.itg-widget *,
+.itg-reset {
+  background: transparent;
+  border: 0;
+  box-sizing: content-box;
+  color: #333;
+  cursor: inherit;
+  direction: ltr;
+  float: none;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  height: auto;
+  line-height: normal;
+  margin: 0;
+  max-width: none;
+  padding: 0;
+  position: static;
+  -webkit-tap-highlight-color: transparent;
+  text-align: left;
+  text-decoration: none;
+  text-shadow: none;
+  vertical-align: top;
+  white-space: nowrap;
+  width: auto; }
+
+.itg-widget button {
+  box-sizing: border-box; }
+
+.itg-fade {
+  opacity: 0;
+  transition: opacity .15s linear; }
+  .itg-fade.itg-in {
+    opacity: 1; }
+
+.itg-modal-block {
+  background: #000;
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  zoom: 1; }
+  .itg-modal-block.itg-in {
+    opacity: .3;
+    zoom: 1; }
+
+.itg-window {
+  background: #fff;
+  border-width: 1px;
+  left: 50%;
+  max-height: 90%;
+  max-width: 90%;
+  opacity: 0;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 150ms ease-in;
+  width: 455px;
+  z-index: 999999; }
+  .itg-window.itg-in {
+    opacity: 1; }
+
+.itg-window-head {
+  border-bottom: 1px solid #c5c5c5;
+  padding: 9px 15px;
+  position: relative; }
+  .itg-window-head .itg-close {
+    background: none;
+    border: none;
+    box-sizing: inherit;
+    color: #999;
+    cursor: pointer;
+    display: block;
+    height: 36px;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: 36px; }
+    .itg-window-head .itg-close i {
+      color: #858585; }
+    .itg-window-head .itg-close:hover i {
+      color: #adadad; }
+  .itg-window-head .itg-title {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    padding-right: 20px;
+    text-rendering: optimizelegibility; }
+
+.itg-foot {
+  background-color: #fff;
+  border-top: 1px solid #c5c5c5;
+  display: block; }
+
+.itg-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #b1b1b1;
+  border-color: transparent transparent transparent transparent;
+  display: inline-block;
+  position: relative;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); }
+  .itg-btn:hover, .itg-btn:focus {
+    background-color: #e3e3e3;
+    border-color: #ccc;
+    color: #333; }
+  .itg-btn:active {
+    background-color: #e0e0e0;
+    border-color: #ccc; }
+  .itg-btn button {
+    appearance: none;
+    color: #333;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 16px;
+    overflow: visible;
+    padding: 4px 8px;
+    text-align: center; }
+  .itg-btn button::-moz-focus-inner {
+    border: 0;
+    padding: 0; }
+
+.itg-primary {
+  background-color: #2d8ac7;
+  border: 1px solid transparent;
+  border-color: transparent;
+  color: #fff; }
+  .itg-primary.itg-btn-has-text {
+    min-width: 50px; }
+  .itg-primary:hover, .itg-primary:focus {
+    background-color: #257cb6;
+    border-color: transparent; }
+  .itg-primary button {
+    color: #fff;
+    text-shadow: 1px 1px none; }
+
+.itg-rtl .itg-btn button {
+  direction: rtl; }
+
+/*# sourceMappingURL=ithoughts_tt_gl-tinymce-forms.min.css.map */
