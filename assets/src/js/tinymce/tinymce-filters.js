@@ -62,7 +62,7 @@ module.exports = {
 			});
 		},
 		list: content => { // For [glossary_(term_list|atoz)]
-			return content.replace( /<span\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term_list|atoz)")(.*?)>.*?<\/span>/g, ( all, type, attrStr ) => {
+			return content.replace( /<span\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term_list|atoz)")(.*?)>.*?<\/span>/g, ( all, type, inner ) => {
 				const attrs	= new OptArray();
 				const tag = `glossary-${ type }`;
 				const attrsMatches = attrsMatcher.exec( inner );

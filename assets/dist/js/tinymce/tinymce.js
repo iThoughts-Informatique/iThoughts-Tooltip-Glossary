@@ -89,7 +89,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				},
 				list: function list(content) {
 					// For [glossary_(term_list|atoz)]
-					return content.replace(/<span\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term_list|atoz)")(.*?)>.*?<\/span>/g, function (all, type, attrStr) {
+					return content.replace(/<span\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term_list|atoz)")(.*?)>.*?<\/span>/g, function (all, type, inner) {
 						var attrs = new OptArray();
 						var tag = "glossary-" + type;
 						var attrsMatches = attrsMatcher.exec(inner);
@@ -103,6 +103,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		};
 	}, { "./tinymce-optarray": 2 }], 2: [function (require, module, exports) {
 		'use strict';
+
+		var _iThoughtsTooltipGlos = iThoughtsTooltipGlossary,
+		    stripQuotes = _iThoughtsTooltipGlos.stripQuotes;
+		var isNA = iThoughts.v5.isNA;
 
 		var OptArray = function () {
 			function OptArray() {
@@ -275,8 +279,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 									case 2:
 										result = _context.sent;
 
-										console.log(result);
-										//insertInTinyMCE
+										insertInTinyMCE(result.finalContent, result.mode);
 
 									case 4:
 									case "end":
@@ -305,8 +308,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 							case 2:
 								result = _context2.sent;
 
-								console.log(result);
-								//QTags.insertContent
+								QTags.insertContent(result.finalContent);
 
 							case 4:
 							case "end":
@@ -357,8 +359,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 									case 6:
 										result = _context3.sent;
 
-										console.log(result);
-										//insertInTinyMCE
+										insertInTinyMCE(result.finalContent, result.mode);
 
 									case 8:
 									case "end":
@@ -387,8 +388,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 							case 2:
 								result = _context4.sent;
 
-								console.log(result);
-								//QTags.insertContent
+								QTags.insertContent(result.finalContent);
 
 							case 4:
 							case "end":
@@ -401,20 +401,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 	}, { "./tinymce-filters": 1, "./tinymce-utils": 4, "regenerator-runtime/runtime": 5 }], 4: [function (require, module, exports) {
 		'use strict';
 
-		var _arguments = arguments,
-		    _this3 = this;
+		var _this3 = this;
 
 		var removeAccents = require('remove-accents');
 		var OptArray = require('./tinymce-optarray');
+
 		var ithoughts = iThoughts.v5;
 		var itg = iThoughtsTooltipGlossary;
 		var itge = iThoughtsTooltipGlossaryEditor;
 
 		var isNA = ithoughts.isNA;
 
-		var onError = function onError(loader, xhr) {
-			loader.remove();
-			itge.error('Error while getting TinyMCE form for Tip: ', _arguments);
+		var xhrError = function xhrError(xhr) {
+			var editor = itge.editor;
+			itg.error('Error while getting TinyMCE form for Tip or List: ', xhr);
 			if (403 === xhr.status) {
 				var lang = 'ithoughts_tt_gl_tinymce.error.forbidden';
 				$($.parseHTML("<p>" + editor.getLang(lang + ".content_1") + "<br/><a href=\"javascript:window.location.href=window.location.href\">" + editor.getLang(lang + ".content_2") + "</a></p>")).dialog({
@@ -467,37 +467,38 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			return null;
 		};
 
-		var getAjaxForm = function () {
+		var sendAjaxQuery = function () {
 			var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(action, data) {
+				var nonce = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : itge.nonce;
+				var loader;
 				return regeneratorRuntime.wrap(function _callee5$(_context5) {
 					while (1) {
 						switch (_context5.prev = _context5.next) {
 							case 0:
-								return _context5.abrupt("return", Promise(function (resolve, reject) {
+								loader = ithoughts.makeLoader();
+								return _context5.abrupt("return", new Promise(function (resolve, reject) {
 									$.ajax({
 										method: 'POST',
 										async: true,
 										url: itge.admin_ajax,
+										//			dataType: 'json',
 										data: {
-											action: "ithoughts_tt_gl_get_tinymce_" + action + "_form",
-											_wpnonce: itge.nonce,
+											action: "ithoughts_tt_gl_" + action,
+											_wpnonce: nonce,
 											data: data
 										},
-										success: function success(html) {
-											var newDom = $($.parseHTML(html, true));
-											$(document.body).append(newDom.css({
-												opacity: 1
-											}).animate({
-												opacity: 1
-											}, 500));
-											resolve(newDom);
+										success: function success(data) {
+											loader.remove();
+											return resolve(data);
 										},
-
-										error: reject
+										error: function error(xhr) {
+											loader.remove();
+											return reject(xhr);
+										}
 									});
 								}));
 
-							case 1:
+							case 2:
 							case "end":
 								return _context5.stop();
 						}
@@ -505,7 +506,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				}, _callee5, _this3);
 			}));
 
-			return function getAjaxForm(_x4, _x5) {
+			return function sendAjaxQuery(_x5, _x6) {
 				return _ref5.apply(this, arguments);
 			};
 		}();
@@ -534,10 +535,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			}
 		};
 
+		var displayInForm = function displayInForm(data) {
+			var $newDom = $($.parseHTML(data, true));
+			$(document.body).append($newDom.css({
+				opacity: 1
+			}).animate({
+				opacity: 1
+			}, 500));
+			return $newDom;
+		};
+		var hideOutForm = function hideOutForm($dom) {
+			$dom.animate({
+				opacity: 0
+			}, 500, function () {
+				$dom.remove();
+			});
+		};
+
 		var editorForms = {
 			list: function () {
 				var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(selection) {
-					var mode, node, values, loader, resultDom;
+					var mode, node, values, takeAttr, type, resultDom;
 					return regeneratorRuntime.wrap(function _callee6$(_context6) {
 						while (1) {
 							switch (_context6.prev = _context6.next) {
@@ -546,43 +564,44 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 									mode = 'insert_content';
 									node = selection.start;
 									values = { type: 'atoz', alpha: [], group: [] };
-									loader = ithoughts.makeLoader();
 
 									if (!isNA(selection.start) && selection.start === selection.end) {
 										itge.log("Start & End node are the same, operating on a node of type " + node.nodeName);
 										if (node && node.nodeName !== '#text') {
+											takeAttr = generateTakeAttr(node);
+											type = takeAttr('data-type');
+
 											$.extend(values, {
-												alpha: splitAttr(node.getAttribute('data-alpha')),
-												group: splitAttr(node.getAttribute('data-group'))
+												alpha: splitAttr(takeAttr('data-alpha')),
+												group: splitAttr(takeAttr('data-group')),
+												desc: takeAttr('data-desc')
 											});
-											if ('ithoughts-tooltip-glossary-atoz' === node.getAttribute('data-type')) {
+											if ('ithoughts-tooltip-glossary-atoz' === type) {
 												// Is atoz
 												mode = 'load';
 												values.type = 'atoz';
-											} else if ('ithoughts-tooltip-glossary-term_list' === node.getAttribute('data-type')) {
+											} else if ('ithoughts-tooltip-glossary-term_list' === type) {
 												// Is term_list
 												mode = 'load';
 												values.type = 'list';
 												$.extend(values, {
-													cols: parseInt(node.getAttribute('data-cols')),
-													desc: node.getAttribute('data-desc')
+													cols: parseInt(takeAttr('data-cols'))
 												});
 											}
 										}
 									}
 
-									_context6.prev = 6;
+									_context6.prev = 5;
+									_context6.t0 = displayInForm;
 									_context6.next = 9;
-									return getAjaxForm('list', values);
+									return sendAjaxQuery('get_tinymce_list_form', values);
 
 								case 9:
-									resultDom = _context6.sent;
-
-
-									loader.remove();
-
+									_context6.t1 = _context6.sent;
+									resultDom = (0, _context6.t0)(_context6.t1);
 									return _context6.abrupt("return", new Promise(function (resolve) {
 										itge.finishListTinymce = function (data) {
+											hideOutForm(resultDom);
 											if (isNA(data)) {
 												return;
 											}
@@ -606,26 +625,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 											});
 
 											var finalContent = "[" + shortcode + " " + optArr.toString() + "/]" + tail;
-											itge.log('Final content:', finalContent);
+											itg.log('Final content:', finalContent);
 											return resolve({ finalContent: finalContent, mode: mode });
 										};
 									}));
 
 								case 14:
 									_context6.prev = 14;
-									_context6.t0 = _context6["catch"](6);
+									_context6.t2 = _context6["catch"](5);
 
-									onError(loader, _context6.t0);
+									xhrError(_context6.t2);
 
 								case 17:
 								case "end":
 									return _context6.stop();
 							}
 						}
-					}, _callee6, this, [[6, 14]]);
+					}, _callee6, this, [[5, 14]]);
 				}));
 
-				function list(_x6) {
+				function list(_x7) {
 					return _ref6.apply(this, arguments);
 				}
 
@@ -633,7 +652,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			}(),
 			tip: function () {
 				var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(selection, escapeContent) {
-					var node, values, mode, loader, _content, attrs, takeAttr, positionAt, positionMy, myInverted, tooltipContent, _i, resultDom;
+					var node, values, mode, _content, attrs, takeAttr, positionAt, positionMy, myInverted, tooltipContent, _i, resultDom;
 
 					return regeneratorRuntime.wrap(function _callee7$(_context7) {
 						while (1) {
@@ -643,7 +662,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 									node = selection.start;
 									values = {};
 									mode = '';
-									loader = ithoughts.makeLoader();
 
 									if (!isNA(selection.start) && selection.start === selection.end) {
 										itge.log("Start & End node are the same, operating on a node of type " + node.nodeName);
@@ -682,11 +700,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 											values = {
 												text: _content,
 												link: takeAttr('href', true),
-												tooltip_content: stripQuotes(tooltipContent || _content, false),
+												tooltip_content: itg.stripQuotes(tooltipContent || _content, false),
 												glossary_id: takeAttr('glossary-id'),
 												term_search: itge.removeAccents(_content.toLowerCase()),
 												mediatip_type: takeAttr('mediatip-type'),
-												mediatip_content: stripQuotes(takeAttr('mediatip-content'), false),
+												mediatip_content: itg.stripQuotes(takeAttr('mediatip-content'), false),
 												mediatip_link: takeAttr('mediatip-link'),
 												mediatip_caption: takeAttr('mediatip-caption'),
 												type: ['glossary', 'tooltip', 'mediatip'][tipsTypes.indexOf(takeAttr('type'))],
@@ -757,18 +775,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 									// Then generate form through Ajax
 
-									_context7.prev = 6;
-									_context7.next = 9;
-									return getAjaxForm('list', values);
+									_context7.prev = 5;
+									_context7.next = 8;
+									return displayInForm(sendAjaxQuery('get_tinymce_tip_form', values));
 
-								case 9:
+								case 8:
 									resultDom = _context7.sent;
-
-
-									loader.remove();
-
 									return _context7.abrupt("return", new Promise(function (resolve) {
 										itge.finishListTinymce = function (data) {
+											hideOutForm(resultDom);
 											itge.info('New tooltip data:', data);
 											if (isNA(data)) {
 												return;
@@ -850,26 +865,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 												}
 											}
 											var finalContent = "[" + shortcode + " " + optArr.toString() + "]" + data.text + "[/" + shortcode + "]" + tail;
-											itge.log('Final content:', finalContent);
+											itg.log('Final content:', finalContent);
 											return resolve({ finalContent: finalContent, mode: mode });
 										};
 									}));
 
-								case 14:
-									_context7.prev = 14;
-									_context7.t0 = _context7["catch"](6);
+								case 12:
+									_context7.prev = 12;
+									_context7.t0 = _context7["catch"](5);
 
-									onError(loader, _context7.t0);
+									xhrError(_context7.t0);
 
-								case 17:
+								case 15:
 								case "end":
 									return _context7.stop();
 							}
 						}
-					}, _callee7, this, [[6, 14]]);
+					}, _callee7, this, [[5, 12]]);
 				}));
 
-				function tip(_x7, _x8) {
+				function tip(_x8, _x9) {
 					return _ref7.apply(this, arguments);
 				}
 
@@ -879,7 +894,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 		module.exports = {
 			editorForms: editorForms,
-			generateSelObject: generateSelObject
+			generateSelObject: generateSelObject,
+			sendAjaxQuery: sendAjaxQuery,
+			hideOutForm: hideOutForm
 		};
 	}, { "./tinymce-optarray": 2, "remove-accents": 6 }], 5: [function (require, module, exports) {
 		(function (global) {

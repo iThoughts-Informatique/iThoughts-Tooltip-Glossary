@@ -57,7 +57,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 										<td>
 											<label for="letters">
 												<?php
-												$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Letters', 'ithoughts-tooltip-glossary' ), esc_html__( 'Letters to be displayed in the list. If not specified, all letters will be displayed', 'ithoughts-tooltip-glossary' ) );
+												$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Letters', 'ithoughts-tooltip-glossary' ), esc_attr__( 'Letters to be displayed in the list. If not specified, all letters will be displayed', 'ithoughts-tooltip-glossary' ) );
 												echo wp_kses(
 													$tooltip,
 													array(
@@ -74,23 +74,14 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 											</label>
 										</td>
 										<td>
-											<?php
-											echo wp_kses($inputs['letters'], array(
-												'input' => array(
-													'id' => true,
-													'name' => true,
-													'type' => true,
-													'value' => true,
-													'autocomplete' => true,
-												),
-											) ); ?>
+											<?php $inputs['letters']->print(); ?>
 										</td>
 									</tr>
 									<tr>
 										<td>
 											<label for="groups">
 												<?php
-												$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Groups', 'ithoughts-tooltip-glossary' ), esc_html( 'Glossary group(s) to list. If empty, any groups will be displayed', 'ithoughts-tooltip-glossary' ) );
+												$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Groups', 'ithoughts-tooltip-glossary' ), esc_attr__( 'Glossary group(s) to list. If empty, any groups will be displayed', 'ithoughts-tooltip-glossary' ) );
 												echo wp_kses(
 													$tooltip,
 													array(
@@ -107,25 +98,8 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 											</label>
 										</td>
 										<td>
-											<?php
-											echo wp_kses($inputs['groups_text'], array(
-												'input' => array(
-													'id' => true,
-													'name' => true,
-													'type' => true,
-													'value' => true,
-													'autocomplete' => true,
-												),
-											) );
-											echo wp_kses($inputs['groups'], array(
-												'input' => array(
-													'id' => true,
-													'name' => true,
-													'type' => true,
-													'value' => true,
-													'autocomplete' => true,
-												),
-											) ); ?>
+											<?php $inputs['groups_text']->print(); ?>
+											<?php $inputs['groups']->print(); ?>
 											<div class="groupspicker hidden">
 												<div class="group-select" data-groupid="0">
 													<input type="checkbox" <?php echo in_array( 0, $data['group'], true ) ? 'checked ' : ''; ?> name="group_check" value="0" id="group_check_0">
@@ -146,6 +120,30 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 												}
 												?>
 											</div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<label for="description_mode">
+												<?php
+												$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', __( 'Description', 'ithoughts-tooltip-glossary' ), esc_attr__( 'Description mode: Full/Excerpt/None', 'ithoughts-tooltip-glossary' ) );
+												echo wp_kses(
+													$tooltip,
+													array(
+														'span' => array(
+															'tooltip-nosolo' => true,
+															'class' => true,
+															'data-tooltip-content' => true,
+														),
+														'a' => array(
+															'href' => true,
+														),
+													)
+												); ?>
+											</label>
+										</td>
+										<td>
+											<?php $inputs['description_mode']->print(); ?>
 										</td>
 									</tr>
 								</table>
@@ -171,46 +169,9 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 										<table>
 											<tr>
 												<td>
-													<label for="description_mode">
-														<?php
-														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', __( 'Description', 'ithoughts-tooltip-glossary' ), __( 'Description mode: Full/Excerpt/None', 'ithoughts-tooltip-glossary' ) );
-														echo wp_kses(
-															$tooltip,
-															array(
-																'span' => array(
-																	'tooltip-nosolo' => true,
-																	'class' => true,
-																	'data-tooltip-content' => true,
-																),
-																'a' => array(
-																	'href' => true,
-																),
-															)
-														); ?>
-													</label>
-												</td>
-												<td>
-													<?php
-													echo wp_kses($inputs['description_mode'], array(
-														'select' => array(
-															'name' => true,
-															'id' => true,
-															'autocomplete' => true,
-														),
-														'option' => array(
-															'title' => true,
-															'value' => true,
-															'selected' => true,
-															'disabled' => true,
-														),
-													)); ?>
-												</td>
-											</tr>
-											<tr>
-												<td>
 													<label for="columns_count">
 														<?php
-														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Columns', 'ithoughts-tooltip-glossary' ), esc_html__( 'Number of columns to show for list', 'ithoughts-tooltip-glossary' ) );
+														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Columns', 'ithoughts-tooltip-glossary' ), esc_attr__( 'Number of columns to show for list', 'ithoughts-tooltip-glossary' ) );
 														echo wp_kses(
 															$tooltip,
 															array(
@@ -227,18 +188,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 													</label>
 												</td>
 												<td>
-													<?php
-													echo wp_kses($inputs['columns_count'], array(
-														'input' => array(
-															'id' => true,
-															'name' => true,
-															'type' => true,
-															'value' => true,
-															'autocomplete' => true,
-															'min' => true,
-															'max' => true,
-														),
-													) ); ?>
+													<?php $inputs['columns_count']->print(); ?>
 												</td>
 											</tr>
 										</table>

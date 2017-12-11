@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle name="iThoughts Tooltip Glossary">
+  <domain name="ithoughts-tooltip-glossary">
+    <project name="iThoughts Tooltip Glossary" slug="ithoughts-tooltip-glossary">
+      <source>
+        <directory>.</directory>
+      </source>
+      <target>
+        <directory>lang</directory>
+      </target>
+      <template>
+        <file>lang/ithoughts-tooltip-glossary.pot</file>
+      </template>
+    </project>
+  </domain>
+</bundle>

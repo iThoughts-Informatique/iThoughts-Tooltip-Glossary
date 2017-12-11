@@ -2,15 +2,16 @@
 
 const removeAccents = require('remove-accents');
 const OptArray      = require('./tinymce-optarray');
+
 const ithoughts     = iThoughts.v5;
 const itg           = iThoughtsTooltipGlossary;
 const itge          = iThoughtsTooltipGlossaryEditor;
 
 const isNA = ithoughts.isNA;
 
-const onError = (loader, xhr) => {
-	loader.remove();
-	itge.error( 'Error while getting TinyMCE form for Tip: ', arguments );
+const xhrError = xhr => {
+	const editor = itge.editor;
+	itg.error( 'Error while getting TinyMCE form for Tip or List: ', xhr );
 	if ( 403 === xhr.status ) {
 		const lang = 'ithoughts_tt_gl_tinymce.error.forbidden';
 		$( $.parseHTML( `<p>${ editor.getLang( `${lang}.content_1` ) }<br/><a href="javascript:window.location.href=window.location.href">${ editor.getLang( `${lang}.content_2` ) }</a></p>` )).dialog({
@@ -56,27 +57,27 @@ const tristate = val => {
 	return null;
 };
 
-const getAjaxForm = async(action, data) => {
-	return Promise((resolve, reject) => {
+const sendAjaxQuery = async(action, data, nonce = itge.nonce) => {
+	const loader = ithoughts.makeLoader();
+	return new Promise((resolve, reject) => {
 		$.ajax({
 			method:	'POST',
 			async:  true,
 			url:    itge.admin_ajax,
+//			dataType: 'json',
 			data:   {
-				action:   `ithoughts_tt_gl_get_tinymce_${action}_form`,
-				_wpnonce: itge.nonce,
+				action:   `ithoughts_tt_gl_${action}`,
+				_wpnonce: nonce,
 				data,
 			},
-			success(html){
-				const newDom = $( $.parseHTML( html, true ));
-				$( document.body ).append( newDom.css({
-					opacity: 1,
-				}).animate({
-					opacity: 1,
-				}, 500 ));
-				resolve(newDom);
+			success(data){
+				loader.remove();
+				return resolve(data);
 			},
-			error: reject,
+			error(xhr){
+				loader.remove();
+				return reject(xhr);
+			},
 		});
 	});
 }
@@ -105,41 +106,58 @@ const generateSelObject = editor => {
 	}
 }
 
+const displayInForm = data => {
+	const $newDom = $( $.parseHTML( data, true ));
+	$( document.body ).append( $newDom.css({
+		opacity: 1,
+	}).animate({
+		opacity: 1,
+	}, 500 ));
+	return $newDom;
+}
+const hideOutForm = $dom => {
+	$dom.animate({ 
+		opacity: 0, 
+	}, 500, () => { 
+		$dom.remove(); 
+	});
+}
+
 const editorForms = {
 	async list( selection ) {
 		itg.info( 'Selection infos to load LIST: ', selection );
 		let mode = 'insert_content';
 		const node = selection.start;
 		const values = { type:  'atoz', alpha: [], group: [] };
-		const loader = ithoughts.makeLoader();
 		if ( !isNA( selection.start ) && selection.start === selection.end ) {
 			itge.log( `Start & End node are the same, operating on a node of type ${  node.nodeName }` );
 			if ( node && node.nodeName !== '#text' ) {
+				const takeAttr = generateTakeAttr(node);
+				const type = takeAttr('data-type');
 				$.extend( values, {
-					alpha: splitAttr( node.getAttribute( 'data-alpha' )),
-					group: splitAttr( node.getAttribute( 'data-group' )),
+					alpha: splitAttr( takeAttr( 'data-alpha' )),
+					group: splitAttr( takeAttr( 'data-group' )),
+					desc: takeAttr( 'data-desc' ),
 				});
-				if ( 'ithoughts-tooltip-glossary-atoz' === node.getAttribute( 'data-type' )) { // Is atoz
+				if ( 'ithoughts-tooltip-glossary-atoz' === type) { // Is atoz
 					mode = 'load';
 					values.type = 'atoz';
-				} else if ( 'ithoughts-tooltip-glossary-term_list' === node.getAttribute( 'data-type' )) { // Is term_list
+				} else if ( 'ithoughts-tooltip-glossary-term_list' === type) { // Is term_list
 					mode = 'load';
 					values.type = 'list';
 					$.extend( values, {
-						cols: parseInt( node.getAttribute( 'data-cols' )),
-						desc: node.getAttribute( 'data-desc' ),
+						cols: parseInt( takeAttr( 'data-cols' )),
 					});
 				}
 			}
 		}
 
 		try{
-			const resultDom = await getAjaxForm('list', values);
-
-			loader.remove();
+			const resultDom = displayInForm(await sendAjaxQuery('get_tinymce_list_form', values));
 
 			return new Promise(resolve => {
 				itge.finishListTinymce = data => {
+					hideOutForm(resultDom);
 					if ( isNA(data) ) {
 						return;
 					}
@@ -164,12 +182,12 @@ const editorForms = {
 					});
 
 					const finalContent = `[${  shortcode  } ${  optArr.toString()  }/]${  tail }`;
-					itge.log( 'Final content:', finalContent );
+					itg.log( 'Final content:', finalContent );
 					return resolve({ finalContent, mode });
 				};
 			});
 		} catch(error){
-			onError(loader, error);
+			xhrError(error);
 		}
 	},
 	async tip( selection, escapeContent ) {
@@ -177,7 +195,6 @@ const editorForms = {
 		const node	= selection.start;
 		let values	= {};
 		let mode	= '';
-		const loader = ithoughts.makeLoader();
 		if ( !isNA( selection.start ) && selection.start === selection.end ) {
 			itge.log( `Start & End node are the same, operating on a node of type ${  node.nodeName }` );
 			const content = ( node && node.text ) || selection.html; // Get node text if any or get selection
@@ -214,11 +231,11 @@ const editorForms = {
 				values = {
 					text:             content,
 					link:             takeAttr( 'href', true ),
-					tooltip_content:  stripQuotes( tooltipContent || content, false ),
+					tooltip_content:  itg.stripQuotes( tooltipContent || content, false ),
 					glossary_id:      takeAttr( 'glossary-id' ),
 					term_search:      itge.removeAccents( content.toLowerCase()),
 					mediatip_type:    takeAttr( 'mediatip-type' ),
-					mediatip_content: stripQuotes( takeAttr( 'mediatip-content' ), false ),
+					mediatip_content: itg.stripQuotes( takeAttr( 'mediatip-content' ), false ),
 					mediatip_link:    takeAttr( 'mediatip-link' ),
 					mediatip_caption: takeAttr( 'mediatip-caption' ),
 					type:             [ 'glossary', 'tooltip', 'mediatip' ][tipsTypes.indexOf( takeAttr( 'type' ))],
@@ -290,12 +307,11 @@ const editorForms = {
 		// Then generate form through Ajax
 
 		try{
-			const resultDom = await getAjaxForm('list', values);
-
-			loader.remove();
+			const resultDom = await displayInForm(sendAjaxQuery('get_tinymce_tip_form', values));
 
 			return new Promise(resolve => {
 				itge.finishListTinymce = data => {
+					hideOutForm(resultDom);
 					itge.info( 'New tooltip data:', data );
 					if ( isNA(data) ) {
 						return;
@@ -375,12 +391,12 @@ const editorForms = {
 						}
 					}
 					const finalContent = `[${  shortcode  } ${  optArr.toString()  }]${  data.text  }[/${  shortcode  }]${  tail }`;
-					itge.log( 'Final content:', finalContent );
+					itg.log( 'Final content:', finalContent );
 					return resolve({ finalContent, mode });
 				};
 			});
 		} catch(error){
-			onError(loader, error);
+			xhrError(error);
 		}
 	},
 };
@@ -388,4 +404,6 @@ const editorForms = {
 module.exports = {
 	editorForms,
 	generateSelObject,
+	sendAjaxQuery,
+	hideOutForm,
 };

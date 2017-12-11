@@ -32,3 +32,4 @@ exclude_patterns:
 - "submodules/"
 - "docs/"
 - "test/"
+- "Gruntfile.js"

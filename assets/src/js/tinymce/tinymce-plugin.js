@@ -110,14 +110,12 @@ tinymce.PluginManager.add( 'ithoughts_tt_gl_tinymce', editor => {
 		onPostRender: setToggleable( 'glossaryterm', editor ),
 		onclick:      async () => {
 			const result = await utils.editorForms.tip( utils.generateSelObject(editor));
-			console.log(result);
-			//insertInTinyMCE
+			insertInTinyMCE(result.finalContent, result.mode);
 		},
 	});
 	QTags.addButton( 'ithoughts_tt_gl-tip', 'ITG Tip', async () => {
 		const result = await utils.editorForms.tip( utils.generateSelObject() );
-		console.log(result);
-		//QTags.insertContent
+		QTags.insertContent(result.finalContent);
 	});
 	// #### Delete tooltip button
 	editor.addButton( 'glossaryterm-d', {
@@ -149,13 +147,11 @@ tinymce.PluginManager.add( 'ithoughts_tt_gl_tinymce', editor => {
 			sel.end = sel.selection.getEnd();
 			sel.DOM = $.parseHTML( sel.selection );
 			const result = await utils.editorForms.list( utils.generateSelObject(editor));
-			console.log(result);
-			//insertInTinyMCE
+			insertInTinyMCE(result.finalContent, result.mode);
 		},
 	});
 	QTags.addButton( 'ithoughts_tt_gl-list', 'ITG List', async () => {
 		const result = await utils.editorForms.list( utils.generateSelObject(), true );
-		console.log(result);
-		//QTags.insertContent
+		QTags.insertContent(result.finalContent);
 	});
 });

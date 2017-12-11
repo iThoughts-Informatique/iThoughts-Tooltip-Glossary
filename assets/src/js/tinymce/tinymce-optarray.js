@@ -1,5 +1,8 @@
 'use strict';
 
+const {stripQuotes} = iThoughtsTooltipGlossary;
+const {isNA} = iThoughts.v5;
+
 class OptArray{
 	constructor(){
 		this.opts = [];
