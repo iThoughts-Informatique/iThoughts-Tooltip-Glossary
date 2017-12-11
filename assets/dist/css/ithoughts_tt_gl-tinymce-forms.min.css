@@ -131,8 +131,7 @@
         .itg-window .tab-container .tabs li:not(.topLiner) {
           background: #fff; }
         .itg-window .tab-container .tabs li:hover, .itg-window .tab-container .tabs li.active {
-          border-bottom: 1px solid #C5C5C5;
-          border-bottom: 1px solid fadeout(#C5C5C5, 100);
+          border-bottom: none;
           transition: 0.25s border-bottom-color;
           z-index: 2; }
       .itg-window .tab-container .tabs .topLiner {

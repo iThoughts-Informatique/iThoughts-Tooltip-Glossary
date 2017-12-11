@@ -8,6 +8,7 @@ const itg           = iThoughtsTooltipGlossary;
 const itge          = iThoughtsTooltipGlossaryEditor;
 
 const isNA = ithoughts.isNA;
+const htmlAttrs = ['href'];
 
 const xhrError = xhr => {
 	const editor = itge.editor;
@@ -25,7 +26,7 @@ const splitAttr = (attrsStr, separator = /[,\.\s]+/) => ( attrsStr || '' ).split
 
 const extractAttrs = node => {
 	const ret = {};
-	node.attributes.forEach(attr => {
+	Array.prototype.slice.call(node.attributes, 0).forEach(attr => {
 		ret[attr.nodeName] = attr.nodeValue;
 	});
 	return ret;
@@ -33,13 +34,13 @@ const extractAttrs = node => {
 
 const generateTakeAttr = attrs => {
 	// If we received a node instead of an object, extract its attributes
-	if(attrs instanceof Element){
+	if(attrs.tagName){
 		attrs = extractAttrs(attrs);
 	}
 	// Return the picker function
 	return ( label, noDataPrefix = false ) => {
 		if ( !noDataPrefix ) {
-			label = `data-${  label }`;
+			label = utils.maybePrefixAttribute(label);
 		}
 		const val = attrs[label];
 		delete attrs[label];
@@ -64,7 +65,7 @@ const sendAjaxQuery = async(action, data, nonce = itge.nonce) => {
 			method:	'POST',
 			async:  true,
 			url:    itge.admin_ajax,
-//			dataType: 'json',
+			//			dataType: 'json',
 			data:   {
 				action:   `ithoughts_tt_gl_${action}`,
 				_wpnonce: nonce,
@@ -82,19 +83,18 @@ const sendAjaxQuery = async(action, data, nonce = itge.nonce) => {
 	});
 }
 
+const tipsTypes = [
+	'itg-term',
+	'itg-tooltip',
+	'itg-mediatip',
+];
+const tipsSelector = tipsTypes.map( type => `[data-type="${type}"]`).join( ',' );
+
+
 const generateSelObject = editor => {
 	if(isNA(editor)){
-		const tinymceSel = editor.selection;
+		const txtarea = $( '#content' ).get( 0 );
 		const sel = {
-			DOM: $( tinymceSel.getNode()).closest( tipsSelector ).toArray(),
-			html: tinymceSel.getContent({ format: 'html' }),
-			start: tinymceSel.getStart(),
-			end: tinymceSel.getEnd(),
-		};
-		return sel;
-	} else{
-		var txtarea = $( '#content' ).get( 0 );
-		var sel = {
 			html: itge.replaceShortcodes( txtarea.value.substring( txtarea.selectionStart, txtarea.selectionEnd )),
 		};
 		sel.DOM = $.parseHTML( sel.html );
@@ -102,6 +102,15 @@ const generateSelObject = editor => {
 			start: $( sel.DOM ).first().get( 0 ),
 			end: $( sel.DOM ).last().get( 0 ),
 		});
+		return sel;
+	} else{
+		const tinymceSel = editor.selection;
+		const sel = {
+			DOM: $( tinymceSel.getNode()).closest( tipsSelector ).toArray(),
+			html: tinymceSel.getContent({ format: 'html' }),
+			start: tinymceSel.getStart(),
+			end: tinymceSel.getEnd(),
+		};
 		return sel;
 	}
 }
@@ -130,7 +139,7 @@ const editorForms = {
 		const node = selection.start;
 		const values = { type:  'atoz', alpha: [], group: [] };
 		if ( !isNA( selection.start ) && selection.start === selection.end ) {
-			itge.log( `Start & End node are the same, operating on a node of type ${  node.nodeName }` );
+			itg.info( `Start & End node are the same, operating on a node of type ${  node.nodeName }` );
 			if ( node && node.nodeName !== '#text' ) {
 				const takeAttr = generateTakeAttr(node);
 				const type = takeAttr('data-type');
@@ -196,9 +205,9 @@ const editorForms = {
 		let values	= {};
 		let mode	= '';
 		if ( !isNA( selection.start ) && selection.start === selection.end ) {
-			itge.log( `Start & End node are the same, operating on a node of type ${  node.nodeName }` );
+			itg.info( `Start & End node are the same, operating on a node of type ${  node.nodeName }` );
 			const content = ( node && node.text ) || selection.html; // Get node text if any or get selection
-			itge.log( 'Loading content: ', content );
+			itg.log( 'Loading content: ', content );
 			if ( node && node.nodeName !== '#text' && tipsTypes.indexOf( node.getAttribute( 'data-type' )) > -1 ) {
 				// On Glossary Term or Tooltip or Mediatip, load data
 				mode = 'load';
@@ -307,7 +316,7 @@ const editorForms = {
 		// Then generate form through Ajax
 
 		try{
-			const resultDom = await displayInForm(sendAjaxQuery('get_tinymce_tip_form', values));
+			const resultDom = await displayInForm(sendAjaxQuery('get_tinymce_tooltip_form', values));
 
 			return new Promise(resolve => {
 				itge.finishListTinymce = data => {
@@ -401,9 +410,21 @@ const editorForms = {
 	},
 };
 
-module.exports = {
+const utils = {
 	editorForms,
 	generateSelObject,
 	sendAjaxQuery,
 	hideOutForm,
+	tipsTypes,
+	tipsSelector,
+	maybePrefixAttribute(attrName){
+		// If the key is not an HTML attribute and is not `data-` prefixed, prefix it
+		if ( !htmlAttrs.includes(attrName) && !attrName.startsWith('data-')) {
+			return ` data-${  attrName  }`;
+		} else {
+			return attrName;
+		}
+	}
 };
+
+module.exports = utils;

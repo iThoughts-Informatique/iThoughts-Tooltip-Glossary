@@ -589,7 +589,7 @@ $d.ready( () => {
 					link: $( '#ithoughts_tt_gl_link' ).val(),
 					opts: tooltipOpts,
 				};
-				itge.log( 'Before per-type form data handling:', data );
+				itg.log( 'Before per-type form data handling:', data );
 				// Depending on the target type of the tooltip, we have to retrieve specific data
 				switch ( data.type ) {
 					case 'glossary': {

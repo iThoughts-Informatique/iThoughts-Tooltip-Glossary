@@ -610,7 +610,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 							link: $('#ithoughts_tt_gl_link').val(),
 							opts: tooltipOpts
 						};
-						itge.log('Before per-type form data handling:', data);
+						itg.log('Before per-type form data handling:', data);
 						// Depending on the target type of the tooltip, we have to retrieve specific data
 						switch (data.type) {
 							case 'glossary':
@@ -743,16 +743,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		'use strict';
 
 		var OptArray = require('./tinymce-optarray');
+		var utils = require('./tinymce-utils');
 
 		var attrsMatcher = /(data-)?([\w\d\-]+?)="(.+?)"/g;
 
+		var attributesToOpts = function attributesToOpts(attrs, inner) {
+			var attrMatched = void 0;
+			var handleOpt = maybePrefixOpt(attrs);
+			do {
+				attrMatched = attrsMatcher.exec(inner);
+				if (attrMatched) {
+					handleOpt(attrMatched);
+				}
+			} while (attrMatched);
+		};
+
 		var maybePrefixOpt = function maybePrefixOpt(opt) {
 			return function (match) {
-				var key = match[1] + match[2];
+				var key = utils.maybePrefixAttribute(match[1] + match[2]);
 				var value = match[3];
-				// If the key is not an HTML attribute and is not `data-` prefixed, prefix it
-				if (!htmlAttrs.contains(key) && !i.contains('data-')) {
-					key = " data-" + key;
+				if (key === 'data-type') {
+					return;
 				}
 				opt.addOpt(key, value);
 			};
@@ -769,23 +780,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 							tooltip: 'tooltip',
 							mediatip: 'mediatip'
 						}[tag]);
-						var attrsMatches = attrsMatcher.exec(inner);
-						if (attrsMatches) {
-							attrsMatches.forEach(maybePrefixOpt(attrs));
-						}
+						attributesToOpts(attrs, inner);
 						return "<a " + attrs.toString() + ">" + text + "</a>";
 					});
 				},
 				list: function list(content) {
 					// For [glossary_(term_list|atoz)]
-					return content.replace(/\[glossary_(term_list|atoz)(.*?)\/\]/g, function (all, type, inner) {
+					return content.replace(/\[(?:glossary_|itg-)(term_?list|atoz)(?:\s+(.*?))\/\]/g, function (all, tag, inner) {
 						var attrs = new OptArray();
-						attrs.addOpt('data-type', "ithoughts-tooltip-glossary-" + type);
-						var attrsMatches = attrsMatcher.exec(inner);
-						if (attrsMatches) {
-							attrsMatches.forEach(maybePrefixOpt(attrs));
-						}
-						return "<span " + attrs.toString() + ">Glossary " + ('term_list' === type ? 'List' : 'A-to-Z') + "</span>";
+						tag = {
+							termlist: 'termlist',
+							term_list: 'termlist',
+							atoz: 'atoz'
+						}[tag];
+						attrs.addOpt('data-type', "ithoughts-tooltip-glossary-" + tag);
+						attributesToOpts(attrs, inner);
+						return "<span " + attrs.toString() + ">Glossary " + ('termlist' === tag ? 'List' : 'A-to-Z') + "</span>";
 					});
 				}
 			},
@@ -799,10 +809,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 							tooltip: 'tooltip',
 							mediatip: 'mediatip'
 						}[type];
-						var attrsMatches = attrsMatcher.exec(inner);
-						if (attrsMatches) {
-							attrsMatches.forEach(maybePrefixOpt(attrs));
-						}
+						attributesToOpts(attrs, inner);
 						return "[" + tag + " " + attrs.toString() + "]" + text + "[/" + tag + "]";
 					});
 				},
@@ -810,17 +817,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					// For [glossary_(term_list|atoz)]
 					return content.replace(/<span\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term_list|atoz)")(.*?)>.*?<\/span>/g, function (all, type, inner) {
 						var attrs = new OptArray();
-						var tag = "glossary-" + type;
-						var attrsMatches = attrsMatcher.exec(inner);
-						if (attrsMatches) {
-							attrsMatches.forEach(maybePrefixOpt(attrs));
-						}
-						return tag + " " + attrs.toString() + "/]";
+						var tag = "itg-" + type;
+						attributesToOpts(attrs, inner);
+						return "[" + tag + " " + attrs.toString() + "/]";
 					});
 				}
 			}
 		};
-	}, { "./tinymce-optarray": 3 }], 3: [function (require, module, exports) {
+	}, { "./tinymce-optarray": 3, "./tinymce-utils": 4 }], 3: [function (require, module, exports) {
 		'use strict';
 
 		var _iThoughtsTooltipGlos = iThoughtsTooltipGlossary,
@@ -884,6 +888,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		var itge = iThoughtsTooltipGlossaryEditor;
 
 		var isNA = ithoughts.isNA;
+		var htmlAttrs = ['href'];
 
 		var xhrError = function xhrError(xhr) {
 			var editor = itge.editor;
@@ -906,7 +911,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 		var extractAttrs = function extractAttrs(node) {
 			var ret = {};
-			node.attributes.forEach(function (attr) {
+			Array.prototype.slice.call(node.attributes, 0).forEach(function (attr) {
 				ret[attr.nodeName] = attr.nodeValue;
 			});
 			return ret;
@@ -914,7 +919,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 		var generateTakeAttr = function generateTakeAttr(attrs) {
 			// If we received a node instead of an object, extract its attributes
-			if (attrs instanceof Element) {
+			if (attrs.tagName) {
 				attrs = extractAttrs(attrs);
 			}
 			// Return the picker function
@@ -922,7 +927,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				var noDataPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 				if (!noDataPrefix) {
-					label = "data-" + label;
+					label = utils.maybePrefixAttribute(label);
 				}
 				var val = attrs[label];
 				delete attrs[label];
@@ -984,17 +989,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			};
 		}();
 
+		var tipsTypes = ['itg-term', 'itg-tooltip', 'itg-mediatip'];
+		var tipsSelector = tipsTypes.map(function (type) {
+			return "[data-type=\"" + type + "\"]";
+		}).join(',');
+
 		var generateSelObject = function generateSelObject(editor) {
 			if (isNA(editor)) {
-				var tinymceSel = editor.selection;
-				var _sel = {
-					DOM: $(tinymceSel.getNode()).closest(tipsSelector).toArray(),
-					html: tinymceSel.getContent({ format: 'html' }),
-					start: tinymceSel.getStart(),
-					end: tinymceSel.getEnd()
-				};
-				return _sel;
-			} else {
 				var txtarea = $('#content').get(0);
 				var sel = {
 					html: itge.replaceShortcodes(txtarea.value.substring(txtarea.selectionStart, txtarea.selectionEnd))
@@ -1005,6 +1006,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					end: $(sel.DOM).last().get(0)
 				});
 				return sel;
+			} else {
+				var tinymceSel = editor.selection;
+				var _sel = {
+					DOM: $(tinymceSel.getNode()).closest(tipsSelector).toArray(),
+					html: tinymceSel.getContent({ format: 'html' }),
+					start: tinymceSel.getStart(),
+					end: tinymceSel.getEnd()
+				};
+				return _sel;
 			}
 		};
 
@@ -1039,7 +1049,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 									values = { type: 'atoz', alpha: [], group: [] };
 
 									if (!isNA(selection.start) && selection.start === selection.end) {
-										itge.log("Start & End node are the same, operating on a node of type " + node.nodeName);
+										itg.info("Start & End node are the same, operating on a node of type " + node.nodeName);
 										if (node && node.nodeName !== '#text') {
 											takeAttr = generateTakeAttr(node);
 											type = takeAttr('data-type');
@@ -1125,7 +1135,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			}(),
 			tip: function () {
 				var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(selection, escapeContent) {
-					var node, values, mode, _content, attrs, takeAttr, positionAt, positionMy, myInverted, tooltipContent, _i, resultDom;
+					var node, values, mode, _content, attrs, takeAttr, positionAt, positionMy, myInverted, tooltipContent, i, resultDom;
 
 					return regeneratorRuntime.wrap(function _callee3$(_context3) {
 						while (1) {
@@ -1137,10 +1147,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 									mode = '';
 
 									if (!isNA(selection.start) && selection.start === selection.end) {
-										itge.log("Start & End node are the same, operating on a node of type " + node.nodeName);
+										itg.info("Start & End node are the same, operating on a node of type " + node.nodeName);
 										_content = node && node.text || selection.html; // Get node text if any or get selection
 
-										itge.log('Loading content: ', _content);
+										itg.log('Loading content: ', _content);
 										if (node && node.nodeName !== '#text' && tipsTypes.indexOf(node.getAttribute('data-type')) > -1) {
 											// On Glossary Term or Tooltip or Mediatip, load data
 											mode = 'load';
@@ -1208,12 +1218,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 											};
 
 											// With all attributes left, append them to the attributes option
-											for (_i in attrs) {
-												if (attrs.hasOwnProperty(_i)) {
-													if (_i.match(/^data-link-/)) {
-														values.opts.attributes.link[_i.replace(/^data-link-(data-)?/, '')] = attrs[_i];
+											for (i in attrs) {
+												if (attrs.hasOwnProperty(i)) {
+													if (i.match(/^data-link-/)) {
+														values.opts.attributes.link[i.replace(/^data-link-(data-)?/, '')] = attrs[i];
 													} else {
-														values.opts.attributes.span[_i.replace(/^data-/, '')] = attrs[_i];
+														values.opts.attributes.span[i.replace(/^data-/, '')] = attrs[i];
 													}
 												}
 											}
@@ -1250,7 +1260,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 									_context3.prev = 5;
 									_context3.next = 8;
-									return displayInForm(sendAjaxQuery('get_tinymce_tip_form', values));
+									return displayInForm(sendAjaxQuery('get_tinymce_tooltip_form', values));
 
 								case 8:
 									resultDom = _context3.sent;
@@ -1365,12 +1375,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			}()
 		};
 
-		module.exports = {
+		var utils = {
 			editorForms: editorForms,
 			generateSelObject: generateSelObject,
 			sendAjaxQuery: sendAjaxQuery,
-			hideOutForm: hideOutForm
+			hideOutForm: hideOutForm,
+			tipsTypes: tipsTypes,
+			tipsSelector: tipsSelector,
+			maybePrefixAttribute: function maybePrefixAttribute(attrName) {
+				// If the key is not an HTML attribute and is not `data-` prefixed, prefix it
+				if (!htmlAttrs.includes(attrName) && !attrName.startsWith('data-')) {
+					return " data-" + attrName;
+				} else {
+					return attrName;
+				}
+			}
 		};
+
+		module.exports = utils;
 	}, { "./tinymce-optarray": 3, "remove-accents": 6 }], 5: [function (require, module, exports) {
 		(function (global) {
 			/**

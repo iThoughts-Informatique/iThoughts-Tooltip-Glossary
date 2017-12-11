@@ -1370,15 +1370,15 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				);
 			}
 
-			include $this->backbone->get_base_path() . '/templates/dist/tinymce-tooltip-form.php';
+			require $this->backbone->get_base_path() . '/templates/dist/tinymce-tooltip-form.php';
 			wp_die();
 		}
 
 		/**
-* Generates the TinyMCE form to create a list. It will return the compiled HTML in a JSON table.
-*
-* @author Gerkin
-*/
+		* Generates the TinyMCE form to create a list. It will return the compiled HTML in a JSON table.
+		*
+		* @author Gerkin
+		*/
 		public function get_tinymce_list_form_ajax() {
 			check_admin_referer( 'ithoughts_tt_gl-ajax_forms' );
 

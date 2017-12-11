@@ -1,16 +1,28 @@
 'use strict';
 
 const OptArray = require('./tinymce-optarray');
+const utils = require('./tinymce-utils');
 
 const attrsMatcher = /(data-)?([\w\d\-]+?)="(.+?)"/g;
 
+
+const attributesToOpts = (attrs, inner) => {
+	let attrMatched;
+	const handleOpt = maybePrefixOpt(attrs);
+	do{
+		attrMatched = attrsMatcher.exec( inner );
+		if(attrMatched){
+			handleOpt(attrMatched);
+		}
+	} while(attrMatched);
+}
+
 const maybePrefixOpt = opt => {
 	return match => {
-		let key = match[1] + match[2];
+		let key = utils.maybePrefixAttribute(match[1] + match[2]);
 		const value = match[3];
-		// If the key is not an HTML attribute and is not `data-` prefixed, prefix it
-		if ( !htmlAttrs.contains(key) && !i.contains( 'data-' )) {
-			key = ` data-${  key  }`;
+		if(key === 'data-type'){
+			return;
 		}
 		opt.addOpt(key, value);
 	}
@@ -26,22 +38,21 @@ module.exports = {
 					tooltip:  'tooltip',
 					mediatip: 'mediatip',
 				}[tag] }`);
-				const attrsMatches = attrsMatcher.exec( inner );
-				if(attrsMatches){
-					attrsMatches.forEach(maybePrefixOpt(attrs));
-				}
+				attributesToOpts(attrs, inner);
 				return `<a ${ attrs.toString() }>${  text  }</a>`;
 			});
 		},
 		list: content => { // For [glossary_(term_list|atoz)]
-			return content.replace( /\[glossary_(term_list|atoz)(.*?)\/\]/g, ( all, type, inner ) => {
+			return content.replace( /\[(?:glossary_|itg-)(term_?list|atoz)(?:\s+(.*?))\/\]/g, ( all, tag, inner ) => {
 				const attrs	= new OptArray();
-				attrs.addOpt('data-type', `ithoughts-tooltip-glossary-${ type }`);
-				const attrsMatches = attrsMatcher.exec( inner );
-				if(attrsMatches){
-					attrsMatches.forEach(maybePrefixOpt(attrs));
-				}
-				return `<span ${ attrs.toString()  }>Glossary ${  ( 'term_list' === type ) ? 'List' : 'A-to-Z'  }</span>`;
+				tag = {
+					termlist: 'termlist',
+					term_list:  'termlist',
+					atoz: 'atoz',
+				}[tag];
+				attrs.addOpt('data-type', `ithoughts-tooltip-glossary-${ tag }`);
+				attributesToOpts(attrs, inner);
+				return `<span ${ attrs.toString()  }>Glossary ${  ( 'termlist' === tag ) ? 'List' : 'A-to-Z'  }</span>`;
 			});
 		},
 	},
@@ -54,22 +65,16 @@ module.exports = {
 					tooltip:  'tooltip',
 					mediatip: 'mediatip',
 				}[type] }`;
-				const attrsMatches = attrsMatcher.exec( inner );
-				if(attrsMatches){
-					attrsMatches.forEach(maybePrefixOpt(attrs));
-				}
+				attributesToOpts(attrs, inner);
 				return `[${ tag } ${attrs.toString()}]${  text  }[/${ tag }]`;
 			});
 		},
 		list: content => { // For [glossary_(term_list|atoz)]
 			return content.replace( /<span\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term_list|atoz)")(.*?)>.*?<\/span>/g, ( all, type, inner ) => {
 				const attrs	= new OptArray();
-				const tag = `glossary-${ type }`;
-				const attrsMatches = attrsMatcher.exec( inner );
-				if(attrsMatches){
-					attrsMatches.forEach(maybePrefixOpt(attrs));
-				}
-				return `${ tag } ${attrs.toString()}/]`;
+				const tag = `itg-${ type }`;
+				attributesToOpts(attrs, inner);
+				return `[${ tag } ${attrs.toString()}/]`;
 			});
 		},
 	},

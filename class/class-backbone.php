@@ -243,19 +243,22 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		 */
 		private function add_shortcodes() {
 			// Tooltips.
-			require_once( $this->base_class_path . '/shortcode/class-tooltip.php' );
-			shortcode\Tooltip::get_instance();
-			require_once( $this->base_class_path . '/shortcode/class-mediatip.php' );
-			shortcode\Mediatip::get_instance();
-			require_once( $this->base_class_path . '/shortcode/class-glossary.php' );
-			shortcode\Glossary::get_instance();
+			require_once( $this->base_class_path . '/shortcode/tip/class-tip.php' );
+			// Derived classes
+			require_once( $this->base_class_path . '/shortcode/tip/class-tooltip.php' );
+			shortcode\Tip\Tooltip::get_instance();
+			require_once( $this->base_class_path . '/shortcode/tip/class-mediatip.php' );
+			shortcode\Tip\Mediatip::get_instance();
+			require_once( $this->base_class_path . '/shortcode/tip/class-glossary.php' );
+			shortcode\Tip\Glossary::get_instance();
 
 			// Lists.
-			require_once( $this->base_class_path . '/shortcode/class-glossarylist.php' );
-			require_once( $this->base_class_path . '/shortcode/class-atoz.php' );
-			shortcode\AtoZ::get_instance();
-			require_once( $this->base_class_path . '/shortcode/class-termlist.php' );
-			shortcode\TermList::get_instance();
+			require_once( $this->base_class_path . '/shortcode/list/class-glossarylist.php' );
+			// Derived classes
+			require_once( $this->base_class_path . '/shortcode/list/class-atoz.php' );
+			shortcode\List\AtoZ::get_instance();
+			require_once( $this->base_class_path . '/shortcode/list/class-termlist.php' );
+			shortcode\List\TermList::get_instance();
 		}
 
 		/**
@@ -306,8 +309,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				$anims_custom_in_count = count( $anims_custom_in );
 				$anims_custom_out_count = count( $anims_custom_out );
 				// Print our templates
-				include $backbone->get_base_path() . '/templates/dist/animations.php';
-				include $backbone->get_base_path() . '/templates/dist/icon.php';
+				include $this->get_base_path() . '/templates/dist/animations.php';
+				include $this->get_base_path() . '/templates/dist/icon.php';
 			}// End if().
 		}
 
@@ -381,6 +384,21 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				}
 			}
 			return $overridden;
+		}
+		
+		/**
+		 * 
+		 * 
+		 * @return array Merged data
+		 */
+		public function get_serverside_options() {
+			$opts = array();
+
+			// Iterate on each option overridable by the target
+			foreach ( $this->serverside_overridable as $option ) {
+				$opts[$option] = $this->options[ $option ];
+			}
+			return $opts;
 		}
 
 		/**

@@ -23,12 +23,6 @@ const itge      = iThoughtsTooltipGlossaryEditor;
 /* global tinymce:false, iThoughts: false, iThoughtsTooltipGlossary: false, iThoughtsTooltipGlossaryEditor: false */
 
 const $            = ithoughts.$;
-const tipsTypes    = [
-	'itg-term',
-	'itg-tooltip',
-	'itg-mediatip',
-];
-const tipsSelector = tipsTypes.map( type => `[data-type="${type}"]`).join( ',' );
 
 const setToggleable = ( element, editor ) => {
 	return function setToggleState(){
@@ -80,7 +74,7 @@ tinymce.PluginManager.add( 'ithoughts_tt_gl_tinymce', editor => {
 		// Get the new element under the cursor
 		const element = event.element;
 		// If it is into a tooltip shortcode, set buttons state to active...
-		if ( $( element ).closest( tipsSelector ).length > 0 ) {
+		if ( $( element ).closest( utils.tipsSelector ).length > 0 ) {
 			editor.fire( 'glossaryterm', { active: true });
 			editor.fire( 'glossaryterm-d', { active: true });
 			// ...Else, disable them
@@ -98,7 +92,7 @@ tinymce.PluginManager.add( 'ithoughts_tt_gl_tinymce', editor => {
 		if ( 'load' === mode ) {
 			editor.selection.select( editor.selection.getStart());
 		} else if ( mode.indexOf( 'extend' ) > -1 ) {
-			itge.error( 'Unhandled mode "extend" during writing of new tooltip shortcode' );
+			itg.error( 'Unhandled mode "extend" during writing of new tooltip shortcode' );
 		}
 		editor.insertContent( shortcode );
 	}
@@ -125,7 +119,7 @@ tinymce.PluginManager.add( 'ithoughts_tt_gl_tinymce', editor => {
 		onclick:      () => {
 			const $currentNode = $( editor.selection.getNode() );
 			// Get the selected node
-			const $node = $currentNode.closest( tipsSelector );
+			const $node = $currentNode.closest( utils.tipsSelector );
 			const node = $node.get(0);
 			if ( !node ) {
 				return;
@@ -140,12 +134,6 @@ tinymce.PluginManager.add( 'ithoughts_tt_gl_tinymce', editor => {
 		image:      `${ itge.base_assets }/dist/imgs/glossaryindex.png`,
 		onPostRender: setToggleable( 'glossarylist', editor ),
 		onclick: async () => {
-			const sel = {
-				selection: editor.selection,
-			};
-			sel.start = sel.selection.getStart();
-			sel.end = sel.selection.getEnd();
-			sel.DOM = $.parseHTML( sel.selection );
 			const result = await utils.editorForms.list( utils.generateSelObject(editor));
 			insertInTinyMCE(result.finalContent, result.mode);
 		},

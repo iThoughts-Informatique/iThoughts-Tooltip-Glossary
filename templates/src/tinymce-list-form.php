@@ -147,6 +147,9 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 										</td>
 									</tr>
 								</table>
+								
+								
+								
 								<div class="tab-container">
 									<ul class="tabs" role="tablist">
 										<li class="<?php echo ('atoz' === $data['type']) ? 'active' : ''; ?>" role="tab" tabindex="-1">
