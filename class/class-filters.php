@@ -27,239 +27,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( __NAMESPACE__ . '\\Filters' ) ) {
 	class Filters extends \ithoughts\v1_0\Singleton {
 		public function __construct() {
-			add_filter( 'ithoughts_tt_gl_term_excerpt', array( &$this, 'getTermExcerpt' ) );
-			add_filter( 'ithoughts-split-args', array( &$this, 'splitArgs' ), 10, 5 );
-			add_filter( 'ithoughts-join-args', array( &$this, 'joinArgs' ), 10, 1 );
-			add_filter( 'ithoughts_tt_gl-split-args', array( &$this, 'ithoughts_tt_gl_splitArgs' ), 10, 1 );
+			add_filter( 'ithoughts_tt_gl-split-attributes', array( &$this, 'split_attrs' ), 10, 1 );
 
-			add_filter( 'ithoughts_tt_gl_tooltip_anim_out', array( &$this, 'checkAnimsInfosOut' ), 10000000, 2 );
-			add_filter( 'ithoughts_tt_gl_tooltip_anim_in', array( &$this, 'checkAnimsInfosIn' ), 10000000, 2 );
+			add_filter( 'ithoughts_tt_gl_tooltip_anim_out', array( &$this, 'check_anims_infos_out' ), 10000000, 2 );
+			add_filter( 'ithoughts_tt_gl_tooltip_anim_in', array( &$this, 'check_anims_infos_in' ), 10000000, 2 );
 		}
 
-		/**
-		 * @description Returns the excerpt sized for tooltip of the given post
-		 * @author Gerkin
-		 * @param  [WP_Post] \WP_Post $term Glossary term to extract the excerpt from
-		 * @return [string] The generated excerpt
-		 */
-		public function getTermExcerpt( \WP_Post $term ) {
-			if ( strlen( $term->post_excerpt ) > 0 ) {
-				$content = wpautop( $term->post_excerpt );
-			} else {
-				$content = wp_trim_words( $term->post_content, 25, '...' );
-			}
-			$content = strip_shortcodes( $content );
-			return $content;
-		}
-
-		/**
-		 * Return array(
-		 * "handled"				=> array(),
-		 * "attributes"			=> array(),
-		 * "overridesServer"		=> array(),
-		 * "overridesClient"		=> array()
-		 * ). Put all given attributes in the appropriated category, and with prefix they need
-		 *
-		 * @author Gerkin
-		 * @param  string[]     $attributes                           Attributes to dispatch in categories
-		 * @param  string[]   [ $handled = array()]                  Attributes name/regex to store into "handled" subcategory
-		 * @param  string[]   [ $overridableOptionsServer = array()] Attributes name/regex to store into "overridesServer" subcategory
-		 * @param  string[]   [ $overridableOptionsClient = array()] Attributes name/regex to store into "overridesClient" subcategory
-		 * @param  boolean      $fuseClientSideWithArgs = true        If set to true, category overridesClient & Attributes will be merged
-		 * @return string[][]                                       Sorted attributes
-		 */
-		public function splitArgs( $attributes, array $handled = array(), array $overridableOptionsServer = array(), array $overridableOptionsClient = array(), $fuseClientSideWithArgs = true ) {
-			$attrs = array(
-				'abbr',
-			'accept-charset',
-			'accept',
-			'accesskey',
-			'action',
-			'align',
-			'alt',
-			'archive',
-			'axis',
-				'border',
-				'cellpadding',
-			'cellspacing',
-			'char',
-			'charoff',
-			'charset',
-			'checked',
-			'cite',
-			'class',
-			'classid',
-			'codebase',
-			'codetype',
-			'cols',
-			'colspan',
-			'content',
-			'coords',
-				'data',
-			'datetime',
-			'declare',
-			'defer',
-			'dir',
-			'disabled',
-				'enctype',
-				'for',
-			'frame',
-			'frameborder',
-				'headers',
-			'height',
-			'href',
-			'hreflang',
-			'http-equiv',
-				'id',
-			'ismap',
-				'label',
-			'lang',
-			'longdesc',
-				'marginheight',
-			'marginwidth',
-			'maxlength',
-			'media',
-			'method',
-			'multiple',
-				'name',
-			'nohref',
-			'noresize',
-				'onblur',
-			'onchange',
-			'onclick',
-			'ondblclick',
-			'onfocus',
-			'onkeydown',
-			'onkeypress',
-			'onkeyup',
-			'onload',
-			'onmousedown',
-			'onmousemove',
-			'onmouseout',
-			'onmouseover',
-			'onmouseup',
-			'onreset',
-			'onselect',
-			'onsubmit',
-			'onunload',
-				'profile',
-				'readonly',
-			'rel',
-			'rev',
-			'rows',
-			'rowspan',
-			'rules',
-				'scheme',
-			'scope',
-			'scrolling',
-			'selected',
-			'shape',
-			'size',
-			'span',
-			'src',
-			'standby',
-			'style',
-			'summary',
-				'tabindex',
-			'target',
-			'title',
-			'type',
-				'usemap',
-				'valign',
-			'value',
-			'valuetype',
-				'width',
-				'/^aria-/',
-				'/^data-/',
-			);
-			$attsLength = count( $attrs );
-			$res = array(
-				'handled'				=> array(),
-				'attributes'			=> array(),
-				'overridesServer'		=> array(),
-				'overridesClient'		=> array(),
-			);
-			if ( is_array( $attributes ) ) {
-				foreach ( $attributes as $key => $value ) {
-					// $attributes is a single-level array containing key-value HTML tag potential attributes with $key and $value
-					if ( array_search( $key, $handled ) !== false ) { // This is a know `handled` attribute
-						$res['handled'][ $key ] = $value;
-					} else if ( array_search( $key, $overridableOptionsServer ) !== false ) { // This is a know `overridable from server` attribute
-						$res['overridesServer'][ $key ] = $value;
-					} else if ( array_search( $key, $overridableOptionsClient ) !== false ) { // This is a know `overridable from client` attribute
-						$res['overridesClient'][ $key ] = $value;
-					} else { // It does not belongs to any special categories
-						$i = -1;
-						$match = false;
-						while ( ++$i < $attsLength && ! $match ) { // Loop through known HTML attributes
-							$attr = $attrs[ $i ];
-							if ( strlen( $attr ) > 1 && $attr[0] == '/' && $attr[ count( $attr ) - 1 ] == '/' ) { // If this tested HTML attribute is a regex
-								if ( preg_match( $attrs[ $i ], $key ) ) { // If our `$key` match with the test attribute
-									$res['attributes'][ $key ] = $value; // Add it without any prefix
-									$match = true;
-								}
-							} else { // Else, this is a string
-								if ( $key === $attrs[ $i ] ) { // If our `$key` is the same as tested attribute
-									$res['attributes'][ $key ] = $value; // Add it without any prefix
-									$match = true;
-								}
-							}
-						}
-						if ( ! $match ) { // This attribute does not match any known HTML standard attributes
-							$res['attributes'][ 'data-' . $key ] = $value; // Assign it prefixed
-						}
-					}
-				}
-			}
-			$ret;
-			if ( $fuseClientSideWithArgs ) {
-				$ret = array(
-					'handled' => $res['handled'],
-					'attributes' => array_merge( $res['attributes'], $res['overridesClient'] ),
-					'overridesServer' => $res['overridesServer'],
-				);
-			} else {
-				$ret = $res;
-			}
-			return $ret;
-		}
-
-		public function ithoughts_tt_gl_splitArgs( $atts ) {
-			$ret = array();
-
+		public function split_attrs( $attrs ) {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			$datas = apply_filters( 'ithoughts-split-args', $atts, $backbone->get_handled_attributes(), $backbone->get_server_side_overridable(), $backbone->get_client_side_overridable(), false );
+			
+			// Split options in categories
+			$unsorted = array();
+			$datas = \ithoughts\v6_0\Toolbox::sort_options($attrs, array(
+				'handled' => $backbone->get_handled_attributes(),
+				'serverSide' => $backbone->get_server_side_overridable(),
+				'clientSide' => $backbone->get_client_side_overridable(),
+			), $unsorted);
 
-			$ret['options'] = apply_filters( 'ithoughts_tt_gl_override_options', $datas['overridesServer'], false );
-
-			$linkAttrs = array();
-			foreach ( $datas['attributes'] as $key => $value ) {// Extract /^link-/ datas
-				if ( strpos( $key, 'data-link-' ) === 0 ) {
-					$linkAttrs[ substr( $key, 10 ) ] = $value;
-					unset( $datas['attributes'][ $key ] );
-				}
-			}
-			$ret['linkAttrs'] = apply_filters( 'ithoughts-split-args', $linkAttrs );
-			$ret['linkAttrs'] = $ret['linkAttrs']['attributes'];
-
-			$overridesClient = apply_filters( 'ithoughts_tt_gl_override_options', $datas['overridesClient'], true );
-			$overridesDataPrefixed = array();
-			foreach ( $overridesClient as $override => $value ) {
-				$overridesDataPrefixed[ 'data-' . $override ] = $value;
-			};
-			$ret['attributes'] = array_merge( $datas['attributes'], $overridesDataPrefixed );
-
-			$ret['handled'] = $datas['handled'];
-
-			if ( isset( $ret['attributes']['href'] ) && ! isset( $ret['linkAttrs']['href'] ) ) {
-				$ret['linkAttrs']['href'] = $ret['attributes']['href'];
-				unset( $ret['attributes']['href'] );
-			}
-
-			return $ret;
+			// Override server options
+			$datas['serverSide'] = apply_filters( 'ithoughts_tt_gl_override_options', $datas['serverSide'], false );
+			$datas['clientSide'] = apply_filters( 'ithoughts_tt_gl_override_options', $datas['clientSide'], true );
+			$datas['attributes'] = $unsorted;
+			
+			return $datas;
 		}
 
-		private function getAnimsOut( $anims ) {
+		private function get_anims_out( $anims ) {
 			$anims = array(
 				'none' => array(
 					'text' => __( 'None', 'ithoughts-tooltip-glossary' ),
@@ -290,7 +83,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Filters' ) ) {
 
 			return $anims;
 		}
-		private function getAnimsIn( $anims ) {
+		private function get_anims_in( $anims ) {
 			$anims = array(
 				'none' => array(
 					'text' => __( 'None', 'ithoughts-tooltip-glossary' ),
@@ -312,22 +105,21 @@ if ( ! class_exists( __NAMESPACE__ . '\\Filters' ) ) {
 			return $anims;
 		}
 
-		private function checkAnimsInfos( $anims ) {
-
+		private function check_anims_infos( $anims ) {
 			return $anims;
 		}
 
-		public function checkAnimsInfosOut( $anims = array(), $onlyCustoms = false ) {
-			$anims = $this->checkAnimsInfos( $anims );
+		public function check_anims_infos_out( $anims = array(), $onlyCustoms = false ) {
+			$anims = $this->check_anims_infos( $anims );
 			if ( ! $onlyCustoms ) {
-				$anims = $this->getAnimsOut( $anims );
+				$anims = $this->get_anims_out( $anims );
 			}
 			return $anims;
 		}
-		public function checkAnimsInfosIn( $anims = array(), $onlyCustoms = false ) {
-			$anims = $this->checkAnimsInfos( $anims );
+		public function check_anims_infos_in( $anims = array(), $onlyCustoms = false ) {
+			$anims = $this->check_anims_infos( $anims );
 			if ( ! $onlyCustoms ) {
-				$anims = $this->getAnimsIn( $anims );
+				$anims = $this->get_anims_in( $anims );
 			}
 			return $anims;
 		}

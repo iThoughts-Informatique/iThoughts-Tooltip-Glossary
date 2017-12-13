@@ -11,13 +11,7 @@
  * @version 2.7.0
  */
 
-
-/**
- * @copyright 2015-2016 iThoughts Informatique
- * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
- */
-
-namespace ithoughts\tooltip_glossary\shortcode;
+namespace ithoughts\tooltip_glossary\shortcode\index;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	status_header( 403 );
@@ -92,7 +86,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\TermList' ) ) {
 				$termsInfos = $this->get_microposts( $group_ids,$alphas );
 			} else {
 				// Fetch full posts
-				$linkdata = apply_filters( 'ithoughts_tt_gl-split-args', $linkdata );
+				$linkdata = apply_filters( 'ithoughts_tt_gl-split-attributes', $linkdata );
 				$termsInfos = $this->get_lists_terms( $group_ids,$alphas );
 			}
 

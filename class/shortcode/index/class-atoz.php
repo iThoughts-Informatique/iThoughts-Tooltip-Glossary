@@ -17,7 +17,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPLv3
  */
 
-namespace ithoughts\tooltip_glossary\shortcode;
+namespace ithoughts\tooltip_glossary\shortcode\index;
 
 use \ithoughts\v6_0\Toolbox as Toolbox;
 
@@ -92,7 +92,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\AtoZ' ) ) {
 				//$terms = &$termsInfos["terms"];
 			} else {
 				// Fetch full posts
-				$linkdata = apply_filters("ithoughts_tt_gl-split-args", $linkdata);
+				$linkdata = apply_filters("ithoughts_tt_gl-split-attributes", $linkdata);
 				$termsInfos = $this->get_lists_terms($group_ids,$alphas);
 				//$terms = $this->dispatch_per_char($termsInfos["terms"], 0, "WP_Post");
 			}

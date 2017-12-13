@@ -39,19 +39,5 @@ class ITGBackboneTest extends WP_UnitTestCase {
 			'termcontent' => 'full',
 			'qtipstyle' => 'bootstrap',
 		), $ret);
-
-
-		//		$blog_id = $this->factory->blog->create();
-		//		$blog_id_array = $this->factory->blog->create_many( 4 );
-		return;
-		$post_id = $this->factory->post->create();
-		$post_id_array = $this->factory->post->create_many( 4 );
-		$comment_id = $this->factory->comment->create();
-		$comment_id_array = $this->factory->comment->create_many( 4 );
-		$user_id = $this->factory->user->create( array( 'user_login' => 'test', 'role' => 'administrator' ) );
-		$user_id_array = $this->factory->user->create_many( 4 );
-		$term_id = $this->factory->term->create( array( 'name' => 'Term Name', 'taxonomy' => 'category', 'slug' => 'term-slug' ) );
-		$term_id_array = $this->factory->term->create_many( 4, array( 'taxonomy' => 'category' ));
-
 	}
 }

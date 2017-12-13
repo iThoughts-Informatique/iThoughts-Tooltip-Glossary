@@ -10,11 +10,15 @@
  */
 
 class ITGGlossaryTest extends WP_UnitTestCase {
+	private $backbone_class;
 
-	/**
-	 * A single example test.
-	 */
-	function test_glossary_filter() {
+	public function __construct(){
+		$this->backbone_class = \ithoughts\tooltip_glossary\Backbone::get_instance();
+		call_user_func_array(array('parent', '__construct'), func_get_args());
+	}
+
+	public function _test_glossary_filter_no_static() {
+		$this->backbone_class->set_option('staticterms', false);
 		$post_id = $this->factory->post->create(array(
 			'post_type' => 'glossary',
 			'post_title' => EXAMPLE_GLOSSARY_TITLE,
@@ -22,18 +26,93 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 		));
 		$post = get_post($post_id);
 		$this->assertDiscardWhitespace(
-			'<span  class="itg-glossary" data-termid="'.$post_id.'"><a  href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_TITLE.'">'.EXAMPLE_TITLE.'</a></span>',
-			apply_filters( 'ithoughts_tt_gl_glossary', $post_id, EXAMPLE_TITLE)
+			'<a class="itg-glossary" data-glossary-id="'.$post->ID.'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID)
 		);
 		$this->assertDiscardWhitespace(
-			'<span  class="itg-glossary" data-termcontent="full" data-termid="'.$post_id.'"><a  href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_TITLE.'">'.EXAMPLE_TITLE.'</a></span>',
-			apply_filters( 'ithoughts_tt_gl_glossary', $post_id, EXAMPLE_TITLE, array(
+			'<a class="itg-glossary" data-glossary-id="'.$post->ID.'" data-termcontent="full" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID, array(
 				'termcontent' => 'full',
 			))
 		);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary" data-glossary-id="'.$post->ID.'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID, array(
+				'termcontent' => 'excerpt',
+			))
+		);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary" data-glossary-id="'.$post->ID.'" data-termcontent="off" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID, array(
+				'termcontent' => 'off',
+			))
+		);
 	}
-	
-	function test_tooltip_shortcode(){
-//		var_dump(do_shortcode('[itg-tooltip data-content="Hello"]Inner[/itg-tooltip]'));
+
+	public function _test_glossary_filter_static() {
+		$this->backbone_class->set_option('staticterms', true);
+		$post_id = $this->factory->post->create(array(
+			'post_type' => 'glossary',
+			'post_title' => EXAMPLE_GLOSSARY_TITLE_2,
+			'post_content' => EXAMPLE_GLOSSARY_CONTENT_2,
+		));
+		$post = get_post($post_id);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary" data-glossary-content="'.esc_attr(apply_filters('ithoughts_tt_gl_term_excerpt', $post)).'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID)
+		);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary" data-glossary-content="'.esc_attr(apply_filters('ithoughts_tt_gl_term_content', $post)).'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID, array(
+				'termcontent' => 'full',
+			))
+		);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary" data-glossary-content="'.esc_attr(apply_filters('ithoughts_tt_gl_term_excerpt', $post)).'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID, array(
+				'termcontent' => 'excerpt',
+			))
+		);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID, array(
+				'termcontent' => 'off',
+			))
+		);
+	}
+
+	public function test_glossary_shortcode(){
+		$post_id_1 = $this->factory->post->create(array(
+			'post_type' => 'glossary',
+			'post_title' => EXAMPLE_GLOSSARY_TITLE,
+			'post_content' => EXAMPLE_GLOSSARY_CONTENT,
+		));
+		$post_1 = get_post($post_id_1);
+		$post_id_2 = $this->factory->post->create(array(
+			'post_type' => 'glossary',
+			'post_title' => EXAMPLE_GLOSSARY_TITLE_2,
+			'post_content' => EXAMPLE_GLOSSARY_CONTENT_2,
+		));
+		$post_2 = get_post($post_id_2);
+		
+		$this->backbone_class->set_option('staticterms', true);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary" data-glossary-content="'.esc_attr(apply_filters('ithoughts_tt_gl_term_excerpt', $post_1)).'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post_1->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
+			do_shortcode( '[itg-glossary glossary-id="'.$post_1->ID.'"]'.EXAMPLE_TITLE.'[/itg-glossary]')
+		);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary" data-glossary-content="'.esc_attr(apply_filters('ithoughts_tt_gl_term_content', $post_2)).'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post_2->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
+			do_shortcode( '[itg-glossary glossary-id="'.$post_2->ID.'" termcontent="full"]'.EXAMPLE_TITLE.'[/itg-glossary]')
+		);
+		
+		$this->backbone_class->set_option('staticterms', false);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary" data-glossary-id="'.$post_1->ID.'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post_1->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
+			do_shortcode( '[itg-glossary glossary-id="'.$post_1->ID.'"]'.EXAMPLE_TITLE.'[/itg-glossary]')
+		);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary" data-glossary-id="'.$post_2->ID.'" data-termcontent="full" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post_2->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
+			do_shortcode( '[itg-glossary glossary-id="'.$post_2->ID.'" termcontent="full"]'.EXAMPLE_TITLE.'[/itg-glossary]')
+		);
 	}
 }

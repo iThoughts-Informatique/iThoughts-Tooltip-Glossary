@@ -50,7 +50,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Mediatip' ) ) {
 
 		/** */
 		public function mediatip_shortcode( $atts, $text = '' ) {
-			$datas = apply_filters( 'ithoughts_tt_gl-split-args', $atts );
+			$datas = apply_filters( 'ithoughts_tt_gl-split-attributes', $atts );
 
 			$mediatipTypes = array( 'localimage','webimage','webvideo' );
 			if ( ! isset( $datas['handled']['mediatip-type'] ) ) {

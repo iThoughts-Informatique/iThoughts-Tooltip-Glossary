@@ -198,7 +198,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		 */
 		private function add_filters() {
 			require_once( $this->base_class_path . '/class-filters.php' );
-			new filters();
+			filters::get_instance();
 		}
 
 		/**
@@ -246,19 +246,19 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			require_once( $this->base_class_path . '/shortcode/tip/class-tip.php' );
 			// Derived classes
 			require_once( $this->base_class_path . '/shortcode/tip/class-tooltip.php' );
-			shortcode\Tip\Tooltip::get_instance();
+			shortcode\tip\Tooltip::get_instance();
 			require_once( $this->base_class_path . '/shortcode/tip/class-mediatip.php' );
-			shortcode\Tip\Mediatip::get_instance();
+			shortcode\tip\Mediatip::get_instance();
 			require_once( $this->base_class_path . '/shortcode/tip/class-glossary.php' );
-			shortcode\Tip\Glossary::get_instance();
+			shortcode\tip\Glossary::get_instance();
 
 			// Lists.
-			require_once( $this->base_class_path . '/shortcode/list/class-glossarylist.php' );
+			require_once( $this->base_class_path . '/shortcode/index/class-glossarylist.php' );
 			// Derived classes
-			require_once( $this->base_class_path . '/shortcode/list/class-atoz.php' );
-			shortcode\List\AtoZ::get_instance();
-			require_once( $this->base_class_path . '/shortcode/list/class-termlist.php' );
-			shortcode\List\TermList::get_instance();
+			require_once( $this->base_class_path . '/shortcode/index/class-atoz.php' );
+			shortcode\index\AtoZ::get_instance();
+			require_once( $this->base_class_path . '/shortcode/index/class-termlist.php' );
+			shortcode\index\TermList::get_instance();
 		}
 
 		/**

@@ -12,7 +12,7 @@
  */
 
 
-namespace ithoughts\tooltip_glossary\shortcode;
+namespace ithoughts\tooltip_glossary\shortcode\index;
 
 use \ithoughts\v6_0\Toolbox as TB;
 
@@ -35,7 +35,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 		 */
 		final protected function init_list_atts( $atts ) {
 			// Parse attributes and sort them
-			$data = apply_filters( 'ithoughts_tt_gl-split-args', $atts );
+			$data = apply_filters( 'ithoughts_tt_gl-split-attributes', $atts );
 
 			// Copy & filter glossary options
 			$linkdata = $data;

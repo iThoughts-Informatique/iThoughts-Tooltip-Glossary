@@ -9,10 +9,13 @@ define('EXAMPLE_URL', 'https://www.gerkindevelopment.net/');
 define('EXAMPLE_CLASS', 'some-class');
 // Post content
 define('EXAMPLE_TITLE', 'A glossary title');
+define('EXAMPLE_TITLE_2', 'Another glossary title');
 define('EXAMPLE_CONTENT', 'This is the content');
 // Glossary
 define('EXAMPLE_GLOSSARY_TITLE', 'Example glossary');
 define('EXAMPLE_GLOSSARY_CONTENT', 'An example helps to represent things...');
+define('EXAMPLE_GLOSSARY_TITLE_2', 'Foo');
+define('EXAMPLE_GLOSSARY_CONTENT_2', 'Foos fooing bars.');
 
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 
