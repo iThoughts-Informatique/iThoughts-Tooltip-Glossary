@@ -14,6 +14,8 @@
 
 namespace ithoughts\tooltip_glossary\shortcode\tip;
 
+use \ithoughts\v6_0\Toolbox as Toolbox;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	status_header( 403 );
 	wp_die( 'Forbidden' );// Exit if accessed directly.
@@ -47,8 +49,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 
 			// Filters.
 			add_filter( 'ithoughts_tt_gl_glossary', array( $this, 'generate_glossary' ), 10, 3 );
-			add_filter( 'ithoughts_tt_gl_term_content', array( $this, 'term_content' ) );
-			add_filter( 'ithoughts_tt_gl_term_excerpt', array( &$this, 'term_excerpt' ) );
+			add_filter( 'ithoughts_tt_gl_glossary_content', array( $this, 'glossary_content' ) );
+			add_filter( 'ithoughts_tt_gl_glossary_excerpt', array( &$this, 'glossary_excerpt' ) );
+			add_filter( 'ithoughts_tt_gl_glossary_get_term_attributes', array( &$this, 'get_term_attributes' ), 10, 2 );
 		}
 
 		public function parse_pseudo_links_to_shortcode( $data ) {
@@ -126,8 +129,17 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 
 		/** */
 		public function glossary_shortcode( $attributes, $text = '' ) {
-			$id = isset( $attributes['glossary-id'] ) && intval($attributes['glossary-id']) > 0 ? intval($attributes['glossary-id']) : null;
-			unset($attributes['glossary-id']);
+			$id = null;
+			if(is_array($attributes)){
+				$id = Toolbox::pick_option( $attributes, 'glossary-id', null );
+			}
+			if($id === null){
+				$id = sanitize_title($text);
+			} elseif(is_numeric($id)){
+				$id = intval($id);
+			} elseif(is_string($id)){
+				$id = sanitize_title($id);
+			}
 			return apply_filters( 'ithoughts_tt_gl_glossary', $text, $id, $attributes );
 		}
 
@@ -137,7 +149,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 		 * @param  [WP_Post] \WP_Post $term Glossary term to extract the excerpt from
 		 * @return [string] The generated excerpt
 		 */
-		public function term_excerpt( \WP_Post $term ) {
+		public function glossary_excerpt( \WP_Post $term ) {
 			if ( strlen( $term->post_excerpt ) > 0 ) {
 				$content = wpautop( $term->post_excerpt );
 			} else {
@@ -148,8 +160,39 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 			return $content;
 		}
 
-		public function term_content( $post ) {
+		public function glossary_content( $post ) {
 			return do_shortcode( apply_filters( 'the_content', $post->post_content ) );
+		}
+
+		public function get_term_attributes( $termcontent, \WP_Post $term = null ){
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+
+			$attributes = array();
+			if($term instanceof \WP_Post){
+				$attributes['title'] = get_the_title( $term );
+				if ( $backbone->get_option('staticterms') ) {
+					switch ( $termcontent ) {
+						case 'full':{
+							$attributes['glossary-content'] = apply_filters( 'ithoughts_tt_gl_glossary_content', $term );
+						}break;
+
+						case 'excerpt':{
+							$attributes['glossary-content'] = apply_filters( 'ithoughts_tt_gl_glossary_excerpt', $term );
+						}break;
+					}
+				} else {
+					if($backbone->get_option('termcontent') !== $termcontent){
+						$attributes['termcontent'] = $termcontent;
+					}
+					$attributes['glossary-id'] = $term->ID;
+				}
+			} else {
+				$attributes['title'] = __('Not found', 'ithoughts-tooltip-glossary');
+				if($termcontent !== 'off'){
+					$attributes['glossary-content'] = __('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary');
+				}
+			}
+			return $attributes;
 		}
 
 		private function get_standardized_term($term, $options = array('allowTranslate' => true)){
@@ -159,11 +202,20 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 			}
 			$id = null;
 			if ( is_numeric( $term ) ) {
-				$id = $term;
+				$id = intval($term);
 			} elseif ( $term instanceof \WP_Post ) {
 				$id = $term->ID;
 			} elseif ( gettype( $term ) == 'array' ) {
 				$id = $term['ID'];
+			} elseif(is_string($term)){
+				global $wpdb;
+				$id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_name ='".$term."'");
+				// Check DB result
+				if(is_numeric($id)){
+					$id = intval($id);
+				} else {
+					$id = NULL;
+				}
 			}
 			if($id !== null){
 				if ( function_exists( 'icl_object_id' ) && isset($options['allowTranslate']) && $options['allowTranslate'] === true) {
@@ -171,7 +223,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				}
 				$term = get_post( $id );
 			} else {
+				$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 				$backbone->log( \ithoughts\v6_0\LogLevel::WARN, "Failed to find term that resolved to id $id, related with", $old_term );
+				$term = null;
 			}
 			return $term;
 		}
@@ -199,44 +253,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				}
 			}
 
-			$termcontent = $serverSide['termcontent'];
-			$content = false;
-			$title = false;
-			if($term instanceof \WP_Post){
-				$title = get_the_title( $term );
-				if ( $backbone->get_option('staticterms') ) {
-					unset( $datas['clientSide']['termcontent'] );
-
-					switch ( $termcontent ) {
-						case 'full':{
-							$content = apply_filters( 'ithoughts_tt_gl_term_content', $term );
-						}break;
-
-						case 'excerpt':{
-							$content = apply_filters( 'ithoughts_tt_gl_term_excerpt', $term );
-						}break;
-
-						case 'off':{
-							$content = false;
-						} break;
-					}
-				} else {
-					$datas['attributes']['glossary-id'] = $term->ID;
-				}
-			} else {
-				unset( $datas['clientSide']['termcontent'] );
-				$title = __('Not found', 'ithoughts-tooltip-glossary');
-				if($termcontent !== 'off'){
-					$content = __('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary');
-				}
-			}
-			$datas['attributes']['title'] = $title;
-			if($content){
-				$datas['attributes']['glossary-content'] = $content;
-			}
+			unset($datas['clientSide']['termcontent']);
+			$termcontent = apply_filters('ithoughts_tt_gl_glossary_get_term_attributes', $serverSide['termcontent'], $term);
+			$datas['attributes'] = array_replace_recursive($termcontent, $datas['attributes']);
 
 			if ( is_null( $text ) || strlen($text) === 0 ) {
-				$text = $title;
+				$text = $termcontent['title'];
 			}
 
 			// Set the link (if not overriden)

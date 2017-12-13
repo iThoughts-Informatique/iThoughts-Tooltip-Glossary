@@ -140,7 +140,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\TermList' ) ) {
 								$linkAttrs['href'] = &$href;
 								$args = \ithoughts\v6_0\Toolbox::concat_attrs( $linkAttrs );
 								$link   = '<a ' . $args . '>' . $term_standardized_post->post_title . '</a>';
-								$content = '<br>' . '<span class="glossary-item-desc">' . apply_filters( 'ithoughts_tt_gl_term_excerpt', $term_standardized_post ) . '</span>';
+								$content = '<br>' . '<span class="glossary-item-desc">' . apply_filters( 'ithoughts_tt_gl_glossary_excerpt', $term_standardized_post ) . '</span>';
 							} break;
 
 							case self::LIST_MODE_FULL:{

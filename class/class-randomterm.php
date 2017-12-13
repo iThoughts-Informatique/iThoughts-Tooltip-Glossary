@@ -154,7 +154,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\RandomTerm' ) ) {
 						} break;
 						case 'excerpt':{
 							$content = '<article><h4><a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_permalink( $term ) ) . '">' . $term->post_title . '</a></h4>';
-							$content .= '<p>' . apply_filters( 'ithoughts_tt_gl_term_excerpt',$term ) . '</p></article>';
+							$content .= '<p>' . apply_filters( 'ithoughts_tt_gl_glossary_excerpt',$term ) . '</p></article>';
 						} break;
 						case 'tooltip':{
 
@@ -169,7 +169,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\RandomTerm' ) ) {
 									}break;
 
 									case 'excerpt':{
-										$content = apply_filters( 'ithoughts_tt_gl_term_excerpt', $post );
+										$content = apply_filters( 'ithoughts_tt_gl_glossary_excerpt', $post );
 									}break;
 
 									case 'off':{
