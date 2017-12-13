@@ -151,7 +151,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 		public function term_content( $post ) {
 			return do_shortcode( apply_filters( 'the_content', $post->post_content ) );
 		}
-		
+
 		private function get_standardized_term($term, $options = array('allowTranslate' => true)){
 			$old_term = $term;
 			if ( $term instanceof \ithoughts\v1_0\PseudoPost ) {
@@ -183,8 +183,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				'allowTranslate' => !(isset( $attributes['disable_auto_translation'] ) && $attributes['disable_auto_translation']),
 			));
 
+			// Set classes.
 			$attributes['class'] = 'itg-glossary' . ((isset( $attributes['class'] ) && $attributes['class']) ? ' ' . $attributes['class'] : '');
-			if ( null === $term ) {
+			if(!$term instanceof \WP_Post){
 				$attributes['class'] .= ' itg-notfound';
 			}
 
@@ -198,37 +199,44 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				}
 			}
 
-			$datas['attributes']['title'] = get_the_title( $term );
+			$termcontent = $serverSide['termcontent'];
+			$content = false;
+			$title = false;
+			if($term instanceof \WP_Post){
+				$title = get_the_title( $term );
+				if ( $backbone->get_option('staticterms') ) {
+					unset( $datas['clientSide']['termcontent'] );
 
-			if ( $backbone->get_option('staticterms') ) {
-				$content = false;
-				$termcontent = $serverSide['termcontent'];
-				unset( $datas['clientSide']['termcontent'] );
-				unset( $datas['serverSide']['termcontent'] );
+					switch ( $termcontent ) {
+						case 'full':{
+							$content = apply_filters( 'ithoughts_tt_gl_term_content', $term );
+						}break;
 
-				switch ( $termcontent ) {
-					case 'full':{
-						$content = apply_filters( 'ithoughts_tt_gl_term_content', $term );
-					}break;
+						case 'excerpt':{
+							$content = apply_filters( 'ithoughts_tt_gl_term_excerpt', $term );
+						}break;
 
-					case 'excerpt':{
-						$content = apply_filters( 'ithoughts_tt_gl_term_excerpt', $term );
-					}break;
-
-					case 'off':{
-						$content = false;
-					} break;
-				}
-				if($content){
-					$datas['attributes']['glossary-content'] = $content;
+						case 'off':{
+							$content = false;
+						} break;
+					}
+				} else {
+					$datas['attributes']['glossary-id'] = $term->ID;
 				}
 			} else {
-				if ( $term instanceof \WP_Post ) {
-					$datas['attributes']['glossary-id'] = $term->ID;
-					if ( is_null( $text ) ) {
-						$text = $datas['attributes']['title'];
-					}
+				unset( $datas['clientSide']['termcontent'] );
+				$title = __('Not found', 'ithoughts-tooltip-glossary');
+				if($termcontent !== 'off'){
+					$content = __('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary');
 				}
+			}
+			$datas['attributes']['title'] = $title;
+			if($content){
+				$datas['attributes']['glossary-content'] = $content;
+			}
+
+			if ( is_null( $text ) || strlen($text) === 0 ) {
+				$text = $title;
 			}
 
 			// Set the link (if not overriden)
@@ -241,7 +249,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 					}
 				}
 			}
-			
+
 			return $this->generate_tip( $text, $datas );
 		}
 	}

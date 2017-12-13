@@ -20,7 +20,7 @@
 namespace ithoughts\tooltip_glossary\shortcode\tip;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );
+	status_header( 403 );
 	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 
@@ -32,9 +32,15 @@ if ( ! class_exists( __NAMESPACE__ . '\\Mediatip' ) ) {
 			add_shortcode( 'itg-mediatip', array( &$this, 'mediatip_shortcode' ) );
 			add_shortcode( 'mediatip', array( &$this, 'mediatip_shortcode' ) );
 
-			// Help functions..
+			// Actions.
 			add_action( 'wp_insert_post_data',  array( &$this, 'parse_pseudo_links_to_shortcode' ) );
 			add_action( 'edit_post',  array( &$this, 'convert_shortcodes' ) );
+
+			// Filters.
+			add_filter( 'mediatip-localimage',      array( $this, 'transform_source_localimage' ), 10, 1 );
+			add_filter( 'mediatip-webimage',        array( $this, 'transform_source_webimage' ), 10, 1 );
+			add_filter( 'mediatip-webvideo',        array( $this, 'transform_source_webvideo' ), 10, 1 );
+			add_filter( 'ithoughts_tt_gl_mediatip', array( $this, 'generate_mediatip' ), 10, 5 );
 		}
 
 		public function parse_pseudo_links_to_shortcode( $data ) {
@@ -48,83 +54,63 @@ if ( ! class_exists( __NAMESPACE__ . '\\Mediatip' ) ) {
 			return $post;
 		}
 
-		/** */
-		public function mediatip_shortcode( $atts, $text = '' ) {
-			$datas = apply_filters( 'ithoughts_tt_gl-split-attributes', $atts );
-
-			$mediatipTypes = array( 'localimage','webimage','webvideo' );
-			if ( ! isset( $datas['handled']['mediatip-type'] ) ) {
-				return $text;
-			}
-			$mediatipType = $datas['handled']['mediatip-type'];
-			if ( ! in_array( $mediatipType, $mediatipTypes ) ) {
-				return $text;
+		public function transform_source_localimage($source){
+			if(is_numeric($source)){
+				$source = wp_get_attachment_image_src(intval($source));
+				if($source){
+					return $source[0];
+				}
 			} else {
-				$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-				$backbone->add_script( 'qtip' );
+				$json = \ithoughts\v6_0\Toolbox::decode_json_attr( $source, true );
+				// Compat with old format
+				if ( $json == null ) {
+					$json = json_decode( str_replace( '&quot;', '"', $source ), true );
+				}
+				var_dump($json);
+				return htmlentities( $json['url'] );
+			}
+			return false;
+		}
+
+		public function transform_source_webimage($source){
+			return htmlentities($source );
+		}
+
+		public function transform_source_webvideo($source){
+			return $source;
+		}
+
+		/** */
+		public function mediatip_shortcode( $attributes, $text = '' ) {
+			$source_type = isset( $attributes['mediatip-type'] ) ? $attributes['mediatip-type'] : null;
+			unset($attributes['mediatip-type']);
+			$source = isset( $attributes['mediatip-source']) ? $attributes['mediatip-source'] : null;
+			unset($attributes['mediatip-source']);
+			$caption = isset( $attributes['mediatip-caption']) ? $attributes['mediatip-caption'] : false;
+			unset($attributes['mediatip-caption']);
+
+			return apply_filters( 'ithoughts_tt_gl_mediatip', $text, $source_type, $source, $caption, $attributes );
+		}
+
+		public function generate_mediatip( $text, $source_type, $source, $caption = false, $attributes = array() ) {
+			// Set classes.
+			$attributes['class'] = 'itg-mediatip' . ((isset( $attributes['class'] ) && $attributes['class']) ? ' ' . $attributes['class'] : '');
+			if($caption){
+				$attributes['mediatip-caption'] = $caption;
 			}
 
-			$datas['attributes']['class'] = 'itg-mediatip' . ((isset( $datas['attributes']['class'] ) && $datas['attributes']['class']) ? ' ' . $datas['attributes']['class'] : '');
-			$datas['linkAttrs']['title'] = esc_attr( $text );
+			$datas = apply_filters( 'ithoughts_tt_gl-split-attributes', $attributes );
 
-			switch ( $mediatipType ) {
-				case $mediatipTypes[0]:{
-					$dat = \ithoughts\v6_0\Toolbox::decode_json_attr( $datas['handled']['mediatip-content'], true );
-					// Compat with old format
-					if ( $dat == null ) {
-						$dat = json_decode( str_replace( '&quot;', '"', $datas['handled']['mediatip-content'] ), true );
-					}
-					$datas['attributes']['data-mediatip-image'] = htmlentities( $dat['url'] );
+			$filter_name = "mediatip-$source_type";
+			if($source_type !== false && has_filter($filter_name) && $source !== null){
+				$source = apply_filters($filter_name, $source);
+				$datas['attributes']['mediatip-source'] = $source;
+				$datas['attributes']['mediatip-type'] = $source_type;
+			} else {
+				$datas['attributes']['class'] .= ' itg-notfound';
+			}
 
-					if ( ! (isset( $datas['linkAttrs']['href'] ) && $datas['linkAttrs']['href']) ) {
-						$datas['linkAttrs']['href'] = 'javascript:void(0);';
-					}
-
-					$linkArgs = \ithoughts\v6_0\Toolbox::concat_attrs( $datas['linkAttrs'] );
-					$linkElement   = '<a ' . $linkArgs . '>' . $text . '</a>';
-
-					$args = \ithoughts\v6_0\Toolbox::concat_attrs( $datas['attributes'] );
-					// Span that qtip finds
-					$span = '<span ' . $args . '>' . $linkElement . '</span>';
-					return $span;
-				} break;
-
-				case $mediatipTypes[1]:{
-					$datas['attributes']['data-mediatip-image'] = htmlentities( $datas['handled']['mediatip-content'] );
-
-					if ( ! (isset( $datas['linkAttrs']['href'] ) && $datas['linkAttrs']['href']) ) {
-						$datas['linkAttrs']['href'] = 'javascript:void(0);';
-					}
-
-					$linkArgs = \ithoughts\v6_0\Toolbox::concat_attrs( $datas['linkAttrs'] );
-					$linkElement   = '<a ' . $linkArgs . '>' . $text . '</a>';
-
-					$args = \ithoughts\v6_0\Toolbox::concat_attrs( $datas['attributes'] );
-					// Span that qtip finds
-					$span = '<span ' . $args . '>' . $linkElement . '</span>';
-					return $span;
-				} break;
-
-				case $mediatipTypes[2]:{
-					$datas['attributes']['data-mediatip-html'] = $datas['handled']['mediatip-content'];
-
-					if ( ! (isset( $datas['linkAttrs']['href'] ) && $datas['linkAttrs']['href']) ) {
-						$datas['linkAttrs']['href'] = 'javascript:void(0);';
-					}
-
-					$linkArgs = \ithoughts\v6_0\Toolbox::concat_attrs( $datas['linkAttrs'] );
-					$linkElement   = '<a ' . $linkArgs . '>' . $text . '</a>';
-
-					$args = \ithoughts\v6_0\Toolbox::concat_attrs( $datas['attributes'] );
-					// Span that qtip finds
-					$span = '<span ' . $args . '>' . $linkElement . '</span>';
-					return $span;
-				} break;
-
-				default:{
-					return $text;
-				}break;
-			}// End switch().
+			return $this->generate_tip( $text, $datas );
 		}
 	}
 }// End if().

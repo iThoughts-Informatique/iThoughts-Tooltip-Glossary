@@ -17,7 +17,7 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 		call_user_func_array(array('parent', '__construct'), func_get_args());
 	}
 
-	public function _test_glossary_filter_no_static() {
+	public function test_glossary_filter_no_static() {
 		$this->backbone_class->set_option('staticterms', false);
 		$post_id = $this->factory->post->create(array(
 			'post_type' => 'glossary',
@@ -47,9 +47,38 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 				'termcontent' => 'off',
 			))
 		);
+		// With not found
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary itg-notfound" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
+				'termcontent' => 'full',
+			))
+		);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary itg-notfound" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
+				'termcontent' => 'excerpt',
+			))
+		);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary itg-notfound" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
+				'termcontent' => 'off',
+			))
+		);
+		// Default title
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary" data-glossary-id="'.$post->ID.'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_GLOSSARY_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', NULL, $post->ID)
+		);
+		// Default title with not found
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary itg-notfound" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.esc_html__('Not found', 'ithoughts-tooltip-glossary').'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', NULL, NOT_FOUND_ID)
+		);
 	}
 
-	public function _test_glossary_filter_static() {
+	public function test_glossary_filter_static() {
 		$this->backbone_class->set_option('staticterms', true);
 		$post_id = $this->factory->post->create(array(
 			'post_type' => 'glossary',
@@ -79,6 +108,25 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 				'termcontent' => 'off',
 			))
 		);
+		// With not found
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary itg-notfound" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
+				'termcontent' => 'full',
+			))
+		);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary itg-notfound" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
+				'termcontent' => 'excerpt',
+			))
+		);
+		$this->assertDiscardWhitespace(
+			'<a class="itg-glossary itg-notfound" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
+				'termcontent' => 'off',
+			))
+		);
 	}
 
 	public function test_glossary_shortcode(){
@@ -94,7 +142,7 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 			'post_content' => EXAMPLE_GLOSSARY_CONTENT_2,
 		));
 		$post_2 = get_post($post_id_2);
-		
+
 		$this->backbone_class->set_option('staticterms', true);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary" data-glossary-content="'.esc_attr(apply_filters('ithoughts_tt_gl_term_excerpt', $post_1)).'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post_1->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
@@ -104,7 +152,7 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 			'<a class="itg-glossary" data-glossary-content="'.esc_attr(apply_filters('ithoughts_tt_gl_term_content', $post_2)).'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post_2->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
 			do_shortcode( '[itg-glossary glossary-id="'.$post_2->ID.'" termcontent="full"]'.EXAMPLE_TITLE.'[/itg-glossary]')
 		);
-		
+
 		$this->backbone_class->set_option('staticterms', false);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary" data-glossary-id="'.$post_1->ID.'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post_1->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',

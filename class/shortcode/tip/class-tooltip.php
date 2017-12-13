@@ -78,7 +78,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 		 * @return string The formatted HTML markup
 		 */
 		public function generate_tooltip( $text, $tip_content, $attributes = array() ) {
-			// Span that qtip finds
+			// Set classes.
 			$attributes['class'] = 'itg-tooltip' . ((isset( $attributes['class'] ) && $attributes['class']) ? ' ' . $attributes['class'] : '');
 			
 			$datas = apply_filters( 'ithoughts_tt_gl-split-attributes', $attributes );
