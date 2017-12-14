@@ -150,7 +150,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				'lang'			=> array(
 					'qtip' => array(
 						'pleasewait_ajaxload' => array(
-							'title' => __( 'Please wait', 'ithoughts-tooltip-glossary' ),
 							'content' => __( 'Loading glossary term', 'ithoughts-tooltip-glossary' ),
 						),
 					),
@@ -504,13 +503,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			$statii = array( 'publish', 'private' );
 			$term   = null;
 			if ( isset( $_GET['termid'] ) ) { // Input var okay.
-				$termid = absint( $_GET['termid'] ); // Input var okay.
+				$glossary_id = absint( $_GET['glossaryId'] ); // Input var okay.
 				if ( function_exists( 'icl_object_id' ) ) {
 					if ( ! (isset( $_GET['disable_auto_translation'] ) && 0 !== absint( $_GET['disable_auto_translation'] )) ) { // Input var okay.
-						$termid = apply_filters( 'wpml_object_id', $termid, 'glossary', true, apply_filters( 'wpml_current_language', null ) );
+						$glossary_id = apply_filters( 'wpml_object_id', $glossary_id, 'glossary', true, apply_filters( 'wpml_current_language', null ) );
 					}
 				}
-				$termob = get_post( $termid );
+				$termob = get_post( $glossary_id );
 				if ( get_post_type( $termob ) && 'glossary' === get_post_type( $termob ) && in_array( $termob->post_status, $statii, true ) ) {
 					$term = $termob;
 				}
@@ -534,7 +533,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			}
 
 			// Don't display password protected items.
-			if ( post_password_required( $termid ) ) {
+			if ( post_password_required( $glossary_id ) ) {
 				wp_send_json_success( array(
 					'title' => $title,
 					'content' => '<p>' . __( 'Protected glossary term', 'ithoughts-tooltip-glossary' ) . '</p>',
@@ -547,11 +546,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				$content_type = sanitize_text_field( wp_unslash( $_GET['content'] ) ); // Input var okay.
 				switch ( $content_type ) {
 					case 'full':{
-						$content = apply_filters( 'ithoughts_tt_gl_term_content', $termob );
+						$content = apply_filters( 'ithoughts_tt_gl_glossary_content', $termob );
 					}break;
 
 					case 'excerpt':{
-						$content = apply_filters( 'ithoughts_tt_gl_term_excerpt', $termob );
+						$content = apply_filters( 'ithoughts_tt_gl_glossary_excerpt', $termob );
 					}break;
 
 					case 'off':{

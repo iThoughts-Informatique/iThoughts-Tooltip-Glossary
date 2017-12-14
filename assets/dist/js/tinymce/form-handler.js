@@ -828,7 +828,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		'use strict';
 
 		var _iThoughtsTooltipGlos = iThoughtsTooltipGlossary,
-		    stripQuotes = _iThoughtsTooltipGlos.stripQuotes;
+		    replaceQuotes = _iThoughtsTooltipGlos.replaceQuotes;
 		var isNA = iThoughts.v5.isNA;
 
 		var OptArray = function () {
@@ -867,7 +867,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					if (!label.match(/^[\w_\-]*$/)) {
 						return null;
 					}
-					return stripQuotes(label.trim(), true) + "=\"" + (!isNA(specEncode) && specEncode ? value.replace(/"/g, '&aquot;').replace(/\n/g, '<br/>') : stripQuotes(value, true)) + "\"";
+					return replaceQuotes(label.trim(), true) + "=\"" + (!isNA(specEncode) && specEncode ? value.replace(/"/g, '&aquot;').replace(/\n/g, '<br/>') : replaceQuotes(value, true)) + "\"";
 				}
 			}]);
 
@@ -888,7 +888,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		var itge = iThoughtsTooltipGlossaryEditor;
 
 		var isNA = ithoughts.isNA;
-		var htmlAttrs = ['href'];
 
 		var xhrError = function xhrError(xhr) {
 			var editor = itge.editor;
@@ -907,32 +906,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			return (attrsStr || '').split(separator).map(Function.prototype.call, String.prototype.trim).filter(function (e) {
 				return e;
 			});
-		};
-
-		var extractAttrs = function extractAttrs(node) {
-			var ret = {};
-			Array.prototype.slice.call(node.attributes, 0).forEach(function (attr) {
-				ret[attr.nodeName] = attr.nodeValue;
-			});
-			return ret;
-		};
-
-		var generateTakeAttr = function generateTakeAttr(attrs) {
-			// If we received a node instead of an object, extract its attributes
-			if (attrs.tagName) {
-				attrs = extractAttrs(attrs);
-			}
-			// Return the picker function
-			return function (label) {
-				var noDataPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-				if (!noDataPrefix) {
-					label = utils.maybePrefixAttribute(label);
-				}
-				var val = attrs[label];
-				delete attrs[label];
-				return val;
-			};
 		};
 
 		var tristate = function tristate(val) {
@@ -984,7 +957,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				}, _callee, _this);
 			}));
 
-			return function sendAjaxQuery(_x5, _x6) {
+			return function sendAjaxQuery(_x4, _x5) {
 				return _ref.apply(this, arguments);
 			};
 		}();
@@ -1127,7 +1100,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					}, _callee2, this, [[5, 14]]);
 				}));
 
-				function list(_x7) {
+				function list(_x6) {
 					return _ref2.apply(this, arguments);
 				}
 
@@ -1183,11 +1156,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 											values = {
 												text: _content,
 												link: takeAttr('href', true),
-												tooltip_content: itg.stripQuotes(tooltipContent || _content, false),
+												tooltip_content: itg.replaceQuotes(tooltipContent || _content, false),
 												glossary_id: takeAttr('glossary-id'),
 												term_search: itge.removeAccents(_content.toLowerCase()),
 												mediatip_type: takeAttr('mediatip-type'),
-												mediatip_content: itg.stripQuotes(takeAttr('mediatip-content'), false),
+												mediatip_content: itg.replaceQuotes(takeAttr('mediatip-content'), false),
 												mediatip_link: takeAttr('mediatip-link'),
 												mediatip_caption: takeAttr('mediatip-caption'),
 												type: ['glossary', 'tooltip', 'mediatip'][tipsTypes.indexOf(takeAttr('type'))],
@@ -1367,7 +1340,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					}, _callee3, this, [[5, 12]]);
 				}));
 
-				function tip(_x8, _x9) {
+				function tip(_x7, _x8) {
 					return _ref3.apply(this, arguments);
 				}
 
@@ -1382,14 +1355,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			hideOutForm: hideOutForm,
 			tipsTypes: tipsTypes,
 			tipsSelector: tipsSelector,
-			maybePrefixAttribute: function maybePrefixAttribute(attrName) {
-				// If the key is not an HTML attribute and is not `data-` prefixed, prefix it
-				if (!htmlAttrs.includes(attrName) && !attrName.startsWith('data-')) {
-					return " data-" + attrName;
-				} else {
-					return attrName;
-				}
-			}
+			maybePrefixAttribute: maybePrefixAttribute
 		};
 
 		module.exports = utils;

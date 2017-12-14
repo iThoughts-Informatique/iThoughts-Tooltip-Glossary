@@ -1,14 +1,13 @@
 'use strict';
 
 const removeAccents = require('remove-accents');
-const OptArray      = require('./tinymce-optarray');
+const OptArray      = require('../optarray');
 
 const ithoughts     = iThoughts.v5;
 const itg           = iThoughtsTooltipGlossary;
 const itge          = iThoughtsTooltipGlossaryEditor;
 
 const isNA = ithoughts.isNA;
-const htmlAttrs = ['href'];
 
 const xhrError = xhr => {
 	const editor = itge.editor;
@@ -23,30 +22,6 @@ const xhrError = xhr => {
 };
 
 const splitAttr = (attrsStr, separator = /[,\.\s]+/) => ( attrsStr || '' ).split( separator ).map( Function.prototype.call, String.prototype.trim ).filter( e => e);
-
-const extractAttrs = node => {
-	const ret = {};
-	Array.prototype.slice.call(node.attributes, 0).forEach(attr => {
-		ret[attr.nodeName] = attr.nodeValue;
-	});
-	return ret;
-}
-
-const generateTakeAttr = attrs => {
-	// If we received a node instead of an object, extract its attributes
-	if(attrs.tagName){
-		attrs = extractAttrs(attrs);
-	}
-	// Return the picker function
-	return ( label, noDataPrefix = false ) => {
-		if ( !noDataPrefix ) {
-			label = utils.maybePrefixAttribute(label);
-		}
-		const val = attrs[label];
-		delete attrs[label];
-		return val;
-	};
-};
 
 const tristate = val => {
 	if ( 'true' === val ) {
@@ -240,11 +215,11 @@ const editorForms = {
 				values = {
 					text:             content,
 					link:             takeAttr( 'href', true ),
-					tooltip_content:  itg.stripQuotes( tooltipContent || content, false ),
+					tooltip_content:  itg.replaceQuotes( tooltipContent || content, false ),
 					glossary_id:      takeAttr( 'glossary-id' ),
 					term_search:      itge.removeAccents( content.toLowerCase()),
 					mediatip_type:    takeAttr( 'mediatip-type' ),
-					mediatip_content: itg.stripQuotes( takeAttr( 'mediatip-content' ), false ),
+					mediatip_content: itg.replaceQuotes( takeAttr( 'mediatip-content' ), false ),
 					mediatip_link:    takeAttr( 'mediatip-link' ),
 					mediatip_caption: takeAttr( 'mediatip-caption' ),
 					type:             [ 'glossary', 'tooltip', 'mediatip' ][tipsTypes.indexOf( takeAttr( 'type' ))],
@@ -417,14 +392,7 @@ const utils = {
 	hideOutForm,
 	tipsTypes,
 	tipsSelector,
-	maybePrefixAttribute(attrName){
-		// If the key is not an HTML attribute and is not `data-` prefixed, prefix it
-		if ( !htmlAttrs.includes(attrName) && !attrName.startsWith('data-')) {
-			return ` data-${  attrName  }`;
-		} else {
-			return attrName;
-		}
-	}
+	maybePrefixAttribute,
 };
 
 module.exports = utils;

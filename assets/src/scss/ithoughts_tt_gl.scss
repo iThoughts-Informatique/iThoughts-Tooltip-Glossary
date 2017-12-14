@@ -178,20 +178,18 @@
 	z-index: 10000000;
 }
 
-.itg-glossary,
-.itg-tooltip,
-.itg-mediatip{
-	& > a {
-		&,
-		&:hover,
-		&:visited,
-		&:active
-		{
-			box-shadow: none;
-			text-decoration: overline underline;
-		}
+a.itg-glossary,
+a.itg-tooltip,
+a.itg-mediatip{
+	&,
+	&:hover,
+	&:visited,
+	&:active
+	{
+		box-shadow: none;
+		text-decoration: overline underline;
 	}
-	&.itg-notfound > a {
+	&.itg-invalid{
 		&,
 		&:hover,
 		&:visited,

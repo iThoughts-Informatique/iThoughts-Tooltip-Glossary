@@ -107,7 +107,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Mediatip' ) ) {
 				$datas['attributes']['mediatip-source'] = $source;
 				$datas['attributes']['mediatip-type'] = $source_type;
 			} else {
-				$datas['attributes']['class'] .= ' itg-notfound';
+				$datas['attributes']['class'] .= ' itg-invalid';
 			}
 
 			return $this->generate_tip( $text, $datas );

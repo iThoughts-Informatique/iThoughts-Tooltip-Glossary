@@ -1,6 +1,14 @@
 ---
 version: "2"
 engines:
+  git-legal:
+    enabled: true
+  phpcodesniffer:
+    enabled: true
+  phpmd:
+    enabled: true
+  sonar-php:
+    enabled: true
   duplication:
     enabled: true
     config:

@@ -1,6 +1,6 @@
 'use strict';
 
-const OptArray = require('./tinymce-optarray');
+const OptArray = require('../optarray');
 const utils = require('./tinymce-utils');
 
 const attrsMatcher = /(data-)?([\w\d\-]+?)="(.+?)"/g;

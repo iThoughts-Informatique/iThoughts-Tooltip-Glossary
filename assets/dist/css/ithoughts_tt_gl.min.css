@@ -134,26 +134,26 @@
   width: 100%;
   z-index: 10000000; }
 
-.itg-glossary > a, .itg-glossary > a:hover, .itg-glossary > a:visited, .itg-glossary > a:active,
-.itg-tooltip > a,
-.itg-tooltip > a:hover,
-.itg-tooltip > a:visited,
-.itg-tooltip > a:active,
-.itg-mediatip > a,
-.itg-mediatip > a:hover,
-.itg-mediatip > a:visited,
-.itg-mediatip > a:active {
+a.itg-glossary, a.itg-glossary:hover, a.itg-glossary:visited, a.itg-glossary:active,
+a.itg-tooltip,
+a.itg-tooltip:hover,
+a.itg-tooltip:visited,
+a.itg-tooltip:active,
+a.itg-mediatip,
+a.itg-mediatip:hover,
+a.itg-mediatip:visited,
+a.itg-mediatip:active {
   box-shadow: none;
   text-decoration: overline underline; }
-.itg-glossary.itg-notfound > a, .itg-glossary.itg-notfound > a:hover, .itg-glossary.itg-notfound > a:visited, .itg-glossary.itg-notfound > a:active,
-.itg-tooltip.itg-notfound > a,
-.itg-tooltip.itg-notfound > a:hover,
-.itg-tooltip.itg-notfound > a:visited,
-.itg-tooltip.itg-notfound > a:active,
-.itg-mediatip.itg-notfound > a,
-.itg-mediatip.itg-notfound > a:hover,
-.itg-mediatip.itg-notfound > a:visited,
-.itg-mediatip.itg-notfound > a:active {
+a.itg-glossary.itg-notfound, a.itg-glossary.itg-notfound:hover, a.itg-glossary.itg-notfound:visited, a.itg-glossary.itg-notfound:active,
+a.itg-tooltip.itg-notfound,
+a.itg-tooltip.itg-notfound:hover,
+a.itg-tooltip.itg-notfound:visited,
+a.itg-tooltip.itg-notfound:active,
+a.itg-mediatip.itg-notfound,
+a.itg-mediatip.itg-notfound:hover,
+a.itg-mediatip.itg-notfound:visited,
+a.itg-mediatip.itg-notfound:active {
   text-decoration: underline wavy; }
 
 /****************************************************

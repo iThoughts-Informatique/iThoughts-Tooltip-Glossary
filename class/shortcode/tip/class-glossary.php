@@ -240,7 +240,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 			// Set classes.
 			$attributes['class'] = 'itg-glossary' . ((isset( $attributes['class'] ) && $attributes['class']) ? ' ' . $attributes['class'] : '');
 			if(!$term instanceof \WP_Post){
-				$attributes['class'] .= ' itg-notfound';
+				$attributes['class'] .= ' itg-invalid';
 			}
 
 			$datas = apply_filters( 'ithoughts_tt_gl-split-attributes', $attributes );

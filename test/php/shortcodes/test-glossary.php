@@ -53,25 +53,25 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 		);
 		// With not found
 		$this->assertDiscardWhitespace(
-			'<a class="itg-glossary itg-notfound" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			'<a class="itg-glossary itg-invalid" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
 				'termcontent' => 'full',
 			))
 		);
 		$this->assertDiscardWhitespace(
-			'<a class="itg-glossary itg-notfound" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			'<a class="itg-glossary itg-invalid" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
 				'termcontent' => 'excerpt',
 			))
 		);
 		$this->assertDiscardWhitespace(
-			'<a class="itg-glossary itg-notfound" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			'<a class="itg-glossary itg-invalid" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
 				'termcontent' => 'off',
 			))
 		);
 		$this->assertDiscardWhitespace(
-			'<a class="itg-glossary itg-notfound" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			'<a class="itg-glossary itg-invalid" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, 'NOT_FOUND', array(
 				'termcontent' => 'off',
 			))
@@ -83,7 +83,7 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 		);
 		// Default title with not found
 		$this->assertDiscardWhitespace(
-			'<a class="itg-glossary itg-notfound" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.esc_html__('Not found', 'ithoughts-tooltip-glossary').'</a>',
+			'<a class="itg-glossary itg-invalid" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.esc_html__('Not found', 'ithoughts-tooltip-glossary').'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', NULL, NOT_FOUND_ID)
 		);
 	}
@@ -120,19 +120,19 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 		);
 		// With not found
 		$this->assertDiscardWhitespace(
-			'<a class="itg-glossary itg-notfound" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			'<a class="itg-glossary itg-invalid" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
 				'termcontent' => 'full',
 			))
 		);
 		$this->assertDiscardWhitespace(
-			'<a class="itg-glossary itg-notfound" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			'<a class="itg-glossary itg-invalid" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
 				'termcontent' => 'excerpt',
 			))
 		);
 		$this->assertDiscardWhitespace(
-			'<a class="itg-glossary itg-notfound" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
+			'<a class="itg-glossary itg-invalid" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
 				'termcontent' => 'off',
 			))
