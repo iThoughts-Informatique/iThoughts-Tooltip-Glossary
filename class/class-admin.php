@@ -513,6 +513,32 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					),
 				)
 			);
+			$options_inputs['glossary-contenttype'] = Input::create_select_input(
+				'glossary-contenttype',
+				array(
+					'selected' => $options['glossary-contenttype'],
+					'options'  => array(
+						'full'	=> array(
+							'text'	=> __( 'Full', 'ithoughts-tooltip-glossary' ),
+							'attributes'	=> array(
+								'title'	=> __( 'Display full post content', 'ithoughts-tooltip-glossary' ),
+							),
+						),
+						'excerpt'	=> array(
+							'text'	=> __( 'Excerpt', 'ithoughts-tooltip-glossary' ),
+							'attributes'	=> array(
+								'title'	=> __( 'Display shorter excerpt content', 'ithoughts-tooltip-glossary' ),
+							),
+						),
+						'off'	=> array(
+							'text'	=> __( 'Off', 'ithoughts-tooltip-glossary' ),
+							'attributes'	=> array(
+								'title'	=> __( 'Do not display tooltip at all', 'ithoughts-tooltip-glossary' ),
+							),
+						),
+					),
+				)
+			);
 			$options_inputs['staticterms'] = Input::create_check_input(
 				'staticterms',
 				array(
@@ -581,32 +607,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					'value' => $options['grouptype'],
 				)
 			);
-			$options_inputs['glossary-contenttype'] = Input::create_select_input(
-				'glossary-contenttype',
-				array(
-					'selected' => $options['glossary-contenttype'],
-					'options'  => array(
-						'full'	=> array(
-							'text'	=> __( 'Full', 'ithoughts-tooltip-glossary' ),
-							'attributes'	=> array(
-								'title'	=> __( 'Display full post content', 'ithoughts-tooltip-glossary' ),
-							),
-						),
-						'excerpt'	=> array(
-							'text'	=> __( 'Excerpt', 'ithoughts-tooltip-glossary' ),
-							'attributes'	=> array(
-								'title'	=> __( 'Display shorter excerpt content', 'ithoughts-tooltip-glossary' ),
-							),
-						),
-						'off'	=> array(
-							'text'	=> __( 'Off', 'ithoughts-tooltip-glossary' ),
-							'attributes'	=> array(
-								'title'	=> __( 'Do not display tooltip at all', 'ithoughts-tooltip-glossary' ),
-							),
-						),
-					),
-				)
-			);
 			$options_inputs['termscomment'] = Input::create_check_input(
 				'termscomment',
 				array(
@@ -621,6 +621,22 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					),
 				)
 			);
+			$options_inputs['use_cdn'] = Input::create_check_input(
+				'use_cdn',
+				array(
+					'radio' => false,
+					'selected' => $options['use_cdn'] ? 'enabled' : NULL,
+					'options' => array(
+						'enabled' => array(
+							'attributes' => array(
+								'id' => 'use_cdn',
+							),
+						),
+					),
+				)
+			);
+			
+			
 			$options_inputs['qtipstyle'] = Input::create_select_input(
 				'qtipstyle',
 				array(
@@ -740,6 +756,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$post_values['staticterms'] = TB::checkbox_to_bool( $post_values,'staticterms', 'enabled' );
 			$post_values['exclude_search'] = TB::checkbox_to_bool( $post_values,'exclude_search', 'enabled' );
 			$post_values['forceloadresources'] = TB::checkbox_to_bool( $post_values,'forceloadresources', 'enabled' );
+			$post_values['use_cdn'] = TB::checkbox_to_bool( $post_values,'use_cdn', 'enabled' );
 			$post_values['verbosity'] = intval( $post_values['verbosity'] );
 			$post_values['termscomment'] = TB::checkbox_to_bool( $post_values,'termscomment', 'enabled' );
 			if ( isset( $post_values['qtipstylecustom'] ) && strlen( trim( $post_values['qtipstylecustom'] ) ) > 0 ) {
