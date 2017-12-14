@@ -508,7 +508,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			check_ajax_referer( 'ithoughts_tt_gl-get_term_details' );
 			$statii = array( 'publish', 'private' );
 			$term   = null;
-			if ( isset( $_GET['termid'] ) ) { // Input var okay.
+			if ( isset( $_GET['glossaryId'] ) ) { // Input var okay.
 				$glossary_id = absint( $_GET['glossaryId'] ); // Input var okay.
 				if ( function_exists( 'icl_object_id' ) ) {
 					if ( ! (isset( $_GET['disable_auto_translation'] ) && 0 !== absint( $_GET['disable_auto_translation'] )) ) { // Input var okay.

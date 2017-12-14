@@ -24,7 +24,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		var maybePrefixAttribute = function maybePrefixAttribute(attrName) {
 			// If the key is not an HTML attribute and is not `data-` prefixed, prefix it
 			if (!htmlAttrs.includes(attrName) && !attrName.startsWith('data-')) {
-				return " data-" + attrName;
+				return "data-" + attrName;
 			} else {
 				return attrName;
 			}
@@ -156,10 +156,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			}
 		};
 
-		var linksTouch = new WeakMap();
+		var linksTouch = new Map();
 		var linksExpanded = new WeakMap();
 		$('body').bind('click touch', function (event) {
-			linksTouch.forEach(function (link) {
+			linksTouch.forEach(function (touch, link) {
 				var $link = $(link);
 				if (0 === $(event.target).closest($link).length) {
 					linksExpanded.set(link, false);
@@ -203,10 +203,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			}
 		};
 
-		var doTipRender = function doTipRender(props, event, api) {
+		var doTipRender = function doTipRender(renderFcts, props, event, api) {
 			var _this = this;
 
-			console.log(this, arguments);
 			$(this).css({
 				maxWidth: props.maxWidth
 			});
@@ -219,6 +218,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					return hook.call(_this, event, api);
 				});
 			}
+		};
+		var getRedimInfos = function getRedimInfos(element) {
+			if (1 === element.length && ('IFRAME' === element[0].nodeName && element[0].src.match(/youtube|dailymotion/) || 'VIDEO' === element[0].nodeName)) {
+				return redimVid(element);
+			} else {
+				itg.warn('Not an IFRAME from youtube OR a VIDEO', element);
+			}
+		};
+		var bindLockOnPinClick = function bindLockOnPinClick(event, api) {
+			// Grab the tooltip element from the API elements object
+			// Notice the 'tooltip' prefix of the event name!
+			api.elements.title.find(".itg_pin_container").click(function clickPinKeepOpen() {
+				if ($(this).toggleClass('pined').hasClass('pined')) {
+					api.disable();
+				} else {
+					api.enable();
+				}
+			});
 		};
 
 		var defaultComonTipOptions = {
@@ -265,6 +282,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				// ## Init tooltip
 				var $tooltipLink = $(tooltipLink);
 
+				var renderFcts = [];
 				var qTipConfigComponents = [];
 
 				/* Use provided data or use the default settings */
@@ -294,33 +312,28 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				var classes = takeAttr('tip-classes', '');
 				var tipShadow = takeAttr('tip-shadow', itg.qtipshadow);
 				var tipRounded = takeAttr('tip-rounded', itg.qtiprounded);
-				var tipClasses = classes.split(/\s+/).concat(["qtip-" + tipStyle, tipShadow ? 'qtip-shadow' : false, tipRounded ? ' qtip-rounded' : false]).join(' ');
-				qTipConfigComponents.push({ style: { classes: tipClasses } });
 
-				var title = takeAttr('title', tooltipLink.textContent);
 				qTipConfigComponents.push({
 					position: {
 						at: takeAttr('position-at', 'top center'), // Position the tooltip above the link
 						my: takeAttr('position-my', 'bottom center') // The tip corner goes down
 					},
-					content: {
-						// Before doing API call, define the content with `Please wait` texts
-						title: {
-							text: title
-						}
-					},
 					events: {
-						render: doTipRender.bind(null, {
+						render: doTipRender.bind(null, renderFcts, {
 							maxWidth: takeAttr('tip-maxwidth'),
 							animDuration: takeAttr('anim-duration', itg.anims.duration)
 						})
 					}
 				});
 
+				var title = takeAttr('title', tooltipLink.textContent);
+				var content = void 0;
+				var tipClasses = classes.split(/\s+/).concat(["qtip-" + tipStyle, tipShadow ? 'qtip-shadow' : false, tipRounded ? ' qtip-rounded' : false]);
+
 				if ($tooltipLink.hasClass('itg-glossary')) {
 					// ### Glossary tips
 					itg.info('Do init a GLOSSARYTIP');
-					qTipConfigComponents.push({ style: { classes: tipClasses + " itg-glossary" } });
+					tipClasses.push('itg-glossary');
 					var contenttype = takeAttr('glossary-contenttype', itg.contenttype);
 					if (contenttype !== 'off') {
 						var glossaryId = takeAttr('glossary-id');
@@ -338,8 +351,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 								ajaxPostData['disable_auto_translation'] = true;
 							}
 							// #### Load via Ajax
-							qTipConfigComponents.push({ content: {
-									text: itg.lang.qtip.pleasewait_ajaxload.content,
+							content = itg.lang.qtip.pleasewait_ajaxload.content, qTipConfigComponents.push({ content: {
 									ajax: {
 										// Use the [admin_ajax](http://www.google.com) endpoint provided by wordpress
 										url: itg.admin_ajax,
@@ -363,27 +375,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 								} });
 						} else if (!isNA(glossaryContent)) {
 							// #### Static term
-							qTipConfigComponents.push({ content: { text: glossaryContent } });
+							content = glossaryContent;
 						}
 					}
 				} else if ($tooltipLink.hasClass("itg-tooltip")) {
 					// ### Tooltip
 					itg.info('Do init a TOOLTIP');
-					qTipConfigComponents.push({
-						style: {
-							classes: tipClasses + " itg-tooltip"
-						},
-						content: {
-							text: itg.replaceQuotes(takeAttr('tooltip-content', ''), false) /*.replace(/&/g, '&amp;')*/
-						}
-					});
+					tipClasses.push('itg-tooltip');
+					content = itg.replaceQuotes(takeAttr('tooltip-content', ''), false);
 				} else if ($tooltipLink.hasClass("itg-mediatip")) {
 					// ### Mediatip
 					itg.info('Do init a MEDIATIP');
+					tipClasses.push('itg-mediatip');
 					qTipConfigComponents.push({
-						style: {
-							classes: tipClasses + "itg-mediatip"
-						},
 						position: {
 							adjust: {
 								scroll: false
@@ -400,14 +404,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					var source = takeAttr('mediatip-source');
 
 					var caption = takeAttr('mediatip-caption', '');
-
-					var content = void 0;
 					if (caption) {
 						content = "<div class=\"ithoughts_tt_gl-caption\">" + itg.replaceQuotes(caption, false) + "</div>";
 					}
 
 					switch (type) {
 						case 'localimage':
+						case 'webimage':
 							{
 								// #### Image
 								var attrs = new OptArray({
@@ -421,41 +424,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 								content = "<img " + attrs.toString() + ">" + content;
 							}break;
-					}
-					if ($tooltipLink.data('mediatip-image')) {} else if ($tooltipLink.data('mediatip-html')) {
-						var replacedText = itg.replaceQuotes(comon.htmlDecode(text).trim(), false);
-						var text = $tooltipLink.data('mediatip-html'),
-						    redimedInfos = function getRedimInfos(element) {
-							if (1 === element.length && ('IFRAME' === element[0].nodeName && element[0].src.match(/youtube|dailymotion/) || 'VIDEO' === element[0].nodeName)) {
-								return redimVid(element);
-							} else {
-								itg.warn('Not an IFRAME from youtube OR a VIDEO', element);
-							}
-						}($($.parseHTML(replacedText)));
-						renderFcts.push(function (event, api) {
-							// Grab the tooltip element from the API elements object
-							// Notice the 'tooltip' prefix of the event name!
-							api.elements.title.find(".itg_pin_container").click(function clickPinKeepOpen() {
-								if ($(this).toggleClass('pined').hasClass('pined')) {
-									api.disable();
-								} else {
-									api.enable();
-								}
-							});
-						});
-						// #### Iframe / HTML
-						extend(true, tooltipTypeSpecific, {
-							content: {
-								text: redimedInfos['text'],
-								title: {
-									text: "<span class=\"itg_pin_container\"><svg viewBox=\"0 0 26 26\" class=\"itg_pin\"><use xlink:href=\"#icon-pin\"></use></svg></span><span class=\"ithoughts_tt_gl-title_with_pin\">" + tooltipTypeSpecific.content.title.text + "</span>"
-								}
-							},
-							style: {
-								width: redimedInfos['dims']['width']
-							}
-						});
-						tooltipTypeSpecific.style.classes += ' ithoughts_tt_gl-force_no_pad ithoughts_tt_gl-video_tip ithoughts_tt_gl-with_pin';
+
+						case 'webvideo':
+							{
+								var replacedText = itg.replaceQuotes(comon.htmlDecode(source).trim(), false);
+								var $video = $($.parseHTML(replacedText));
+								var redimedInfos = getRedimInfos($video);
+								renderFcts.push(bindLockOnPinClick);
+								console.log(redimedInfos);
+								// #### Iframe / HTML
+								content = "" + redimedInfos['text'] + content;
+								title = "<span class=\"itg_pin_container\"><svg viewBox=\"0 0 26 26\" class=\"itg_pin\"><use xlink:href=\"#icon-pin\"></use></svg></span><span class=\"ithoughts_tt_gl-title_with_pin\">" + title + "</span>";
+								qTipConfigComponents.push({ style: {
+										width: redimedInfos['dims']['width']
+									} });
+								tipClasses.push('itg-mediatip', 'ithoughts_tt_gl-force_no_pad', 'ithoughts_tt_gl-video_tip', 'ithoughts_tt_gl-with_pin');
+							}break;
 					}
 				} else {
 					return;
@@ -463,21 +447,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 				// ## Override defaults
 				if ('true' === $tooltipLink.data('tip-autoshow')) {
-					extend(true, tooltipOverrides, {
-						show: {
+					qTipConfigComponents.push({ show: {
 							ready: true
-						}
-					});
+						} });
 				}
 				if ('true' === $tooltipLink.data('tip-nosolo')) {
-					extend(true, tooltipOverrides, {
-						show: {
+					qTipConfigComponents.push({ show: {
 							solo: false
-						}
-					});
+						} });
 				}
 				if ('true' === $tooltipLink.data('tip-nohide')) {
-					extend(true, tooltipOverrides, {
+					qTipConfigComponents.push({
 						hide: 'someevent',
 						show: {
 							event: 'someevent'
@@ -485,30 +465,38 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					});
 				}
 				if ($tooltipLink.data('tip-id')) {
-					extend(true, tooltipOverrides, {
-						id: $tooltipLink.data('tip-id')
-					});
+					qTipConfigComponents.push({ id: $tooltipLink.data('tip-id') });
 				}
 				if ($tooltipLink.data('qtip-keep-open') || $tooltipLink.hasClass("itg-mediatip")) {
-					extend(true, tooltipOverrides, {
-						hide: {
+					qTipConfigComponents.push({ hide: {
 							fixed: true,
 							delay: 250
-						}
-					});
+						} });
 				}
 				if ('true' === $tooltipLink.data('tip-prerender')) {
-					extend(true, tooltipOverrides, {
+					qTipConfigComponents.push({
 						prerender: true
 					});
 				}
 
-				var tooltipOpts = extend(true, tooltipComon, tooltipTypeSpecific, tooltipOverrides, qTipEvents);
+				var tooltipOpts = extend.apply(undefined, [true, {}].concat(qTipConfigComponents, [{
+					content: {
+						title: title,
+						text: content
+					},
+					style: {
+						classes: tipClasses.filter(function (v) {
+							return !!v;
+						}).join(' ')
+					}
+				}]));
+
+				itg.log('Final tooltip options: ', tooltipLink, tooltipOpts);
 
 				$tooltipLink.qtip(tooltipOpts);
 
 				//Remove title for tooltip, causing double tooltip
-				$tooltipLink.find('a[title]').removeAttr('title');
+				$tooltipLink.removeAttr('title');
 			});
 		};
 

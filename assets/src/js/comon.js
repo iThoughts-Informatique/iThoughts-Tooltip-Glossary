@@ -5,7 +5,7 @@ const htmlAttrs = ['href', 'title'];
 const maybePrefixAttribute = attrName => {
 	// If the key is not an HTML attribute and is not `data-` prefixed, prefix it
 	if ( !htmlAttrs.includes(attrName) && !attrName.startsWith('data-')) {
-		return ` data-${  attrName  }`;
+		return `data-${  attrName  }`;
 	} else {
 		return attrName;
 	}
