@@ -69,15 +69,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 												<th>
 													<label for="<?php echo esc_attr($options_inputs['staticterms']->get_id()); ?>"><?php esc_html_e( 'Static terms', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php
 														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', '(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'Include term content directly into the pages to avoid use of Ajax. This can slow down your page generation.', 'ithoughts-tooltip-glossary' ), array(
-															'attributes' => array(
-																'tooltip-nosolo' => 'true',
-															),
+															'tip-nosolo' => 'true',
 														) );
 														echo wp_kses(
 															$tooltip,
 															array(
 																'span' => array(
-																	'tooltip-nosolo' => true,
+																	'data-tip-nosolo' => true,
 																	'class' => true,
 																	'data-tooltip-content' => true,
 																),
@@ -97,15 +95,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 												<th>
 													<label for="<?php echo esc_attr($options_inputs['forceloadresources']->get_id()); ?>"><?php esc_html_e( 'Force load resources', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php
 														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', '(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'Load scripts on every pages, even if not required. This option can be useful if some cache plugins are active, or if you think that scripts are not loaded when required.', 'ithoughts-tooltip-glossary' ), array(
-															'attributes' => array(
-																'tooltip-nosolo' => 'true',
-															),
+															'tip-nosolo' => 'true',
 														) );
 														echo wp_kses(
 															$tooltip,
 															array(
 																'span' => array(
-																	'tooltip-nosolo' => true,
+																	'data-tip-nosolo' => true,
 																	'class' => true,
 																	'data-tooltip-content' => true,
 																),
@@ -139,17 +135,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 																)
 															),
 															array(
-																'attributes' => array(
-																	'data-tooltip-nosolo' => 'true',
-																	'data-qtip-keep-open' => 'true',
-																),
+																'tip-nosolo' => 'true',
+																'qtip-keep-open' => 'true',
 															)
 														);
 														echo wp_kses(
 															$tooltip,
 															array(
 																'span' => array(
-																	'tooltip-nosolo' => true,
+																	'data-tip-nosolo' => true,
 																	'class' => true,
 																	'data-tooltip-content' => true,
 																),
@@ -197,10 +191,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr>
 												<th>
-													<label for="<?php echo esc_attr($options_inputs['termcontent']->get_id()); ?>"><?php esc_html_e( 'Glossary Tip Content', 'ithoughts-tooltip-glossary' ); ?>:</label>
+													<label for="<?php echo esc_attr($options_inputs['glossary-contenttype']->get_id()); ?>"><?php esc_html_e( 'Glossary Tip Content', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<?php $options_inputs['termcontent']->print(); ?>
+													<?php $options_inputs['glossary-contenttype']->print(); ?>
 												</td>
 											</tr>
 											<tr>
@@ -251,15 +245,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 														<th>
 															<label for="<?php echo esc_attr($options_inputs['qtipshadow']->get_id()); ?>"><?php esc_html_e( 'Tooltip shadow', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php
 																$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip','(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array(
-																	'attributes' => array(
-																		'tooltip-nosolo' => 'true',
-																	),
+																	'tip-nosolo' => 'true',
 																) );
 																echo wp_kses(
 																	$tooltip,
 																	array(
 																		'span' => array(
-																			'tooltip-nosolo' => true,
+																			'data-tip-nosolo' => true,
 																			'class' => true,
 																			'data-tooltip-content' => true,
 																		),
@@ -278,15 +270,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 															<label for="<?php echo esc_attr($options_inputs['qtiprounded']->get_id()); ?>"><?php esc_html_e( 'Rounded corners', 'ithoughts-tooltip-glossary' ); ?>&nbsp;
 																<?php
 																$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip','(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array(
-																	'attributes' => array(
-																		'tooltip-nosolo' => 'true',
-																	),
+																	'tip-nosolo' => 'true',
 																) );
 																echo wp_kses(
 																	$tooltip,
 																	array(
 																		'span' => array(
-																			'tooltip-nosolo' => true,
+																			'data-tip-nosolo' => true,
 																			'class' => true,
 																			'data-tooltip-content' => true,
 																		),
@@ -318,13 +308,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<div style="flex:1 1 auto;;position:relative;">
 											<div id="floater" style="display:flex;flex-direction:row;width:100%;">
 												<p style="flex:1 1 auto;text-align:center;">
-													<span class="itg-tooltip" data-tooltip-autoshow="true" data-tooltip-prerender="true" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php
+													<a href="javascript:void(0)" title="<?php esc_attr_e('Example tip', 'ithoughts-tooltip-glossary'); ?>" class="itg-tooltip" data-tip-autoshow="true" data-tip-prerender="true" data-tip-id="exampleStyle" data-tip-nosolo="true" data-tip-nohide="true" data-tooltip-content="<?php
 													echo esc_attr( wp_kses( __( 'This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts-tooltip-glossary' ), array(
 														'a' => array(),
 														'em' => array(),
 														'b' => array(),
 														'i' => array(),
-													) ) ); ?>"><a href="javascript:void(0)" title=""><?php esc_html_e( 'Example Tooltip', 'ithoughts-tooltip-glossary' ); ?></a></span>
+													) ) ); ?>"><?php esc_html_e( 'Example Tooltip', 'ithoughts-tooltip-glossary' ); ?></a>
 												</p>
 											</div>
 										</div>

@@ -224,7 +224,7 @@ const editorForms = {
 					mediatip_caption: takeAttr( 'mediatip-caption' ),
 					type:             [ 'glossary', 'tooltip', 'mediatip' ][tipsTypes.indexOf( takeAttr( 'type' ))],
 					opts:             {
-						termcontent:      takeAttr( 'termcontent' ),
+						contenttype:      takeAttr( 'glossary-contenttype' ),
 						'qtip-keep-open': 'true' === takeAttr( 'qtip-keep-open' ),
 						qtiprounded:      tristate( takeAttr( 'qtiprounded' )),
 						qtipshadow:       tristate( takeAttr( 'qtipshadow' )),
@@ -310,7 +310,7 @@ const editorForms = {
 					const optsAttrs = ( opts && opts.attributes ) || {};
 
 					if ( !isNA( opts )) {
-						optArr.maybeAddOpt( opts['qtip-content'], 'data-termcontent', opts['qtip-content']);
+						optArr.maybeAddOpt( opts['qtip-content'], 'data-glossary-contenttype', opts['qtip-content']);
 						optArr.maybeAddOpt( opts['qtip-keep-open'], 'data-qtip-keep-open', 'true' );
 						optArr.maybeAddOpt( !isNA( opts.qtiprounded ), 'data-qtiprounded', String( opts.qtiprounded ));
 						optArr.maybeAddOpt( !isNA( opts.qtipshadow ), 'data-qtipshadow', String( opts.qtipshadow ));

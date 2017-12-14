@@ -140,7 +140,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				'qtiptrigger'   => $this->get_option( 'qtiptrigger' ),
 				'qtipshadow'    => $this->get_option( 'qtipshadow' ),
 				'qtiprounded'   => $this->get_option( 'qtiprounded' ),
-				'termcontent'	=> $this->get_option( 'termcontent' ),
+				'contenttype'	=> $this->get_option( 'glossary-contenttype' ),
 				'verbosity'     	=> $this->get_option( 'verbosity' ),
 				'anims'			=> array(
 					'in'	=> $this->get_option( 'anim_in' ),

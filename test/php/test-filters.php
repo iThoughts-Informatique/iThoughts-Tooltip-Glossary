@@ -48,10 +48,10 @@ class ITGFiltersTest extends WP_UnitTestCase {
 
 		$this->assertEquals(array(
 			'handled' => array(),
-			'serverSide' => array('termcontent' => 'bar'),
-			'clientSide' => array('termcontent' => 'bar'),
+			'serverSide' => array('glossary-contenttype' => 'bar'),
+			'clientSide' => array('glossary-contenttype' => 'bar'),
 			'attributes' => array(),
-		), $this->filters_class->split_attrs(array('termcontent' => 'bar')));
+		), $this->filters_class->split_attrs(array('glossary-contenttype' => 'bar')));
 	}
 	
 	function test_split_attrs_filter() {
@@ -85,9 +85,9 @@ class ITGFiltersTest extends WP_UnitTestCase {
 
 		$this->assertEquals(array(
 			'handled' => array(),
-			'serverSide' => array('termcontent' => 'bar'),
-			'clientSide' => array('termcontent' => 'bar'),
+			'serverSide' => array('glossary-contenttype' => 'bar'),
+			'clientSide' => array('glossary-contenttype' => 'bar'),
 			'attributes' => array(),
-		), apply_filters('ithoughts_tt_gl-split-attributes', array('termcontent' => 'bar')));
+		), apply_filters('ithoughts_tt_gl-split-attributes', array('glossary-contenttype' => 'bar')));
 	}
 }

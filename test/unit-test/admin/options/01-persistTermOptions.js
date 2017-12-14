@@ -38,7 +38,7 @@ casper.start( config.test_site.site_url + '/wp-admin', function start() {
 		verbosity:          pickDifferentOption([ '0', '1', '2', '3', '4' ], beforeValues.verbosity ),
 		termtype:           pickDifferentOption([ 'glossary', 'term', 'word' ], beforeValues.termtype ),
 		grouptype:          pickDifferentOption([ 'group', 'subject' ], beforeValues.grouptype ),
-		termcontent:        pickDifferentOption( pickPossibleOptions( '#termcontent' ), beforeValues.termcontent ),
+		contenttype:        pickDifferentOption( pickPossibleOptions( '#glossary-contenttype' ), beforeValues.contenttype ),
 		termscomment:       !beforeValues.termscomment,
 		staticterms:        !beforeValues.staticterms,
 		forceloadresources: !beforeValues.forceloadresources,

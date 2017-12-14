@@ -166,7 +166,7 @@ switch ( substr( get_locale(), 0, 2 ) ) {
 						<div style="flex:1 1 auto;position:relative;">
 							<div id="floater" style="display:flex;flex-direction:row;width:100%;">
 								<p style="flex:1 1 auto;text-align:center">
-									<span class="itg-tooltip" data-tooltip-autoshow="true" data-qtipstyle="<?php echo esc_attr( $themename ); ?>" data-tooltip-id="exampleStyle" data-tooltip-nosolo="true" data-tooltip-nohide="true" data-tooltip-content="<?php esc_attr_e( 'This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts-tooltip-glossary' ); ?>"><a href="javascript:void(0)" title=""><?php esc_html_e( 'Example Tooltip', 'ithoughts-tooltip-glossary' ); ?></a></span>
+									<span class="itg-tooltip" data-tip-autoshow="true" data-qtipstyle="<?php echo esc_attr( $themename ); ?>" data-tip-id="exampleStyle" data-tip-nosolo="true" data-tip-nohide="true" data-tooltip-content="<?php esc_attr_e( 'This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts-tooltip-glossary' ); ?>"><a href="javascript:void(0)" title=""><?php esc_html_e( 'Example Tooltip', 'ithoughts-tooltip-glossary' ); ?></a></span>
 								</p>
 							</div>
 						</div>

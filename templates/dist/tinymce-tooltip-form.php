@@ -37,7 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															$tooltip,
 															array(
 																'span' => array(
-																	'tooltip-nosolo' => true,
+																	'tip-nosolo' => true,
 																	'class' => true,
 																	'data-tooltip-content' => true,
 																),
@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															$tooltip,
 															array(
 																'span' => array(
-																	'tooltip-nosolo' => true,
+																	'tip-nosolo' => true,
 																	'class' => true,
 																	'data-tooltip-content' => true,
 																),
@@ -68,7 +68,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															$tooltip,
 															array(
 																'span' => array(
-																	'tooltip-nosolo' => true,
+																	'tip-nosolo' => true,
 																	'class' => true,
 																	'data-tooltip-content' => true,
 																),
@@ -82,7 +82,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															$tooltip,
 															array(
 																'span' => array(
-																	'tooltip-nosolo' => true,
+																	'tip-nosolo' => true,
 																	'class' => true,
 																	'data-tooltip-content' => true,
 																),

@@ -62,7 +62,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 													$tooltip,
 													array(
 														'span' => array(
-															'tooltip-nosolo' => true,
+															'tip-nosolo' => true,
 															'class' => true,
 															'data-tooltip-content' => true,
 														),
@@ -86,7 +86,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 													$tooltip,
 													array(
 														'span' => array(
-															'tooltip-nosolo' => true,
+															'tip-nosolo' => true,
 															'class' => true,
 															'data-tooltip-content' => true,
 														),
@@ -131,7 +131,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 													$tooltip,
 													array(
 														'span' => array(
-															'tooltip-nosolo' => true,
+															'tip-nosolo' => true,
 															'class' => true,
 															'data-tooltip-content' => true,
 														),
@@ -179,7 +179,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 															$tooltip,
 															array(
 																'span' => array(
-																	'tooltip-nosolo' => true,
+																	'tip-nosolo' => true,
 																	'class' => true,
 																	'data-tooltip-content' => true,
 																),

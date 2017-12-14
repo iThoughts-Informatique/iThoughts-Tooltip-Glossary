@@ -8,7 +8,7 @@ return array(
 		'default'		=> '-1',
 		'type'			=> 0,
 	),
-	'termcontent'		=> array(
+	'glossary-contenttype'		=> array(
 		'default'		=> 'excerpt',
 		'type'			=> Backbone::SERVER_OVR | Backbone::CLIENT_OVR,
 	),

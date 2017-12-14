@@ -64,10 +64,15 @@ const isTrueValue = val => {
 	return false;
 }
 
+const htmlEncode = str => $( '<textarea />' ).text( str ).html();
+const htmlDecode = str => $( '<textarea />' ).html( str ).text();
+
 module.exports = {
 	maybePrefixAttribute,
 	extractAttrs,
 	generateTakeAttr,
 	get,
 	isTrueValue,
+	htmlEncode,
+	htmlDecode,
 };

@@ -23,7 +23,66 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 })({ 1: [function (require, module, exports) {
 		'use strict';
 
-		var OptArray = require('./tinymce-optarray');
+		var _iThoughtsTooltipGlos = iThoughtsTooltipGlossary,
+		    replaceQuotes = _iThoughtsTooltipGlos.replaceQuotes;
+		var isNA = iThoughts.v5.isNA;
+
+		var OptArray = function () {
+			function OptArray(opts) {
+				_classCallCheck(this, OptArray);
+
+				this.opts = {};
+				for (var key in opts) {
+					this.addOpt(key, opts[key]);
+				}
+			}
+
+			_createClass(OptArray, [{
+				key: "addOpt",
+				value: function addOpt(label, value) {
+					var specEncode = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+					label = replaceQuotes(label.trim(), true);
+					if (!label.match(/^[\w_\-]*$/)) {
+						return this;
+					}
+
+					value = String(value).trim();
+					value = !isNA(specEncode) && specEncode ? value.replace(/"/g, '&aquot;').replace(/\n/g, '<br/>') : replaceQuotes(value, true);
+
+					this.opts[label] = value;
+				}
+			}, {
+				key: "maybeAddOpt",
+				value: function maybeAddOpt(addValue, name, value) {
+					if (addValue) {
+						this.addOpt(name, value);
+					}
+				}
+			}, {
+				key: "toString",
+				value: function toString() {
+					var _this = this;
+
+					return Object.keys(this.opts).map(function (key) {
+						return OptArray.generateAttr(key, _this.opts[key]);
+					}).join(' ');
+				}
+			}], [{
+				key: "generateAttr",
+				value: function generateAttr(label, value) {
+					return label + "=\"" + value + "\"";
+				}
+			}]);
+
+			return OptArray;
+		}();
+
+		module.exports = OptArray;
+	}, {}], 2: [function (require, module, exports) {
+		'use strict';
+
+		var OptArray = require('../optarray');
 		var utils = require('./tinymce-utils');
 
 		var attrsMatcher = /(data-)?([\w\d\-]+?)="(.+?)"/g;
@@ -105,58 +164,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				}
 			}
 		};
-	}, { "./tinymce-optarray": 2, "./tinymce-utils": 4 }], 2: [function (require, module, exports) {
-		'use strict';
-
-		var _iThoughtsTooltipGlos = iThoughtsTooltipGlossary,
-		    replaceQuotes = _iThoughtsTooltipGlos.replaceQuotes;
-		var isNA = iThoughts.v5.isNA;
-
-		var OptArray = function () {
-			function OptArray() {
-				_classCallCheck(this, OptArray);
-
-				this.opts = [];
-			}
-
-			_createClass(OptArray, [{
-				key: "addOpt",
-				value: function addOpt(label, value) {
-					var specEncode = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-					var resOpt = OptArray.generateAttr(label, value, specEncode);
-					if (!isNA(resOpt)) {
-						this.opts.push(resOpt);
-					}
-				}
-			}, {
-				key: "maybeAddOpt",
-				value: function maybeAddOpt(addValue, name, value) {
-					if (addValue) {
-						this.addOpt(name, value);
-					}
-				}
-			}, {
-				key: "toString",
-				value: function toString() {
-					return this.opts.join(' ');
-				}
-			}], [{
-				key: "generateAttr",
-				value: function generateAttr(label, value, specEncode) {
-					value = String(value).trim();
-					if (!label.match(/^[\w_\-]*$/)) {
-						return null;
-					}
-					return replaceQuotes(label.trim(), true) + "=\"" + (!isNA(specEncode) && specEncode ? value.replace(/"/g, '&aquot;').replace(/\n/g, '<br/>') : replaceQuotes(value, true)) + "\"";
-				}
-			}]);
-
-			return OptArray;
-		}();
-
-		module.exports = OptArray;
-	}, {}], 3: [function (require, module, exports) {
+	}, { "../optarray": 1, "./tinymce-utils": 4 }], 3: [function (require, module, exports) {
 		/**
    * @file TinyMCE plugin scripts
    *
@@ -170,7 +178,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 		'use strict';
 
-		var _this2 = this;
+		var _this3 = this;
 
 		require('regenerator-runtime/runtime');
 
@@ -187,10 +195,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 		var setToggleable = function setToggleable(element, editor) {
 			return function setToggleState() {
-				var _this = this;
+				var _this2 = this;
 
 				editor.on(element, function (event) {
-					_this.active(event.active);
+					_this2.active(event.active);
 				});
 			};
 		};
@@ -286,7 +294,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 										return _context.stop();
 								}
 							}
-						}, _callee, _this2);
+						}, _callee, _this3);
 					}));
 
 					function onclick() {
@@ -315,7 +323,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 								return _context2.stop();
 						}
 					}
-				}, _callee2, _this2);
+				}, _callee2, _this3);
 			})));
 			// #### Delete tooltip button
 			editor.addButton('glossaryterm-d', {
@@ -359,7 +367,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 										return _context3.stop();
 								}
 							}
-						}, _callee3, _this2);
+						}, _callee3, _this3);
 					}));
 
 					function onclick() {
@@ -388,16 +396,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 								return _context4.stop();
 						}
 					}
-				}, _callee4, _this2);
+				}, _callee4, _this3);
 			})));
 		});
-	}, { "./tinymce-filters": 1, "./tinymce-utils": 4, "regenerator-runtime/runtime": 5 }], 4: [function (require, module, exports) {
+	}, { "./tinymce-filters": 2, "./tinymce-utils": 4, "regenerator-runtime/runtime": 5 }], 4: [function (require, module, exports) {
 		'use strict';
 
-		var _this3 = this;
+		var _this4 = this;
 
 		var removeAccents = require('remove-accents');
-		var OptArray = require('./tinymce-optarray');
+		var OptArray = require('../optarray');
 
 		var ithoughts = iThoughts.v5;
 		var itg = iThoughtsTooltipGlossary;
@@ -470,7 +478,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 								return _context5.stop();
 						}
 					}
-				}, _callee5, _this3);
+				}, _callee5, _this4);
 			}));
 
 			return function sendAjaxQuery(_x4, _x5) {
@@ -681,7 +689,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 												mediatip_caption: takeAttr('mediatip-caption'),
 												type: ['glossary', 'tooltip', 'mediatip'][tipsTypes.indexOf(takeAttr('type'))],
 												opts: {
-													termcontent: takeAttr('termcontent'),
+													contenttype: takeAttr('glossary-contenttype'),
 													'qtip-keep-open': 'true' === takeAttr('qtip-keep-open'),
 													qtiprounded: tristate(takeAttr('qtiprounded')),
 													qtipshadow: tristate(takeAttr('qtipshadow')),
@@ -772,7 +780,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 											var optsAttrs = opts && opts.attributes || {};
 
 											if (!isNA(opts)) {
-												optArr.maybeAddOpt(opts['qtip-content'], 'data-termcontent', opts['qtip-content']);
+												optArr.maybeAddOpt(opts['qtip-content'], 'data-glossary-contenttype', opts['qtip-content']);
 												optArr.maybeAddOpt(opts['qtip-keep-open'], 'data-qtip-keep-open', 'true');
 												optArr.maybeAddOpt(!isNA(opts.qtiprounded), 'data-qtiprounded', String(opts.qtiprounded));
 												optArr.maybeAddOpt(!isNA(opts.qtipshadow), 'data-qtipshadow', String(opts.qtipshadow));
@@ -875,7 +883,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		};
 
 		module.exports = utils;
-	}, { "./tinymce-optarray": 2, "remove-accents": 6 }], 5: [function (require, module, exports) {
+	}, { "../optarray": 1, "remove-accents": 6 }], 5: [function (require, module, exports) {
 		(function (global) {
 			/**
     * Copyright (c) 2014, Facebook, Inc.

@@ -12,7 +12,7 @@
 'use strict';
 
 const comon = require('./comon');
-const OptArray = require('../optarray');
+const OptArray = require('./optarray');
 
 const ithoughts = iThoughts.v5;
 const itg       = iThoughtsTooltipGlossary;
@@ -226,15 +226,15 @@ itg.doInitTooltips = () => {
 			// ### Glossary tips
 			itg.info( 'Do init a GLOSSARYTIP' );
 			qTipConfigComponents.push({ style: { classes: `${ tipClasses } itg-glossary` }});
-			const termcontent = takeAttr('termcontent', itg.termcontent);
-			if(termcontent !== 'off'){
+			const contenttype = takeAttr('glossary-contenttype', itg.contenttype);
+			if(contenttype !== 'off'){
 				const glossaryId = takeAttr('glossary-id');
 				const glossaryContent = takeAttr('glossary-content');
 				if (!isNA(glossaryId) ) {
 					// Define the `ajaxPostData` that will be used bellow to send the request to the API
 					const ajaxPostData = {
 						action:      'ithoughts_tt_gl_get_term_details',
-						content:     termcontent,
+						content:     contenttype,
 						glossaryId:  glossaryId,
 						_ajax_nonce: itg.nonce,
 					};
@@ -304,10 +304,13 @@ itg.doInitTooltips = () => {
 			const type = takeAttr('mediatip-type', false);
 			const source = takeAttr('mediatip-source');
 
-			let caption = takeAttr('mediatip-caption', '');
+			const caption = takeAttr('mediatip-caption', '');
+			
+			let content;
 			if ( caption ) {
-				caption = `<div class="ithoughts_tt_gl-caption">${ itg.replaceQuotes(caption, false }</div>`;
+				content = `<div class="ithoughts_tt_gl-caption">${ itg.replaceQuotes(caption, false) }</div>`;
 			}
+			
 			switch(type){
 				case 'localimage':{
 					// #### Image
@@ -320,15 +323,13 @@ itg.doInitTooltips = () => {
 						extend( attrs.opts, filter.call( attrs.opts ));
 					});
 
-					qTipConfigComponents.push({ content: { text: `<img ${ attrs.toString() }>${caption}` }});
+					content = `<img ${ attrs.toString() }>${content}`;
 				} break;
 			}
 			if ( $tooltipLink.data( 'mediatip-image' )) {
 			} else if ( $tooltipLink.data( 'mediatip-html' )) {
+				const replacedText = itg.replaceQuotes(comon.htmlDecode(text).trim(), false);
 				var text = $tooltipLink.data( 'mediatip-html' ),
-					replacedText = ( function htmlEntitiesDecode() {
-						return $( '<textarea />' ).html( text ).text();
-					}()).trim().replace( /&aquot;/g, '"' ),
 					redimedInfos = ( function getRedimInfos( element ) {
 						if ( 1 === element.length && (( 'IFRAME' === element[0].nodeName && element[0].src.match( /youtube|dailymotion/ )) || 'VIDEO' === element[0].nodeName )) {
 							return redimVid( element );
@@ -336,7 +337,7 @@ itg.doInitTooltips = () => {
 							itg.warn( 'Not an IFRAME from youtube OR a VIDEO', element );
 						}
 					})( $( $.parseHTML( replacedText )));
-				renderFcts.push( function pinableMediaTip( event, api ) {
+				renderFcts.push( ( event, api ) => {
 					// Grab the tooltip element from the API elements object
 					// Notice the 'tooltip' prefix of the event name!
 					api.elements.title.find( `.itg_pin_container` ).click( function clickPinKeepOpen() {
@@ -366,21 +367,21 @@ itg.doInitTooltips = () => {
 		}
 
 		// ## Override defaults
-		if ( 'true' === $tooltipLink.data( 'tooltip-autoshow' )) {
+		if ( 'true' === $tooltipLink.data( 'tip-autoshow' )) {
 			extend( true, tooltipOverrides, {
 				show: {
 					ready: true,
 				},
 			});
 		}
-		if ( 'true' === $tooltipLink.data( 'tooltip-nosolo' )) {
+		if ( 'true' === $tooltipLink.data( 'tip-nosolo' )) {
 			extend( true, tooltipOverrides, {
 				show: {
 					solo: false,
 				},
 			});
 		}
-		if ( 'true' === $tooltipLink.data( 'tooltip-nohide' )) {
+		if ( 'true' === $tooltipLink.data( 'tip-nohide' )) {
 			extend( true, tooltipOverrides, {
 				hide: 'someevent',
 				show: {
@@ -388,9 +389,9 @@ itg.doInitTooltips = () => {
 				},
 			});
 		}
-		if ( $tooltipLink.data( 'tooltip-id' )) {
+		if ( $tooltipLink.data( 'tip-id' )) {
 			extend( true, tooltipOverrides, {
-				id: $tooltipLink.data( 'tooltip-id' ),
+				id: $tooltipLink.data( 'tip-id' ),
 			});
 		}
 		if ( $tooltipLink.data( 'qtip-keep-open' ) || $tooltipLink.hasClass( `itg-mediatip` )) {
@@ -401,7 +402,7 @@ itg.doInitTooltips = () => {
 				},
 			});
 		}
-		if ( 'true' === $tooltipLink.data( 'tooltip-prerender' )) {
+		if ( 'true' === $tooltipLink.data( 'tip-prerender' )) {
 			extend( true, tooltipOverrides, {
 				prerender: true,
 			});

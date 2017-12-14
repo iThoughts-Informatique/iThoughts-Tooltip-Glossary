@@ -163,7 +163,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\RandomTerm' ) ) {
 							if ( $options['staticterms'] ) {
 								$jsdata[] = 'data-term-title="' . esc_attr( $term->post_title ) . '"';
 								$content;
-								switch ( $options['termcontent'] ) {
+								switch ( $options['glossary-contenttype'] ) {
 									case 'full':{
 										$content = $term->post_content;
 									}break;
@@ -180,7 +180,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\RandomTerm' ) ) {
 								$jsdata[] = 'data-term-content="' . esc_attr( $content ) . '"';
 							} else {
 								$jsdata[] = 'data-termid="' . $term->ID . '"';
-								$jsdata[] = 'data-content="' . $options['termcontent'] . '"';
+								$jsdata[] = 'data-content="' . $options['glossary-contenttype'] . '"';
 							}
 
 							$link   = '<a href="' . apply_filters( 'ithoughts_tt_gl_term_link', get_post_permalink( $term->ID ) ) . '" target="_blank" title="' . esc_attr( get_the_title( $term->ID ) ) . '">' . get_the_title( $term->ID ) . '</a>';

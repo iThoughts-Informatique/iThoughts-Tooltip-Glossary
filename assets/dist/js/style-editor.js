@@ -35,7 +35,7 @@
 			ithoughts.$d.ready(function onDocumentReady() {
 				$themeSelect = $('[name="theme_select"]');
 				$themeName = $('[name="theme_name"]');
-				$('[data-tooltip-id="exampleStyle"]').qtip('api').show();
+				$('[data-tip-id="exampleStyle"]').qtip('api').show();
 				var ajaxCallback = function ajaxCallback(res) {
 					if (res.valid) {
 						if (res.hasOwnProperty('css') && res.hasOwnProperty('theme_name')) {

@@ -581,10 +581,10 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					'value' => $options['grouptype'],
 				)
 			);
-			$options_inputs['termcontent'] = Input::create_select_input(
-				'termcontent',
+			$options_inputs['glossary-contenttype'] = Input::create_select_input(
+				'glossary-contenttype',
 				array(
-					'selected' => $options['termcontent'],
+					'selected' => $options['glossary-contenttype'],
 					'options'  => array(
 						'full'	=> array(
 							'text'	=> __( 'Full', 'ithoughts-tooltip-glossary' ),
@@ -1052,7 +1052,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$inputs['qtip-content'] = Input::create_select_input(
 				'qtip-content',
 				array(
-					'selected' => isset( $opts['termcontent'] ) ? $opts['termcontent'] : '',
+					'selected' => isset( $opts['glossary-contenttype'] ) ? $opts['glossary-contenttype'] : '',
 					'options'  => array(
 						'' => __( 'Default', 'ithoughts-tooltip-glossary' ),
 						'full'	=> array(

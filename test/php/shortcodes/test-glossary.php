@@ -30,21 +30,21 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID)
 		);
 		$this->assertDiscardWhitespace(
-			'<a class="itg-glossary" data-glossary-id="'.$post->ID.'" data-termcontent="full" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
+			'<a class="itg-glossary" data-glossary-contenttype="full" data-glossary-id="'.$post->ID.'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID, array(
-				'termcontent' => 'full',
+				'glossary-contenttype' => 'full',
 			))
 		);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary" data-glossary-id="'.$post->ID.'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID, array(
-				'termcontent' => 'excerpt',
+				'glossary-contenttype' => 'excerpt',
 			))
 		);
 		$this->assertDiscardWhitespace(
-			'<a class="itg-glossary" data-glossary-id="'.$post->ID.'" data-termcontent="off" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
+			'<a class="itg-glossary" data-glossary-contenttype="off" data-glossary-id="'.$post->ID.'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID, array(
-				'termcontent' => 'off',
+				'glossary-contenttype' => 'off',
 			))
 		);
 		$this->assertDiscardWhitespace(
@@ -55,25 +55,25 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary itg-invalid" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
-				'termcontent' => 'full',
+				'glossary-contenttype' => 'full',
 			))
 		);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary itg-invalid" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
-				'termcontent' => 'excerpt',
+				'glossary-contenttype' => 'excerpt',
 			))
 		);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary itg-invalid" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
-				'termcontent' => 'off',
+				'glossary-contenttype' => 'off',
 			))
 		);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary itg-invalid" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, 'NOT_FOUND', array(
-				'termcontent' => 'off',
+				'glossary-contenttype' => 'off',
 			))
 		);
 		// Default title
@@ -103,38 +103,38 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary" data-glossary-content="'.esc_attr(apply_filters('ithoughts_tt_gl_glossary_content', $post)).'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID, array(
-				'termcontent' => 'full',
+				'glossary-contenttype' => 'full',
 			))
 		);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary" data-glossary-content="'.esc_attr(apply_filters('ithoughts_tt_gl_glossary_excerpt', $post)).'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID, array(
-				'termcontent' => 'excerpt',
+				'glossary-contenttype' => 'excerpt',
 			))
 		);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, $post->ID, array(
-				'termcontent' => 'off',
+				'glossary-contenttype' => 'off',
 			))
 		);
 		// With not found
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary itg-invalid" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
-				'termcontent' => 'full',
+				'glossary-contenttype' => 'full',
 			))
 		);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary itg-invalid" data-glossary-content="'.esc_attr__('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary').'" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
-				'termcontent' => 'excerpt',
+				'glossary-contenttype' => 'excerpt',
 			))
 		);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary itg-invalid" href="javascript:void(0);" title="'.esc_attr__('Not found', 'ithoughts-tooltip-glossary').'">'.EXAMPLE_TITLE.'</a>',
 			apply_filters( 'ithoughts_tt_gl_glossary', EXAMPLE_TITLE, NOT_FOUND_ID, array(
-				'termcontent' => 'off',
+				'glossary-contenttype' => 'off',
 			))
 		);
 	}
@@ -160,7 +160,7 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 		);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary" data-glossary-content="'.esc_attr(apply_filters('ithoughts_tt_gl_glossary_content', $post_2)).'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post_2->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
-			do_shortcode( '[itg-glossary glossary-id="'.$post_2->ID.'" termcontent="full"]'.EXAMPLE_TITLE.'[/itg-glossary]')
+			do_shortcode( '[itg-glossary glossary-id="'.$post_2->ID.'" glossary-contenttype="full"]'.EXAMPLE_TITLE.'[/itg-glossary]')
 		);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary" data-glossary-content="'.esc_attr(apply_filters('ithoughts_tt_gl_glossary_excerpt', $post_1)).'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post_1->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',
@@ -173,8 +173,8 @@ class ITGGlossaryTest extends WP_UnitTestCase {
 			do_shortcode( '[itg-glossary glossary-id="'.$post_1->ID.'"]'.EXAMPLE_TITLE.'[/itg-glossary]')
 		);
 		$this->assertDiscardWhitespace(
-			'<a class="itg-glossary" data-glossary-id="'.$post_2->ID.'" data-termcontent="full" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post_2->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
-			do_shortcode( '[itg-glossary glossary-id="'.$post_2->ID.'" termcontent="full"]'.EXAMPLE_TITLE.'[/itg-glossary]')
+			'<a class="itg-glossary" data-glossary-contenttype="full" data-glossary-id="'.$post_2->ID.'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post_2->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE_2.'">'.EXAMPLE_TITLE.'</a>',
+			do_shortcode( '[itg-glossary glossary-id="'.$post_2->ID.'" glossary-contenttype="full"]'.EXAMPLE_TITLE.'[/itg-glossary]')
 		);
 		$this->assertDiscardWhitespace(
 			'<a class="itg-glossary" data-glossary-id="'.$post_1->ID.'" href="http://'.WP_TESTS_DOMAIN.'/?glossary='.$post_1->post_name.'" title="'.EXAMPLE_GLOSSARY_TITLE.'">'.EXAMPLE_TITLE.'</a>',

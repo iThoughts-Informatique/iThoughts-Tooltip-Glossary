@@ -164,14 +164,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 			return do_shortcode( apply_filters( 'the_content', $post->post_content ) );
 		}
 
-		public function get_term_attributes( $termcontent, \WP_Post $term = null ){
+		public function get_term_attributes( $contenttype, \WP_Post $term = null ){
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 
 			$attributes = array();
 			if($term instanceof \WP_Post){
 				$attributes['title'] = get_the_title( $term );
 				if ( $backbone->get_option('staticterms') ) {
-					switch ( $termcontent ) {
+					switch ( $contenttype ) {
 						case 'full':{
 							$attributes['glossary-content'] = apply_filters( 'ithoughts_tt_gl_glossary_content', $term );
 						}break;
@@ -181,14 +181,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 						}break;
 					}
 				} else {
-					if($backbone->get_option('termcontent') !== $termcontent){
-						$attributes['termcontent'] = $termcontent;
+					if($backbone->get_option('glossary-contenttype') !== $contenttype){
+						$attributes['glossary-contenttype'] = $contenttype;
 					}
 					$attributes['glossary-id'] = $term->ID;
 				}
 			} else {
 				$attributes['title'] = __('Not found', 'ithoughts-tooltip-glossary');
-				if($termcontent !== 'off'){
+				if($contenttype !== 'off'){
 					$attributes['glossary-content'] = __('Sorry, this glossary does not exists.', 'ithoughts-tooltip-glossary');
 				}
 			}
@@ -253,12 +253,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				}
 			}
 
-			unset($datas['clientSide']['termcontent']);
-			$termcontent = apply_filters('ithoughts_tt_gl_glossary_get_term_attributes', $serverSide['termcontent'], $term);
-			$datas['attributes'] = array_replace_recursive($termcontent, $datas['attributes']);
+			unset($datas['clientSide']['glossary-contenttype']);
+			$contenttype = apply_filters('ithoughts_tt_gl_glossary_get_term_attributes', $serverSide['glossary-contenttype'], $term);
+			$datas['attributes'] = array_replace_recursive($contenttype, $datas['attributes']);
 
 			if ( is_null( $text ) || strlen($text) === 0 ) {
-				$text = $termcontent['title'];
+				$text = $contenttype['title'];
 			}
 
 			// Set the link (if not overriden)
