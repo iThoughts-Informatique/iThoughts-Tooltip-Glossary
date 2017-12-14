@@ -65,6 +65,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<?php $options_inputs['termlinkopt']->print(); ?>
 												</td>
 											</tr>
+											<tr>
+												<th>
+													<label for="<?php echo esc_attr($options_inputs['glossary-contenttype']->get_id()); ?>"><?php esc_html_e( 'Glossary Tip Content', 'ithoughts-tooltip-glossary' ); ?>:</label>
+												</th>
+												<td>
+													<?php $options_inputs['glossary-contenttype']->print(); ?>
+												</td>
+											</tr>
 											<tr class="nonoverridable">
 												<th>
 													<label for="<?php echo esc_attr($options_inputs['staticterms']->get_id()); ?>"><?php esc_html_e( 'Static terms', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php
@@ -189,20 +197,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<?php $options_inputs['exclude_search']->print(); ?>
 												</td>
 											</tr>
-											<tr>
-												<th>
-													<label for="<?php echo esc_attr($options_inputs['glossary-contenttype']->get_id()); ?>"><?php esc_html_e( 'Glossary Tip Content', 'ithoughts-tooltip-glossary' ); ?>:</label>
-												</th>
-												<td>
-													<?php $options_inputs['glossary-contenttype']->print(); ?>
-												</td>
-											</tr>
-											<tr>
+											<tr class="nonoverridable">
 												<th>
 													<label for="<?php echo esc_attr($options_inputs['termscomment']->get_id()); ?>"><?php esc_html_e( 'Enable comments on glossary terms', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
 													<?php $options_inputs['termscomment']->print(); ?><p><em><strong><?php esc_html_e( 'Note:', 'ithoughts-tooltip-glossary' ); ?> </strong><?php esc_html_e( 'You may need to enable manually the comments on each glossary terms posted before enabling this option.', 'ithoughts-tooltip-glossary' ); ?></em></p>
+												</td>
+											</tr>
+											<tr class="nonoverridable">
+												<th>
+													<label for="<?php echo esc_attr($options_inputs['use_cdn']->get_id()); ?>"><?php esc_html_e( 'Use CDN for library files', 'ithoughts-tooltip-glossary' ); ?>:</label>
+												</th>
+												<td>
+													<?php $options_inputs['use_cdn']->print(); ?><p>
 												</td>
 											</tr>
 										</tbody>

@@ -29,7 +29,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 	 * @author Gerkin
 	 */
 	class Backbone extends \ithoughts\v6_0\Backbone {
-        const SERVER_OVR	= 1;
+		const SERVER_OVR	= 1;
 		const CLIENT_OVR	= 2;
 		/**
 		 * Default options values.
@@ -51,7 +51,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		 * @var string[] $handled_attributes
 		 */
 		private $handled_attributes;
-		
+
 		/**
 		 * Construct the plugin main handler.
 		 *
@@ -67,7 +67,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			foreach ( $options_config as $opt => $val ) {
 				$this->default_options[ $opt ] = $val['default'];
 			}
-			
+
 			// Retrieve possible dynamic options
 			$this->clientside_overridable = array();
 			$this->serverside_overridable = array();
@@ -128,9 +128,16 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		 * @author Gerkin
 		 */
 		public function declare_resources() {
-			// Generate all Script resources.
-			$this->declare_resource( 'imagesloaded', 'assets/deps/js/imagesloaded.min.js' );
-			$this->declare_resource( 'qtip', 'assets/deps/jquery.qtip.js', array( 'jquery', 'imagesloaded' ) );
+			if($this->get_option('use_cdn')){
+				$this->declare_resource( 'imagesloaded', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.min.js', array( 'jquery' ) );
+				$this->declare_resource( 'qtip', 'https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.js', array( 'jquery', 'imagesloaded' ) );
+				$this->declare_resource( 'ithoughts_tooltip_glossary-qtip-css', 'https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.min.css' );
+			} else {
+				$this->declare_resource( 'imagesloaded', 'assets/deps/js/imagesloaded.min.js', array( 'jquery' ) );
+				$this->declare_resource( 'qtip', 'assets/deps/jquery.qtip.min.js', array( 'jquery', 'imagesloaded' ) );
+				$this->declare_resource( 'ithoughts_tooltip_glossary-qtip-css', 'assets/deps/jquery.qtip.min.css' );
+			}
+
 			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'assets/dist/js/main.js', array( 'qtip', 'ithoughts-core-v5' ), false, 'iThoughtsTooltipGlossary', array(
 				'admin_ajax'    => admin_url( 'admin-ajax.php' ),
 				// Get the API endpoint. See https://wordpress.stackexchange.com/questions/144822/what-is-the-best-practice-to-check-for-pretty-permalinks.
@@ -159,7 +166,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'assets/dist/js/atoz.js', array( 'jquery', 'ithoughts-core-v5' ) );
 			// Generate all Style resources.
 			$this->declare_resource( 'ithoughts_tooltip_glossary-css', 'assets/dist/css/ithoughts_tt_gl.min.css' );
-			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip-css', 'assets/deps/jquery.qtip.min.css' );
 			if ( isset( $this->options['custom_styles_path'] ) ) {
 				$this->declare_resource( 'ithoughts_tooltip_glossary-customthemes', $this->options['custom_styles_path'] );
 			}
@@ -384,7 +390,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			}
 			return $overridden;
 		}
-		
+
 		/**
 		 * 
 		 * 

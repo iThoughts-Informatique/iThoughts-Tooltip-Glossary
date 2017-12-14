@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	 status_header( 403 );
+	wp_die( 'Forbidden' );// Exit if accessed directly
+}
+
 use \ithoughts\v6_0\LogLevel as LogLevel;
 use \ithoughts\tooltip_glossary\Backbone as Backbone;
 
@@ -77,6 +82,15 @@ return array(
 		'type'			=> Backbone::SERVER_OVR,
 	),
 	'exclude_search'	=> array(
+		'default'		=> false,
+		'type'			=> 0,
+	),
+	// NEW in 4.0.0
+	'use_cdn'		=> array(
+		'default'		=> false,
+		'type'			=> 0,
+	),
+	'index_page'		=> array(
 		'default'		=> false,
 		'type'			=> 0,
 	),
