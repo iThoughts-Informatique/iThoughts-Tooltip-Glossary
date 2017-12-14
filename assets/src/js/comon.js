@@ -1,5 +1,10 @@
 'use strict';
 
+require('regenerator-runtime/runtime');
+
+const ithoughts = iThoughts.v5;
+const {$, isNA} = ithoughts;
+
 const htmlAttrs = ['href', 'title'];
 
 const maybePrefixAttribute = attrName => {
@@ -67,6 +72,37 @@ const isTrueValue = val => {
 const htmlEncode = str => $( '<textarea />' ).text( str ).html();
 const htmlDecode = str => $( '<textarea />' ).html( str ).text();
 
+const sendAjaxQuery = async(action, data, nonce) => {
+	const loader = ithoughts.makeLoader();
+	return new Promise((resolve, reject) => {
+		const sendData = {
+			action:   `ithoughts_tt_gl_${action}`,
+		};
+		if(!isNA(nonce)){
+			sendData._wpnonce = nonce;
+		}
+		if(!isNA(data)){
+			sendData.data = data;
+		}
+		$.ajax({
+			method:	'POST',
+			async:  true,
+			url:    iThoughtsTooltipGlossary.admin_ajax,
+			//			dataType: 'json',
+			data:   sendData,
+			success(data){
+				loader.remove();
+				return resolve(data);
+			},
+			error(xhr){
+				loader.remove();
+				return reject(xhr);
+			},
+		});
+	});
+};
+
+
 module.exports = {
 	maybePrefixAttribute,
 	extractAttrs,
@@ -75,4 +111,5 @@ module.exports = {
 	isTrueValue,
 	htmlEncode,
 	htmlDecode,
+	sendAjaxQuery,
 };

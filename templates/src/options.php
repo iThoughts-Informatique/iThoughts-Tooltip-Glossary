@@ -53,24 +53,56 @@ if ( ! defined( 'ABSPATH' ) ) {
 									),
 								) ); ?></p>
 							<div id="ithoughts_tt_gllossary_options_1" class="postbox">
-								<div class="handlediv" title="Cliquer pour inverser."><br></div><h3 class="hndle"><span><?php esc_html_e( 'Term Options', 'ithoughts-tooltip-glossary' ); ?></span></h3>
+								<div class="handlediv" title="Cliquer pour inverser."><br></div><h3 class="hndle"><span><?php esc_html_e('Glossary options', 'ithoughts-tooltip-glossary'); ?></span></h3>
 								<div class="inside">
 									<table class="form-table">
 										<tbody>
-											<tr>
-												<th>
-													<label for="<?php echo esc_attr($options_inputs['termlinkopt']->get_id()); ?>"><?php esc_html_e( 'Term link', 'ithoughts-tooltip-glossary' ); ?>:</label>
-												</th>
-												<td>
-													<?php $options_inputs['termlinkopt']->print(); ?>
-												</td>
-											</tr>
 											<tr>
 												<th>
 													<label for="<?php echo esc_attr($options_inputs['glossary-contenttype']->get_id()); ?>"><?php esc_html_e( 'Glossary Tip Content', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
 													<?php $options_inputs['glossary-contenttype']->print(); ?>
+												</td>
+											</tr>
+											<tr class="nonoverridable">
+												<th>
+													<label for="<?php echo esc_attr($options_inputs['termtype']->get_id()); ?>"><?php esc_html_e( 'Base Permalink', 'ithoughts-tooltip-glossary' ); ?>:</label>
+												</th>
+												<td>
+													<code>/</code><?php $options_inputs['termtype']->print(); ?><code>/</code>
+												</td>
+											</tr>
+											<tr class="nonoverridable">
+												<th>
+													<label for="<?php echo esc_attr($options_inputs['grouptype']->get_id()); ?>"><?php esc_html_e( 'Taxonomy group prefix', 'ithoughts-tooltip-glossary' ); ?>:</label>
+												</th>
+												<td>
+													<code>/<?php echo esc_html( $options['termtype'] ); ?>/</code><?php $options_inputs['grouptype']->print(); ?><code>/</code>
+												</td>
+											</tr>
+											<tr class="nonoverridable">
+												<th>
+													<label for="<?php echo esc_attr($options_inputs['glossary-index']->get_id()); ?>"><?php esc_html_e( 'Glossary Index page', 'ithoughts-tooltip-glossary' ); ?>:</label>
+												</th>
+												<td>
+													<?php $options_inputs['glossary-index']->print(); ?>
+												</td>
+											</tr>
+											<tr class="nonoverridable">
+												<th>
+													<label for="<?php echo esc_attr($options_inputs['exclude_search']->get_id()); ?>"><?php esc_html_e( 'Exclude from search', 'ithoughts-tooltip-glossary' ); ?>:</label>
+												</th>
+												<td>
+													<?php $options_inputs['exclude_search']->print(); ?>
+												</td>
+											</tr>
+											<tr class="nonoverridable">
+												<th>
+													<label for="<?php echo esc_attr($options_inputs['termscomment']->get_id()); ?>"><?php esc_html_e( 'Enable comments on glossary terms', 'ithoughts-tooltip-glossary' ); ?>:</label>
+												</th>
+												<td>
+													<?php $options_inputs['termscomment']->print(); ?><p><em><strong><?php esc_html_e( 'Note:', 'ithoughts-tooltip-glossary' ); ?> </strong><?php esc_html_e( 'You may need to enable manually the comments on each glossary terms posted before enabling this option.', 'ithoughts-tooltip-glossary' ); ?></em></p>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -99,6 +131,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<?php $options_inputs['staticterms']->print(); ?>
 												</td>
 											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							
+							
+							<div id="ithoughts_tt_gllossary_options_2" class="postbox">
+								<div class="handlediv" title="Cliquer pour inverser."><br></div><h3 class="hndle"><span><?php esc_html_e('General options options', 'ithoughts-tooltip-glossary'); ?></span></h3>
+								<div class="inside">
+									<table class="form-table">
+											<tr>
+												<th>
+													<label for="<?php echo esc_attr($options_inputs['termlinkopt']->get_id()); ?>"><?php esc_html_e( 'Term link', 'ithoughts-tooltip-glossary' ); ?>:</label>
+												</th>
+												<td>
+													<?php $options_inputs['termlinkopt']->print(); ?>
+												</td>
+											</tr>
 											<tr class="nonoverridable">
 												<th>
 													<label for="<?php echo esc_attr($options_inputs['forceloadresources']->get_id()); ?>"><?php esc_html_e( 'Force load resources', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php
@@ -121,6 +171,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</th>
 												<td>
 													<?php $options_inputs['forceloadresources']->print(); ?>
+												</td>
+											</tr>
+											<tr class="nonoverridable">
+												<th>
+													<label for="<?php echo esc_attr($options_inputs['use_cdn']->get_id()); ?>"><?php esc_html_e( 'Use CDN for library files', 'ithoughts-tooltip-glossary' ); ?>:</label>
+												</th>
+												<td>
+													<?php $options_inputs['use_cdn']->print(); ?><p>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -171,46 +229,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</th>
 												<td>
 													<button id="itg-purge" class="button button-link-delete"><?php esc_html_e( 'Empty', 'ithoughts-tooltip-glossary' ); ?></button>
-												</td>
-											</tr>
-											<tr class="nonoverridable">
-												<th>
-													<label for="<?php echo esc_attr($options_inputs['termtype']->get_id()); ?>"><?php esc_html_e( 'Base Permalink', 'ithoughts-tooltip-glossary' ); ?>:</label>
-												</th>
-												<td>
-													<code>/</code><?php $options_inputs['termtype']->print(); ?><code>/</code>
-												</td>
-											</tr>
-											<tr class="nonoverridable">
-												<th>
-													<label for="<?php echo esc_attr($options_inputs['grouptype']->get_id()); ?>"><?php esc_html_e( 'Taxonomy group prefix', 'ithoughts-tooltip-glossary' ); ?>:</label>
-												</th>
-												<td>
-													<code>/<?php echo esc_html( $options['termtype'] ); ?>/</code><?php $options_inputs['grouptype']->print(); ?><code>/</code>
-												</td>
-											</tr>
-											<tr class="nonoverridable">
-												<th>
-													<label for="<?php echo esc_attr($options_inputs['exclude_search']->get_id()); ?>"><?php esc_html_e( 'Exclude from search', 'ithoughts-tooltip-glossary' ); ?>:</label>
-												</th>
-												<td>
-													<?php $options_inputs['exclude_search']->print(); ?>
-												</td>
-											</tr>
-											<tr class="nonoverridable">
-												<th>
-													<label for="<?php echo esc_attr($options_inputs['termscomment']->get_id()); ?>"><?php esc_html_e( 'Enable comments on glossary terms', 'ithoughts-tooltip-glossary' ); ?>:</label>
-												</th>
-												<td>
-													<?php $options_inputs['termscomment']->print(); ?><p><em><strong><?php esc_html_e( 'Note:', 'ithoughts-tooltip-glossary' ); ?> </strong><?php esc_html_e( 'You may need to enable manually the comments on each glossary terms posted before enabling this option.', 'ithoughts-tooltip-glossary' ); ?></em></p>
-												</td>
-											</tr>
-											<tr class="nonoverridable">
-												<th>
-													<label for="<?php echo esc_attr($options_inputs['use_cdn']->get_id()); ?>"><?php esc_html_e( 'Use CDN for library files', 'ithoughts-tooltip-glossary' ); ?>:</label>
-												</th>
-												<td>
-													<?php $options_inputs['use_cdn']->print(); ?><p>
 												</td>
 											</tr>
 										</tbody>
@@ -316,13 +334,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<div style="flex:1 1 auto;;position:relative;">
 											<div id="floater" style="display:flex;flex-direction:row;width:100%;">
 												<p style="flex:1 1 auto;text-align:center;">
-													<a href="javascript:void(0)" title="<?php esc_attr_e('Example tip', 'ithoughts-tooltip-glossary'); ?>" class="itg-tooltip" data-tip-autoshow="true" data-tip-prerender="true" data-tip-id="exampleStyle" data-tip-nosolo="true" data-tip-nohide="true" data-tooltip-content="<?php
-													echo esc_attr( wp_kses( __( 'This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts-tooltip-glossary' ), array(
-														'a' => array(),
-														'em' => array(),
-														'b' => array(),
-														'i' => array(),
-													) ) ); ?>"><?php esc_html_e( 'Example Tooltip', 'ithoughts-tooltip-glossary' ); ?></a>
+													<?php echo apply_filters('ithoughts_tt_gl_tooltip', esc_html__( 'Example Tooltip', 'ithoughts-tooltip-glossary' ), wp_kses( __( 'This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts-tooltip-glossary' ), array(
+	'a' => array(),
+	'em' => array(),
+	'b' => array(),
+	'i' => array(),
+) ), array(
+	'id'            => 'qtip-exampleStyle',
+	'tip-autoshow'  => 'true',
+	'tip-prerender' => 'true',
+	'tip-id'        => 'exampleStyle',
+	'tip-nosolo'    => 'true',
+	'tip-nohide'    => 'true',
+)); ?>
 												</p>
 											</div>
 										</div>

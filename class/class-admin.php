@@ -165,6 +165,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			add_action( 'wp_ajax_ithoughts_tt_gl_get_tinymce_tooltip_form',	array( &$this, 'get_tinymce_tooltip_form_ajax' ) );
 			add_action( 'wp_ajax_ithoughts_tt_gl_get_tinymce_list_form',	array( &$this, 'get_tinymce_list_form_ajax' ) );
 			add_action( 'wp_ajax_ithoughts_tt_gl_update_options',			array( &$this, 'update_options' ) );
+			add_action( 'wp_ajax_ithoughts_tt_gl_purge_logs',				array( &$this, 'purge_logs' ) );
 
 			add_action( 'wp_ajax_ithoughts_tt_gl_theme_save',				array( &$this, 'savetheme' ) );
 			add_action( 'wp_ajax_ithoughts_tt_gl_theme_preview',			array( &$this, 'previewtheme' ) );
@@ -183,7 +184,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				array(
 					'ithoughts-simple-ajax-v5',
 					'ithoughts-core-v5',
-					'ithoughts_tooltip_glossary-floater',
+					'ithoughts_tooltip_glossary-qtip'
 				),
 				true
 			);
@@ -208,21 +209,10 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				true
 			);
 			$this->backbone->declare_resource(
-				'ithoughts_tooltip_glossary-floater',
-				'assets/dist/js/ithoughts_tt_gl-floater.js',
-				array(
-					'jquery',
-					'ithoughts-core-v5',
-					'ithoughts_tooltip_glossary-qtip',
-				),
-				true
-			);
-			$this->backbone->declare_resource(
 				'ithoughts_tooltip_glossary-styleeditor',
 				'assets/dist/js/style-editor.js',
 				array(
 					'ithoughts-core-v5',
-					'ithoughts_tooltip_glossary-floater',
 					'ithoughts-simple-ajax-v5',
 				),
 				true
@@ -539,6 +529,22 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					),
 				)
 			);
+
+
+			$pages = get_pages();
+			$pageOptions = array();
+			foreach($pages as $page){
+				$pageOptions["$page->ID"] = $page->post_title;
+			}
+			$pageOptions['new'] = esc_html('> ').esc_html__('Create new page', 'ithoughts-tooltip-glossary');
+			$options_inputs['glossary-index'] = Input::create_select_input(
+				'glossary-index',
+				array(
+					'blank' => false,
+					'selected' => $options['glossary-index'],
+					'options'  => $pageOptions,
+				)
+			);
 			$options_inputs['staticterms'] = Input::create_check_input(
 				'staticterms',
 				array(
@@ -635,8 +641,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					),
 				)
 			);
-			
-			
+
+
 			$options_inputs['qtipstyle'] = Input::create_select_input(
 				'qtipstyle',
 				array(
@@ -811,6 +817,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'valid'			=> $valid,
 				'nonce_refresh'	=> wp_create_nonce( 'ithoughts_tt_gl-update_options' ),
 			)));
+		}
+		
+		public function purge_logs(){
+			check_admin_referer( 'ithoughts_tt_gl-update_options' );
+			$this->backbone->clear_log_file();
+			wp_die(wp_send_json_success());
 		}
 
 		/**

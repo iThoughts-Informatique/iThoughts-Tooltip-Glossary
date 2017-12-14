@@ -2,6 +2,7 @@
 
 const removeAccents = require('remove-accents');
 const OptArray      = require('../optarray');
+const comon         = require('../comon');
 
 const ithoughts     = iThoughts.v5;
 const itg           = iThoughtsTooltipGlossary;
@@ -32,31 +33,6 @@ const tristate = val => {
 	}
 	return null;
 };
-
-const sendAjaxQuery = async(action, data, nonce = itge.nonce) => {
-	const loader = ithoughts.makeLoader();
-	return new Promise((resolve, reject) => {
-		$.ajax({
-			method:	'POST',
-			async:  true,
-			url:    itge.admin_ajax,
-			//			dataType: 'json',
-			data:   {
-				action:   `ithoughts_tt_gl_${action}`,
-				_wpnonce: nonce,
-				data,
-			},
-			success(data){
-				loader.remove();
-				return resolve(data);
-			},
-			error(xhr){
-				loader.remove();
-				return reject(xhr);
-			},
-		});
-	});
-}
 
 const tipsTypes = [
 	'itg-term',
@@ -137,7 +113,7 @@ const editorForms = {
 		}
 
 		try{
-			const resultDom = displayInForm(await sendAjaxQuery('get_tinymce_list_form', values));
+			const resultDom = displayInForm(await comon.sendAjaxQuery('get_tinymce_list_form', values, itge.nonce));
 
 			return new Promise(resolve => {
 				itge.finishListTinymce = data => {
@@ -291,7 +267,7 @@ const editorForms = {
 		// Then generate form through Ajax
 
 		try{
-			const resultDom = await displayInForm(sendAjaxQuery('get_tinymce_tooltip_form', values));
+			const resultDom = await displayInForm(comon.sendAjaxQuery('get_tinymce_tooltip_form', values, itge.nonce));
 
 			return new Promise(resolve => {
 				itge.finishListTinymce = data => {
@@ -388,7 +364,6 @@ const editorForms = {
 const utils = {
 	editorForms,
 	generateSelObject,
-	sendAjaxQuery,
 	hideOutForm,
 	tipsTypes,
 	tipsSelector,

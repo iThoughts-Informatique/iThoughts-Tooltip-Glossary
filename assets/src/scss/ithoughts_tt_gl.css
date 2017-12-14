@@ -162,48 +162,31 @@
   width: 100%;
   z-index: 10000000; }
 
-/* line 184, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
-a.itg-glossary, a.itg-glossary:hover, a.itg-glossary:visited, a.itg-glossary:active,
-a.itg-tooltip,
-a.itg-tooltip:hover,
-a.itg-tooltip:visited,
-a.itg-tooltip:active,
-a.itg-mediatip,
-a.itg-mediatip:hover,
-a.itg-mediatip:visited,
-a.itg-mediatip:active {
+/* line 182, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+a.itg-glossary, a.itg-tooltip, a.itg-mediatip {
   box-shadow: none;
   text-decoration: overline underline; }
-
-/* line 193, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
-a.itg-glossary.itg-invalid, a.itg-glossary.itg-invalid:hover, a.itg-glossary.itg-invalid:visited, a.itg-glossary.itg-invalid:active,
-a.itg-tooltip.itg-invalid,
-a.itg-tooltip.itg-invalid:hover,
-a.itg-tooltip.itg-invalid:visited,
-a.itg-tooltip.itg-invalid:active,
-a.itg-mediatip.itg-invalid,
-a.itg-mediatip.itg-invalid:hover,
-a.itg-mediatip.itg-invalid:visited,
-a.itg-mediatip.itg-invalid:active {
-  text-decoration: underline wavy; }
+  /* line 188, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+  a.itg-glossary.itg-invalid, a.itg-tooltip.itg-invalid, a.itg-mediatip.itg-invalid {
+    text-decoration: underline wavy; }
 
 /****************************************************
 Specific styles for tip
 ****************************************************/
-/* line 206, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+/* line 197, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
 .itg-mediatip {
   max-width: 350px; }
-  /* line 209, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+  /* line 200, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
   .itg-mediatip .qtip-content {
     padding: 0; }
-    /* line 212, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+    /* line 203, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
     .itg-mediatip .qtip-content p, .itg-mediatip .qtip-content :last-child {
       margin-bottom: 0; }
-    /* line 215, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+    /* line 206, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
     .itg-mediatip .qtip-content img {
       max-height: 75vh;
       vertical-align: middle; }
-  /* line 220, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+  /* line 211, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
   .itg-mediatip .itg_pin_container {
     border: 1px solid;
     border-radius: 0.5em;
@@ -211,7 +194,7 @@ Specific styles for tip
     float: right;
     height: 2em;
     width: 2em; }
-    /* line 228, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+    /* line 219, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
     .itg-mediatip .itg_pin_container .itg_pin {
       box-sizing: border-box;
       cursor: pointer;
@@ -219,47 +202,47 @@ Specific styles for tip
       fill: currentColor;
       margin: 0.25em;
       transition: all 0.25s ease 0s; }
-    /* line 237, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+    /* line 228, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
     .itg-mediatip .itg_pin_container.pined .itg_pin {
       transform: rotate(-45deg);
       transition: 0.25s all; }
 
-/* line 246, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+/* line 237, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
 .qtip-content p {
   line-height: 1.5em;
   padding-bottom: 1em; }
 
-/* line 250, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+/* line 241, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
 .qtip-content :last-child {
   line-height: 1.5em;
   margin-bottom: 0;
   padding-bottom: 0; }
 
-/* line 255, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+/* line 246, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
 .qtip-content a {
   color: inherit;
   text-decoration: underline; }
 
-/* line 261, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+/* line 252, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
 .ithoughts_tt_gl-force_no_pad .qtip-content {
   vertical-align: top; }
 
-/* line 268, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+/* line 259, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
 .qtip.ithoughts_tt_gl-video_tip,
 .qtip.ithoughts_tt_gl-video_tip iframe,
 .qtip.ithoughts_tt_gl-video_tip video {
   max-width: none;
   vertical-align: top; }
 
-/* line 277, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+/* line 268, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
 .ithoughts_tt_gl-title_with_pin {
   vertical-align: sub; }
-  /* line 280, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+  /* line 271, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
   .ithoughts_tt_gl-title_with_pin .qtip-titlebar .qtip-title {
     display: block;
     width: 100%; }
 
-/* line 285, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
+/* line 276, /Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/assets/src/scss/ithoughts_tt_gl.scss */
 .ithoughts_tt_gl-caption {
   border-top: 1px solid currentColor;
   font-size: 1.1em;

@@ -90,8 +90,8 @@ return array(
 		'default'		=> false,
 		'type'			=> 0,
 	),
-	'index_page'		=> array(
-		'default'		=> false,
+	'glossary-index'		=> array(
+		'default'		=> null,
 		'type'			=> 0,
 	),
 );

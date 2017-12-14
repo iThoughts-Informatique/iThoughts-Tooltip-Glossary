@@ -11,8 +11,6 @@
 
 'use strict';
 
-require('regenerator-runtime/runtime');
-
 const utils     = require('./tinymce-utils');
 const filters   = require('./tinymce-filters');
 

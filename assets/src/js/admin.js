@@ -11,11 +11,15 @@
 
 'use strict';
 
-( ithoughts => {
-	const $ = ithoughts.$;
-	const itg = iThoughtsTooltipGlossary;
+const initFloater = require('./floater');
+const comon = require('./comon');
 
-	/**
+const ithoughts = iThoughts.v5;
+
+const {$, $d} = ithoughts;
+const itg = iThoughtsTooltipGlossary;
+
+/**
 	 * Set the style of the target, appending to a default classes array the *themename*
 	 *
 	 * @param  {boolean|string[]} keepDefaults - Set to `true` to use *default styles*. If an array is given, those classes are used as *default*.
@@ -23,72 +27,77 @@
 	 * @param  {jQuery}           target       - QTip holder to edit
 	 * @returns {undefined} This function does not have any return value.
 	 */
-	itg.updateStyle = ( keepDefaults, themename, target ) => {
-		let styles = [ `qtip-${ themename }` ];
-		if ( true === keepDefaults ) {
-			// iF we have simply `true`, add default styles
-			styles = styles.concat([
-				'ithoughts_tt_gl-tooltip',
-				'qtip-pos-br',
-			]);
-		} else if ( typeof keepDefaults !== 'undefined' && keepDefaults && 'Array' === keepDefaults.constructor.name ) {
-			// If having an array, use it as default styles
-			styles = styles.concat( keepDefaults );
+itg.updateStyle = ( keepDefaults, themename, target ) => {
+	let styles = [ `qtip-${ themename }` ];
+	if ( true === keepDefaults ) {
+		// iF we have simply `true`, add default styles
+		styles = styles.concat([
+			'ithoughts_tt_gl-tooltip',
+			'qtip-pos-br',
+		]);
+	} else if ( typeof keepDefaults !== 'undefined' && keepDefaults && 'Array' === keepDefaults.constructor.name ) {
+		// If having an array, use it as default styles
+		styles = styles.concat( keepDefaults );
+	}
+
+	target.qtip( 'option', 'style.classes', styles.join( ' ' ));
+};
+
+$d
+	.ready(initFloater)
+	.ready(() => {
+	// #### Get some DOMs
+	// Get the tip and show it
+	const $demotip = $( '#qtip-exampleStyle' );
+	// Class inputs
+	const $styleI = $( '#qtipstyle' );
+	const $shadowI = $( '#qtipshadow' );
+	const $roundedI = $( '#qtiprounded' );
+	// Behavior inputs
+	const $triggerI = $( '#qtiptrigger' );
+	const $animInI = $( '#anim_in' );
+	const $animOutI = $( '#anim_out' );
+	const $animTimeI = $( '#anim_time' );
+
+	$demotip.qtip( 'api' ).show();
+
+	const events = 'change blur keyup mouseup';
+	ithoughts.$merge( $styleI, $shadowI, $roundedI ).bind( events, () => {
+		const baseStyles = [
+			'ithoughts_tt_gl-tooltip',
+			'qtip-pos-br',
+		];
+		if ( $shadowI.is( ':checked' )) {
+			baseStyles.push( 'qtip-shadow' );
 		}
-
-		target.qtip( 'option', 'style.classes', styles.join( ' ' ));
-	};
-
-	ithoughts.$d.ready(() => {
-		// #### Get some DOMs
-		// Get the tip and show it
-		const $demotip = $( '#qtip-exampleStyle' ).qtip( 'api' ).show();
-		// Class inputs
-		const $styleI = $( '#qtipstyle' );
-		const $shadowI = $( '#qtipshadow' );
-		const $roundedI = $( '#qtiprounded' );
-		// Behavior inputs
-		const $triggerI = $( '#qtiptrigger' );
-		const $animInI = $( '#anim_in' );
-		const $animOutI = $( '#anim_out' );
-		const $animTimeI = $( '#anim_time' );
-
-
-		const events = 'change blur keyup mouseup';
-		ithoughts.$merge( $styleI, $shadowI, $roundedI ).bind( events, () => {
-			const baseStyles = [
-				'ithoughts_tt_gl-tooltip',
-				'qtip-pos-br',
-			];
-			if ( $shadowI.is( ':checked' )) {
-				baseStyles.push( 'qtip-shadow' );
-			}
-			if ( $roundedI.is( ':checked' )) {
-				baseStyles.push( 'qtip-rounded' );
-			}
-			itg.updateStyle( baseStyles, $styleI.val(), $demotip );
-		});
-		ithoughts.$merge( $triggerI, $animInI, $animOutI, $animTimeI ).bind( events, () => {
-			// Set the demotip as configured in the inputs
-			const trigger = $triggerI.val();
-			try {
-				$demotip
-					.qtip( 'option', 'show.event', trigger )
-					.qtip( 'option', 'hide.event', ( 'responsive' === trigger ) ? 'responsiveout' : 'mouseleave' )
-					.qtip( 'option', 'show.effect', itg.animationFunctions.in[$animInI.val()])
-					.qtip( 'option', 'hide.effect', itg.animationFunctions.out[$animOutI.val()])
-					.prop( 'animation_duration', parseInt( $animTimeI.val() || 500 ));
-			} catch ( error ) {
-				itg.error( error );
-			}
-		});
-		(() => {
-			const $verbosityInput = $( '#verbosity' );
-			const $verbosityLabel = $( '#ithoughts_tt_gl-verbosity_label' );
-			const verbosityLabels = $verbosityLabel.data( 'labels' );
-			$verbosityInput.on( 'input', () => {
-				$verbosityLabel.text( verbosityLabels[$verbosityInput.val()]);
-			}).trigger( 'input' );
-		})();
+		if ( $roundedI.is( ':checked' )) {
+			baseStyles.push( 'qtip-rounded' );
+		}
+		itg.updateStyle( baseStyles, $styleI.val(), $demotip );
 	});
-})( iThoughts.v5 );
+	ithoughts.$merge( $triggerI, $animInI, $animOutI, $animTimeI ).bind( events, () => {
+		// Set the demotip as configured in the inputs
+		const trigger = $triggerI.val();
+		try {
+			$demotip
+				.qtip( 'option', 'show.event', trigger )
+				.qtip( 'option', 'hide.event', ( 'responsive' === trigger ) ? 'responsiveout' : 'mouseleave' )
+				.qtip( 'option', 'show.effect', itg.animationFunctions.in[$animInI.val()])
+				.qtip( 'option', 'hide.effect', itg.animationFunctions.out[$animOutI.val()])
+				.prop( 'animation_duration', parseInt( $animTimeI.val() || 500 ));
+		} catch ( error ) {
+			itg.error( error );
+		}
+	});
+	$('#itg-purge').click(() => {
+		comon.sendAjaxQuery('purge_logs', null, $('#_wpnonce').val());
+	});
+	(() => {
+		const $verbosityInput = $( '#verbosity' );
+		const $verbosityLabel = $( '#ithoughts_tt_gl-verbosity_label' );
+		const verbosityLabels = $verbosityLabel.data( 'labels' );
+		$verbosityInput.on( 'input', () => {
+			$verbosityLabel.text( verbosityLabels[$verbosityInput.val()]);
+		}).trigger( 'input' );
+	})();
+});

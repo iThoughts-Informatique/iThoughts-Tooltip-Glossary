@@ -130,8 +130,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		public function declare_resources() {
 			if($this->get_option('use_cdn')){
 				$this->declare_resource( 'imagesloaded', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.min.js', array( 'jquery' ) );
-				$this->declare_resource( 'qtip', 'https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.js', array( 'jquery', 'imagesloaded' ) );
-				$this->declare_resource( 'ithoughts_tooltip_glossary-qtip-css', 'https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.min.css' );
+				$this->declare_resource( 'qtip', 'https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.js', array( 'jquery', 'imagesloaded' ) );
+				$this->declare_resource( 'ithoughts_tooltip_glossary-qtip-css', 'https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css' );
 			} else {
 				$this->declare_resource( 'imagesloaded', 'assets/deps/js/imagesloaded.min.js', array( 'jquery' ) );
 				$this->declare_resource( 'qtip', 'assets/deps/jquery.qtip.min.js', array( 'jquery', 'imagesloaded' ) );

@@ -64,40 +64,37 @@ $( 'body' ).bind( 'click touch', event => {
 	});
 });
 
-const qTipEventHandlers = {
-	click: {
-		in(event){
-			if ( linksTouch.get(this) !== 1 ) {
-				event.preventDefault();
-				linksTouch.set(this, 1);
-			}
-		},
-		out(event){
-			linksTouch.set(this, 0);
-		}
-	},
-	responsive: {
-		tap(event){
+const linkEventHandlers = {
+	click(event){
+		const trigger = this.getAttribute('data-tip-trigger') || itg.qtiptrigger;
+		if(trigger === 'responsive'){
 			if ( !linksExpanded.get( this ) && linksTouch.get(this) !== 0 ) {
 				linksExpanded.set( this, true );
 				$(this).triggerHandler( 'responsive' );
 				event.preventDefault();
 			}
-		},
-		touchstart(){
-			linksTouch.set(this, 1);
-		},
-		touchend(){
-			linksTouch.set(this, 2);
-		},
-		mousein(){
-			$(this).triggerHandler( 'responsive' );
-		},
-		mouseout(){
-			$(this).triggerHandler( 'responsiveout' );
+		} else {
+			if ( linksTouch.get(this) !== 1 ) {
+				event.preventDefault();
+				linksTouch.set(this, 1);
+			}
 		}
 	},
+	touchstart(){
+		linksTouch.set(this, 1);
+	},
+	touchend(){
+		linksTouch.set(this, 2);
+	},
+	focusin(){
+		$(this).triggerHandler( 'responsive' );
+	},
+	focusout(){
+		$(this).triggerHandler( 'responsiveout' );
+		linksTouch.set(this, 0);
+	},
 };
+itg.linkEventHandlers = linkEventHandlers;
 
 
 const doTipRender = function doTipRender(renderFcts, props, event, api ) {
@@ -180,20 +177,12 @@ itg.doInitTooltips = () => {
 			show: { event:  qtiptrigger },
 			hide: { event:  ( 'responsive' === qtiptrigger ) ? 'responsiveout' : 'mouseleave' },
 		});
-		if ( 'click' === qtiptrigger ) {
-			$tooltipLink
-				.click( qTipEventHandlers.click.in )
-				.mouseleave( qTipEventHandlers.click.out );
-		} else if ( 'responsive' === qtiptrigger ) {
-			linksTouch.set(tooltipLink, ithoughts.baseTouch);
-			//Detect touch/click out
-			$tooltipLink
-				.click( qTipEventHandlers.responsive.tap )
-				.bind( evts.start, qTipEventHandlers.responsive.touchstart )
-				.bind( evts.end, qTipEventHandlers.responsive.touchend )
-				.bind( 'mouseover focus', qTipEventHandlers.responsive.mousein )
-				.bind( 'mouseleave focusout', qTipEventHandlers.responsive.mouseout );
-		}
+		$tooltipLink
+			.click( linkEventHandlers.click )
+			.bind( evts.start, linkEventHandlers.touchstart )
+			.bind( evts.end, linkEventHandlers.touchend )
+			.bind( 'mouseover focus', linkEventHandlers.focusin )
+			.bind( 'mouseleave focusout', linkEventHandlers.focusout );
 
 		qTipConfigComponents.push({
 			show: {
@@ -351,12 +340,12 @@ itg.doInitTooltips = () => {
 			}});
 		}
 		if ( 'true' === $tooltipLink.data( 'tip-nosolo' )) {
-					qTipConfigComponents.push({ show: {
-					solo: false,
-				}});
+			qTipConfigComponents.push({ show: {
+				solo: false,
+			}});
 		}
 		if ( 'true' === $tooltipLink.data( 'tip-nohide' )) {
-					qTipConfigComponents.push({
+			qTipConfigComponents.push({
 				hide: 'someevent',
 				show: {
 					event: 'someevent',
@@ -364,16 +353,16 @@ itg.doInitTooltips = () => {
 			});
 		}
 		if ( $tooltipLink.data( 'tip-id' )) {
-					qTipConfigComponents.push({  id: $tooltipLink.data( 'tip-id' ) });
+			qTipConfigComponents.push({  id: $tooltipLink.data( 'tip-id' ) });
 		}
 		if ( $tooltipLink.data( 'qtip-keep-open' ) || $tooltipLink.hasClass( `itg-mediatip` )) {
-					qTipConfigComponents.push({ hide: {
-					fixed: true,
-					delay: 250,
-				}});
+			qTipConfigComponents.push({ hide: {
+				fixed: true,
+				delay: 250,
+			}});
 		}
 		if ( 'true' === $tooltipLink.data( 'tip-prerender' )) {
-					qTipConfigComponents.push({ 
+			qTipConfigComponents.push({ 
 				prerender: true,
 			});
 		}
@@ -387,7 +376,7 @@ itg.doInitTooltips = () => {
 				classes: tipClasses.filter(v => !!v).join(' '),
 			},
 		} );
-		
+
 		itg.log('Final tooltip options: ', tooltipLink, tooltipOpts);
 
 		$tooltipLink.qtip( tooltipOpts );

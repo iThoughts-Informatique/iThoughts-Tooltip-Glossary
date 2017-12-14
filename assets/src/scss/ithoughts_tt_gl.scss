@@ -178,27 +178,18 @@
 	z-index: 10000000;
 }
 
-a.itg-glossary,
-a.itg-tooltip,
-a.itg-mediatip{
-	&,
-	&:hover,
-	&:visited,
-	&:active
-	{
+a{
+	&.itg-glossary,
+	&.itg-tooltip,
+	&.itg-mediatip{
 		box-shadow: none;
 		text-decoration: overline underline;
-	}
-	&.itg-invalid{
-		&,
-		&:hover,
-		&:visited,
-		&:active{
+
+		&.itg-invalid{
 			text-decoration: underline wavy;
 		}
 	}
 }
-
 
 /****************************************************
 Specific styles for tip

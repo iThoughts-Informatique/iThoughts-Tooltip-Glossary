@@ -118,6 +118,12 @@ tr.nonoverridable label, .nonoverridable:not(tr) {
 .wp-picker-holder {
   z-index: 100; }
 
+#dashboard-widgets a.itg-glossary, #dashboard-widgets a.itg-tooltip, #dashboard-widgets a.itg-mediatip {
+  box-shadow: none;
+  text-decoration: overline underline; }
+  #dashboard-widgets a.itg-glossary.itg-invalid, #dashboard-widgets a.itg-tooltip.itg-invalid, #dashboard-widgets a.itg-mediatip.itg-invalid {
+    text-decoration: underline wavy; }
+
 .ithoughts_tt_gl-loader {
   border-radius: 100%;
   color: #FFF;

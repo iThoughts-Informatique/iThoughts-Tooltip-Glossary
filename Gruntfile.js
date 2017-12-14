@@ -85,13 +85,11 @@ module.exports = function gruntInit( grunt ) {
 		uglify: {
 			options: {
 				preserveComments: 'some',
+				banner:    '/*! <%= pkg.name %> build on <%= grunt.template.today("yyyy-mm-dd hh:MM:ss") %> for v<%= pkg.version %> */',
+				sourceMap: true,
+				footer:    '/**/',
 			},
 			dist: {
-				options: {
-					banner:    '/*! <%= pkg.name %> build on <%= grunt.template.today("yyyy-mm-dd hh:MM:ss") %> for v<%= pkg.version %> */',
-					sourceMap: false,
-					footer:    '/**/',
-				},
 				files: [
 					{
 						expand: true,
@@ -444,7 +442,7 @@ module.exports = function gruntInit( grunt ) {
 		'phpdoc',
 	]);
 	grunt.registerTask( 'buildStyles', [
-		'changed:sass',
+		'sass',
 	]);
 	grunt.registerTask( 'buildScripts', [
 		//'eslint:dist',

@@ -4,9 +4,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 (function e(t, n, r) {
 	function s(o, u) {
@@ -21,6 +21,149 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		s(r[o]);
 	}return s;
 })({ 1: [function (require, module, exports) {
+		'use strict';
+
+		var _this = this;
+
+		require('regenerator-runtime/runtime');
+
+		var ithoughts = iThoughts.v5;
+		var $ = ithoughts.$,
+		    isNA = ithoughts.isNA;
+
+
+		var htmlAttrs = ['href', 'title'];
+
+		var maybePrefixAttribute = function maybePrefixAttribute(attrName) {
+			// If the key is not an HTML attribute and is not `data-` prefixed, prefix it
+			if (!htmlAttrs.includes(attrName) && !attrName.startsWith('data-')) {
+				return "data-" + attrName;
+			} else {
+				return attrName;
+			}
+		};
+
+		var extractAttrs = function extractAttrs(node) {
+			var ret = {};
+			Array.prototype.slice.call(node.attributes, 0).forEach(function (attr) {
+				ret[attr.nodeName] = attr.nodeValue;
+			});
+			return ret;
+		};
+
+		var generateTakeAttr = function generateTakeAttr(attrs) {
+			// If we received a node instead of an object, extract its attributes
+			if (attrs.tagName) {
+				attrs = extractAttrs(attrs);
+			}
+			// Return the picker function
+			return function (label, defaultValue) {
+				var noDataPrefix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+				if (!noDataPrefix) {
+					label = maybePrefixAttribute(label);
+				}
+				if (attrs.hasOwnProperty(label)) {
+					var val = attrs[label];
+					delete attrs[label];
+					return val;
+				} else {
+					return defaultValue;
+				}
+			};
+		};
+
+		var get = function get(object, path, defaultValue) {
+			var defaulted = false;
+			path.forEach(function (segment) {
+				if (typeof object !== 'undefined' && object.hasOwnProperty(segment)) {
+					object = object[segment];
+				} else {
+					defaulted = true;
+				}
+			});
+			if (defaulted) {
+				return defaultValue;
+			} else {
+				return object;
+			}
+		};
+
+		var isTrueValue = function isTrueValue(val) {
+			if (typeof val === 'string' && (val === '1' || val.toLowerCase() === 'true')) {
+				return true;
+			} else if (typeof val === 'number') {
+				return val > 0;
+			}
+			return false;
+		};
+
+		var htmlEncode = function htmlEncode(str) {
+			return $('<textarea />').text(str).html();
+		};
+		var htmlDecode = function htmlDecode(str) {
+			return $('<textarea />').html(str).text();
+		};
+
+		var sendAjaxQuery = function () {
+			var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(action, data, nonce) {
+				var loader;
+				return regeneratorRuntime.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								loader = ithoughts.makeLoader();
+								return _context.abrupt("return", new Promise(function (resolve, reject) {
+									var sendData = {
+										action: "ithoughts_tt_gl_" + action
+									};
+									if (!isNA(nonce)) {
+										sendData._wpnonce = nonce;
+									}
+									if (!isNA(data)) {
+										sendData.data = data;
+									}
+									$.ajax({
+										method: 'POST',
+										async: true,
+										url: iThoughtsTooltipGlossary.admin_ajax,
+										//			dataType: 'json',
+										data: sendData,
+										success: function success(data) {
+											loader.remove();
+											return resolve(data);
+										},
+										error: function error(xhr) {
+											loader.remove();
+											return reject(xhr);
+										}
+									});
+								}));
+
+							case 2:
+							case "end":
+								return _context.stop();
+						}
+					}
+				}, _callee, _this);
+			}));
+
+			return function sendAjaxQuery(_x2, _x3, _x4) {
+				return _ref.apply(this, arguments);
+			};
+		}();
+
+		module.exports = {
+			maybePrefixAttribute: maybePrefixAttribute,
+			extractAttrs: extractAttrs,
+			generateTakeAttr: generateTakeAttr,
+			get: get,
+			isTrueValue: isTrueValue,
+			htmlEncode: htmlEncode,
+			htmlDecode: htmlDecode,
+			sendAjaxQuery: sendAjaxQuery
+		};
+	}, { "regenerator-runtime/runtime": 6 }], 2: [function (require, module, exports) {
 		'use strict';
 
 		var _iThoughtsTooltipGlos = iThoughtsTooltipGlossary,
@@ -62,10 +205,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			}, {
 				key: "toString",
 				value: function toString() {
-					var _this = this;
+					var _this2 = this;
 
 					return Object.keys(this.opts).map(function (key) {
-						return OptArray.generateAttr(key, _this.opts[key]);
+						return OptArray.generateAttr(key, _this2.opts[key]);
 					}).join(' ');
 				}
 			}], [{
@@ -79,7 +222,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		}();
 
 		module.exports = OptArray;
-	}, {}], 2: [function (require, module, exports) {
+	}, {}], 3: [function (require, module, exports) {
 		'use strict';
 
 		var OptArray = require('../optarray');
@@ -164,7 +307,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				}
 			}
 		};
-	}, { "../optarray": 1, "./tinymce-utils": 4 }], 3: [function (require, module, exports) {
+	}, { "../optarray": 2, "./tinymce-utils": 5 }], 4: [function (require, module, exports) {
 		/**
    * @file TinyMCE plugin scripts
    *
@@ -178,9 +321,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 		'use strict';
 
-		var _this3 = this;
-
-		require('regenerator-runtime/runtime');
+		var _this4 = this;
 
 		var utils = require('./tinymce-utils');
 		var filters = require('./tinymce-filters');
@@ -195,10 +336,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 		var setToggleable = function setToggleable(element, editor) {
 			return function setToggleState() {
-				var _this2 = this;
+				var _this3 = this;
 
 				editor.on(element, function (event) {
-					_this2.active(event.active);
+					_this3.active(event.active);
 				});
 			};
 		};
@@ -275,55 +416,55 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				image: itge.base_assets + "/dist/imgs/glossaryterm.png",
 				onPostRender: setToggleable('glossaryterm', editor),
 				onclick: function () {
-					var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+					var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
 						var result;
-						return regeneratorRuntime.wrap(function _callee$(_context) {
+						return regeneratorRuntime.wrap(function _callee2$(_context2) {
 							while (1) {
-								switch (_context.prev = _context.next) {
+								switch (_context2.prev = _context2.next) {
 									case 0:
-										_context.next = 2;
+										_context2.next = 2;
 										return utils.editorForms.tip(utils.generateSelObject(editor));
 
 									case 2:
-										result = _context.sent;
+										result = _context2.sent;
 
 										insertInTinyMCE(result.finalContent, result.mode);
 
 									case 4:
 									case "end":
-										return _context.stop();
+										return _context2.stop();
 								}
 							}
-						}, _callee, _this3);
+						}, _callee2, _this4);
 					}));
 
 					function onclick() {
-						return _ref.apply(this, arguments);
+						return _ref2.apply(this, arguments);
 					}
 
 					return onclick;
 				}()
 			});
-			QTags.addButton('ithoughts_tt_gl-tip', 'ITG Tip', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+			QTags.addButton('ithoughts_tt_gl-tip', 'ITG Tip', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
 				var result;
-				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+				return regeneratorRuntime.wrap(function _callee3$(_context3) {
 					while (1) {
-						switch (_context2.prev = _context2.next) {
+						switch (_context3.prev = _context3.next) {
 							case 0:
-								_context2.next = 2;
+								_context3.next = 2;
 								return utils.editorForms.tip(utils.generateSelObject());
 
 							case 2:
-								result = _context2.sent;
+								result = _context3.sent;
 
 								QTags.insertContent(result.finalContent);
 
 							case 4:
 							case "end":
-								return _context2.stop();
+								return _context3.stop();
 						}
 					}
-				}, _callee2, _this3);
+				}, _callee3, _this4);
 			})));
 			// #### Delete tooltip button
 			editor.addButton('glossaryterm-d', {
@@ -348,64 +489,63 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				image: itge.base_assets + "/dist/imgs/glossaryindex.png",
 				onPostRender: setToggleable('glossarylist', editor),
 				onclick: function () {
-					var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+					var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
 						var result;
-						return regeneratorRuntime.wrap(function _callee3$(_context3) {
+						return regeneratorRuntime.wrap(function _callee4$(_context4) {
 							while (1) {
-								switch (_context3.prev = _context3.next) {
+								switch (_context4.prev = _context4.next) {
 									case 0:
-										_context3.next = 2;
+										_context4.next = 2;
 										return utils.editorForms.list(utils.generateSelObject(editor));
 
 									case 2:
-										result = _context3.sent;
+										result = _context4.sent;
 
 										insertInTinyMCE(result.finalContent, result.mode);
 
 									case 4:
 									case "end":
-										return _context3.stop();
+										return _context4.stop();
 								}
 							}
-						}, _callee3, _this3);
+						}, _callee4, _this4);
 					}));
 
 					function onclick() {
-						return _ref3.apply(this, arguments);
+						return _ref4.apply(this, arguments);
 					}
 
 					return onclick;
 				}()
 			});
-			QTags.addButton('ithoughts_tt_gl-list', 'ITG List', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+			QTags.addButton('ithoughts_tt_gl-list', 'ITG List', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
 				var result;
-				return regeneratorRuntime.wrap(function _callee4$(_context4) {
+				return regeneratorRuntime.wrap(function _callee5$(_context5) {
 					while (1) {
-						switch (_context4.prev = _context4.next) {
+						switch (_context5.prev = _context5.next) {
 							case 0:
-								_context4.next = 2;
+								_context5.next = 2;
 								return utils.editorForms.list(utils.generateSelObject(), true);
 
 							case 2:
-								result = _context4.sent;
+								result = _context5.sent;
 
 								QTags.insertContent(result.finalContent);
 
 							case 4:
 							case "end":
-								return _context4.stop();
+								return _context5.stop();
 						}
 					}
-				}, _callee4, _this3);
+				}, _callee5, _this4);
 			})));
 		});
-	}, { "./tinymce-filters": 2, "./tinymce-utils": 4, "regenerator-runtime/runtime": 5 }], 4: [function (require, module, exports) {
+	}, { "./tinymce-filters": 3, "./tinymce-utils": 5 }], 5: [function (require, module, exports) {
 		'use strict';
-
-		var _this4 = this;
 
 		var removeAccents = require('remove-accents');
 		var OptArray = require('../optarray');
+		var comon = require('../comon');
 
 		var ithoughts = iThoughts.v5;
 		var itg = iThoughtsTooltipGlossary;
@@ -441,50 +581,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			}
 			return null;
 		};
-
-		var sendAjaxQuery = function () {
-			var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(action, data) {
-				var nonce = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : itge.nonce;
-				var loader;
-				return regeneratorRuntime.wrap(function _callee5$(_context5) {
-					while (1) {
-						switch (_context5.prev = _context5.next) {
-							case 0:
-								loader = ithoughts.makeLoader();
-								return _context5.abrupt("return", new Promise(function (resolve, reject) {
-									$.ajax({
-										method: 'POST',
-										async: true,
-										url: itge.admin_ajax,
-										//			dataType: 'json',
-										data: {
-											action: "ithoughts_tt_gl_" + action,
-											_wpnonce: nonce,
-											data: data
-										},
-										success: function success(data) {
-											loader.remove();
-											return resolve(data);
-										},
-										error: function error(xhr) {
-											loader.remove();
-											return reject(xhr);
-										}
-									});
-								}));
-
-							case 2:
-							case "end":
-								return _context5.stop();
-						}
-					}
-				}, _callee5, _this4);
-			}));
-
-			return function sendAjaxQuery(_x4, _x5) {
-				return _ref5.apply(this, arguments);
-			};
-		}();
 
 		var tipsTypes = ['itg-term', 'itg-tooltip', 'itg-mediatip'];
 		var tipsSelector = tipsTypes.map(function (type) {
@@ -574,7 +670,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 									_context6.prev = 5;
 									_context6.t0 = displayInForm;
 									_context6.next = 9;
-									return sendAjaxQuery('get_tinymce_list_form', values);
+									return comon.sendAjaxQuery('get_tinymce_list_form', values, itge.nonce);
 
 								case 9:
 									_context6.t1 = _context6.sent;
@@ -624,7 +720,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					}, _callee6, this, [[5, 14]]);
 				}));
 
-				function list(_x6) {
+				function list(_x7) {
 					return _ref6.apply(this, arguments);
 				}
 
@@ -757,7 +853,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 									_context7.prev = 5;
 									_context7.next = 8;
-									return displayInForm(sendAjaxQuery('get_tinymce_tooltip_form', values));
+									return displayInForm(comon.sendAjaxQuery('get_tinymce_tooltip_form', values, itge.nonce));
 
 								case 8:
 									resultDom = _context7.sent;
@@ -864,7 +960,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					}, _callee7, this, [[5, 12]]);
 				}));
 
-				function tip(_x7, _x8) {
+				function tip(_x8, _x9) {
 					return _ref7.apply(this, arguments);
 				}
 
@@ -875,7 +971,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		var utils = {
 			editorForms: editorForms,
 			generateSelObject: generateSelObject,
-			sendAjaxQuery: sendAjaxQuery,
 			hideOutForm: hideOutForm,
 			tipsTypes: tipsTypes,
 			tipsSelector: tipsSelector,
@@ -883,7 +978,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		};
 
 		module.exports = utils;
-	}, { "../optarray": 1, "remove-accents": 6 }], 5: [function (require, module, exports) {
+	}, { "../comon": 1, "../optarray": 2, "remove-accents": 7 }], 6: [function (require, module, exports) {
 		(function (global) {
 			/**
     * Copyright (c) 2014, Facebook, Inc.
@@ -1588,7 +1683,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			// use indirect eval (which violates Content Security Policy).
 			(typeof global === "undefined" ? "undefined" : _typeof(global)) === "object" ? global : (typeof window === "undefined" ? "undefined" : _typeof(window)) === "object" ? window : (typeof self === "undefined" ? "undefined" : _typeof(self)) === "object" ? self : this);
 		}).call(this, typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {});
-	}, {}], 6: [function (require, module, exports) {
+	}, {}], 7: [function (require, module, exports) {
 		var characterMap = {
 			"À": "A",
 			"Á": "A",
@@ -2008,5 +2103,5 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		module.exports = removeAccents;
 		module.exports.has = hasAccents;
 		module.exports.remove = removeAccents;
-	}, {}] }, {}, [3]);
+	}, {}] }, {}, [4]);
 //# sourceMappingURL=tinymce.js.map
