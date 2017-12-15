@@ -13,10 +13,12 @@
 
 const ithoughts = iThoughts.v5;
 
-const {$, $d, $w} = ithoughts;
+const {
+	$, $d, $w,
+} = ithoughts;
 
 const initFloater = () => {
-	const updateFloaterPosition = ( () => {
+	const updateFloaterPosition = (() => {
 		let min;
 		let centerOffset;
 		let max;
@@ -43,7 +45,7 @@ const initFloater = () => {
 		updateFloaterPosition( event, floater, true );
 	}).resize();
 	global.refloat = () => {
-		setTimeout( () => {
+		setTimeout(() => {
 			updateFloaterPosition( null, floater, true );
 			$w.scroll();
 		}, 25 );

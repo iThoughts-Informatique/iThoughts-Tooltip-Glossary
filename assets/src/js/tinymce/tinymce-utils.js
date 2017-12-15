@@ -1,8 +1,8 @@
 'use strict';
 
-const removeAccents = require('remove-accents');
-const OptArray      = require('../optarray');
-const comon         = require('../comon');
+const removeAccents = require( 'remove-accents' );
+const OptArray      = require( '../optarray' );
+const comon         = require( '../comon' );
 
 const ithoughts     = iThoughts.v5;
 const itg           = iThoughtsTooltipGlossary;
@@ -17,13 +17,13 @@ const xhrError = xhr => {
 	let title = 'Error getting editor form';
 	if ( 403 === xhr.status ) {
 		const lang = 'ithoughts_tt_gl_tinymce.error.forbidden';
-		content = `<p>${ editor.getLang( `${lang}.content_1` ) }<br/><a href="javascript:window.location.href=window.location.href">${ editor.getLang( `${lang}.content_2` ) }</a></p>`;
-		title = editor.getLang( `${lang}.title` );
+		content = `<p>${ editor.getLang( `${ lang }.content_1` ) }<br/><a href="javascript:window.location.href=window.location.href">${ editor.getLang( `${ lang }.content_2` ) }</a></p>`;
+		title = editor.getLang( `${ lang }.title` );
 	}
-	itg.growl(title, content, false);
+	itg.growl( title, content, false );
 };
 
-const splitAttr = (attrsStr, separator = /[,\.\s]+/) => ( attrsStr || '' ).split( separator ).map( Function.prototype.call, String.prototype.trim ).filter( e => e);
+const splitAttr = ( attrsStr, separator = /[,\.\s]+/ ) => ( attrsStr || '' ).split( separator ).map( Function.prototype.call, String.prototype.trim ).filter( e => e );
 
 const tristate = val => {
 	if ( 'true' === val ) {
@@ -40,32 +40,32 @@ const tipsTypes = [
 	'itg-tooltip',
 	'itg-mediatip',
 ];
-const tipsSelector = tipsTypes.map( type => `[data-type="${type}"]`).join( ',' );
+const tipsSelector = tipsTypes.map( type => `[data-type="${ type }"]` ).join( ',' );
 
 
 const generateSelObject = editor => {
-	if(isNA(editor)){
+	if ( isNA( editor )) {
 		const txtarea = $( '#content' ).get( 0 );
 		const sel = {
 			html: itge.replaceShortcodes( txtarea.value.substring( txtarea.selectionStart, txtarea.selectionEnd )),
 		};
 		sel.DOM = $.parseHTML( sel.html );
-		$.extend(true, sel, {
+		$.extend( true, sel, {
 			start: $( sel.DOM ).first().get( 0 ),
-			end: $( sel.DOM ).last().get( 0 ),
+			end:   $( sel.DOM ).last().get( 0 ),
 		});
 		return sel;
-	} else{
+	} else {
 		const tinymceSel = editor.selection;
 		const sel = {
-			DOM: $( tinymceSel.getNode()).closest( tipsSelector ).toArray(),
-			html: tinymceSel.getContent({ format: 'html' }),
+			DOM:   $( tinymceSel.getNode()).closest( tipsSelector ).toArray(),
+			html:  tinymceSel.getContent({ format: 'html' }),
 			start: tinymceSel.getStart(),
-			end: tinymceSel.getEnd(),
+			end:   tinymceSel.getEnd(),
 		};
 		return sel;
 	}
-}
+};
 
 const displayInForm = data => {
 	const $newDom = $( $.parseHTML( data, true ));
@@ -75,35 +75,39 @@ const displayInForm = data => {
 		opacity: 1,
 	}, 500 ));
 	return $newDom;
-}
+};
 const hideOutForm = $dom => {
 	$dom.animate({ 
 		opacity: 0, 
 	}, 500, () => { 
 		$dom.remove(); 
 	});
-}
+};
 
 const editorForms = {
 	async list( selection ) {
 		itg.info( 'Selection infos to load LIST: ', selection );
 		let mode = 'insert_content';
 		const node = selection.start;
-		const values = { type:  'atoz', alpha: [], group: [] };
+		const values = {
+			type:  'atoz',
+			alpha: [],
+			group: [], 
+		};
 		if ( !isNA( selection.start ) && selection.start === selection.end ) {
 			itg.info( `Start & End node are the same, operating on a node of type ${  node.nodeName }` );
 			if ( node && node.nodeName !== '#text' ) {
-				const takeAttr = generateTakeAttr(node);
-				const type = takeAttr('data-type');
+				const takeAttr = generateTakeAttr( node );
+				const type = takeAttr( 'data-type' );
 				$.extend( values, {
 					alpha: splitAttr( takeAttr( 'data-alpha' )),
 					group: splitAttr( takeAttr( 'data-group' )),
-					desc: takeAttr( 'data-desc' ),
+					desc:  takeAttr( 'data-desc' ),
 				});
-				if ( 'ithoughts-tooltip-glossary-atoz' === type) { // Is atoz
+				if ( 'ithoughts-tooltip-glossary-atoz' === type ) { // Is atoz
 					mode = 'load';
 					values.type = 'atoz';
-				} else if ( 'ithoughts-tooltip-glossary-term_list' === type) { // Is term_list
+				} else if ( 'ithoughts-tooltip-glossary-term_list' === type ) { // Is term_list
 					mode = 'load';
 					values.type = 'list';
 					$.extend( values, {
@@ -113,13 +117,13 @@ const editorForms = {
 			}
 		}
 
-		try{
-			const resultDom = displayInForm(await comon.sendAjaxQuery('get_tinymce_list_form', values, itge.nonce));
+		try {
+			const resultDom = displayInForm( await comon.sendAjaxQuery( 'get_tinymce_list_form', values, itge.nonce ));
 
-			return new Promise(resolve => {
+			return new Promise( resolve => {
 				itge.finishListTinymce = data => {
-					hideOutForm(resultDom);
-					if ( isNA(data) ) {
+					hideOutForm( resultDom );
+					if ( isNA( data )) {
 						return;
 					}
 
@@ -133,10 +137,10 @@ const editorForms = {
 
 					const attrs = [ 'alpha', 'group' ];
 					if ( 'list' === data.type ) {
-						attrs.push('cols', 'desc');
+						attrs.push( 'cols', 'desc' );
 					}
 
-					attrs.forEach(attr => {
+					attrs.forEach( attr => {
 						if ( data.hasOwnProperty( attr )) {
 							optArr.addOpt( attr, data[attr]);
 						}
@@ -144,11 +148,14 @@ const editorForms = {
 
 					const finalContent = `[${  shortcode  } ${  optArr.toString()  }/]${  tail }`;
 					itg.log( 'Final content:', finalContent );
-					return resolve({ finalContent, mode });
+					return resolve({
+						finalContent,
+						mode, 
+					});
 				};
 			});
-		} catch(error){
-			xhrError(error);
+		} catch ( error ) {
+			xhrError( error );
 		}
 	},
 	async tip( selection, escapeContent ) {
@@ -163,8 +170,8 @@ const editorForms = {
 			if ( node && node.nodeName !== '#text' && tipsTypes.indexOf( node.getAttribute( 'data-type' )) > -1 ) {
 				// On Glossary Term or Tooltip or Mediatip, load data
 				mode = 'load';
-				const attrs = takeAttr(node);
-				const takeAttr = generateTakeAttr(attrs);
+				const attrs = takeAttr( node );
+				const takeAttr = generateTakeAttr( attrs );
 
 				// Pick attributes
 				let positionAt = splitAttr( takeAttr( 'position-at' ) || ' ' );
@@ -267,14 +274,14 @@ const editorForms = {
 
 		// Then generate form through Ajax
 
-		try{
-			const resultDom = await displayInForm(comon.sendAjaxQuery('get_tinymce_tooltip_form', values, itge.nonce));
+		try {
+			const resultDom = await displayInForm( comon.sendAjaxQuery( 'get_tinymce_tooltip_form', values, itge.nonce ));
 
-			return new Promise(resolve => {
+			return new Promise( resolve => {
 				itge.finishListTinymce = data => {
-					hideOutForm(resultDom);
+					hideOutForm( resultDom );
 					itge.info( 'New tooltip data:', data );
-					if ( isNA(data) ) {
+					if ( isNA( data )) {
 						return;
 					}
 					const optArr = new OptArray();
@@ -291,8 +298,8 @@ const editorForms = {
 						optArr.maybeAddOpt( opts['qtip-keep-open'], 'data-qtip-keep-open', 'true' );
 						optArr.maybeAddOpt( !isNA( opts.qtiprounded ), 'data-qtiprounded', String( opts.qtiprounded ));
 						optArr.maybeAddOpt( !isNA( opts.qtipshadow ), 'data-qtipshadow', String( opts.qtipshadow ));
-						optArr.maybeAddOpt( opts.qtipstyle , 'data-qtipstyle', opts.qtipstyle );
-						optArr.maybeAddOpt( opts.qtiptrigger , 'data-qtiptrigger', opts.qtiptrigger );
+						optArr.maybeAddOpt( opts.qtipstyle, 'data-qtipstyle', opts.qtipstyle );
+						optArr.maybeAddOpt( opts.qtiptrigger, 'data-qtiptrigger', opts.qtiptrigger );
 						if ( opts.position ) {
 							if ( opts.position.at && opts.position.at[1] && opts.position.at[2]) {
 								optArr.addOpt( 'data-position-at', `${ opts.position.at[1] } ${  opts.position.at[2] }` );
@@ -306,12 +313,12 @@ const editorForms = {
 							}
 						}
 						if ( opts.anim ) {
-							optArr.maybeAddOpt( opts.anim.in, 'data-animation_in', opts.anim.in);
+							optArr.maybeAddOpt( opts.anim.in, 'data-animation_in', opts.anim.in );
 							optArr.maybeAddOpt( opts.anim.out, 'data-animation_out', opts.anim.out );
 							optArr.maybeAddOpt( opts.anim.time, 'data-animation_time', opts.anim.time );
 						}
 						optArr.maybeAddOpt( opts.maxwidth, 'data-tooltip-maxwidth', opts.maxwidth );
-						types.forEach(type => {
+						types.forEach( type => {
 							if ( optsAttrs.hasOwnProperty( type )) {
 								for ( j in optsAttrs[type]) {
 									if ( optsAttrs[type].hasOwnProperty( j )) {
@@ -323,7 +330,7 @@ const editorForms = {
 							}
 						});
 					}
-					optArr.maybeAddOpt( opts.link, 'href', encodeURI( data.link ) );
+					optArr.maybeAddOpt( opts.link, 'href', encodeURI( data.link ));
 
 					if ( 'glossary' === data.type ) {
 						if ( !data.glossary_id || !data.text ) {
@@ -353,11 +360,14 @@ const editorForms = {
 					}
 					const finalContent = `[${  shortcode  } ${  optArr.toString()  }]${  data.text  }[/${  shortcode  }]${  tail }`;
 					itg.log( 'Final content:', finalContent );
-					return resolve({ finalContent, mode });
+					return resolve({
+						finalContent,
+						mode, 
+					});
 				};
 			});
-		} catch(error){
-			xhrError(error);
+		} catch ( error ) {
+			xhrError( error );
 		}
 	},
 };

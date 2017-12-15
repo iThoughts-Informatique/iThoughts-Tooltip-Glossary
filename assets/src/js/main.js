@@ -11,18 +11,20 @@
 
 'use strict';
 
-const comon = require('./comon');
-const OptArray = require('./optarray');
+const comon = require( './comon' );
+const OptArray = require( './optarray' );
 
 const ithoughts = iThoughts.v5;
 const itg       = iThoughtsTooltipGlossary;
 
-const { $, $w, $d, isNA } = ithoughts;
+const {
+	$, $w, $d, isNA, 
+} = ithoughts;
 const extend = $.extend;
 
-const $tooltipsContainer = $( $.parseHTML( `<div id="itg-tipsContainer" class="itg-tipsContainer"></div>` ));
+const $tooltipsContainer = $( $.parseHTML( '<div id="itg-tipsContainer" class="itg-tipsContainer"></div>' ));
 $( document.body ).append( $tooltipsContainer );
-let $growlContainer = $('#itg-growl-container');
+let $growlContainer = $( '#itg-growl-container' );
 const types = [
 	'glossary',
 	'tooltip',
@@ -34,14 +36,14 @@ let redimWait;
 ithoughts.initLoggers( itg, 'iThoughts Tooltip Glossary', itg.verbosity );
 
 /**
-	 * @function replaceQuotes
-	 * @description Encode or decode string with pseudo-html encoded quote
-	 * @memberof ithoughts_tooltip_glossary
-	 * @param {string} string String to encode or decode
-	 * @param {boolean} encode True to encode, false to decode
-	 * @returns {string} Encoded or decoded string
-	 * @author Gerkin
-	 */
+ * @function replaceQuotes
+ * @description Encode or decode string with pseudo-html encoded quote
+ * @memberof ithoughts_tooltip_glossary
+ * @param {string} string String to encode or decode
+ * @param {boolean} encode True to encode, false to decode
+ * @returns {string} Encoded or decoded string
+ * @author Gerkin
+ */
 itg.replaceQuotes = ( string, encode ) => {
 	if ( typeof string != 'string' ) {
 		return '';
@@ -56,8 +58,8 @@ itg.replaceQuotes = ( string, encode ) => {
 const linksTouch = new Map();
 const linksExpanded = new WeakMap();
 $( 'body' ).bind( 'click touch', event => {
-	linksTouch.forEach((touch, link) => {
-		const $link = $(link);
+	linksTouch.forEach(( touch, link ) => {
+		const $link = $( link );
 		if ( 0 === $( event.target ).closest( $link ).length ) {
 			linksExpanded.set( link, false );
 			$link.triggerHandler( 'responsiveout' );
@@ -66,46 +68,44 @@ $( 'body' ).bind( 'click touch', event => {
 });
 
 const linkEventHandlers = {
-	click(event){
-		const trigger = this.getAttribute('data-tip-trigger') || itg.qtiptrigger;
-		if(trigger === 'responsive'){
-			if ( !linksExpanded.get( this ) && linksTouch.get(this) !== 0 ) {
+	click( event ) {
+		const trigger = this.getAttribute( 'data-tip-trigger' ) || itg.qtiptrigger;
+		if ( 'responsive' === trigger ) {
+			if ( !linksExpanded.get( this ) && linksTouch.get( this ) !== 0 ) {
 				linksExpanded.set( this, true );
-				$(this).triggerHandler( 'responsive' );
+				$( this ).triggerHandler( 'responsive' );
 				event.preventDefault();
 			}
-		} else {
-			if ( linksTouch.get(this) !== 1 ) {
-				event.preventDefault();
-				linksTouch.set(this, 1);
-			}
+		} else if ( linksTouch.get( this ) !== 1 ) {
+			event.preventDefault();
+			linksTouch.set( this, 1 );
 		}
 	},
-	touchstart(){
-		linksTouch.set(this, 1);
+	touchstart() {
+		linksTouch.set( this, 1 );
 	},
-	touchend(){
-		linksTouch.set(this, 2);
+	touchend() {
+		linksTouch.set( this, 2 );
 	},
-	focusin(){
-		$(this).triggerHandler( 'responsive' );
+	focusin() {
+		$( this ).triggerHandler( 'responsive' );
 	},
-	focusout(){
-		$(this).triggerHandler( 'responsiveout' );
-		linksTouch.set(this, 0);
+	focusout() {
+		$( this ).triggerHandler( 'responsiveout' );
+		linksTouch.set( this, 0 );
 	},
 };
 itg.linkEventHandlers = linkEventHandlers;
 
 
-const doTipRender = function doTipRender(renderFcts, props, event, api ) {
+const doTipRender = function doTipRender( renderFcts, props, event, api ) {
 	$( this ).css({
 		maxWidth: props.maxWidth,
 	});
 	$( this ).prop( 'animation_duration', props.animDuration );
-	renderFcts.forEach(renderFct =>renderFct.call(this, event, api ));
+	renderFcts.forEach( renderFct =>renderFct.call( this, event, api ));
 	if ( itg.renderHooks ) {
-		itg.renderHooks.forEach(hook =>hook.call(this, event, api ));
+		itg.renderHooks.forEach( hook =>hook.call( this, event, api ));
 	}
 };
 const getRedimInfos = element => {
@@ -118,7 +118,7 @@ const getRedimInfos = element => {
 const bindLockOnPinClick = ( event, api ) => {
 	// Grab the tooltip element from the API elements object
 	// Notice the 'tooltip' prefix of the event name!
-	api.elements.title.find( `.itg_pin_container` ).click( function clickPinKeepOpen() {
+	api.elements.title.find( '.itg_pin_container' ).click( function clickPinKeepOpen() {
 		if ( $( this ).toggleClass( 'pined' ).hasClass( 'pined' )) {
 			api.disable();
 		} else {
@@ -136,10 +136,10 @@ const defaultComonTipOptions = {
 		container: $tooltipsContainer,
 	},
 	show: {
-		solo:   true, // Only show one tooltip at a time
+		solo: true, // Only show one tooltip at a time
 	},
 	hide: {
-		leave:  false,
+		leave: false,
 	},
 };
 
@@ -161,22 +161,22 @@ itg.doInitTooltips = () => {
 	}
 
 	// Get all tooltips spans
-	const $tooltipLinks = $( types.map( type => `a.itg-${ type }`).join( ',' ));
+	const $tooltipLinks = $( types.map( type => `a.itg-${ type }` ).join( ',' ));
 	itg.log( 'Having following elements to init tooltpis on: ', $tooltipLinks );
 
-	$tooltipLinks.each( (index, tooltipLink) => {
-		const takeAttr = comon.generateTakeAttr(tooltipLink);
+	$tooltipLinks.each(( index, tooltipLink ) => {
+		const takeAttr = comon.generateTakeAttr( tooltipLink );
 		// ## Init tooltip
 		const $tooltipLink = $( tooltipLink );
 
 		const renderFcts = [];
-		const qTipConfigComponents = [defaultComonTipOptions];
+		const qTipConfigComponents = [ defaultComonTipOptions ];
 
 		/* Use provided data or use the default settings */
-		const qtiptrigger = takeAttr( 'qtiptrigger', itg.qtiptrigger);
+		const qtiptrigger = takeAttr( 'qtiptrigger', itg.qtiptrigger );
 		qTipConfigComponents.push({
-			show: { event:  qtiptrigger },
-			hide: { event:  ( 'responsive' === qtiptrigger ) ? 'responsiveout' : 'mouseleave' },
+			show: { event: qtiptrigger },
+			hide: { event: ( 'responsive' === qtiptrigger ) ? 'responsiveout' : 'mouseleave' },
 		});
 		$tooltipLink
 			.click( linkEventHandlers.click )
@@ -187,34 +187,34 @@ itg.doInitTooltips = () => {
 
 		qTipConfigComponents.push({
 			show: {
-				effect: comon.get(itg.animationFunctions.in, [takeAttr('animation_in', 'none')], itg.animationFunctions.in.none),
+				effect: comon.get( itg.animationFunctions.in, [ takeAttr( 'animation_in', 'none' ) ], itg.animationFunctions.in.none ),
 			},
 			hide: {
-				effect: comon.get(itg.animationFunctions.out, [takeAttr('animation_out', 'none')], itg.animationFunctions.in.none),
+				effect: comon.get( itg.animationFunctions.out, [ takeAttr( 'animation_out', 'none' ) ], itg.animationFunctions.in.none ),
 			},
 		});
 
-		const tipStyle = takeAttr('tip-style', itg.qtipstyle);
-		const classes = takeAttr('tip-classes', '');
-		const tipShadow = takeAttr('tip-shadow', itg.qtipshadow);
-		const tipRounded = takeAttr('tip-rounded', itg.qtiprounded);
+		const tipStyle = takeAttr( 'tip-style', itg.qtipstyle );
+		const classes = takeAttr( 'tip-classes', '' );
+		const tipShadow = takeAttr( 'tip-shadow', itg.qtipshadow );
+		const tipRounded = takeAttr( 'tip-rounded', itg.qtiprounded );
 
 		qTipConfigComponents.push({
-			position:  {
-				at: takeAttr( 'position-at', 'top center'), // Position the tooltip above the link
-				my: takeAttr( 'position-my', 'bottom center'),// The tip corner goes down
+			position: {
+				at: takeAttr( 'position-at', 'top center' ), // Position the tooltip above the link
+				my: takeAttr( 'position-my', 'bottom center' ), // The tip corner goes down
 			},
 			events: {
-				render: doTipRender.bind(null, renderFcts, {
-					maxWidth: takeAttr('tip-maxwidth'),
-					animDuration: takeAttr('anim-duration', itg.anims.duration),
+				render: doTipRender.bind( null, renderFcts, {
+					maxWidth:     takeAttr( 'tip-maxwidth' ),
+					animDuration: takeAttr( 'anim-duration', itg.anims.duration ),
 				}),
 			},
 		});
 
-		let title = takeAttr('title', tooltipLink.textContent);
+		let title = takeAttr( 'title', tooltipLink.textContent );
 		let content;
-		const tipClasses = classes.split(/\s+/).concat([
+		const tipClasses = classes.split( /\s+/ ).concat([
 			`qtip-${ tipStyle }`,
 			tipShadow ? 'qtip-shadow' : false,
 			tipRounded ? ' qtip-rounded' : false,
@@ -223,12 +223,12 @@ itg.doInitTooltips = () => {
 		if ( $tooltipLink.hasClass( 'itg-glossary' )) {
 			// ### Glossary tips
 			itg.info( 'Do init a GLOSSARYTIP' );
-			tipClasses.push('itg-glossary');
-			const contenttype = takeAttr('glossary-contenttype', itg.contenttype);
-			if(contenttype !== 'off'){
-				const glossaryId = takeAttr('glossary-id');
-				const glossaryContent = takeAttr('glossary-content');
-				if (!isNA(glossaryId) ) {
+			tipClasses.push( 'itg-glossary' );
+			const contenttype = takeAttr( 'glossary-contenttype', itg.contenttype );
+			if ( contenttype !== 'off' ) {
+				const glossaryId = takeAttr( 'glossary-id' );
+				const glossaryContent = takeAttr( 'glossary-content' );
+				if ( !isNA( glossaryId )) {
 					// Define the `ajaxPostData` that will be used bellow to send the request to the API
 					const ajaxPostData = {
 						action:      'ithoughts_tt_gl_get_term_details',
@@ -237,12 +237,13 @@ itg.doInitTooltips = () => {
 						_ajax_nonce: itg.nonce,
 					};
 					// If WPML is installed, the tooltip editor allow the user to check the *disable auto translation* option, and this option should be used when querying the API
-					if ( 'true' === takeAttr( 'disable_auto_translation' )){
+					if ( 'true' === takeAttr( 'disable_auto_translation' )) {
 						ajaxPostData['disable_auto_translation'] = true;
 					}
 					// #### Load via Ajax
 					content = itg.lang.qtip.pleasewait_ajaxload.content,
-						qTipConfigComponents.push({ content: {
+						qTipConfigComponents.push({
+						content: {
 							ajax: {
 								// Use the [admin_ajax](http://www.google.com) endpoint provided by wordpress
 								url:     itg.admin_ajax,
@@ -263,71 +264,75 @@ itg.doInitTooltips = () => {
 									}
 								},
 							},
-						}});
-				} else if ( !isNA(glossaryContent)) {
+						},
+					});
+				} else if ( !isNA( glossaryContent )) {
 					// #### Static term
 					content = glossaryContent;
 				}
 			}
-		} else if ( $tooltipLink.hasClass( `itg-tooltip` )) {
+		} else if ( $tooltipLink.hasClass( 'itg-tooltip' )) {
 			// ### Tooltip
 			itg.info( 'Do init a TOOLTIP' );
-			tipClasses.push('itg-tooltip');
+			tipClasses.push( 'itg-tooltip' );
 			content = itg.replaceQuotes( takeAttr( 'tooltip-content', '' ), false );
-		} else if ( $tooltipLink.hasClass( `itg-mediatip` )) {
+		} else if ( $tooltipLink.hasClass( 'itg-mediatip' )) {
 			// ### Mediatip
 			itg.info( 'Do init a MEDIATIP' );
-			tipClasses.push('itg-mediatip');
+			tipClasses.push( 'itg-mediatip' );
 			qTipConfigComponents.push({
 				position: {
 					adjust: {
 						scroll: false,
+						screen: true,
 					},
 				},
 				events: {
-					show(){
+					show() {
 						$tooltipLink.qtip().reposition();
 					},
 				},
 			});
 
-			const type = takeAttr('mediatip-type', false);
-			const source = takeAttr('mediatip-source');
+			const type = takeAttr( 'mediatip-type', false );
+			const source = takeAttr( 'mediatip-source' );
 
-			const caption = takeAttr('mediatip-caption', '');
+			const caption = takeAttr( 'mediatip-caption', '' );
 			if ( caption ) {
-				content = `<div class="ithoughts_tt_gl-caption">${ itg.replaceQuotes(caption, false) }</div>`;
+				content = `<div class="ithoughts_tt_gl-caption">${ itg.replaceQuotes( caption, false ) }</div>`;
 			}
 
-			switch(type){
+			switch ( type ) {
 				case 'localimage':
-				case 'webimage':{
+				case 'webimage': {
 					// #### Image
 					const attrs = new OptArray({
 						src: source,
 						alt: title,
 					});
-					const filters = comon.get(itg, ['qtip_filters', 'mediatip'], []);
-					filters.forEach(filter => {
+					const filters = comon.get( itg, [ 'qtip_filters', 'mediatip' ], []);
+					filters.forEach( filter => {
 						extend( attrs.opts, filter.call( attrs.opts ));
 					});
 
-					content = `<img ${ attrs.toString() }>${content}`;
+					content = `<img ${ attrs.toString() }>${ content }`;
 				} break;
 
-				case 'webvideo':{
-					const replacedText = itg.replaceQuotes(comon.htmlDecode(source).trim(), false);
+				case 'webvideo': {
+					const replacedText = itg.replaceQuotes( comon.htmlDecode( source ).trim(), false );
 					const $video = $( $.parseHTML( replacedText ));
 					const redimedInfos = getRedimInfos( $video );
-					renderFcts.push(bindLockOnPinClick);
-					console.log(redimedInfos);
+					renderFcts.push( bindLockOnPinClick );
+					console.log( redimedInfos );
 					// #### Iframe / HTML
-					content = `${redimedInfos['text']}${content}`;
-					title = `<span class="itg_pin_container"><svg viewBox="0 0 26 26" class="itg_pin"><use xlink:href="#icon-pin"></use></svg></span><span class="ithoughts_tt_gl-title_with_pin">${ title }</span>`
-					qTipConfigComponents.push({ style: {
-						width: redimedInfos['dims']['width'],
-					}});
-					tipClasses.push('itg-mediatip', 'ithoughts_tt_gl-force_no_pad', 'ithoughts_tt_gl-video_tip', 'ithoughts_tt_gl-with_pin');
+					content = `${ redimedInfos['text'] }${ content }`;
+					title = `<span class="itg_pin_container"><svg viewBox="0 0 26 26" class="itg_pin"><use xlink:href="#icon-pin"></use></svg></span><span class="ithoughts_tt_gl-title_with_pin">${ title }</span>`;
+					qTipConfigComponents.push({
+						style: {
+							width: redimedInfos['dims']['width'],
+						},
+					});
+					tipClasses.push( 'itg-mediatip', 'ithoughts_tt_gl-force_no_pad', 'ithoughts_tt_gl-video_tip', 'ithoughts_tt_gl-with_pin' );
 				} break;
 			}
 		} else {
@@ -336,14 +341,18 @@ itg.doInitTooltips = () => {
 
 		// ## Override defaults
 		if ( 'true' === $tooltipLink.data( 'tip-autoshow' )) {
-			qTipConfigComponents.push({ show: {
-				ready: true,
-			}});
+			qTipConfigComponents.push({
+				show: {
+					ready: true,
+				},
+			});
 		}
 		if ( 'true' === $tooltipLink.data( 'tip-nosolo' )) {
-			qTipConfigComponents.push({ show: {
-				solo: false,
-			}});
+			qTipConfigComponents.push({
+				show: {
+					solo: false,
+				},
+			});
 		}
 		if ( 'true' === $tooltipLink.data( 'tip-nohide' )) {
 			qTipConfigComponents.push({
@@ -356,11 +365,13 @@ itg.doInitTooltips = () => {
 		if ( $tooltipLink.data( 'tip-id' )) {
 			qTipConfigComponents.push({  id: $tooltipLink.data( 'tip-id' ) });
 		}
-		if ( $tooltipLink.data( 'qtip-keep-open' ) || $tooltipLink.hasClass( `itg-mediatip` )) {
-			qTipConfigComponents.push({ hide: {
-				fixed: true,
-				delay: 250,
-			}});
+		if ( $tooltipLink.data( 'qtip-keep-open' ) || $tooltipLink.hasClass( 'itg-mediatip' )) {
+			qTipConfigComponents.push({
+				hide: {
+					fixed: true,
+					delay: 250,
+				},
+			});
 		}
 		if ( 'true' === $tooltipLink.data( 'tip-prerender' )) {
 			qTipConfigComponents.push({ 
@@ -371,14 +382,14 @@ itg.doInitTooltips = () => {
 		const tooltipOpts = extend( true, {}, ...qTipConfigComponents, {
 			content: {
 				title,
-				text: content
+				text: content,
 			},
 			style: {
-				classes: tipClasses.filter(v => !!v).join(' '),
+				classes: tipClasses.filter( v => !!v ).join( ' ' ),
 			},
-		} );
+		});
 
-		itg.log('Final tooltip options: ', tooltipLink, tooltipOpts);
+		itg.log( 'Final tooltip options: ', tooltipLink, tooltipOpts );
 
 		$tooltipLink.qtip( tooltipOpts );
 
@@ -387,127 +398,133 @@ itg.doInitTooltips = () => {
 	});
 };
 
-itg.modalFromTemplate = ($template, closeCurrent = true) => {
-	if($template.length === 1){
-		itg.modal($template.attr('title'), $($template.get(0).content.children).clone(), closeCurrent);
+const ensureJQuery = val => {
+	if ( 'string' === typeof val ) {
+		val = $.parseHTML( val );
 	}
+	return $( val );
+};
+const getDefaultStyles = () => {
+	return [
+		`qtip-${ itg.qtipstyle }`,
+		itg.qtipshadow,
+		itg.qtiprounded,
+	].filter(v => !!v).join(' ');
 }
 
 let modals = [];
-const ensureJQuery = val => {
-	if(typeof val === 'string'){
-		val = $.parseHTML(val);
+itg.modalFromTemplate = ( $template, closeCurrent = true ) => {
+	if ( 1 === $template.length ) {
+		itg.modal( $template.attr( 'title' ), $( $template.get( 0 ).content.children ).clone(), closeCurrent );
 	}
-	return $(val);
 };
-
-itg.modal = (title, content, closeCurrent = true) => {
-	if(closeCurrent === true){
-		modals.forEach(modal => modal.hide());
+itg.modal = ( title, content, closeCurrent = true ) => {
+	if ( true === closeCurrent ) {
+		modals.forEach( modal => modal.hide());
 		modals = [];
 	}
 
-	title = ensureJQuery(title);
-	content = ensureJQuery(content).add($('<button/>', {
+	title = ensureJQuery( title );
+	content = ensureJQuery( content ).add( $( '<button/>', {
 		class: 'button close-modal',
-		text: 'Close',
+		text:  'Close',
 	}));
 
-	modals.push($('<div />').qtip({
+	modals.push( $( '<div />' ).qtip({
 		content: {
-			text: content,
-			title: title
+			text:  content,
+			title: title,
 		},
 		position: {
-			my: 'center', at: 'center',
-			target: $w,
+			my:        'center',
+			at:        'center',
+			target:    $w,
 			container: $tooltipsContainer,
 		},
 		show: {
 			ready: true,
 			modal: {
-				on: true,
-				blur: false
-			}
+				on:   true,
+				blur: false,
+			},
 		},
-		hide: false,
-		style: 'dialogue',
+		hide:   false,
+		style:  getDefaultStyles() + ' dialogue',
 		events: {
-			render(event, api){
-				$('.close-modal', api.elements.content).click(event => {
-					api.hide(event);
+			render( event, api ) {
+				$( '.close-modal', api.elements.content ).click( event => {
+					api.hide( event );
 				});
 			},
-			hide(event, api) { api.destroy(); }
-		}
-	}).qtip('api'));
+			hide( event, api ) {
+				api.destroy(); 
+			},
+		},
+	}).qtip( 'api' ));
 };
 // From http://jsfiddle.net/qTip2/g140etht/
-itg.growl = (title, content, persistent = true) => {
-	if($growlContainer.length === 0){
-		$growlContainer = $($.parseHTML('<div id="itg-growl-container"></div>'));
+itg.growl = ( title, content, persistent = true ) => {
+	if ( 0 === $growlContainer.length ) {
+		$growlContainer = $( $.parseHTML( '<div id="itg-growl-container"></div>' ));
 		$( document.body ).append( $growlContainer );
 	}
-	const target = $('.qtip.jgrowl:visible:last');
-	title = ensureJQuery(title);
-	content = ensureJQuery(content);
-	$('<div/>').qtip({
+	const target = $( '.qtip.jgrowl:visible:last' );
+	title = ensureJQuery( title );
+	content = ensureJQuery( content );
+	$( '<div/>' ).qtip({
 		content: {
-			text: content,
+			text:  content,
 			title: {
-				text: title,
-				button: true
-			}
+				text:   title,
+				button: true,
+			},
 		},
 		position: {
-			target: [0,0],
+			target:    [ 0, 0 ],
 			container: $growlContainer,
+			adjust:    {
+				screen: true,
+				scroll: true,
+			},
 		},
 		show: {
 			event: false,
 			ready: true,
-			effect(){
-				$(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+			effect() {
+				$( this ).stop( 0, 1 ).animate({ height: 'toggle' }, 400, 'swing' );
 			},
-			delay: 0,
+			delay:      0,
 			persistent: persistent,
 		},
 		hide: {
 			event: false,
 			effect() {
-				$(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+				$( this ).stop( 0, 1 ).animate({ height: 'toggle' }, 400, 'swing' );
 			},
 		},
 		style: {
-			width: 250,
-			classes: 'jgrowl',
-			tip: false
+			width:   250,
+			classes: getDefaultStyles() + ' jgrowl',
+			tip:     false,
 		},
 		events: {
-			render(event, api) {
-				if(!api.options.show.persistent) {
-					$(this)
-						.bind('mouseover mouseout', event => {
+			render( event, api ) {
+				if ( !api.options.show.persistent ) {
+					$( this )
+						.bind( 'mouseover mouseout', event => {
 						const lifespan = 5000;
 
-						clearTimeout(api.timer);
-						if (event.type !== 'mouseover') {
-							api.timer = setTimeout(event => api.hide(event), lifespan);
+						clearTimeout( api.timer );
+						if ( event.type !== 'mouseover' ) {
+							api.timer = setTimeout( event => api.hide( event ), lifespan );
 						}
 					})
-						.triggerHandler('mouseout');
+						.triggerHandler( 'mouseout' );
 				}
-			}
-		}
+			},
+		},
 	});
 };
-
-function dom2string( who ) {
-	var tmp = $( document.createElement( 'div' ));
-	$( tmp ).append( $( who ));
-	tmp = tmp.html();
-	return tmp;
-}
 
 $w.resize( function waitStopRedimVideoRedim() {
 	clearTimeout( redimWait );
@@ -551,7 +568,7 @@ function redimVid( video ) {
 				width:  optDims[0],
 				height: optDims[1],
 			},
-			text: dom2string( video ),
+			text: comon.htmlDecode( video ),
 		};
 	}
 }

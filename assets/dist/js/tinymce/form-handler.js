@@ -92,9 +92,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 		};
 
 		var isTrueValue = function isTrueValue(val) {
-			if (typeof val === 'string' && (val === '1' || val.toLowerCase() === 'true')) {
+			if ('string' === typeof val && ('1' === val || 'true' === val.toLowerCase())) {
 				return true;
-			} else if (typeof val === 'number') {
+			} else if ('number' === typeof val) {
 				return val > 0;
 			}
 			return false;
@@ -967,7 +967,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			return function (match) {
 				var key = utils.maybePrefixAttribute(match[1] + match[2]);
 				var value = match[3];
-				if (key === 'data-type') {
+				if ('data-type' === key) {
 					return;
 				}
 				opt.addOpt(key, value);
@@ -1129,7 +1129,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 									itg.info('Selection infos to load LIST: ', selection);
 									mode = 'insert_content';
 									node = selection.start;
-									values = { type: 'atoz', alpha: [], group: [] };
+									values = {
+										type: 'atoz',
+										alpha: [],
+										group: []
+									};
 
 									if (!isNA(selection.start) && selection.start === selection.end) {
 										itg.info("Start & End node are the same, operating on a node of type " + node.nodeName);
@@ -1192,7 +1196,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 											var finalContent = "[" + shortcode + " " + optArr.toString() + "/]" + tail;
 											itg.log('Final content:', finalContent);
-											return resolve({ finalContent: finalContent, mode: mode });
+											return resolve({
+												finalContent: finalContent,
+												mode: mode
+											});
 										};
 									}));
 
@@ -1432,7 +1439,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 											}
 											var finalContent = "[" + shortcode + " " + optArr.toString() + "]" + data.text + "[/" + shortcode + "]" + tail;
 											itg.log('Final content:', finalContent);
-											return resolve({ finalContent: finalContent, mode: mode });
+											return resolve({
+												finalContent: finalContent,
+												mode: mode
+											});
 										};
 									}));
 

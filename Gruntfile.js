@@ -446,7 +446,10 @@ module.exports = function gruntInit( grunt ) {
 		'phpdoc',
 	]);
 	grunt.registerTask( 'buildStyles', [
-		'sass',
+		'changed:sass',
+	]);
+	grunt.registerTask( 'buildHtml', [
+		'changed:htmlmin:dist',
 	]);
 	grunt.registerTask( 'buildScripts', [
 		//'eslint:dist',

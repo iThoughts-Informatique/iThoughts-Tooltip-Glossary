@@ -140,7 +140,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       // Page index
       var $glossaryIndex = $('#glossaryindex');
       $glossaryIndex.bind(events.replace('blur', '').replace('mouseup', ''), function () {
-        if ($glossaryIndex.val() === 'new' && itg.indexPageEditor) {
+        if ('new' === $glossaryIndex.val() && itg.indexPageEditor) {
           $glossaryIndex.focusout();
           itg.indexPageEditor();
         }
@@ -218,9 +218,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     };
 
     var isTrueValue = function isTrueValue(val) {
-      if (typeof val === 'string' && (val === '1' || val.toLowerCase() === 'true')) {
+      if ('string' === typeof val && ('1' === val || 'true' === val.toLowerCase())) {
         return true;
-      } else if (typeof val === 'number') {
+      } else if ('number' === typeof val) {
         return val > 0;
       }
       return false;

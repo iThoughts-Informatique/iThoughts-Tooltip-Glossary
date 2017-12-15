@@ -6,8 +6,8 @@ const itg       = iThoughtsTooltipGlossary;
 const {$} = ithoughts;
 
 itg.indexPageEditor = () => {
-	itg.info('Started index page editor');
+	itg.info( 'Started index page editor' );
 
-	const $template = $('#itg-index-page');
-	itg.modalFromTemplate($template);
-}
+	const $template = $( '#itg-index-page' );
+	itg.modalFromTemplate( $template );
+};

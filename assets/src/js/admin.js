@@ -11,12 +11,14 @@
 
 'use strict';
 
-const initFloater = require('./floater');
-const comon = require('./comon');
+const initFloater = require( './floater' );
+const comon = require( './comon' );
 
 const ithoughts = iThoughts.v5;
 
-const {$, $d} = ithoughts;
+const {
+	$, $d,
+} = ithoughts;
 const itg = iThoughtsTooltipGlossary;
 
 /**
@@ -44,76 +46,76 @@ itg.updateStyle = ( keepDefaults, themename, target ) => {
 };
 
 $d
-	.ready(initFloater)
+	.ready( initFloater )
 	.ready(() => {
 	// #### Get some DOMs
 	// Get the tip and show it
-	const $demotip = $( '#qtip-exampleStyle' );
-	$demotip.qtip( 'api' ).show();
+		const $demotip = $( '#qtip-exampleStyle' );
+		$demotip.qtip( 'api' ).show();
 
-	const events = 'change blur keyup mouseup';
+		const events = 'change blur keyup mouseup';
 	
-	// Styles
-	const $styleI = $( '#qtipstyle' );
-	const $shadowI = $( '#qtipshadow' );
-	const $roundedI = $( '#qtiprounded' );
-	ithoughts.$merge( $styleI, $shadowI, $roundedI ).bind( events, () => {
-		const baseStyles = [
-			'ithoughts_tt_gl-tooltip',
-			'qtip-pos-br',
-		];
-		if ( $shadowI.is( ':checked' )) {
-			baseStyles.push( 'qtip-shadow' );
-		}
-		if ( $roundedI.is( ':checked' )) {
-			baseStyles.push( 'qtip-rounded' );
-		}
-		itg.updateStyle( baseStyles, $styleI.val(), $demotip );
-	});
+		// Styles
+		const $styleI = $( '#qtipstyle' );
+		const $shadowI = $( '#qtipshadow' );
+		const $roundedI = $( '#qtiprounded' );
+		ithoughts.$merge( $styleI, $shadowI, $roundedI ).bind( events, () => {
+			const baseStyles = [
+				'ithoughts_tt_gl-tooltip',
+				'qtip-pos-br',
+			];
+			if ( $shadowI.is( ':checked' )) {
+				baseStyles.push( 'qtip-shadow' );
+			}
+			if ( $roundedI.is( ':checked' )) {
+				baseStyles.push( 'qtip-rounded' );
+			}
+			itg.updateStyle( baseStyles, $styleI.val(), $demotip );
+		});
 	
-	// Events & effects
-	const $triggerI = $( '#qtiptrigger' );
-	const $animInI = $( '#anim_in' );
-	const $animOutI = $( '#anim_out' );
-	const $animTimeI = $( '#anim_time' );
-	ithoughts.$merge( $triggerI, $animInI, $animOutI, $animTimeI ).bind( events, () => {
+		// Events & effects
+		const $triggerI = $( '#qtiptrigger' );
+		const $animInI = $( '#anim_in' );
+		const $animOutI = $( '#anim_out' );
+		const $animTimeI = $( '#anim_time' );
+		ithoughts.$merge( $triggerI, $animInI, $animOutI, $animTimeI ).bind( events, () => {
 		// Set the demotip as configured in the inputs
-		const trigger = $triggerI.val();
-		try {
-			$demotip
-				.qtip( 'option', 'show.event', trigger )
-				.qtip( 'option', 'hide.event', ( 'responsive' === trigger ) ? 'responsiveout' : 'mouseleave' )
-				.qtip( 'option', 'show.effect', itg.animationFunctions.in[$animInI.val()])
-				.qtip( 'option', 'hide.effect', itg.animationFunctions.out[$animOutI.val()])
-				.prop( 'animation_duration', parseInt( $animTimeI.val() || 500 ));
-		} catch ( error ) {
-			itg.error( error );
-		}
-	});
+			const trigger = $triggerI.val();
+			try {
+				$demotip
+					.qtip( 'option', 'show.event', trigger )
+					.qtip( 'option', 'hide.event', ( 'responsive' === trigger ) ? 'responsiveout' : 'mouseleave' )
+					.qtip( 'option', 'show.effect', itg.animationFunctions.in[$animInI.val()])
+					.qtip( 'option', 'hide.effect', itg.animationFunctions.out[$animOutI.val()])
+					.prop( 'animation_duration', parseInt( $animTimeI.val() || 500 ));
+			} catch ( error ) {
+				itg.error( error );
+			}
+		});
 	
-	// Log purge
-	$('#itg-purge').click(async () => {
-		try{
-			await comon.sendAjaxQuery('purge_logs', null, $('#_wpnonce').val());
-		} catch(error){
-			itg.growl('AJAX request error', error.statusText, false);
-		}
-	});
+		// Log purge
+		$( '#itg-purge' ).click( async() => {
+			try {
+				await comon.sendAjaxQuery( 'purge_logs', null, $( '#_wpnonce' ).val());
+			} catch ( error ) {
+				itg.growl( 'AJAX request error', error.statusText, false );
+			}
+		});
 	
-	// Verbosity
-	const $verbosityInput = $( '#verbosity' );
-	const $verbosityLabel = $( '#ithoughts_tt_gl-verbosity_label' );
-	const verbosityLabels = $verbosityLabel.data( 'labels' );
-	$verbosityInput.on( 'input', () => {
-		$verbosityLabel.text( verbosityLabels[$verbosityInput.val()]);
-	}).trigger( 'input' );
+		// Verbosity
+		const $verbosityInput = $( '#verbosity' );
+		const $verbosityLabel = $( '#ithoughts_tt_gl-verbosity_label' );
+		const verbosityLabels = $verbosityLabel.data( 'labels' );
+		$verbosityInput.on( 'input', () => {
+			$verbosityLabel.text( verbosityLabels[$verbosityInput.val()]);
+		}).trigger( 'input' );
 	
-	// Page index
-	const $glossaryIndex = $('#glossaryindex');
-	$glossaryIndex.bind(events.replace('blur','').replace('mouseup', ''), () => {
-		if($glossaryIndex.val() === 'new' && itg.indexPageEditor){
-			$glossaryIndex.focusout();
-			itg.indexPageEditor();
-		}
+		// Page index
+		const $glossaryIndex = $( '#glossaryindex' );
+		$glossaryIndex.bind( events.replace( 'blur', '' ).replace( 'mouseup', '' ), () => {
+			if ( 'new' === $glossaryIndex.val() && itg.indexPageEditor ) {
+				$glossaryIndex.focusout();
+				itg.indexPageEditor();
+			}
+		});
 	});
-});

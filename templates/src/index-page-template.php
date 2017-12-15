@@ -13,9 +13,16 @@
 				</tr>
 			</tbody>
 		</table>
-		<div>
-			<img src="<?php echo $this->backbone->get_base_url(); ?>/assets/dist/imgs/list-icons/a-to-z.svg" alt="<?php esc_attr_e('A to Z', 'ithoughts-tooltip-glossary'); ?>"/>
-			<img src="<?php echo $this->backbone->get_base_url(); ?>/assets/dist/imgs/list-icons/list.svg" alt="<?php esc_attr_e('List', 'ithoughts-tooltip-glossary'); ?>"/>
+		<h2>Page index type</h2>
+		<div id="itg-listtypes">
+			<button type="button" class="img-container button">
+				<h3>A to Z</h3>
+				<img src="<?php echo $this->backbone->get_base_url(); ?>/assets/dist/imgs/list-icons/a-to-z.svg" alt="<?php esc_attr_e('A to Z', 'ithoughts-tooltip-glossary'); ?>"/>
+			</button>
+			<button type="button" class="img-container button">
+				<h3>List</h3>
+				<img src="<?php echo $this->backbone->get_base_url(); ?>/assets/dist/imgs/list-icons/list.svg" alt="<?php esc_attr_e('List', 'ithoughts-tooltip-glossary'); ?>"/>
+			</button>
 		</div>
 	</form>
 </template>

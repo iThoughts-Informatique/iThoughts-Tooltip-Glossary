@@ -13,18 +13,20 @@
 
 /*global tinymce:false, iThoughtsTooltipGlossaryEditor: false */
 
-require('regenerator-runtime/runtime');
+require( 'regenerator-runtime/runtime' );
 
-const utils     = require('./tinymce-utils');
-const filters   = require('./tinymce-filters');
+const utils     = require( './tinymce-utils' );
+const filters   = require( './tinymce-filters' );
 
 const ithoughts = iThoughts.v5;
 const itg       = iThoughtsTooltipGlossary;
 const itge      = iThoughtsTooltipGlossaryEditor;
 
-const { $, $d, $w } = ithoughts;
+const {
+	$, $d, $w, 
+} = ithoughts;
 
-$d.ready( () => {
+$d.ready(() => {
 	let formType = '';
 	// Depending on the ID present, we can deduce if we are in TIP or LIST creation/edition mode.
 	if ( 1 === $( '#ithoughts_tt_gl-tooltip-form-container' ).length ) {
@@ -35,7 +37,7 @@ $d.ready( () => {
 		itg.error( 'Does not contains a tooltip form nor a list form, exit' );
 		return;
 	}
-	itg.info(`Opening a form for ${formType}`);
+	itg.info( `Opening a form for ${ formType }` );
 
 	// ##### `initTab`: Set up a tab switcher element
 	/**
@@ -48,7 +50,7 @@ $d.ready( () => {
 		 */
 	const initTab = ( $tabs, cb ) => {
 		$tabs.click( function onClick() {
-			const $this = $(this);
+			const $this = $( this );
 			// First, clean the `active` class on all siblings, then set it only on event emitter
 			$this.parent().find( '.active' ).removeClass( 'active' );
 			$this.addClass( 'active' );
@@ -63,7 +65,7 @@ $d.ready( () => {
 		});
 		// Self-set
 		$tabs.filter( '.active' ).click();
-	}
+	};
 
 	// ## Tip form
 	if ( 'TIP' === formType ) {
@@ -650,7 +652,7 @@ $d.ready( () => {
 					$groupsPicker = $( '.groupspicker' ),
 					$catchEvent = $([ $groupsPicker.get( 0 ), $text.parent().get( 0 ) ]),
 					$checkboxes = $( '.groupspicker .group-select input' );
-				$text.focusin( () => {
+				$text.focusin(() => {
 					$groupsPicker.toggleClass( 'hidden' );
 
 					function catchEvent( e ) {
@@ -684,7 +686,7 @@ $d.ready( () => {
 					type:  [ 'atoz', 'list' ][$( '.tabs li.active' ).index()],
 					alpha: $( '#letters' ).val(),
 					group: $( '#groups' ).val(),
-					desc: $( '#description_mode' ).val(),
+					desc:  $( '#description_mode' ).val(),
 				};
 				// Remove useless fields
 				if ( !data.alpha ) {

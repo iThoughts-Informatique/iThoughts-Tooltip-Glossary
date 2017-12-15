@@ -92,9 +92,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 		};
 
 		var isTrueValue = function isTrueValue(val) {
-			if (typeof val === 'string' && (val === '1' || val.toLowerCase() === 'true')) {
+			if ('string' === typeof val && ('1' === val || 'true' === val.toLowerCase())) {
 				return true;
-			} else if (typeof val === 'number') {
+			} else if ('number' === typeof val) {
 				return val > 0;
 			}
 			return false;
@@ -193,7 +193,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		var extend = $.extend;
 
-		var $tooltipsContainer = $($.parseHTML("<div id=\"itg-tipsContainer\" class=\"itg-tipsContainer\"></div>"));
+		var $tooltipsContainer = $($.parseHTML('<div id="itg-tipsContainer" class="itg-tipsContainer"></div>'));
 		$(document.body).append($tooltipsContainer);
 		var $growlContainer = $('#itg-growl-container');
 		var types = ['glossary', 'tooltip', 'mediatip'];
@@ -203,14 +203,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 		ithoughts.initLoggers(itg, 'iThoughts Tooltip Glossary', itg.verbosity);
 
 		/**
-  	 * @function replaceQuotes
-  	 * @description Encode or decode string with pseudo-html encoded quote
-  	 * @memberof ithoughts_tooltip_glossary
-  	 * @param {string} string String to encode or decode
-  	 * @param {boolean} encode True to encode, false to decode
-  	 * @returns {string} Encoded or decoded string
-  	 * @author Gerkin
-  	 */
+   * @function replaceQuotes
+   * @description Encode or decode string with pseudo-html encoded quote
+   * @memberof ithoughts_tooltip_glossary
+   * @param {string} string String to encode or decode
+   * @param {boolean} encode True to encode, false to decode
+   * @returns {string} Encoded or decoded string
+   * @author Gerkin
+   */
 		itg.replaceQuotes = function (string, encode) {
 			if (typeof string != 'string') {
 				return '';
@@ -237,17 +237,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 		var linkEventHandlers = {
 			click: function click(event) {
 				var trigger = this.getAttribute('data-tip-trigger') || itg.qtiptrigger;
-				if (trigger === 'responsive') {
+				if ('responsive' === trigger) {
 					if (!linksExpanded.get(this) && linksTouch.get(this) !== 0) {
 						linksExpanded.set(this, true);
 						$(this).triggerHandler('responsive');
 						event.preventDefault();
 					}
-				} else {
-					if (linksTouch.get(this) !== 1) {
-						event.preventDefault();
-						linksTouch.set(this, 1);
-					}
+				} else if (linksTouch.get(this) !== 1) {
+					event.preventDefault();
+					linksTouch.set(this, 1);
 				}
 			},
 			touchstart: function touchstart() {
@@ -292,7 +290,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 		var bindLockOnPinClick = function bindLockOnPinClick(event, api) {
 			// Grab the tooltip element from the API elements object
 			// Notice the 'tooltip' prefix of the event name!
-			api.elements.title.find(".itg_pin_container").click(function clickPinKeepOpen() {
+			api.elements.title.find('.itg_pin_container').click(function clickPinKeepOpen() {
 				if ($(this).toggleClass('pined').hasClass('pined')) {
 					api.disable();
 				} else {
@@ -408,7 +406,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 								ajaxPostData['disable_auto_translation'] = true;
 							}
 							// #### Load via Ajax
-							content = itg.lang.qtip.pleasewait_ajaxload.content, qTipConfigComponents.push({ content: {
+							content = itg.lang.qtip.pleasewait_ajaxload.content, qTipConfigComponents.push({
+								content: {
 									ajax: {
 										// Use the [admin_ajax](http://www.google.com) endpoint provided by wordpress
 										url: itg.admin_ajax,
@@ -429,25 +428,27 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 											}
 										}
 									}
-								} });
+								}
+							});
 						} else if (!isNA(glossaryContent)) {
 							// #### Static term
 							content = glossaryContent;
 						}
 					}
-				} else if ($tooltipLink.hasClass("itg-tooltip")) {
+				} else if ($tooltipLink.hasClass('itg-tooltip')) {
 					// ### Tooltip
 					itg.info('Do init a TOOLTIP');
 					tipClasses.push('itg-tooltip');
 					content = itg.replaceQuotes(takeAttr('tooltip-content', ''), false);
-				} else if ($tooltipLink.hasClass("itg-mediatip")) {
+				} else if ($tooltipLink.hasClass('itg-mediatip')) {
 					// ### Mediatip
 					itg.info('Do init a MEDIATIP');
 					tipClasses.push('itg-mediatip');
 					qTipConfigComponents.push({
 						position: {
 							adjust: {
-								scroll: false
+								scroll: false,
+								screen: true
 							}
 						},
 						events: {
@@ -492,9 +493,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 								// #### Iframe / HTML
 								content = "" + redimedInfos['text'] + content;
 								title = "<span class=\"itg_pin_container\"><svg viewBox=\"0 0 26 26\" class=\"itg_pin\"><use xlink:href=\"#icon-pin\"></use></svg></span><span class=\"ithoughts_tt_gl-title_with_pin\">" + title + "</span>";
-								qTipConfigComponents.push({ style: {
+								qTipConfigComponents.push({
+									style: {
 										width: redimedInfos['dims']['width']
-									} });
+									}
+								});
 								tipClasses.push('itg-mediatip', 'ithoughts_tt_gl-force_no_pad', 'ithoughts_tt_gl-video_tip', 'ithoughts_tt_gl-with_pin');
 							}break;
 					}
@@ -504,14 +507,18 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 				// ## Override defaults
 				if ('true' === $tooltipLink.data('tip-autoshow')) {
-					qTipConfigComponents.push({ show: {
+					qTipConfigComponents.push({
+						show: {
 							ready: true
-						} });
+						}
+					});
 				}
 				if ('true' === $tooltipLink.data('tip-nosolo')) {
-					qTipConfigComponents.push({ show: {
+					qTipConfigComponents.push({
+						show: {
 							solo: false
-						} });
+						}
+					});
 				}
 				if ('true' === $tooltipLink.data('tip-nohide')) {
 					qTipConfigComponents.push({
@@ -524,11 +531,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				if ($tooltipLink.data('tip-id')) {
 					qTipConfigComponents.push({ id: $tooltipLink.data('tip-id') });
 				}
-				if ($tooltipLink.data('qtip-keep-open') || $tooltipLink.hasClass("itg-mediatip")) {
-					qTipConfigComponents.push({ hide: {
+				if ($tooltipLink.data('qtip-keep-open') || $tooltipLink.hasClass('itg-mediatip')) {
+					qTipConfigComponents.push({
+						hide: {
 							fixed: true,
 							delay: 250
-						} });
+						}
+					});
 				}
 				if ('true' === $tooltipLink.data('tip-prerender')) {
 					qTipConfigComponents.push({
@@ -557,26 +566,30 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			});
 		};
 
-		itg.modalFromTemplate = function ($template) {
-			var closeCurrent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-			if ($template.length === 1) {
-				itg.modal($template.attr('title'), $($template.get(0).content.children).clone(), closeCurrent);
-			}
-		};
-
-		var modals = [];
 		var ensureJQuery = function ensureJQuery(val) {
-			if (typeof val === 'string') {
+			if ('string' === typeof val) {
 				val = $.parseHTML(val);
 			}
 			return $(val);
 		};
+		var getDefaultStyles = function getDefaultStyles() {
+			return ["qtip-" + itg.qtipstyle, itg.qtipshadow, itg.qtiprounded].filter(function (v) {
+				return !!v;
+			}).join(' ');
+		};
 
+		var modals = [];
+		itg.modalFromTemplate = function ($template) {
+			var closeCurrent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+			if (1 === $template.length) {
+				itg.modal($template.attr('title'), $($template.get(0).content.children).clone(), closeCurrent);
+			}
+		};
 		itg.modal = function (title, content) {
 			var closeCurrent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-			if (closeCurrent === true) {
+			if (true === closeCurrent) {
 				modals.forEach(function (modal) {
 					return modal.hide();
 				});
@@ -595,7 +608,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 					title: title
 				},
 				position: {
-					my: 'center', at: 'center',
+					my: 'center',
+					at: 'center',
 					target: $w,
 					container: $tooltipsContainer
 				},
@@ -607,7 +621,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 					}
 				},
 				hide: false,
-				style: 'dialogue',
+				style: getDefaultStyles() + ' dialogue',
 				events: {
 					render: function render(event, api) {
 						$('.close-modal', api.elements.content).click(function (event) {
@@ -624,7 +638,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 		itg.growl = function (title, content) {
 			var persistent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-			if ($growlContainer.length === 0) {
+			if (0 === $growlContainer.length) {
 				$growlContainer = $($.parseHTML('<div id="itg-growl-container"></div>'));
 				$(document.body).append($growlContainer);
 			}
@@ -641,7 +655,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				},
 				position: {
 					target: [0, 0],
-					container: $growlContainer
+					container: $growlContainer,
+					adjust: {
+						screen: true,
+						scroll: true
+					}
 				},
 				show: {
 					event: false,
@@ -661,7 +679,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				},
 				style: {
 					width: 250,
-					classes: 'jgrowl',
+					classes: getDefaultStyles() + ' jgrowl',
 					tip: false
 				},
 				events: {
@@ -682,13 +700,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				}
 			});
 		};
-
-		function dom2string(who) {
-			var tmp = $(document.createElement('div'));
-			$(tmp).append($(who));
-			tmp = tmp.html();
-			return tmp;
-		}
 
 		$w.resize(function waitStopRedimVideoRedim() {
 			clearTimeout(redimWait);
@@ -732,7 +743,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 						width: optDims[0],
 						height: optDims[1]
 					},
-					text: dom2string(video)
+					text: comon.htmlDecode(video)
 				};
 			}
 		}

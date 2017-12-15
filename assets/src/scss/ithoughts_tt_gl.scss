@@ -277,6 +277,10 @@ Specific styles for tip
 			vertical-align: top;
 		}
 	}
+	&.dialogue {
+		max-width: 95vw;
+		max-height: 95vh;
+	}
 }
 
 .ithoughts_tt_gl-title_with_pin{
