@@ -33,6 +33,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\TermList' ) ) {
 		public function __construct() {
 			add_shortcode( 'glossary_term_list', array( $this, 'glossary_term_list' ) );
 			add_shortcode( 'itg-termlist', array( $this, 'glossary_term_list' ) );
+			
+			parent::__construct();
 		}
 
 		public function glossary_term_list( $atts, $content = '' ) {

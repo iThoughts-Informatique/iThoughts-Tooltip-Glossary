@@ -151,6 +151,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<?php $options_inputs['termlinkopt']->print(); ?>
 												</td>
 											</tr>
+											<tr>
+												<th>
+													<label for="<?php echo esc_attr($options_inputs['list-contenttype']->get_id()); ?>"><?php esc_html_e( 'Default list display', 'ithoughts-tooltip-glossary' ); ?>:</label>
+												</th>
+												<td>
+													<?php $options_inputs['list-contenttype']->print(); ?>
+												</td>
+											</tr>
 											<tr class="nonoverridable">
 												<th>
 													<label for="<?php echo esc_attr($options_inputs['forceloadresources']->get_id()); ?>"><?php esc_html_e( 'Force load resources', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php

@@ -1,12 +1,15 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );
+	status_header( 403 );
 	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 
 use \ithoughts\v6_0\LogLevel as LogLevel;
 use \ithoughts\tooltip_glossary\Backbone as Backbone;
+
+require_once( $this->base_class_path . '/shortcode/index/class-glossarylist.php' );
+use ithoughts\tooltip_glossary\shortcode\index\GlossaryList as GlossaryList;
 
 return array(
 	'version'		=> array(
@@ -93,5 +96,9 @@ return array(
 	'glossary-index'		=> array(
 		'default'		=> false,
 		'type'			=> 0,
+	),
+	'list-contenttype'		=> array(
+		'default'		=> GlossaryList::LIST_MODE_TIP,
+		'type'			=> Backbone::SERVER_OVR,
 	),
 );

@@ -26,6 +26,7 @@
 
 			var $template = $('#itg-index-page');
 			var modalApi = itg.modalFromTemplate($template);
+			// Wait for tooltip initialization
 			ithoughts.waitFor(modalApi.elements, 'content', function () {
 				var $form = $(modalApi.elements.content).find('form');
 				$form.simpleAjaxForm({

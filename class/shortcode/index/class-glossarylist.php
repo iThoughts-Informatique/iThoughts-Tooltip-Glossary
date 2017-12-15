@@ -14,10 +14,10 @@
 
 namespace ithoughts\tooltip_glossary\shortcode\index;
 
-use \ithoughts\v6_0\Toolbox as TB;
+use \ithoughts\v6_0\Toolbox as Toolbox;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );
+	status_header( 403 );
 	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 
@@ -26,32 +26,105 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 	abstract class GlossaryList extends \ithoughts\v1_0\Singleton {
+		const LIST_MODE_LINK    = 'link';
+		const LIST_MODE_TIP     = 'tip';
+		const LIST_MODE_EXCERPT = 'excerpt';
+		const LIST_MODE_FULL    = 'full';
 
-		/**
-		 * Sort attributes, prepare linkdata & get posts
-		 *
-		 * @author Gerkin
-		 * @param Array $atts Attributes set on shortcode call
-		 */
-		final protected function init_list_atts( $atts ) {
-			// Parse attributes and sort them
-			$data = apply_filters( 'ithoughts_tt_gl-split-attributes', $atts );
-
-			// Copy & filter glossary options
-			$linkdata = $data;
-			$linkdata['disable_auto_translation'] = true;
-			unset( $linkdata['attributes'] );
-			unset( $linkdata['handled'] );
-			foreach ( $linkdata['linkAttrs'] as $key => $linkAttr ) {
-				$linkdata['linkAttrs'][ 'link-' . $key ] = $linkAttr;
-				unset( $linkdata['linkAttrs'][ $key ] );
+		public function __construct($register_filters = false){
+			if($register_filters){
+				add_filter('ithoughts_tt_gl_list_'.self::LIST_MODE_LINK,    array(&$this, 'list_'.self::LIST_MODE_LINK),  1000, 3);
+				add_filter('ithoughts_tt_gl_list_'.self::LIST_MODE_TIP,     array(&$this, 'list_'.self::LIST_MODE_TIP),    1000, 3);
+				add_filter('ithoughts_tt_gl_list_'.self::LIST_MODE_EXCERPT, array(&$this, 'list_'.self::LIST_MODE_EXCERPT),  1000, 3);
+				add_filter('ithoughts_tt_gl_list_'.self::LIST_MODE_FULL,    array(&$this, 'list_'.self::LIST_MODE_FULL),  1000, 3);
 			}
-			$linkdata = \ithoughts\v6_0\Toolbox::array_flatten( $linkdata );
+		}
 
-			return array(
-				'data' => &$data,
-				'linkdata' => &$linkdata,
-			);
+
+
+
+
+		public function list_link($groups, $letters, $attributes = array()){
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+
+			$posts = $this->get_microposts($groups,$letters)['terms'];
+			// Transform posts
+			$postsContents = array();
+			foreach($posts as $post){
+				$postsContents[$post->post_name] = $this->list_item_link($post, $attributes);
+			}
+			return $postsContents;
+		}
+
+		public function list_tip($groups, $letters, $attributes = array()){
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+
+			if($backbone->get_option('staticterms') === true){
+				$posts = $this->get_lists_terms($groups,$letters)['terms'];
+			} else {
+				$posts = $this->get_microposts($groups, $letters)['terms'];
+			}
+			// Transform posts
+			$postsContents = array();
+			foreach($posts as $post){
+				$postsContents[$post->post_name] = $this->list_item_tip($post, $attributes);
+			}
+			return $postsContents;
+		}
+
+		public function list_excerpt($groups, $letters, $attributes = array()){
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+
+			$posts = $this->get_lists_terms($groups,$letters)['terms'];
+			// Transform posts
+			$postsContents = array();
+			foreach($posts as $post){
+				$postsContents[$post->post_name] = $this->list_item_excerpt($post, $attributes);
+			}
+			return $postsContents;
+		}
+
+		public function list_full($groups, $letters, $attributes = array()){
+			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+
+			$posts = $this->get_lists_terms($groups,$letters)['terms'];
+			// Transform posts
+			$postsContents = array();
+			foreach($posts as $post){
+				$postsContents[$post->post_name] = $this->list_item_full($post, $attributes);
+			}
+			return $postsContents;
+		}
+
+		private function list_item_link($post, $attributes = array()){
+			$title = $post->post_title;
+			$href  = apply_filters( 'ithoughts_tt_gl_term_link',  Toolbox::get_permalink_light($post, "glossary") );
+			
+			$content   = '<a title="'. $title .'" href="'.$href.'">' . $title . '</a>';
+			return apply_filters('ithoughts_tt_gl_list_item_'.self::LIST_MODE_LINK,    $content, $attributes);
+		}
+
+		private function list_item_tip($post, $attributes = array()){
+			$content = apply_filters('ithoughts_tt_gl_glossary', NULL, $post);
+			return apply_filters('ithoughts_tt_gl_list_item_'.self::LIST_MODE_TIP,     $content, $attributes);
+		}
+
+		private function list_item_excerpt($post, $attributes = array()){
+			$title = $post->post_title;
+			$href  = apply_filters( 'ithoughts_tt_gl_term_link',  Toolbox::get_permalink_light($post, "glossary") );
+
+			$content   = '<header class="entry-header"><h5 class="entry-title"><a title="'. $title .'" href="'.$href.'">' . $title . '</a></h5></header>';
+			$content .= '<div class="entry-content clearfix"><p>' . apply_filters('get_the_excerpt',$post->post_content) . '</p></div>';
+			return apply_filters('ithoughts_tt_gl_list_item_'.self::LIST_MODE_EXCERPT, $content, $attributes);
+		}
+
+		private function list_item_full($post, $attributes = array()){
+			$title = $post->post_title;
+			$href  = apply_filters( 'ithoughts_tt_gl_term_link',  Toolbox::get_permalink_light($post, "glossary") );
+
+			$content   = '<header class="entry-header"><h5 class="entry-title"><a title="'. $title .'" href="'.$href.'">' . $title . '</a></h5></header>';
+			$content .= '<div class="entry-content clearfix"><p>' . apply_filters('get_the_content',$post->post_content) . '</p></div>';
+			return apply_filters('ithoughts_tt_gl_list_item_'.self::LIST_MODE_FULL,    $content, $attributes);
 		}
 
 		protected function get_lists_terms( $group_ids = null, $alphas = null ) {
@@ -239,7 +312,7 @@ ORDER BY
 
 			$querySelect = $queryComponents['pre'] . $selectFields . $queryComponents['from'] . $queryComponents['where'] . $queryComponents['order'];
 			$queryCount = $queryComponents['pre'] . 'COUNT(*)' . $queryComponents['from'] . $queryComponents['where'] . $queryComponents['order'];
-			// \ithoughts\v6_0\Toolbox::prettyDump($querySelect, $queryCount);
+			// Toolbox::prettyDump($querySelect, $queryCount);
 			$res = $wpdb->get_results( $querySelect, ARRAY_A );
 			$ret = array();
 			foreach ( $res as $micropost ) {
@@ -345,7 +418,7 @@ ORDER BY
 				$index = 0;
 			}
 
-			$stringAlpha = strtoupper( \ithoughts\v6_0\Toolbox::unaccent( mb_substr( $string,$index,1, 'UTF-8' ) ) );
+			$stringAlpha = strtoupper( Toolbox::unaccent( mb_substr( $string,$index,1, 'UTF-8' ) ) );
 			if ( ! preg_match( '/[A-Z]/', $stringAlpha ) ) {
 				return '#';
 			}

@@ -28,10 +28,10 @@
 			fct1k = 'addClass';
 			fct2k = 'removeClass';
 		}
-		$parent.find( '.itg-atoz-items' )[fct1k]( 'itg-atoz-items-on' )[fct2k]( 'itg-atoz-items-off' );
-		$parent.find( '.ithoughts_tt_gl-please-select' )[alpha ? 'hide' : 'show']();
+		$( '.itg-atoz-items' )[fct1k]( 'itg-atoz-items-on' )[fct2k]( 'itg-atoz-items-off' );
+		$( '.ithoughts_tt_gl-please-select' )[alpha ? 'hide' : 'show']();
 		if ( alpha ) {
-			$parent.find( `.itg-atoz-items-${  alpha }` ).removeClass( 'itg-atoz-items-off' ).addClass( 'itg-atoz-items-on' );
+			$( `.itg-atoz-items-${  alpha }` ).removeClass( 'itg-atoz-items-off' ).addClass( 'itg-atoz-items-on' );
 		}
 	}
 	function setCurrentTab( alpha ) {

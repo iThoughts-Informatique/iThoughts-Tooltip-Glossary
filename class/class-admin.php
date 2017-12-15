@@ -17,6 +17,8 @@ namespace ithoughts\tooltip_glossary;
 use \ithoughts\v6_0\Toolbox as TB;
 use \ithoughts\v6_0\Input as Input;
 
+use ithoughts\tooltip_glossary\shortcode\index\GlossaryList as GlossaryList;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	// Exit if accessed directly.
 	status_header( 403 );
@@ -669,6 +671,38 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 						'enabled' => array(
 							'attributes' => array(
 								'id' => 'forceloadresources',
+							),
+						),
+					),
+				)
+			);
+			$options_inputs['list-contenttype'] = Input::create_select_input(
+				'list-contenttype',
+				array(
+					'selected' => $options['list-contenttype'],
+					'options'  => array(
+						GlossaryList::LIST_MODE_FULL	=> array(
+							'text'	=> __( 'Full', 'ithoughts-tooltip-glossary' ),
+							'attributes'	=> array(
+								'title'	=> __( 'Display full post content', 'ithoughts-tooltip-glossary' ),
+							),
+						),
+						GlossaryList::LIST_MODE_EXCERPT	=> array(
+							'text'	=> __( 'Excerpt', 'ithoughts-tooltip-glossary' ),
+							'attributes'	=> array(
+								'title'	=> __( 'Display shorter excerpt content', 'ithoughts-tooltip-glossary' ),
+							),
+						),
+						GlossaryList::LIST_MODE_TIP	=> array(
+							'text'	=> __( 'Tooltips', 'ithoughts-tooltip-glossary' ),
+							'attributes'	=> array(
+								'title'	=> __( 'Display term with a tooltip', 'ithoughts-tooltip-glossary' ),
+							),
+						),
+						GlossaryList::LIST_MODE_LINK	=> array(
+							'text'	=> __( 'Links only', 'ithoughts-tooltip-glossary' ),
+							'attributes'	=> array(
+								'title'	=> __( 'Use a simple link', 'ithoughts-tooltip-glossary' ),
 							),
 						),
 					),
