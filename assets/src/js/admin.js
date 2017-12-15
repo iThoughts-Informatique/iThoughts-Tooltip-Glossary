@@ -20,13 +20,13 @@ const {$, $d} = ithoughts;
 const itg = iThoughtsTooltipGlossary;
 
 /**
-	 * Set the style of the target, appending to a default classes array the *themename*
-	 *
-	 * @param  {boolean|string[]} keepDefaults - Set to `true` to use *default styles*. If an array is given, those classes are used as *default*.
-	 * @param  {string}           themename    - Class name of the theme
-	 * @param  {jQuery}           target       - QTip holder to edit
-	 * @returns {undefined} This function does not have any return value.
-	 */
+ * Set the style of the target, appending to a default classes array the *themename*
+ *
+ * @param  {boolean|string[]} keepDefaults - Set to `true` to use *default styles*. If an array is given, those classes are used as *default*.
+ * @param  {string}           themename    - Class name of the theme
+ * @param  {jQuery}           target       - QTip holder to edit
+ * @returns {undefined} This function does not have any return value.
+ */
 itg.updateStyle = ( keepDefaults, themename, target ) => {
 	let styles = [ `qtip-${ themename }` ];
 	if ( true === keepDefaults ) {
@@ -49,19 +49,14 @@ $d
 	// #### Get some DOMs
 	// Get the tip and show it
 	const $demotip = $( '#qtip-exampleStyle' );
-	// Class inputs
-	const $styleI = $( '#qtipstyle' );
-	const $shadowI = $( '#qtipshadow' );
-	const $roundedI = $( '#qtiprounded' );
-	// Behavior inputs
-	const $triggerI = $( '#qtiptrigger' );
-	const $animInI = $( '#anim_in' );
-	const $animOutI = $( '#anim_out' );
-	const $animTimeI = $( '#anim_time' );
-
 	$demotip.qtip( 'api' ).show();
 
 	const events = 'change blur keyup mouseup';
+	
+	// Styles
+	const $styleI = $( '#qtipstyle' );
+	const $shadowI = $( '#qtipshadow' );
+	const $roundedI = $( '#qtiprounded' );
 	ithoughts.$merge( $styleI, $shadowI, $roundedI ).bind( events, () => {
 		const baseStyles = [
 			'ithoughts_tt_gl-tooltip',
@@ -75,6 +70,12 @@ $d
 		}
 		itg.updateStyle( baseStyles, $styleI.val(), $demotip );
 	});
+	
+	// Events & effects
+	const $triggerI = $( '#qtiptrigger' );
+	const $animInI = $( '#anim_in' );
+	const $animOutI = $( '#anim_out' );
+	const $animTimeI = $( '#anim_time' );
 	ithoughts.$merge( $triggerI, $animInI, $animOutI, $animTimeI ).bind( events, () => {
 		// Set the demotip as configured in the inputs
 		const trigger = $triggerI.val();
@@ -89,15 +90,26 @@ $d
 			itg.error( error );
 		}
 	});
+	
+	// Log purge
 	$('#itg-purge').click(() => {
 		comon.sendAjaxQuery('purge_logs', null, $('#_wpnonce').val());
 	});
-	(() => {
-		const $verbosityInput = $( '#verbosity' );
-		const $verbosityLabel = $( '#ithoughts_tt_gl-verbosity_label' );
-		const verbosityLabels = $verbosityLabel.data( 'labels' );
-		$verbosityInput.on( 'input', () => {
-			$verbosityLabel.text( verbosityLabels[$verbosityInput.val()]);
-		}).trigger( 'input' );
-	})();
+	
+	// Verbosity
+	const $verbosityInput = $( '#verbosity' );
+	const $verbosityLabel = $( '#ithoughts_tt_gl-verbosity_label' );
+	const verbosityLabels = $verbosityLabel.data( 'labels' );
+	$verbosityInput.on( 'input', () => {
+		$verbosityLabel.text( verbosityLabels[$verbosityInput.val()]);
+	}).trigger( 'input' );
+	
+	// Page index
+	const $glossaryIndex = $('#glossaryindex');
+	$glossaryIndex.bind(events.replace('blur','').replace('mouseup', ''), () => {
+		if($glossaryIndex.val() === 'new' && itg.indexPageEditor){
+			$glossaryIndex.focusout();
+			itg.indexPageEditor();
+		}
+	});
 });

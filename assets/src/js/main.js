@@ -169,7 +169,7 @@ itg.doInitTooltips = () => {
 		const $tooltipLink = $( tooltipLink );
 
 		const renderFcts = [];
-		const qTipConfigComponents = [];
+		const qTipConfigComponents = [defaultComonTipOptions];
 
 		/* Use provided data or use the default settings */
 		const qtiptrigger = takeAttr( 'qtiptrigger', itg.qtiptrigger);
@@ -384,6 +384,61 @@ itg.doInitTooltips = () => {
 		//Remove title for tooltip, causing double tooltip
 		$tooltipLink.removeAttr( 'title' );
 	});
+};
+
+itg.modalFromTemplate = ($template, closeCurrent = true) => {
+	if($template.length === 1){
+		itg.modal($template.attr('title'), $($template.get(0).content.children).clone(), closeCurrent);
+	}
+}
+
+let modals = [];
+itg.modal = (title, content, closeCurrent = true) => {
+	if(closeCurrent === true){
+		modals.forEach(modal => modal.hide());
+		modals = [];
+	}
+
+	if(typeof title === 'string'){
+		title = $.parseHTML(title);
+	}
+	title = $(title);
+	if(typeof content === 'string'){
+		content = $.parseHTML(content);
+	}
+	content = $(content).add($('<button/>', {
+		class: 'button close-modal',
+		text: 'Close',
+	}));
+
+	modals.push($('<div />').qtip({
+		content: {
+			text: content,
+			title: title
+		},
+		position: {
+			my: 'center', at: 'center',
+			target: $w,
+			container: $tooltipsContainer,
+		},
+		show: {
+			ready: true,
+			modal: {
+				on: true,
+				blur: false
+			}
+		},
+		hide: false,
+		style: 'dialogue',
+		events: {
+			render(event, api){
+				$('.close-modal', api.elements.content).click(event => {
+					api.hide(event);
+				});
+			},
+			hide(event, api) { api.destroy(); }
+		}
+	}).qtip('api'));
 };
 
 function dom2string( who ) {

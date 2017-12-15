@@ -342,7 +342,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				var $tooltipLink = $(tooltipLink);
 
 				var renderFcts = [];
-				var qTipConfigComponents = [];
+				var qTipConfigComponents = [defaultComonTipOptions];
 
 				/* Use provided data or use the default settings */
 				var qtiptrigger = takeAttr('qtiptrigger', itg.qtiptrigger);
@@ -551,6 +551,69 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				//Remove title for tooltip, causing double tooltip
 				$tooltipLink.removeAttr('title');
 			});
+		};
+
+		itg.modalFromTemplate = function ($template) {
+			var closeCurrent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+			if ($template.length === 1) {
+				itg.modal($template.attr('title'), $($template.get(0).content.children).clone(), closeCurrent);
+			}
+		};
+
+		var modals = [];
+		itg.modal = function (title, content) {
+			var closeCurrent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+			if (closeCurrent === true) {
+				modals.forEach(function (modal) {
+					return modal.hide();
+				});
+				modals = [];
+			}
+
+			if (typeof title === 'string') {
+				title = $.parseHTML(title);
+			}
+			title = $(title);
+			if (typeof content === 'string') {
+				content = $.parseHTML(content);
+			}
+			content = $(content).add($('<button/>', {
+				class: 'button close-modal',
+				text: 'Close'
+			}));
+
+			modals.push($('<div />').qtip({
+				content: {
+					text: content,
+					title: title
+				},
+				position: {
+					my: 'center', at: 'center',
+					target: $w,
+					container: $tooltipsContainer
+				},
+				show: {
+					ready: true,
+					modal: {
+						on: true,
+						blur: false
+					}
+				},
+				hide: false,
+				style: 'dialogue',
+				events: {
+					render: function render(event, api) {
+						$('.close-modal', api.elements.content).click(function (event) {
+							api.hide(event);
+						});
+					},
+					hide: function hide(event, api) {
+						api.destroy();
+					}
+				}
+			}).qtip('api'));
 		};
 
 		function dom2string(who) {

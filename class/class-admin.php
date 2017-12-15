@@ -177,10 +177,19 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @author Gerkin
 		 */
 		public function declare_resources() {
-
 			$this->backbone->declare_resource(
 				'ithoughts_tooltip_glossary-admin',
 				'assets/dist/js/admin.js',
+				array(
+					'ithoughts-simple-ajax-v5',
+					'ithoughts-core-v5',
+					'ithoughts_tooltip_glossary-qtip'
+				),
+				true
+			);
+			$this->backbone->declare_resource(
+				'ithoughts_tooltip_glossary-pageEditor',
+				'assets/dist/js/pageEditor.js',
 				array(
 					'ithoughts-simple-ajax-v5',
 					'ithoughts-core-v5',
@@ -470,6 +479,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'ithoughts_tooltip_glossary-css',
 				'ithoughts_tooltip_glossary-qtip-css',
 				'ithoughts_tooltip_glossary-customthemes',
+				'ithoughts_tooltip_glossary-pageEditor',
 			) );
 
 			/* Add required scripts for WordPress Spoilers (AKA PostBox) */
@@ -745,6 +755,15 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 			// Print the option page.
 			require( $this->backbone->get_base_path() . '/templates/dist/options.php' );
+			
+			$options_inputs = array();
+			$options_inputs['index-page-url'] = Input::create_text_input(
+				'index-page-url',
+				array(
+					'type' => 'text',
+				)
+			);
+			require( $this->backbone->get_base_path() . '/templates/dist/index-page-template.php' );
 		}
 
 		/**
@@ -754,7 +773,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 */
 		public function update_options() {
 			check_admin_referer( 'ithoughts_tt_gl-update_options' );
-
 
 			$post_values = $_POST; // Input var okay.
 			$post_values['qtipshadow']  = TB::checkbox_to_bool( $post_values,'qtipshadow',  'enabled' );

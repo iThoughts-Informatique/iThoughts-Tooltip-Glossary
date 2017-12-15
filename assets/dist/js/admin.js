@@ -41,13 +41,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     var itg = iThoughtsTooltipGlossary;
 
     /**
-    	 * Set the style of the target, appending to a default classes array the *themename*
-    	 *
-    	 * @param  {boolean|string[]} keepDefaults - Set to `true` to use *default styles*. If an array is given, those classes are used as *default*.
-    	 * @param  {string}           themename    - Class name of the theme
-    	 * @param  {jQuery}           target       - QTip holder to edit
-    	 * @returns {undefined} This function does not have any return value.
-    	 */
+     * Set the style of the target, appending to a default classes array the *themename*
+     *
+     * @param  {boolean|string[]} keepDefaults - Set to `true` to use *default styles*. If an array is given, those classes are used as *default*.
+     * @param  {string}           themename    - Class name of the theme
+     * @param  {jQuery}           target       - QTip holder to edit
+     * @returns {undefined} This function does not have any return value.
+     */
     itg.updateStyle = function (keepDefaults, themename, target) {
       var styles = ["qtip-" + themename];
       if (true === keepDefaults) {
@@ -65,19 +65,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       // #### Get some DOMs
       // Get the tip and show it
       var $demotip = $('#qtip-exampleStyle');
-      // Class inputs
-      var $styleI = $('#qtipstyle');
-      var $shadowI = $('#qtipshadow');
-      var $roundedI = $('#qtiprounded');
-      // Behavior inputs
-      var $triggerI = $('#qtiptrigger');
-      var $animInI = $('#anim_in');
-      var $animOutI = $('#anim_out');
-      var $animTimeI = $('#anim_time');
-
       $demotip.qtip('api').show();
 
       var events = 'change blur keyup mouseup';
+
+      // Styles
+      var $styleI = $('#qtipstyle');
+      var $shadowI = $('#qtipshadow');
+      var $roundedI = $('#qtiprounded');
       ithoughts.$merge($styleI, $shadowI, $roundedI).bind(events, function () {
         var baseStyles = ['ithoughts_tt_gl-tooltip', 'qtip-pos-br'];
         if ($shadowI.is(':checked')) {
@@ -88,6 +83,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         }
         itg.updateStyle(baseStyles, $styleI.val(), $demotip);
       });
+
+      // Events & effects
+      var $triggerI = $('#qtiptrigger');
+      var $animInI = $('#anim_in');
+      var $animOutI = $('#anim_out');
+      var $animTimeI = $('#anim_time');
       ithoughts.$merge($triggerI, $animInI, $animOutI, $animTimeI).bind(events, function () {
         // Set the demotip as configured in the inputs
         var trigger = $triggerI.val();
@@ -97,17 +98,28 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
           itg.error(error);
         }
       });
+
+      // Log purge
       $('#itg-purge').click(function () {
         comon.sendAjaxQuery('purge_logs', null, $('#_wpnonce').val());
       });
-      (function () {
-        var $verbosityInput = $('#verbosity');
-        var $verbosityLabel = $('#ithoughts_tt_gl-verbosity_label');
-        var verbosityLabels = $verbosityLabel.data('labels');
-        $verbosityInput.on('input', function () {
-          $verbosityLabel.text(verbosityLabels[$verbosityInput.val()]);
-        }).trigger('input');
-      })();
+
+      // Verbosity
+      var $verbosityInput = $('#verbosity');
+      var $verbosityLabel = $('#ithoughts_tt_gl-verbosity_label');
+      var verbosityLabels = $verbosityLabel.data('labels');
+      $verbosityInput.on('input', function () {
+        $verbosityLabel.text(verbosityLabels[$verbosityInput.val()]);
+      }).trigger('input');
+
+      // Page index
+      var $glossaryIndex = $('#glossaryindex');
+      $glossaryIndex.bind(events.replace('blur', '').replace('mouseup', ''), function () {
+        if ($glossaryIndex.val() === 'new' && itg.indexPageEditor) {
+          $glossaryIndex.focusout();
+          itg.indexPageEditor();
+        }
+      });
     });
   }, { "./comon": 2, "./floater": 3 }], 2: [function (require, module, exports) {
     'use strict';

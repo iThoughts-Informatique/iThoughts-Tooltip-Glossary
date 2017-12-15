@@ -30,7 +30,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div id="normal-sortables" class=""><!--Old removed classes: "meta-box-sortables ui-sortable"-->
 						<form action="<?php echo esc_url( $ajax ); ?>" method="post" class="simpleajaxform" data-target="update-response">
 							<?php wp_nonce_field( 'ithoughts_tt_gl-update_options' ); ?>
-							<p style="font-size:17px;"><em><?php
+							<p style="font-size:17px;">
+								<em><?php
 								printf(
 									wp_kses(
 										/* translators: %s: Documentation URL */
@@ -45,7 +46,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 										)
 									),
 									esc_url( $url )
-								); ?></em></p>
+								); ?></em>
+							</p>
 							<p><strong><?php esc_html_e( 'Note', 'ithoughts-tooltip-glossary' ); ?>:</strong>&nbsp;<?php
 								echo wp_kses( __( 'Labels in <span class=\"nonoverridable\">red</span> indicate global options, not overridable by tips.', 'ithoughts-tooltip-glossary' ), array(
 									'span' => array(

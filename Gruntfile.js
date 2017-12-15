@@ -43,6 +43,7 @@ module.exports = function gruntInit( grunt ) {
 					'assets/build/js/admin.js': 'assets/src/js/admin.js',
 					'assets/build/js/atoz.js': 'assets/src/js/atoz.js',
 					'assets/build/js/main.js': 'assets/src/js/main.js',
+					'assets/build/js/pageEditor.js': 'assets/src/js/pageEditor.js',
 					'assets/build/js/style-editor.js': 'assets/src/js/style-editor.js',
 					'assets/build/js/updater.js': 'assets/src/js/updater.js',
 					'assets/build/js/tinymce/form-handler.js': 'assets/src/js/tinymce/form-handler.js',
