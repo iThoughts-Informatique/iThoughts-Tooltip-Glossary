@@ -92,8 +92,12 @@ $d
 	});
 	
 	// Log purge
-	$('#itg-purge').click(() => {
-		comon.sendAjaxQuery('purge_logs', null, $('#_wpnonce').val());
+	$('#itg-purge').click(async () => {
+		try{
+			await comon.sendAjaxQuery('purge_logs', null, $('#_wpnonce').val());
+		} catch(error){
+			itg.growl('AJAX request error', error.statusText, false);
+		}
 	});
 	
 	// Verbosity

@@ -32,6 +32,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 		    isNA = ithoughts.isNA;
 
 
+		var itg = iThoughtsTooltipGlossary;
+
 		var htmlAttrs = ['href', 'title'];
 
 		var maybePrefixAttribute = function maybePrefixAttribute(attrName) {
@@ -126,7 +128,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 									$.ajax({
 										method: 'POST',
 										async: true,
-										url: iThoughtsTooltipGlossary.admin_ajax,
+										url: itg.admin_ajax,
 										//			dataType: 'json',
 										data: sendData,
 										success: function success(data) {
@@ -135,6 +137,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 										},
 										error: function error(xhr) {
 											loader.remove();
+											itg.error('Error while doing XHR request:', xhr);
 											return reject(xhr);
 										}
 									});
@@ -1041,14 +1044,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		var xhrError = function xhrError(xhr) {
 			var editor = itge.editor;
-			itg.error('Error while getting TinyMCE form for Tip or List: ', xhr);
+			itg.error('Error while getting editor form for Tip or List: ', xhr);
+			var content = xhr.statusText;
+			var title = 'Error getting editor form';
 			if (403 === xhr.status) {
 				var lang = 'ithoughts_tt_gl_tinymce.error.forbidden';
-				$($.parseHTML("<p>" + editor.getLang(lang + ".content_1") + "<br/><a href=\"javascript:window.location.href=window.location.href\">" + editor.getLang(lang + ".content_2") + "</a></p>")).dialog({
-					title: editor.getLang(lang + ".title"),
-					modale: true
-				});
+				content = "<p>" + editor.getLang(lang + ".content_1") + "<br/><a href=\"javascript:window.location.href=window.location.href\">" + editor.getLang(lang + ".content_2") + "</a></p>";
+				title = editor.getLang(lang + ".title");
 			}
+			itg.growl(title, content, false);
 		};
 
 		var splitAttr = function splitAttr(attrsStr) {

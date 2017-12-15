@@ -184,6 +184,9 @@ module.exports = function gruntInit( grunt ) {
 			},
 		},
 		sass: {
+			options: {
+				style: 'compressed',
+			},
 			dist: {
 				files:   scssFiles,
 			},

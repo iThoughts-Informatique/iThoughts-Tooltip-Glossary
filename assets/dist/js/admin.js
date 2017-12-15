@@ -30,6 +30,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
     'use strict';
 
+    var _this = this;
+
     var initFloater = require('./floater');
     var comon = require('./comon');
 
@@ -100,9 +102,32 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       });
 
       // Log purge
-      $('#itg-purge').click(function () {
-        comon.sendAjaxQuery('purge_logs', null, $('#_wpnonce').val());
-      });
+      $('#itg-purge').click(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return comon.sendAjaxQuery('purge_logs', null, $('#_wpnonce').val());
+
+              case 3:
+                _context.next = 8;
+                break;
+
+              case 5:
+                _context.prev = 5;
+                _context.t0 = _context["catch"](0);
+
+                itg.growl('AJAX request error', _context.t0.statusText, false);
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, _this, [[0, 5]]);
+      })));
 
       // Verbosity
       var $verbosityInput = $('#verbosity');
@@ -124,7 +149,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
   }, { "./comon": 2, "./floater": 3 }], 2: [function (require, module, exports) {
     'use strict';
 
-    var _this = this;
+    var _this2 = this;
 
     require('regenerator-runtime/runtime');
 
@@ -132,6 +157,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     var $ = ithoughts.$,
         isNA = ithoughts.isNA;
 
+
+    var itg = iThoughtsTooltipGlossary;
 
     var htmlAttrs = ['href', 'title'];
 
@@ -207,14 +234,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     };
 
     var sendAjaxQuery = function () {
-      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(action, data, nonce) {
+      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(action, data, nonce) {
         var loader;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 loader = ithoughts.makeLoader();
-                return _context.abrupt("return", new Promise(function (resolve, reject) {
+                return _context2.abrupt("return", new Promise(function (resolve, reject) {
                   var sendData = {
                     action: "ithoughts_tt_gl_" + action
                   };
@@ -227,7 +254,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                   $.ajax({
                     method: 'POST',
                     async: true,
-                    url: iThoughtsTooltipGlossary.admin_ajax,
+                    url: itg.admin_ajax,
                     //			dataType: 'json',
                     data: sendData,
                     success: function success(data) {
@@ -236,6 +263,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                     },
                     error: function error(xhr) {
                       loader.remove();
+                      itg.error('Error while doing XHR request:', xhr);
                       return reject(xhr);
                     }
                   });
@@ -243,14 +271,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
               case 2:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, _this);
+        }, _callee2, _this2);
       }));
 
       return function sendAjaxQuery(_x2, _x3, _x4) {
-        return _ref.apply(this, arguments);
+        return _ref2.apply(this, arguments);
       };
     }();
 

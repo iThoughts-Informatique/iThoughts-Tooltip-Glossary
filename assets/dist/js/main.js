@@ -32,6 +32,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 		    isNA = ithoughts.isNA;
 
 
+		var itg = iThoughtsTooltipGlossary;
+
 		var htmlAttrs = ['href', 'title'];
 
 		var maybePrefixAttribute = function maybePrefixAttribute(attrName) {
@@ -126,7 +128,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 									$.ajax({
 										method: 'POST',
 										async: true,
-										url: iThoughtsTooltipGlossary.admin_ajax,
+										url: itg.admin_ajax,
 										//			dataType: 'json',
 										data: sendData,
 										success: function success(data) {
@@ -135,6 +137,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 										},
 										error: function error(xhr) {
 											loader.remove();
+											itg.error('Error while doing XHR request:', xhr);
 											return reject(xhr);
 										}
 									});
@@ -192,6 +195,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		var $tooltipsContainer = $($.parseHTML("<div id=\"itg-tipsContainer\" class=\"itg-tipsContainer\"></div>"));
 		$(document.body).append($tooltipsContainer);
+		var $growlContainer = $('#itg-growl-container');
 		var types = ['glossary', 'tooltip', 'mediatip'];
 
 		var redimWait = void 0;
@@ -562,6 +566,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 		};
 
 		var modals = [];
+		var ensureJQuery = function ensureJQuery(val) {
+			if (typeof val === 'string') {
+				val = $.parseHTML(val);
+			}
+			return $(val);
+		};
+
 		itg.modal = function (title, content) {
 			var closeCurrent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
@@ -572,14 +583,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				modals = [];
 			}
 
-			if (typeof title === 'string') {
-				title = $.parseHTML(title);
-			}
-			title = $(title);
-			if (typeof content === 'string') {
-				content = $.parseHTML(content);
-			}
-			content = $(content).add($('<button/>', {
+			title = ensureJQuery(title);
+			content = ensureJQuery(content).add($('<button/>', {
 				class: 'button close-modal',
 				text: 'Close'
 			}));
@@ -614,6 +619,68 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 					}
 				}
 			}).qtip('api'));
+		};
+		// From http://jsfiddle.net/qTip2/g140etht/
+		itg.growl = function (title, content) {
+			var persistent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+			if ($growlContainer.length === 0) {
+				$growlContainer = $($.parseHTML('<div id="itg-growl-container"></div>'));
+				$(document.body).append($growlContainer);
+			}
+			var target = $('.qtip.jgrowl:visible:last');
+			title = ensureJQuery(title);
+			content = ensureJQuery(content);
+			$('<div/>').qtip({
+				content: {
+					text: content,
+					title: {
+						text: title,
+						button: true
+					}
+				},
+				position: {
+					target: [0, 0],
+					container: $growlContainer
+				},
+				show: {
+					event: false,
+					ready: true,
+					effect: function effect() {
+						$(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+					},
+
+					delay: 0,
+					persistent: persistent
+				},
+				hide: {
+					event: false,
+					effect: function effect() {
+						$(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+					}
+				},
+				style: {
+					width: 250,
+					classes: 'jgrowl',
+					tip: false
+				},
+				events: {
+					render: function render(event, api) {
+						if (!api.options.show.persistent) {
+							$(this).bind('mouseover mouseout', function (event) {
+								var lifespan = 5000;
+
+								clearTimeout(api.timer);
+								if (event.type !== 'mouseover') {
+									api.timer = setTimeout(function (event) {
+										return api.hide(event);
+									}, lifespan);
+								}
+							}).triggerHandler('mouseout');
+						}
+					}
+				}
+			});
 		};
 
 		function dom2string(who) {

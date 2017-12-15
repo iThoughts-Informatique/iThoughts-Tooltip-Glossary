@@ -12,14 +12,15 @@ const isNA = ithoughts.isNA;
 
 const xhrError = xhr => {
 	const editor = itge.editor;
-	itg.error( 'Error while getting TinyMCE form for Tip or List: ', xhr );
+	itg.error( 'Error while getting editor form for Tip or List: ', xhr );
+	let content = xhr.statusText;
+	let title = 'Error getting editor form';
 	if ( 403 === xhr.status ) {
 		const lang = 'ithoughts_tt_gl_tinymce.error.forbidden';
-		$( $.parseHTML( `<p>${ editor.getLang( `${lang}.content_1` ) }<br/><a href="javascript:window.location.href=window.location.href">${ editor.getLang( `${lang}.content_2` ) }</a></p>` )).dialog({
-			title:  editor.getLang( `${lang}.title` ),
-			modale: true,
-		});
+		content = `<p>${ editor.getLang( `${lang}.content_1` ) }<br/><a href="javascript:window.location.href=window.location.href">${ editor.getLang( `${lang}.content_2` ) }</a></p>`;
+		title = editor.getLang( `${lang}.title` );
 	}
+	itg.growl(title, content, false);
 };
 
 const splitAttr = (attrsStr, separator = /[,\.\s]+/) => ( attrsStr || '' ).split( separator ).map( Function.prototype.call, String.prototype.trim ).filter( e => e);

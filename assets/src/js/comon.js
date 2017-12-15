@@ -5,6 +5,8 @@ require('regenerator-runtime/runtime');
 const ithoughts = iThoughts.v5;
 const {$, isNA} = ithoughts;
 
+const itg = iThoughtsTooltipGlossary;
+
 const htmlAttrs = ['href', 'title'];
 
 const maybePrefixAttribute = attrName => {
@@ -87,7 +89,7 @@ const sendAjaxQuery = async(action, data, nonce) => {
 		$.ajax({
 			method:	'POST',
 			async:  true,
-			url:    iThoughtsTooltipGlossary.admin_ajax,
+			url:    itg.admin_ajax,
 			//			dataType: 'json',
 			data:   sendData,
 			success(data){
@@ -96,6 +98,7 @@ const sendAjaxQuery = async(action, data, nonce) => {
 			},
 			error(xhr){
 				loader.remove();
+				itg.error('Error while doing XHR request:', xhr);
 				return reject(xhr);
 			},
 		});

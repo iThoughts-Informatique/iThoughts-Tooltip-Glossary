@@ -170,13 +170,17 @@ tr.nonoverridable label, .nonoverridable:not(tr){
 .wp-picker-holder{
 	z-index: 100;
 }
+#itg-growl-container{
+	z-index: 100000;
+	top: 40px;
+}
 #dashboard-widgets a{
 	&.itg-glossary,
 	&.itg-tooltip,
 	&.itg-mediatip{
 		box-shadow: none;
 		text-decoration: overline underline;
-		
+
 		&.itg-invalid{
 			text-decoration: underline wavy;
 		}

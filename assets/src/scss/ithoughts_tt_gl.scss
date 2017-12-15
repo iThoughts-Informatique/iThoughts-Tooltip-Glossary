@@ -178,6 +178,20 @@
 	z-index: 10000000;
 }
 
+// From http://jsfiddle.net/qTip2/g140etht/
+#itg-growl-container{
+	position: fixed;
+	top: 10px;
+	right: 10px;
+
+	.qtip{
+		position: static;
+		min-height: 0;
+		overflow: hidden;
+		margin: 0 0 5px 0;
+	}
+}
+
 a{
 	&.itg-glossary,
 	&.itg-tooltip,

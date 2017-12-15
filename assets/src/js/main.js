@@ -22,6 +22,7 @@ const extend = $.extend;
 
 const $tooltipsContainer = $( $.parseHTML( `<div id="itg-tipsContainer" class="itg-tipsContainer"></div>` ));
 $( document.body ).append( $tooltipsContainer );
+let $growlContainer = $('#itg-growl-container');
 const types = [
 	'glossary',
 	'tooltip',
@@ -393,20 +394,21 @@ itg.modalFromTemplate = ($template, closeCurrent = true) => {
 }
 
 let modals = [];
+const ensureJQuery = val => {
+	if(typeof val === 'string'){
+		val = $.parseHTML(val);
+	}
+	return $(val);
+};
+
 itg.modal = (title, content, closeCurrent = true) => {
 	if(closeCurrent === true){
 		modals.forEach(modal => modal.hide());
 		modals = [];
 	}
 
-	if(typeof title === 'string'){
-		title = $.parseHTML(title);
-	}
-	title = $(title);
-	if(typeof content === 'string'){
-		content = $.parseHTML(content);
-	}
-	content = $(content).add($('<button/>', {
+	title = ensureJQuery(title);
+	content = ensureJQuery(content).add($('<button/>', {
 		class: 'button close-modal',
 		text: 'Close',
 	}));
@@ -439,6 +441,65 @@ itg.modal = (title, content, closeCurrent = true) => {
 			hide(event, api) { api.destroy(); }
 		}
 	}).qtip('api'));
+};
+// From http://jsfiddle.net/qTip2/g140etht/
+itg.growl = (title, content, persistent = true) => {
+	if($growlContainer.length === 0){
+		$growlContainer = $($.parseHTML('<div id="itg-growl-container"></div>'));
+		$( document.body ).append( $growlContainer );
+	}
+	const target = $('.qtip.jgrowl:visible:last');
+	title = ensureJQuery(title);
+	content = ensureJQuery(content);
+	$('<div/>').qtip({
+		content: {
+			text: content,
+			title: {
+				text: title,
+				button: true
+			}
+		},
+		position: {
+			target: [0,0],
+			container: $growlContainer,
+		},
+		show: {
+			event: false,
+			ready: true,
+			effect(){
+				$(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+			},
+			delay: 0,
+			persistent: persistent,
+		},
+		hide: {
+			event: false,
+			effect() {
+				$(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+			},
+		},
+		style: {
+			width: 250,
+			classes: 'jgrowl',
+			tip: false
+		},
+		events: {
+			render(event, api) {
+				if(!api.options.show.persistent) {
+					$(this)
+						.bind('mouseover mouseout', event => {
+						const lifespan = 5000;
+
+						clearTimeout(api.timer);
+						if (event.type !== 'mouseover') {
+							api.timer = setTimeout(event => api.hide(event), lifespan);
+						}
+					})
+						.triggerHandler('mouseout');
+				}
+			}
+		}
+	});
 };
 
 function dom2string( who ) {
