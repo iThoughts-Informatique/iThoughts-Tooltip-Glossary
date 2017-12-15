@@ -583,7 +583,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			var closeCurrent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
 			if (1 === $template.length) {
-				itg.modal($template.attr('title'), $($template.get(0).content.children).clone(), closeCurrent);
+				return itg.modal($template.attr('title'), $($template.get(0).content.children).clone(), closeCurrent);
 			}
 		};
 		itg.modal = function (title, content) {
@@ -602,7 +602,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				text: 'Close'
 			}));
 
-			modals.push($('<div />').qtip({
+			var api = $('<div />').qtip({
 				content: {
 					text: content,
 					title: title
@@ -632,7 +632,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 						api.destroy();
 					}
 				}
-			}).qtip('api'));
+			}).qtip('api');
+			modals.push(api);
+			return api;
 		};
 		// From http://jsfiddle.net/qTip2/g140etht/
 		itg.growl = function (title, content) {

@@ -415,7 +415,7 @@ const getDefaultStyles = () => {
 let modals = [];
 itg.modalFromTemplate = ( $template, closeCurrent = true ) => {
 	if ( 1 === $template.length ) {
-		itg.modal( $template.attr( 'title' ), $( $template.get( 0 ).content.children ).clone(), closeCurrent );
+		return itg.modal( $template.attr( 'title' ), $( $template.get( 0 ).content.children ).clone(), closeCurrent );
 	}
 };
 itg.modal = ( title, content, closeCurrent = true ) => {
@@ -430,7 +430,7 @@ itg.modal = ( title, content, closeCurrent = true ) => {
 		text:  'Close',
 	}));
 
-	modals.push( $( '<div />' ).qtip({
+	const api = $( '<div />' ).qtip({
 		content: {
 			text:  content,
 			title: title,
@@ -460,7 +460,9 @@ itg.modal = ( title, content, closeCurrent = true ) => {
 				api.destroy(); 
 			},
 		},
-	}).qtip( 'api' ));
+	}).qtip( 'api' );
+	modals.push(api);
+	return api;
 };
 // From http://jsfiddle.net/qTip2/g140etht/
 itg.growl = ( title, content, persistent = true ) => {

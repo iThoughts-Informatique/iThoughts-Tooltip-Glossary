@@ -167,8 +167,56 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			add_action( 'wp_ajax_ithoughts_tt_gl_update_options',			array( &$this, 'update_options' ) );
 			add_action( 'wp_ajax_ithoughts_tt_gl_purge_logs',				array( &$this, 'purge_logs' ) );
 
+			add_action( 'wp_ajax_ithoughts_tt_gl_create_page_atoz',			array( &$this, 'create_page' ) );
+			add_action( 'wp_ajax_ithoughts_tt_gl_create_page_list',			array( &$this, 'create_page' ) );
+
 			add_action( 'wp_ajax_ithoughts_tt_gl_theme_save',				array( &$this, 'savetheme' ) );
 			add_action( 'wp_ajax_ithoughts_tt_gl_theme_preview',			array( &$this, 'previewtheme' ) );
+		}
+
+		public function create_page(){
+			check_admin_referer( 'ithoughts_tt_gl-index-page-edit' );
+			$page_title = $_POST['index-page-name'];
+			$page_name = sanitize_title(isset($_POST['index-page-url']) ? $_POST['index-page-url'] : $page_title);
+			$content = array(
+				'ithoughts_tt_gl_create_page_atoz' => 'atoz',
+				'ithoughts_tt_gl_create_page_list' => 'termlist'
+			)[$_POST['action']];
+			//$page_guid = site_url() . '/' . $page_name;
+			$my_post  = array(
+				'post_title'     => $page_title,
+				'post_type'      => 'page',
+				'post_name'      => $page_name,
+				'post_content'   => "[itg-$content /]",
+				'post_status'    => 'publish',
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed',
+				'post_author'    => get_current_user_id(),
+				'menu_order'     => 0,
+				//'guid'           => $page_guid,
+			);
+
+			$page_id;
+			try{
+				$page_id = wp_insert_post( $my_post, true ); // Get Post ID - FALSE to return 0 instead of wp_error.
+			} catch (\Exception $error){
+				$page_id = $error;
+			}
+			if($page_id instanceof \WP_Error){
+				die( wp_json_encode(array(
+					'reload'		=> false,
+					'text'			=> $page_id,
+					'valid'			=> false,
+					'nonce_refresh'	=> wp_create_nonce( 'ithoughts_tt_gl-index-page-edit' ),
+				)));
+			} else {
+				$this->backbone->set_option('glossary-index', $page_id);
+				die( wp_json_encode(array(
+					'reload'		=> true,
+					'valid'			=> true,
+					'nonce_refresh'	=> wp_create_nonce( 'ithoughts_tt_gl-index-page-edit' ),
+				)));
+			}
 		}
 
 		/**
@@ -464,6 +512,34 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			wp_send_json_success( $output );
 			wp_die();
 		}
+		
+		private function page_builder(){
+			$this->backbone->enqueue_resources( array(
+				'ithoughts_tooltip_glossary-css',
+				'ithoughts_tooltip_glossary-qtip-css',
+				'ithoughts_tooltip_glossary-pageEditor',
+			) );
+			
+			$options_inputs = array();
+			$options_inputs['index-page-name'] = Input::create_text_input(
+				'index-page-name',
+				array(
+					'type' => 'text',
+					'required' => true,
+					'default' => __('Glossary Index', 'ithoughts-tooltip-glossary'),
+				)
+			);
+			$options_inputs['index-page-url'] = Input::create_text_input(
+				'index-page-url',
+				array(
+					'type' => 'text',
+					'attributes' => array(
+						'placeholder' => __('Automatic from name', 'ithoughts-tooltip-glossary'),
+					),
+				)
+			);
+			require( $this->backbone->get_base_path() . '/templates/dist/index-page-template.php' );
+		}
 
 		/**
 		 * Generates the options page of iThoughts Tooltip Glossary
@@ -541,10 +617,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			);
 
 
-			$pages = get_pages();
+			$pages = get_pages(array(
+				'post_status' => 'publish',
+				'number' => 50,
+				'hierarchical' => 0,
+			));
 			$pageOptions = array();
 			foreach($pages as $page){
-				$pageOptions["$page->ID"] = $page->post_title;
+				$pageOptions[$page->ID] = $page->post_title;
 			}
 			$pageOptions['new'] = esc_html('> ').esc_html__('Create new page', 'ithoughts-tooltip-glossary');
 			$options_inputs['glossary-index'] = Input::create_select_input(
@@ -756,14 +836,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			// Print the option page.
 			require( $this->backbone->get_base_path() . '/templates/dist/options.php' );
 			
-			$options_inputs = array();
-			$options_inputs['index-page-url'] = Input::create_text_input(
-				'index-page-url',
-				array(
-					'type' => 'text',
-				)
-			);
-			require( $this->backbone->get_base_path() . '/templates/dist/index-page-template.php' );
+			$this->page_builder();
 		}
 
 		/**
@@ -782,6 +855,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$post_values['forceloadresources'] = TB::checkbox_to_bool( $post_values,'forceloadresources', 'enabled' );
 			$post_values['use_cdn'] = TB::checkbox_to_bool( $post_values,'use_cdn', 'enabled' );
 			$post_values['verbosity'] = intval( $post_values['verbosity'] );
+			$post_values['glossary-index'] = intval($post_values['glossary-index']);
 			$post_values['termscomment'] = TB::checkbox_to_bool( $post_values,'termscomment', 'enabled' );
 			if ( isset( $post_values['qtipstylecustom'] ) && strlen( trim( $post_values['qtipstylecustom'] ) ) > 0 ) {
 				$post_values['qtipstyle'] = $post_values['qtipstylecustom'];
@@ -836,7 +910,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'nonce_refresh'	=> wp_create_nonce( 'ithoughts_tt_gl-update_options' ),
 			)));
 		}
-		
+
 		public function purge_logs(){
 			check_admin_referer( 'ithoughts_tt_gl-update_options' );
 			$this->backbone->clear_log_file();

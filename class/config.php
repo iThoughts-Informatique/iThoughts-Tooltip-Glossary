@@ -91,7 +91,7 @@ return array(
 		'type'			=> 0,
 	),
 	'glossary-index'		=> array(
-		'default'		=> null,
+		'default'		=> false,
 		'type'			=> 0,
 	),
 );

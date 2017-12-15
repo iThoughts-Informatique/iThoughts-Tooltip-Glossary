@@ -25,7 +25,19 @@
 			itg.info('Started index page editor');
 
 			var $template = $('#itg-index-page');
-			itg.modalFromTemplate($template);
+			var modalApi = itg.modalFromTemplate($template);
+			ithoughts.waitFor(modalApi.elements, 'content', function () {
+				var $form = $(modalApi.elements.content).find('form');
+				$form.simpleAjaxForm({
+					callback: function callback() {
+						console.log('CB', arguments);
+					},
+					error: function error(_error) {
+						itg.error('Error during ajax post for page creation:', _error);
+						itg.growl('Error', "Error during page creation: " + _error.statusText, false);
+					}
+				});
+			});
 		};
 	}, {}] }, {}, [1]);
 //# sourceMappingURL=pageEditor.js.map

@@ -13,7 +13,7 @@
 namespace ithoughts\tooltip_glossary;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	 status_header( 403 );
+	status_header( 403 );
 	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 
@@ -21,6 +21,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\PostTypes' ) ) {
 	class PostTypes extends \ithoughts\v1_0\Singleton {
 		public function __construct() {
 			add_action( 'init', array( $this, 'register_post_types' ) );
+			add_action( 'template_redirect', array( $this, 'glossary_archive_to_page' ) );
 		}
 
 		/**
@@ -35,6 +36,18 @@ if ( ! class_exists( __NAMESPACE__ . '\\PostTypes' ) ) {
 				$data['comment_status'] = $options['termscomment'] ? 'open' : 'closed';
 			}
 			return $data;
+		}
+
+		public function glossary_archive_to_page() {
+			if( is_post_type_archive( 'glossary' ) ) {
+				$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+				$index = $backbone->get_option('glossary-index');
+				if(is_int($index)){
+					$page_index = get_post($index);
+				}
+				wp_redirect( home_url( '/'.$page_index->post_name ), 301 );
+				die();
+			}
 		}
 
 		public function register_post_types() {

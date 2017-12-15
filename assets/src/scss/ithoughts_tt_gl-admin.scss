@@ -184,21 +184,19 @@ tr.nonoverridable label, .nonoverridable:not(tr){
 		margin: 0.5em 0;
 	}
 	> * {
-		flex: 1 1 auto;
+		flex: 1 1 50%;
+		display: block;
 	}
 	.img-container {
+		height: 40vh;
+		max-height: 250px;
 		width: auto;
-		height: auto;
 		box-sizing: border-box;
 		padding: 0 10px 10px;
 		margin: 5px;
-
-		img {
-			width: auto;
-			height: auto;
-			max-width: 100%;
-			max-height: 100%;
-		}
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
 	}
 }
 #dashboard-widgets a{

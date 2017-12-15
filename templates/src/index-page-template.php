@@ -1,8 +1,17 @@
 <template id="itg-index-page" title="<?php esc_attr_e('Create an index glossary page', 'ithoughts-tooltip-glossary'); ?>">
-	<form action="<?php echo esc_url( $ajax ); ?>" method="post" class="simpleajaxform" data-target="update-response">
+	<form action="<?php echo esc_url( $ajax ); ?>" method="post" class="simpleajaxform">
 		<?php wp_nonce_field( 'ithoughts_tt_gl-index-page-edit' ); ?>
+		<input autocomplete="off" type="hidden" name="action"/>
 		<table class="form-table">
 			<tbody>
+				<tr>
+					<th>
+						<label for="<?php esc_attr($options_inputs['index-page-name']->get_id()); ?>"><?php esc_html_e( 'Title of the index page', 'ithoughts-tooltip-glossary' ); ?>:</label>
+					</th>
+					<td>
+						<?php $options_inputs['index-page-name']->print(); ?>
+					</td>
+				</tr>
 				<tr>
 					<th>
 						<label for="<?php esc_attr($options_inputs['index-page-url']->get_id()); ?>"><?php esc_html_e( 'Url of the page', 'ithoughts-tooltip-glossary' ); ?>:</label>
@@ -15,13 +24,15 @@
 		</table>
 		<h2>Page index type</h2>
 		<div id="itg-listtypes">
-			<button type="button" class="img-container button">
+			<button class="button" data-action="atoz" name="actionB" value="ithoughts_tt_gl_create_page_atoz">
 				<h3>A to Z</h3>
-				<img src="<?php echo $this->backbone->get_base_url(); ?>/assets/dist/imgs/list-icons/a-to-z.svg" alt="<?php esc_attr_e('A to Z', 'ithoughts-tooltip-glossary'); ?>"/>
+				<div class="img-container" style="background-image: url(<?php echo $this->backbone->get_base_url(); ?>/assets/dist/imgs/list-icons/a-to-z.svg)">
+				</div>
 			</button>
-			<button type="button" class="img-container button">
+			<button class="button" data-action="list" name="actionB" value="ithoughts_tt_gl_create_page_list">
 				<h3>List</h3>
-				<img src="<?php echo $this->backbone->get_base_url(); ?>/assets/dist/imgs/list-icons/list.svg" alt="<?php esc_attr_e('List', 'ithoughts-tooltip-glossary'); ?>"/>
+				<div class="img-container" style="background-image: url(<?php echo $this->backbone->get_base_url(); ?>/assets/dist/imgs/list-icons/list.svg)">
+				</div>
 			</button>
 		</div>
 	</form>
