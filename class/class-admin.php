@@ -60,6 +60,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$this->backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 			// Trigger version change function ?
 			add_action( 'admin_init',								array( &$this, 'set_version' ) );
+			add_action( 'admin_init',								array( &$this, 'maybe_need_edit_page' ) );
 			add_action( 'admin_init',								array( &$this, 'ajax_hooks' ) );
 
 			add_action( 'admin_menu',								array( &$this, 'get_menu' ) );
@@ -115,8 +116,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				} else {
 					throw new \Exception( 'unreadable_plugin_error' );
 				}
-				if ( $this->backbone->get_option( 'version' ) === -1 ) {
-					$this->backbone->set_option( 'version',$this->current_version );
+				if ( intval($this->backbone->get_option( 'version' )) === -1 ) {
+					$this->backbone->set_option( 'version', $this->current_version );
 				} elseif ( $this->is_under_versionned() ) {
 					$this->backbone->log( \ithoughts\v6_0\LogLevel::WARN, "Plugin settings are under versionned. Installed version is {$plugindata['Version']}, and config is {$this->backbone->get_option( 'version' )}" );
 					// Create the updater.
@@ -140,6 +141,22 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				add_action( 'admin_notices', array( &$this, 'unreadable_plugin_error' ) );
 			}
 		}
+
+		public function maybe_need_edit_page(){
+			if(false === $this->backbone->get_option('glossary-index')){
+				add_action( 'admin_notices', array( &$this, 'notice_create_index_page' ) );
+			}
+		}
+
+		public function notice_create_index_page(){
+?>
+<div class="notice notice-warning">
+	<p><?php printf( wp_kses( __( 'You did not set a glossary index yet. Please click on the button below to create a page, or visit the <a href="%s">options page</a> to select an existing one', 'ithoughts-tooltip-glossary' ), array(  'a' => array( 'href' => array() ) ) ), esc_url( get_admin_url( null, 'admin.php?page=ithoughts-tooltip-glossary') ) ); ?></p>
+	<a class="button button-secondary" href="javascript:void(0)" style="width:100%;height:3em;text-align:center;line-height:3em;" onclick="iThoughtsTooltipGlossary.indexPageEditor()"><?php esc_html_e( 'Create the index now!', 'ithoughts-tooltip-glossary' ); ?></a>
+</div>
+<?php
+												   $this->page_builder();
+												  }
 
 		/**
 		 * Display alert on error when plugin version is not readable
@@ -382,15 +399,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 		 * @action admin_menu
 		 */
 		public function get_menu() {
-
-			$plugindata = get_plugin_data( $this->backbone->get_base_path() . '/' . $this->backbone->get_name() . '.php' );
-			$current_version = null;
-			if ( $plugindata && is_array( $plugindata ) && $plugindata['Version'] ) {
-				$this->current_version = $plugindata['Version'];
-			} else {
-				$current_version = '0.0';
-			}
-
 			add_menu_page( 'iThoughts Tooltip Glossary', 'Tooltip Glossary', 'edit_others_posts', 'ithoughts-tooltip-glossary', null, $this->backbone->get_base_url() . '/assets/dist/imgs/icon.svg' );
 
 			$submenu_pages = array(
@@ -512,14 +520,17 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			wp_send_json_success( $output );
 			wp_die();
 		}
-		
+
 		private function page_builder(){
 			$this->backbone->enqueue_resources( array(
 				'ithoughts_tooltip_glossary-css',
 				'ithoughts_tooltip_glossary-qtip-css',
 				'ithoughts_tooltip_glossary-pageEditor',
+				'ithoughts-simple-ajax-v5',
+				'ithoughts-core-v5',
 			) );
-			
+
+			$ajax = admin_url( 'admin-ajax.php' );
 			$options_inputs = array();
 			$options_inputs['index-page-name'] = Input::create_text_input(
 				'index-page-name',
@@ -835,7 +846,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 			// Print the option page.
 			require( $this->backbone->get_base_path() . '/templates/dist/options.php' );
-			
+
 			$this->page_builder();
 		}
 

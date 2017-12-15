@@ -96,7 +96,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Updater' ) ) {
 			switch ( $this->versionIndex ) {
 				case 0:{
 ?>
-<div class="update-nag notice">
+<div class="notice notice-warning">
 	<p><?php echo wp_kses( __( "Thank you for using iThoughts Tooltip Glossary v2.0! This update comes with some big refactoring to improve evolution flexibility, compatibility, and much more. But it requires also a global update of <b>each of your posts</b> to apply the new format. If you don't apply this update, none of your tooltips will work properly.", 'ithoughts-tooltip-glossary' ), array(
 		'b' => array(),
 	) ); ?></p>
