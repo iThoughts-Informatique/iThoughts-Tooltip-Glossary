@@ -72,7 +72,7 @@ before_script:
 script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
-      grunt phpunit --verbose --debug
+      grunt phpunit
       WP_MULTISITE=1 grunt phpunit
     fi
   - |
