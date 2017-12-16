@@ -15,10 +15,15 @@
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">./class</directory>
 			<!--<file>/path/to/file</file>
-			<exclude>
-				<directory suffix=".php">/path/to/files</directory>
-				<file>/path/to/file</file>
-			</exclude>-->
+   <exclude>
+	<directory suffix=".php">/path/to/files</directory>
+	<file>/path/to/file</file>
+   </exclude>-->
 		</whitelist>
 	</filter>
+
+
+	<logging>
+		<log type="coverage-clover" target="coverage/php/clover.xml"/>
+	</logging>
 </phpunit>

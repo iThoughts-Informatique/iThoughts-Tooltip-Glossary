@@ -71,7 +71,6 @@ before_script:
 
 script:
   - |
-    env
     if [[ ! -z "$WP_VERSION" ]] ; then
       grunt phpunit
       WP_MULTISITE=1 grunt phpunit

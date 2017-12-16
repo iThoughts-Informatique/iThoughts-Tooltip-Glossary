@@ -306,7 +306,7 @@ module.exports = function gruntInit( grunt ) {
 			},
 			options: {
 				configuration: 'phpunit.xml',
-				coverageClover: './coverage/php/cover.xml',
+//				coverageClover: './coverage/php/cover.xml',
 				colors: true,
 			}
 		},
