@@ -15,6 +15,7 @@ cache:
   directories:
     - vendor
     - $HOME/.composer/cache
+    - node_modules
 
 matrix:
   include:
@@ -66,7 +67,7 @@ before_script:
 script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
-      grunt phpunit
+      grunt phpunit --verbose --debug
       WP_MULTISITE=1 grunt phpunit
     fi
   - |
