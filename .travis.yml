@@ -33,7 +33,14 @@ matrix:
     - php: 5.3
       env: WP_VERSION=latest
 
+env:
+  global:
+    - CC_TEST_REPORTER_ID=8b5cdacf9299b2f05d1340800342878f1c2d45d1859d53e2381d5bb5482b9576
+	
 before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - |
     if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
@@ -66,3 +73,6 @@ script:
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
       phpcs
     fi
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

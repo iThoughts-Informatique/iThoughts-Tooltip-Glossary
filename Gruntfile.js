@@ -32,6 +32,7 @@ module.exports = function gruntInit( grunt ) {
 
 	const gruntConfig = {
 		pkg:    grunt.file.readJSON( 'package.json' ),
+
 		browserify: {
 			dist: {
 				options:{
@@ -117,59 +118,6 @@ module.exports = function gruntInit( grunt ) {
 				}],
 			},
 		},
-		jsdoc: {
-			dist: {
-				src:     jsPaths,
-				options: {
-					private:     true,
-					destination: jsDocPath,
-				},
-			},
-		},
-		replace: {
-			headers: {
-				src: [
-					'tests/**/*.js',
-					'assets/src/js/**/*.js',
-					'assets/src/scss/**/*.scss',
-					'class/**/*.php',
-					'templates/src/*.php',
-				],
-				overwrite:    true,
-				replacements: [
-					{
-						from: /(@version) \d+\.\d+\.\d+/,
-						to:   '$1 <%= pkg.version %>',
-					},
-				],
-			},
-			readmeVersion: {
-				src:          'readme.txt',
-				overwrite:    true,
-				replacements: [
-					{
-						from: /Stable tag: \d+\.\d+\.\d+/,
-						to:   'Stable tag: <%= pkg.version %>',
-					},
-					{
-						from: /Tested up to: \d+\.\d+/,
-						to:   function to() {
-							const wpVersionFile = require( 'path' ).resolve(
-								gruntLocalconfig.wordpress_base_path,
-								'wp-includes/version.php'
-							);
-							const wpVersionFileContent = fs.readFileSync(
-								wpVersionFile,
-								'UTF-8'
-							);
-							var versionNumbers = wpVersionFileContent.match( /^\$wp_version\s*=\s*'(\d+)\.(\d+)(?:\.(\d+))?';$/m ).slice( 1 ).map( Number );
-							[ wpVersion.major, wpVersion.minor, wpVersion.fix ] = versionNumbers;
-							return `Tested up to: ${wpVersion.major}.${wpVersion.minor}`;
-						},
-					},
-				],
-			},
-		},
 		imagemin: {
 			dynamic: {
 				options: {
@@ -191,6 +139,7 @@ module.exports = function gruntInit( grunt ) {
 				files:   scssFiles,
 			},
 		},
+
 		eslint: {
 			options: {
 				format:      'stylish',
@@ -213,6 +162,39 @@ module.exports = function gruntInit( grunt ) {
 				],
 			},
 		},
+		phpcbf: {
+			options: {
+				standard: 'lint/phpcs.xml',
+			},
+			files: phpFiles,
+		},
+		phpcs: {
+			options: {
+				standard: 'lint/phpcs.xml',
+			},
+			files: phpFiles,
+		},
+
+		wp_readme_to_markdown: {
+			dist: {
+				files: {
+					'readme.md': 'readme.txt',
+				},
+			},
+		},
+		phpdoc: {
+			dist: {
+				options: {
+					verbose: true,
+					//					template: 'abstract',
+				},
+				src: [
+					'class/**/*.php',
+					'*.php',
+				],
+				dest: 'docs/php',
+			},
+		},
 		docco: {
 			debug: {
 				src:     jsPaths,
@@ -221,6 +203,16 @@ module.exports = function gruntInit( grunt ) {
 				},
 			},
 		},
+		jsdoc: {
+			dist: {
+				src:     jsPaths,
+				options: {
+					private:     true,
+					destination: jsDocPath,
+				},
+			},
+		},
+
 		prompt: {
 			upgrade: {
 				options: {
@@ -301,37 +293,17 @@ module.exports = function gruntInit( grunt ) {
 				},
 			},
 		},
-		phpdoc: {
+
+		phpunit: {
 			dist: {
-				options: {
-					verbose: true,
-					//					template: 'abstract',
-				},
-				src: [
-					'class/**/*.php',
-					'*.php',
-				],
-				dest: 'docs/php',
+//				dir: './',
+				bootstrap: 'test/php/bootstrap.php',
 			},
-		},
-		wp_readme_to_markdown: {
-			dist: {
-				files: {
-					'readme.md': 'readme.txt',
-				},
-			},
-		},
-		phpcbf: {
 			options: {
-				standard: 'lint/phpcs.xml',
-			},
-			files: phpFiles,
-		},
-		phpcs: {
-			options: {
-				standard: 'lint/phpcs.xml',
-			},
-			files: phpFiles,
+				configuration: 'phpunit.xml',
+				coverageClover: './coverage/php/cover.xml',
+				colors: true,
+			}
 		},
 	};
 	if ( typeof gruntLocalconfig !== 'undefined' && typeof gruntLocalconfig.svn_path !== 'undefined' ) {
@@ -379,6 +351,7 @@ module.exports = function gruntInit( grunt ) {
 	grunt.loadNpmTasks( 'grunt-babel' );
 	grunt.loadNpmTasks( 'grunt-phpcbf' );
 	grunt.loadNpmTasks( 'grunt-phpcs' );
+	grunt.loadNpmTasks( 'grunt-phpunit' );
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
 
 	// Default task(s).

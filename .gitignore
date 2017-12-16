@@ -14,3 +14,4 @@ less/*.css
 
 assets/build/
 assets/src/scss/**/*.css*
+coverage/
