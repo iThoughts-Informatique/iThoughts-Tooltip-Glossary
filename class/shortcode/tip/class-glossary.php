@@ -132,6 +132,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 			$id = null;
 			if(is_array($attributes)){
 				$id = Toolbox::pick_option( $attributes, 'glossary-id', null );
+			} else {
+				$attributes = array();
 			}
 			if($id === null){
 				$id = sanitize_title($text);

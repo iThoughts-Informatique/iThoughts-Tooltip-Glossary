@@ -25,9 +25,6 @@ define('EXAMPLE_VIDEO_URL', 'https://www.youtube.com/embed/Xc4xYacTu-E');
 
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 
-echo 'Test dir:';
-var_dump($_tests_dir);
-
 if ( ! $_tests_dir ) {
 	$tried_path = rtrim( sys_get_temp_dir(), '/\\' ) . '/wordpress-tests-lib';
 	if(file_exists($tried_path)){
@@ -36,8 +33,6 @@ if ( ! $_tests_dir ) {
 		$_tests_dir = dirname(__FILE__) . '/wordpress-tests-lib';
 	}
 }
-echo 'Test final:';
-var_dump($_tests_dir);
 
 
 if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
