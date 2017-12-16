@@ -55,7 +55,7 @@ class ITGAtoZTest extends WP_UnitTestCase {
 
 		$this->assertDiscardWhitespace(
 			'<div class="itg-glossary-atoz">'.self::ATOZ_MENU.$this->SEPARATOR.'<div class="atoz-wrapper"><ul class="itg-atoz-items itg-atoz-items-E itg-atoz-items-off"><li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-E">'.$this->get_tip_content($post_1).'</li></ul><ul class="itg-atoz-items itg-atoz-items-F itg-atoz-items-off"><li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-F">'.$this->get_tip_content($post_2).'</li></ul></div></div>',
-			apply_filters( 'ithoughts_tt_gl_atoz', null)
+			apply_filters( 'ithoughts_tt_gl_atoz', '')
 		);
 	}
 
@@ -76,7 +76,7 @@ class ITGAtoZTest extends WP_UnitTestCase {
 
 		$this->assertDiscardWhitespace(
 			'<div class="itg-glossary-atoz">'.self::ATOZ_MENU.$this->SEPARATOR.'<div class="atoz-wrapper"><ul class="itg-atoz-items itg-atoz-items-E itg-atoz-items-off"><li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-E">'.$this->get_tip_content($post_1).'</li></ul><ul class="itg-atoz-items itg-atoz-items-F itg-atoz-items-off"><li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-F">'.$this->get_tip_content($post_2).'</li></ul></div></div>',
-			apply_filters( 'ithoughts_tt_gl_atoz', null)
+			apply_filters( 'ithoughts_tt_gl_atoz', '')
 		);
 	}
 
@@ -98,19 +98,19 @@ class ITGAtoZTest extends WP_UnitTestCase {
 
 		$this->assertDiscardWhitespace(
 			'<div  class="itg-glossary-atoz">'.self::ATOZ_MENU.$this->SEPARATOR.'<div class="atoz-wrapper"><ul class="itg-atoz-items itg-atoz-items-E itg-atoz-items-off"><li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-E">'.$this->get_link_content($post_1).'</li></ul><ul class="itg-atoz-items itg-atoz-items-F itg-atoz-items-off"><li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-F">'.$this->get_link_content($post_2).'</li></ul></div></div>',
-			apply_filters( 'ithoughts_tt_gl_atoz', null, null, array('list-contenttype' => 'link'))
+			apply_filters( 'ithoughts_tt_gl_atoz', '', null, null, array('list-contenttype' => 'link'))
 		);
 		$this->assertDiscardWhitespace(
 			'<div class="itg-glossary-atoz">'.self::ATOZ_MENU.$this->SEPARATOR.'<div class="atoz-wrapper"><ul class="itg-atoz-items itg-atoz-items-E itg-atoz-items-off"><li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-E">'.$this->get_tip_content($post_1).'</li></ul><ul class="itg-atoz-items itg-atoz-items-F itg-atoz-items-off"><li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-F">'.$this->get_tip_content($post_2).'</li></ul></div></div>',
-			apply_filters( 'ithoughts_tt_gl_atoz', null, null, array('list-contenttype' => 'tip'))
+			apply_filters( 'ithoughts_tt_gl_atoz', '', null, null, array('list-contenttype' => 'tip'))
 		);
 		$this->assertDiscardWhitespace(
 			'<div  class="itg-glossary-atoz">'.self::ATOZ_MENU.$this->SEPARATOR.'<div class="atoz-wrapper"><ul class="itg-atoz-items itg-atoz-items-E itg-atoz-items-off"><li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-E">'.$this->get_excerpt_content($post_1).'</li></ul><ul class="itg-atoz-items itg-atoz-items-F itg-atoz-items-off"><li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-F">'.$this->get_excerpt_content($post_2).'</li></ul></div></div>',
-			apply_filters( 'ithoughts_tt_gl_atoz', null, null, array('list-contenttype' => 'excerpt'))
+			apply_filters( 'ithoughts_tt_gl_atoz', '', null, null, array('list-contenttype' => 'excerpt'))
 		);
 		$this->assertDiscardWhitespace(
 			'<div  class="itg-glossary-atoz">'.self::ATOZ_MENU.$this->SEPARATOR.'<div class="atoz-wrapper"><ul class="itg-atoz-items itg-atoz-items-E itg-atoz-items-off"><li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-E">'.$this->get_full_content($post_1).'</li></ul><ul class="itg-atoz-items itg-atoz-items-F itg-atoz-items-off"><li class="glossary-item ithoughts-tooltip-glossaryatoz-li atoz-li-F">'.$this->get_full_content($post_2).'</li></ul></div></div>',
-			apply_filters( 'ithoughts_tt_gl_atoz', null, null, array('list-contenttype' => 'full'))
+			apply_filters( 'ithoughts_tt_gl_atoz', '', null, null, array('list-contenttype' => 'full'))
 		);
 	}
 
@@ -131,30 +131,31 @@ class ITGAtoZTest extends WP_UnitTestCase {
 
 		$this->backbone_class->set_option('list-contenttype', 'link');
 		$this->assertDiscardWhitespace(
-			apply_filters( 'ithoughts_tt_gl_atoz', null, null, array('list-contenttype' => 'link')),
-			apply_filters( 'ithoughts_tt_gl_atoz', null)
+			apply_filters( 'ithoughts_tt_gl_atoz', '', null, null, array('list-contenttype' => 'link')),
+			apply_filters( 'ithoughts_tt_gl_atoz', '')
 		);
 
 		$this->backbone_class->set_option('list-contenttype', 'tip');
 		$this->assertDiscardWhitespace(
-			apply_filters( 'ithoughts_tt_gl_atoz', null, null, array('list-contenttype' => 'tip')),
-			apply_filters( 'ithoughts_tt_gl_atoz', null)
+			apply_filters( 'ithoughts_tt_gl_atoz', '', null, null, array('list-contenttype' => 'tip')),
+			apply_filters( 'ithoughts_tt_gl_atoz', '')
 		);
 
 		$this->backbone_class->set_option('list-contenttype', 'excerpt');
 		$this->assertDiscardWhitespace(
-			apply_filters( 'ithoughts_tt_gl_atoz', null, null, array('list-contenttype' => 'excerpt')),
-			apply_filters( 'ithoughts_tt_gl_atoz', null)
+			apply_filters( 'ithoughts_tt_gl_atoz', '', null, null, array('list-contenttype' => 'excerpt')),
+			apply_filters( 'ithoughts_tt_gl_atoz', '')
 		);
 
 		$this->backbone_class->set_option('list-contenttype', 'full');
 		$this->assertDiscardWhitespace(
-			apply_filters( 'ithoughts_tt_gl_atoz', null, null, array('list-contenttype' => 'full')),
-			apply_filters( 'ithoughts_tt_gl_atoz', null)
+			apply_filters( 'ithoughts_tt_gl_atoz', '', null, null, array('list-contenttype' => 'full')),
+			apply_filters( 'ithoughts_tt_gl_atoz', '')
 		);
 	}
 
 	public function test_atoz_shortcode(){
+		$this->backbone_class->set_option('staticterms', false);
 		$post_id_1 = $this->factory->post->create(array(
 			'post_type' => 'glossary',
 			'post_title' => EXAMPLE_GLOSSARY_TITLE,
@@ -192,6 +193,7 @@ class ITGAtoZTest extends WP_UnitTestCase {
 	}
 
 	public function test_no_fail_invalid_default(){
+		$this->backbone_class->set_option('staticterms', false);
 		$this->backbone_class->set_option('list-contenttype', '');
 		$post_id_1 = $this->factory->post->create(array(
 			'post_type' => 'glossary',
@@ -206,12 +208,13 @@ class ITGAtoZTest extends WP_UnitTestCase {
 		));
 		$post_2 = get_post($post_id_2);
 
-		$content = apply_filters( 'ithoughts_tt_gl_atoz', null );
+		$content = apply_filters( 'ithoughts_tt_gl_atoz', '' );
 		$this->assertStringStartsWith( '<div class="itg-glossary-atoz">', $content );
 		$this->assertStringEndsWith( '</div>', $content );
 	}
 
 	public function test_no_fail_invalid_override(){
+		$this->backbone_class->set_option('staticterms', false);
 		$this->backbone_class->set_option('list-contenttype', 'tip');
 		$post_id_1 = $this->factory->post->create(array(
 			'post_type' => 'glossary',
@@ -226,7 +229,7 @@ class ITGAtoZTest extends WP_UnitTestCase {
 		));
 		$post_2 = get_post($post_id_2);
 
-		$content = apply_filters( 'ithoughts_tt_gl_atoz', null , null, array('list-contenttype' => ''));
+		$content = apply_filters( 'ithoughts_tt_gl_atoz', '', null , null, array('list-contenttype' => ''));
 		$this->assertStringStartsWith( '<div class="itg-glossary-atoz">', $content );
 		$this->assertStringEndsWith( '</div>', $content );
 	}

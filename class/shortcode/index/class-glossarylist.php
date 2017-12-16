@@ -30,9 +30,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 		const LIST_MODE_TIP     = 'tip';
 		const LIST_MODE_EXCERPT = 'excerpt';
 		const LIST_MODE_FULL    = 'full';
+		
+		private $type;
 
-		public function __construct($register_filters = false){
-			if($register_filters){
+		public function __construct($type, $register_comon_filters = false){
+			$this->type = $type;
+			
+			add_filter( 'ithoughts_tt_gl_'.$this->type, array( &$this, 'generate_list' ), 1000, 4 );
+			if($register_comon_filters){
 				add_filter('ithoughts_tt_gl_list_'.self::LIST_MODE_LINK,    array(&$this, 'list_'.self::LIST_MODE_LINK),  1000, 3);
 				add_filter('ithoughts_tt_gl_list_'.self::LIST_MODE_TIP,     array(&$this, 'list_'.self::LIST_MODE_TIP),    1000, 3);
 				add_filter('ithoughts_tt_gl_list_'.self::LIST_MODE_EXCERPT, array(&$this, 'list_'.self::LIST_MODE_EXCERPT),  1000, 3);
@@ -47,7 +52,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 		public function list_link($groups, $letters, $attributes = array()){
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 
-			$posts = $this->get_microposts($groups,$letters)['terms'];
+			$posts = $this->get_microposts($groups,$letters);
 			// Transform posts
 			$postsContents = array();
 			foreach($posts as $post){
@@ -60,9 +65,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 
 			if($backbone->get_option('staticterms') === true){
-				$posts = $this->get_lists_terms($groups,$letters)['terms'];
+				$posts = $this->get_lists_terms($groups,$letters);
 			} else {
-				$posts = $this->get_microposts($groups, $letters)['terms'];
+				$posts = $this->get_microposts($groups, $letters);
 			}
 			// Transform posts
 			$postsContents = array();
@@ -75,7 +80,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 		public function list_excerpt($groups, $letters, $attributes = array()){
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 
-			$posts = $this->get_lists_terms($groups,$letters)['terms'];
+			$posts = $this->get_lists_terms($groups,$letters);
 			// Transform posts
 			$postsContents = array();
 			foreach($posts as $post){
@@ -87,7 +92,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 		public function list_full($groups, $letters, $attributes = array()){
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 
-			$posts = $this->get_lists_terms($groups,$letters)['terms'];
+			$posts = $this->get_lists_terms($groups,$letters);
 			// Transform posts
 			$postsContents = array();
 			foreach($posts as $post){
@@ -126,6 +131,42 @@ if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 			$content .= '<div class="entry-content clearfix"><p>' . apply_filters('get_the_content',$post->post_content) . '</p></div>';
 			return apply_filters('ithoughts_tt_gl_list_item_'.self::LIST_MODE_FULL,    $content, $attributes);
 		}
+		
+		
+		public function do_shortcode( $attributes, $text = '' ) {
+			if($attributes === ''){
+				$attributes = array();
+			}
+
+			// Checks for partial listing options by group
+			$group_ids = Toolbox::pick_option( $attributes, 'group', null );
+			// Sanity check the list of letters (if set by user).
+			$alphas = Toolbox::pick_option( $attributes, 'alpha', null );
+
+			return apply_filters( 'ithoughts_tt_gl_'.$this->type, null, $group_ids, $alphas, $attributes );
+		}
+		
+		protected function generate_list(){
+			
+		}
+		
+		protected function group_posts_by_alpha(array $posts){
+			$paged = array();
+			foreach( $posts as $post_name => $post ) {
+				$alpha = strtoupper( Toolbox::unaccent(mb_substr($post_name,0,1, "UTF-8")) );
+				if(!preg_match("/[A-Z]/", $alpha)){
+					$alpha = "#";
+				}
+
+				if(!isset($paged[$alpha])){
+					$paged[$alpha] = array();
+				}
+				$paged[$alpha][$post_name] = $post;
+			}
+			return $paged;
+		}
+		
+		
 
 		protected function get_lists_terms( $group_ids = null, $alphas = null ) {
 			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
@@ -192,10 +233,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\GlossaryList' ) ) {
 				$filteredGlossaries = &$glossaries;
 			}
 
-			return array(
-				'terms' => &$filteredGlossaries,
-				'count' => $query->found_posts,
-			);
+			return $filteredGlossaries;
 		}
 
 		final protected function get_microposts( $groups = false, $alphas = false ) {
@@ -314,17 +352,11 @@ ORDER BY
 			$queryCount = $queryComponents['pre'] . 'COUNT(*)' . $queryComponents['from'] . $queryComponents['where'] . $queryComponents['order'];
 			// Toolbox::prettyDump($querySelect, $queryCount);
 			$res = $wpdb->get_results( $querySelect, ARRAY_A );
-			$ret = array();
+			$micro_posts = array();
 			foreach ( $res as $micropost ) {
-				$ret[] = new \ithoughts\tooltip_glossary\MicroPost( $micropost );
+				$micro_posts[] = new \ithoughts\tooltip_glossary\MicroPost( $micropost );
 			}
-
-			$return = array(
-				'terms' => $ret,
-				'count' => $wpdb->get_var( $queryCount ),
-			);
-
-			return $return;
+			return $micro_posts;
 		}
 
 		private function alpha_array_to_regex_str( $alphas ) {
