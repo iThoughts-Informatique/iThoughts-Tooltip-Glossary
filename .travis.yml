@@ -39,7 +39,7 @@ env:
     - CC_TEST_REPORTER_ID=8b5cdacf9299b2f05d1340800342878f1c2d45d1859d53e2381d5bb5482b9576
 
 before_install:
-  - rm npm-shrinkwrap.json
+  - rm -f npm-shrinkwrap.json package-lock.json
 install:
   - npm i -D
 
