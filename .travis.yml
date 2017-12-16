@@ -38,6 +38,11 @@ env:
   global:
     - CC_TEST_REPORTER_ID=8b5cdacf9299b2f05d1340800342878f1c2d45d1859d53e2381d5bb5482b9576
 
+before_install:
+  - rm npm-shrinkwrap.json
+install:
+  - npm i -D
+
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
