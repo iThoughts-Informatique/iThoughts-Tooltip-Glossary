@@ -74,7 +74,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 											</label>
 										</td>
 										<td>
-											<?php $inputs['letters']->print(); ?>
+											<?php $inputs['letters']->do_print(); ?>
 										</td>
 									</tr>
 									<tr>
@@ -98,8 +98,8 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 											</label>
 										</td>
 										<td>
-											<?php $inputs['groups_text']->print(); ?>
-											<?php $inputs['groups']->print(); ?>
+											<?php $inputs['groups_text']->do_print(); ?>
+											<?php $inputs['groups']->do_print(); ?>
 											<div class="groupspicker hidden">
 												<div class="group-select" data-groupid="0">
 													<input type="checkbox" <?php echo in_array( 0, $data['group'], true ) ? 'checked ' : ''; ?> name="group_check" value="0" id="group_check_0">
@@ -143,7 +143,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 											</label>
 										</td>
 										<td>
-											<?php $inputs['description_mode']->print(); ?>
+											<?php $inputs['description_mode']->do_print(); ?>
 										</td>
 									</tr>
 								</table>
@@ -191,7 +191,7 @@ iThoughtsTooltipGlossaryEditor.groups = <?php echo wp_json_encode( $groups ); ?>
 													</label>
 												</td>
 												<td>
-													<?php $inputs['columns_count']->print(); ?>
+													<?php $inputs['columns_count']->do_print(); ?>
 												</td>
 											</tr>
 										</table>

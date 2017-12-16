@@ -61,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</label>
 										</td>
 										<td>
-											<?php $inputs['ithoughts_tt_gl_text']->print(); ?>
+											<?php $inputs['ithoughts_tt_gl_text']->do_print(); ?>
 										</td>
 									</tr>
 									<tr>
@@ -71,7 +71,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</label>
 										</td>
 										<td>
-											<?php $inputs['ithoughts_tt_gl_link']->print(); ?>
+											<?php $inputs['ithoughts_tt_gl_link']->do_print(); ?>
 										</td>
 									</tr>
 								</table>
@@ -117,12 +117,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<?php $inputs['glossary_term']->print() ?>
+												<?php $inputs['glossary_term']->do_print() ?>
 												<div class="glossary_term_completer_container" class="hidden">
 													<div id="glossary_term_completer" class="completer">
 													</div>
 												</div>
-												<?php $inputs['glossary_term_id']->print() ?>
+												<?php $inputs['glossary_term_id']->do_print() ?>
 											</td>
 										</tr>
 										<?php
@@ -135,7 +135,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<?php $inputs['glossary_disable_auto_translation']->print() ?>
+												<?php $inputs['glossary_disable_auto_translation']->do_print() ?>
 											</td>
 										</tr>
 										<?php
@@ -154,7 +154,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<?php esc_html_e( 'Content', 'ithoughts-tooltip-glossary' ); ?>
 												</label>
 												<div style="margin:0 -11px;">
-													<?php $inputs['ithoughts_tt_gl-tooltip-content']->print() ?>
+													<?php $inputs['ithoughts_tt_gl-tooltip-content']->do_print() ?>
 												</div>
 											</td>
 										</tr>
@@ -172,7 +172,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<?php $inputs['mediatip_type']->print(); ?>
+												<?php $inputs['mediatip_type']->do_print(); ?>
 											</td>
 										</tr>
 										<tr data-mediatip_type="mediatip-localimage-type">
@@ -201,7 +201,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<?php $inputs['mediatip_url_image']->print(); ?>
+												<?php $inputs['mediatip_url_image']->do_print(); ?>
 											</td>
 										</tr>
 										<tr data-mediatip_type="mediatip-webimage-type mediatip-localimage-type">
@@ -211,7 +211,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<?php $inputs['mediatip_caption']->print(); ?>
+												<?php $inputs['mediatip_caption']->do_print(); ?>
 											</td>
 										</tr>
 										<tr data-mediatip_type="mediatip-webvideo-type">
@@ -221,8 +221,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<?php $inputs['mediatip_url_video_link']->print(); ?>
-												<?php $inputs['mediatip_url_video_embed']->print(); ?>
+												<?php $inputs['mediatip_url_video_link']->do_print(); ?>
+												<?php $inputs['mediatip_url_video_embed']->do_print(); ?>
 											</td>
 										</tr>
 									</table>
@@ -300,7 +300,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php inputs['qtip-content']->print(); ?>
+													<?php inputs['qtip-content']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>
@@ -324,7 +324,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php $inputs['qtip-keep-open']->print() ?>
+													<?php $inputs['qtip-keep-open']->do_print() ?>
 												</td>
 											</tr>
 											<tr>
@@ -334,8 +334,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php $inputs['qtiptrigger']->print(); ?>
-													<?php $inputs['qtiptriggerText']->print(); ?>
+													<?php $inputs['qtiptrigger']->do_print(); ?>
+													<?php $inputs['qtiptriggerText']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>
@@ -345,7 +345,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php $inputs['qtipstyle']->print(); ?>
+													<?php $inputs['qtipstyle']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>
@@ -355,7 +355,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php $inputs['qtipshadow']->print(); ?>
+													<?php $inputs['qtipshadow']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>
@@ -365,7 +365,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php $inputs['qtiprounded']->print(); ?>
+													<?php $inputs['qtiprounded']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>
@@ -390,13 +390,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</td>
 												<td>
 													<div style="display:inline;">
-														<?php $inputs['position']['my'][1]->print(); ?>
+														<?php $inputs['position']['my'][1]->do_print(); ?>
 													</div>
 													<div style="display:inline;">
-														<?php $inputs['position']['my'][2]->print(); ?>
+														<?php $inputs['position']['my'][2]->do_print(); ?>
 													</div>
 													<label for="position_my_invert"><?php
-														$inputs['position']['my']['invert']->print();
+														$inputs['position']['my']['invert']->do_print();
 														esc_html_e( 'Invert main axis', 'ithoughts-tooltip-glossary' );
 														?></label>
 												</td>
@@ -423,10 +423,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</td>
 												<td>
 													<div style="display:inline;">
-														<?php $inputs['position']['at'][1]->print(); ?>
+														<?php $inputs['position']['at'][1]->do_print(); ?>
 													</div>
 													<div style="display:inline;">
-														<?php $inputs['position']['at'][2]->print(); ?>
+														<?php $inputs['position']['at'][2]->do_print(); ?>
 													</div>
 												</td>
 											</tr>
@@ -437,9 +437,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<label for="anim[in]"><?php esc_html_e( 'In', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $inputs['anim']['in']->print(); ?></label>&nbsp;&nbsp;
-													<label for="anim[out]"><?php esc_html_e( 'Out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $inputs['anim']['out']->print(); ?></label>&nbsp;&nbsp;
-													<label for="anim[time]"><?php esc_html_e( 'Duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $inputs['anim']['time']->print(); ?>ms</label>
+													<label for="anim[in]"><?php esc_html_e( 'In', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $inputs['anim']['in']->do_print(); ?></label>&nbsp;&nbsp;
+													<label for="anim[out]"><?php esc_html_e( 'Out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $inputs['anim']['out']->do_print(); ?></label>&nbsp;&nbsp;
+													<label for="anim[time]"><?php esc_html_e( 'Duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $inputs['anim']['time']->do_print(); ?>ms</label>
 												</td>
 											</tr>
 											<tr>
@@ -463,7 +463,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php $inputs['maxwidth']->print(); ?>
+													<?php $inputs['maxwidth']->do_print(); ?>
 												</td>
 											</tr>
 										</table>

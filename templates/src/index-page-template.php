@@ -9,7 +9,7 @@
 						<label for="<?php esc_attr($options_inputs['index-page-name']->get_id()); ?>"><?php esc_html_e( 'Title of the index page', 'ithoughts-tooltip-glossary' ); ?>:</label>
 					</th>
 					<td>
-						<?php $options_inputs['index-page-name']->print(); ?>
+						<?php $options_inputs['index-page-name']->do_print(); ?>
 					</td>
 				</tr>
 				<tr>
@@ -17,7 +17,7 @@
 						<label for="<?php esc_attr($options_inputs['index-page-url']->get_id()); ?>"><?php esc_html_e( 'Url of the page', 'ithoughts-tooltip-glossary' ); ?>:</label>
 					</th>
 					<td>
-						<?php $options_inputs['index-page-url']->print(); ?>
+						<?php $options_inputs['index-page-url']->do_print(); ?>
 					</td>
 				</tr>
 			</tbody>

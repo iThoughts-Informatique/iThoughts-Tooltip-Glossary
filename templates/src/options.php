@@ -64,7 +64,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<label for="<?php echo esc_attr($options_inputs['glossary-contenttype']->get_id()); ?>"><?php esc_html_e( 'Glossary Tip Content', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<?php $options_inputs['glossary-contenttype']->print(); ?>
+													<?php $options_inputs['glossary-contenttype']->do_print(); ?>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -72,7 +72,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<label for="<?php echo esc_attr($options_inputs['termtype']->get_id()); ?>"><?php esc_html_e( 'Base Permalink', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<code>/</code><?php $options_inputs['termtype']->print(); ?><code>/</code>
+													<code>/</code><?php $options_inputs['termtype']->do_print(); ?><code>/</code>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -80,7 +80,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<label for="<?php echo esc_attr($options_inputs['grouptype']->get_id()); ?>"><?php esc_html_e( 'Taxonomy group prefix', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<code>/<?php echo esc_html( $options['termtype'] ); ?>/</code><?php $options_inputs['grouptype']->print(); ?><code>/</code>
+													<code>/<?php echo esc_html( $options['termtype'] ); ?>/</code><?php $options_inputs['grouptype']->do_print(); ?><code>/</code>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -88,7 +88,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<label for="<?php echo esc_attr($options_inputs['glossary-index']->get_id()); ?>"><?php esc_html_e( 'Glossary Index page', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<?php $options_inputs['glossary-index']->print(); ?>
+													<?php $options_inputs['glossary-index']->do_print(); ?>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -96,7 +96,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<label for="<?php echo esc_attr($options_inputs['exclude_search']->get_id()); ?>"><?php esc_html_e( 'Exclude from search', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<?php $options_inputs['exclude_search']->print(); ?>
+													<?php $options_inputs['exclude_search']->do_print(); ?>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -104,7 +104,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<label for="<?php echo esc_attr($options_inputs['termscomment']->get_id()); ?>"><?php esc_html_e( 'Enable comments on glossary terms', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<?php $options_inputs['termscomment']->print(); ?><p><em><strong><?php esc_html_e( 'Note:', 'ithoughts-tooltip-glossary' ); ?> </strong><?php esc_html_e( 'You may need to enable manually the comments on each glossary terms posted before enabling this option.', 'ithoughts-tooltip-glossary' ); ?></em></p>
+													<?php $options_inputs['termscomment']->do_print(); ?><p><em><strong><?php esc_html_e( 'Note:', 'ithoughts-tooltip-glossary' ); ?> </strong><?php esc_html_e( 'You may need to enable manually the comments on each glossary terms posted before enabling this option.', 'ithoughts-tooltip-glossary' ); ?></em></p>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -130,7 +130,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 														</th>
 												<td>
-													<?php $options_inputs['staticterms']->print(); ?>
+													<?php $options_inputs['staticterms']->do_print(); ?>
 												</td>
 											</tr>
 										</tbody>
@@ -148,7 +148,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<label for="<?php echo esc_attr($options_inputs['termlinkopt']->get_id()); ?>"><?php esc_html_e( 'Term link', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<?php $options_inputs['termlinkopt']->print(); ?>
+													<?php $options_inputs['termlinkopt']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>
@@ -156,7 +156,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<label for="<?php echo esc_attr($options_inputs['list-contenttype']->get_id()); ?>"><?php esc_html_e( 'Default list display', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<?php $options_inputs['list-contenttype']->print(); ?>
+													<?php $options_inputs['list-contenttype']->do_print(); ?>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -180,7 +180,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 														); ?>:</label>
 												</th>
 												<td>
-													<?php $options_inputs['forceloadresources']->print(); ?>
+													<?php $options_inputs['forceloadresources']->do_print(); ?>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -188,7 +188,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<label for="<?php echo esc_attr($options_inputs['use_cdn']->get_id()); ?>"><?php esc_html_e( 'Use CDN for library files', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<?php $options_inputs['use_cdn']->print(); ?><p>
+													<?php $options_inputs['use_cdn']->do_print(); ?><p>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -230,7 +230,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 														); ?>:</label>
 												</th>
 												<td>
-													<?php $options_inputs['verbosity']->print(); ?>&nbsp;<label for="<?php echo esc_attr($options_inputs['verbosity']->get_id()); ?>" id="ithoughts_tt_gl-verbosity_label" style="display:inline-block;line-height:27px;vertical-align:top;" data-labels='["<?php esc_attr_e( 'Silent', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e( 'Errors', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e( 'Warnings', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e( 'Infos', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e( 'All', 'ithoughts-tooltip-glossary' ); ?>"]'></label>
+													<?php $options_inputs['verbosity']->do_print(); ?>&nbsp;<label for="<?php echo esc_attr($options_inputs['verbosity']->get_id()); ?>" id="ithoughts_tt_gl-verbosity_label" style="display:inline-block;line-height:27px;vertical-align:top;" data-labels='["<?php esc_attr_e( 'Silent', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e( 'Errors', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e( 'Warnings', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e( 'Infos', 'ithoughts-tooltip-glossary' ); ?>","<?php esc_attr_e( 'All', 'ithoughts-tooltip-glossary' ); ?>"]'></label>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -266,7 +266,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															<label for="<?php echo esc_attr($options_inputs['qtiptrigger']->get_id()); ?>"><?php esc_html_e( 'Tooltip activation', 'ithoughts-tooltip-glossary' ); ?>:</label>
 														</th>
 														<td>
-															<?php $options_inputs['qtiptrigger']->print(); ?>
+															<?php $options_inputs['qtiptrigger']->do_print(); ?>
 														</td>
 													</tr>
 													<tr>
@@ -274,7 +274,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															<label for="<?php echo esc_attr($options_inputs['qtipstyle']->get_id()); ?>"><?php esc_html_e( 'Tooltip Style (qTip)', 'ithoughts-tooltip-glossary' ); ?>:</label>
 														</th>
 														<td>
-															<?php $options_inputs['qtipstyle']->print(); ?>
+															<?php $options_inputs['qtipstyle']->do_print(); ?>
 														</td>
 													</tr>
 													<tr>
@@ -298,7 +298,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																); ?>:</label>
 														</th>
 														<td>
-															<?php $options_inputs['qtipshadow']->print(); ?>
+															<?php $options_inputs['qtipshadow']->do_print(); ?>
 														</td>
 													</tr>
 													<tr>
@@ -323,7 +323,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																); ?>:</label>
 														</th>
 														<td>
-															<?php $options_inputs['qtiprounded']->print(); ?>
+															<?php $options_inputs['qtiprounded']->do_print(); ?>
 														</td>
 													</tr>
 													<tr>
@@ -331,9 +331,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 															<label for="anims"><?php esc_html_e( 'Animations', 'ithoughts-tooltip-glossary' ); ?></label>
 														</th>
 														<td>
-															<label for="<?php echo esc_attr($options_inputs['anim_in']->get_id()); ?>"><?php esc_html_e( 'Animation in', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $options_inputs['anim_in']->print(); ?></label><br/>
-															<label for="<?php echo esc_attr($options_inputs['anim_out']->get_id()); ?>"><?php esc_html_e( 'Animation out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $options_inputs['anim_out']->print(); ?></label><br/>
-															<label for="<?php echo esc_attr($options_inputs['anim_time']->get_id()); ?>"><?php esc_html_e( 'Animation duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $options_inputs['anim_time']->print(); ?>ms</label>
+															<label for="<?php echo esc_attr($options_inputs['anim_in']->get_id()); ?>"><?php esc_html_e( 'Animation in', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $options_inputs['anim_in']->do_print(); ?></label><br/>
+															<label for="<?php echo esc_attr($options_inputs['anim_out']->get_id()); ?>"><?php esc_html_e( 'Animation out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $options_inputs['anim_out']->do_print(); ?></label><br/>
+															<label for="<?php echo esc_attr($options_inputs['anim_time']->get_id()); ?>"><?php esc_html_e( 'Animation duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $options_inputs['anim_time']->do_print(); ?>ms</label>
 														</td>
 													</tr>
 												</tbody>

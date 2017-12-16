@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															'href' => true,
 														),
 													)
-												); ?> </label></td><td> <?php $inputs['letters']->print(); ?> </td></tr><tr><td><label for="groups"> <?php
+												); ?> </label></td><td> <?php $inputs['letters']->do_print(); ?> </td></tr><tr><td><label for="groups"> <?php
 												$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Groups', 'ithoughts-tooltip-glossary' ), esc_attr__( 'Glossary group(s) to list. If empty, any groups will be displayed', 'ithoughts-tooltip-glossary' ) );
 												echo wp_kses(
 													$tooltip,
@@ -47,7 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															'href' => true,
 														),
 													)
-												); ?> </label></td><td> <?php $inputs['groups_text']->print(); ?> <?php $inputs['groups']->print(); ?> <div class="groupspicker hidden"><div class="group-select" data-groupid="0"><input type="checkbox" <?php echo in_array( 0, $data['group'], true ) ? 'checked ' : ''; ?> name="group_check" value="0" id="group_check_0"><label for="group_check_0" class="group-label"><span class="group-title"><em><?php esc_html_e( 'No group', 'ithoughts-tooltip-glossary' ); ?></em></span>&nbsp;<span class="group-count">(<?php echo absint( $no_groups ); ?>)</span></label></div> <?php
+												); ?> </label></td><td> <?php $inputs['groups_text']->do_print(); ?> <?php $inputs['groups']->do_print(); ?> <div class="groupspicker hidden"><div class="group-select" data-groupid="0"><input type="checkbox" <?php echo in_array( 0, $data['group'], true ) ? 'checked ' : ''; ?> name="group_check" value="0" id="group_check_0"><label for="group_check_0" class="group-label"><span class="group-title"><em><?php esc_html_e( 'No group', 'ithoughts-tooltip-glossary' ); ?></em></span>&nbsp;<span class="group-count">(<?php echo absint( $no_groups ); ?>)</span></label></div> <?php
 												foreach ( $groups as $group ) {
 												?> <div class="group-select" data-groupid="<?php echo absint( $group->term_id ); ?>"><input type="checkbox" <?php echo in_array( $group->term_id, $data['group'], true ) ? 'checked ' : ''; ?> name="group_check" value="<?php echo absint( $group->term_id ); ?>" id="group_check_<?php echo absint( $group->term_id ); ?>"><label for="group_check_<?php echo absint( $group->term_id ); ?>" class="group-label"><span class="group-title"><?php echo esc_html( $group->name ); ?></span>&nbsp;<span class="group-count">(<?php echo absint( $group->count ); ?>)</span></label></div> <?php
 												}
@@ -65,7 +65,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															'href' => true,
 														),
 													)
-												); ?> </label></td><td> <?php $inputs['description_mode']->print(); ?> </td></tr></table><div class="tab-container"><ul class="tabs" role="tablist"><li class="<?php echo ('atoz' === $data['type']) ? 'active' : ''; ?>" role="tab" tabindex="-1"> <?php esc_html_e( 'A to Z', 'ithoughts-tooltip-glossary' ); ?> </li><li class="<?php echo ('list' === $data['type']) ? 'active' : ''; ?>" role="tab" tabindex="-1"> <?php esc_html_e( 'List', 'ithoughts-tooltip-glossary' ); ?> </li><li class="topLiner"></li></ul><div class="tab"> <?php esc_html_e( 'No additionnal options', 'ithoughts-tooltip-glossary' ); ?> </div><div class="tab"><table><tr><td><label for="columns_count"> <?php
+												); ?> </label></td><td> <?php $inputs['description_mode']->do_print(); ?> </td></tr></table><div class="tab-container"><ul class="tabs" role="tablist"><li class="<?php echo ('atoz' === $data['type']) ? 'active' : ''; ?>" role="tab" tabindex="-1"> <?php esc_html_e( 'A to Z', 'ithoughts-tooltip-glossary' ); ?> </li><li class="<?php echo ('list' === $data['type']) ? 'active' : ''; ?>" role="tab" tabindex="-1"> <?php esc_html_e( 'List', 'ithoughts-tooltip-glossary' ); ?> </li><li class="topLiner"></li></ul><div class="tab"> <?php esc_html_e( 'No additionnal options', 'ithoughts-tooltip-glossary' ); ?> </div><div class="tab"><table><tr><td><label for="columns_count"> <?php
 														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Columns', 'ithoughts-tooltip-glossary' ), esc_attr__( 'Number of columns to show for list', 'ithoughts-tooltip-glossary' ) );
 														echo wp_kses(
 															$tooltip,
@@ -79,4 +79,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 																	'href' => true,
 																),
 															)
-														); ?> </label></td><td> <?php $inputs['columns_count']->print(); ?> </td></tr></table></div></div></div></form></div></div></div><div class="itg-panel itg-foot" tabindex="-1" role="group"><div class=""><div class="itg-btn itg-primary itg-first itg-btn-has-text" tabindex="-1" role="button"><button role="presentation" type="button" tabindex="-1" style="height: 100%; width: 100%" id="ithoughts_tt_gl-tinymce-validate"> <?php esc_html_e( 'OK', 'ithoughts-tooltip-glossary' ); ?> </button></div><div class="itg-btn itg-last itg-btn-has-text" tabindex="-1" role="button"><button role="presenation" type="button" tabindex="-1" style="height: 100%; width: 100%" class="ithoughts_tt_gl-tinymce-discard"> <?php esc_html_e( 'Cancel', 'ithoughts-tooltip-glossary' ); ?> </button></div></div></div></div></div><div style="z-index: 100100" class="itg-modal-block" class="itg-reset itg-fade itg-in"></div></div>
+														); ?> </label></td><td> <?php $inputs['columns_count']->do_print(); ?> </td></tr></table></div></div></div></form></div></div></div><div class="itg-panel itg-foot" tabindex="-1" role="group"><div class=""><div class="itg-btn itg-primary itg-first itg-btn-has-text" tabindex="-1" role="button"><button role="presentation" type="button" tabindex="-1" style="height: 100%; width: 100%" id="ithoughts_tt_gl-tinymce-validate"> <?php esc_html_e( 'OK', 'ithoughts-tooltip-glossary' ); ?> </button></div><div class="itg-btn itg-last itg-btn-has-text" tabindex="-1" role="button"><button role="presenation" type="button" tabindex="-1" style="height: 100%; width: 100%" class="ithoughts_tt_gl-tinymce-discard"> <?php esc_html_e( 'Cancel', 'ithoughts-tooltip-glossary' ); ?> </button></div></div></div></div></div><div style="z-index: 100100" class="itg-modal-block" class="itg-reset itg-fade itg-in"></div></div>
