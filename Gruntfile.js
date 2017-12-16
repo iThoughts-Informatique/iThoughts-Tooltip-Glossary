@@ -27,8 +27,13 @@ module.exports = function gruntInit( grunt ) {
 				'templates/src/**/*.php',
 				'*.php',
 			],
-		},
+		};
+	let gruntLocalconfig = undefined;
+	try{
 		gruntLocalconfig = require( './grunt_localconfig.json' );
+	} catch(e){
+		console.error(e);
+	}
 
 	const gruntConfig = {
 		pkg:    grunt.file.readJSON( 'package.json' ),
