@@ -29,7 +29,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 	abstract class Tip extends \ithoughts\v1_0\Singleton {
+
+		protected $backbone;
+
 		public function __construct() {
+			$this->backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 		}
 
 		/**
@@ -41,8 +45,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 		 * @return string The formatted HTML markup
 		 */
 		protected function generate_tip( $text, $attributes = array() ) {
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-			$backbone->add_script( 'qtip' );
+			$this->backbone->add_script( 'qtip' );
 
 			// If arguments are provided by categories, concat them
 			if(count($attributes) === 4 && Toolbox::array_keys_exists(array('handled', 'serverSide', 'clientSide', 'attributes'), $attributes)){
@@ -72,7 +75,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 				$wanted_key = Toolbox::maybe_data_prefix($key);
 				if($wanted_key !== $key){
 					if(isset($attributes[$wanted_key])){
-						$backbone->log( \ithoughts\v6_0\LogLevel::WARN, "Overriding attribe $key with $wanted_key that already exists" );
+						$this->backbone->log( \ithoughts\v6_0\LogLevel::WARN, "Overriding attribe $key with $wanted_key that already exists" );
 					}
 					$attributes[$wanted_key] = $value;
 					unset($attributes[$key]);

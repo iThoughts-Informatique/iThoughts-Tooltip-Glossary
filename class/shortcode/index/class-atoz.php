@@ -26,19 +26,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( __NAMESPACE__ . '\\AtoZ' ) ) {
-	class AtoZ extends GlossaryList {
+	class AtoZ extends TermsList {
 		public function __construct() {
-			add_shortcode( 'glossary_atoz', array( $this, 'do_shortcode' ) );
 			add_shortcode( 'itg-atoz', array( $this, 'do_shortcode' ) );
 
 			parent::__construct('atoz', true);
 		}
 
 		public function generate_list( $text = '', $groups = array(), $letters = array(), $options = array() ) {
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
-
 			$options = apply_filters( 'ithoughts_tt_gl-split-attributes', $options );
-			$server_options = array_replace_recursive(array(), $backbone->get_serverside_options(), $options['serverSide']);
+			$server_options = array_replace_recursive(array(), $this->backbone->get_serverside_options(), $options['serverSide']);
 
 			$filter = "ithoughts_tt_gl_list_{$server_options['list-contenttype']}";
 			$posts = array();
@@ -79,7 +76,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\AtoZ' ) ) {
 			$plsclick = apply_filters( 'ithoughts_tt_gl_please_select', '<div class="ithoughts_tt_gl-please-select"><p>' . __( 'Please select from the menu above', 'ithoughts-tooltip-glossary' ) . '</p></div>' );
 
 			// Global variable that tells WP to print related js files.
-			$backbone->add_script( 'atoz' );
+			$this->backbone->add_script( 'atoz' );
 			return '<div' . $args . '>' . $menu . $clear . $plsclick . $clear . $list . '</div>';
 		}
 	}

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file Class file for standard list
+ * @file Base class file for lists
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment
@@ -10,6 +10,7 @@
  *
  * @version 2.7.0
  */
+
 
 namespace ithoughts\tooltip_glossary\shortcode\index;
 
@@ -20,70 +21,352 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Forbidden' );// Exit if accessed directly
 }
 
-if ( ! class_exists( __NAMESPACE__ . '\\TermList' ) ) {
-	class TermList extends GlossaryList {
-		public function __construct() {
-			add_shortcode( 'glossary_term_list', array( $this, 'do_shortcode' ) );
-			add_shortcode( 'itg-termlist', array( $this, 'do_shortcode' ) );
+/**
+ * @description Base class for lists.
+ */
+if ( ! class_exists( __NAMESPACE__ . '\\TermsList' ) ) {
+	abstract class TermsList extends \ithoughts\v1_0\Singleton {
+		const LIST_MODE_LINK    = 'link';
+		const LIST_MODE_TIP     = 'tip';
+		const LIST_MODE_EXCERPT = 'excerpt';
+		const LIST_MODE_FULL    = 'full';
+		
+		private $type;
+		
+		protected $backbone;
 
-			parent::__construct('termlist');
+		public function __construct($type, $register_comon_filters = false){
+			$this->type = $type;
+			$this->backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+			
+			add_filter( 'ithoughts_tt_gl_'.$this->type, array( &$this, 'generate_list' ), 1000, 4 );
+			if($register_comon_filters){
+				add_filter('ithoughts_tt_gl_list_'.self::LIST_MODE_LINK,    array(&$this, 'list_'.self::LIST_MODE_LINK),  1000, 3);
+				add_filter('ithoughts_tt_gl_list_'.self::LIST_MODE_TIP,     array(&$this, 'list_'.self::LIST_MODE_TIP),    1000, 3);
+				add_filter('ithoughts_tt_gl_list_'.self::LIST_MODE_EXCERPT, array(&$this, 'list_'.self::LIST_MODE_EXCERPT),  1000, 3);
+				add_filter('ithoughts_tt_gl_list_'.self::LIST_MODE_FULL,    array(&$this, 'list_'.self::LIST_MODE_FULL),  1000, 3);
+			}
 		}
 
-		public function generate_list( $text = '', $groups = array(), $letters = array(), $options = array() ) {
-			$backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
 
-			$options = apply_filters( 'ithoughts_tt_gl-split-attributes', $options );
-			$server_options = array_replace_recursive(array(), $backbone->get_serverside_options(), $options['serverSide']);
 
-			$filter = "ithoughts_tt_gl_list_{$server_options['list-contenttype']}";
-			$posts = array();
-			if(has_filter($filter)){
-				$posts = apply_filters($filter, $groups, $letters);
+
+
+		public function list_link($groups, $letters, $attributes = array()){
+			$posts = $this->get_microposts($groups,$letters);
+			// Transform posts
+			$postsContents = array();
+			foreach($posts as $post){
+				$postsContents[$post->post_name] = $this->list_item_link($post, $attributes);
 			}
-			$posts_count = count($posts);
-			// Make groups
-			$paged = $this->group_posts_by_alpha($posts);
-			$posts = null;
+			return $postsContents;
+		}
 
-			$index_items = array();
-			foreach ( $paged as $alpha => $pages ) {
-				$index_items[] = '<li class="glossary-item-header">'.$alpha.'</li>';
-				foreach($pages as $name => $page){
-					$index_items[]  = '<li class="glossary-item">'.$page.'</li>';
-				}
-			}
-			//			Toolbox::pretty_log($index_items);
-
-			if ( ! isset( $options['handled']['cols'] ) || $options['handled']['cols'] == 0 || $options['handled']['cols'] === false ) {
-				$options['handled']['cols'] = 1; // set col size to all items
-			}
-			$chunked;
-			if ( $options['handled']['cols'] != 1 ) {
-				$terms_per_chunk_float = $posts_count / $options['handled']['cols'];
-				$terms_per_chunk = intval( $terms_per_chunk_float );
-				if ( $terms_per_chunk_float != $terms_per_chunk ) {
-					$terms_per_chunk++;
-				}
-
-				if ( $terms_per_chunk < 1 ) {
-					$terms_per_chunk = 1;
-				}
-				$chunked = array_chunk( $index_items, $terms_per_chunk );
+		public function list_tip($groups, $letters, $attributes = array()){
+			if($this->backbone->get_option('staticterms') === true){
+				$posts = $this->get_lists_terms($groups,$letters);
 			} else {
-				$chunked = array( &$index_items );
+				$posts = $this->get_microposts($groups, $letters);
+			}
+			// Transform posts
+			$postsContents = array();
+			foreach($posts as $post){
+				$postsContents[$post->post_name] = $this->list_item_tip($post, $attributes);
+			}
+			return $postsContents;
+		}
+
+		public function list_excerpt($groups, $letters, $attributes = array()){
+			$posts = $this->get_lists_terms($groups,$letters);
+			// Transform posts
+			$postsContents = array();
+			foreach($posts as $post){
+				$postsContents[$post->post_name] = $this->list_item_excerpt($post, $attributes);
+			}
+			return $postsContents;
+		}
+
+		public function list_full($groups, $letters, $attributes = array()){
+			$posts = $this->get_lists_terms($groups,$letters);
+			// Transform posts
+			$postsContents = array();
+			foreach($posts as $post){
+				$postsContents[$post->post_name] = $this->list_item_full($post, $attributes);
+			}
+			return $postsContents;
+		}
+
+		private function list_item_link($post, $attributes = array()){
+			$title = $post->post_title;
+			$href  = apply_filters( 'ithoughts_tt_gl_term_link',  Toolbox::get_permalink_light($post, "glossary") );
+			
+			$content   = '<a title="'. $title .'" href="'.$href.'">' . $title . '</a>';
+			return apply_filters('ithoughts_tt_gl_list_item_'.self::LIST_MODE_LINK,    $content, $attributes);
+		}
+
+		private function list_item_tip($post, $attributes = array()){
+			$content = apply_filters('ithoughts_tt_gl_glossary', NULL, $post);
+			return apply_filters('ithoughts_tt_gl_list_item_'.self::LIST_MODE_TIP,     $content, $attributes);
+		}
+
+		private function list_item_excerpt($post, $attributes = array()){
+			$title = $post->post_title;
+			$href  = apply_filters( 'ithoughts_tt_gl_term_link',  Toolbox::get_permalink_light($post, "glossary") );
+
+			$content   = '<header class="entry-header"><h5 class="entry-title"><a title="'. $title .'" href="'.$href.'">' . $title . '</a></h5></header>';
+			$content .= '<div class="entry-content clearfix"><p>' . apply_filters('get_the_excerpt',$post->post_content) . '</p></div>';
+			return apply_filters('ithoughts_tt_gl_list_item_'.self::LIST_MODE_EXCERPT, $content, $attributes);
+		}
+
+		private function list_item_full($post, $attributes = array()){
+			$title = $post->post_title;
+			$href  = apply_filters( 'ithoughts_tt_gl_term_link',  Toolbox::get_permalink_light($post, "glossary") );
+
+			$content   = '<header class="entry-header"><h5 class="entry-title"><a title="'. $title .'" href="'.$href.'">' . $title . '</a></h5></header>';
+			$content .= '<div class="entry-content clearfix"><p>' . apply_filters('get_the_content',$post->post_content) . '</p></div>';
+			return apply_filters('ithoughts_tt_gl_list_item_'.self::LIST_MODE_FULL,    $content, $attributes);
+		}
+		
+		
+		public function do_shortcode( $attributes, $text = '' ) {
+			if($attributes === ''){
+				$attributes = array();
 			}
 
-			$output = '';
-			foreach ( $chunked as $col => $items ) {
-				$output .= '<ul class="glossary-list">';
-				$output .= implode( '', $items );
-				$output .= '</ul>';
+			// Checks for partial listing options by group
+			$groups = Toolbox::pick_option( $attributes, 'groups', null );
+			// Sanity check the list of letters (if set by user).
+			$alphas = Toolbox::pick_option( $attributes, 'alphas', null );
+
+			return apply_filters( 'ithoughts_tt_gl_'.$this->type, null, $groups, $alphas, $attributes );
+		}
+		
+		protected function group_posts_by_alpha(array $posts){
+			$paged = array();
+			foreach( $posts as $post_name => $post ) {
+				$alpha = strtoupper( Toolbox::unaccent(mb_substr($post_name,0,1, "UTF-8")) );
+				if(!preg_match("/[A-Z]/", $alpha)){
+					$alpha = "#";
+				}
+
+				if(!isset($paged[$alpha])){
+					$paged[$alpha] = array();
+				}
+				$paged[$alpha][$post_name] = $post;
+			}
+			return $paged;
+		}
+		
+		
+
+		protected function get_lists_terms( $group_ids = null, $alphas = null ) {
+			// Post status array depending on user capabilities
+			$statii = array( 'publish' );
+			if ( current_user_can( 'read_private_posts' ) ) {
+				$statii[] = 'private';
 			}
 
+			$args = array(
+				'post_type'           => 'glossary',
+				'posts_per_page'      => -1,
+				'orderby'             => 'title',
+				'order'               => 'ASC',
+				'ignore_sticky_posts' => 1,
+				'post_status'         => $statii,
+			);
+			if ( function_exists( 'icl_object_id' ) ) {
+				$args['suppress_filters'] = 0;
+			}
 
-			$options['attributes']['class'] = 'glossary-list-details' . ((isset( $options['attributes']['class'] ) && $options['attributes']['class']) ? ' ' . $options['attributes']['class'] : '');
-			$args = \ithoughts\v6_0\Toolbox::concat_attrs( $options['attributes'] );
-			return '<div' . $args . '>'.$output.'</div>';
+			// Restrict list to specific glossary group or groups
+			if ( $group_ids ) {
+				$tax_query = array();
+				// If search for ungrouped
+				if ( ($noGroup = array_search( 0, $group_ids )) !== false ) {
+					// Get all terms
+					unset( $group_ids[ $noGroup ] );
+					$groups = get_terms(array(
+						'taxonomy'		=> 'glossary_group',
+						'hide_empty'	=> false,
+					));
+					// Exclude them
+					$tax_query[] = array(
+						'taxonomy'	=> 'glossary_group',
+						'field'		=> 'id',
+						'terms'		=> $groups,
+						'operator'	=> 'NOT IN',
+					);
+				}
+				if ( count( $group_ids ) > 0 ) {
+					$tax_query[] = array(
+						'taxonomy' => 'glossary_group',
+						'field'    => 'id',
+						'terms'    => $group_ids,
+					);
+				}
+				$args['tax_query'] = $tax_query;
+			}
+			$query = new \WP_Query( $args );
+			$glossaries = get_posts( $args );
+
+			$filteredGlossaries;
+			if ( $alphas && count( $alphas ) > 0 ) {
+				$filteredGlossaries = array();
+				$regexStr = '/' . $this->alpha_array_to_regex_str( $alphas ) . '/';
+				foreach ( $glossaries as $glossary ) {
+					if ( preg_match( $regexStr, $glossary->post_title ) ) {
+						$filteredGlossaries[] = &$glossary;
+					}
+				}
+			} else {
+				$filteredGlossaries = &$glossaries;
+			}
+
+			return $filteredGlossaries;
+		}
+
+		final protected function get_microposts( $groups = false, $alphas = false ) {
+			global $wpdb;
+			
+			require_once( $this->backbone->get_base_class_path() . '/class-micropost.php' );
+			$fields = \ithoughts\tooltip_glossary\MicroPost::getFields();
+			$table = "{$wpdb->prefix}posts";
+			$queryComponents = array();
+
+			// Static select
+			$queryComponents['pre'] = '
+SELECT DISTINCT
+    ';
+
+			// Posts table name
+			$queryComponents['from'] = "
+FROM
+	$table AS p";
+
+			// WPML support
+			if ( function_exists( 'icl_object_id' ) ) { // Add join to current language for WPML
+				$queryComponents['from'] .= "
+JOIN {$wpdb->prefix}icl_translations t
+ON
+	p.ID = t.element_id AND
+	t.element_type = CONCAT('post_', p.post_type)";
+			}
+
+			// Group join
+			if ( $groups !== false && count( $groups ) > 0 ) {
+				$queryComponents['from'] .= "
+LEFT JOIN {$wpdb->prefix}term_relationships AS r
+ON
+	p.ID = r.object_id";
+			}
+
+			// Selection criteria (post type + post status)
+			$queryComponents['where'] = "
+WHERE
+	p.post_type = 'glossary' AND
+	(
+		";
+			$statii = array( 'publish' );
+			if ( current_user_can( 'read_private_posts' ) ) {
+				$statii[] = 'private';
+			}
+			$loopIndicator = false;
+			foreach ( $statii as $status ) {
+				if ( $loopIndicator ) {
+					$queryComponents['where'] .= ' OR
+        ';
+				}
+				$loopIndicator = true;
+				$queryComponents['where'] .= "p.post_status='$status'";
+			}
+			$queryComponents['where'] .= '
+    )';
+
+			// Selection criteria (lang translate)
+			if ( function_exists( 'icl_object_id' ) ) { // Select only current language
+				$queryComponents['where'] .= " AND
+	t.language_code = '" . ICL_LANGUAGE_CODE . "'";
+			}
+
+			// Selection criteria (group)
+			if ( $groups !== false && count( $groups ) > 0 ) {
+				$queryComponents['where'] .= ' AND
+    ';
+				$hasNoGroup = in_array( 0, $groups );
+				$groups = array_diff( $groups, array( 0 ) );
+				$pre = '';
+				$join = '';
+				$post = '';
+				if ( $hasNoGroup && count( $groups ) > 0 ) {
+					$pre = '(
+        ';
+					$join = ' OR
+        ';
+					$post = ')';
+				}
+				$queryComponents['where'] .= $pre;
+				if ( $hasNoGroup ) {
+					'r.term_taxonomy_id IS NULL' . $join;
+				}
+				if ( count( $groups ) > 0 ) {
+					$queryComponents['where'] .= 'r.term_taxonomy_id in (' . implode( ',',$groups ) . ')';
+				}
+				$queryComponents['where'] .= $post;
+			}
+
+			// Selection criteria (first letter)
+			if ( count( $alphas ) > 0 ) {
+				$regexStr = $this->alpha_array_to_regex_str( $alphas );
+				$queryComponents['where'] .= " AND
+	p.post_title REGEXP '$regexStr'";
+			}
+
+			// Sort
+			$queryComponents['order'] = '
+ORDER BY
+    p.post_title ASC';
+
+			$selectFields = '';
+			$loopIndicator = false;
+			foreach ( $fields as $field ) {
+				if ( $loopIndicator ) {
+					$selectFields .= ',
+                    ';
+				}
+				$loopIndicator = true;
+				$selectFields .= "p.$field";
+			}
+
+			$querySelect = $queryComponents['pre'] . $selectFields . $queryComponents['from'] . $queryComponents['where'] . $queryComponents['order'];
+			$queryCount = $queryComponents['pre'] . 'COUNT(*)' . $queryComponents['from'] . $queryComponents['where'] . $queryComponents['order'];
+			// Toolbox::prettyDump($querySelect, $queryCount);
+			$res = $wpdb->get_results( $querySelect, ARRAY_A );
+			$micro_posts = array();
+			foreach ( $res as $micropost ) {
+				$micro_posts[] = new \ithoughts\tooltip_glossary\MicroPost( $micropost );
+			}
+			return $micro_posts;
+		}
+
+		private function alpha_array_to_regex_str( $alphas ) {
+			$specIndex = array_search( '#', $alphas );
+			$regexStr = '^(';
+			if ( $specIndex !== false ) {
+				unset( $alphas[ $specIndex ] );
+				$regexStr .= '[^A-Za-z]';
+			}
+			if ( count( $alphas ) > 0 ) {
+				if ( $specIndex !== false ) {
+					$regexStr .= '|';
+				}
+				if ( count( $alphas ) > 1 ) {
+					$regexStr .= '[' . implode( '', $alphas ) . ']';
+				} else {
+					$regexStr .= $alphas[0];
+				}
+			}
+			$regexStr .= ')';
+			return $regexStr;
 		}
 	}
 }// End if().
