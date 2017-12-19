@@ -76,7 +76,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\AtoZ' ) ) {
 			$plsclick = apply_filters( 'ithoughts_tt_gl_please_select', '<div class="ithoughts_tt_gl-please-select"><p>' . __( 'Please select from the menu above', 'ithoughts-tooltip-glossary' ) . '</p></div>' );
 
 			// Global variable that tells WP to print related js files.
-			$this->backbone->add_script( 'atoz' );
+			$this->backbone->enqueue_resource( 'ithoughts_tooltip_glossary-atoz' );
 			return '<div' . $args . '>' . $menu . $clear . $plsclick . $clear . $list . '</div>';
 		}
 	}

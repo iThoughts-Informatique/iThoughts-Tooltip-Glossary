@@ -999,9 +999,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'type' => 'tooltip',
 				'text' => null,
 				'link' => null,
-				'glossary' => array(
+				'gloss' => array(
 					'id' => null,
-					'term_search' => null,
+					'search' => null,
 					'disable_auto_translation' => false,
 				),
 				'mediatip' => array(
@@ -1021,8 +1021,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					'text' => sanitize_text_field( $data['text'] ),
 					'link' => esc_url_raw( $data['link'] ),
 					'glossary' => array(
-						'id' => absint( $data['glossary_id'] ),
-						'term_search' => sanitize_text_field( $data['term_search'] ),
+						'id' => absint( $data['gloss-id'] ),
+						'search' => sanitize_text_field( $data['search'] ),
 						'disable_auto_translation' => 'true' === sanitize_text_field( $data['glossary_disable_auto_translation'] ),
 					),
 					'mediatip' => array(
@@ -1036,14 +1036,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$data = array_replace_recursive( $default_data, $data );
 
 			// Set defaults.
-			$types = array( 'glossary', 'tooltip', 'mediatip' );
+			$types = array( 'gloss', 'tooltip', 'mediatip' );
 			try {
 				switch ( $data['type'] ) {
-					case 'glossary':{
+					case 'gloss':{
 					} break;
 
 					case 'tooltip':{
-						$data['tooltip_content'] = inner_attr( isset( $data['tooltip_content'] ) ? $data['tooltip_content'] : '', false );
+						$data['tooltip-content'] = inner_attr( isset( $data['tooltip-content'] ) ? $data['tooltip-content'] : '', false );
 					} break;
 
 					case 'mediatip':{
@@ -1055,18 +1055,18 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 			// Retrieve terms.
 			$terms = array();
-			if ( null === $data['glossary']['id'] ) {
+			if ( null === $data['gloss']['id'] ) {
 				$terms = $this->backbone->search_terms(array(
 					'post_type'			=> 'glossary',
 					'post_status'		=> 'publish',
 					'orderby'			=> 'title',
 					'order'				=> 'ASC',
 					'posts_per_page'	=> 25,
-					's'					=> $data['term_search'],
+					's'					=> $data['gloss']['search'],
 					'suppress_filters'	=> false,
 				));
 			} else {
-				$post = get_post( $data['glossary']['id'] );
+				$post = get_post( $data['gloss']['id'] );
 				$terms[] = array(
 					'slug'      => $post->post_name,
 					'content'   => wp_trim_words( wp_strip_all_tags( (isset( $post->post_excerpt )&&$post->post_excerpt)?$post->post_excerpt:$post->post_content ), 50, '...' ),
@@ -1081,32 +1081,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			// form_data is printed directly in template.
 			$options = $this->backbone->get_options();
 
-			$opts = $data['opts'] ?: array();
+			$opts = isset($data['opts']) ? $data['opts'] : array();
 			if ( ! isset( $opts['attributes'] ) ) {
 				$opts['attributes'] = array();
-			}
-			if ( ! isset( $opts['attributes']['span'] ) ) {
-				$opts['attributes']['span'] = array();
-			}
-			if ( ! isset( $opts['attributes']['link'] ) ) {
-				$opts['attributes']['link'] = array();
 			}
 			$span_arr = array(
 				'' => '',
 			);
-			foreach ( $opts['attributes']['span'] as $key => $value ) {
-				$span_arr[ preg_replace( '/^data-/', '', $key ) ] = $value;
-			}
-			$opts['attributes']['span'] = $span_arr;
-
-			// Create the first input slot.
-			$link_arr = array(
-				'' => '',
-			);
-			foreach ( $opts['attributes']['link'] as $key => $value ) {
-				$link_arr[ preg_replace( '/^data-link-/', '', $key ) ] = $value;
-			}
-			$opts['attributes']['link'] = $link_arr;
 
 			$inputs = array();
 
@@ -1216,25 +1197,25 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			);
 
 			// Advanced options.
-			$inputs['qtip-content'] = Input::create_select_input(
-				'qtip-content',
+			$inputs['gloss-contenttype'] = Input::create_select_input(
+				'gloss-contenttype',
 				array(
 					'selected' => isset( $opts['gloss-contenttype'] ) ? $opts['gloss-contenttype'] : '',
+					'blank' => __( 'Default', 'ithoughts-tooltip-glossary' ),
 					'options'  => array(
-						'' => __( 'Default', 'ithoughts-tooltip-glossary' ),
-						'full'	=> array(
+						Gloss::GLOSS_MODE_FULL	=> array(
 							'text'	=> __( 'Full', 'ithoughts-tooltip-glossary' ),
 							'attributes'	=> array(
 								'title'	=> __( 'Display full post content', 'ithoughts-tooltip-glossary' ),
 							),
 						),
-						'excerpt'	=> array(
+						Gloss::GLOSS_MODE_EXCERPT	=> array(
 							'text'	=> __( 'Excerpt', 'ithoughts-tooltip-glossary' ),
 							'attributes'	=> array(
 								'title'	=> __( 'Display shorter excerpt content', 'ithoughts-tooltip-glossary' ),
 							),
 						),
-						'off'	=> array(
+						Gloss::GLOSS_MODE_NONE	=> array(
 							'text'	=> __( 'Off', 'ithoughts-tooltip-glossary' ),
 							'attributes'	=> array(
 								'title'	=> __( 'Do not display tooltip at all', 'ithoughts-tooltip-glossary' ),

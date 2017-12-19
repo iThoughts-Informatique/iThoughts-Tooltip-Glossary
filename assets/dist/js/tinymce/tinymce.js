@@ -4,9 +4,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 (function e(t, n, r) {
 	function s(o, u) {
@@ -22,8 +22,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 	}return s;
 })({ 1: [function (require, module, exports) {
 		'use strict';
-
-		var _this = this;
 
 		require('regenerator-runtime/runtime');
 
@@ -107,54 +105,36 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			return $('<textarea />').html(str).text();
 		};
 
-		var sendAjaxQuery = function () {
-			var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(action, data, nonce) {
-				var loader;
-				return regeneratorRuntime.wrap(function _callee$(_context) {
-					while (1) {
-						switch (_context.prev = _context.next) {
-							case 0:
-								loader = ithoughts.makeLoader();
-								return _context.abrupt("return", new Promise(function (resolve, reject) {
-									var sendData = {
-										action: "ithoughts_tt_gl_" + action
-									};
-									if (!isNA(nonce)) {
-										sendData._wpnonce = nonce;
-									}
-									if (!isNA(data)) {
-										sendData.data = data;
-									}
-									$.ajax({
-										method: 'POST',
-										async: true,
-										url: itg.admin_ajax,
-										//			dataType: 'json',
-										data: sendData,
-										success: function success(data) {
-											loader.remove();
-											return resolve(data);
-										},
-										error: function error(xhr) {
-											loader.remove();
-											itg.error('Error while doing XHR request:', xhr);
-											return reject(xhr);
-										}
-									});
-								}));
-
-							case 2:
-							case "end":
-								return _context.stop();
-						}
+		var sendAjaxQuery = function sendAjaxQuery(action, data, nonce) {
+			var loader = ithoughts.makeLoader();
+			return new Promise(function (resolve, reject) {
+				var sendData = {
+					action: "ithoughts_tt_gl_" + action
+				};
+				if (!isNA(nonce)) {
+					sendData._wpnonce = nonce;
+				}
+				if (!isNA(data)) {
+					sendData.data = data;
+				}
+				$.ajax({
+					method: 'POST',
+					async: true,
+					url: itg.admin_ajax,
+					//			dataType: 'json',
+					data: sendData,
+					success: function success(data) {
+						loader.remove();
+						return resolve(data);
+					},
+					error: function error(xhr) {
+						loader.remove();
+						itg.error('Error while doing XHR request:', xhr);
+						return reject(xhr);
 					}
-				}, _callee, _this);
-			}));
-
-			return function sendAjaxQuery(_x2, _x3, _x4) {
-				return _ref.apply(this, arguments);
-			};
-		}();
+				});
+			});
+		};
 
 		module.exports = {
 			maybePrefixAttribute: maybePrefixAttribute,
@@ -208,10 +188,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			}, {
 				key: "toString",
 				value: function toString() {
-					var _this2 = this;
+					var _this = this;
 
 					return Object.keys(this.opts).map(function (key) {
-						return OptArray.generateAttr(key, _this2.opts[key]);
+						return OptArray.generateAttr(key, _this.opts[key]);
 					}).join(' ');
 				}
 			}], [{
@@ -230,6 +210,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		var OptArray = require('../optarray');
 		var utils = require('./tinymce-utils');
+		var comon = require('../comon');
 
 		var attrsMatcher = /(data-)?([\w\d\-]+?)="(.+?)"/g;
 
@@ -246,7 +227,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		var maybePrefixOpt = function maybePrefixOpt(opt) {
 			return function (match) {
-				var key = utils.maybePrefixAttribute(match[1] + match[2]);
+				var key = comon.maybePrefixAttribute(match[1] + match[2]);
 				var value = match[3];
 				if ('data-type' === key) {
 					return;
@@ -257,51 +238,38 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		module.exports = {
 			replace: {
-				glossary: function glossary(content) {
+				tip: function tip(content) {
 					// For [glossary]
-					return content.replace(/\[(?:itg-)?(glossary|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/(?:itg-)?(glossary|tooltip|mediatip)\]/g, function (all, tag, inner, text) {
+					return content.replace(/\[itg-(gloss|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/itg-\1\]/g, function (all, tag, inner, text) {
 						var attrs = new OptArray();
-						attrs.addOpt('data-type', "ithoughts-tooltip-glossary-" + {
-							glossary: 'term',
-							tooltip: 'tooltip',
-							mediatip: 'mediatip'
-						}[tag]);
+						attrs.addOpt('data-type', "ithoughts-tooltip-glossary-" + tag);
 						attributesToOpts(attrs, inner);
 						return "<a " + attrs.toString() + ">" + text + "</a>";
 					});
 				},
 				list: function list(content) {
 					// For [glossary_(term_list|atoz)]
-					return content.replace(/\[(?:glossary_|itg-)(term_?list|atoz)(?:\s+(.*?))\/\]/g, function (all, tag, inner) {
+					return content.replace(/\[itg-(glossary|atoz)(?:\s+(.*?))\/\]/g, function (all, tag, inner) {
 						var attrs = new OptArray();
-						tag = {
-							termlist: 'termlist',
-							term_list: 'termlist',
-							atoz: 'atoz'
-						}[tag];
 						attrs.addOpt('data-type', "ithoughts-tooltip-glossary-" + tag);
 						attributesToOpts(attrs, inner);
-						return "<span " + attrs.toString() + ">Glossary " + ('termlist' === tag ? 'List' : 'A-to-Z') + "</span>";
+						return "<span " + attrs.toString() + ">" + ('glossary' === tag ? 'Glossary' : 'A-to-Z') + "</span>";
 					});
 				}
 			},
 			restore: {
-				glossary: function glossary(content) {
-					// For [glossary]
-					return content.replace(/<a\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term|tooltip|mediatip)")(.*?)>(.*?)<\/a>/g, function (all, type, inner, text) {
+				tip: function tip(content) {
+					// For [itg-gloss]
+					return content.replace(/<a\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(gloss|tooltip|mediatip)")(.*?)>(.*?)<\/a>/g, function (all, type, inner, text) {
 						var attrs = new OptArray();
-						var tag = "itg-" + {
-							term: 'glossary',
-							tooltip: 'tooltip',
-							mediatip: 'mediatip'
-						}[type];
+						var tag = "itg-" + type;
 						attributesToOpts(attrs, inner);
 						return "[" + tag + " " + attrs.toString() + "]" + text + "[/" + tag + "]";
 					});
 				},
 				list: function list(content) {
 					// For [glossary_(term_list|atoz)]
-					return content.replace(/<span\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term_list|atoz)")(.*?)>.*?<\/span>/g, function (all, type, inner) {
+					return content.replace(/<span\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(glossary|atoz)")(.*?)>.*?<\/span>/g, function (all, type, inner) {
 						var attrs = new OptArray();
 						var tag = "itg-" + type;
 						attributesToOpts(attrs, inner);
@@ -310,7 +278,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				}
 			}
 		};
-	}, { "../optarray": 2, "./tinymce-utils": 5 }], 4: [function (require, module, exports) {
+	}, { "../comon": 1, "../optarray": 2, "./tinymce-utils": 5 }], 4: [function (require, module, exports) {
 		/**
    * @file TinyMCE plugin scripts
    *
@@ -324,7 +292,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		'use strict';
 
-		var _this4 = this;
+		var _this3 = this;
 
 		var utils = require('./tinymce-utils');
 		var filters = require('./tinymce-filters');
@@ -339,10 +307,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		var setToggleable = function setToggleable(element, editor) {
 			return function setToggleState() {
-				var _this3 = this;
+				var _this2 = this;
 
 				editor.on(element, function (event) {
-					_this3.active(event.active);
+					_this2.active(event.active);
 				});
 			};
 		};
@@ -361,8 +329,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				return content;
 			},
 
-			replaceShortcodesEl: [filters.replace.glossary, filters.replace.list],
-			restoreShortcodesEl: [filters.restore.glossary, filters.restore.list]
+			replaceShortcodesEl: [filters.replace.tip, filters.replace.list],
+			restoreShortcodesEl: [filters.restore.tip, filters.restore.list]
 		});
 
 		tinymce.PluginManager.add('ithoughts_tt_gl_tinymce', function (editor) {
@@ -419,55 +387,55 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				image: itge.base_assets + "/dist/imgs/glossaryterm.png",
 				onPostRender: setToggleable('glossaryterm', editor),
 				onclick: function () {
-					var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+					var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
 						var result;
-						return regeneratorRuntime.wrap(function _callee2$(_context2) {
+						return regeneratorRuntime.wrap(function _callee$(_context) {
 							while (1) {
-								switch (_context2.prev = _context2.next) {
+								switch (_context.prev = _context.next) {
 									case 0:
-										_context2.next = 2;
+										_context.next = 2;
 										return utils.editorForms.tip(utils.generateSelObject(editor));
 
 									case 2:
-										result = _context2.sent;
+										result = _context.sent;
 
 										insertInTinyMCE(result.finalContent, result.mode);
 
 									case 4:
 									case "end":
-										return _context2.stop();
+										return _context.stop();
 								}
 							}
-						}, _callee2, _this4);
+						}, _callee, _this3);
 					}));
 
 					function onclick() {
-						return _ref2.apply(this, arguments);
+						return _ref.apply(this, arguments);
 					}
 
 					return onclick;
 				}()
 			});
-			QTags.addButton('ithoughts_tt_gl-tip', 'ITG Tip', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+			QTags.addButton('ithoughts_tt_gl-tip', 'ITG Tip', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
 				var result;
-				return regeneratorRuntime.wrap(function _callee3$(_context3) {
+				return regeneratorRuntime.wrap(function _callee2$(_context2) {
 					while (1) {
-						switch (_context3.prev = _context3.next) {
+						switch (_context2.prev = _context2.next) {
 							case 0:
-								_context3.next = 2;
+								_context2.next = 2;
 								return utils.editorForms.tip(utils.generateSelObject());
 
 							case 2:
-								result = _context3.sent;
+								result = _context2.sent;
 
 								QTags.insertContent(result.finalContent);
 
 							case 4:
 							case "end":
-								return _context3.stop();
+								return _context2.stop();
 						}
 					}
-				}, _callee3, _this4);
+				}, _callee2, _this3);
 			})));
 			// #### Delete tooltip button
 			editor.addButton('glossaryterm-d', {
@@ -492,55 +460,55 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				image: itge.base_assets + "/dist/imgs/glossaryindex.png",
 				onPostRender: setToggleable('glossarylist', editor),
 				onclick: function () {
-					var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+					var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
 						var result;
-						return regeneratorRuntime.wrap(function _callee4$(_context4) {
+						return regeneratorRuntime.wrap(function _callee3$(_context3) {
 							while (1) {
-								switch (_context4.prev = _context4.next) {
+								switch (_context3.prev = _context3.next) {
 									case 0:
-										_context4.next = 2;
+										_context3.next = 2;
 										return utils.editorForms.list(utils.generateSelObject(editor));
 
 									case 2:
-										result = _context4.sent;
+										result = _context3.sent;
 
 										insertInTinyMCE(result.finalContent, result.mode);
 
 									case 4:
 									case "end":
-										return _context4.stop();
+										return _context3.stop();
 								}
 							}
-						}, _callee4, _this4);
+						}, _callee3, _this3);
 					}));
 
 					function onclick() {
-						return _ref4.apply(this, arguments);
+						return _ref3.apply(this, arguments);
 					}
 
 					return onclick;
 				}()
 			});
-			QTags.addButton('ithoughts_tt_gl-list', 'ITG List', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+			QTags.addButton('ithoughts_tt_gl-list', 'ITG List', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
 				var result;
-				return regeneratorRuntime.wrap(function _callee5$(_context5) {
+				return regeneratorRuntime.wrap(function _callee4$(_context4) {
 					while (1) {
-						switch (_context5.prev = _context5.next) {
+						switch (_context4.prev = _context4.next) {
 							case 0:
-								_context5.next = 2;
+								_context4.next = 2;
 								return utils.editorForms.list(utils.generateSelObject(), true);
 
 							case 2:
-								result = _context5.sent;
+								result = _context4.sent;
 
 								QTags.insertContent(result.finalContent);
 
 							case 4:
 							case "end":
-								return _context5.stop();
+								return _context4.stop();
 						}
 					}
-				}, _callee5, _this4);
+				}, _callee4, _this3);
 			})));
 		});
 	}, { "./tinymce-filters": 3, "./tinymce-utils": 5 }], 5: [function (require, module, exports) {
@@ -634,11 +602,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		var editorForms = {
 			list: function () {
-				var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(selection) {
+				var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(selection) {
 					var mode, node, values, takeAttr, type, resultDom;
-					return regeneratorRuntime.wrap(function _callee6$(_context6) {
+					return regeneratorRuntime.wrap(function _callee5$(_context5) {
 						while (1) {
-							switch (_context6.prev = _context6.next) {
+							switch (_context5.prev = _context5.next) {
 								case 0:
 									itg.info('Selection infos to load LIST: ', selection);
 									mode = 'insert_content';
@@ -656,9 +624,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 											type = takeAttr('data-type');
 
 											$.extend(values, {
-												alpha: splitAttr(takeAttr('data-alpha')),
-												group: splitAttr(takeAttr('data-group')),
-												desc: takeAttr('data-desc')
+												alphas: splitAttr(takeAttr('data-alphas')),
+												groups: splitAttr(takeAttr('data-groups')),
+												'list-contenttype': takeAttr('data-list-contenttype')
 											});
 											if ('ithoughts-tooltip-glossary-atoz' === type) {
 												// Is atoz
@@ -675,15 +643,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 										}
 									}
 
-									_context6.prev = 5;
-									_context6.t0 = displayInForm;
-									_context6.next = 9;
+									_context5.prev = 5;
+									_context5.t0 = displayInForm;
+									_context5.next = 9;
 									return comon.sendAjaxQuery('get_tinymce_list_form', values, itge.nonce);
 
 								case 9:
-									_context6.t1 = _context6.sent;
-									resultDom = (0, _context6.t0)(_context6.t1);
-									return _context6.abrupt("return", new Promise(function (resolve) {
+									_context5.t1 = _context5.sent;
+									resultDom = (0, _context5.t0)(_context5.t1);
+									return _context5.abrupt("return", new Promise(function (resolve) {
 										itge.finishListTinymce = function (data) {
 											hideOutForm(resultDom);
 											if (isNA(data)) {
@@ -718,32 +686,32 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 									}));
 
 								case 14:
-									_context6.prev = 14;
-									_context6.t2 = _context6["catch"](5);
+									_context5.prev = 14;
+									_context5.t2 = _context5["catch"](5);
 
-									xhrError(_context6.t2);
+									xhrError(_context5.t2);
 
 								case 17:
 								case "end":
-									return _context6.stop();
+									return _context5.stop();
 							}
 						}
-					}, _callee6, this, [[5, 14]]);
+					}, _callee5, this, [[5, 14]]);
 				}));
 
-				function list(_x7) {
-					return _ref6.apply(this, arguments);
+				function list(_x4) {
+					return _ref5.apply(this, arguments);
 				}
 
 				return list;
 			}(),
 			tip: function () {
-				var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(selection, escapeContent) {
-					var node, values, mode, _content, attrs, takeAttr, positionAt, positionMy, myInverted, tooltipContent, i, resultDom;
+				var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(selection, escapeContent) {
+					var node, values, mode, _content, attrs, takeAttr, positionAt, positionMy, myInverted, tooltipContent, resultDom;
 
-					return regeneratorRuntime.wrap(function _callee7$(_context7) {
+					return regeneratorRuntime.wrap(function _callee6$(_context6) {
 						while (1) {
-							switch (_context7.prev = _context7.next) {
+							switch (_context6.prev = _context6.next) {
 								case 0:
 									itg.info('Selection infos to load TIP: ', selection);
 									node = selection.start;
@@ -806,10 +774,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 														at: positionAt,
 														my: positionMy
 													},
-													attributes: {
-														span: {},
-														link: {}
-													},
 													anim: {
 														in: takeAttr('animation_in'),
 														out: takeAttr('animation_out'),
@@ -822,23 +786,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 											};
 
 											// With all attributes left, append them to the attributes option
-											for (i in attrs) {
-												if (attrs.hasOwnProperty(i)) {
-													if (i.match(/^data-link-/)) {
-														values.opts.attributes.link[i.replace(/^data-link-(data-)?/, '')] = attrs[i];
-													} else {
-														values.opts.attributes.span[i.replace(/^data-/, '')] = attrs[i];
-													}
-												}
-											}
+											values.opts.attributes = attrs;
 										} else {
-											// Create new glossary term
+											// Create new gloss
 											values = {
 												text: '',
 												link: '',
-												tooltip_content: '',
-												glossary_id: null,
-												term_search: '',
+												'tooltip-content': '',
+												'gloss-id': null,
+												'gloss-search': '',
 												mediatip_type: '',
 												mediatip_content: '',
 												mediatip_caption: '',
@@ -851,8 +807,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 												mode = 'replace_content';
 												values = $.extend(values, {
 													text: _content,
-													tooltip_content: _content,
-													term_search: itge.removeAccents(_content.toLowerCase())
+													'tooltip-content': _content,
+													'gloss-search': utils.removeAccents(_content.toLowerCase())
 												});
 											} else {
 												mode = 'add_content';
@@ -862,14 +818,16 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 									// Then generate form through Ajax
 
-									_context7.prev = 5;
-									_context7.next = 8;
-									return displayInForm(comon.sendAjaxQuery('get_tinymce_tooltip_form', values, itge.nonce));
+									_context6.prev = 5;
+									_context6.t0 = displayInForm;
+									_context6.next = 9;
+									return comon.sendAjaxQuery('get_tinymce_tooltip_form', values, itge.nonce);
 
-								case 8:
-									resultDom = _context7.sent;
-									return _context7.abrupt("return", new Promise(function (resolve) {
-										itge.finishListTinymce = function (data) {
+								case 9:
+									_context6.t1 = _context6.sent;
+									resultDom = (0, _context6.t0)(_context6.t1);
+									return _context6.abrupt("return", new Promise(function (resolve) {
+										itge.finishTipTinymce = function (data) {
 											hideOutForm(resultDom);
 											itge.info('New tooltip data:', data);
 											if (isNA(data)) {
@@ -887,7 +845,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 											var optsAttrs = opts && opts.attributes || {};
 
 											if (!isNA(opts)) {
-												optArr.maybeAddOpt(opts['qtip-content'], 'data-gloss-contenttype', opts['qtip-content']);
+												optArr.maybeAddOpt(opts['gloss-contenttype'], 'data-gloss-contenttype', opts['gloss-contenttype']);
 												optArr.maybeAddOpt(opts['qtip-keep-open'], 'data-qtip-keep-open', 'true');
 												optArr.maybeAddOpt(!isNA(opts.qtiprounded), 'data-qtiprounded', String(opts.qtiprounded));
 												optArr.maybeAddOpt(!isNA(opts.qtipshadow), 'data-qtipshadow', String(opts.qtipshadow));
@@ -960,22 +918,22 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 										};
 									}));
 
-								case 12:
-									_context7.prev = 12;
-									_context7.t0 = _context7["catch"](5);
+								case 14:
+									_context6.prev = 14;
+									_context6.t2 = _context6["catch"](5);
 
-									xhrError(_context7.t0);
+									xhrError(_context6.t2);
 
-								case 15:
+								case 17:
 								case "end":
-									return _context7.stop();
+									return _context6.stop();
 							}
 						}
-					}, _callee7, this, [[5, 12]]);
+					}, _callee6, this, [[5, 14]]);
 				}));
 
-				function tip(_x8, _x9) {
-					return _ref7.apply(this, arguments);
+				function tip(_x5, _x6) {
+					return _ref6.apply(this, arguments);
 				}
 
 				return tip;
@@ -988,7 +946,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			hideOutForm: hideOutForm,
 			tipsTypes: tipsTypes,
 			tipsSelector: tipsSelector,
-			maybePrefixAttribute: maybePrefixAttribute
+			removeAccents: removeAccents
 		};
 
 		module.exports = utils;

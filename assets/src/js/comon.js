@@ -76,7 +76,7 @@ const isTrueValue = val => {
 const htmlEncode = str => $( '<textarea />' ).text( str ).html();
 const htmlDecode = str => $( '<textarea />' ).html( str ).text();
 
-const sendAjaxQuery = async( action, data, nonce ) => {
+const sendAjaxQuery = ( action, data, nonce ) => {
 	const loader = ithoughts.makeLoader();
 	return new Promise(( resolve, reject ) => {
 		const sendData = {

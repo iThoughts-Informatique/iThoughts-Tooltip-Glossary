@@ -41,11 +41,11 @@ $.extend( itge, {
 		return content;
 	},
 	replaceShortcodesEl: [
-		filters.replace.glossary,
+		filters.replace.tip,
 		filters.replace.list,
 	],
 	restoreShortcodesEl: [
-		filters.restore.glossary,
+		filters.restore.tip,
 		filters.restore.list,
 	],
 });

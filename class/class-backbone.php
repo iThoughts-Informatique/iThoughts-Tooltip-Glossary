@@ -288,16 +288,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 					'ithoughts_tooltip_glossary-atoz',
 					'ithoughts_tooltip_glossary-list',
 				));
-			} else {
-				if ( $this->get_script( 'qtip' ) ) {
-					$this->enqueue_resource( 'ithoughts_tooltip_glossary-qtip' );
-				}
-				if ( $this->get_script( 'atoz' ) ) {
-					$this->enqueue_resource( 'ithoughts_tooltip_glossary-atoz' );
-				}
-				if ( $this->get_script( 'list' ) ) {
-					$this->enqueue_resource( 'ithoughts_tooltip_glossary-list' );
-				}
 			}
 		}
 
@@ -305,7 +295,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		 * Print client-side script for custom animations & other inline resources.
 		 */
 		public function after_scripts() {
-			if ( $this->get_script( 'qtip' ) || true === $this->options['forceloadresources'] ) {
+			if ( $this->get_resource('ithoughts_tooltip_glossary-qtip')->is_enqueued() || true === $this->options['forceloadresources'] ) {
 				// Get registered functions
 				$anims_custom_in = apply_filters( 'ithoughts_tt_gl_tooltip_anim_in', array(), true );
 				$anims_custom_out = apply_filters( 'ithoughts_tt_gl_tooltip_anim_out', array(), true );

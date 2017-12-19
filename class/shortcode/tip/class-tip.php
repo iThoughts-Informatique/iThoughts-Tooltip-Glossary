@@ -45,7 +45,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 		 * @return string The formatted HTML markup
 		 */
 		protected function generate_tip( $text, $attributes = array() ) {
-			$this->backbone->add_script( 'qtip' );
+			$this->backbone->enqueue_resource( 'ithoughts_tooltip_glossary-qtip' );
 
 			// If arguments are provided by categories, concat them
 			if(count($attributes) === 4 && Toolbox::array_keys_exists(array('handled', 'serverSide', 'clientSide', 'attributes'), $attributes)){

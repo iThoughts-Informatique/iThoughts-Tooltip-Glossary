@@ -149,8 +149,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
   }, { "./comon": 2, "./floater": 3 }], 2: [function (require, module, exports) {
     'use strict';
 
-    var _this2 = this;
-
     require('regenerator-runtime/runtime');
 
     var ithoughts = iThoughts.v5;
@@ -233,54 +231,36 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       return $('<textarea />').html(str).text();
     };
 
-    var sendAjaxQuery = function () {
-      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(action, data, nonce) {
-        var loader;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                loader = ithoughts.makeLoader();
-                return _context2.abrupt("return", new Promise(function (resolve, reject) {
-                  var sendData = {
-                    action: "ithoughts_tt_gl_" + action
-                  };
-                  if (!isNA(nonce)) {
-                    sendData._wpnonce = nonce;
-                  }
-                  if (!isNA(data)) {
-                    sendData.data = data;
-                  }
-                  $.ajax({
-                    method: 'POST',
-                    async: true,
-                    url: itg.admin_ajax,
-                    //			dataType: 'json',
-                    data: sendData,
-                    success: function success(data) {
-                      loader.remove();
-                      return resolve(data);
-                    },
-                    error: function error(xhr) {
-                      loader.remove();
-                      itg.error('Error while doing XHR request:', xhr);
-                      return reject(xhr);
-                    }
-                  });
-                }));
-
-              case 2:
-              case "end":
-                return _context2.stop();
-            }
+    var sendAjaxQuery = function sendAjaxQuery(action, data, nonce) {
+      var loader = ithoughts.makeLoader();
+      return new Promise(function (resolve, reject) {
+        var sendData = {
+          action: "ithoughts_tt_gl_" + action
+        };
+        if (!isNA(nonce)) {
+          sendData._wpnonce = nonce;
+        }
+        if (!isNA(data)) {
+          sendData.data = data;
+        }
+        $.ajax({
+          method: 'POST',
+          async: true,
+          url: itg.admin_ajax,
+          //			dataType: 'json',
+          data: sendData,
+          success: function success(data) {
+            loader.remove();
+            return resolve(data);
+          },
+          error: function error(xhr) {
+            loader.remove();
+            itg.error('Error while doing XHR request:', xhr);
+            return reject(xhr);
           }
-        }, _callee2, _this2);
-      }));
-
-      return function sendAjaxQuery(_x2, _x3, _x4) {
-        return _ref2.apply(this, arguments);
-      };
-    }();
+        });
+      });
+    };
 
     module.exports = {
       maybePrefixAttribute: maybePrefixAttribute,

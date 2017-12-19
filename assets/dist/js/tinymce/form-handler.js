@@ -4,9 +4,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 (function e(t, n, r) {
 	function s(o, u) {
@@ -22,8 +22,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 	}return s;
 })({ 1: [function (require, module, exports) {
 		'use strict';
-
-		var _this = this;
 
 		require('regenerator-runtime/runtime');
 
@@ -107,54 +105,36 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			return $('<textarea />').html(str).text();
 		};
 
-		var sendAjaxQuery = function () {
-			var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(action, data, nonce) {
-				var loader;
-				return regeneratorRuntime.wrap(function _callee$(_context) {
-					while (1) {
-						switch (_context.prev = _context.next) {
-							case 0:
-								loader = ithoughts.makeLoader();
-								return _context.abrupt("return", new Promise(function (resolve, reject) {
-									var sendData = {
-										action: "ithoughts_tt_gl_" + action
-									};
-									if (!isNA(nonce)) {
-										sendData._wpnonce = nonce;
-									}
-									if (!isNA(data)) {
-										sendData.data = data;
-									}
-									$.ajax({
-										method: 'POST',
-										async: true,
-										url: itg.admin_ajax,
-										//			dataType: 'json',
-										data: sendData,
-										success: function success(data) {
-											loader.remove();
-											return resolve(data);
-										},
-										error: function error(xhr) {
-											loader.remove();
-											itg.error('Error while doing XHR request:', xhr);
-											return reject(xhr);
-										}
-									});
-								}));
-
-							case 2:
-							case "end":
-								return _context.stop();
-						}
+		var sendAjaxQuery = function sendAjaxQuery(action, data, nonce) {
+			var loader = ithoughts.makeLoader();
+			return new Promise(function (resolve, reject) {
+				var sendData = {
+					action: "ithoughts_tt_gl_" + action
+				};
+				if (!isNA(nonce)) {
+					sendData._wpnonce = nonce;
+				}
+				if (!isNA(data)) {
+					sendData.data = data;
+				}
+				$.ajax({
+					method: 'POST',
+					async: true,
+					url: itg.admin_ajax,
+					//			dataType: 'json',
+					data: sendData,
+					success: function success(data) {
+						loader.remove();
+						return resolve(data);
+					},
+					error: function error(xhr) {
+						loader.remove();
+						itg.error('Error while doing XHR request:', xhr);
+						return reject(xhr);
 					}
-				}, _callee, _this);
-			}));
-
-			return function sendAjaxQuery(_x2, _x3, _x4) {
-				return _ref.apply(this, arguments);
-			};
-		}();
+				});
+			});
+		};
 
 		module.exports = {
 			maybePrefixAttribute: maybePrefixAttribute,
@@ -208,10 +188,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			}, {
 				key: "toString",
 				value: function toString() {
-					var _this2 = this;
+					var _this = this;
 
 					return Object.keys(this.opts).map(function (key) {
-						return OptArray.generateAttr(key, _this2.opts[key]);
+						return OptArray.generateAttr(key, _this.opts[key]);
 					}).join(' ');
 				}
 			}], [{
@@ -370,8 +350,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 								selector: "#" + editorId,
 								menubar: false,
 								external_plugins: {
-									code: itge.base_tinymce + "/code/plugin.min.js",
-									wordcount: itge.base_tinymce + "/wordcount/plugin.min.js"
+									code: itge.base_assets + "/deps/tinymce/code/plugin.min.js",
+									wordcount: itge.base_assets + "/deps/tinymce/wordcount/plugin.min.js"
 								},
 								plugins: 'wplink',
 								toolbar: ['styleselect | bold italic underline link | bullist numlist | alignleft aligncenter alignright alignjustify | code'],
@@ -380,11 +360,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 								resize: false
 							});
 							// **Restore the content**
-							var intervalContent = setInterval(function waitSubTinyMCELoaded() {
+							var intervalContent = setInterval(function () {
 								var subeditor = tinymce.get(editorId);
 								// Check if the subeditor is fully initialized. If that's the case, set its content & clear interval
 								if (subeditor && subeditor.getDoc() && subeditor.getBody()) {
-									itge.log('Initing subeditor with content ', JSON.stringify(text));
+									itg.log('Initing subeditor with content ', JSON.stringify(text));
 									clearInterval(intervalContent);
 									subeditor.setContent(text.replace(/&/g, '&amp;'));
 								}
@@ -455,7 +435,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 							// * those which **contains** the searched string
 							var startsWith = [];
 							var contains = [];
-							itge.terms.map(function mapTerms(element) {
+							itge.terms.map(function (element) {
 								var indx = element.title.toLowerCase().indexOf(searchedString);
 								if (-1 === indx) {
 									indx = element.slug.toLowerCase().indexOf(searchedString);
@@ -519,7 +499,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 								request.abort();
 							}
 							// Then, compose the search string by removing accents or special characters
-							searchedString = itge.removeAccents($(this).val().toLowerCase());
+							searchedString = utils.removeAccents($(this).val().toLowerCase());
 							// Filter with already retrieved items. This is used to react before the real request is sent, then resulsq will be replaced with new retrieved ones
 							searchMatchingRes();
 							// Do the request to get elements
@@ -949,6 +929,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		var OptArray = require('../optarray');
 		var utils = require('./tinymce-utils');
+		var comon = require('../comon');
 
 		var attrsMatcher = /(data-)?([\w\d\-]+?)="(.+?)"/g;
 
@@ -965,7 +946,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		var maybePrefixOpt = function maybePrefixOpt(opt) {
 			return function (match) {
-				var key = utils.maybePrefixAttribute(match[1] + match[2]);
+				var key = comon.maybePrefixAttribute(match[1] + match[2]);
 				var value = match[3];
 				if ('data-type' === key) {
 					return;
@@ -976,51 +957,38 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		module.exports = {
 			replace: {
-				glossary: function glossary(content) {
+				tip: function tip(content) {
 					// For [glossary]
-					return content.replace(/\[(?:itg-)?(glossary|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/(?:itg-)?(glossary|tooltip|mediatip)\]/g, function (all, tag, inner, text) {
+					return content.replace(/\[itg-(gloss|tooltip|mediatip)(?!_)(.*?)\](.*?)\[\/itg-\1\]/g, function (all, tag, inner, text) {
 						var attrs = new OptArray();
-						attrs.addOpt('data-type', "ithoughts-tooltip-glossary-" + {
-							glossary: 'term',
-							tooltip: 'tooltip',
-							mediatip: 'mediatip'
-						}[tag]);
+						attrs.addOpt('data-type', "ithoughts-tooltip-glossary-" + tag);
 						attributesToOpts(attrs, inner);
 						return "<a " + attrs.toString() + ">" + text + "</a>";
 					});
 				},
 				list: function list(content) {
 					// For [glossary_(term_list|atoz)]
-					return content.replace(/\[(?:glossary_|itg-)(term_?list|atoz)(?:\s+(.*?))\/\]/g, function (all, tag, inner) {
+					return content.replace(/\[itg-(glossary|atoz)(?:\s+(.*?))\/\]/g, function (all, tag, inner) {
 						var attrs = new OptArray();
-						tag = {
-							termlist: 'termlist',
-							term_list: 'termlist',
-							atoz: 'atoz'
-						}[tag];
 						attrs.addOpt('data-type', "ithoughts-tooltip-glossary-" + tag);
 						attributesToOpts(attrs, inner);
-						return "<span " + attrs.toString() + ">Glossary " + ('termlist' === tag ? 'List' : 'A-to-Z') + "</span>";
+						return "<span " + attrs.toString() + ">" + ('glossary' === tag ? 'Glossary' : 'A-to-Z') + "</span>";
 					});
 				}
 			},
 			restore: {
-				glossary: function glossary(content) {
-					// For [glossary]
-					return content.replace(/<a\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term|tooltip|mediatip)")(.*?)>(.*?)<\/a>/g, function (all, type, inner, text) {
+				tip: function tip(content) {
+					// For [itg-gloss]
+					return content.replace(/<a\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(gloss|tooltip|mediatip)")(.*?)>(.*?)<\/a>/g, function (all, type, inner, text) {
 						var attrs = new OptArray();
-						var tag = "itg-" + {
-							term: 'glossary',
-							tooltip: 'tooltip',
-							mediatip: 'mediatip'
-						}[type];
+						var tag = "itg-" + type;
 						attributesToOpts(attrs, inner);
 						return "[" + tag + " " + attrs.toString() + "]" + text + "[/" + tag + "]";
 					});
 				},
 				list: function list(content) {
 					// For [glossary_(term_list|atoz)]
-					return content.replace(/<span\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(term_list|atoz)")(.*?)>.*?<\/span>/g, function (all, type, inner) {
+					return content.replace(/<span\s+(?=[^>]*data-type="ithoughts-tooltip-glossary-(glossary|atoz)")(.*?)>.*?<\/span>/g, function (all, type, inner) {
 						var attrs = new OptArray();
 						var tag = "itg-" + type;
 						attributesToOpts(attrs, inner);
@@ -1029,7 +997,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				}
 			}
 		};
-	}, { "../optarray": 2, "./tinymce-utils": 5 }], 5: [function (require, module, exports) {
+	}, { "../comon": 1, "../optarray": 2, "./tinymce-utils": 5 }], 5: [function (require, module, exports) {
 		'use strict';
 
 		var removeAccents = require('remove-accents');
@@ -1120,11 +1088,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 		var editorForms = {
 			list: function () {
-				var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(selection) {
+				var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(selection) {
 					var mode, node, values, takeAttr, type, resultDom;
-					return regeneratorRuntime.wrap(function _callee2$(_context2) {
+					return regeneratorRuntime.wrap(function _callee$(_context) {
 						while (1) {
-							switch (_context2.prev = _context2.next) {
+							switch (_context.prev = _context.next) {
 								case 0:
 									itg.info('Selection infos to load LIST: ', selection);
 									mode = 'insert_content';
@@ -1142,9 +1110,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 											type = takeAttr('data-type');
 
 											$.extend(values, {
-												alpha: splitAttr(takeAttr('data-alpha')),
-												group: splitAttr(takeAttr('data-group')),
-												desc: takeAttr('data-desc')
+												alphas: splitAttr(takeAttr('data-alphas')),
+												groups: splitAttr(takeAttr('data-groups')),
+												'list-contenttype': takeAttr('data-list-contenttype')
 											});
 											if ('ithoughts-tooltip-glossary-atoz' === type) {
 												// Is atoz
@@ -1161,15 +1129,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 										}
 									}
 
-									_context2.prev = 5;
-									_context2.t0 = displayInForm;
-									_context2.next = 9;
+									_context.prev = 5;
+									_context.t0 = displayInForm;
+									_context.next = 9;
 									return comon.sendAjaxQuery('get_tinymce_list_form', values, itge.nonce);
 
 								case 9:
-									_context2.t1 = _context2.sent;
-									resultDom = (0, _context2.t0)(_context2.t1);
-									return _context2.abrupt("return", new Promise(function (resolve) {
+									_context.t1 = _context.sent;
+									resultDom = (0, _context.t0)(_context.t1);
+									return _context.abrupt("return", new Promise(function (resolve) {
 										itge.finishListTinymce = function (data) {
 											hideOutForm(resultDom);
 											if (isNA(data)) {
@@ -1204,32 +1172,32 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 									}));
 
 								case 14:
-									_context2.prev = 14;
-									_context2.t2 = _context2["catch"](5);
+									_context.prev = 14;
+									_context.t2 = _context["catch"](5);
 
-									xhrError(_context2.t2);
+									xhrError(_context.t2);
 
 								case 17:
 								case "end":
-									return _context2.stop();
+									return _context.stop();
 							}
 						}
-					}, _callee2, this, [[5, 14]]);
+					}, _callee, this, [[5, 14]]);
 				}));
 
-				function list(_x7) {
-					return _ref2.apply(this, arguments);
+				function list(_x4) {
+					return _ref.apply(this, arguments);
 				}
 
 				return list;
 			}(),
 			tip: function () {
-				var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(selection, escapeContent) {
-					var node, values, mode, _content, attrs, takeAttr, positionAt, positionMy, myInverted, tooltipContent, i, resultDom;
+				var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(selection, escapeContent) {
+					var node, values, mode, _content, attrs, takeAttr, positionAt, positionMy, myInverted, tooltipContent, resultDom;
 
-					return regeneratorRuntime.wrap(function _callee3$(_context3) {
+					return regeneratorRuntime.wrap(function _callee2$(_context2) {
 						while (1) {
-							switch (_context3.prev = _context3.next) {
+							switch (_context2.prev = _context2.next) {
 								case 0:
 									itg.info('Selection infos to load TIP: ', selection);
 									node = selection.start;
@@ -1292,10 +1260,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 														at: positionAt,
 														my: positionMy
 													},
-													attributes: {
-														span: {},
-														link: {}
-													},
 													anim: {
 														in: takeAttr('animation_in'),
 														out: takeAttr('animation_out'),
@@ -1308,23 +1272,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 											};
 
 											// With all attributes left, append them to the attributes option
-											for (i in attrs) {
-												if (attrs.hasOwnProperty(i)) {
-													if (i.match(/^data-link-/)) {
-														values.opts.attributes.link[i.replace(/^data-link-(data-)?/, '')] = attrs[i];
-													} else {
-														values.opts.attributes.span[i.replace(/^data-/, '')] = attrs[i];
-													}
-												}
-											}
+											values.opts.attributes = attrs;
 										} else {
-											// Create new glossary term
+											// Create new gloss
 											values = {
 												text: '',
 												link: '',
-												tooltip_content: '',
-												glossary_id: null,
-												term_search: '',
+												'tooltip-content': '',
+												'gloss-id': null,
+												'gloss-search': '',
 												mediatip_type: '',
 												mediatip_content: '',
 												mediatip_caption: '',
@@ -1337,8 +1293,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 												mode = 'replace_content';
 												values = $.extend(values, {
 													text: _content,
-													tooltip_content: _content,
-													term_search: itge.removeAccents(_content.toLowerCase())
+													'tooltip-content': _content,
+													'gloss-search': utils.removeAccents(_content.toLowerCase())
 												});
 											} else {
 												mode = 'add_content';
@@ -1348,14 +1304,16 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 									// Then generate form through Ajax
 
-									_context3.prev = 5;
-									_context3.next = 8;
-									return displayInForm(comon.sendAjaxQuery('get_tinymce_tooltip_form', values, itge.nonce));
+									_context2.prev = 5;
+									_context2.t0 = displayInForm;
+									_context2.next = 9;
+									return comon.sendAjaxQuery('get_tinymce_tooltip_form', values, itge.nonce);
 
-								case 8:
-									resultDom = _context3.sent;
-									return _context3.abrupt("return", new Promise(function (resolve) {
-										itge.finishListTinymce = function (data) {
+								case 9:
+									_context2.t1 = _context2.sent;
+									resultDom = (0, _context2.t0)(_context2.t1);
+									return _context2.abrupt("return", new Promise(function (resolve) {
+										itge.finishTipTinymce = function (data) {
 											hideOutForm(resultDom);
 											itge.info('New tooltip data:', data);
 											if (isNA(data)) {
@@ -1373,7 +1331,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 											var optsAttrs = opts && opts.attributes || {};
 
 											if (!isNA(opts)) {
-												optArr.maybeAddOpt(opts['qtip-content'], 'data-gloss-contenttype', opts['qtip-content']);
+												optArr.maybeAddOpt(opts['gloss-contenttype'], 'data-gloss-contenttype', opts['gloss-contenttype']);
 												optArr.maybeAddOpt(opts['qtip-keep-open'], 'data-qtip-keep-open', 'true');
 												optArr.maybeAddOpt(!isNA(opts.qtiprounded), 'data-qtiprounded', String(opts.qtiprounded));
 												optArr.maybeAddOpt(!isNA(opts.qtipshadow), 'data-qtipshadow', String(opts.qtipshadow));
@@ -1446,22 +1404,22 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 										};
 									}));
 
-								case 12:
-									_context3.prev = 12;
-									_context3.t0 = _context3["catch"](5);
+								case 14:
+									_context2.prev = 14;
+									_context2.t2 = _context2["catch"](5);
 
-									xhrError(_context3.t0);
+									xhrError(_context2.t2);
 
-								case 15:
+								case 17:
 								case "end":
-									return _context3.stop();
+									return _context2.stop();
 							}
 						}
-					}, _callee3, this, [[5, 12]]);
+					}, _callee2, this, [[5, 14]]);
 				}));
 
-				function tip(_x8, _x9) {
-					return _ref3.apply(this, arguments);
+				function tip(_x5, _x6) {
+					return _ref2.apply(this, arguments);
 				}
 
 				return tip;
@@ -1474,7 +1432,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			hideOutForm: hideOutForm,
 			tipsTypes: tipsTypes,
 			tipsSelector: tipsSelector,
-			maybePrefixAttribute: maybePrefixAttribute
+			removeAccents: removeAccents
 		};
 
 		module.exports = utils;

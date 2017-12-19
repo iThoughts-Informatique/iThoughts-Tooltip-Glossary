@@ -141,8 +141,8 @@ $d.ready(() => {
 						selector:         `#${  editorId }`,
 						menubar:          false,
 						external_plugins: {
-							code:      `${ itge.base_tinymce  }/code/plugin.min.js`,
-							wordcount: `${ itge.base_tinymce  }/wordcount/plugin.min.js`,
+							code:      `${ itge.base_assets }/deps/tinymce/code/plugin.min.js`,
+							wordcount: `${ itge.base_assets }/deps/tinymce/wordcount/plugin.min.js`,
 						},
 						plugins: 'wplink',
 						toolbar: [
@@ -153,11 +153,11 @@ $d.ready(() => {
 						resize:     false,
 					});
 					// **Restore the content**
-					var intervalContent = setInterval( function waitSubTinyMCELoaded() {
-						var subeditor = tinymce.get( editorId );
+					let intervalContent = setInterval( () => {
+						const subeditor = tinymce.get( editorId );
 						// Check if the subeditor is fully initialized. If that's the case, set its content & clear interval
 						if ( subeditor && subeditor.getDoc() && subeditor.getBody()) {
-							itge.log( 'Initing subeditor with content ', JSON.stringify( text ));
+							itg.log( 'Initing subeditor with content ', JSON.stringify( text ));
 							clearInterval( intervalContent );
 							subeditor.setContent( text.replace( /&/g, '&amp;' ));
 						}
@@ -228,9 +228,9 @@ $d.ready(() => {
 					// * those which **contains** the searched string
 					var startsWith = [];
 					var contains = [];
-					itge.terms.map( function mapTerms( element ) {
+					itge.terms.map( element => {
 						var indx = element.title.toLowerCase().indexOf( searchedString );
-						if ( -1 === indx )							{
+						if ( -1 === indx ) {
 							indx = element.slug.toLowerCase().indexOf( searchedString );
 						}
 						if ( -1 === indx ) {
@@ -292,7 +292,7 @@ $d.ready(() => {
 						request.abort();
 					}
 					// Then, compose the search string by removing accents or special characters
-					searchedString = itge.removeAccents( $( this ).val().toLowerCase());
+					searchedString = utils.removeAccents( $( this ).val().toLowerCase());
 					// Filter with already retrieved items. This is used to react before the real request is sent, then resulsq will be replaced with new retrieved ones
 					searchMatchingRes();
 					// Do the request to get elements

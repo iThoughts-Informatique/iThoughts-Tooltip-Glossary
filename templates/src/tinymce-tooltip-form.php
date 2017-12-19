@@ -295,12 +295,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<table>
 											<tr>
 												<td>
-													<label for="<?php echo esc_attr($inputs['qtip-content']->get_id()); ?>">
+													<label for="<?php echo esc_attr($inputs['gloss-contenttype']->get_id()); ?>">
 														<?php esc_html_e( 'Tooltip content', 'ithoughts-tooltip-glossary' ); ?>
 													</label>
 												</td>
 												<td>
-													<?php inputs['qtip-content']->do_print(); ?>
+													<?php $inputs['gloss-contenttype']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>
@@ -324,7 +324,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php $inputs['qtip-keep-open']->do_print() ?>
+													<?php $inputs['qtip-keep-open']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>

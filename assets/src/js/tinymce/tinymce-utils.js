@@ -100,9 +100,9 @@ const editorForms = {
 				const takeAttr = generateTakeAttr( node );
 				const type = takeAttr( 'data-type' );
 				$.extend( values, {
-					alpha: splitAttr( takeAttr( 'data-alpha' )),
-					group: splitAttr( takeAttr( 'data-group' )),
-					desc:  takeAttr( 'data-desc' ),
+					alphas: splitAttr( takeAttr( 'data-alphas' )),
+					groups: splitAttr( takeAttr( 'data-groups' )),
+					'list-contenttype':  takeAttr( 'data-list-contenttype' ),
 				});
 				if ( 'ithoughts-tooltip-glossary-atoz' === type ) { // Is atoz
 					mode = 'load';
@@ -218,10 +218,6 @@ const editorForms = {
 							at:	positionAt,
 							my:	positionMy,
 						},
-						attributes:	{
-							span: {},
-							link:	{},
-						},
 						anim: {
 							in:   takeAttr( 'animation_in' ),
 							out:  takeAttr( 'animation_out' ),
@@ -234,23 +230,15 @@ const editorForms = {
 				};
 
 				// With all attributes left, append them to the attributes option
-				for ( const i in attrs ) {
-					if ( attrs.hasOwnProperty( i )) {
-						if ( i.match( /^data-link-/ )) {
-							values.opts.attributes.link[i.replace( /^data-link-(data-)?/, '' )] = attrs[i];
-						} else {
-							values.opts.attributes.span[i.replace( /^data-/, '' )] = attrs[i];
-						}
-					}
-				}
+				values.opts.attributes = attrs;
 			} else {
 				// Create new gloss
 				values	= {
 					text:             '',
 					link:             '',
-					tooltip_content:  '',
-					glossary_id:      null,
-					term_search:      '',
+					'tooltip-content':  '',
+					'gloss-id':      null,
+					'gloss-search':      '',
 					mediatip_type:    '',
 					mediatip_content: '',
 					mediatip_caption: '',
@@ -263,8 +251,8 @@ const editorForms = {
 					mode	= 'replace_content';
 					values	= $.extend( values, {
 						text:            content,
-						tooltip_content: content,
-						term_search:     itge.removeAccents( content.toLowerCase()),
+						'tooltip-content': content,
+						'gloss-search':     utils.removeAccents( content.toLowerCase()),
 					});
 				} else {
 					mode	= 'add_content';
@@ -275,10 +263,10 @@ const editorForms = {
 		// Then generate form through Ajax
 
 		try {
-			const resultDom = await displayInForm( comon.sendAjaxQuery( 'get_tinymce_tooltip_form', values, itge.nonce ));
+			const resultDom = displayInForm( await comon.sendAjaxQuery( 'get_tinymce_tooltip_form', values, itge.nonce ));
 
 			return new Promise( resolve => {
-				itge.finishListTinymce = data => {
+				itge.finishTipTinymce = data => {
 					hideOutForm( resultDom );
 					itge.info( 'New tooltip data:', data );
 					if ( isNA( data )) {
@@ -294,7 +282,7 @@ const editorForms = {
 					const optsAttrs = ( opts && opts.attributes ) || {};
 
 					if ( !isNA( opts )) {
-						optArr.maybeAddOpt( opts['qtip-content'], 'data-gloss-contenttype', opts['qtip-content']);
+						optArr.maybeAddOpt( opts['gloss-contenttype'], 'data-gloss-contenttype', opts['gloss-contenttype']);
 						optArr.maybeAddOpt( opts['qtip-keep-open'], 'data-qtip-keep-open', 'true' );
 						optArr.maybeAddOpt( !isNA( opts.qtiprounded ), 'data-qtiprounded', String( opts.qtiprounded ));
 						optArr.maybeAddOpt( !isNA( opts.qtipshadow ), 'data-qtipshadow', String( opts.qtipshadow ));
@@ -378,7 +366,7 @@ const utils = {
 	hideOutForm,
 	tipsTypes,
 	tipsSelector,
-	maybePrefixAttribute,
+	removeAccents,
 };
 
 module.exports = utils;

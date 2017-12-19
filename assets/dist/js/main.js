@@ -6,8 +6,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 (function e(t, n, r) {
 	function s(o, u) {
 		if (!n[o]) {
@@ -22,8 +20,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 	}return s;
 })({ 1: [function (require, module, exports) {
 		'use strict';
-
-		var _this = this;
 
 		require('regenerator-runtime/runtime');
 
@@ -107,54 +103,36 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			return $('<textarea />').html(str).text();
 		};
 
-		var sendAjaxQuery = function () {
-			var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(action, data, nonce) {
-				var loader;
-				return regeneratorRuntime.wrap(function _callee$(_context) {
-					while (1) {
-						switch (_context.prev = _context.next) {
-							case 0:
-								loader = ithoughts.makeLoader();
-								return _context.abrupt("return", new Promise(function (resolve, reject) {
-									var sendData = {
-										action: "ithoughts_tt_gl_" + action
-									};
-									if (!isNA(nonce)) {
-										sendData._wpnonce = nonce;
-									}
-									if (!isNA(data)) {
-										sendData.data = data;
-									}
-									$.ajax({
-										method: 'POST',
-										async: true,
-										url: itg.admin_ajax,
-										//			dataType: 'json',
-										data: sendData,
-										success: function success(data) {
-											loader.remove();
-											return resolve(data);
-										},
-										error: function error(xhr) {
-											loader.remove();
-											itg.error('Error while doing XHR request:', xhr);
-											return reject(xhr);
-										}
-									});
-								}));
-
-							case 2:
-							case "end":
-								return _context.stop();
-						}
+		var sendAjaxQuery = function sendAjaxQuery(action, data, nonce) {
+			var loader = ithoughts.makeLoader();
+			return new Promise(function (resolve, reject) {
+				var sendData = {
+					action: "ithoughts_tt_gl_" + action
+				};
+				if (!isNA(nonce)) {
+					sendData._wpnonce = nonce;
+				}
+				if (!isNA(data)) {
+					sendData.data = data;
+				}
+				$.ajax({
+					method: 'POST',
+					async: true,
+					url: itg.admin_ajax,
+					//			dataType: 'json',
+					data: sendData,
+					success: function success(data) {
+						loader.remove();
+						return resolve(data);
+					},
+					error: function error(xhr) {
+						loader.remove();
+						itg.error('Error while doing XHR request:', xhr);
+						return reject(xhr);
 					}
-				}, _callee, _this);
-			}));
-
-			return function sendAjaxQuery(_x2, _x3, _x4) {
-				return _ref.apply(this, arguments);
-			};
-		}();
+				});
+			});
+		};
 
 		module.exports = {
 			maybePrefixAttribute: maybePrefixAttribute,
@@ -265,18 +243,18 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 		itg.linkEventHandlers = linkEventHandlers;
 
 		var doTipRender = function doTipRender(renderFcts, props, event, api) {
-			var _this2 = this;
+			var _this = this;
 
 			$(this).css({
 				maxWidth: props.maxWidth
 			});
 			$(this).prop('animation_duration', props.animDuration);
 			renderFcts.forEach(function (renderFct) {
-				return renderFct.call(_this2, event, api);
+				return renderFct.call(_this, event, api);
 			});
 			if (itg.renderHooks) {
 				itg.renderHooks.forEach(function (hook) {
-					return hook.call(_this2, event, api);
+					return hook.call(_this, event, api);
 				});
 			}
 		};
@@ -1039,10 +1017,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			}, {
 				key: "toString",
 				value: function toString() {
-					var _this3 = this;
+					var _this2 = this;
 
 					return Object.keys(this.opts).map(function (key) {
-						return OptArray.generateAttr(key, _this3.opts[key]);
+						return OptArray.generateAttr(key, _this2.opts[key]);
 					}).join(' ');
 				}
 			}], [{
