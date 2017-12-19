@@ -9,7 +9,7 @@ Tested up to: 4.8
 Stable tag: 3.0.2
 License: GPLv3
 
-Create beautiful tooltips for descriptions or glossary terms, easily
+Create beautiful tooltips for descriptions or glosses, easily
 
 == Description ==
 
@@ -21,7 +21,7 @@ This plugin is optimized for responsive web design, SEO, usability, and more.
 
 * Manage your *glossaries* on your own site
 * Add tooltips with fully customizable content (*text* or *medias*)
-* Several kind of lists to display your glossary terms
+* Several kind of lists to display your glosses
 * Group your terms by categories
 * Fully responsive tooltips, with *6 animations* and *10 themes*.
 * Theme editor & easy animation customization. Keep control of your site appearance.
@@ -56,7 +56,7 @@ It may be a permalink problem. Go to *Settings* > *Permalinks* and click *Save C
 > It doesn't do anything?
 
 Check if jQuery is loaded.
-For glossary terms only, you have to add the terms (Tooltip Glossary > Add New Term) and then use the appropriate TinyMCE button to link the text with that glossary term
+For glosses only, you have to add the terms (Tooltip Glossary > Add New Term) and then use the appropriate TinyMCE button to link the text with that gloss
 
 == Further Information ==
 
@@ -70,8 +70,8 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 
 == Screenshots ==
 
-1. Example frontend hover glossary term/tooltip
-2. Example TinyMCE glossary term form
+1. Example frontend hover gloss/tooltip
+2. Example TinyMCE gloss form
 3. Example TinyMCE tooltip form
 4. jQuery based Glossary term A to Z and term list
 5. Glossary index shortcodes
@@ -94,7 +94,7 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 * FIX Theme Editor
 
 = 3.0.0 =
-* NEW Exclude glossary terms from search
+* NEW Exclude glosses from search
 * NEW Automated tests, linting, docs, etc etc
 * UPD Changed shortcodes for prefix *itg* instead of *ithoughts_tooltip_glossary*
 * UPD Improved updater performaces
@@ -126,9 +126,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 = 2.6.0 =
 * NEW Attributes editor for tooltip-specific configuration
 * NEW Using JS namespacing to avoid conflicts
-* NEW Allow setting explicit HREF on glossary term with warning message
+* NEW Allow setting explicit HREF on gloss with warning message
 * NEW Added in/out animations for tip + hooks for adding custom anims
-* NEW Added support of comments on glossary terms if enabled in config
+* NEW Added support of comments on glosses if enabled in config
 * UPD New version of iThoughts Plugin Toolbox with no-conflicting naming
 * UPD Rename JS files for uniform naming
 * UPD Increasing the number of hooks (ithoughts_tt_gl-term-content, ithoughts_tt_gl-term-excerpt)
@@ -222,7 +222,7 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 * FIX PHP Syntax incompatibility
 
 = 2.1.1 =
-* UPD Added filters for glossary term excerpts
+* UPD Added filters for gloss excerpts
 * UPD Mutualize options to improve performances
 * UPD Remove useless options
 * FIX Raise warn level for less errors in prod environment
@@ -234,7 +234,7 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 * FIX Tooltip trigger mode hover
 
 = 2.0.4 =
-* NEW Static terms to display glossary terms without Ajax
+* NEW Static terms to display glosses without Ajax
 * UPD Web video now allow mp4, YouTube and Dailymotion videos
 * FIX incompatibility with PHP5.3
 * FIX Force reload for new scripts
@@ -281,9 +281,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 * UPD correction to remove an error message
 
 = 1.0 =
-* NEW Added select for glossary terms
+* NEW Added select for glosses
 * UPD Inline tooltips now integrated to TinyMCE Glossary button
-* UPD TinyMCE now recognize tooltips as like glossary terms
+* UPD TinyMCE now recognize tooltips as like glosses
 * UPD Removed "title" attribute on links with JS to allow search engine comprehension & disable double tooltips on some browsers (eg. Firefox)
 
 = 0.2.3 =
@@ -391,7 +391,7 @@ Fixed an issue with Random Term Widget.
 Removed an error message that appeared sometimes in the footer
 
 = 1.0 =
-A big improvement to glossary terms tooltips have been made, to allow you to directly select the term you wish to link. Tooltips are now editable with the same button as glossary terms.
+A big improvement to glosses tooltips have been made, to allow you to directly select the term you wish to link. Tooltips are now editable with the same button as glosses.
 
 = 0.2.3 =
 Inline tooltips are now available through shortcode [tooltip content="foo"]bar[/tooltip]. They allow you to define tooltips not linked to a specific post.

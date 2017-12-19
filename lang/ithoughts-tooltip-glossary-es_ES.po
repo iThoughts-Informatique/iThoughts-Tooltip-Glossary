@@ -337,7 +337,7 @@ msgstr ""
 
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-autolink.php:25
 msgctxt ""
-"A list of words to be ignored when trying to match with glossary terms title"
+"A list of words to be ignored when trying to match with glosses title"
 msgid "the a an of in"
 msgstr ""
 
@@ -346,7 +346,7 @@ msgid "Please wait"
 msgstr ""
 
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-backbone.php:310
-msgid "Loading glossary term"
+msgid "Loading gloss"
 msgstr ""
 
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-filters.php:270
@@ -439,7 +439,7 @@ msgid "Random Term From Glossary"
 msgstr ""
 
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-randomterm.php:29
-msgid "Add a random glossary term to your sidebar"
+msgid "Add a random gloss to your sidebar"
 msgstr ""
 
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-randomterm.php:37
@@ -804,7 +804,7 @@ msgstr ""
 
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/options.php:198
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/options.php:294
-msgid "Enable comments on glossary terms"
+msgid "Enable comments on glosses"
 msgstr ""
 
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/options.php:208
@@ -817,7 +817,7 @@ msgstr ""
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/options.php:208
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/options.php:307
 msgid ""
-"You may need to enable manually the comments on each glossary terms posted "
+"You may need to enable manually the comments on each glosses posted "
 "before enabling this option."
 msgstr ""
 
@@ -1214,7 +1214,7 @@ msgid "Activate me"
 msgstr ""
 
 #. Description of the plugin
-msgid "Create beautiful tooltips for descriptions or glossary terms easily"
+msgid "Create beautiful tooltips for descriptions or glosses easily"
 msgstr ""
 
 #. URI of the plugin
@@ -1223,11 +1223,11 @@ msgid ""
 msgstr ""
 
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-backbone.php:701
-msgid "Private glossary term"
+msgid "Private gloss"
 msgstr "Término privado"
 
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-backbone.php:710
-msgid "Protected glossary term"
+msgid "Protected gloss"
 msgstr "Término protegido"
 
 #: ../../../../../Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-backbone.php:738

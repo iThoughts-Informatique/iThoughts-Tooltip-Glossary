@@ -24,8 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * @description Base class for lists.
  */
-if ( ! class_exists( __NAMESPACE__ . '\\TermsList' ) ) {
-	abstract class TermsList extends \ithoughts\v1_0\Singleton {
+if ( ! class_exists( __NAMESPACE__ . '\\GlossesList' ) ) {
+	abstract class GlossesList extends \ithoughts\v1_0\Singleton {
 		const LIST_MODE_LINK    = 'link';
 		const LIST_MODE_TIP     = 'tip';
 		const LIST_MODE_EXCERPT = 'excerpt';
@@ -35,9 +35,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\TermsList' ) ) {
 		
 		protected $backbone;
 
-		public function __construct($type, $register_comon_filters = false){
+		public function __construct($backbone, $type, $register_comon_filters = false){
 			$this->type = $type;
-			$this->backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+			$this->backbone = $backbone;
 			
 			add_filter( 'ithoughts_tt_gl_'.$this->type, array( &$this, 'generate_list' ), 1000, 4 );
 			if($register_comon_filters){
@@ -48,6 +48,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\TermsList' ) ) {
 			}
 		}
 
+		abstract protected function generate_list();
 
 
 
@@ -105,7 +106,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\TermsList' ) ) {
 		}
 
 		private function list_item_tip($post, $attributes = array()){
-			$content = apply_filters('ithoughts_tt_gl_glossary', NULL, $post);
+			$content = apply_filters('ithoughts_tt_gl_gloss', NULL, $post);
 			return apply_filters('ithoughts_tt_gl_list_item_'.self::LIST_MODE_TIP,     $content, $attributes);
 		}
 
@@ -134,12 +135,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\TermsList' ) ) {
 			}
 
 			// Checks for partial listing options by group
-			$groups = Toolbox::pick_option( $attributes, 'groups', null );
+			$groups = Toolbox::str_split_trim(Toolbox::pick_option( $attributes, 'groups', '' ), ',');
 			// Sanity check the list of letters (if set by user).
-			$alphas = Toolbox::pick_option( $attributes, 'alphas', null );
+			$alphas = Toolbox::str_split_trim(Toolbox::pick_option( $attributes, 'alphas', ''), '' );
 
 			return apply_filters( 'ithoughts_tt_gl_'.$this->type, null, $groups, $alphas, $attributes );
 		}
+		
+		
 		
 		protected function group_posts_by_alpha(array $posts){
 			$paged = array();
@@ -159,7 +162,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\TermsList' ) ) {
 		
 		
 
-		protected function get_lists_terms( $group_ids = null, $alphas = null ) {
+		protected function get_lists_terms( $groups = array(), $alphas = array() ) {
 			// Post status array depending on user capabilities
 			$statii = array( 'publish' );
 			if ( current_user_can( 'read_private_posts' ) ) {
@@ -179,12 +182,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\TermsList' ) ) {
 			}
 
 			// Restrict list to specific glossary group or groups
-			if ( $group_ids ) {
+			if ( is_array($groups) && count( $groups ) > 0 ) {
 				$tax_query = array();
 				// If search for ungrouped
-				if ( ($noGroup = array_search( 0, $group_ids )) !== false ) {
+				if ( ($noGroup = array_search( 0, $groups )) !== false ) {
 					// Get all terms
-					unset( $group_ids[ $noGroup ] );
+					unset( $groups[ $noGroup ] );
 					$groups = get_terms(array(
 						'taxonomy'		=> 'glossary_group',
 						'hide_empty'	=> false,
@@ -197,11 +200,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\TermsList' ) ) {
 						'operator'	=> 'NOT IN',
 					);
 				}
-				if ( count( $group_ids ) > 0 ) {
+				if ( count( $groups ) > 0 ) {
 					$tax_query[] = array(
 						'taxonomy' => 'glossary_group',
 						'field'    => 'id',
-						'terms'    => $group_ids,
+						'terms'    => $groups,
 					);
 				}
 				$args['tax_query'] = $tax_query;
@@ -210,7 +213,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\TermsList' ) ) {
 			$glossaries = get_posts( $args );
 
 			$filteredGlossaries;
-			if ( $alphas && count( $alphas ) > 0 ) {
+			if ( is_array($alphas) && count( $alphas ) > 0 ) {
 				$filteredGlossaries = array();
 				$regexStr = '/' . $this->alpha_array_to_regex_str( $alphas ) . '/';
 				foreach ( $glossaries as $glossary ) {
@@ -225,7 +228,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\TermsList' ) ) {
 			return $filteredGlossaries;
 		}
 
-		final protected function get_microposts( $groups = false, $alphas = false ) {
+		final protected function get_microposts( $groups = array(), $alphas = array() ) {
 			global $wpdb;
 			
 			require_once( $this->backbone->get_base_class_path() . '/class-micropost.php' );
@@ -253,7 +256,7 @@ ON
 			}
 
 			// Group join
-			if ( $groups !== false && count( $groups ) > 0 ) {
+			if ( is_array($groups) && count( $groups ) > 0 ) {
 				$queryComponents['from'] .= "
 LEFT JOIN {$wpdb->prefix}term_relationships AS r
 ON
@@ -289,7 +292,7 @@ WHERE
 			}
 
 			// Selection criteria (group)
-			if ( $groups !== false && count( $groups ) > 0 ) {
+			if ( is_array($groups) && count( $groups ) > 0 ) {
 				$queryComponents['where'] .= ' AND
     ';
 				$hasNoGroup = in_array( 0, $groups );
@@ -315,7 +318,7 @@ WHERE
 			}
 
 			// Selection criteria (first letter)
-			if ( count( $alphas ) > 0 ) {
+			if ( is_array($alphas) && count( $alphas ) > 0 ) {
 				$regexStr = $this->alpha_array_to_regex_str( $alphas );
 				$queryComponents['where'] .= " AND
 	p.post_title REGEXP '$regexStr'";

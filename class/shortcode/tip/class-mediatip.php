@@ -27,7 +27,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( __NAMESPACE__ . '\\Mediatip' ) ) {
 	class Mediatip extends Tip {
-		public function __construct() {
+		public function __construct($backbone) {
+			parent::__construct($backbone);
 			// Shortcode
 			add_shortcode( 'itg-mediatip', array( &$this, 'mediatip_shortcode' ) );
 			add_shortcode( 'mediatip', array( &$this, 'mediatip_shortcode' ) );

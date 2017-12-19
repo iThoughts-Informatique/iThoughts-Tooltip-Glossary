@@ -26,11 +26,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( __NAMESPACE__ . '\\AtoZ' ) ) {
-	class AtoZ extends TermsList {
-		public function __construct() {
+	class AtoZ extends GlossesList {
+		public function __construct($backbone) {
 			add_shortcode( 'itg-atoz', array( $this, 'do_shortcode' ) );
 
-			parent::__construct('atoz', true);
+			parent::__construct($backbone, 'atoz', true);
 		}
 
 		public function generate_list( $text = '', $groups = array(), $letters = array(), $options = array() ) {

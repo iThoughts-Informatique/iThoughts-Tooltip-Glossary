@@ -8,16 +8,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 use \ithoughts\v6_0\LogLevel as LogLevel;
 use \ithoughts\tooltip_glossary\Backbone as Backbone;
 
-require_once( $this->base_class_path . '/shortcode/index/class-glossarylist.php' );
-use ithoughts\tooltip_glossary\shortcode\index\GlossaryList as GlossaryList;
+require_once( $this->base_class_path . '/shortcode/index/class-glosseslist.php' );
+use ithoughts\tooltip_glossary\shortcode\index\GlossesList as GlossesList;
+
+require_once( $this->base_class_path . '/shortcode/tip/class-gloss.php' );
+use ithoughts\tooltip_glossary\shortcode\tip\Gloss as Gloss;
 
 return array(
 	'version'		=> array(
 		'default'		=> '-1',
 		'type'			=> 0,
 	),
-	'glossary-contenttype'		=> array(
-		'default'		=> 'excerpt',
+	'gloss-contenttype'		=> array(
+		'default'		=> Gloss::GLOSS_MODE_EXCERPT,
 		'type'			=> Backbone::SERVER_OVR | Backbone::CLIENT_OVR,
 	),
 	'termscomment'		=> array(
@@ -98,7 +101,7 @@ return array(
 		'type'			=> 0,
 	),
 	'list-contenttype'		=> array(
-		'default'		=> GlossaryList::LIST_MODE_TIP,
+		'default'		=> GlossesList::LIST_MODE_TIP,
 		'type'			=> Backbone::SERVER_OVR,
 	),
 );

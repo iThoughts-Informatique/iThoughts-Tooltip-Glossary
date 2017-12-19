@@ -61,10 +61,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<tbody>
 											<tr>
 												<th>
-													<label for="<?php echo esc_attr($options_inputs['glossary-contenttype']->get_id()); ?>"><?php esc_html_e( 'Glossary Tip Content', 'ithoughts-tooltip-glossary' ); ?>:</label>
+													<label for="<?php echo esc_attr($options_inputs['gloss-contenttype']->get_id()); ?>"><?php esc_html_e( 'Glossary Tip Content', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<?php $options_inputs['glossary-contenttype']->do_print(); ?>
+													<?php $options_inputs['gloss-contenttype']->do_print(); ?>
 												</td>
 											</tr>
 											<tr class="nonoverridable">
@@ -101,10 +101,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr class="nonoverridable">
 												<th>
-													<label for="<?php echo esc_attr($options_inputs['termscomment']->get_id()); ?>"><?php esc_html_e( 'Enable comments on glossary terms', 'ithoughts-tooltip-glossary' ); ?>:</label>
+													<label for="<?php echo esc_attr($options_inputs['termscomment']->get_id()); ?>"><?php esc_html_e( 'Enable comments on glosses', 'ithoughts-tooltip-glossary' ); ?>:</label>
 												</th>
 												<td>
-													<?php $options_inputs['termscomment']->do_print(); ?><p><em><strong><?php esc_html_e( 'Note:', 'ithoughts-tooltip-glossary' ); ?> </strong><?php esc_html_e( 'You may need to enable manually the comments on each glossary terms posted before enabling this option.', 'ithoughts-tooltip-glossary' ); ?></em></p>
+													<?php $options_inputs['termscomment']->do_print(); ?><p><em><strong><?php esc_html_e( 'Note:', 'ithoughts-tooltip-glossary' ); ?> </strong><?php esc_html_e( 'You may need to enable manually the comments on each glosses posted before enabling this option.', 'ithoughts-tooltip-glossary' ); ?></em></p>
 												</td>
 											</tr>
 											<tr class="nonoverridable">

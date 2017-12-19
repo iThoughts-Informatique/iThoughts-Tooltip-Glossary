@@ -196,7 +196,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 		var $tooltipsContainer = $($.parseHTML('<div id="itg-tipsContainer" class="itg-tipsContainer"></div>'));
 		$(document.body).append($tooltipsContainer);
 		var $growlContainer = $('#itg-growl-container');
-		var types = ['glossary', 'tooltip', 'mediatip'];
+		var types = ['gloss', 'tooltip', 'mediatip'];
 
 		var redimWait = void 0;
 
@@ -385,20 +385,20 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				var content = void 0;
 				var tipClasses = classes.split(/\s+/).concat(["qtip-" + tipStyle, tipShadow ? 'qtip-shadow' : false, tipRounded ? ' qtip-rounded' : false]);
 
-				if ($tooltipLink.hasClass('itg-glossary')) {
+				if ($tooltipLink.hasClass('itg-gloss')) {
 					// ### Glossary tips
 					itg.info('Do init a GLOSSARYTIP');
-					tipClasses.push('itg-glossary');
-					var contenttype = takeAttr('glossary-contenttype', itg.contenttype);
+					tipClasses.push('itg-gloss');
+					var contenttype = takeAttr('gloss-contenttype', itg.contenttype);
 					if (contenttype !== 'off') {
-						var glossaryId = takeAttr('glossary-id');
-						var glossaryContent = takeAttr('glossary-content');
-						if (!isNA(glossaryId)) {
+						var glossId = takeAttr('gloss-id');
+						var glossContent = takeAttr('gloss-content');
+						if (!isNA(glossId)) {
 							// Define the `ajaxPostData` that will be used bellow to send the request to the API
 							var ajaxPostData = {
 								action: 'ithoughts_tt_gl_get_term_details',
 								content: contenttype,
-								glossaryId: glossaryId,
+								glossId: glossId,
 								_ajax_nonce: itg.nonce
 							};
 							// If WPML is installed, the tooltip editor allow the user to check the *disable auto translation* option, and this option should be used when querying the API
@@ -430,9 +430,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 									}
 								}
 							});
-						} else if (!isNA(glossaryContent)) {
+						} else if (!isNA(glossContent)) {
 							// #### Static term
-							content = glossaryContent;
+							content = glossContent;
 						}
 					}
 				} else if ($tooltipLink.hasClass('itg-tooltip')) {
@@ -750,9 +750,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			}
 		}
 
-		$d.ready(function onDocumentReady() {
-			itg.doInitTooltips();
-		});
+		$d.ready(itg.doInitTooltips);
 
 		extend($.easing, {
 			/**

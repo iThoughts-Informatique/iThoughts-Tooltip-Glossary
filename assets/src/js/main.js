@@ -26,7 +26,7 @@ const $tooltipsContainer = $( $.parseHTML( '<div id="itg-tipsContainer" class="i
 $( document.body ).append( $tooltipsContainer );
 let $growlContainer = $( '#itg-growl-container' );
 const types = [
-	'glossary',
+	'gloss',
 	'tooltip',
 	'mediatip',
 ];
@@ -220,20 +220,20 @@ itg.doInitTooltips = () => {
 			tipRounded ? ' qtip-rounded' : false,
 		]);
 
-		if ( $tooltipLink.hasClass( 'itg-glossary' )) {
+		if ( $tooltipLink.hasClass( 'itg-gloss' )) {
 			// ### Glossary tips
 			itg.info( 'Do init a GLOSSARYTIP' );
-			tipClasses.push( 'itg-glossary' );
-			const contenttype = takeAttr( 'glossary-contenttype', itg.contenttype );
+			tipClasses.push( 'itg-gloss' );
+			const contenttype = takeAttr( 'gloss-contenttype', itg.contenttype );
 			if ( contenttype !== 'off' ) {
-				const glossaryId = takeAttr( 'glossary-id' );
-				const glossaryContent = takeAttr( 'glossary-content' );
-				if ( !isNA( glossaryId )) {
+				const glossId = takeAttr( 'gloss-id' );
+				const glossContent = takeAttr( 'gloss-content' );
+				if ( !isNA( glossId )) {
 					// Define the `ajaxPostData` that will be used bellow to send the request to the API
 					const ajaxPostData = {
 						action:      'ithoughts_tt_gl_get_term_details',
 						content:     contenttype,
-						glossaryId:  glossaryId,
+						glossId:  glossId,
 						_ajax_nonce: itg.nonce,
 					};
 					// If WPML is installed, the tooltip editor allow the user to check the *disable auto translation* option, and this option should be used when querying the API
@@ -266,9 +266,9 @@ itg.doInitTooltips = () => {
 							},
 						},
 					});
-				} else if ( !isNA( glossaryContent )) {
+				} else if ( !isNA( glossContent )) {
 					// #### Static term
-					content = glossaryContent;
+					content = glossContent;
 				}
 			}
 		} else if ( $tooltipLink.hasClass( 'itg-tooltip' )) {
@@ -575,9 +575,7 @@ function redimVid( video ) {
 	}
 }
 
-$d.ready( function onDocumentReady() {
-	itg.doInitTooltips();
-});
+$d.ready( itg.doInitTooltips );
 
 extend( $.easing, {
 	/**

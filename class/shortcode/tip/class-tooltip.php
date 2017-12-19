@@ -27,7 +27,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 	class Tooltip extends Tip {
-		public function __construct() {
+		public function __construct($backbone) {
+			parent::__construct($backbone);
 			// Shortcode
 			add_shortcode( 'itg-tooltip', array( &$this, 'tooltip_shortcode' ) );
 			add_shortcode( 'tooltip', array( &$this, 'tooltip_shortcode' ) );

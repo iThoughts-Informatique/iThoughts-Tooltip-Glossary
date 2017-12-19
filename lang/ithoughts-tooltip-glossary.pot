@@ -338,7 +338,7 @@ msgstr ""
 
 #: Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-autolink.php:25
 msgctxt ""
-"A list of words to be ignored when trying to match with glossary terms title"
+"A list of words to be ignored when trying to match with glosses title"
 msgid "the a an of in"
 msgstr ""
 
@@ -347,15 +347,15 @@ msgid "Please wait"
 msgstr ""
 
 #: Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-backbone.php:154
-msgid "Loading glossary term"
+msgid "Loading gloss"
 msgstr ""
 
 #: Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-backbone.php:513
-msgid "Private glossary term"
+msgid "Private gloss"
 msgstr ""
 
 #: Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-backbone.php:522
-msgid "Protected glossary term"
+msgid "Protected gloss"
 msgstr ""
 
 #: Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-backbone.php:550
@@ -452,7 +452,7 @@ msgid "Random Term From Glossary"
 msgstr ""
 
 #: Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-randomterm.php:29
-msgid "Add a random glossary term to your sidebar"
+msgid "Add a random gloss to your sidebar"
 msgstr ""
 
 #: Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/class/class-randomterm.php:37
@@ -830,7 +830,7 @@ msgstr ""
 
 #: Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/options.php:112
 #: Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/options.php:208
-msgid "Enable comments on glossary terms"
+msgid "Enable comments on glosses"
 msgstr ""
 
 #: Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/options.php:112
@@ -843,7 +843,7 @@ msgstr ""
 #: Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/dist/options.php:112
 #: Users/gerkin/Desktop/Work/php/wp-plugins/git/ithoughts-tooltip-glossary/templates/src/options.php:211
 msgid ""
-"You may need to enable manually the comments on each glossary terms posted "
+"You may need to enable manually the comments on each glosses posted "
 "before enabling this option."
 msgstr ""
 
@@ -1224,7 +1224,7 @@ msgid "iThoughts Tooltip Glossary"
 msgstr ""
 
 #. Description of the plugin
-msgid "Create beautiful tooltips for descriptions or glossary terms easily"
+msgid "Create beautiful tooltips for descriptions or glosses easily"
 msgstr ""
 
 #. URI of the plugin

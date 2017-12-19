@@ -32,8 +32,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Tooltip' ) ) {
 
 		protected $backbone;
 
-		public function __construct() {
-			$this->backbone = \ithoughts\tooltip_glossary\Backbone::get_instance();
+		public function __construct($backbone) {
+			$this->backbone = $backbone;
 		}
 
 		/**

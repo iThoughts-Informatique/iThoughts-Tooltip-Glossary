@@ -67,7 +67,7 @@ tr.nonoverridable label, .nonoverridable:not(tr){
 }
 .content.wp-editor{
 	a{
-		&[data-type="ithoughts-tooltip-glossary-term"],
+		&[data-type="ithoughts-tooltip-glossary-gloss"],
 		&[data-type="ithoughts-tooltip-glossary-tooltip"],
 		&[data-type="ithoughts-tooltip-glossary-mediatip"]{
 			font-style: italic;
@@ -76,7 +76,7 @@ tr.nonoverridable label, .nonoverridable:not(tr){
 	}
 	span{
 		&[data-type="ithoughts-tooltip-glossary-atoz"],
-		&[data-type="ithoughts-tooltip-glossary-term_list"]{
+		&[data-type="ithoughts-tooltip-glossary-glossary"]{
 			&::after{
 				content: "]";
 				font-size: 1.5em;
@@ -200,7 +200,7 @@ tr.nonoverridable label, .nonoverridable:not(tr){
 	}
 }
 #dashboard-widgets a{
-	&.itg-glossary,
+	&.itg-gloss,
 	&.itg-tooltip,
 	&.itg-mediatip{
 		box-shadow: none;

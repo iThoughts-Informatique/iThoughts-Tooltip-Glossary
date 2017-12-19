@@ -61,7 +61,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		function __construct( $plugin_base, $plugin_name, $options_name ) {
 			parent::__construct($plugin_base, $plugin_name, $options_name);
 
-			$options_config = require('config.php');
+			$options_config = require(dirname(__FILE__).'/config.php');
 
 			$this->default_options = array();
 			foreach ( $options_config as $opt => $val ) {
@@ -82,16 +82,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 
 			$this->handled_attributes = array(
 				'tooltip-content',
-				'glossary-id',
+				'gloss-id',
 				'mediatip-type',
-				'mediatip-content',
-				'mediatip-link',
+				'mediatip-source',
 				'cols',
-				'group',
-				'alpha',
-				'desc',
+				'groups',
+				'alphas',
 				'disable_auto_translation',
-				'list-mode',
 			);
 
 			// Log the load message.
@@ -147,7 +144,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				'qtiptrigger'   => $this->get_option( 'qtiptrigger' ),
 				'qtipshadow'    => $this->get_option( 'qtipshadow' ),
 				'qtiprounded'   => $this->get_option( 'qtiprounded' ),
-				'contenttype'	=> $this->get_option( 'glossary-contenttype' ),
+				'contenttype'	=> $this->get_option( 'gloss-contenttype' ),
 				'verbosity'     	=> $this->get_option( 'verbosity' ),
 				'anims'			=> array(
 					'in'	=> $this->get_option( 'anim_in' ),
@@ -157,7 +154,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				'lang'			=> array(
 					'qtip' => array(
 						'pleasewait_ajaxload' => array(
-							'content' => __( 'Loading glossary term', 'ithoughts-tooltip-glossary' ),
+							'content' => __( 'Loading gloss', 'ithoughts-tooltip-glossary' ),
 						),
 					),
 				),
@@ -247,23 +244,24 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		 * Load & instanciate all shortcode singletons.
 		 */
 		private function add_shortcodes() {
+			
 			// Tooltips.
 			require_once( $this->base_class_path . '/shortcode/tip/class-tip.php' );
 			// Derived classes
 			require_once( $this->base_class_path . '/shortcode/tip/class-tooltip.php' );
-			shortcode\tip\Tooltip::get_instance();
+			shortcode\tip\Tooltip::get_instance($this);
 			require_once( $this->base_class_path . '/shortcode/tip/class-mediatip.php' );
-			shortcode\tip\Mediatip::get_instance();
-			require_once( $this->base_class_path . '/shortcode/tip/class-glossary.php' );
-			shortcode\tip\Glossary::get_instance();
+			shortcode\tip\Mediatip::get_instance($this);
+			require_once( $this->base_class_path . '/shortcode/tip/class-gloss.php' );
+			shortcode\tip\Gloss::get_instance($this);
 
 			// Lists.
-			require_once( $this->base_class_path . '/shortcode/index/class-glossarylist.php' );
+			require_once( $this->base_class_path . '/shortcode/index/class-glosseslist.php' );
 			// Derived classes
 			require_once( $this->base_class_path . '/shortcode/index/class-atoz.php' );
-			shortcode\index\AtoZ::get_instance();
-			require_once( $this->base_class_path . '/shortcode/index/class-termlist.php' );
-			shortcode\index\TermList::get_instance();
+			shortcode\index\AtoZ::get_instance($this);
+			require_once( $this->base_class_path . '/shortcode/index/class-glossary.php' );
+			shortcode\index\Glossary::get_instance($this);
 		}
 
 		/**
@@ -508,14 +506,14 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			check_ajax_referer( 'ithoughts_tt_gl-get_term_details' );
 			$statii = array( 'publish', 'private' );
 			$term   = null;
-			if ( isset( $_GET['glossaryId'] ) ) { // Input var okay.
-				$glossary_id = absint( $_GET['glossaryId'] ); // Input var okay.
+			if ( isset( $_GET['glossId'] ) ) { // Input var okay.
+				$gloss_id = absint( $_GET['glossId'] ); // Input var okay.
 				if ( function_exists( 'icl_object_id' ) ) {
 					if ( ! (isset( $_GET['disable_auto_translation'] ) && 0 !== absint( $_GET['disable_auto_translation'] )) ) { // Input var okay.
-						$glossary_id = apply_filters( 'wpml_object_id', $glossary_id, 'glossary', true, apply_filters( 'wpml_current_language', null ) );
+						$gloss_id = apply_filters( 'wpml_object_id', $gloss_id, 'glossary', true, apply_filters( 'wpml_current_language', null ) );
 					}
 				}
-				$termob = get_post( $glossary_id );
+				$termob = get_post( $gloss_id );
 				if ( get_post_type( $termob ) && 'glossary' === get_post_type( $termob ) && in_array( $termob->post_status, $statii, true ) ) {
 					$term = $termob;
 				}
@@ -533,16 +531,16 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			if ( 'private' === $termob->post_status && ! current_user_can( 'read_private_posts' ) ) {
 				wp_send_json_success( array(
 					'title' => $title,
-					'content' => '<p>' . __( 'Private glossary term', 'ithoughts-tooltip-glossary' ) . '</p>',
+					'content' => '<p>' . __( 'Private gloss', 'ithoughts-tooltip-glossary' ) . '</p>',
 					'nonce_refresh' => $nonce,
 				) );
 			}
 
 			// Don't display password protected items.
-			if ( post_password_required( $glossary_id ) ) {
+			if ( post_password_required( $gloss_id ) ) {
 				wp_send_json_success( array(
 					'title' => $title,
-					'content' => '<p>' . __( 'Protected glossary term', 'ithoughts-tooltip-glossary' ) . '</p>',
+					'content' => '<p>' . __( 'Protected gloss', 'ithoughts-tooltip-glossary' ) . '</p>',
 					'nonce_refresh' => $nonce,
 				) );
 			}
@@ -552,11 +550,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				$content_type = sanitize_text_field( wp_unslash( $_GET['content'] ) ); // Input var okay.
 				switch ( $content_type ) {
 					case 'full':{
-						$content = apply_filters( 'ithoughts_tt_gl_glossary_content', $termob );
+						$content = apply_filters( 'ithoughts_tt_gl_gloss_content', $termob );
 					}break;
 
 					case 'excerpt':{
-						$content = apply_filters( 'ithoughts_tt_gl_glossary_excerpt', $termob );
+						$content = apply_filters( 'ithoughts_tt_gl_gloss_excerpt', $termob );
 					}break;
 
 					case 'off':{

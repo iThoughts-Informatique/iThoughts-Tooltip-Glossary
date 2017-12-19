@@ -16,7 +16,7 @@ class ITGAtoZTest extends WP_UnitTestCase {
 
 
 	private function get_tip_content($post){
-		return apply_filters( 'ithoughts_tt_gl_glossary', null, $post);
+		return apply_filters( 'ithoughts_tt_gl_gloss', null, $post);
 	}
 
 	private function get_link_content($post){

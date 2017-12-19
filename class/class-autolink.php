@@ -22,7 +22,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\AutoLink' ) ) {
 		private $ignoredWords = null;
 
 		public function __construct() {
-			$this->ignoredWords = explode( ' ', _x( 'the a an of in', 'A list of words to be ignored when trying to match with glossary terms title', 'ithoughts-tooltip-glossary' ) );
+			$this->ignoredWords = explode( ' ', _x( 'the a an of in', 'A list of words to be ignored when trying to match with glosses title', 'ithoughts-tooltip-glossary' ) );
 
 			add_action( 'init',	array( &$this, 'register_ajax_hooks' ) );
 		}

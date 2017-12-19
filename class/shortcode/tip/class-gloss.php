@@ -22,29 +22,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
+if ( ! class_exists( __NAMESPACE__ . '\\Gloss' ) ) {
+	require_once(dirname(__FILE__).'/class-tip.php');
 	/**
 	 * Main class for iThoughts Tooltip Glossary gloss shortcodes & filters
 	 *
 	 * @author Gerkin
 	 */
-	class Glossary extends Tip {
+	class Gloss extends Tip {
+		const GLOSS_MODE_NONE = 'none';
+		const GLOSS_MODE_EXCERPT = 'excerpt';
+		const GLOSS_MODE_FULL = 'full';
 
 		/**
 		 * Register filters, actions & shortcodes
 		 *
 		 * @author Gerkin
 		 */
-		public function __construct() {
+		public function __construct($backbone) {
+			parent::__construct($backbone);
 			// Shortcodes.
 			add_shortcode( 'itg-gloss', array( &$this, 'gloss_shortcode' ) );
-			add_shortcode( 'gloss', array( &$this, 'gloss_shortcode' ) );
 
 			// Filters.
 			add_filter( 'ithoughts_tt_gl_gloss', array( $this, 'generate_gloss' ), 10, 3 );
 			add_filter( 'ithoughts_tt_gl_gloss_content', array( $this, 'gloss_content' ) );
 			add_filter( 'ithoughts_tt_gl_gloss_excerpt', array( &$this, 'gloss_excerpt' ) );
-			add_filter( 'ithoughts_tt_gl_gloss_get_term_attributes', array( &$this, 'get_term_attributes' ), 10, 2 );
+			add_filter( 'ithoughts_tt_gl_gloss_attributes', array( &$this, 'gloss_attributes' ), 10, 2 );
 		}
 
 		/** */
@@ -86,7 +90,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 			return do_shortcode( apply_filters( 'the_content', $post->post_content ) );
 		}
 
-		public function get_term_attributes( $contenttype, \WP_Post $term = null ){
+		public function gloss_attributes( $contenttype, \WP_Post $term = null ){
 			$attributes = array();
 			if($term instanceof \WP_Post){
 				$attributes['title'] = get_the_title( $term );
@@ -171,7 +175,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 			}
 
 			unset($datas['clientSide']['gloss-contenttype']);
-			$contenttype = apply_filters('ithoughts_tt_gl_gloss_get_term_attributes', $serverSide['gloss-contenttype'], $term);
+			$contenttype = apply_filters('ithoughts_tt_gl_gloss_attributes', $serverSide['gloss-contenttype'], $term);
 			$datas['attributes'] = array_replace_recursive($contenttype, $datas['attributes']);
 
 			if ( is_null( $text ) || strlen($text) === 0 ) {

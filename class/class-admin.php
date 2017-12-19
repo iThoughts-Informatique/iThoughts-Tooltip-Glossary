@@ -17,7 +17,8 @@ namespace ithoughts\tooltip_glossary;
 use \ithoughts\v6_0\Toolbox as TB;
 use \ithoughts\v6_0\Input as Input;
 
-use ithoughts\tooltip_glossary\shortcode\index\GlossaryList as GlossaryList;
+use ithoughts\tooltip_glossary\shortcode\index\Glossary as Glossary;
+use ithoughts\tooltip_glossary\shortcode\tip\Gloss as Gloss;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	// Exit if accessed directly.
@@ -602,24 +603,24 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					),
 				)
 			);
-			$options_inputs['glossary-contenttype'] = Input::create_select_input(
-				'glossary-contenttype',
+			$options_inputs['gloss-contenttype'] = Input::create_select_input(
+				'gloss-contenttype',
 				array(
-					'selected' => $options['glossary-contenttype'],
+					'selected' => $options['gloss-contenttype'],
 					'options'  => array(
-						'full'	=> array(
+						Gloss::GLOSS_MODE_FULL	=> array(
 							'text'	=> __( 'Full', 'ithoughts-tooltip-glossary' ),
 							'attributes'	=> array(
 								'title'	=> __( 'Display full post content', 'ithoughts-tooltip-glossary' ),
 							),
 						),
-						'excerpt'	=> array(
+						Gloss::GLOSS_MODE_EXCERPT	=> array(
 							'text'	=> __( 'Excerpt', 'ithoughts-tooltip-glossary' ),
 							'attributes'	=> array(
 								'title'	=> __( 'Display shorter excerpt content', 'ithoughts-tooltip-glossary' ),
 							),
 						),
-						'off'	=> array(
+						Gloss::GLOSS_MODE_NONE	=> array(
 							'text'	=> __( 'Off', 'ithoughts-tooltip-glossary' ),
 							'attributes'	=> array(
 								'title'	=> __( 'Do not display tooltip at all', 'ithoughts-tooltip-glossary' ),
@@ -681,25 +682,25 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				array(
 					'selected' => $options['list-contenttype'],
 					'options'  => array(
-						GlossaryList::LIST_MODE_FULL	=> array(
+						Glossary::LIST_MODE_FULL	=> array(
 							'text'	=> __( 'Full', 'ithoughts-tooltip-glossary' ),
 							'attributes'	=> array(
 								'title'	=> __( 'Display full post content', 'ithoughts-tooltip-glossary' ),
 							),
 						),
-						GlossaryList::LIST_MODE_EXCERPT	=> array(
+						Glossary::LIST_MODE_EXCERPT	=> array(
 							'text'	=> __( 'Excerpt', 'ithoughts-tooltip-glossary' ),
 							'attributes'	=> array(
 								'title'	=> __( 'Display shorter excerpt content', 'ithoughts-tooltip-glossary' ),
 							),
 						),
-						GlossaryList::LIST_MODE_TIP	=> array(
+						Glossary::LIST_MODE_TIP	=> array(
 							'text'	=> __( 'Tooltips', 'ithoughts-tooltip-glossary' ),
 							'attributes'	=> array(
 								'title'	=> __( 'Display term with a tooltip', 'ithoughts-tooltip-glossary' ),
 							),
 						),
-						GlossaryList::LIST_MODE_LINK	=> array(
+						Glossary::LIST_MODE_LINK	=> array(
 							'text'	=> __( 'Links only', 'ithoughts-tooltip-glossary' ),
 							'attributes'	=> array(
 								'title'	=> __( 'Use a simple link', 'ithoughts-tooltip-glossary' ),
@@ -1218,7 +1219,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			$inputs['qtip-content'] = Input::create_select_input(
 				'qtip-content',
 				array(
-					'selected' => isset( $opts['glossary-contenttype'] ) ? $opts['glossary-contenttype'] : '',
+					'selected' => isset( $opts['gloss-contenttype'] ) ? $opts['gloss-contenttype'] : '',
 					'options'  => array(
 						'' => __( 'Default', 'ithoughts-tooltip-glossary' ),
 						'full'	=> array(

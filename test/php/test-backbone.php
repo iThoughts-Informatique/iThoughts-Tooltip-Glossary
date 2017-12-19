@@ -18,25 +18,25 @@ class ITGBackboneTest extends WP_UnitTestCase {
 
 		// Test for server overrides
 		$ret = $backbone->override_options(array(
-			'glossary-contenttype' => 'full',
+			'gloss-contenttype' => 'full',
 			'termlinkopt' => 'blank',
 			'qtipstyle' => 'bootstrap',
 			'verbosity' => 1,
 		), false);
 		$this->assertEqualSets(array(
-			'glossary-contenttype' => 'full',
+			'gloss-contenttype' => 'full',
 			'termlinkopt' => 'blank',
 		), $ret);
 		// Test for client overrides
 
 		$ret = $backbone->override_options(array(
-			'glossary-contenttype' => 'full',
+			'gloss-contenttype' => 'full',
 			'termlinkopt' => 'blank',
 			'qtipstyle' => 'bootstrap',
 			'verbosity' => 1,
 		), true);
 		$this->assertEqualSets(array(
-			'glossary-contenttype' => 'full',
+			'gloss-contenttype' => 'full',
 			'qtipstyle' => 'bootstrap',
 		), $ret);
 	}

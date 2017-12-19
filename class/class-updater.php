@@ -630,7 +630,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Updater' ) ) {
 					'new_name' => 'itg-gloss',
 					'attributes' => array(
 						'termcontent' => array(
-							'new_name' => 'gloss-content',
+							'new_name' => 'gloss-contenttype',
 						),
 						'glossary-id' => array(
 							'new_name' => 'gloss-id',
@@ -638,6 +638,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Updater' ) ) {
 					) + $tip_attrs,
 				),
 				'itg-tooltip' => array(
+					'attributes' => $tip_attrs,
+				),
+				'itg-mediatip' => array(
 					'attributes' => $tip_attrs,
 				),
 
@@ -659,15 +662,11 @@ if ( ! class_exists( __NAMESPACE__ . '\\Updater' ) ) {
 			$matches;
 
 			foreach($diff as $shortcode => $shortcode_newconf){
-				if(has_shortcode($content, $shortcode)){
-					echo 'Has '.$shortcode;
-					preg_match_all('/'.get_shortcode_regex(array($shortcode)).'/', $content, $matches);
-					var_dump($matches);
+				if(preg_match_all('/'.get_shortcode_regex(array($shortcode)).'/', $content, $matches)){
 					foreach ( $matches[0] as $index => $matched ) {
 						// Check if the diff configured a new name for the tag
 						$tag_name = isset($shortcode_newconf['new_name']) ? $shortcode_newconf['new_name'] : $shortcode;
 						$attrs = shortcode_parse_atts( $matches[3][$index] );
-						var_dump($attrs);
 						if(is_string($attrs)){
 							$attrs = array();
 						} elseif(isset($shortcode_newconf['attributes'])) {

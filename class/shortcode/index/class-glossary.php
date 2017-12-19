@@ -21,11 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
-	class Glossary extends TermsList {
-		public function __construct() {
+	class Glossary extends GlossesList {
+		public function __construct($backbone) {
 			add_shortcode( 'itg-glossary', array( $this, 'do_shortcode' ) );
 
-			parent::__construct('glossary');
+			parent::__construct($backbone, 'glossary');
 		}
 
 		public function generate_list( $text = '', $groups = array(), $letters = array(), $options = array() ) {
@@ -49,7 +49,6 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 					$index_items[]  = '<li class="glossary-item">'.$page.'</li>';
 				}
 			}
-			//			Toolbox::pretty_log($index_items);
 
 			if ( ! isset( $options['handled']['cols'] ) || $options['handled']['cols'] == 0 || $options['handled']['cols'] === false ) {
 				$options['handled']['cols'] = 1; // set col size to all items
