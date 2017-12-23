@@ -34,13 +34,13 @@ casper.start( config.test_site.site_url + '/wp-admin', function start() {
 	});
 }).then( function changeOptions() {
 	afterValues = {
-		qtiptrigger: pickDifferentOption( pickPossibleOptions( '#qtiptrigger' ), beforeValues.qtiptrigger ),
-		qtipstyle:   pickDifferentOption( pickPossibleOptions( '#qtipstyle' ), beforeValues.qtipstyle ),
-		qtipshadow:  !beforeValues.qtipshadow,
-		qtiprounded: !beforeValues.qtiprounded,
-		anim_in:     pickDifferentOption( pickPossibleOptions( '#anim_in' ), beforeValues.anim_in ),
-		anim_out:    pickDifferentOption( pickPossibleOptions( '#anim_out' ), beforeValues.anim_out ),
-		anim_time:   pickDifferentOption([ '1000', '750', '666', '500', '250' ], beforeValues.anim_time ),
+		tipTrigger: pickDifferentOption( pickPossibleOptions( '#tip-trigger' ), beforeValues.tipTrigger ),
+		tipStyle:   pickDifferentOption( pickPossibleOptions( '#tip-style' ), beforeValues.tipStyle ),
+		tipShadow:  !beforeValues.tipShadow,
+		tipRounded: !beforeValues.tipRounded,
+		tipAnimIn:     pickDifferentOption( pickPossibleOptions( '#tip-anim-in' ), beforeValues.tipAnimIn ),
+		tipAnimOut:    pickDifferentOption( pickPossibleOptions( '#tip-anim-out' ), beforeValues.tipAnimOut ),
+		tipAnimTime:   pickDifferentOption([ '1000', '750', '666', '500', '250' ], beforeValues.tipAnimTime ),
 	};
 	this.fill( 'form.simpleajaxform', afterValues, true );
 }).waitForSelector( '.clear.notice', function updateDone() {

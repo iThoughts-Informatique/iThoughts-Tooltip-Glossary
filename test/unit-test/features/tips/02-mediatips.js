@@ -40,7 +40,7 @@ casper.start( config.test_site.site_url + '/wp-admin', function start() {
 			return this.triggerError( 2, 'Can\'t find dom elements' );
 		}
 		var trigger = this.evaluate( function getTooltipTrigger() {
-			return iThoughtsTooltipGlossary.qtiptrigger;
+			return iThoughtsTooltipGlossary.tipTrigger;
 		});
 		doTrigger( '.itg-mediatip[data-hasqtip="0"] a', trigger );
 	});

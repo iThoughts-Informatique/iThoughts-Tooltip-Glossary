@@ -13,6 +13,7 @@
 
 const utils     = require( './tinymce-utils' );
 const filters   = require( './tinymce-filters' );
+const formHandler = require('./form-handler');
 
 const ithoughts = iThoughts.v5;
 const itg       = iThoughtsTooltipGlossary;

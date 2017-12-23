@@ -1,5 +1,3 @@
-"use strict";
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -72,9 +70,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       var events = 'change blur keyup mouseup';
 
       // Styles
-      var $styleI = $('#qtipstyle');
-      var $shadowI = $('#qtipshadow');
-      var $roundedI = $('#qtiprounded');
+      var $styleI = $('#tip-style');
+      var $shadowI = $('#tip-shadow');
+      var $roundedI = $('#tip-rounded');
       ithoughts.$merge($styleI, $shadowI, $roundedI).bind(events, function () {
         var baseStyles = ['ithoughts_tt_gl-tooltip', 'qtip-pos-br'];
         if ($shadowI.is(':checked')) {
@@ -87,10 +85,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       });
 
       // Events & effects
-      var $triggerI = $('#qtiptrigger');
-      var $animInI = $('#anim_in');
-      var $animOutI = $('#anim_out');
-      var $animTimeI = $('#anim_time');
+      var $triggerI = $('#tip-trigger');
+      var $animInI = $('#tip-anim-in');
+      var $animOutI = $('#tip-anim-out');
+      var $animTimeI = $('#tip-anim-time');
       ithoughts.$merge($triggerI, $animInI, $animOutI, $animTimeI).bind(events, function () {
         // Set the demotip as configured in the inputs
         var trigger = $triggerI.val();
@@ -138,7 +136,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       }).trigger('input');
 
       // Page index
-      var $glossaryIndex = $('#glossaryindex');
+      var $glossaryIndex = $('#glossary-index');
       $glossaryIndex.bind(events.replace('blur', '').replace('mouseup', ''), function () {
         if ('new' === $glossaryIndex.val() && itg.indexPageEditor) {
           $glossaryIndex.focusout();

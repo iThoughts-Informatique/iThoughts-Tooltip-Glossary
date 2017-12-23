@@ -35,7 +35,7 @@ return array(
 		'default'		=> 'group',
 		'type'			=> 0,
 	),
-	'qtipstyle'		=> array(
+	'tip-style'		=> array(
 		'default'		=> 'cream',
 		'type'			=> Backbone::CLIENT_OVR,
 	),
@@ -43,15 +43,15 @@ return array(
 		'default'		=> 'standard',
 		'type'			=> Backbone::SERVER_OVR,
 	),
-	'qtiptrigger'	=> array(
+	'tip-trigger'	=> array(
 		'default'		=> 'click',
 		'type'			=> Backbone::CLIENT_OVR,
 	),
-	'qtipshadow'	=> array(
+	'tip-shadow'	=> array(
 		'default'		=> true,
 		'type'			=> Backbone::CLIENT_OVR,
 	),
-	'qtiprounded'	=> array(
+	'tip-rounded'	=> array(
 		'default'		=> false,
 		'type'			=> Backbone::CLIENT_OVR,
 	),
@@ -67,15 +67,15 @@ return array(
 		'default'		=> LogLevel::ERROR,
 		'type'			=> 0,
 	),
-	'anim_in'		=> array(
+	'tip-anim-in'		=> array(
 		'default'		=> 'none',
 		'type'			=> Backbone::CLIENT_OVR,
 	),
-	'anim_out'		=> array(
+	'tip-anim-out'		=> array(
 		'default'		=> 'none',
 		'type'			=> Backbone::CLIENT_OVR,
 	),
-	'anim_time'		=> array(
+	'tip-anim-time'		=> array(
 		'default'		=> 500,
 		'type'			=> Backbone::CLIENT_OVR,
 	),

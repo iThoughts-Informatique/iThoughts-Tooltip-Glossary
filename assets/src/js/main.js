@@ -69,7 +69,7 @@ $( 'body' ).bind( 'click touch', event => {
 
 const linkEventHandlers = {
 	click( event ) {
-		const trigger = this.getAttribute( 'data-tip-trigger' ) || itg.qtiptrigger;
+		const trigger = this.getAttribute( 'data-tip-trigger' ) || itg.tipTrigger;
 		if ( 'responsive' === trigger ) {
 			if ( !linksExpanded.get( this ) && linksTouch.get( this ) !== 0 ) {
 				linksExpanded.set( this, true );
@@ -173,10 +173,10 @@ itg.doInitTooltips = () => {
 		const qTipConfigComponents = [ defaultComonTipOptions ];
 
 		/* Use provided data or use the default settings */
-		const qtiptrigger = takeAttr( 'qtiptrigger', itg.qtiptrigger );
+		const tipTrigger = takeAttr( 'tip-trigger', itg.tipTrigger );
 		qTipConfigComponents.push({
-			show: { event: qtiptrigger },
-			hide: { event: ( 'responsive' === qtiptrigger ) ? 'responsiveout' : 'mouseleave' },
+			show: { event: tipTrigger },
+			hide: { event: ( 'responsive' === tipTrigger ) ? 'responsiveout' : 'mouseleave' },
 		});
 		$tooltipLink
 			.click( linkEventHandlers.click )
@@ -187,17 +187,17 @@ itg.doInitTooltips = () => {
 
 		qTipConfigComponents.push({
 			show: {
-				effect: comon.get( itg.animationFunctions.in, [ takeAttr( 'animation_in', 'none' ) ], itg.animationFunctions.in.none ),
+				effect: comon.get( itg.animationFunctions.in, [ takeAttr( 'tip-anim-in', 'none' ) ], itg.animationFunctions.in.none ),
 			},
 			hide: {
-				effect: comon.get( itg.animationFunctions.out, [ takeAttr( 'animation_out', 'none' ) ], itg.animationFunctions.in.none ),
+				effect: comon.get( itg.animationFunctions.out, [ takeAttr( 'tip-anim-out', 'none' ) ], itg.animationFunctions.in.none ),
 			},
 		});
 
-		const tipStyle = takeAttr( 'tip-style', itg.qtipstyle );
+		const tipStyle = takeAttr( 'tip-style', itg.tip-style );
 		const classes = takeAttr( 'tip-classes', '' );
-		const tipShadow = takeAttr( 'tip-shadow', itg.qtipshadow );
-		const tipRounded = takeAttr( 'tip-rounded', itg.qtiprounded );
+		const tipShadow = takeAttr( 'tip-shadow', itg.tipShadow );
+		const tipRounded = takeAttr( 'tip-rounded', itg.tipRounded );
 
 		qTipConfigComponents.push({
 			position: {
@@ -365,7 +365,7 @@ itg.doInitTooltips = () => {
 		if ( $tooltipLink.data( 'tip-id' )) {
 			qTipConfigComponents.push({  id: $tooltipLink.data( 'tip-id' ) });
 		}
-		if ( $tooltipLink.data( 'qtip-keep-open' ) || $tooltipLink.hasClass( 'itg-mediatip' )) {
+		if ( $tooltipLink.data( 'tip-keep-open' ) || $tooltipLink.hasClass( 'itg-mediatip' )) {
 			qTipConfigComponents.push({
 				hide: {
 					fixed: true,
@@ -406,9 +406,9 @@ const ensureJQuery = val => {
 };
 const getDefaultStyles = () => {
 	return [
-		`qtip-${ itg.qtipstyle }`,
-		itg.qtipshadow,
-		itg.qtiprounded,
+		`qtip-${ itg.tip-style }`,
+		itg.tipShadow,
+		itg.tipRounded,
 	].filter(v => !!v).join(' ');
 }
 

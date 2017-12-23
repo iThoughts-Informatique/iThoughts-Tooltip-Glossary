@@ -56,22 +56,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<table>
 									<tr>
 										<td>
-											<label for="<?php echo esc_attr($inputs['ithoughts_tt_gl_text']->get_id()); ?>">
+											<label for="<?php echo esc_attr($inputs['tag-text']->get_id()); ?>">
 												<?php esc_html_e( 'Text', 'ithoughts-tooltip-glossary' ); ?>
 											</label>
 										</td>
 										<td>
-											<?php $inputs['ithoughts_tt_gl_text']->do_print(); ?>
+											<?php $inputs['tag-text']->do_print(); ?>
 										</td>
 									</tr>
 									<tr>
 										<td>
-											<label for="<?php echo esc_attr($inputs['ithoughts_tt_gl_link']->get_id()); ?>">
+											<label for="<?php echo esc_attr($inputs['tag-link']->get_id()); ?>">
 												<?php esc_html_e( 'Link', 'ithoughts-tooltip-glossary' ); ?>
 											</label>
 										</td>
 										<td>
-											<?php $inputs['ithoughts_tt_gl_link']->do_print(); ?>
+											<?php $inputs['tag-link']->do_print(); ?>
 										</td>
 									</tr>
 								</table>
@@ -79,8 +79,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 							<div class="tab-container">
 								<ul class="tabs" role="tablist">
-									<li class="<?php echo ('glossary' === $data['type']) ? 'active' : ''; ?>" role="tab" tabindex="-1">
-										<?php esc_html_e( 'Glossary term', 'ithoughts-tooltip-glossary' ); ?>
+									<li class="<?php echo ('gloss' === $data['type']) ? 'active' : ''; ?>" role="tab" tabindex="-1">
+										<?php esc_html_e( 'Gloss', 'ithoughts-tooltip-glossary' ); ?>
 									</li>
 
 									<li class="<?php echo ('tooltip' === $data['type']) ? 'active' : ''; ?>" role="tab" tabindex="-1">
@@ -112,17 +112,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 										?>
 										<tr>
 											<td>
-												<label for="<?php echo esc_attr($inputs['glossary_term']->get_id()) ?>">
+												<label for="<?php echo esc_attr($inputs['gloss-title']->get_id()) ?>">
 													<?php esc_html_e( 'Term', 'ithoughts-tooltip-glossary' ); ?>
 												</label>
 											</td>
 											<td>
-												<?php $inputs['glossary_term']->do_print() ?>
-												<div class="glossary_term_completer_container" class="hidden">
-													<div id="glossary_term_completer" class="completer">
+												<?php $inputs['gloss-title']->do_print() ?>
+												<div class="gloss-title_completer_container" class="hidden">
+													<div id="gloss-title_completer" class="completer">
 													</div>
 												</div>
-												<?php $inputs['glossary_term_id']->do_print() ?>
+												<?php $inputs['gloss-id']->do_print() ?>
 											</td>
 										</tr>
 										<?php
@@ -130,12 +130,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 										?>
 										<tr>
 											<td>
-												<label for="<?php echo esc_attr($inputs['glossary_disable_auto_translation']->get_id()) ?>">
+												<label for="<?php echo esc_attr($inputs['disable_auto_translation']->get_id()) ?>">
 													<?php esc_html_e( 'Disable<br/>auto-translation', 'ithoughts-tooltip-glossary' ); ?>
 												</label>
 											</td>
 											<td>
-												<?php $inputs['glossary_disable_auto_translation']->do_print() ?>
+												<?php $inputs['disable_auto_translation']->do_print() ?>
 											</td>
 										</tr>
 										<?php
@@ -150,11 +150,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<table>
 										<tr>
 											<td colspan="2">
-												<label for="<?php echo esc_attr($inputs['ithoughts_tt_gl-tooltip-content']->get_id()) ?>">
+												<label for="<?php echo esc_attr($inputs['tooltip-content']->get_id()) ?>">
 													<?php esc_html_e( 'Content', 'ithoughts-tooltip-glossary' ); ?>
 												</label>
 												<div style="margin:0 -11px;">
-													<?php $inputs['ithoughts_tt_gl-tooltip-content']->do_print() ?>
+													<?php $inputs['tooltip-content']->do_print() ?>
 												</div>
 											</td>
 										</tr>
@@ -206,12 +206,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 										</tr>
 										<tr data-mediatip_type="mediatip-webimage-type mediatip-localimage-type">
 											<td>
-												<label for="<?php echo esc_attr($inputs['mediatip_caption']->get_id()); ?>">
+												<label for="<?php echo esc_attr($inputs['mediatip-caption']->get_id()); ?>">
 													<?php esc_html_e( 'Caption', 'ithoughts-tooltip-glossary' ); ?>
 												</label>
 											</td>
 											<td>
-												<?php $inputs['mediatip_caption']->do_print(); ?>
+												<?php $inputs['mediatip-caption']->do_print(); ?>
 											</td>
 										</tr>
 										<tr data-mediatip_type="mediatip-webvideo-type">
@@ -305,7 +305,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											</tr>
 											<tr>
 												<td>
-													<label for="<?php echo esc_attr($inputs['qtip-keep-open']->get_id()); ?>">
+													<label for="<?php echo esc_attr($inputs['tip-keep-open']->get_id()); ?>">
 														<?php
 														$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip', esc_html__( 'Delay tooltip hide', 'ithoughts-tooltip-glossary' ), esc_html__( 'Add a timer of 500ms before hiding the tooltip. This allow the user to click into the tip. This option is enabled by default for video mediatips.', 'ithoughts-tooltip-glossary' ) );
 														echo wp_kses(
@@ -324,48 +324,48 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</label>
 												</td>
 												<td>
-													<?php $inputs['qtip-keep-open']->do_print(); ?>
+													<?php $inputs['tip-keep-open']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>
 												<td>
-													<label for="<?php echo esc_attr($inputs['qtiptrigger']->get_id()); ?>">
+													<label for="<?php echo esc_attr($inputs['tip-trigger']->get_id()); ?>">
 														<?php esc_html_e( 'Tooltip trigger', 'ithoughts-tooltip-glossary' ); ?>
 													</label>
 												</td>
 												<td>
-													<?php $inputs['qtiptrigger']->do_print(); ?>
-													<?php $inputs['qtiptriggerText']->do_print(); ?>
+													<?php $inputs['tip-trigger']->do_print(); ?>
+													<?php $inputs['tip-triggerText']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>
 												<td>
-													<label for="<?php echo esc_attr($inputs['qtipstyle']->get_id()); ?>">
+													<label for="<?php echo esc_attr($inputs['tip-style']->get_id()); ?>">
 														<?php esc_html_e( 'Tooltip style', 'ithoughts-tooltip-glossary' ); ?>
 													</label>
 												</td>
 												<td>
-													<?php $inputs['qtipstyle']->do_print(); ?>
+													<?php $inputs['tip-style']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>
 												<td>
-													<label for="<?php echo esc_attr($inputs['qtipshadow']->get_id()); ?>">
+													<label for="<?php echo esc_attr($inputs['tip-shadow']->get_id()); ?>">
 														<?php esc_html_e( 'Tooltip shadow', 'ithoughts-tooltip-glossary' ); ?>
 													</label>
 												</td>
 												<td>
-													<?php $inputs['qtipshadow']->do_print(); ?>
+													<?php $inputs['tip-shadow']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>
 												<td>
-													<label for="<?php echo esc_attr($inputs['qtiprounded']->get_id()); ?>">
+													<label for="<?php echo esc_attr($inputs['tip-rounded']->get_id()); ?>">
 														<?php esc_html_e( 'Rounded corners', 'ithoughts-tooltip-glossary' ); ?>
 													</label>
 												</td>
 												<td>
-													<?php $inputs['qtiprounded']->do_print(); ?>
+													<?php $inputs['tip-rounded']->do_print(); ?>
 												</td>
 											</tr>
 											<tr>

@@ -102,8 +102,8 @@ class ITGUpdate_3_1_0 extends WP_UnitTestCase {
 		);
 
 		$this->assertDiscardWhitespace(
-			'[itg-gloss gloss-contenttype="full" gloss-id="21" tip-animation-in="appear" tip-animation-out="zoomout" tip-animation-time="800" tip-maxwidth="500px" tip-position-at="bottom center" tip-position-my="top center" tip-rounded="true" tip-shadow="false" tip-style="youtube" tip-trigger="responsive"]Another, with advanded options[/itg-gloss]',
-			$this->updater->update_to_3_1_0('[itg-glosscontent="full" qtiprounded="true" qtipshadow="false" qtipstyle="youtube" qtiptrigger="responsive" position-at="bottom center" position-my="top center" animation_in="appear" animation_out="zoomout" animation_time="800" tooltip-maxwidth="500px" glossary-id="21"]Another, with advanded options[/itg-glossary]')
+			'[itg-gloss gloss-contenttype="full" gloss-id="21" tip-anim-in="appear" tip-anim-out="zoomout" tip-anim-time="800" tip-maxwidth="500px" tip-position-at="bottom center" tip-position-my="top center" tip-rounded="true" tip-shadow="false" tip-style="youtube" tip-trigger="responsive"]Another, with advanded options[/itg-gloss]',
+			$this->updater->update_to_3_1_0('[itg-glossary termcontent="full" qtiprounded="true" qtipshadow="false" qtipstyle="youtube" qtiptrigger="responsive" position-at="bottom center" position-my="top center" animation_in="appear" animation_out="zoomout" animation_time="800" tooltip-maxwidth="500px" glossary-id="21"]Another, with advanded options[/itg-glossary]')
 		);
 	}
 
@@ -114,7 +114,7 @@ class ITGUpdate_3_1_0 extends WP_UnitTestCase {
 		);
 
 		$this->assertDiscardWhitespace(
-			'[itg-tooltip tip-animation-in="appear" tip-animation-out="zoomout" tip-animation-time="800" tip-maxwidth="500px" tip-position-at="bottom center" tip-position-my="top center" tip-rounded="true" tip-shadow="false" tip-style="youtube" tip-trigger="responsive" tooltip-content="&lt;p&gt;This is the content&lt;/p&gt;"]Another, with advanded options[/itg-tooltip]',
+			'[itg-tooltip tip-anim-in="appear" tip-anim-out="zoomout" tip-anim-time="800" tip-maxwidth="500px" tip-position-at="bottom center" tip-position-my="top center" tip-rounded="true" tip-shadow="false" tip-style="youtube" tip-trigger="responsive" tooltip-content="&lt;p&gt;This is the content&lt;/p&gt;"]Another, with advanded options[/itg-tooltip]',
 			$this->updater->update_to_3_1_0('[itg-tooltip qtiprounded="true" qtipshadow="false" qtipstyle="youtube" qtiptrigger="responsive" position-at="bottom center" position-my="top center" animation_in="appear" animation_out="zoomout" animation_time="800" tooltip-maxwidth="500px" tooltip-content="&lt;p&gt;This is the content&lt;/p&gt;"]Another, with advanded options[/itg-tooltip]')
 		);
 	}
@@ -126,8 +126,8 @@ class ITGUpdate_3_1_0 extends WP_UnitTestCase {
 		);
 
 		$this->assertDiscardWhitespace(
-			'[itg-tooltip tip-animation-in="appear" tip-animation-out="zoomout" tip-animation-time="800" tip-maxwidth="500px" tip-position-at="bottom center" tip-position-my="top center" tip-rounded="true" tip-shadow="false" tip-style="youtube" tip-trigger="responsive" tooltip-content="&lt;p&gt;This is the content&lt;/p&gt;"]Another, with advanded options[/itg-tooltip]',
-			$this->updater->update_to_3_1_0('[itg-tooltip qtiprounded="true" qtipshadow="false" qtipstyle="youtube" qtiptrigger="responsive" position-at="bottom center" position-my="top center" animation_in="appear" animation_out="zoomout" animation_time="800" tooltip-maxwidth="500px" tooltip-content="&lt;p&gt;This is the content&lt;/p&gt;"]Another, with advanded options[/itg-tooltip]')
+			'[itg-tooltip tip-anim-in="appear" tip-anim-out="zoomout" tip-anim-time="800" tip-maxwidth="500px" tip-position-at="bottom center" tip-position-my="top center" tip-rounded="true" tip-shadow="false" tip-style="youtube" tip-trigger="responsive" tooltip-content="&lt;p&gt;This is the content&lt;/p&gt;"]Another, with advanded options[/itg-tooltip]',
+			$this->updater->update_to_3_1_0('[itg-tooltip tipRounded="true" qtipshadow="false" qtipstyle="youtube" tipTrigger="responsive" position-at="bottom center" position-my="top center" animation_in="appear" animation_out="zoomout" animation_time="800" tooltip-maxwidth="500px" tooltip-content="&lt;p&gt;This is the content&lt;/p&gt;"]Another, with advanded options[/itg-tooltip]')
 		);
 	}
 }

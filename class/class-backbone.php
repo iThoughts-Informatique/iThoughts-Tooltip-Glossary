@@ -140,17 +140,21 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				// Get the API endpoint. See https://wordpress.stackexchange.com/questions/144822/what-is-the-best-practice-to-check-for-pretty-permalinks.
 				'apiurl'		=> get_site_url( null, '' !== get_option( 'permalink_structure' ) ? 'wp-json' : '?rest_route=' ) . '/wp/v2',
 				'baseurl'		=> $this->base_url,
-				'qtipstyle'     => $this->get_option( 'qtipstyle' ),
-				'qtiptrigger'   => $this->get_option( 'qtiptrigger' ),
-				'qtipshadow'    => $this->get_option( 'qtipshadow' ),
-				'qtiprounded'   => $this->get_option( 'qtiprounded' ),
-				'contenttype'	=> $this->get_option( 'gloss-contenttype' ),
-				'verbosity'     	=> $this->get_option( 'verbosity' ),
-				'anims'			=> array(
-					'in'	=> $this->get_option( 'anim_in' ),
-					'out'	=> $this->get_option( 'anim_out' ),
-					'duration'	=> $this->get_option( 'anim_time' ),
+				'tip' => array(
+					'style'     => $this->get_option( 'tip-style' ),
+					'trigger'   => $this->get_option( 'tip-trigger' ),
+					'shadow'    => $this->get_option( 'tip-shadow' ),
+					'rounded'   => $this->get_option( 'tip-rounded' ),
+					'anim'			=> array(
+						'in'	=> $this->get_option( 'tip-anim-in' ),
+						'out'	=> $this->get_option( 'tip-anim-out' ),
+						'duration'	=> $this->get_option( 'tip-anim-time' ),
+					),
 				),
+				'gloss' => array(
+					'contenttype'	=> $this->get_option( 'gloss-contenttype' ),
+				),
+				'verbosity'     	=> intval($this->get_option( 'verbosity' )),
 				'lang'			=> array(
 					'qtip' => array(
 						'pleasewait_ajaxload' => array(
@@ -244,7 +248,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		 * Load & instanciate all shortcode singletons.
 		 */
 		private function add_shortcodes() {
-			
+
 			// Tooltips.
 			require_once( $this->base_class_path . '/shortcode/tip/class-tip.php' );
 			// Derived classes

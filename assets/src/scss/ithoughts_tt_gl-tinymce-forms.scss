@@ -253,7 +253,7 @@
 	$activecolor: lighten(#04b0db, 50%);
 	$bordercolor: #ccc;
 	$hovercolor: #f4f4f4;
-	.glossary_term_completer_container{
+	.gloss-title_completer_container{
 		background: #fff;
 		box-shadow: 0 0 6px 2px grey;
 		max-width: 100%;
@@ -398,7 +398,7 @@
 	background: #000;
 	height: 100%;
 	left: 0;
-	opacity: 0;
+	opacity: 0.75;
 	position: fixed;
 	top: 0;
 	width: 100%;

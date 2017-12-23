@@ -35,9 +35,9 @@ class ITGFiltersTest extends WP_UnitTestCase {
 		$this->assertEquals(array(
 			'handled' => array(),
 			'serverSide' => array(),
-			'clientSide' => array('qtipstyle' => 'bar'),
+			'clientSide' => array('tip-style' => 'bar'),
 			'attributes' => array(),
-		), $this->filters_class->split_attrs(array('qtipstyle' => 'bar')));
+		), $this->filters_class->split_attrs(array('tip-style' => 'bar')));
 
 		$this->assertEquals(array(
 			'handled' => array(),
@@ -72,9 +72,9 @@ class ITGFiltersTest extends WP_UnitTestCase {
 		$this->assertEquals(array(
 			'handled' => array(),
 			'serverSide' => array(),
-			'clientSide' => array('qtipstyle' => 'bar'),
+			'clientSide' => array('tip-style' => 'bar'),
 			'attributes' => array(),
-		), apply_filters('ithoughts_tt_gl-split-attributes', array('qtipstyle' => 'bar')));
+		), apply_filters('ithoughts_tt_gl-split-attributes', array('tip-style' => 'bar')));
 
 		$this->assertEquals(array(
 			'handled' => array(),

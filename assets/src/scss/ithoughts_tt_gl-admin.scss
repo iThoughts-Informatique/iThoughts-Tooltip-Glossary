@@ -186,6 +186,7 @@ tr.nonoverridable label, .nonoverridable:not(tr){
 	> * {
 		flex: 1 1 50%;
 		display: block;
+		height: auto;
 	}
 	.img-container {
 		height: 40vh;

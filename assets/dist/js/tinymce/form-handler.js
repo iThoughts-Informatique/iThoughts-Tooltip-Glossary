@@ -1,5 +1,3 @@
-"use strict";
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -284,7 +282,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					// Initialize the tab switcher between mode Glossary, Tooltip & Mediatip
 					initTab($('#ithoughts_tt_gl-tooltip-form .tabs li'), function (index) {
 						// Only Glossary tooltip (tab @ index 0) disable the custom link editor
-						$('#ithoughts_tt_gl_link').prop('disabled', 0 === index);
+						$('#tag-link').prop('disabled', 0 === index);
 					});
 					// Initialize the tab switcher of advanced options
 					initTab($('#ithoughts_tt_gl-tooltip-form-options .tabs li'));
@@ -322,18 +320,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      	 * @param {Object} data Data of the tooltip
      	 * @returns {undefined}
      	 */
-					function closeForm(data) {
-						setTimeout(function waitRemoveEditor() {
-							removeEditor('ithoughts_tt_gl-tooltip-content');
+					var closeForm = function closeForm(data) {
+						setTimeout(function () {
+							removeEditor('tooltip-content');
 						}, 500);
 						itge.finishTipTinymce(data);
 						delete itge.finishTipTinymce;
-					}
+					};
 
 					// ### TinyMCE editor for Tooltips
-					(function initSubEditor($editors) {
+					(function ($editors) {
 						// Initialize the TinyMCE editor inside the Tooltip tab
-						$editors.each(function findNewEditor(index, editor) {
+						$editors.each(function (index, editor) {
 							// Find a free id. If our editor does not have an ID, we have to generate one
 							while (null == editor.getAttribute('id')) {
 								var newId = "editor" + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
@@ -373,7 +371,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					})($('#ithoughts_tt_gl-tooltip-form-container .tinymce'));
 
 					// ### Media library for Mediatips
-					$('#ithoughts_tt_gl_select_image').click(function selectImage() {
+					$('#ithoughts_tt_gl_select_image').click(function () {
 						// On click on `#ithoughts_tt_gl_select_image` (the button in mediatip), use the WP media API to get a media
 						// > This code was copy/pasted. It may be improveable
 						var mediaFrame = wp.media({
@@ -386,7 +384,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 						});
 
 						// **On validation of media library**
-						mediaFrame.on('insert', function insertImage() {
+						mediaFrame.on('insert', function () {
 							// Get the infos of the first selected element
 							var json = mediaFrame.state().get('selection').first();
 							// If nothing selected, return
@@ -402,8 +400,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 							}));
 							// Display selected image
 							$('#image-box').html("<img src=\"" + json.url + "\"/>");
-							$('#mediatip_caption').val(json.caption);
-							$('#ithoughts_tt_gl_link').val(json.link);
+							$('#mediatip-caption').val(json.caption);
+							$('#tag-link').val(json.link);
 						});
 
 						// Open the media library
@@ -411,23 +409,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					});
 
 					// ### Autocomplete for Glossaries
-					(function initAutoComplete() {
-						var input = $('#glossary_term'),
-						    completerHolder = $('#glossary_term_completer'),
-						    completerHolderContainer = $('.glossary_term_completer_container'),
+					(function () {
+						var input = $('#gloss-title'),
+						    completerHolder = $('#gloss-title_completer'),
+						    completerHolderContainer = $('.gloss-title_completer_container'),
 						    searchedString = '',
 						    request = null;
 
 						// ##### `losefocustest`: Check if the completer holder or the input has the focus
-						function losefocustest() {
+						var losefocustest = function losefocustest() {
 							// The timeout is required to let some time to the browser to change the focus status of the elements
-							setTimeout(function waitedForFocus() {
+							setTimeout(function () {
 								if (!completerHolder.find('*:focus').length && !input.is(':focus')) {
 									// Hide the `completerHolder`
 									completerHolderContainer.addClass('hidden');
 								}
 							}, 100);
-						}
+						};
 						// ##### `searchMatchingRes`: Does all the completion work from retrieved term catalog
 						function searchMatchingRes() {
 							// First, we filter terms contained in the global hash `iThoughtsTooltipGlossaryEditor`. Those terms will be splitted in 2 categories:
@@ -473,10 +471,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 							completerHolderContainer.removeClass('hidden');
 							setTimeout(resizeWindow, 25);
 							// On each result, make them selectable
-							completerHolder.find('.option').on('click', function selectCompletion(e) {
+							completerHolder.find('.option').on('click', function (event) {
 								// Set inputs with values provided by the option, then hide the completer holder
-								$('[name="glossary_term_id"]').val(e.currentTarget.getAttribute('data-id'));
-								input.val($(e.currentTarget).find('p > b').text());
+								$('[name="gloss-id"]').val(event.currentTarget.getAttribute('data-id'));
+								input.val($(event.currentTarget).find('p > b').text());
 								completerHolderContainer.addClass('hidden');
 							});
 						}
@@ -788,11 +786,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					}).keyup();
 
 					// On click on the validate button, extract all required data from the form
-					$('#ithoughts_tt_gl-tinymce-validate').click(function validate() {
+					$('#ithoughts_tt_gl-tinymce-validate').click(function () {
 						var data = {
-							type: ['glossary', 'tooltip', 'mediatip'][$('.tabs li.active').index()],
-							text: $('#ithoughts_tt_gl_text').val(),
-							link: $('#ithoughts_tt_gl_link').val(),
+							type: ['gloss', 'tooltip', 'mediatip'][$('.tabs li.active').index()],
+							text: $('#tag-text').val(),
+							link: $('#tag-link').val(),
 							opts: tooltipOpts
 						};
 						itg.log('Before per-type form data handling:', data);
@@ -801,16 +799,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 							case 'glossary':
 								{
 									data = $.extend(data, {
-										glossary_id: $('[name="glossary_term_id"]').val(),
-										// `disable_auto_translation` is related to WPML
-										disable_auto_translation: $('[name="glossary_disable_auto_translation"]').is(':checked')
+										gloss: {
+											id: $('[name="gloss-id"]').val(),
+											// `disable_auto_translation` is related to WPML
+											disable_auto_translation: $('[name="disable_auto_translation"]').is(':checked')
+										}
 									});
 								}break;
 
 							case 'tooltip':
 								{
 									data = $.extend(data, {
-										tooltip_content: tinymce.EditorManager.get('ithoughts_tt_gl-tooltip-content').getContent() || $('#ithoughts_tt_gl-tooltip-content').val()
+										tooltip: {
+											content: tinymce.EditorManager.get('tooltip-content').getContent() || $('#tooltip-content').val()
+										}
 									});
 								}break;
 
@@ -825,7 +827,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 											{
 												data = $.extend(data, {
 													mediatip_content: $('#image-box-data').val(),
-													mediatip_caption: $('#mediatip_caption').val()
+													mediatipCaption: $('#mediatip-caption').val()
 												});
 											}break;
 
@@ -833,7 +835,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 											{
 												data = $.extend(data, {
 													mediatip_content: $('#mediatip_url_image').val(),
-													mediatip_caption: $('#mediatip_caption').val()
+													mediatipCaption: $('#mediatip-caption').val()
 												});
 											}break;
 
@@ -1139,21 +1141,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 									resultDom = (0, _context.t0)(_context.t1);
 									return _context.abrupt("return", new Promise(function (resolve) {
 										itge.finishListTinymce = function (data) {
+											itg.info('New list data:', data);
 											hideOutForm(resultDom);
 											if (isNA(data)) {
 												return;
 											}
 
-											var shortcode = "glossary_" + {
-												atoz: 'atoz',
-												list: 'term_list'
-											}[data.type];
+											var shortcode = "itg-" + data.type;
 											var tail = mode !== 'load' ? ' ' : '';
 											var optArr = new OptArray();
 
-											var attrs = ['alpha', 'group'];
-											if ('list' === data.type) {
-												attrs.push('cols', 'desc');
+											var attrs = ['alphas', 'groups', 'list-contenttype'];
+											if ('glossary' === data.type) {
+												attrs.push('cols');
 											}
 
 											attrs.forEach(function (attr) {
@@ -1241,13 +1241,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 											values = {
 												text: _content,
 												link: takeAttr('href', true),
-												tooltip_content: itg.replaceQuotes(tooltipContent || _content, false),
-												glossary_id: takeAttr('glossary-id'),
-												term_search: itge.removeAccents(_content.toLowerCase()),
-												mediatip_type: takeAttr('mediatip-type'),
-												mediatip_content: itg.replaceQuotes(takeAttr('mediatip-content'), false),
-												mediatip_link: takeAttr('mediatip-link'),
-												mediatip_caption: takeAttr('mediatip-caption'),
+												gloss: {
+													id: takeAttr('gloss-id'),
+													search: itge.removeAccents(_content.toLowerCase()),
+													disable_auto_translation: 'true' === (takeAttr('disable_auto_translation') || false)
+												},
+												tooltip: {
+													content: itg.replaceQuotes(tooltipContent || _content, false)
+												},
+												mediatip: {
+													type: takeAttr('mediatip-type'),
+													content: itg.replaceQuotes(takeAttr('mediatip-content'), false),
+													link: takeAttr('mediatip-link'),
+													caption: takeAttr('mediatip-caption')
+												},
 												type: ['glossary', 'tooltip', 'mediatip'][tipsTypes.indexOf(takeAttr('type'))],
 												opts: {
 													contenttype: takeAttr('gloss-contenttype'),
@@ -1266,9 +1273,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 														time: takeAttr('animation_time')
 													},
 													maxwidth: takeAttr('tooltip-maxwidth')
-												},
-
-												glossary_disable_auto_translation: 'true' === (takeAttr('disable_auto_translation') || false)
+												}
 											};
 
 											// With all attributes left, append them to the attributes option
@@ -1278,23 +1283,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 											values = {
 												text: '',
 												link: '',
-												'tooltip-content': '',
-												'gloss-id': null,
-												'gloss-search': '',
-												mediatip_type: '',
-												mediatip_content: '',
-												mediatip_caption: '',
-												type: 'tooltip',
-
-												glossary_disable_auto_translation: false
+												gloss: {
+													id: null,
+													search: '',
+													disable_auto_translation: false
+												},
+												tooltip: {
+													content: ''
+												},
+												mediatip: {
+													type: '',
+													content: '',
+													link: '',
+													caption: ''
+												},
+												type: 'tooltip'
 											};
 											// If something is selected, load the content as text, content for tooltip & search
 											if (_content && _content.length > 0) {
 												mode = 'replace_content';
 												values = $.extend(values, {
 													text: _content,
-													'tooltip-content': _content,
-													'gloss-search': utils.removeAccents(_content.toLowerCase())
+													tooltip: {
+														content: _content
+													},
+													gloss: {
+														search: utils.removeAccents(_content.toLowerCase())
+													}
 												});
 											} else {
 												mode = 'add_content';
@@ -1315,7 +1330,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 									return _context2.abrupt("return", new Promise(function (resolve) {
 										itge.finishTipTinymce = function (data) {
 											hideOutForm(resultDom);
-											itge.info('New tooltip data:', data);
+											itg.info('New tooltip data:', data);
 											if (isNA(data)) {
 												return;
 											}
@@ -1323,7 +1338,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 											var attributesList = resultDom.find('#attributes-list option').map(function (elem) {
 												return elem.value;
 											}).toArray();
-											var types = ['span', 'link'];
 											var shortcode = "itg-" + data.type;
 											var tail = mode !== 'load' && 0 === content.length ? ' ' : '';
 											// Get new options, or old one
@@ -1355,25 +1369,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 													optArr.maybeAddOpt(opts.anim.time, 'data-animation_time', opts.anim.time);
 												}
 												optArr.maybeAddOpt(opts.maxwidth, 'data-tooltip-maxwidth', opts.maxwidth);
-												types.forEach(function (type) {
-													if (optsAttrs.hasOwnProperty(type)) {
-														for (j in optsAttrs[type]) {
-															if (optsAttrs[type].hasOwnProperty(j)) {
-																var prefix = attributesList.indexOf(j) > -1 && !j.startsWith('data-') ? '' : 'data-';
-																var midPart = 'link' === type ? 'link-' : '';
-																optArr.addOpt(prefix + midPart + j, optsAttrs[type][j], true);
-															}
-														}
-													}
-												});
+												/*if ( optsAttrs.hasOwnProperty( type )) {
+            		for ( j in optsAttrs[type]) {
+            			if ( optsAttrs[type].hasOwnProperty( j )) {
+            				const prefix = attributesList.indexOf( j ) > -1 && !j.startsWith( 'data-' ) ? '' : 'data-';
+            				const midPart = 'link' === type ? 'link-' : '';
+            				optArr.addOpt( prefix + midPart + j, optsAttrs[type][j], true );
+            			}
+            		}
+            	}*/
 											}
 											optArr.maybeAddOpt(opts.link, 'href', encodeURI(data.link));
 
-											if ('glossary' === data.type) {
-												if (!data.glossary_id || !data.text) {
+											if ('gloss' === data.type) {
+												if (!data.glossId || !data.text) {
 													return;
 												} else {
-													optArr.addOpt('glossary-id', data.glossary_id);
+													optArr.addOpt('glossId', data.glossId);
 													if (data.disable_auto_translation) {
 														optArr.addOpt('disable_auto_translation', 'true');
 													}
@@ -1390,8 +1402,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 												} else {
 													addOpt('mediatip-type', data.mediatip_type);
 													addOpt('mediatip-content', data.mediatip_content, true);
-													if (data.mediatip_caption) {
-														addOpt('mediatip-caption', data.mediatip_caption, true);
+													if (data.mediatipCaption) {
+														addOpt('mediatip-caption', data.mediatipCaption, true);
 													}
 												}
 											}

@@ -40,11 +40,6 @@ module.exports = function gruntInit( grunt ) {
 
 		browserify: {
 			dist: {
-				options:{
-					browserifyOptions: {
-						standalone: false,
-					},
-				},
 				files: {
 					'assets/build/js/admin.js': 'assets/src/js/admin.js',
 					'assets/build/js/atoz.js': 'assets/src/js/atoz.js',
@@ -52,20 +47,36 @@ module.exports = function gruntInit( grunt ) {
 					'assets/build/js/pageEditor.js': 'assets/src/js/pageEditor.js',
 					'assets/build/js/style-editor.js': 'assets/src/js/style-editor.js',
 					'assets/build/js/updater.js': 'assets/src/js/updater.js',
-					'assets/build/js/tinymce/form-handler.js': 'assets/src/js/tinymce/form-handler.js',
 					'assets/build/js/tinymce/tinymce.js': 'assets/src/js/tinymce/tinymce-plugin.js',
-				},
-			},
+				},/*
+				options: {
+					alias: [
+						'./assets/src/js/tinymce/tinymce-filters.js:tinymce-filters',
+						'./assets/src/js/tinymce/tinymce-utils.js:tinymce-utils',
+					],
+					external: [
+						'./assets/src/js/tinymce/tinymce-filters.js',
+						'./assets/src/js/tinymce/tinymce-utils.js',
+					],
+				},*/
+			},/*
+			tinymceTools: {
+				src: [
+					'assets/src/js/tinymce/tinymce-filters.js',
+					'assets/src/js/tinymce/tinymce-utils.js',
+				],
+				dest: 'assets/build/js/tinymce/tinymce-libs.js',
+			}*/
 		},
 		babel: {
 			options: {
 				sourceMap: true,
 				presets:   [
 					[ 'env', {
-						//modules: 'umd',
+						modules: false,
 						//modules: 'systemjs',
 						targets: {
-							browsers: [ 
+							browsers: [
 								'>1%',
 								'last 4 versions',
 								'Firefox ESR',
@@ -432,6 +443,7 @@ module.exports = function gruntInit( grunt ) {
 	grunt.registerTask( 'buildScripts', [
 		//'eslint:dist',
 		'browserify:dist',
+//		'browserify:tinymceTools',
 		'babel:dist',
 		'uglify:dist',
 	]);

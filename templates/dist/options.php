@@ -88,7 +88,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															),
 															array(
 																'tip-nosolo' => 'true',
-																'qtip-keep-open' => 'true',
+																'tip-keep-open' => 'true',
 															)
 														);
 														echo wp_kses(
@@ -108,7 +108,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													'a' => array(
 														'href' => array(),
 													),
-												) ) ); ?></p><table class="form-table"><tbody><tr><th><label for="<?php echo esc_attr($options_inputs['qtiptrigger']->get_id()); ?>"><?php esc_html_e( 'Tooltip activation', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td> <?php $options_inputs['qtiptrigger']->do_print(); ?> </td></tr><tr><th><label for="<?php echo esc_attr($options_inputs['qtipstyle']->get_id()); ?>"><?php esc_html_e( 'Tooltip Style (qTip)', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td> <?php $options_inputs['qtipstyle']->do_print(); ?> </td></tr><tr><th><label for="<?php echo esc_attr($options_inputs['qtipshadow']->get_id()); ?>"><?php esc_html_e( 'Tooltip shadow', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php
+												) ) ); ?></p><table class="form-table"><tbody><tr><th><label for="<?php echo esc_attr($options_inputs['tip-trigger']->get_id()); ?>"><?php esc_html_e( 'Tooltip activation', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td> <?php $options_inputs['tip-trigger']->do_print(); ?> </td></tr><tr><th><label for="<?php echo esc_attr($options_inputs['tip-style']->get_id()); ?>"><?php esc_html_e( 'Tooltip Style (qTip)', 'ithoughts-tooltip-glossary' ); ?>:</label></th><td> <?php $options_inputs['tip-style']->do_print(); ?> </td></tr><tr><th><label for="<?php echo esc_attr($options_inputs['tip-shadow']->get_id()); ?>"><?php esc_html_e( 'Tooltip shadow', 'ithoughts-tooltip-glossary' ); ?>&nbsp;<?php
 																$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip','(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array(
 																	'tip-nosolo' => 'true',
 																) );
@@ -124,7 +124,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																			'href' => true,
 																		),
 																	)
-																); ?>:</label></th><td> <?php $options_inputs['qtipshadow']->do_print(); ?> </td></tr><tr><th><label for="<?php echo esc_attr($options_inputs['qtiprounded']->get_id()); ?>"><?php esc_html_e( 'Rounded corners', 'ithoughts-tooltip-glossary' ); ?>&nbsp; <?php
+																); ?>:</label></th><td> <?php $options_inputs['tip-shadow']->do_print(); ?> </td></tr><tr><th><label for="<?php echo esc_attr($options_inputs['tip-rounded']->get_id()); ?>"><?php esc_html_e( 'Rounded corners', 'ithoughts-tooltip-glossary' ); ?>&nbsp; <?php
 																$tooltip = apply_filters( 'ithoughts_tt_gl_tooltip','(' . esc_html__( 'infos', 'ithoughts-tooltip-glossary' ) . ')', esc_html__( 'This option can be overriden by some tooltip styles.', 'ithoughts-tooltip-glossary' ), array(
 																	'tip-nosolo' => 'true',
 																) );
@@ -140,7 +140,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																			'href' => true,
 																		),
 																	)
-																); ?>:</label></th><td> <?php $options_inputs['qtiprounded']->do_print(); ?> </td></tr><tr><th><label for="anims"><?php esc_html_e( 'Animations', 'ithoughts-tooltip-glossary' ); ?></label></th><td><label for="<?php echo esc_attr($options_inputs['anim_in']->get_id()); ?>"><?php esc_html_e( 'Animation in', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $options_inputs['anim_in']->do_print(); ?></label><br><label for="<?php echo esc_attr($options_inputs['anim_out']->get_id()); ?>"><?php esc_html_e( 'Animation out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $options_inputs['anim_out']->do_print(); ?></label><br><label for="<?php echo esc_attr($options_inputs['anim_time']->get_id()); ?>"><?php esc_html_e( 'Animation duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $options_inputs['anim_time']->do_print(); ?>ms</label></td></tr></tbody></table></div><div style="flex:1 1 auto;;position:relative"><div id="floater" style="display:flex;flex-direction:row;width:100%"><p style="flex:1 1 auto;text-align:center"> <?php echo apply_filters('ithoughts_tt_gl_tooltip', esc_html__( 'Example Tooltip', 'ithoughts-tooltip-glossary' ), wp_kses( __( 'This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts-tooltip-glossary' ), array(
+																); ?>:</label></th><td> <?php $options_inputs['tip-rounded']->do_print(); ?> </td></tr><tr><th><label for="anims"><?php esc_html_e( 'Animations', 'ithoughts-tooltip-glossary' ); ?></label></th><td><label for="<?php echo esc_attr($options_inputs['tip-anim-in']->get_id()); ?>"><?php esc_html_e( 'Animation in', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $options_inputs['tip-anim-in']->do_print(); ?></label><br><label for="<?php echo esc_attr($options_inputs['tip-anim-out']->get_id()); ?>"><?php esc_html_e( 'Animation out', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $options_inputs['tip-anim-out']->do_print(); ?></label><br><label for="<?php echo esc_attr($options_inputs['tip-anim-time']->get_id()); ?>"><?php esc_html_e( 'Animation duration', 'ithoughts-tooltip-glossary' ); ?>:&nbsp;<?php $options_inputs['tip-anim-time']->do_print(); ?>ms</label></td></tr></tbody></table></div><div style="flex:1 1 auto;;position:relative"><div id="floater" style="display:flex;flex-direction:row;width:100%"><p style="flex:1 1 auto;text-align:center"> <?php echo apply_filters('ithoughts_tt_gl_tooltip', esc_html__( 'Example Tooltip', 'ithoughts-tooltip-glossary' ), wp_kses( __( 'This is an example tooltip, with content such as <a>a tag for link</a>, <em>em tag for emphasis</em>, <b>b tag for bold</b> and <i>i tag for italic</i>', 'ithoughts-tooltip-glossary' ), array(
 	'a' => array(),
 	'em' => array(),
 	'b' => array(),

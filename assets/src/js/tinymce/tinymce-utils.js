@@ -122,22 +122,20 @@ const editorForms = {
 
 			return new Promise( resolve => {
 				itge.finishListTinymce = data => {
+					itg.info( 'New list data:', data );
 					hideOutForm( resultDom );
 					if ( isNA( data )) {
 						return;
 					}
 
-					const shortcode = `glossary_${  ({
-						atoz: 'atoz',
-						list: 'term_list',
-					})[data.type] }`;
+					const shortcode = `itg-${ data.type }`;
 					const tail = ( mode !== 'load' ) ? ' ' : '';
 					const optArr = new OptArray();
 
 
-					const attrs = [ 'alpha', 'group' ];
-					if ( 'list' === data.type ) {
-						attrs.push( 'cols', 'desc' );
+					const attrs = [ 'alphas', 'groups', 'list-contenttype' ];
+					if ( 'glossary' === data.type ) {
+						attrs.push( 'cols' );
 					}
 
 					attrs.forEach( attr => {
@@ -199,34 +197,39 @@ const editorForms = {
 				values = {
 					text:             content,
 					link:             takeAttr( 'href', true ),
-					tooltip_content:  itg.replaceQuotes( tooltipContent || content, false ),
-					glossary_id:      takeAttr( 'glossary-id' ),
-					term_search:      itge.removeAccents( content.toLowerCase()),
-					mediatip_type:    takeAttr( 'mediatip-type' ),
-					mediatip_content: itg.replaceQuotes( takeAttr( 'mediatip-content' ), false ),
-					mediatip_link:    takeAttr( 'mediatip-link' ),
-					mediatip_caption: takeAttr( 'mediatip-caption' ),
-					type:             [ 'glossary', 'tooltip', 'mediatip' ][tipsTypes.indexOf( takeAttr( 'type' ))],
-					opts:             {
+					gloss:{
+						id:      takeAttr( 'gloss-id' ),
+						search:      itge.removeAccents( content.toLowerCase()),
+						disable_auto_translation: 'true' === ( takeAttr( 'disable_auto_translation' ) || false ),
 						contenttype:      takeAttr( 'gloss-contenttype' ),
-						'qtip-keep-open': 'true' === takeAttr( 'qtip-keep-open' ),
-						qtiprounded:      tristate( takeAttr( 'qtiprounded' )),
-						qtipshadow:       tristate( takeAttr( 'qtipshadow' )),
-						qtipstyle:        takeAttr( 'qtipstyle' ),
-						qtiptrigger:      takeAttr( 'qtiptrigger' ),
+					},
+					tooltip:{
+						content:  itg.replaceQuotes( tooltipContent || content, false ),
+					},
+					mediatip: {
+						type:    takeAttr( 'mediatip-type' ),
+						content: itg.replaceQuotes( takeAttr( 'mediatip-content' ), false ),
+						link:    takeAttr( 'mediatip-link' ),
+						caption: takeAttr( 'mediatip-caption' ),
+					},
+					type:             [ 'glossary', 'tooltip', 'mediatip' ][tipsTypes.indexOf( takeAttr( 'type' ))],
+					tip:             {
+						keepOpen: 'true' === takeAttr( 'tip-keep-open' ),
+						rounded:      tristate( takeAttr( 'tip-rounded' )),
+						shadow:       tristate( takeAttr( 'tip-shadow' )),
+						style:        takeAttr( 'tip-style' ),
+						trigger:      takeAttr( 'tip-trigger' ),
 						position:         {
 							at:	positionAt,
 							my:	positionMy,
 						},
 						anim: {
-							in:   takeAttr( 'animation_in' ),
-							out:  takeAttr( 'animation_out' ),
-							time: takeAttr( 'animation_time' ),
+							in:   takeAttr( 'tip-anim-in' ),
+							out:  takeAttr( 'tip-anim-out' ),
+							time: takeAttr( 'tip-anim-time' ),
 						},
-						maxwidth: takeAttr( 'tooltip-maxwidth' ),
+						maxwidth: takeAttr( 'tip-maxwidth' ),
 					},
-
-					glossary_disable_auto_translation: 'true' === ( takeAttr( 'disable_auto_translation' ) || false ),
 				};
 
 				// With all attributes left, append them to the attributes option
@@ -236,23 +239,33 @@ const editorForms = {
 				values	= {
 					text:             '',
 					link:             '',
-					'tooltip-content':  '',
-					'gloss-id':      null,
-					'gloss-search':      '',
-					mediatip_type:    '',
-					mediatip_content: '',
-					mediatip_caption: '',
+					gloss:{
+						id:      null,
+						search:      '',
+						disable_auto_translation: false,
+					},
+					tooltip:{
+						content:  '',
+					},
+					mediatip: {
+						type:    '',
+						content: '',
+						link:    '',
+						caption: '',
+					},
 					type:             'tooltip',
-
-					glossary_disable_auto_translation:	false,
 				};
 				// If something is selected, load the content as text, content for tooltip & search
 				if ( content && content.length > 0 ) {
 					mode	= 'replace_content';
 					values	= $.extend( values, {
 						text:            content,
-						'tooltip-content': content,
-						'gloss-search':     utils.removeAccents( content.toLowerCase()),
+						tooltip: {
+							content,
+						},
+						gloss:{
+							search:     utils.removeAccents( content.toLowerCase()),
+						},
 					});
 				} else {
 					mode	= 'add_content';
@@ -268,13 +281,12 @@ const editorForms = {
 			return new Promise( resolve => {
 				itge.finishTipTinymce = data => {
 					hideOutForm( resultDom );
-					itge.info( 'New tooltip data:', data );
+					itg.info( 'New tooltip data:', data );
 					if ( isNA( data )) {
 						return;
 					}
 					const optArr = new OptArray();
 					const attributesList = resultDom.find( '#attributes-list option' ).map( elem => elem.value ).toArray();
-					const types = [ 'span', 'link' ];
 					const shortcode = `itg-${  data.type }`;
 					const tail = ( mode !== 'load' && 0 === content.length ) ? ' ' : '';
 					// Get new options, or old one
@@ -283,11 +295,11 @@ const editorForms = {
 
 					if ( !isNA( opts )) {
 						optArr.maybeAddOpt( opts['gloss-contenttype'], 'data-gloss-contenttype', opts['gloss-contenttype']);
-						optArr.maybeAddOpt( opts['qtip-keep-open'], 'data-qtip-keep-open', 'true' );
-						optArr.maybeAddOpt( !isNA( opts.qtiprounded ), 'data-qtiprounded', String( opts.qtiprounded ));
-						optArr.maybeAddOpt( !isNA( opts.qtipshadow ), 'data-qtipshadow', String( opts.qtipshadow ));
-						optArr.maybeAddOpt( opts.qtipstyle, 'data-qtipstyle', opts.qtipstyle );
-						optArr.maybeAddOpt( opts.qtiptrigger, 'data-qtiptrigger', opts.qtiptrigger );
+						optArr.maybeAddOpt( opts['tip-keep-open'], 'data-tip-keep-open', 'true' );
+						optArr.maybeAddOpt( !isNA( opts.tipRounded ), 'data-tip-rounded', String( opts.tipRounded ));
+						optArr.maybeAddOpt( !isNA( opts.tipShadow ), 'data-tip-shadow', String( opts.tipShadow ));
+						optArr.maybeAddOpt( opts.tipStyle, 'data-tip-style', opts.tipStyle );
+						optArr.maybeAddOpt( opts.tipTrigger, 'data-tip-trigger', opts.tipTrigger );
 						if ( opts.position ) {
 							if ( opts.position.at && opts.position.at[1] && opts.position.at[2]) {
 								optArr.addOpt( 'data-position-at', `${ opts.position.at[1] } ${  opts.position.at[2] }` );
@@ -301,13 +313,12 @@ const editorForms = {
 							}
 						}
 						if ( opts.anim ) {
-							optArr.maybeAddOpt( opts.anim.in, 'data-animation_in', opts.anim.in );
-							optArr.maybeAddOpt( opts.anim.out, 'data-animation_out', opts.anim.out );
-							optArr.maybeAddOpt( opts.anim.time, 'data-animation_time', opts.anim.time );
+							optArr.maybeAddOpt( opts.anim.in, 'data-tip-anim-in', opts.anim.in );
+							optArr.maybeAddOpt( opts.anim.out, 'data-tip-anim-out', opts.anim.out );
+							optArr.maybeAddOpt( opts.anim.time, 'data-tip-anim-time', opts.anim.time );
 						}
-						optArr.maybeAddOpt( opts.maxwidth, 'data-tooltip-maxwidth', opts.maxwidth );
-						types.forEach( type => {
-							if ( optsAttrs.hasOwnProperty( type )) {
+						optArr.maybeAddOpt( opts.maxwidth, 'data-tip-maxwidth', opts.maxwidth );
+						/*if ( optsAttrs.hasOwnProperty( type )) {
 								for ( j in optsAttrs[type]) {
 									if ( optsAttrs[type].hasOwnProperty( j )) {
 										const prefix = attributesList.indexOf( j ) > -1 && !j.startsWith( 'data-' ) ? '' : 'data-';
@@ -315,16 +326,15 @@ const editorForms = {
 										optArr.addOpt( prefix + midPart + j, optsAttrs[type][j], true );
 									}
 								}
-							}
-						});
+							}*/
 					}
 					optArr.maybeAddOpt( opts.link, 'href', encodeURI( data.link ));
 
-					if ( 'glossary' === data.type ) {
-						if ( !data.glossary_id || !data.text ) {
+					if ( 'gloss' === data.type ) {
+						if ( !data.glossId || !data.text ) {
 							return;
 						} else {
-							optArr.addOpt( 'glossary-id', data.glossary_id );
+							optArr.addOpt( 'glossId', data.glossId );
 							if ( data.disable_auto_translation ) {
 								optArr.addOpt( 'disable_auto_translation', 'true' );
 							}
@@ -341,8 +351,8 @@ const editorForms = {
 						} else {
 							addOpt( 'mediatip-type', data.mediatip_type );
 							addOpt( 'mediatip-content', data.mediatip_content, true );
-							if ( data.mediatip_caption ) {
-								addOpt( 'mediatip-caption', data.mediatip_caption, true );
+							if ( data.mediatipCaption ) {
+								addOpt( 'mediatip-caption', data.mediatipCaption, true );
 							}
 						}
 					}

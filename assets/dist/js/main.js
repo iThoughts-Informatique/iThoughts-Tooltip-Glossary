@@ -1,5 +1,3 @@
-"use strict";
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -214,7 +212,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 		var linkEventHandlers = {
 			click: function click(event) {
-				var trigger = this.getAttribute('data-tip-trigger') || itg.qtiptrigger;
+				var trigger = this.getAttribute('data-tip-trigger') || itg.tipTrigger;
 				if ('responsive' === trigger) {
 					if (!linksExpanded.get(this) && linksTouch.get(this) !== 0) {
 						linksExpanded.set(this, true);
@@ -325,10 +323,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				var qTipConfigComponents = [defaultComonTipOptions];
 
 				/* Use provided data or use the default settings */
-				var qtiptrigger = takeAttr('qtiptrigger', itg.qtiptrigger);
+				var tipTrigger = takeAttr('tip-trigger', itg.tipTrigger);
 				qTipConfigComponents.push({
-					show: { event: qtiptrigger },
-					hide: { event: 'responsive' === qtiptrigger ? 'responsiveout' : 'mouseleave' }
+					show: { event: tipTrigger },
+					hide: { event: 'responsive' === tipTrigger ? 'responsiveout' : 'mouseleave' }
 				});
 				$tooltipLink.click(linkEventHandlers.click).bind(evts.start, linkEventHandlers.touchstart).bind(evts.end, linkEventHandlers.touchend).bind('mouseover focus', linkEventHandlers.focusin).bind('mouseleave focusout', linkEventHandlers.focusout);
 
@@ -341,10 +339,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					}
 				});
 
-				var tipStyle = takeAttr('tip-style', itg.qtipstyle);
+				var tipStyle = takeAttr('tip-style', itg.tip - style);
 				var classes = takeAttr('tip-classes', '');
-				var tipShadow = takeAttr('tip-shadow', itg.qtipshadow);
-				var tipRounded = takeAttr('tip-rounded', itg.qtiprounded);
+				var tipShadow = takeAttr('tip-shadow', itg.tipShadow);
+				var tipRounded = takeAttr('tip-rounded', itg.tipRounded);
 
 				qTipConfigComponents.push({
 					position: {
@@ -509,7 +507,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				if ($tooltipLink.data('tip-id')) {
 					qTipConfigComponents.push({ id: $tooltipLink.data('tip-id') });
 				}
-				if ($tooltipLink.data('qtip-keep-open') || $tooltipLink.hasClass('itg-mediatip')) {
+				if ($tooltipLink.data('tip-keep-open') || $tooltipLink.hasClass('itg-mediatip')) {
 					qTipConfigComponents.push({
 						hide: {
 							fixed: true,
@@ -551,7 +549,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			return $(val);
 		};
 		var getDefaultStyles = function getDefaultStyles() {
-			return ["qtip-" + itg.qtipstyle, itg.qtipshadow, itg.qtiprounded].filter(function (v) {
+			return ["qtip-" + (itg.tip - style), itg.tipShadow, itg.tipRounded].filter(function (v) {
 				return !!v;
 			}).join(' ');
 		};

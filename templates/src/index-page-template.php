@@ -22,16 +22,16 @@
 				</tr>
 			</tbody>
 		</table>
-		<h2>Page index type</h2>
+		<h2><?php esc_html_e('Page index type', 'ithoughts-tooltip-glossary'); ?></h2>
 		<div id="itg-listtypes">
 			<button class="button" data-action="atoz" name="actionB" value="ithoughts_tt_gl_create_page_atoz">
-				<h3>A to Z</h3>
+				<h3><?php esc_html_e('A to Z', 'ithoughts-tooltip-glossary'); ?></h3>
 				<div class="img-container" style="background-image: url(<?php echo $this->backbone->get_base_url(); ?>/assets/dist/imgs/list-icons/a-to-z.svg)">
 				</div>
 			</button>
-			<button class="button" data-action="list" name="actionB" value="ithoughts_tt_gl_create_page_list">
-				<h3>List</h3>
-				<div class="img-container" style="background-image: url(<?php echo $this->backbone->get_base_url(); ?>/assets/dist/imgs/list-icons/list.svg)">
+			<button class="button" data-action="list" name="actionB" value="ithoughts_tt_gl_create_page_glossary">
+				<h3><?php esc_html_e('Glossary', 'ithoughts-tooltip-glossary'); ?></h3>
+				<div class="img-container" style="background-image: url(<?php echo $this->backbone->get_base_url(); ?>/assets/dist/imgs/list-icons/glossary.svg)">
 				</div>
 			</button>
 		</div>

@@ -56,9 +56,9 @@ $d
 		const events = 'change blur keyup mouseup';
 	
 		// Styles
-		const $styleI = $( '#qtipstyle' );
-		const $shadowI = $( '#qtipshadow' );
-		const $roundedI = $( '#qtiprounded' );
+		const $styleI = $( '#tip-style' );
+		const $shadowI = $( '#tip-shadow' );
+		const $roundedI = $( '#tip-rounded' );
 		ithoughts.$merge( $styleI, $shadowI, $roundedI ).bind( events, () => {
 			const baseStyles = [
 				'ithoughts_tt_gl-tooltip',
@@ -74,10 +74,10 @@ $d
 		});
 	
 		// Events & effects
-		const $triggerI = $( '#qtiptrigger' );
-		const $animInI = $( '#anim_in' );
-		const $animOutI = $( '#anim_out' );
-		const $animTimeI = $( '#anim_time' );
+		const $triggerI = $( '#tip-trigger' );
+		const $animInI = $( '#tip-anim-in' );
+		const $animOutI = $( '#tip-anim-out' );
+		const $animTimeI = $( '#tip-anim-time' );
 		ithoughts.$merge( $triggerI, $animInI, $animOutI, $animTimeI ).bind( events, () => {
 		// Set the demotip as configured in the inputs
 			const trigger = $triggerI.val();
@@ -111,7 +111,7 @@ $d
 		}).trigger( 'input' );
 	
 		// Page index
-		const $glossaryIndex = $( '#glossaryindex' );
+		const $glossaryIndex = $( '#glossary-index' );
 		$glossaryIndex.bind( events.replace( 'blur', '' ).replace( 'mouseup', '' ), () => {
 			if ( 'new' === $glossaryIndex.val() && itg.indexPageEditor ) {
 				$glossaryIndex.focusout();

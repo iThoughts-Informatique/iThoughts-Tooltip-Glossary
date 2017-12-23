@@ -11,12 +11,9 @@
 
 'use strict';
 
-/*global tinymce:false, iThoughtsTooltipGlossaryEditor: false */
-
-require( 'regenerator-runtime/runtime' );
-
 const utils     = require( './tinymce-utils' );
 const filters   = require( './tinymce-filters' );
+const domUtils = require('../dom-utils');
 
 const ithoughts = iThoughts.v5;
 const itg       = iThoughtsTooltipGlossary;
@@ -26,12 +23,14 @@ const {
 	$, $d, $w, 
 } = ithoughts;
 
-$d.ready(() => {
+
+module.exports = formDom => {
+	const $formDom = $(formDom);
 	let formType = '';
 	// Depending on the ID present, we can deduce if we are in TIP or LIST creation/edition mode.
-	if ( 1 === $( '#ithoughts_tt_gl-tooltip-form-container' ).length ) {
+	if ( formDom.id === 'ithoughts_tt_gl-tooltip-form-container' ) {
 		formType = 'TIP';
-	} else if ( 1 === $( '#ithoughts_tt_gl-list-form-container' ).length ) {
+	} else if ( formDom.id === 'ithoughts_tt_gl-list-form-container') {
 		formType = 'LIST';
 	} else {
 		itg.error( 'Does not contains a tooltip form nor a list form, exit' );
@@ -39,46 +38,18 @@ $d.ready(() => {
 	}
 	itg.info( `Opening a form for ${ formType }` );
 
-	// ##### `initTab`: Set up a tab switcher element
-	/**
-		 * @function initTab
-		 * @description Set up a tab switcher element
-		 * @author Gerkin
-		 * @param {jQuery} jqobj jQuery selector containing the tabs triggers
-		 * @param {Function} [cb] Function to execute with cb( newIndex )
-		 * @returns {undefined}
-		 */
-	const initTab = ( $tabs, cb ) => {
-		$tabs.click( function onClick() {
-			const $this = $( this );
-			// First, clean the `active` class on all siblings, then set it only on event emitter
-			$this.parent().find( '.active' ).removeClass( 'active' );
-			$this.addClass( 'active' );
-
-			// Then, we check the index of the clicked element (`this`) in the parent, and we set active the tab with the same index
-			const index = $this.index();
-			$this.parent().parent().find( ' > .active' ).removeClass( 'active' );
-			$( $this.parent().parent().children()[index + 1]).addClass( 'active' );
-
-			// Then we try to call the callback (if set)
-			cb && cb( index );
-		});
-		// Self-set
-		$tabs.filter( '.active' ).click();
-	};
-
 	// ## Tip form
 	if ( 'TIP' === formType ) {
 		( function initTipForm() {
 			// Define the container for tooltip options in parent scope, so it can be used accross several events
 			var tooltipOpts;
 			// Initialize the tab switcher between mode Glossary, Tooltip & Mediatip
-			initTab( $( '#ithoughts_tt_gl-tooltip-form .tabs li' ), index => {
+			domUtils.initTab( $( '#ithoughts_tt_gl-tooltip-form .tabs li' ), index => {
 				// Only Glossary tooltip (tab @ index 0) disable the custom link editor
-				$( '#ithoughts_tt_gl_link' ).prop( 'disabled', 0 === index );
+				$( '#tag-link' ).prop( 'disabled', 0 === index );
 			});
 			// Initialize the tab switcher of advanced options
-			initTab( $( '#ithoughts_tt_gl-tooltip-form-options .tabs li' ));
+			domUtils.initTab( $( '#ithoughts_tt_gl-tooltip-form-options .tabs li' ));
 			// Mode switcher for mediatips.  Hide all except the selected mode
 			$( '.modeswitcher' ).on( 'click keyup change', function switchMode() {
 				var id = this.id;
@@ -86,25 +57,6 @@ $d.ready(() => {
 				$( `[data-${  id  }~="mediatip-${  this.value  }-type"]` ).show();
 			}).keyup();
 
-			// ##### `removeEditor`: Clean an editor
-			/**
-				 * @function removeEditor
-				 * @description Clean an editor
-				 * @author gerkin
-				 * @param   {String} editorId Id of the editor to delete
-				 * @returns {undefined}
-				 */
-			function removeEditor( editorId ) {
-				// Sometimes (depending on the browser AFAIK), TinyMCE fails to execute the command to remove an editor. We then have to clean its data manually
-				try {
-					tinymce.EditorManager.execCommand( 'mceRemoveEditor', true, editorId );
-				} catch ( e ) {
-					iThoughtsTooltipGlossary.warn( 'Force cleaning needed: ', e );
-					tinymce.EditorManager.editors = tinymce.EditorManager.editors.filter( function findEditor( editor ) {
-						return editor.id !== editorId;
-					});
-				}
-			}
 			// ##### `closeForm`: Clean the form, then call the callback function
 			/**
 				 * @function closeForm
@@ -113,63 +65,22 @@ $d.ready(() => {
 				 * @param {Object} data Data of the tooltip
 				 * @returns {undefined}
 				 */
-			function closeForm( data ) {
-				setTimeout( function waitRemoveEditor() {
-					removeEditor( 'ithoughts_tt_gl-tooltip-content' );
+			const closeForm = data => {
+				setTimeout( () => {
+					domUtils.tinymce.remove( 'tooltip-content' );
 				}, 500 );
 				itge.finishTipTinymce( data );
 				delete itge.finishTipTinymce;
 			}
 
 			// ### TinyMCE editor for Tooltips
-			( function initSubEditor( $editors ) {
-				// Initialize the TinyMCE editor inside the Tooltip tab
-				$editors.each( function findNewEditor( index, editor ) {
-					// Find a free id. If our editor does not have an ID, we have to generate one
-					while ( null == editor.getAttribute( 'id' )) {
-						var newId = `editor${  Math.random().toString( 36 ).replace( /[^a-z]+/g, '' ).substr( 0, 10 ) }`;
-						// If this editor ID is free, then set it. Else, loop using the parent `while`
-						if ( 0 === $( newId ).length ) {
-							editor.setAttribute( 'id', newId );
-						}
-					}
-					var editorId = editor.getAttribute( 'id' );
-					// Save the current text in the not-yet-TinyMCE editor. It will be used later to restore the content
-					var text = editor.value;
-					// Do effective call to tinymce & init the editor
-					tinymce.init({
-						selector:         `#${  editorId }`,
-						menubar:          false,
-						external_plugins: {
-							code:      `${ itge.base_assets }/deps/tinymce/code/plugin.min.js`,
-							wordcount: `${ itge.base_assets }/deps/tinymce/wordcount/plugin.min.js`,
-						},
-						plugins: 'wplink',
-						toolbar: [
-							'styleselect | bold italic underline link | bullist numlist | alignleft aligncenter alignright alignjustify | code',
-						],
-						min_height: 70,
-						height:     70,
-						resize:     false,
-					});
-					// **Restore the content**
-					let intervalContent = setInterval( () => {
-						const subeditor = tinymce.get( editorId );
-						// Check if the subeditor is fully initialized. If that's the case, set its content & clear interval
-						if ( subeditor && subeditor.getDoc() && subeditor.getBody()) {
-							itg.log( 'Initing subeditor with content ', JSON.stringify( text ));
-							clearInterval( intervalContent );
-							subeditor.setContent( text.replace( /&/g, '&amp;' ));
-						}
-					}, 50 );
-				});
-			}( $( '#ithoughts_tt_gl-tooltip-form-container .tinymce' )));
+			domUtils.tinymce.init( $( '#ithoughts_tt_gl-tooltip-form-container .tinymce' ));
 
 			// ### Media library for Mediatips
-			$( '#ithoughts_tt_gl_select_image' ).click( function selectImage() {
+			$( '#ithoughts_tt_gl_select_image' ).click( () => {
 				// On click on `#ithoughts_tt_gl_select_image` (the button in mediatip), use the WP media API to get a media
 				// > This code was copy/pasted. It may be improveable
-				var mediaFrame = wp.media({
+				const mediaFrame = wp.media({
 					frame:   'post',
 					state:   'insert',
 					library: {
@@ -179,7 +90,7 @@ $d.ready(() => {
 				});
 
 				// **On validation of media library**
-				mediaFrame.on( 'insert', function insertImage() {
+				mediaFrame.on( 'insert', () => {
 					// Get the infos of the first selected element
 					var json = mediaFrame.state().get( 'selection' ).first();
 					// If nothing selected, return
@@ -195,8 +106,8 @@ $d.ready(() => {
 					}));
 					// Display selected image
 					$( '#image-box' ).html( `<img src="${  json.url  }"/>` );
-					$( '#mediatip_caption' ).val( json.caption );
-					$( '#ithoughts_tt_gl_link' ).val( json.link );
+					$( '#mediatip-caption' ).val( json.caption );
+					$( '#tag-link' ).val( json.link );
 				});
 
 				// Open the media library
@@ -204,17 +115,17 @@ $d.ready(() => {
 			});
 
 			// ### Autocomplete for Glossaries
-			( function initAutoComplete() {
-				var input = $( '#glossary_term' ),
-					completerHolder = $( '#glossary_term_completer' ),
-					completerHolderContainer = $( '.glossary_term_completer_container' ),
+			( () => {
+				var input = $( '#gloss-title' ),
+					completerHolder = $( '#gloss-title_completer' ),
+					completerHolderContainer = $( '.gloss-title_completer_container' ),
 					searchedString = '',
 					request = null;
 
 				// ##### `losefocustest`: Check if the completer holder or the input has the focus
-				function losefocustest() {
+				const losefocustest = () => {
 					// The timeout is required to let some time to the browser to change the focus status of the elements
-					setTimeout( function waitedForFocus() {
+					setTimeout( () => {
 						if ( !completerHolder.find( '*:focus' ).length && !input.is( ':focus' )) {
 							// Hide the `completerHolder`
 							completerHolderContainer.addClass( 'hidden' );
@@ -266,10 +177,10 @@ $d.ready(() => {
 					completerHolderContainer.removeClass( 'hidden' );
 					setTimeout( resizeWindow, 25 );
 					// On each result, make them selectable
-					completerHolder.find( '.option' ).on( 'click', function selectCompletion( e ) {
+					completerHolder.find( '.option' ).on( 'click', event => {
 						// Set inputs with values provided by the option, then hide the completer holder
-						$( '[name="glossary_term_id"]' ).val( e.currentTarget.getAttribute( 'data-id' ));
-						input.val( $( e.currentTarget ).find( 'p > b' ).text());
+						$( '[name="gloss-id"]' ).val( event.currentTarget.getAttribute( 'data-id' ));
+						input.val( $( event.currentTarget ).find( 'p > b' ).text());
 						completerHolderContainer.addClass( 'hidden' );
 					});
 				}
@@ -288,7 +199,7 @@ $d.ready(() => {
 				// **Execute the search action**
 				input.on( 'keyup focusin', function focusin() {
 					// First, check if we don't have any request currently running. If we have one, we have to `abort()` it
-					if ( request )						{
+					if ( request ) {
 						request.abort();
 					}
 					// Then, compose the search string by removing accents or special characters
@@ -306,9 +217,9 @@ $d.ready(() => {
 							search:      searchedString,
 							_ajax_nonce: $nonce.val(),
 						},
-						complete: function complete( res ) {
-							var response = res.responseJSON;
-							if ( 'undefined' == typeof response || !response.success )								{
+						complete( res ) {
+							const response = res.responseJSON;
+							if ( 'undefined' == typeof response || !response.success ) {
 								return;
 							}
 							$nonce.val( response.data.nonce_refresh );
@@ -325,7 +236,7 @@ $d.ready(() => {
 				}).on( 'focusout', losefocustest ).on( 'keyup', function keyup() {
 					this.removeAttribute( 'data-term-id' );
 				});
-			}());
+			})();
 
 			// ### Set up Advanced Configuration
 			( function initAdvancedConfiguration() {
@@ -466,9 +377,9 @@ $d.ready(() => {
 					$tooltip.show();
 				});
 				// Bind events for the option that keep the tip opened for some times before closing
-				$( '#qtip-keep-open' ).change( function onQtipKeepOpenChange() {
-					var modeInput = $( '#qtiptrigger' ),
-						textInput = $( '#qtiptriggerText' ),
+				$( '#tip-keep-open' ).change( function onQtipKeepOpenChange() {
+					var modeInput = $( '#tip-trigger' ),
+						textInput = $( '#tip-triggerText' ),
 						mtInput = $([ modeInput, textInput ]),
 						oldValue;
 					// This option force the opening event to be `click`
@@ -584,11 +495,11 @@ $d.ready(() => {
 			}).keyup();
 
 			// On click on the validate button, extract all required data from the form
-			$( '#ithoughts_tt_gl-tinymce-validate' ).click( function validate() {
-				var data = {
-					type: [ 'glossary', 'tooltip', 'mediatip' ][$( '.tabs li.active' ).index()],
-					text: $( '#ithoughts_tt_gl_text' ).val(),
-					link: $( '#ithoughts_tt_gl_link' ).val(),
+			$( '#ithoughts_tt_gl-tinymce-validate' ).click(() => {
+				let data = {
+					type: [ 'gloss', 'tooltip', 'mediatip' ][$( '.tabs li.active' ).index()],
+					text: $( '#tag-text' ).val(),
+					link: $( '#tag-link' ).val(),
 					opts: tooltipOpts,
 				};
 				itg.log( 'Before per-type form data handling:', data );
@@ -596,15 +507,19 @@ $d.ready(() => {
 				switch ( data.type ) {
 					case 'glossary': {
 						data = $.extend( data, {
-							glossary_id:              $( '[name="glossary_term_id"]' ).val(),
-							// `disable_auto_translation` is related to WPML
-							disable_auto_translation: $( '[name="glossary_disable_auto_translation"]' ).is( ':checked' ),
+							gloss: {
+								id:              $( '[name="gloss-id"]' ).val(),
+								// `disable_auto_translation` is related to WPML
+								disable_auto_translation: $( '[name="disable_auto_translation"]' ).is( ':checked' ),
+							},
 						});
 					} break;
 
 					case 'tooltip': {
 						data = $.extend( data, {
-							tooltip_content: tinymce.EditorManager.get( 'ithoughts_tt_gl-tooltip-content' ).getContent() || $( '#ithoughts_tt_gl-tooltip-content' ).val(),
+							tooltip: {
+								content: tinymce.EditorManager.get( 'tooltip-content' ).getContent() || $( '#tooltip-content' ).val(),
+							},
 						});
 					} break;
 
@@ -617,14 +532,14 @@ $d.ready(() => {
 							case 'localimage': {
 								data = $.extend( data, {
 									mediatip_content: $( '#image-box-data' ).val(),
-									mediatip_caption: $( '#mediatip_caption' ).val(),
+									mediatipCaption: $( '#mediatip-caption' ).val(),
 								});
 							} break;
 
 							case 'webimage': {
 								data = $.extend( data, {
 									mediatip_content: $( '#mediatip_url_image' ).val(),
-									mediatip_caption: $( '#mediatip_caption' ).val(),
+									mediatipCaption: $( '#mediatip-caption' ).val(),
 								});
 							} break;
 
@@ -712,4 +627,4 @@ $d.ready(() => {
 			});
 		}());
 	}
-});
+};

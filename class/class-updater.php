@@ -611,9 +611,9 @@ if ( ! class_exists( __NAMESPACE__ . '\\Updater' ) ) {
 				),
 			);
 			$tip_attrs = array(
-				'animation_in' => 'tip-animation-in',
-				'animation_out' => 'tip-animation-out',
-				'animation_time' => 'tip-animation-time',
+				'animation_in' => 'tip-anim-in',
+				'animation_out' => 'tip-anim-out',
+				'animation_time' => 'tip-anim-time',
 				'position-at' => 'tip-position-at',
 				'position-my' => 'tip-position-my',
 				'qtipstyle' => 'tip-style',

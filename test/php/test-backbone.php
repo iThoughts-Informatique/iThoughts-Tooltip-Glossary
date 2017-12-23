@@ -20,7 +20,7 @@ class ITGBackboneTest extends WP_UnitTestCase {
 		$ret = $backbone->override_options(array(
 			'gloss-contenttype' => 'full',
 			'termlinkopt' => 'blank',
-			'qtipstyle' => 'bootstrap',
+			'tip-style' => 'bootstrap',
 			'verbosity' => 1,
 		), false);
 		$this->assertEqualSets(array(
@@ -32,12 +32,12 @@ class ITGBackboneTest extends WP_UnitTestCase {
 		$ret = $backbone->override_options(array(
 			'gloss-contenttype' => 'full',
 			'termlinkopt' => 'blank',
-			'qtipstyle' => 'bootstrap',
+			'tip-style' => 'bootstrap',
 			'verbosity' => 1,
 		), true);
 		$this->assertEqualSets(array(
 			'gloss-contenttype' => 'full',
-			'qtipstyle' => 'bootstrap',
+			'tip-style' => 'bootstrap',
 		), $ret);
 	}
 }
