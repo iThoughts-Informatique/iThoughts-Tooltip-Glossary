@@ -135,7 +135,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				$this->declare_resource( 'ithoughts_tooltip_glossary-qtip-css', 'assets/deps/jquery.qtip.min.css' );
 			}
 
-			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'assets/dist/js/main.js', array( 'qtip', 'ithoughts-core-v5' ), false, 'iThoughtsTooltipGlossary', array(
+			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'assets/dist/js/main.js', array( 'qtip', 'ithoughts-core' ), false, 'iThoughtsTooltipGlossary', array(
 				'admin_ajax'    => admin_url( 'admin-ajax.php' ),
 				// Get the API endpoint. See https://wordpress.stackexchange.com/questions/144822/what-is-the-best-practice-to-check-for-pretty-permalinks.
 				'apiurl'		=> get_site_url( null, '' !== get_option( 'permalink_structure' ) ? 'wp-json' : '?rest_route=' ) . '/wp/v2',
@@ -164,7 +164,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 				),
 				'nonce'			=> wp_create_nonce( 'ithoughts_tt_gl-get_term_details' ),
 			) );
-			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'assets/dist/js/atoz.js', array( 'jquery', 'ithoughts-core-v5' ) );
+			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'assets/dist/js/atoz.js', array( 'jquery', 'ithoughts-core' ) );
 			// Generate all Style resources.
 			$this->declare_resource( 'ithoughts_tooltip_glossary-css', 'assets/dist/css/ithoughts_tt_gl.min.css' );
 			if ( isset( $this->options['custom_styles_path'] ) ) {
@@ -331,7 +331,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		 * Ask WordPress to print required scripts before any other else.
 		 */
 		public function wp_enqueue_scripts_hight_priority() {
-			$this->enqueue_resource( 'ithoughts-core-v5' );
+			$this->enqueue_resource( 'ithoughts-core' );
 		}
 
 		/**

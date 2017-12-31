@@ -249,8 +249,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'ithoughts_tooltip_glossary-admin',
 				'assets/dist/js/admin.js',
 				array(
-					'ithoughts-simple-ajax-v5',
-					'ithoughts-core-v5',
+					'ithoughts-simple-ajax',
+					'ithoughts-core',
 					'ithoughts_tooltip_glossary-qtip'
 				),
 				true
@@ -259,8 +259,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'ithoughts_tooltip_glossary-pageEditor',
 				'assets/dist/js/pageEditor.js',
 				array(
-					'ithoughts-simple-ajax-v5',
-					'ithoughts-core-v5',
+					'ithoughts-simple-ajax',
+					'ithoughts-core',
 					'ithoughts_tooltip_glossary-qtip'
 				),
 				true
@@ -270,8 +270,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'assets/dist/js/tinymce/form-handler.js',
 				array(
 					'jquery',
-					'ithoughts-core-v5',
-					'ithoughts-simple-ajax-v5',
+					'ithoughts-core',
+					'ithoughts-simple-ajax',
 				),
 				true
 			);
@@ -280,7 +280,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'assets/dist/js/updater.js',
 				array(
 					'jquery',
-					'ithoughts-core-v5',
+					'ithoughts-core',
 					'ithoughts_tooltip_glossary-qtip',
 				),
 				true
@@ -289,8 +289,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'ithoughts_tooltip_glossary-styleeditor',
 				'assets/dist/js/style-editor.js',
 				array(
-					'ithoughts-core-v5',
-					'ithoughts-simple-ajax-v5',
+					'ithoughts-core',
+					'ithoughts-simple-ajax',
 				),
 				true
 			);
@@ -298,7 +298,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'ithoughts_tooltip_glossary-tinymce',
 				'assets/dist/js/tinymce/tinymce.js',
 				array(
-					'ithoughts-core-v5',
+					'ithoughts-core',
 					'ithoughts_tooltip_glossary-qtip',
 				),
 				true
@@ -373,7 +373,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 			$this->backbone->enqueue_resources( array(
 				'ithoughts_tooltip_glossary-qtip',
-				'ithoughts-serialize-object-v5',
+				'ithoughts-serialize-object',
 				'ithoughts_tooltip_glossary-qtip-css',
 				'ithoughts_tooltip_glossary-css',
 				//				'ithoughts_tooltip_glossary-tinymce-libs',
@@ -538,8 +538,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 				'ithoughts_tooltip_glossary-css',
 				'ithoughts_tooltip_glossary-qtip-css',
 				'ithoughts_tooltip_glossary-pageEditor',
-				'ithoughts-simple-ajax-v5',
-				'ithoughts-core-v5',
+				'ithoughts-simple-ajax',
+				'ithoughts-core',
 			) );
 
 			$ajax = admin_url( 'admin-ajax.php' );

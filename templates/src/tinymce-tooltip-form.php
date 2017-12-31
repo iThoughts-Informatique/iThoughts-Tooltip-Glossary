@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div id="ithoughts_tt_gl-tooltip-form-container">
 	<div id="pseudohead">
 		<link rel="stylesheet" id="ithoughts_tt_gl-tinymce_form-css" href="<?php echo esc_url( Backbone::get_instance()->get_resource( 'ithoughts_tooltip_glossary-tinymce_form-css' )->get_file_url() ); ?>" type="text/css" media="all">
-		<script type="text/javascript" src="<?php echo esc_url( Backbone::get_instance()->get_resource( 'ithoughts-simple-ajax-v5' )->get_file_url() ); ?>" defer></script>
+		<script type="text/javascript" src="<?php echo esc_url( Backbone::get_instance()->get_resource( 'ithoughts-simple-ajax' )->get_file_url() ); ?>" defer></script>
 		<script type="text/javascript" src="<?php echo esc_url( Backbone::get_instance()->get_resource( 'ithoughts_tooltip_glossary-tinymce_form' )->get_file_url() ); ?>?v=3.0.1" defer></script>
 		<script type="text/javascript" src="<?php echo esc_url( Backbone::get_instance()->get_resource( 'ithoughts_tooltip_glossary-qtip' )->get_file_url() ); ?>" defer></script>
 		<script>

@@ -14,13 +14,13 @@
 const comon = require( './comon' );
 const OptArray = require( './optarray' );
 
-const ithoughts = iThoughts.v5;
-const itg       = iThoughtsTooltipGlossary;
-
+const ithoughts = require ('ithoughts');
 const {
-	$, $w, $d, isNA, 
+	get, w, $, $w, $d, isNA,
 } = ithoughts;
-const extend = $.extend;
+const itg       = get(w, 'iThoughtsTooltipGlossary', {});
+
+const extend = ithoughts.merge;
 
 const $tooltipsContainer = $( $.parseHTML( '<div id="itg-tipsContainer" class="itg-tipsContainer"></div>' ));
 $( document.body ).append( $tooltipsContainer );
@@ -44,7 +44,7 @@ ithoughts.initLoggers( itg, 'iThoughts Tooltip Glossary', itg.verbosity );
  * @returns {string} Encoded or decoded string
  * @author Gerkin
  */
-itg.replaceQuotes = ( string, encode ) => {
+const replaceQuotes = ( string, encode ) => {
 	if ( typeof string != 'string' ) {
 		return '';
 	}
@@ -379,7 +379,7 @@ itg.doInitTooltips = () => {
 			});
 		}
 
-		const tooltipOpts = extend( true, {}, ...qTipConfigComponents, {
+		const tooltipOpts = extend( {}, ...qTipConfigComponents, {
 			content: {
 				title,
 				text: content,
@@ -528,6 +528,12 @@ itg.growl = ( title, content, persistent = true ) => {
 	});
 };
 
+const clientMessage = {
+	modalFromTemplate,
+modal,
+growl,
+};
+
 $w.resize( function waitStopRedimVideoRedim() {
 	clearTimeout( redimWait );
 	redimWait = setTimeout( redimVid, 100 );
@@ -621,7 +627,7 @@ extend( $.easing, {
 // ------
 // ## Definition of default animations
 
-itg.animationFunctions = extend( true, itg.animationFunctions, {
+itg.animationFunctions = extend( itg.animationFunctions, {
 	in: {
 		/**
 			 * @function none
@@ -822,3 +828,7 @@ itg.animationFunctions = extend( true, itg.animationFunctions, {
 		},
 	},
 });
+
+module.exports = {
+	clientMessage
+};

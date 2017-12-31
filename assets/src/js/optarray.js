@@ -22,7 +22,7 @@ class OptArray {
 		}
 
 		value = String( value ).trim();
-		value = ( !isNA( specEncode ) && specEncode ? value.replace( /"/g, '&aquot;' ).replace( /\n/g, '<br/>' ) : replaceQuotes( value, true ));
+		value = replaceQuotes( !isNA( specEncode ) && specEncode ? value.replace( /"/g, '&quot;' ) : value, true );
 
 		this.opts[label] = value;
 	}
@@ -34,7 +34,7 @@ class OptArray {
 	}
 
 	toString() {
-		return Object.keys( this.opts ).map( key => OptArray.generateAttr( key, this.opts[key])).join( ' ' );
+		return Object.keys( this.opts ).sort().map( key => OptArray.generateAttr( key, this.opts[key])).join( ' ' );
 	}
 }
 

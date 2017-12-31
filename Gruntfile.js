@@ -38,42 +38,12 @@ module.exports = function gruntInit( grunt ) {
 	const gruntConfig = {
 		pkg:    grunt.file.readJSON( 'package.json' ),
 
-		browserify: {
-			dist: {
-				files: {
-					'assets/build/js/admin.js': 'assets/src/js/admin.js',
-					'assets/build/js/atoz.js': 'assets/src/js/atoz.js',
-					'assets/build/js/main.js': 'assets/src/js/main.js',
-					'assets/build/js/pageEditor.js': 'assets/src/js/pageEditor.js',
-					'assets/build/js/style-editor.js': 'assets/src/js/style-editor.js',
-					'assets/build/js/updater.js': 'assets/src/js/updater.js',
-					'assets/build/js/tinymce/tinymce.js': 'assets/src/js/tinymce/tinymce-plugin.js',
-				},/*
-				options: {
-					alias: [
-						'./assets/src/js/tinymce/tinymce-filters.js:tinymce-filters',
-						'./assets/src/js/tinymce/tinymce-utils.js:tinymce-utils',
-					],
-					external: [
-						'./assets/src/js/tinymce/tinymce-filters.js',
-						'./assets/src/js/tinymce/tinymce-utils.js',
-					],
-				},*/
-			},/*
-			tinymceTools: {
-				src: [
-					'assets/src/js/tinymce/tinymce-filters.js',
-					'assets/src/js/tinymce/tinymce-utils.js',
-				],
-				dest: 'assets/build/js/tinymce/tinymce-libs.js',
-			}*/
-		},
 		babel: {
 			options: {
 				sourceMap: true,
 				presets:   [
 					[ 'env', {
-						modules: false,
+						modules: 'umd',
 						//modules: 'systemjs',
 						targets: {
 							browsers: [
@@ -93,11 +63,24 @@ module.exports = function gruntInit( grunt ) {
 			dist: {
 				files: [{
 					expand: true,
-					cwd : 'assets/build',
+					cwd : 'assets/src',
 					src: '**/*.js',
-					dest: 'assets/dist',
+					dest: 'assets/build',
 					ext:  '.js',
 				}],
+			},
+		},
+		browserify: {
+			dist: {
+				files: {
+					'assets/dist/js/admin.js': 'assets/build/js/admin.js',
+					'assets/dist/js/atoz.js': 'assets/build/js/atoz.js',
+					'assets/dist/js/main.js': 'assets/build/js/main.js',
+					'assets/dist/js/pageEditor.js': 'assets/build/js/pageEditor.js',
+					'assets/dist/js/style-editor.js': 'assets/build/js/style-editor.js',
+					'assets/dist/js/updater.js': 'assets/build/js/updater.js',
+					'assets/dist/js/tinymce/tinymce.js': 'assets/build/js/tinymce/tinymce-plugin.js',
+				},
 			},
 		},
 		uglify: {
@@ -312,12 +295,12 @@ module.exports = function gruntInit( grunt ) {
 
 		phpunit: {
 			dist: {
-//				dir: './',
+				//				dir: './',
 				bootstrap: 'test/php/bootstrap.php',
 			},
 			options: {
 				configuration: 'phpunit.xml',
-//				coverageClover: './coverage/php/cover.xml',
+				//				coverageClover: './coverage/php/cover.xml',
 				colors: true,
 			}
 		},
@@ -442,9 +425,9 @@ module.exports = function gruntInit( grunt ) {
 	]);
 	grunt.registerTask( 'buildScripts', [
 		//'eslint:dist',
-		'browserify:dist',
-//		'browserify:tinymceTools',
 		'babel:dist',
+		'browserify:dist',
+		//		'browserify:tinymceTools',
 		'uglify:dist',
 	]);
 	grunt.registerTask( 'build', [
