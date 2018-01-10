@@ -2,7 +2,7 @@
 
 require( 'regenerator-runtime/runtime' );
 
-const ithoughts = iThoughts.v5;
+const ithoughts = ithoughtsCore;
 const {
 	$, isNA,
 } = ithoughts;

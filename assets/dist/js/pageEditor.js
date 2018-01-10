@@ -14,7 +14,7 @@
 })(this, function () {
 	'use strict';
 
-	var ithoughts = iThoughts.v5;
+	var ithoughts = ithoughtsCore;
 	var itg = iThoughtsTooltipGlossary;
 
 	var $ = ithoughts.$;

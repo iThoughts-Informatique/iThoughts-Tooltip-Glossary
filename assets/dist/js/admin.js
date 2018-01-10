@@ -54,7 +54,7 @@
 		};
 	}
 
-	var ithoughts = iThoughts.v5;
+	var ithoughts = ithoughtsCore;
 
 	var $ = ithoughts.$,
 	    $d = ithoughts.$d;
@@ -184,7 +184,7 @@
 })(this, function (module) {
 	'use strict';
 
-	var ithoughts = iThoughts.v5;
+	var ithoughts = ithoughtsCore;
 	var $ = ithoughts.$,
 	    isNA = ithoughts.isNA;
 
@@ -336,7 +336,7 @@
 
 	'use strict';
 
-	var ithoughts = iThoughts.v5;
+	var ithoughts = ithoughtsCore;
 
 	var $ = ithoughts.$,
 	    $d = ithoughts.$d,

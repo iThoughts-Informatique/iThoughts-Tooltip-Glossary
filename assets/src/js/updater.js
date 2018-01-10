@@ -128,4 +128,4 @@ Response from server: ${ JSON.stringify( data, null, 4 ) }</pre>\
 		});
 	}
 	initUpdate( updater );
-})( iThoughts.v5 );
+})( ithoughtsCore );

@@ -33,7 +33,7 @@ const types = [
 
 let redimWait;
 
-ithoughts.initLoggers( itg, 'iThoughts Tooltip Glossary', itg.verbosity );
+ithoughts.initLoggers( itg, 'ithoughtsCore Tooltip Glossary', itg.verbosity );
 
 /**
  * @function replaceQuotes

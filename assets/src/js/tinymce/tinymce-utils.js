@@ -4,7 +4,7 @@ const removeAccents = require( 'remove-accents' );
 const OptArray      = require( '../optarray' );
 const comon         = require( '../comon' );
 
-const ithoughts     = iThoughts.v5;
+const ithoughts     = ithoughtsCore;
 const itg           = iThoughtsTooltipGlossary;
 const itge          = iThoughtsTooltipGlossaryEditor;
 

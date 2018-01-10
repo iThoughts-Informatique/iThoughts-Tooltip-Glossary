@@ -69,7 +69,7 @@
 				$(this).parent().find('button').prop('disabled', !this.value);
 			}).change();
 		});
-	})(iThoughts.v5);
+	})(ithoughtsCore);
 });
 
 

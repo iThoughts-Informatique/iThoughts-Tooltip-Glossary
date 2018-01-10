@@ -1,7 +1,7 @@
 'use strict';
 
 const {replaceQuotes} = iThoughtsTooltipGlossary;
-const {isNA} = iThoughts.v5;
+const {isNA} = ithoughtsCore;
 
 class OptArray {
 	constructor( opts ) {

@@ -133,7 +133,7 @@
 			});
 		}
 		initUpdate(updater);
-	})(iThoughts.v5);
+	})(ithoughtsCore);
 });
 
 

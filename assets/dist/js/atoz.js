@@ -96,7 +96,7 @@
 				setCurrentTab(myAlpha);
 			}
 		});
-	})(iThoughts.v5);
+	})(ithoughtsCore);
 });
 
 

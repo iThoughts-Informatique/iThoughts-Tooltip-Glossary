@@ -14,7 +14,7 @@
 const initFloater = require( './floater' );
 const comon = require( './comon' );
 
-const ithoughts = iThoughts.v5;
+const ithoughts = ithoughtsCore;
 
 const {
 	$, $d,

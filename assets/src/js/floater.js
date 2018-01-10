@@ -11,7 +11,7 @@
 
 'use strict';
 
-const ithoughts = iThoughts.v5;
+const ithoughts = ithoughtsCore;
 
 const {
 	$, $d, $w,
