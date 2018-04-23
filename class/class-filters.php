@@ -33,6 +33,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Filters' ) ) {
 
 			add_filter( 'ithoughts_tt_gl_tooltip_anim_out', array( &$this, 'checkAnimsInfosOut' ), 10000000, 2 );
 			add_filter( 'ithoughts_tt_gl_tooltip_anim_in', array( &$this, 'checkAnimsInfosIn' ), 10000000, 2 );
+			add_filter( 'ithoughts_tt_gl_wpml_get_term_current_language', array(&$this, 'wpml_get_term_current_language'), 10, 1);
 		}
 
 		/**
@@ -328,6 +329,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Filters' ) ) {
 				$anims = $this->getAnimsIn( $anims );
 			}
 			return $anims;
+		}
+		
+		public function wpml_get_term_current_language($term_id){
+			$current_language_id = apply_filters( 'wpml_current_language', null );
+			$term_in_current_language = apply_filters( 'wpml_object_id', $term_id, 'glossary', true, $current_language_id );
+			return $term_in_current_language;
 		}
 	}
 }// End if().

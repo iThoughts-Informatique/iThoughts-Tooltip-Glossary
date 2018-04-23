@@ -267,11 +267,21 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		 * @author Gerkin
 		 */
 		public function declare_resources() {
+			$ajax_url = admin_url('admin-ajax.php');
+			// Add the query parameter required by WPML
+			// See https://wpml.org/documentation/support/debugging-theme-compatibility/#issue-custom-non-standard-wordpress-ajax-requests-always-return-the-default-language-content
+			if ( function_exists('icl_object_id') ) {
+				$current_language = apply_filters( 'wpml_current_language', NULL ); 
+				if ( $current_language ) {
+					$ajax_url = add_query_arg( 'wpml_lang', $current_language, $ajax_url );
+					// $ajax_url will be something like 'http://my-site.com/wp-content/plugins/my-plugin/handle-ajax.php?wpml_lang=es'
+				}
+			}
 			// Generate all Script resources
 			$this->declare_resource( 'imagesloaded', 'ext/imagesloaded.min.js' );
 			$this->declare_resource( 'qtip', 'ext/jquery.qtip.js', array( 'jquery', 'imagesloaded' ) );
 			$this->declare_resource( 'ithoughts_tooltip_glossary-qtip', 'js/dist/ithoughts_tt_gl-qtip2.js', array( 'qtip', 'ithoughts-core-v5' ), false, 'iThoughtsTooltipGlossary', array(
-				'admin_ajax'    => admin_url( 'admin-ajax.php' ),
+				'admin_ajax'    => $ajax_url,
 				// Get the API endpoint. See https://wordpress.stackexchange.com/questions/144822/what-is-the-best-practice-to-check-for-pretty-permalinks
 				'apiurl'		=> get_site_url( null, get_option( 'permalink_structure' ) != '' ? 'wp-json' : '?rest_route=' ) . '/wp/v2',
 				'baseurl'		=> $this->base_url,
@@ -603,8 +613,13 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 			if ( isset( $_POST['termid'] ) && $termid = $_POST['termid'] ) {
 				$termid = intval( $termid );
 				if ( function_exists( 'icl_object_id' ) ) {
+					// Change the lang depending on parameters
+					// See https://wpml.org/documentation/support/debugging-theme-compatibility/#issue-custom-non-standard-wordpress-ajax-requests-always-return-the-default-language-content
+					if ( isset( $_GET[ 'wpml_lang' ] ) ) {
+						do_action( 'wpml_switch_language',  $_GET[ 'wpml_lang' ] ); // switch the content language
+					}                            
 					if ( ! (isset( $_POST['disable_auto_translation'] ) && $_POST['disable_auto_translation']) ) {
-						$termid = apply_filters( 'wpml_object_id', $termid, 'glossary', true, apply_filters( 'wpml_current_language', null ) );
+						$termid = apply_filters('ithoughts_tt_gl_wpml_get_term_current_language', $termid);
 					}
 				}
 				$termob = get_post( $termid );

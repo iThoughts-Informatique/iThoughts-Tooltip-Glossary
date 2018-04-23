@@ -140,12 +140,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Glossary' ) ) {
 				}
 				if ( ! (isset( $datas['handled']['disable_auto_translation'] ) && $datas['handled']['disable_auto_translation']) ) {
 					if ( is_numeric( $term ) ) {
-						$term = get_post( apply_filters( 'wpml_object_id', $term, 'glossary', true, apply_filters( 'wpml_current_language', null ) ) );
+						$term = get_post( apply_filters('ithoughts_tt_gl_wpml_get_term_current_language', intval($term)) );
 					} else if ( ! ($term instanceof \WP_Post) ) {
 						// Error
 						return $text;
 					} else if ( $term instanceof \WP_Post ) {
-						$term = get_post( apply_filters( 'wpml_object_id', $term->ID, 'glossary', true, apply_filters( 'wpml_current_language', null ) ) );
+						$term = get_post( apply_filters('ithoughts_tt_gl_wpml_get_term_current_language', $term->ID) );
 					}
 				} else {
 					if ( is_numeric( $term ) ) {
