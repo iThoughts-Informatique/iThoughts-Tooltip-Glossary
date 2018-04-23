@@ -5,8 +5,8 @@ Author URI: https://www.gerkindevelopment.net/
 Plugin URI: https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/
 Tags: tooltip, dictionary, glossary, appendix, technical terms, popup, tooltips, infobulle, definition, definitions, définition, définitions, dictionnaire, dictionnaires, dictionnaries, precision, information, informations, widget, widgets, shortocde, shortcodes, images, image, comment, comments, index, dictionnary, ajax, custom post type, post type, documentation, database, help, jquery, quote
 Requires at least: 3.3
-Tested up to: 4.8
-Stable tag: 3.0.2
+Tested up to: 4.9.5
+Stable tag: 3.0.3
 License: GPLv3
 
 Create beautiful tooltips for descriptions or glossary terms, easily
@@ -77,6 +77,9 @@ For bug repports or unexpected behaviors, please see the dedicated [WordPress su
 5. Glossary index shortcodes
 
 == Changelog ==
+
+= 3.0.3 =
+* FIX Wrong term fetched when using auto term translation as anonymous user. See [the WPML related issue](https://wpml.org/documentation/support/debugging-theme-compatibility/#common-problems-solutions-in-practice) and the [support issue](https://wordpress.org/support/topic/strange-behaviour-with-multilingual-glossary-term/#post-10210991)
 
 = 3.0.2 =
 * FIX Singleton structure
