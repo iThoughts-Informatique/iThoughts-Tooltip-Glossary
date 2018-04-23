@@ -107,7 +107,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<tr>
 											<td colspan="2">
 												<b><?php esc_html_e("Note:", 'ithoughts-tooltip-glossary' ); ?></b><br/>
-												<?php esc_html_e("During search, terms appearing with a <span class=\"foreign-language\">yellow background</span> are not available in current language.", 'ithoughts-tooltip-glossary' ); ?>
+												<?php echo wp_kses(__("During search, terms appearing with a <span class=\"foreign-language\">yellow background</span> are not available in current language.", 'ithoughts-tooltip-glossary'), array('span' => array('class' => array())) ); ?>
 											</td>
 										</tr>
 										<?php
@@ -120,12 +120,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<input autocomplete="off" type="text" id="glossary_term" name="glossary_term" value="<?php echo (isset($data["term_title"])) ? $data["term_title"] : $data["term_search"]; ?>" class="completed"/>
+												<input autocomplete="off" type="text" id="glossary_term" name="glossary_term" value="<?php echo (isset($data["term_title"])) ? $data["term_title"] : $data['glossary']["term_search"]; ?>" class="completed"/>
 												<div class="glossary_term_completer_container" class="hidden">
 													<div id="glossary_term_completer" class="completer">
 													</div>
 												</div>
-												<input type="hidden" name="glossary_term_id" value="<?php echo $data["glossary_id"]; ?>">
+												<input type="hidden" name="glossary_term_id" value="<?php echo $data['glossary']['id']; ?>">
 											</td>
 										</tr>
 										<?php
@@ -182,14 +182,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<td colspan="2">
 												<div class="image-box" id="image-box">
 													<?php
-	if(isset($data["mediatip_content"]['url']) && $data["mediatip_content"]['url']):
+	if(isset($data["mediatip"]["content"]) && isset($data["mediatip"]["content"]['url']) && $data["mediatip"]["content"]['url']):
 													?>
-													<img src="<?php echo $data["mediatip_content"]['url']; ?>"/>
+													<img src="<?php echo $data["mediatip"]["content"]['url']; ?>"/>
 													<?php
 													endif;
 													?>
 												</div>
-												<input id="image-box-data" type="hidden" value="<?php echo $data["mediatip_content_json"]; ?>">
+												<input id="image-box-data" type="hidden" value="<?php echo $data["mediatip"]["content_json"]; ?>">
 												<div class="itg-widget itg-btn itg-last itg-btn-has-text" role="button" style="width: 100%; height: 30px;" tabindex="-1">
 													<button role="presentation" style="height: 100%; width: 100%;" tabindex="-1" type="button" id="ithoughts_tt_gl_select_image">
 														<?php esc_html_e("Select an image", 'ithoughts-tooltip-glossary' ); ?>
@@ -204,7 +204,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<input autocomplete="off" type="url" name="mediatip_url_image" id="mediatip_url_image" value="<?php echo (($data["mediatip_type"] == "webimage") ? $data["mediatip_content_json"] : ""); ?>"/>
+												<input autocomplete="off" type="url" name="mediatip_url_image" id="mediatip_url_image" value="<?php echo (($data["mediatip"]["type"] == "webimage") ? $data["mediatip_content_json"] : ""); ?>"/>
 											</td>
 										</tr>
 										<tr data-mediatip_type="mediatip-webimage-type mediatip-localimage-type">
@@ -214,7 +214,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<textarea autocomplete="off" name="mediatip_caption" id="mediatip_caption" style="width:100%;border:1px solid #ccc;"><?php echo (in_array($data["mediatip_type"], array("webimage", "localimage"))) ? $data["mediatip_caption"] : "" ?></textarea>
+												<textarea autocomplete="off" name="mediatip_caption" id="mediatip_caption" style="width:100%;border:1px solid #ccc;"><?php echo (in_array($data["mediatip"]["type"], array("webimage", "localimage"))) ? $data["mediatip"]["caption"] : "" ?></textarea>
 											</td>
 										</tr>
 										<tr data-mediatip_type="mediatip-webvideo-type">
@@ -224,9 +224,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 												</label>
 											</td>
 											<td>
-												<input autocomplete="off" type="text" name="mediatip_url_video_link" id="mediatip_url_video_link" value="<?php echo (($data["mediatip_type"] == "webvideo") ? $data["mediatip_link"] : ""); ?>"/>
-												<input autocomplete="off" type="hidden" name="mediatip_url_video_embed" id="mediatip_url_video_embed" value="<?php echo (($data["mediatip_type"] == "webvideo") ? $data["mediatip_content"] : ""); ?>"/>
-												<input autocomplete="off" type="hidden" name="mediatip_url_video_link" id="mediatip_url_video_link" value="<?php echo (($data["mediatip_type"] == "webvideo") ? $data["mediatip_link"] : ""); ?>"/>
+												<input autocomplete="off" type="text" name="mediatip_url_video_link" id="mediatip_url_video_link" value="<?php echo (($data["mediatip"]["type"] == "webvideo") ? $data["mediatip"]["link"] : ""); ?>"/>
+												<input autocomplete="off" type="hidden" name="mediatip_url_video_embed" id="mediatip_url_video_embed" value="<?php echo (($data["mediatip"]["type"] == "webvideo") ? $data["mediatip"]["content"] : ""); ?>"/>
+												<input autocomplete="off" type="hidden" name="mediatip_url_video_link" id="mediatip_url_video_link" value="<?php echo (($data["mediatip"]["type"] == "webvideo") ? $data["mediatip"]["link"] : ""); ?>"/>
 											</td>
 										</tr>
 									</table>

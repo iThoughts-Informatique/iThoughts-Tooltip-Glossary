@@ -800,14 +800,18 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			// Get data from posted values.
 			if ( isset( $_POST['data'] ) ) { // Input var okay.
 				$data = $_POST; // Input var okay.
-				$data = wp_unslash( $data['data'] );
+				$data = array_replace_recursive( array(
+					'mediatip_content_json' => NULL,
+					'glossary_id' => NULL,
+				), wp_unslash( $data['data'] ));
 				$mediatip_json_text = sanitize_text_field( $data['mediatip_content_json'] );
+				$glossary_id = absint( $data['glossary_id'] );
 				$data = array(
 					'type' => sanitize_text_field( $data['type'] ),
 					'text' => sanitize_text_field( $data['text'] ),
 					'link' => esc_url_raw( $data['type'] ),
 					'glossary' => array(
-						'id' => absint( $data['glossary_id'] ),
+						'id' => $glossary_id == 0 ? NULL : $glossary_id,
 						'term_search' => sanitize_text_field( $data['term_search'] ),
 						'disable_auto_translation' => 'true' === sanitize_text_field( $data['glossary_disable_auto_translation'] ),
 					),
@@ -850,18 +854,18 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 
 			// Retrieve terms.
 			$terms = array();
-			if ( null === $data['glossary_id'] ) {
+			if ( null === $data['glossary']['id'] ) {
 				$terms = $backbone->searchTerms(array(
 					'post_type'			=> 'glossary',
 					'post_status'		=> 'publish',
 					'orderby'			=> 'title',
 					'order'				=> 'ASC',
 					'posts_per_page'	=> 25,
-					's'					=> $data['term_search'],
+					's'					=> $data['glossary']['term_search'],
 					'suppress_filters'	=> false,
 				));
 			} else {
-				$post = get_post( $data['glossary_id'] );
+				$post = get_post( $data['glossary']['id'] );
 				$terms[] = array(
 					'slug'      => $post->post_name,
 					'content'   => wp_trim_words( wp_strip_all_tags( (isset( $post->post_excerpt )&&$post->post_excerpt)?$post->post_excerpt:$post->post_content ), 50, '...' ),
@@ -876,7 +880,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 			// form_data is printed directly in template.
 			$options = $backbone->get_options();
 
-			$opts = $data['opts'] ?: array();
+			$opts = isset($data['opts']) ? $data['opts'] : array();
 			if ( ! isset( $opts['attributes'] ) ) {
 				$opts['attributes'] = array();
 			}
@@ -908,7 +912,7 @@ if ( ! class_exists( __NAMESPACE__ . '\\Admin' ) ) {
 					'mediatip_type' => TB::generate_input_select(
 						'mediatip_type',
 						array(
-							'selected' => $data['mediatip_type'],
+							'selected' => $data['mediatip']['type'],
 							'options'  => $mediatiptypes,
 							'attributes' => array(
 								'class'    => 'modeswitcher',

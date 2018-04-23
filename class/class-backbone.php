@@ -294,7 +294,8 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 						),
 					),
 				),
-			) );
+				)
+			);
 			$this->declare_resource( 'ithoughts_tooltip_glossary-atoz', 'js/dist/ithoughts_tt_gl-atoz.js', array( 'jquery', 'ithoughts-core-v5' ) );
 			// $this->declare_resource( 'ithoughts_tooltip_glossary-list', 'js/dist/ithoughts_tt_gl-glossary-list.js', array('jquery', 'ithoughts-core-v5'));
 			// Generate all Style resources
@@ -430,11 +431,12 @@ if ( ! class_exists( __NAMESPACE__ . '\\Backbone' ) ) {
 		}
 
 		public function wp_enqueue_styles() {
-			$this->enqueue_resources( array(
+			$this->enqueue_resources(array(
 				'ithoughts_tooltip_glossary-css',
 				'ithoughts_tooltip_glossary-qtip-css',
-			) );
-
+				)
+			);
+			
 			if ( isset( $this->options['custom_styles_path'] ) ) {
 				wp_enqueue_style( 'ithoughts_tooltip_glossary-customthemes' );
 			}
