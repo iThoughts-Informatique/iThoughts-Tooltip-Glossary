@@ -6,7 +6,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha test/unit-test.js"
+    "test": "mocha test/unit-test.js",
+    "makeZip": "find . -not \\( -path '*/node_modules/*' -o -path '*/test/*' -o -path '*/tests/*' -o -path '*/docs/*' -o -path '*/src/*' -prune \\) \\( -name '*.php' -o -name '*.js' -o -name '*.css' -o -name '*.md' -o -name '*.json' -o -name '*.txt' -o -name '*.png' -o -name '*.jpg' -o -name '*.gif' -o -name '*.svg' \\) -print | zip ithoughts-tt-gl.zip -@"
   },
   "repository": {
     "type": "git",

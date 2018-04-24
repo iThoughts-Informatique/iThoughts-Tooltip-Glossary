@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 if ( ! class_exists( __NAMESPACE__ . '\\Updater' ) ) {
-	class Updater extends \ithoughts\v1_0\Singleton {
+	class Updater {
 		private $from;
 		private $to;
 		private $versionIndex;
