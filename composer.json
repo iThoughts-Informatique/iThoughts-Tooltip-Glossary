@@ -1,2 +1,12 @@
 {
+    "require": {
+        "php-di/php-di": "^6.0",
+        "ocramius/proxy-manager": "^2.2"
+    },
+    "autoload": {
+        "files": ["inc/once-flag.php"]
+    },
+    "require-dev": {
+        "hlavacm/wp-tracy": "^2.0"
+    }
 }
