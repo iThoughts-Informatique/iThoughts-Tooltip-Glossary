@@ -1,0 +1,14 @@
+{
+    "options": {
+        "standard": "phpcs.xml",
+        "noPatch": false,
+        "bin": "./vendor/bin/phpcbf"
+    },
+    "files": {
+        "src": [
+            "class/**/*.php",
+            "templates/src/**/*.php",
+            "*.php"
+        ]
+    }
+}

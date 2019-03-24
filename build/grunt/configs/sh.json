@@ -1,0 +1,3 @@
+{
+    "rollup-build": "npm run build:rollup"
+}

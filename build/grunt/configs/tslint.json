@@ -1,0 +1,19 @@
+{
+    "nofix": {
+        "options": {
+            "configuration": "tslint.json",
+            "fix": false
+        }
+    },
+    "fix": {
+        "options": {
+            "configuration": "tslint.json",
+            "fix": false
+        }
+    },
+    "files": {
+        "src": [
+            "assets/src/**/*.ts"
+        ]
+    }
+}

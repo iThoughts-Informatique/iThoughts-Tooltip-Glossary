@@ -1,0 +1,12 @@
+{
+    "dist": {
+        "options": {
+            "verbose": true
+        },
+        "src": [
+            "class/**/*.php",
+            "*.php"
+        ],
+        "dest": "docs/php"
+    }
+}

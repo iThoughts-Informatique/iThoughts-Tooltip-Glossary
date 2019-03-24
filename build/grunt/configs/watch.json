@@ -1,0 +1,10 @@
+{
+    "assets": {
+        "files": ["assets/src/**/*.ts{,x}"],
+        "tasks": ["rebuildAssets"],
+        "options": {
+            "spawn": false,
+            "atBegin": true
+        }
+    }
+}

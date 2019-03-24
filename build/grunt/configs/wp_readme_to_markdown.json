@@ -1,0 +1,7 @@
+{
+    "dist": {
+        "files": {
+            "readme.md": "readme.txt"
+        }
+    }
+}

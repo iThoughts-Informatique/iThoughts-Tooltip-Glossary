@@ -1,0 +1,14 @@
+{
+	"dist": {
+		"options": {
+			"removeComments": true,
+			"collapseWhitespace": true
+		},
+		"files": [{
+			"expand": true,
+			"cwd": "templates/src",
+			"src": ["*.php"],
+			"dest": "templates/dist"
+		}]
+	}
+}

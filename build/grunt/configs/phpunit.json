@@ -1,0 +1,9 @@
+{
+    "default": {
+        "configuration": "phpunit.xml.dist",
+        "colors": true
+    },
+    "options": {
+        "bin": "./vendor/bin/phpunit"
+    }
+}
