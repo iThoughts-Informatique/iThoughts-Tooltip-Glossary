@@ -4,6 +4,9 @@
         "ocramius/proxy-manager": "^2.2"
     },
     "autoload": {
+        "psr-4": {
+            "ithoughts\\TooltipGlossary\\": "inc/classes/"
+        },
         "files": ["inc/once-flag.php"]
     },
     "require-dev": {
