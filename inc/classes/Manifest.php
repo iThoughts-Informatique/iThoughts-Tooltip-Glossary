@@ -39,7 +39,7 @@ if(!class_exists( __NAMESPACE__ . '\\Manifest' )){
          */
         public function get_url(string $identifier): string {
             if(!isset($this->manifest_content[$identifier])){
-                throw new \DomainException("Unkown asset identifier: `${$identifier}`");
+                throw new \DomainException("Unkown asset identifier: `$identifier`");
             }
             return "{$this->base_url}{$this->manifest_content[$identifier]}";
         }
