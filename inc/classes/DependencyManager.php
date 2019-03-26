@@ -65,6 +65,9 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
                 'text-domain' => 'ithoughts-tooltip-glossary',
                 'base-path' =>   $base_path,
                 'base-url' =>    $base_url,
+                'assets-path' => "$base_path$relative_assets_dir",
+                'assets-url' =>  "$base_url$relative_assets_dir",
+                'manifest' =>    function(){ return new Manifest(); },
             ]);
         }
 
