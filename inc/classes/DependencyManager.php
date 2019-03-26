@@ -24,6 +24,11 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
          * @var DependencyManager The singleton instance of the dependency manager.
          */
         protected static $instance;
+
+        /**
+         * @var string The path of the plugin's directory.
+         */
+        protected static $root_plugin_file;
         
         /**
          * Creates a new instance of the DependencyManager of iThoughts Tooltip Glossary
@@ -52,10 +57,14 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
          * Register the dependencies used by the back & the front
          */
         protected function register_common_definitions(): void {
+            $relative_assets_dir = 'assets/dist/';
+
+            $base_path = plugin_dir_path(static::$root_plugin_file);
+            $base_url = plugin_dir_url(static::$root_plugin_file);
             $this->container_builder->addDefinitions([
                 'text-domain' => 'ithoughts-tooltip-glossary',
-                'base-path' => plugin_dir_path(__FILE__),
-                'base-url' => plugin_dir_url(__FILE__),
+                'base-path' =>   $base_path,
+                'base-url' =>    $base_url,
             ]);
         }
 
@@ -91,7 +100,6 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
          */
         public function get_container() :  \DI\Container {
             if($this->container === null){
-                bdump('Seal');
                 $this->container = $this->container_builder->build();
             }
             return $this->container;
@@ -100,9 +108,14 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
         /**
          * Bind wordpress actions to initialize appropriate parts of the plugin.
          */
-        public static function bootstrap(): void {
+        public static function bootstrap(string $root_plugin_file): void {
+            static::$root_plugin_file = $root_plugin_file;
             // Initialize the plugin if not already loaded.
             add_action( 'init', [__NAMESPACE__.'\\DependencyManager' , 'load'], 2);
+
+            add_action( 'admin_init', function(){
+                static::get_instance()->get_container()->get('menu-manager')->register();
+            });
         }
     }
 }

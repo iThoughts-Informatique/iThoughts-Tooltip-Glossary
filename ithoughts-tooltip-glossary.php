@@ -32,5 +32,5 @@ require_once BASE_PATH . 'vendor/autoload.php';
 
 use ithoughts\TooltipGlossary\DependencyManager;
 
-DependencyManager::bootstrap();
+DependencyManager::bootstrap(__FILE__);
 
