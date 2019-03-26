@@ -5,6 +5,7 @@ import babel from 'rollup-plugin-babel';
 import postcss from 'rollup-plugin-postcss'
 import { terser } from 'rollup-plugin-terser';
 import execute from 'rollup-plugin-execute';
+import imagemin from "rollup-plugin-imagemin";
 
 import _ from 'lodash';
 import React from 'react';
@@ -31,46 +32,52 @@ const globals = {
 console.log('Using externals %j exposed as globals %j', external, globals)
 
 
-export default Object.entries(bundles).map(([inFile, outFile]) => ({
-	input: inFile,
-	output: {
-		file: outFile.replace(/(\/|\\)(\w+\.js)/, '$1raw-$2'),
-		format: 'iife',
-		sourceMap : true,
-		globals,
-	},
-	external,
-	plugins: [
-		resolve({
-			jsnext: true,
-			main: true,
-			browser: true,
-			extensions: ['.js', '.ts', '.tsx']
-		}),
-		commonjs({
-			include: [
-				'node_modules/**'
-			],
-			exclude: [
-				'node_modules/process-es6/**'
-			],
-			namedExports: {
-				'react': Object.keys(React),
-				'react-dates': Object.keys(ReactDates),
-				'react-dom': Object.keys(ReactDom),
-				'lodash': Object.keys(_),
-			}
-		}),
-		scss(),
-		postcss({
-			extract: true,
-			minimize: true,
-		  }),
-		babel({
-			exclude: 'node_modules/**',
-			extensions: ['.js', '.jsx', '.ts', '.tsx'],
-		}),
-		terser(),
-		execute('node ./build/hash-file.js'),
-	],
-}));
+export default Object.entries(bundles).map(([inFile, outFile]) => {
+	const base = outFile.replace(/^.*?(\/|\\)(\w+)\.js/, '$2');
+	return {
+		input: inFile,
+		output: {
+			file: outFile.replace(/(\/|\\)(\w+\.js)/, '$1raw-$2'),
+			format: 'iife',
+			sourceMap : true,
+			globals,
+		},
+		external,
+		plugins: [
+			resolve({
+				jsnext: true,
+				main: true,
+				browser: true,
+				extensions: ['.js', '.ts', '.tsx']
+			}),
+			commonjs({
+				include: [
+					'node_modules/**'
+				],
+				exclude: [
+					'node_modules/process-es6/**'
+				],
+				namedExports: {
+					'react': Object.keys(React),
+					'react-dates': Object.keys(ReactDates),
+					'react-dom': Object.keys(ReactDom),
+					'lodash': Object.keys(_),
+				}
+			}),
+			scss(),
+			postcss({
+				extract: true,
+				minimize: true,
+			}),
+			babel({
+				exclude: 'node_modules/**',
+				extensions: ['.js', '.jsx', '.ts', '.tsx'],
+			}),
+			terser(),
+			imagemin({
+				fileName: `raw-${base}-[name][extname]`,
+			}),
+			execute('node ./build/hash-file.js'),
+		],
+	};
+});
