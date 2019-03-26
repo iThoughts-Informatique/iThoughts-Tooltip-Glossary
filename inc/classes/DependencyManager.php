@@ -7,8 +7,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use DI\ContainerBuilder;
+use ithoughts\TooltipGlossary\Admin\Menu\Manager as Menu_Manager;
 
 if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
+    /**
+     * The DependencyManager is a singleton class that registers dependencies of the plugin, and expose a \DI\Container to be used for dependency resolution.
+     */
     final class DependencyManager {
         /**
          * @var \DI\Container The dependency injection container.
@@ -82,7 +86,9 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
          * Register the dependencies used by the back.
          */
         protected function register_back_definitions(): void {
-            $this->container_builder->addDefinitions([]);
+            $this->container_builder->addDefinitions([
+                'menu-manager' => function(){ return new Menu_Manager(); },
+            ]);
         }
 
         /**
