@@ -8,6 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use DI\ContainerBuilder;
 use ithoughts\TooltipGlossary\Admin\Menu\Manager as Menu_Manager;
+use ithoughts\TooltipGlossary\ResourceType\Post\Glossary as Post_Glossary;
+use ithoughts\TooltipGlossary\ResourceType\Taxonomy\GlossaryGroup as Taxonomy_GlossaryGroup;
 
 if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
     /**
@@ -127,6 +129,10 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
 
             add_action( 'admin_init', function(){
                 static::get(Menu_Manager::class)->register();
+            });
+            add_action( 'init', function(){
+                static::get(Taxonomy_GlossaryGroup::class)->register();
+                static::get(Post_Glossary::class)->register();
             });
         }
     }
