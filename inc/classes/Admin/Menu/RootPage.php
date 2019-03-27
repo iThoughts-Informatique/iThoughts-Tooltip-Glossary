@@ -6,13 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
     status_header( 403 );wp_die( 'Forbidden' );// Exit if accessed directly.
 }
 
-use ithoughts\TooltipGlossary\DependencyManager;
+use ithoughts\TooltipGlossary\Manifest;
 
 if(!class_exists( __NAMESPACE__ . '\\RootPage' )){
     /**
      * A page displayed as a top-level menu item on the Wordpress admin section.
      */
     final class RootPage extends Page {
+        protected $manifest;
         /**
          * @var array The list of child pages attached to this root page.
          */
@@ -38,9 +39,11 @@ if(!class_exists( __NAMESPACE__ . '\\RootPage' )){
             string $slug,
             ?string $capability,
             ?string $icon,
+            Manifest $manifest,
             array $children = []
         ){
             parent::__construct($page_title, $menu_title, $slug, $capability);
+            $this->manifest = $manifest;
             $this->icon = $icon;
             $this->children = $children;
             foreach($children as $child){
@@ -52,8 +55,7 @@ if(!class_exists( __NAMESPACE__ . '\\RootPage' )){
          * Register the root pagem then all of its children.
          */
         public function register(): void {
-            $manifest = DependencyManager::get_instance()->get_container()->get('manifest');
-            $icon = $this->icon !== null ? $manifest->get_url($this->icon) : null;
+            $icon = $this->icon !== null ? $this->manifest->get_url($this->icon) : null;
             add_menu_page( $this->page_title, $this->menu_title, $this->capability, $this->slug, null, $icon );
             foreach ($this->children as $child) {
                 $child->register();

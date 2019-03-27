@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use ithoughts\TooltipGlossary\DependencyManager;
+use ithoughts\TooltipGlossary\Manifest;
 
 if(!class_exists( __NAMESPACE__ . '\\Manager' )){
     /**
@@ -21,10 +22,9 @@ if(!class_exists( __NAMESPACE__ . '\\Manager' )){
         /**
          * Construct the menu Manager and its pages.
          */
-        public function __construct(){
-            $text_domain = DependencyManager::get_instance()->get_container()->get('text-domain');
+        public function __construct(string $text_domain){
             $this->pages = [
-                new RootPage( 'iThoughts Tooltip Glossary', 'Glossary', $text_domain, 'edit_others_posts', 'back-icon.svg', [
+                new RootPage( 'iThoughts Tooltip Glossary', 'Glossary', $text_domain, 'edit_others_posts', 'back-icon.svg', DependencyManager::get(Manifest::class), [
                     // Define the plugin options page.
                     new ChildPage( 'Options', 'Options', $text_domain, 'manage_options'/*array( $this, 'options' )*/),
                     // Define the `Add new Term` page.

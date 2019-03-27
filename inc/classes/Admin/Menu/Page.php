@@ -49,7 +49,7 @@ if(!class_exists( __NAMESPACE__ . '\\Page' )){
             ?string $capability
         ){
             // Localize readable data
-            $text_domain = DependencyManager::get_instance()->get_container()->get('text-domain');
+            $text_domain = DependencyManager::get('text-domain');
             $this->page_title = __($page_title, $text_domain);
             $this->menu_title = __($menu_title, $text_domain);
             // Set the others

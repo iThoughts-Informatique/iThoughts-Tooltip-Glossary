@@ -28,11 +28,6 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
          * @var DependencyManager The singleton instance of the dependency manager.
          */
         protected static $instance;
-
-        /**
-         * @var string The path of the plugin's directory.
-         */
-        protected static $root_plugin_file;
         
         /**
          * Creates a new instance of the DependencyManager of iThoughts Tooltip Glossary
@@ -40,55 +35,26 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
         protected function __construct() {
             $this->container_builder = new ContainerBuilder();
         }
-        
-        /**
-         * Register dependencies needed depending on the current page
-         */
-        public static function load(): void {
-            // This will be used as a check if we have already loaded the plugin.
-            if ( !once_flag( 'load' ) ) { return; }
-            
-            $instance = static::get_instance();
-            $instance->register_common_definitions();
-            if(is_admin()){
-                $instance->register_back_definitions();
-            } else {
-                $instance->register_front_definitions();
-            }
-        }
 
         /**
-         * Register the dependencies used by the back & the front
+         * Register the dependencies used by both the back & the front
          */
         protected function register_common_definitions(): void {
-            $relative_assets_dir = 'assets/dist/';
-
-            $base_path = plugin_dir_path(static::$root_plugin_file);
-            $base_url = plugin_dir_url(static::$root_plugin_file);
-            $this->container_builder->addDefinitions([
-                'text-domain' => 'ithoughts-tooltip-glossary',
-                'base-path' =>   $base_path,
-                'base-url' =>    $base_url,
-                'assets-path' => "$base_path$relative_assets_dir",
-                'assets-url' =>  "$base_url$relative_assets_dir",
-                'manifest' =>    function(){ return new Manifest(); },
-            ]);
+            $this->container_builder->addDefinitions(dirname(__FILE__).'/dependencies/common.php');
         }
 
         /**
          * Register the dependencies used by the front.
          */
         protected function register_front_definitions(): void {
-            $this->container_builder->addDefinitions([]);
+            $this->container_builder->addDefinitions(dirname(__FILE__).'/dependencies/front.php');
         }
 
         /**
          * Register the dependencies used by the back.
          */
         protected function register_back_definitions(): void {
-            $this->container_builder->addDefinitions([
-                'menu-manager' => function(){ return new Menu_Manager(); },
-            ]);
+            $this->container_builder->addDefinitions(dirname(__FILE__).'/dependencies/back.php');
         }
 
         /**
@@ -96,7 +62,7 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
          *
          * @return DependencyManager The singleton instance of the dependency manager.
          */
-        public static function get_instance() : DependencyManager {
+        public static function get_instance(): DependencyManager {
             if( null == static::$instance ){
                 static::$instance = new static();
             }
@@ -107,23 +73,60 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
         /**
          * Returns the container of the dependency manager.
          */
-        public function get_container() :  \DI\Container {
+        public function get_container():  \DI\Container {
             if($this->container === null){
                 $this->container = $this->container_builder->build();
             }
             return $this->container;
         }
+        
+        /**
+         * A shorthand method, retrieving the static instance of the DependencyManager, and uses `get` on its container.
+         *
+         * @param mixed $something The thing's identifier to resolve.
+         * @return mixed the resolved thing.
+         */
+        public static function get($something){
+            return static::get_instance()->get_container()->get($something);
+        }
+        
+        /**
+         * A shorthand method, retrieving the static instance of the DependencyManager, and uses `call` on its container.
+         *
+         * @param mixed $something The thing's identifier to resolve.
+         * @return mixed the resolved thing.
+         */
+        public static function call($something){
+            return static::get_instance()->get_container()->call($something);
+        }
+        
+        /**
+         * A shorthand method, retrieving the static instance of the DependencyManager, and uses `make` on its container.
+         *
+         * @param mixed $something The thing's identifier to resolve.
+         * @return mixed the resolved thing.
+         */
+        public static function make($something){
+            return static::get_instance()->get_container()->make($something);
+        }
 
         /**
          * Bind wordpress actions to initialize appropriate parts of the plugin.
          */
-        public static function bootstrap(string $root_plugin_file): void {
-            static::$root_plugin_file = $root_plugin_file;
-            // Initialize the plugin if not already loaded.
-            add_action( 'init', [__NAMESPACE__.'\\DependencyManager' , 'load'], 2);
+        public static function bootstrap(): void {
+            // This will be used as a check if we have already loaded the plugin.
+            if ( !once_flag( 'bootstrap' ) ) { return; }
+            
+            $instance = static::get_instance();
+            $instance->register_common_definitions();
+            if(is_admin()){
+                $instance->register_back_definitions();
+            } else {
+                $instance->register_front_definitions();
+            }
 
             add_action( 'admin_init', function(){
-                static::get_instance()->get_container()->get('menu-manager')->register();
+                static::get(Menu_Manager::class)->register();
             });
         }
     }

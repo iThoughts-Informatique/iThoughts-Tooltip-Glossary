@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     status_header( 403 );wp_die( 'Forbidden' );// Exit if accessed directly.
 }
 
-use ithoughts\TooltipGlossary\DependencyManager;
-
 if(!class_exists( __NAMESPACE__ . '\\ChildPage' )){
     /**
      * A page displayed as a sub-menu item on the Wordpress admin section.
