@@ -24,10 +24,13 @@ $relative_assets_dir = 'assets/dist/';
 
 return [
     'text-domain'                 => 'ithoughts-tooltip-glossary',
+    'options.key'                 => 'ithoughts-tooltip-glossary',
+    'options.default'             => require_once('default_config.php'),
     'base-path'                   => $base_path,
     'base-url'                    => $base_url,
     'assets-path'                 => "$base_path$relative_assets_dir",
     'assets-url'                  => "$base_url$relative_assets_dir",
+    OptionsManager::class         => create()->constructor(get('options.key'), get('options.default')),
     Post_Glossary::class          => create()->constructor(get('text-domain')),
     Taxonomy_GlossaryGroup::class => create()->constructor(get('text-domain')),
 ];
