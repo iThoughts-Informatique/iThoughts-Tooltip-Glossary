@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     status_header( 403 );wp_die( 'Forbidden' );// Exit if accessed directly.
 }
 
+use ithoughts\TooltipGlossary\OptionsManager;
+
 if(!class_exists( __NAMESPACE__ . '\\GlossaryGroup' )){
     /**
      * Register & manages the `glossary_group` taxonomy type.
@@ -17,14 +19,19 @@ if(!class_exists( __NAMESPACE__ . '\\GlossaryGroup' )){
         protected $text_domain;
 
         /**
+         * @var OptionsManager The manager used to retrieve plugin's options
+         */
+        protected $options_manager;
+
+        /**
          * Constructs the `glossary_group` taxonomy type's wrapper class.
          *
          * @param string $text_domain The text domain used for localization.
          */
-        public function __construct(string $text_domain){
+        public function __construct(string $text_domain, OptionsManager $options_manager){
             $this->text_domain = $text_domain;
+            $this->options_manager = $options_manager;
         }
-
 
         /**
          * Register the taxonomy type in Wordpress.
@@ -71,7 +78,7 @@ if(!class_exists( __NAMESPACE__ . '\\GlossaryGroup' )){
                 // 'meta_box_sanitize_cb' TODO
                 // 'capabilities' uses default value
                 'rewrite'            => [
-                    // 'slug' TODO
+                    'slug'         => $this->options_manager->get('glossary_group.slug'),
                     'with_front'   => true,
                     'hierarchical' => true,
                     // 'ep_mask' uses default value

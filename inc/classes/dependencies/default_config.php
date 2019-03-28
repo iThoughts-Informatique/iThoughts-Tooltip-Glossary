@@ -10,4 +10,12 @@ if(!once_flag('default-config')){
     throw new MultipleCallException('Double call to default configuration file.', 'default-config');
 }
 
-return [];
+return [
+    'glossary_group' => [
+        'slug' => 'glossary-group',
+    ],
+    'glossary' => [
+        'slug'       => 'glossary',
+        'searchable' => true,
+    ],
+];

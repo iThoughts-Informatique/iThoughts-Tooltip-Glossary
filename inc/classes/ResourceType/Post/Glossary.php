@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     status_header( 403 );wp_die( 'Forbidden' );// Exit if accessed directly.
 }
 
+use ithoughts\TooltipGlossary\OptionsManager;
+
 if(!class_exists( __NAMESPACE__ . '\\Glossary' )){
     /**
      * Register & manages the `glossary` post type.
@@ -17,12 +19,18 @@ if(!class_exists( __NAMESPACE__ . '\\Glossary' )){
         protected $text_domain;
 
         /**
+         * @var OptionsManager The manager used to retrieve plugin's options
+         */
+        protected $options_manager;
+
+        /**
          * Constructs the `glossary` post type's wrapper class.
          *
          * @param string $text_domain The text domain used for localization.
          */
-        public function __construct(string $text_domain){
+        public function __construct(string $text_domain, OptionsManager $options_manager){
             $this->text_domain = $text_domain;
+            $this->options_manager = $options_manager;
         }
 
         /**
@@ -66,7 +74,7 @@ if(!class_exists( __NAMESPACE__ . '\\Glossary' )){
                 'description'           => __('A glossary term, like a dictionary entry with a definition, that can be displayed in a tooltip.', $this->text_domain),
                 'public'                => true,
                 'hierarchical'          => false,
-                'exclude_from_search'	=> false, // TODO make configurable
+                'exclude_from_search'	=> $this->options_manager->get('glossary.searchable'),
                 'publicly_queryable'    => true,
                 'show_ui'               => true,
                 'show_in_menu'          => false, // Already displayed as a subpage of the plugin's root page
@@ -85,7 +93,7 @@ if(!class_exists( __NAMESPACE__ . '\\Glossary' )){
                 'taxonomies'            => ['glossary_group'],
                 'has_archive'           => true,
                 'rewrite'               => [
-                    'slug'       => 'glossary', // TODO make configurable
+                    'slug'       => $this->options_manager->get('glossary.slug'),
                     'with_front' => true, // TODO what is it ?
                     // 'feeds' uses default value from `has_archive`
                     // 'pages' uses default value

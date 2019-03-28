@@ -17,7 +17,6 @@ if(!class_exists( __NAMESPACE__ . '\\OptionsManager' )){
         public function __construct(string $options_key, array $default_options){
             $this->key = $options_key;
             $this->defaults = $default_options;
-            bdump($this);
         }
 
         public function get(string $key){

@@ -31,6 +31,6 @@ return [
     'assets-path'                 => "$base_path$relative_assets_dir",
     'assets-url'                  => "$base_url$relative_assets_dir",
     OptionsManager::class         => create()->constructor(get('options.key'), get('options.default')),
-    Post_Glossary::class          => create()->constructor(get('text-domain')),
-    Taxonomy_GlossaryGroup::class => create()->constructor(get('text-domain')),
+    Post_Glossary::class          => create()->constructor(get('text-domain'), get(OptionsManager::class)),
+    Taxonomy_GlossaryGroup::class => create()->constructor(get('text-domain'), get(OptionsManager::class)),
 ];
