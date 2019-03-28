@@ -19,18 +19,20 @@ if(!class_exists( __NAMESPACE__ . '\\ChildPage' )){
         /**
          * Create a new child page. You SHOULD attach it to a parent to register it in the Wordpress admin section.
          * 
-         * @param string $page_title The localizable title of the target page.
-         * @param string $menu_title The localizable label of the menu item.
-         * @param string $slug A unique identifier for the page.
-         * @param ?string $capability The required user capability to access this page.
+         * @param string    $page_title   The localizable title of the target page.
+         * @param string    $menu_title   The localizable label of the menu item.
+         * @param string    $slug         A unique identifier for the page.
+         * @param ?string   $capability   The required user capability to access this page.
+         * @param ?callable $page_factory The page factory for this menu entry.
          */
         public function __construct(
             string $page_title,
             string $menu_title,
             string $slug,
-            ?string $capability
+            ?string $capability,
+            ?callable $page_factory = null
         ){
-            parent::__construct($page_title, $menu_title, $slug, $capability);
+            parent::__construct($page_title, $menu_title, $slug, $capability, $page_factory);
         }
 
         /**
@@ -42,7 +44,7 @@ if(!class_exists( __NAMESPACE__ . '\\ChildPage' )){
             if($this->has_been_registered){
                 throw new \Exception();
             }
-            add_submenu_page($this->parent->get_slug(), $this->page_title, $this->menu_title, $this->capability, $this->slug);
+            add_submenu_page($this->parent->get_slug(), $this->page_title, $this->menu_title, $this->capability, $this->slug, $this->get_page_callback());
         }
 
         /**

@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     status_header( 403 );wp_die( 'Forbidden' );// Exit if accessed directly.
 }
 
+use ithoughts\TooltipGlossary\DependencyManager;
 use ithoughts\TooltipGlossary\Manifest;
 
 if(!class_exists( __NAMESPACE__ . '\\RootPage' )){
@@ -26,12 +27,13 @@ if(!class_exists( __NAMESPACE__ . '\\RootPage' )){
         /**
          * Create a new root page.
          * 
-         * @param string      $page_title The localizable title of the target page.
-         * @param string      $menu_title The localizable label of the menu item.
-         * @param string      $slug       A unique identifier for the page.
-         * @param ?string     $capability The required user capability to access this page.
-         * @param ?string     $icon       The icon's resource identifier to be fetched from the {@link \ithoughts\TooltipGlossary\Manifest}.
-         * @param ChildPage[] $children   The list of child pages to link with this root page.
+         * @param string      $page_title   The localizable title of the target page.
+         * @param string      $menu_title   The localizable label of the menu item.
+         * @param string      $slug         A unique identifier for the page.
+         * @param ?string     $capability   The required user capability to access this page.
+         * @param ?string     $icon         The icon's resource identifier to be fetched from the {@link \ithoughts\TooltipGlossary\Manifest}.
+         * @param ?callable   $page_factory The page factory for this menu entry.
+         * @param ChildPage[] $children     The list of child pages to link with this root page.
          */
         public function __construct(
             string $page_title,
@@ -40,9 +42,10 @@ if(!class_exists( __NAMESPACE__ . '\\RootPage' )){
             ?string $capability,
             ?string $icon,
             Manifest $manifest,
+            ?callable $page_factory = null,
             array $children = []
         ){
-            parent::__construct($page_title, $menu_title, $slug, $capability);
+            parent::__construct($page_title, $menu_title, $slug, $capability, $page_factory);
             $this->manifest = $manifest;
             $this->icon = $icon;
             $this->children = $children;
