@@ -1,6 +1,6 @@
 <?php
 
-namespace ithoughts\TooltipGlossary\Admin\Menu;
+namespace ithoughts\TooltipGlossary\Admin\Menu\Entry;
 
 if ( ! defined( 'ABSPATH' ) ) {
     status_header( 403 );wp_die( 'Forbidden' );// Exit if accessed directly.
@@ -9,23 +9,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 use ithoughts\TooltipGlossary\DependencyManager;
 use ithoughts\TooltipGlossary\Admin\Page\IPage;
 
-if(!class_exists( __NAMESPACE__ . '\\Page' )){
+if(!class_exists( __NAMESPACE__ . '\\AEntry' )){
     /**
-     * An abstract generic Page, used to list & organize menu entries in the Wordpress admin section.
+     * An abstract generic menu entry, used to list & organize menu entries in the Wordpress admin section.
      */
-    abstract class Page {
+    abstract class AEntry {
         /**
          * @var string The localized page name.
          */
         protected $page_title;
 
         /**
-         * @var string The localized menu item's label.
+         * @var string The localized menu entry's label.
          */
         protected $menu_title;
 
         /**
-         * @var string A unique identifier for the target page.
+         * @var string A unique identifier for the entry.
          */
         protected $slug;
 
@@ -49,7 +49,7 @@ if(!class_exists( __NAMESPACE__ . '\\Page' )){
          * 
          * @param string    $page_title   The localizable title of the target page.
          * @param string    $menu_title   The localizable label of the menu item.
-         * @param string    $slug         A unique identifier for the page.
+         * @param string    $slug         A unique identifier for the entry.
          * @param ?string   $capability   The required user capability to access this page.
          * @param ?callable $page_factory The page factory for this menu entry.
          */

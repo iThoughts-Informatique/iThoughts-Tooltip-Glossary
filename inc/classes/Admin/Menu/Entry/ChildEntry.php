@@ -1,18 +1,18 @@
 <?php
 
-namespace ithoughts\TooltipGlossary\Admin\Menu;
+namespace ithoughts\TooltipGlossary\Admin\Menu\Entry;
 
 if ( ! defined( 'ABSPATH' ) ) {
     status_header( 403 );wp_die( 'Forbidden' );// Exit if accessed directly.
 }
 
-if(!class_exists( __NAMESPACE__ . '\\ChildPage' )){
+if(!class_exists( __NAMESPACE__ . '\\ChildEntry' )){
     /**
-     * A page displayed as a sub-menu item on the Wordpress admin section.
+     * A menu entry displayed as a sub-menu item on the Wordpress admin section.
      */
-    final class ChildPage extends Page {
+    final class ChildEntry extends AEntry {
         /**
-         * @var RootPage The root page that contains this entry.
+         * @var RootEntry The root entry that contains this entry.
          */
         protected $parent;
 
@@ -48,12 +48,12 @@ if(!class_exists( __NAMESPACE__ . '\\ChildPage' )){
         }
 
         /**
-         * Define this page's parent. This method MUST have been called before {@link $this->register} is called.
-         * This method will skip the definition if the provided parent is already the page's parent.
+         * Define this menu entry's parent. This method MUST have been called before {@link $this->register} is called.
+         * This method will skip the definition if the provided parent is already the entry's parent.
          *
-         * @param  RootPage $new_parent The new parent page to set. This page will be added to the new parent's children list.
+         * @param  RootEntry $new_parent The new parent menu entry to set. This menu entry will be added to the new parent's children list.
          */
-        public function set_parent(RootPage $new_parent): void {
+        public function set_parent(RootEntry $new_parent): void {
             if($this->parent === $new_parent){
                 return;
             }

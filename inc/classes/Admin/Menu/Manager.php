@@ -8,6 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use ithoughts\TooltipGlossary\DependencyManager;
 use ithoughts\TooltipGlossary\Manifest;
+use ithoughts\TooltipGlossary\Admin\Menu\Entry\ChildEntry;
+use ithoughts\TooltipGlossary\Admin\Menu\Entry\RootEntry;
 
 if(!class_exists( __NAMESPACE__ . '\\Manager' )){
     /**
@@ -15,7 +17,7 @@ if(!class_exists( __NAMESPACE__ . '\\Manager' )){
      */
     final class Manager {
         /**
-         * @var {RootPage[]} Pages managed by this menu manager
+         * @var {RootEntry[]} Pages managed by this menu manager
          */
         protected $pages;
 
@@ -24,15 +26,15 @@ if(!class_exists( __NAMESPACE__ . '\\Manager' )){
          */
         public function __construct(string $text_domain){
             $this->pages = [
-                new RootPage( 'iThoughts Tooltip Glossary', 'Glossary', $text_domain, 'edit_others_posts', 'back-icon.svg', DependencyManager::get(Manifest::class), null, [
+                new RootEntry( 'iThoughts Tooltip Glossary', 'Glossary', $text_domain, 'edit_others_posts', 'back-icon.svg', DependencyManager::get(Manifest::class), null, [
                     // Define the plugin options page.
-                    new ChildPage( 'Options', 'Options', $text_domain, 'manage_options'/*array( $this, 'options' )*/),
+                    new ChildEntry( 'Options', 'Options', $text_domain, 'manage_options'/*array( $this, 'options' )*/),
                     // Define the `Add new Term` page.
-                    new ChildPage( 'Add a Term', 'Add a Term', 'post-new.php?post_type=glossary', 'edit_others_posts'/*null,// Doesn't need a callback function*/),
+                    new ChildEntry( 'Add a Term', 'Add a Term', 'post-new.php?post_type=glossary', 'edit_others_posts'/*null,// Doesn't need a callback function*/),
                     // Define the glossary listing page.
-                    new ChildPage( 'Glossary Terms', 'Glossary Terms', 'edit.php?post_type=glossary', 'edit_others_posts'/*null,// Doesn't need a callback function*/),
+                    new ChildEntry( 'Glossary Terms', 'Glossary Terms', 'edit.php?post_type=glossary', 'edit_others_posts'/*null,// Doesn't need a callback function*/),
                     // Define the taxonomy management page.
-                    new ChildPage( 'Glossary Groups', 'Glossary Groups', 'edit-tags.php?taxonomy=glossary_group&post_type=glossary', 'manage_categories' /*null,// Doesn't need a callback function*/),
+                    new ChildEntry( 'Glossary Groups', 'Glossary Groups', 'edit-tags.php?taxonomy=glossary_group&post_type=glossary', 'manage_categories' /*null,// Doesn't need a callback function*/),
                 ])
             ];
         }
