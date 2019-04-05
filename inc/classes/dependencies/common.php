@@ -2,12 +2,17 @@
 
 namespace ithoughts\TooltipGlossary;
 
-use function \ithoughts\TooltipGlossary\once_flag;
-use \ithoughts\TooltipGlossary\MultipleCallException;
 use function \DI\create;
 use function \DI\get;
+use Psr\Container\ContainerInterface;
+
+use function \ithoughts\TooltipGlossary\once_flag;
+use ithoughts\TooltipGlossary\MultipleCallException;
 use ithoughts\TooltipGlossary\ResourceType\Post\Glossary as Post_Glossary;
 use ithoughts\TooltipGlossary\ResourceType\Taxonomy\GlossaryGroup as Taxonomy_GlossaryGroup;
+use ithoughts\TooltipGlossary\AssetRegistration\ScriptRegistration;
+use ithoughts\TooltipGlossary\AssetRegistration\StyleRegistration;
+
 
 if ( ! defined( 'ABSPATH' ) ) {
     status_header( 403 );wp_die( 'Forbidden' );// Exit if accessed directly.
@@ -33,4 +38,8 @@ return [
     OptionsManager::class         => create()->constructor(get('options.key'), get('options.default')),
     Post_Glossary::class          => create()->constructor(get('text-domain'), get(OptionsManager::class)),
     Taxonomy_GlossaryGroup::class => create()->constructor(get('text-domain'), get(OptionsManager::class)),
+
+    // Assets registration
+    'AssetRegistration.js'        => ScriptRegistration::class,
+    'AssetRegistration.css'       => StyleRegistration::class,
 ];
