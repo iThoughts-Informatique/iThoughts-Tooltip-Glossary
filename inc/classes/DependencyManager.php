@@ -10,6 +10,7 @@ use DI\ContainerBuilder;
 use ithoughts\TooltipGlossary\Admin\Menu\Manager as Menu_Manager;
 use ithoughts\TooltipGlossary\ResourceType\Post\Glossary as Post_Glossary;
 use ithoughts\TooltipGlossary\ResourceType\Taxonomy\GlossaryGroup as Taxonomy_GlossaryGroup;
+use ithoughts\TooltipGlossary\Admin\PostEditor;
 
 if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
     /**
@@ -133,6 +134,7 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
             add_action( 'init', function(){
                 static::get(Taxonomy_GlossaryGroup::class)->register();
                 static::get(Post_Glossary::class)->register();
+                static::get(PostEditor::class)->register();
             });
         }
     }
