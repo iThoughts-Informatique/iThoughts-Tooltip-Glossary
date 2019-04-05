@@ -94,6 +94,7 @@ if(!class_exists( __NAMESPACE__ . '\\ScriptRegistration' )){
          */
         protected function register(): void {
             \wp_register_script($this->handle, $this->manifest->get_url($this->identifier), $this->dependencies);
+            \wp_set_script_translations($this->handle, $this->text_domain);
         }
     }
 }
