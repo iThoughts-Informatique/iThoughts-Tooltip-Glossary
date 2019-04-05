@@ -14,20 +14,19 @@ if(!class_exists( __NAMESPACE__ . '\\Manifest' )){
      */
     final class Manifest {
         private $manifest_content;
-        private $base_url;
+        private $assets_url;
 
         /**
          * Create a new Manifest handler.
          * 
          * Since this class is already lazy-loaded, a call to the constructor means that the manifest is actually used. We then populate the manifest content right now.
          */
-        public function __construct(){
-            $dep_manager = DependencyManager::get_instance();
+        public function __construct(string $assets_path, string $assets_url){
             // TODO: Use cache: https://codex.wordpress.org/Class_Reference/WP_Object_Cache
-            $manifest_text_content = file_get_contents($dep_manager->get_container()->get('assets-path').'manifest.json');
+            $manifest_text_content = file_get_contents($assets_path.'manifest.json');
             $this->manifest_content = \json_decode($manifest_text_content, true);
 
-            $this->base_url = $dep_manager->get_container()->get('assets-url');
+            $this->assets_url = $assets_url;
         }
 
         /**
@@ -41,7 +40,20 @@ if(!class_exists( __NAMESPACE__ . '\\Manifest' )){
             if(!isset($this->manifest_content[$identifier])){
                 throw new \DomainException("Unkown asset identifier: `$identifier`");
             }
-            return "{$this->base_url}{$this->manifest_content[$identifier]}";
+            return "{$this->assets_url}{$this->manifest_content[$identifier]}";
+        }
+
+        /**
+         * Get the whole manifest content
+         *
+         * @return array An associative array maping an identifier with an url.
+         */
+        public function get_manifest(): array {
+            $manifest_content = $this->manifest_content;
+            array_walk($manifest_content, function(&$asset_url, $asset_identifier){
+                $asset_url = $this->get_url($asset_identifier);
+            });
+            return $manifest_content;
         }
     }
 }

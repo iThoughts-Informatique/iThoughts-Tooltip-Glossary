@@ -38,6 +38,7 @@ return [
     OptionsManager::class         => create()->constructor(get('options.key'), get('options.default')),
     Post_Glossary::class          => create()->constructor(get('text-domain'), get(OptionsManager::class)),
     Taxonomy_GlossaryGroup::class => create()->constructor(get('text-domain'), get(OptionsManager::class)),
+    Manifest::class               => create()->constructor(get('assets-path'), get('assets-url')),
 
     // Assets registration
     'AssetRegistration.js'        => ScriptRegistration::class,
