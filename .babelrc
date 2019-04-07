@@ -3,7 +3,8 @@
         ["@babel/preset-react", {"pragma": "wp.element.createElement"}],
         ["@babel/preset-typescript", {"isTSX": true, "allExtensions": true}],
         ["@babel/preset-env", {
-          "useBuiltIns": "entry"
+          "useBuiltIns": "entry",
+          "corejs": 3
         }]
     ]
 }
