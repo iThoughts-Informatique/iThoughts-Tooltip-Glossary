@@ -79,12 +79,11 @@ if(!class_exists( __NAMESPACE__ . '\\ScriptRegistration' )){
          *
          * @return self This.
          */
-        public function enqueue(): parent {
+        protected function enqueue_asset(): void {
             foreach ($this->script_data as $data_entry) {
                 \wp_localize_script($this->handle, $data_entry['global'], $data_entry['data']());
             }
             \wp_enqueue_script($this->handle);
-            return $this;
         }
 
         /**

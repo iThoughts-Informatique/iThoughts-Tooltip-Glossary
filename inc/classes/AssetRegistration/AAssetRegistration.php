@@ -32,7 +32,12 @@ if(!class_exists( __NAMESPACE__ . '\\AAssetRegistration' )){
         /**
          * @var array List of assets this asset depends on.
          */
-        protected $dependencies;
+        protected $dependencies = [];
+
+        /**
+         * @var array List of assets registrations this asset depends on.
+         */
+        protected $asset_registration_dependencies = [];
 
         /**
          * @var Manifest The Manifest to consult to resolve assets urls.
@@ -62,7 +67,14 @@ if(!class_exists( __NAMESPACE__ . '\\AAssetRegistration' )){
             
             $this->identifier = $identifier;
             $this->handle = static::identifier_to_handle($text_domain, $identifier);
-            $this->dependencies = $dependencies;
+            foreach ($dependencies as $dependency) {
+                bdump($dependency);
+                if($dependency instanceof AAssetRegistration){
+                    $this->asset_registration_dependencies[] = $dependency;
+                } else {
+                    $this->dependencies[] = $dependency;
+                }
+            };
             $this->manifest = $manifest;
             $this->text_domain = $text_domain;
             
@@ -152,6 +164,28 @@ if(!class_exists( __NAMESPACE__ . '\\AAssetRegistration' )){
         public final function get_handle(): string {
             return $this->handle;
         }
+
+        /**
+         * Enqueue asset's managed dependencies and the asset itself.
+         *
+         * @return self This.
+         */
+        public final function enqueue(): self {
+            $this->enqueue_asset_dependencies();
+            $this->enqueue_asset();
+            return $this;
+        }
+
+        /**
+         * Enqueue this asset's managed dependencies.
+         *
+         * @return void
+         */
+        protected final function enqueue_asset_dependencies(){
+            foreach ($this->asset_registration_dependencies as $asset_dependency) {
+                $asset_dependency->enqueue();
+            }
+        }
         
         // Abstract methods
 
@@ -176,7 +210,7 @@ if(!class_exists( __NAMESPACE__ . '\\AAssetRegistration' )){
          *
          * @return self This.
          */
-        public abstract function enqueue(): self;
+        protected abstract function enqueue_asset(): void;
         
         /**
          * Run the Wordpress' register function, according to the registration type (usually `wp_register_[type]`).
