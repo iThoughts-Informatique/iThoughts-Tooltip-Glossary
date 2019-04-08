@@ -3,4 +3,6 @@ declare module '@wordpress/plugins'{
         icon: JSX.Element;
         render(): JSX.Element;
     } ): void;
+
+    export function withPluginContext(): Function;
 }

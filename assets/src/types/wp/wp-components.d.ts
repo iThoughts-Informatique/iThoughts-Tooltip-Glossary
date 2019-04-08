@@ -74,6 +74,7 @@ declare module '@wordpress/components'{
     }
     
     class Toolbar extends React.Component<ToolbarProps> {}
+    class PanelBody extends React.Component<{}> {}
     
     export interface DashiconProps {
         readonly icon: string,
