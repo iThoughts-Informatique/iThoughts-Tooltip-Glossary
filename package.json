@@ -11,7 +11,9 @@
     "build:assets:watch": "grunt watch:assets",
     "build:assets": "grunt rebuildAssets",
     "build:rollup": "rm -rf ./assets/dist/* && npx rollup -c rollup.config.js",
-    "build:rollup:watch": "rm -rf ./assets/dist/* && npx rollup -c rollup.config.js -w"
+    "build:rollup:watch": "rm -rf ./assets/dist/* && npx rollup -c rollup.config.js -w",
+    "lint": "tslint --project ./tsconfig.json",
+    "lint:fix": "npm run lint -- --fix"
   },
   "repository": {
     "type": "git",
@@ -63,6 +65,7 @@
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
+    "@diaspora/dev-tslint": "^1.2.0",
     "@types/md5-file": "^4.0.0",
     "@types/underscore": "^1.8.14",
     "core-js": "^3.0.0",
@@ -93,6 +96,8 @@
     "rollup-plugin-terser": "^4.0.4",
     "rollup-plugin-virtual": "^1.0.1",
     "ts-node": "^8.0.3",
+    "tslint": "^5.15.0",
+    "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.4.2"
   },
   "dependencies": {

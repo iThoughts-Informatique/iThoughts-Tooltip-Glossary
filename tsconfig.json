@@ -58,7 +58,9 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
   "include": [
-    "assets/src/**/*.{js,ts,jsx,tsx}",
-    "build/**/*", "Gruntfile.js"
+    "assets/src/**/*",
+    "build/**/*.[jt]s{x,}",
+    "Gruntfile.js",
+    "rollup.config.js"
   ]
 }
