@@ -43,9 +43,8 @@ if(!class_exists( __NAMESPACE__ . '\\StyleRegistration' )){
          *
          * @return self This.
          */
-        public function enqueue(): parent {
+        protected function enqueue_asset(): void {
             \wp_enqueue_style($this->handle);
-            return $this;
         }
 
         /**

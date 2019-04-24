@@ -34,6 +34,18 @@ if(!class_exists( __NAMESPACE__ . '\\ScriptRegistration' )){
             ]));
             return $this->as_block_editor_asset();
         }
+
+        public function as_tinymce_plugin(string $plugin_name, array $buttons = []): parent {
+            add_filter( 'mce_buttons', function(array $before_buttons) use ($buttons){
+                return array_merge($before_buttons, $buttons);
+            });
+            add_filter( 'mce_external_plugins', function( $plugin_array ) use ( $plugin_name ) {
+                $plugin_array[$plugin_name] = $this->get_url();
+                $this->enqueue();
+                return $plugin_array;
+            } );
+            return $this;
+        }
         
         /**
          * Add data to pass to the client as the specified global when the script is enqueued.
@@ -79,12 +91,11 @@ if(!class_exists( __NAMESPACE__ . '\\ScriptRegistration' )){
          *
          * @return self This.
          */
-        public function enqueue(): parent {
+        protected function enqueue_asset(): void {
             foreach ($this->script_data as $data_entry) {
                 \wp_localize_script($this->handle, $data_entry['global'], $data_entry['data']());
             }
             \wp_enqueue_script($this->handle);
-            return $this;
         }
 
         /**
@@ -93,7 +104,7 @@ if(!class_exists( __NAMESPACE__ . '\\ScriptRegistration' )){
          * @return void
          */
         protected function register(): void {
-            \wp_register_script($this->handle, $this->manifest->get_url($this->identifier), $this->dependencies);
+            \wp_register_script($this->handle, $this->get_url(), $this->dependencies);
             \wp_set_script_translations($this->handle, $this->text_domain);
         }
     }
