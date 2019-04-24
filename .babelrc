@@ -6,5 +6,6 @@
           "useBuiltIns": "entry",
           "corejs": 3
         }]
-    ]
+    ],
+    "sourceMaps": true
 }

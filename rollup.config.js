@@ -7,12 +7,13 @@ import json from 'rollup-plugin-json';
 import { terser } from 'rollup-plugin-terser';
 import imagemin from 'rollup-plugin-imagemin';
 import virtual from 'rollup-plugin-virtual';
+import { jsonManifest } from 'rollup-plugin-json-manifest';
+import { string } from 'rollup-plugin-string';
 
 import _ from 'underscore';
 import React from 'react';
 import ReactDom from 'react-dom';
 import ReactDates from 'react-dates';
-import { spawnSync } from 'child_process';
 
 const camelCase = str => str.replace( /-([a-z])/g, ( [, g] ) => g.toUpperCase() );
 
@@ -20,22 +21,23 @@ const allDeps = Object.keys( require( './package.json' ).dependencies );
 const wpDeps = allDeps.filter( dep => dep.startsWith( '@wordpress' ) );
 
 const bundles = {
-	'assets/src/front/index.ts': 'assets/dist/front.js',
-	'assets/src/common/index.ts': 'assets/dist/common.js',
-	'assets/src/back/index.ts': 'assets/dist/back.js',
+	'assets/src/front/index.ts': 'assets/tmp/front.js',
+	'assets/src/common/index.ts': 'assets/tmp/common.js',
+	'assets/src/back/index.ts': 'assets/tmp/back.js',
 };
-const backToFrontModules = ['editor-config'];
-const backToFrontVirtualModuleToGlobalAliases = backToFrontModules.reduce( ( acc, identifier ) => {
+
+const backToFrontVirtualModules = ['editor-config'];
+const backToFrontVirtualModuleGlobals = backToFrontVirtualModules.reduce( ( acc, identifier ) => {
 	acc[`~${identifier}`] = `ithoughtsTooltipGlossary_${camelCase( identifier )}`;
 	return acc;
-},                                                                         {} );
-const backToFrontVirtualModules = Object.keys( backToFrontVirtualModuleToGlobalAliases );
+},                                                                       {} );
+
 const external = _.reject( allDeps, 'qtip2' ).concat( backToFrontVirtualModules );
 const globals = {
 	react: 'React',
 	underscore: '_',
 
-	...backToFrontVirtualModuleToGlobalAliases,
+	...backToFrontVirtualModuleGlobals,
 
 	...wpDeps.reduce( ( acc, dep ) => {
 		if ( dep === '@wordpress/i18n' ) {
@@ -44,7 +46,7 @@ const globals = {
 			acc[dep] = `wp.${camelCase( dep.replace( '@wordpress/', '' ) )}`;
 		}
 		return acc;
-	},                {} ),
+	},               {} ),
 };
 console.log( 'Using externals %j exposed as globals %j', external, globals );
 
@@ -53,7 +55,7 @@ export default Object.entries( bundles ).map( ( [inFile, outFile] ) => {
 	return {
 		input: inFile,
 		output: {
-			file: outFile.replace( /(\/|\\)(\w+\.js)/, '$1raw-$2' ),
+			file: outFile,
 			format: 'iife',
 			sourcemap : true,
 			globals,
@@ -66,7 +68,9 @@ export default Object.entries( bundles ).map( ( [inFile, outFile] ) => {
 				browser: true,
 				preferBuiltins: false,
 				extensions: ['.js', '.ts', '.tsx'],
+				sourceMap : true,
 			} ),
+			string( { include: '**/*.html' } ),
 			json(),
 			commonjs( {
 				include: [
@@ -79,38 +83,32 @@ export default Object.entries( bundles ).map( ( [inFile, outFile] ) => {
 					'react': Object.keys( React ),
 					'react-dom': Object.keys( ReactDom ),
 				},
+				sourceMap : true,
 			} ),
 			scss(),
 			postcss( {
 				extract: true,
 				minimize: true,
+				sourceMap: true,
 			} ),
 			babel( {
 				exclude: 'node_modules/**',
 				extensions: ['.js', '.jsx', '.ts', '.tsx'],
+				sourceMap : true,
 			} ),
 			virtual( backToFrontVirtualModules.reduce( ( acc, module ) => {
 				acc[module] = 'export default {}';
 				return acc;
-			},                                         {} ) ),
-			terser(),
+			},                                       {} ) ),
+			terser( { sourcemap: true } ),
 			imagemin( {
-				fileName: `raw-${base}-[name][extname]`,
+				fileName: `${base}-[name][extname]`,
 				svgo: {
 					full: true,
 					plugins: [],
 				},
 			} ),
-			{
-				writeBundle() {
-					const process  = spawnSync( 'ts-node', ['./build/make-manifest.ts'] );
-					const err = process.stderr.toString();
-					if ( err ) {
-						console.error( '[make-manifest]: ' + err );
-					}
-					console.log( '[make-manifest]: ' + process.stdout.toString() );
-				},
-			},
+			jsonManifest( { outDir: 'assets/dist' } ),
 		],
 	};
 } );

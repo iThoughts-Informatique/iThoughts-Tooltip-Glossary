@@ -1,3 +1,4 @@
 node_modules
 assets/dist
 vendor
+\.vscode/csak-timelog\.json
