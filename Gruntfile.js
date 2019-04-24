@@ -1,23 +1,20 @@
-const chalk = require( 'chalk' );
-const fs = require( 'fs' );
-const semver = require( 'semver' );
-const _ = require( 'lodash' );
+// tslint:disable: no-implicit-dependencies
 const { join } = require( 'path' );
-require('dotenv').config();
+require( 'dotenv' ).config();
 
 module.exports = grunt => {
-	require('load-grunt-config')(grunt, {
+	require( 'load-grunt-config' )( grunt, {
 		// path to task.js files, defaults to grunt dir
-		configPath: join(process.cwd(), 'build/grunt/configs'),
+		configPath: join( process.cwd(), 'build/grunt/configs' ),
 		// ...
 		jitGrunt: {
+			customTasksDir: './build/grunt/tasks',
 			// here you can pass options to jit-grunt (or just jitGrunt: true)
 			staticMappings: {
 				// here you can specify static mappings, for example:
 			},
-			customTasksDir: './build/grunt/tasks'
-		}
-	});
+		},
+	} );
 
 	// Default task(s).
 	grunt.registerTask( 'default', [ 'watch:assets' ] );
@@ -39,7 +36,7 @@ module.exports = grunt => {
 		'sh:rollup-build',
 		'htmlmin',
 	] );
-	
+
 	grunt.registerTask( 'lint:fix', [
 		'tslint:fix',
 		'phpcbf',
@@ -48,7 +45,7 @@ module.exports = grunt => {
 		'tslint:nofix',
 		'phplint',
 	] );
-	
+
 	grunt.registerTask( 'test', [
 		'phpunit',
 	] );

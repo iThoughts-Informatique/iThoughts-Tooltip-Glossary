@@ -27,8 +27,8 @@ module.exports = grunt => ({
 				message: 'What should get the new version:',
 				choices: [
 					{ value:   'package', name:    'package.json' + ( !grunt.file.isFile( 'package.json' ) ? grey( ' file not found, will create one' ) : '' ), checked: grunt.file.isFile( 'package.json' ), },
-					{ value:   'bower', name:    'bower.json' + ( !grunt.file.isFile( 'bower.json' ) ? grey( ' file not found, will create one' ) : '' ), checked: grunt.file.isFile( 'bower.json' ), },
-					{ value:   'git', name:    'git tag', checked: grunt.file.isDir( '.git' ), },
+					{ value:   'bower',   name:    'bower.json' + ( !grunt.file.isFile( 'bower.json' ) ? grey( ' file not found, will create one' ) : '' ), checked: grunt.file.isFile( 'bower.json' ), },
+					{ value:   'git',     name:    'git tag', checked: grunt.file.isDir( '.git' ), },
 				],
 			}, /*{
 				config:   'bump.changelogs',
