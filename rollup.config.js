@@ -35,6 +35,7 @@ const backToFrontVirtualModuleGlobals = backToFrontVirtualModules.reduce( ( acc,
 const external = _.reject( allDeps, 'qtip2' ).concat( backToFrontVirtualModules );
 const globals = {
 	react: 'React',
+	tinymce: 'tinymce',
 	underscore: '_',
 
 	...backToFrontVirtualModuleGlobals,

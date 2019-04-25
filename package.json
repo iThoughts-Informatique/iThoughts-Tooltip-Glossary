@@ -68,6 +68,7 @@
     "@babel/preset-typescript": "^7.3.3",
     "@diaspora/dev-tslint": "^1.2.0",
     "@types/md5-file": "^4.0.0",
+    "@types/tinymce": "^4.5.20",
     "@types/underscore": "^1.8.14",
     "core-js": "^3.0.0",
     "dotenv": "^7.0.0",
@@ -112,6 +113,7 @@
     "qtip2": "^3.0.3",
     "react": "^16.6.3",
     "react-dom": "16.6.3",
+    "tinymce": "^5.0.4",
     "underscore": "^1.9.1"
   }
 }

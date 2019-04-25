@@ -51,7 +51,7 @@ if(!class_exists( __NAMESPACE__ . '\\PostEditor' )){
                 } )
                 ->as_block_type('glossarytip')
                 ->as_block_type('tooltip')
-                ->as_tinymce_plugin('ithoughts-tooltip-glossary', ['glossaryterm', 'glossaryterm-d', 'glossarylist']);
+                ->as_tinymce_plugin('ithoughts-tooltip-glossary', ['add-glossarytip', 'add-tooltip', 'remove-tip', 'add-list']);
         }
     }
 }

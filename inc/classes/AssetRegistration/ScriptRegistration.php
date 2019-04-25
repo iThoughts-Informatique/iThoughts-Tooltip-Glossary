@@ -36,8 +36,10 @@ if(!class_exists( __NAMESPACE__ . '\\ScriptRegistration' )){
         }
 
         public function as_tinymce_plugin(string $plugin_name, array $buttons = []): parent {
-            add_filter( 'mce_buttons', function(array $before_buttons) use ($buttons){
-                return array_merge($before_buttons, $buttons);
+            add_filter( 'mce_buttons', function(array $before_buttons) use ($buttons, $plugin_name){
+                return array_merge($before_buttons, array_map(function(string $button) use ($plugin_name){
+                    return $plugin_name.'/'.$button;
+                }, $buttons));
             });
             add_filter( 'mce_external_plugins', function( $plugin_array ) use ( $plugin_name ) {
                 $plugin_array[$plugin_name] = $this->get_url();
