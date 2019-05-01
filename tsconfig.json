@@ -61,6 +61,6 @@
     "assets/src/**/*",
     "build/**/*.[jt]s{x,}",
     "Gruntfile.js",
-    "rollup.config.js"
+    "rollup{.config,}.js"
   ]
 }
