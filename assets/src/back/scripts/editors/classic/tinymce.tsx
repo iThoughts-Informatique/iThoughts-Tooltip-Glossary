@@ -3,6 +3,7 @@ import tinymce from 'tinymce';
 import { iconSvg } from '../../../images';
 import backCss from '../../../styles/tinymce-plugin.scss';
 import { ns } from '../../settings';
+import { ETipType, TipForm } from './forms';
 
 tinymce.PluginManager.add( 'ithoughts-tooltip-glossary', editor => {
 	editor.contentCSS.push( backCss );
@@ -14,6 +15,7 @@ tinymce.PluginManager.add( 'ithoughts-tooltip-glossary', editor => {
 
 		onclick: () => {
 			console.log( 'triggered' );
+			const form = TipForm.selfMount( { text: '', type: ETipType.Tooltip } );
 		},
 	} );
 	// Add the equivalent delete button
@@ -23,6 +25,7 @@ tinymce.PluginManager.add( 'ithoughts-tooltip-glossary', editor => {
 
 		onclick: () => {
 			console.log( 'triggered' );
+			const form = TipForm.selfMount( { text: '', type: ETipType.Glossarytip } );
 		},
 	} );
 

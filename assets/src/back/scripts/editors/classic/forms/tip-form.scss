@@ -1,0 +1,111 @@
+#ithoughts-tooltip-glossary-form-container{
+	z-index: 1000;
+	position: fixed;
+	pointer-events: none;
+	
+	// Left sidebar
+	left: 160px;
+	// Top bar
+	top: 32px;
+	right: 0;
+	bottom: 0;
+	
+	$shadow-color: #000;
+	$dark-1: #333;
+	$light-1: #eee;
+	
+	> *{
+		pointer-events: initial;
+	}
+	
+	$modal-border-radius: 10px;
+	.modal-backdrop {
+		background: scale-color($dark-1, $alpha: -40%);
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.modal{
+		background: $light-1;
+		box-shadow: 0 0 20px 0px $shadow-color;
+		border-radius: $modal-border-radius;
+		
+		$content-padding: 15px;
+		> header{
+			font-size: 18px;
+			padding: $content-padding;
+			background: $dark-1;
+			color: $light-1;
+			box-shadow: inset 0 -2px $content-padding 0 $shadow-color;
+			
+			border-top-left-radius: $modal-border-radius;
+			border-top-right-radius: $modal-border-radius;
+
+			h2{
+				color: inherit;
+				padding: 0;
+				margin: 0;
+			}
+		}
+		> section{
+			padding: $content-padding;
+		}
+	}
+	
+	
+	
+	// Tabs
+	.tabs-container{
+		> .tabs-header {
+			display: flex;
+			flex-direction: row;
+			justify-content: stretch;
+			align-items: stretch;
+			margin-bottom: 0;
+			overflow: hidden;
+			padding: 1px 1px 0;
+			background: $dark-1;
+			color: $light-1;
+			
+			$tab-border-radius: 5px;
+			
+			border-top-left-radius: $tab-border-radius;
+			border-top-right-radius: $tab-border-radius;
+			
+			> * {
+				flex: 1 1 auto;
+				text-align: center;
+				padding: 5px;
+				margin-bottom: 0;
+				transition: 0.25s all;
+				background: scale-color($light-1, $alpha: -100%);
+				color: inherit;
+				
+				&.active{
+					background: $light-1;
+					border-top-left-radius: $tab-border-radius;
+					border-top-right-radius: $tab-border-radius;
+					color: $dark-1;
+				}
+			}
+		}
+		> .active{
+			margin-top: 0;
+			padding: 5px;
+			//box-shadow: inset 0 0 5px 0 #000;
+			border: 1px solid $dark-1;
+			border-top: none;
+		}
+	}
+	
+	
+	// Form
+	.form-field {
+		width: 100%;
+	}
+}

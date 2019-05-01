@@ -7,7 +7,7 @@ export default initConfig({
 		'assets/src/common/index.ts': 'assets/tmp/common.js',
 		'assets/src/back/index.ts': 'assets/tmp/back.js',
 	},
-	internals: [],
+	internals: ['react-modal', 'react-tabs'],
 	globals: {
 		react: 'React',
 		tinymce: 'tinymce',
