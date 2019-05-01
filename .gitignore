@@ -4,3 +4,5 @@ vendor
 \.vscode/csak-timelog\.json
 
 assets/tmp/
+
+coverage/

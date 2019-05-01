@@ -33,6 +33,39 @@
     "test:prepare:drop-db": "mysql -u root -proot -e 'DROP DATABASE `wp-test`;'",
     "test:prepare:init-db": "./bin/install-wp-tests.sh wp-test root root"
   },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.[jt]s?(x)",
+      "!**/node_modules/**"
+    ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": false
+      }
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx"
+    ],
+    "preset": "ts-jest/presets/js-with-ts",
+    "roots": [
+      "<rootDir>/assets/src",
+      "<rootDir>/assets/__tests__"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "!**/__tests__/helpers/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[jt]s?(x)"
+    ],
+    "transform": {
+      ".*\\.ts$": "ts-jest",
+      "^.+\\.js$": "babel-jest",
+      ".*\\.(svg|s?css)$": "./assets/__tests__/helpers/default-loader.js"
+    }
+  },
   "keywords": [
     "wordpress",
     "tooltip",
@@ -81,6 +114,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@diaspora/dev-tslint": "^1.2.0",
+    "@types/jest": "^24.0.11",
     "@types/md5-file": "^4.0.0",
     "@types/tinymce": "^4.5.20",
     "@types/underscore": "^1.8.14",
@@ -97,6 +131,7 @@
     "grunt-sh": "^0.2.0",
     "grunt-tslint": "^5.0.2",
     "grunt-wp-readme-to-markdown": "^2.0.1",
+    "jest": "^24.7.1",
     "jit-grunt": "^0.10.0",
     "load-grunt-config": "^1.0.1",
     "md5-file": "^4.0.0",
@@ -114,6 +149,7 @@
     "rollup-plugin-terser": "^4.0.4",
     "rollup-plugin-virtual": "^1.0.1",
     "semver": "^6.0.0",
+    "ts-jest": "^24.0.2",
     "ts-node": "^8.0.3",
     "tslint": "^5.15.0",
     "tslint-eslint-rules": "^5.4.0",
