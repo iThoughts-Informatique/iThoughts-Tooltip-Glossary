@@ -2,23 +2,36 @@
   "name": "ithoughts-tooltip-glossary",
   "version": "4.0.0",
   "description": "Create beautiful tooltips for descriptions or glosses, easily",
-  "main": "index.js",
-  "scripts": {
-    "test:prepare:drop-db": "mysql -u root -proot -e 'DROP DATABASE `wp-test`;'",
-    "test:prepare:init-db": "./bin/install-wp-tests.sh wp-test root root",
-    "test:prepare": "npm run test:prepare:drop-db; npm run test:prepare:init-db",
-    "test": "grunt test",
-    "build:assets:watch": "grunt watch:assets",
-    "build:assets": "grunt rebuildAssets",
-    "build:rollup:clean": "rm -rf ./assets/dist/* && rm -rf ./assets/tmp/*",
-    "build:rollup": "npm run build:rollup:clean && rollup -c rollup.config.js",
-    "build:rollup:watch": "npm run build:rollup:clean && rollup -c rollup.config.js -w",
-    "lint": "tslint --project ./tsconfig.json",
-    "lint:fix": "npm run lint -- --fix"
-  },
+  "license": "GPL-3.0-or-later",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iThoughts-Informatique/iThoughts-Tooltip-Glossary.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iThoughts-Informatique/iThoughts-Tooltip-Glossary/issues"
+  },
+  "homepage": "https://github.com/iThoughts-Informatique/iThoughts-Tooltip-Glossary#readme",
+  "author": {
+    "email": "agermain@gerkindevelopment.net",
+    "homepage": "http://www.gerkindevelopment.net/",
+    "name": "Alexandre Germain",
+    "role": "Developer"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build:assets": "grunt rebuildAssets",
+    "build:assets:watch": "grunt watch:assets",
+    "build:rollup": "npm run build:rollup:clean && rollup -c rollup.config.js",
+    "build:rollup:clean": "rm -rf ./assets/dist/* && rm -rf ./assets/tmp/*",
+    "build:rollup:watch": "npm run build:rollup:clean && rollup -c rollup.config.js -w",
+    "lint": "tslint --project ./tsconfig.json",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "grunt test",
+    "test:jest": "jest",
+    "test:jest:watch": "jest --watch",
+    "test:prepare": "npm run test:prepare:drop-db; npm run test:prepare:init-db",
+    "test:prepare:drop-db": "mysql -u root -proot -e 'DROP DATABASE `wp-test`;'",
+    "test:prepare:init-db": "./bin/install-wp-tests.sh wp-test root root"
   },
   "keywords": [
     "wordpress",
@@ -50,17 +63,18 @@
     "comment",
     "comments"
   ],
-  "author": {
-    "name": "Alexandre Germain",
-    "homepage": "http://www.gerkindevelopment.net/",
-    "email": "agermain@gerkindevelopment.net",
-    "role": "Developer"
+  "dependencies": {
+    "@wordpress/blocks": "6.2.0",
+    "@wordpress/components": "^7.2.0",
+    "@wordpress/compose": "^3.2.0",
+    "@wordpress/element": "^2.3.0",
+    "moment": "2.22.2",
+    "qtip2": "^3.0.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.6.3",
+    "tinymce": "^5.0.4",
+    "underscore": "^1.9.1"
   },
-  "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/iThoughts-Informatique/iThoughts-Tooltip-Glossary/issues"
-  },
-  "homepage": "https://github.com/iThoughts-Informatique/iThoughts-Tooltip-Glossary#readme",
   "devDependencies": {
     "@babel/core": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
@@ -103,17 +117,5 @@
     "tslint": "^5.15.0",
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.4.2"
-  },
-  "dependencies": {
-    "@wordpress/blocks": "6.2.0",
-    "@wordpress/components": "^7.2.0",
-    "@wordpress/compose": "^3.2.0",
-    "@wordpress/element": "^2.3.0",
-    "moment": "2.22.2",
-    "qtip2": "^3.0.3",
-    "react": "^16.6.3",
-    "react-dom": "16.6.3",
-    "tinymce": "^5.0.4",
-    "underscore": "^1.9.1"
   }
 }
