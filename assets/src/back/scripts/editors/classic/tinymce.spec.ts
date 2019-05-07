@@ -3,10 +3,10 @@ import { plugins } from 'tinymce';
 
 jest.mock( './forms/tip-form' );
 // @ts-ignore
-import { selfMount } from './forms/tip-form';
+import { mount } from './forms/tip-form';
 
-import './tinymce';
 import { ETipType } from './forms';
+import './tinymce';
 
 beforeEach( () => {
 	jest.clearAllMocks();
@@ -23,17 +23,18 @@ describe( 'TinyMCE plugin registration', () => {
 				// Registration
 				const addButton = jest.fn();
 				plugin( { addButton, contentCSS: [] } );
-				console.log( addButton.mock.calls );
 				const buttonMockCall = addButton.mock.calls.find( call => call[0] === 'ithoughts-tooltip-glossary/add-tooltip' );
 				expect( buttonMockCall ).toBeTruthy();
 				const onClick = buttonMockCall[1].onclick;
 				expect( onClick ).toBeInstanceOf( Function );
 				// Onclick
-				expect( selfMount ).not.toHaveBeenCalled();
+				expect( mount ).not.toHaveBeenCalled();
 				onClick();
-				expect( selfMount ).toHaveBeenCalledTimes( 1 );
-				expect( selfMount.mock.calls[0] ).toEqual( [{ text: '', type: ETipType.Tooltip }] );
+				expect( mount ).toHaveBeenCalledTimes( 1 );
 
+				const { onClose, ...otherArgs } = mount.mock.calls[0][0];
+				expect( otherArgs ).toEqual( { text: '', type: ETipType.Tooltip } );
+				expect( onClose ).toBeInstanceOf( Function );
 			} );
 			it.todo( 'Edit existing tooltip' );
 		} );
@@ -47,11 +48,13 @@ describe( 'TinyMCE plugin registration', () => {
 				const onClick = buttonMockCall[1].onclick;
 				expect( onClick ).toBeInstanceOf( Function );
 				// Onclick
-				expect( selfMount ).not.toHaveBeenCalled();
+				expect( mount ).not.toHaveBeenCalled();
 				onClick();
-				expect( selfMount ).toHaveBeenCalledTimes( 1 );
-				expect( selfMount.mock.calls[0] ).toEqual( [{ text: '', type: ETipType.Glossarytip }] );
+				expect( mount ).toHaveBeenCalledTimes( 1 );
 
+				const { onClose, ...otherArgs } = mount.mock.calls[0][0];
+				expect( otherArgs ).toEqual( { text: '', type: ETipType.Glossarytip } );
+				expect( onClose ).toBeInstanceOf( Function );
 			} );
 			it.todo( 'Edit existing glossary tip' );
 		} );

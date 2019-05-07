@@ -1,6 +1,6 @@
-export const selfMount = jest.fn();
+export const mount = jest.fn();
 export const TipForm = function() {
 	return TipFormCtor();
 };
-TipForm.selfMount = selfMount;
+TipForm.mount = mount;
 export const TipFormCtor = jest.fn().mockReturnValue( TipForm );

@@ -3,7 +3,19 @@ import tinymce from 'tinymce';
 import { iconSvg } from '../../../images';
 import backCss from '../../../styles/tinymce-plugin.scss';
 import { ns } from '../../settings';
-import { ETipType, TipForm } from './forms';
+import { ETipType, ITipFormOutput, TipForm } from './forms';
+
+const openTipForm = ( type: ETipType ) =>
+	() => {
+		const form = TipForm.mount( {
+			text: '',
+			type,
+
+			onClose: ( isSubmit: boolean, props?: ITipFormOutput ) => {
+				console.log( { isSubmit, props } );
+			},
+		} );
+	};
 
 tinymce.PluginManager.add( 'ithoughts-tooltip-glossary', editor => {
 	editor.contentCSS.push( backCss );
@@ -13,20 +25,14 @@ tinymce.PluginManager.add( 'ithoughts-tooltip-glossary', editor => {
 		image: iconSvg,
 		title: 'Add a tooltip',
 
-		onclick: () => {
-			console.log( 'triggered' );
-			const form = TipForm.selfMount( { text: '', type: ETipType.Tooltip } );
-		},
+		onclick: openTipForm( ETipType.Tooltip ),
 	} );
 	// Add the equivalent delete button
 	editor.addButton( ns( 'add-glossarytip' ), {
 		image: iconSvg,
 		title: 'Add a glossary tip',
 
-		onclick: () => {
-			console.log( 'triggered' );
-			const form = TipForm.selfMount( { text: '', type: ETipType.Glossarytip } );
-		},
+		onclick: openTipForm( ETipType.Glossarytip ),
 	} );
 
 	editor.addButton( ns( 'remove-tip' ), {

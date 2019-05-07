@@ -2,9 +2,10 @@ import React from 'react';
 import ReactModal from 'react-modal';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
-import { ETipType } from '.';
-import { AForm } from './a-form';
+import { AForm, IFormHandlers } from './a-form';
 import './tip-form.scss';
+import { ETipType } from './types';
+import { mountForm } from './utils';
 
 interface ITip {
 	text: string;
@@ -15,8 +16,10 @@ interface IState {
 	modalIsOpen: boolean;
 	tip: ITip;
 }
-interface IProps extends ITip {}
-export class TipForm extends AForm<IProps, IState> {
+type Props = ITip & IFormHandlers<ITipFormOutput>;
+export interface ITipFormOutput extends ITip {}
+
+export class TipForm extends AForm<Props, IState, ITipFormOutput> {
 	public readonly state: IState = {
 		modalIsOpen: true,
 		tip: {
@@ -25,7 +28,7 @@ export class TipForm extends AForm<IProps, IState> {
 		},
 	};
 
-	public constructor( props: IProps ) {
+	public constructor( props: Props ) {
 		super( props );
 		this.state = {
 			...this.state,
@@ -47,8 +50,22 @@ export class TipForm extends AForm<IProps, IState> {
 		return 'javascript:void';
 	}
 
-	public closeModal() {
+	public get formData(): ITipFormOutput {
+		return this.state.tip;
+	}
+
+	public static mount( props?: Props ) {
+		return mountForm<TipForm, Props, IState, ITipFormOutput>( TipForm, props );
+	}
+
+	public discard() {
 		this.setState( { ...this.state, modalIsOpen: false } );
+		super.discard();
+	}
+
+	public submit() {
+		this.setState( { ...this.state, modalIsOpen: false } );
+		super.submit();
 	}
 	public render() {
 		return <ReactModal
@@ -99,7 +116,12 @@ export class TipForm extends AForm<IProps, IState> {
 								} )}/>
 						</div>
 					</fieldset>
-					<Tabs className='tabs-container' selectedTabClassName='active' selectedTabPanelClassName='active' defaultIndex={this.state.tip.type}>
+					<Tabs
+						className='tabs-container'
+						selectedTabClassName='active'
+						selectedTabPanelClassName='active'
+						defaultIndex={this.state.tip.type}
+						onSelect={idx => void ( this.state.tip.type = idx )}>
 						<TabList className='tabs-header'>
 							<Tab>Glossary tip</Tab>
 							<Tab>Tooltip</Tab>
@@ -109,6 +131,8 @@ export class TipForm extends AForm<IProps, IState> {
 						<TabPanel></TabPanel>
 					</Tabs>
 				</form>
+				<button onClick={() => this.discard()}>Discard</button>
+				<button onClick={() => this.submit()}>Submit</button>
 			</section>
 		</ReactModal>;
 	}
