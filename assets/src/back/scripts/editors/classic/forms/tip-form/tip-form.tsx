@@ -150,20 +150,8 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 							<Tab>Tooltip</Tab>
 						</TabList>
 
-						<TabPanel>
-							<fieldset>
-								<label htmlFor='glossary-term'></label>
-								<div>
-									<input
-										type='text'
-										id='glossary-term'
-										className='form-field'/>
-								</div>
-							</fieldset>
-						</TabPanel>
-						<TabPanel>
-							<TooltipSection onChangeSpecializedTip={this.changeSpecializedTooltipInfos}/>
-						</TabPanel>
+						<TabPanel><GlossarytipSection onChangeSpecializedTip={this.changeSpecializedTooltipInfos}/></TabPanel>
+						<TabPanel><TooltipSection onChangeSpecializedTip={this.changeSpecializedTooltipInfos}/></TabPanel>
 					</Tabs>
 				</form>
 				<button onClick={() => this.discard()}>Discard</button>

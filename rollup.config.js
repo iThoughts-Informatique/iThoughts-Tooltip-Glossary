@@ -7,7 +7,7 @@ export default initConfig({
 		'assets/src/common/index.ts': 'assets/tmp/common.js',
 		'assets/src/back/index.ts': 'assets/tmp/back.js',
 	},
-	internals: ['react-modal', 'react-tabs', 'autobind-decorator'],
+	internals: ['react-modal', 'react-tabs', 'react-autocomplete', 'autobind-decorator', 'debounce'],
 	globals: {
 		react: 'React',
 		tinymce: 'tinymce',
@@ -20,5 +20,5 @@ export default initConfig({
 		moduleNameFactory: name => `~${name}`,
 		globalNameFactory: name => `ithoughtsTooltipGlossary_${camelCase( name )}`
 	},
-	namedExports: [ 'react', 'react-dom' ],
+	namedExports: [ 'react', 'react-dom', 'debounce' ],
 })
