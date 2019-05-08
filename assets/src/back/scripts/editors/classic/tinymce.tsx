@@ -3,7 +3,7 @@ import tinymce from 'tinymce';
 import { iconSvg } from '../../../images';
 import backCss from '../../../styles/tinymce-plugin.scss';
 import { ns } from '../../settings';
-import { ETipType, ITipFormOutput, TipForm } from './forms';
+import { ETipType, TipFormOutput, TipForm } from './forms';
 
 const openTipForm = ( type: ETipType ) =>
 	() => {
@@ -11,7 +11,7 @@ const openTipForm = ( type: ETipType ) =>
 			text: '',
 			type,
 
-			onClose: ( isSubmit: boolean, props?: ITipFormOutput ) => {
+			onClose: ( isSubmit: boolean, props?: TipFormOutput ) => {
 				console.log( { isSubmit, props } );
 			},
 		} );

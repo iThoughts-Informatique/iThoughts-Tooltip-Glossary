@@ -11,14 +11,15 @@ export const mountForm = <
 	TState,
 	TOut
 >( formCtor: {new( props: TProps ): TForm; appRoot: HTMLElement}, props?: TProps ) => {
-	ReactModal.setAppElement( formCtor.appRoot );
+	const root = formCtor.appRoot;
+	ReactModal.setAppElement( root );
 	const form = React.createElement( formCtor, {
 		...props,
 
 		onClose: [...ensureArray( props ? props.onClose : [] ), () => {
-			ReactDOM.unmountComponentAtNode( formCtor.appRoot );
+			ReactDOM.unmountComponentAtNode( root );
 		}],
 	} as any );
-	ReactDOM.render( form, formCtor.appRoot );
+	ReactDOM.render( form, root );
 	return form;
 };

@@ -110,7 +110,8 @@
     "react-modal": "^3.8.1",
     "react-tabs": "^3.0.0",
     "tinymce": "^5.0.4",
-    "underscore": "^1.9.1"
+    "underscore": "^1.9.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -129,6 +130,7 @@
     "@types/react-tabs": "^2.3.1",
     "@types/tinymce": "^4.5.20",
     "@types/underscore": "^1.8.14",
+    "@types/uuid": "^3.4.4",
     "core-js": "^3.0.0",
     "dotenv": "^7.0.0",
     "grunt": "^1.0.4",

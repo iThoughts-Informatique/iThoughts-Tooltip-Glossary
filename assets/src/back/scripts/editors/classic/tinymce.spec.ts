@@ -1,9 +1,9 @@
 // @ts-ignore
 import { plugins } from 'tinymce';
 
-jest.mock( './forms/tip-form' );
+jest.mock( './forms/tip-form/tip-form' );
 // @ts-ignore
-import { mount } from './forms/tip-form';
+import { mount } from './forms/tip-form/tip-form';
 
 import { ETipType } from './forms';
 import './tinymce';
