@@ -70,7 +70,7 @@ export const initConfig = config => {
                     exclude: [
                         'node_modules/process-es6/**',
                     ],
-                    namedExports: _.object(config.namedExports.map(dep => [dep, require(dep)])),
+                    namedExports: _.object(config.namedExports.map(dep => [dep, Object.keys(require(dep))])),
                     sourceMap : true,
                 } ),
                 scss(),
