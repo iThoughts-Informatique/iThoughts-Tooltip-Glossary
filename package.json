@@ -101,6 +101,7 @@
     "@wordpress/components": "^7.2.0",
     "@wordpress/compose": "^3.2.0",
     "@wordpress/element": "^2.3.0",
+    "autobind-decorator": "^2.4.0",
     "jquery": "^3.4.0",
     "moment": "2.22.2",
     "qtip2": "^3.0.3",
