@@ -7,9 +7,9 @@ import { pick } from 'underscore';
 import { AForm, IFormHandlers } from '../a-form';
 import { ETipType } from '../types';
 import { mountForm } from '../utils';
-import { GLOSSARYTIP_KEYS, GlossarytipSection, IGlossarytip, isGlossarytip } from './glossarytip-section';
+import { GLOSSARYTIP_KEYS, GlossarytipSection, glossarytipValidationMessage, IGlossarytip, isGlossarytip } from './glossarytip-section';
 import './tip-form.scss';
-import { isTooltip, ITooltip, TOOLTIP_KEYS, TooltipSection } from './tooltip-section';
+import { isTooltip, ITooltip, TOOLTIP_KEYS, TooltipSection, tooltipValidationMessage } from './tooltip-section';
 
 export interface ITip {
 	text: string;
@@ -28,9 +28,6 @@ interface IState {
 
 export class TipForm extends AForm<Props, IState, TipFormOutput> {
 	public readonly state: IState;
-
-	private readonly tooltipSectionRef = React.createRef<TooltipSection>();
-	private readonly glossarytipSectionRef = React.createRef<GlossarytipSection>();
 
 	public constructor( props: Props ) {
 		super( props );
@@ -55,6 +52,24 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 			return '#';
 		}
 		return 'javascript:void';
+	}
+
+	private get isValid() {
+		return typeof this.validationMessage === 'undefined';
+	}
+
+	private get validationMessage() {
+		const data = this.state.tip;
+		if ( !data.text || data.text.length === 0 ) {
+			return 'Please enter a tip link text';
+		}
+		if ( data.type === ETipType.Glossarytip ) {
+			return glossarytipValidationMessage( data );
+		}
+		if ( data.type === ETipType.Tooltip ) {
+			return tooltipValidationMessage( data );
+		}
+		return undefined;
 	}
 
 	public get formData(): TipFormOutput {
@@ -144,7 +159,12 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 						selectedTabClassName='active'
 						selectedTabPanelClassName='active'
 						defaultIndex={this.state.tip.type}
-						onSelect={idx => void ( this.state.tip.type = idx )}>
+						onSelect={idx => void ( this.setState( {
+							...this.state,
+							tip: {
+								...this.state.tip,
+								type: idx,
+						}} ) )}>
 						<TabList className='tabs-header'>
 							<Tab>Glossary tip</Tab>
 							<Tab>Tooltip</Tab>
@@ -155,7 +175,7 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 					</Tabs>
 				</form>
 				<button onClick={() => this.discard()}>Discard</button>
-				<button onClick={() => this.submit()}>Submit</button>
+				<button onClick={() => this.submit()} disabled={!this.isValid} title={this.validationMessage}>Submit</button>
 			</section>
 		</ReactModal>;
 

@@ -1,9 +1,10 @@
 import { Component } from 'react';
 import React from 'react';
-import { Editor, EditorManager, init } from 'tinymce';
+import { Editor, init } from 'tinymce';
 import uuidv5 from 'uuid/v5';
 
 import { isString } from 'underscore';
+import { ITip } from '.';
 import { ns } from '../../../../settings';
 import { ETipType } from '../types';
 
@@ -20,6 +21,11 @@ interface IProps {
 	onChangeSpecializedTip: ( props: ITooltip ) => void;
 }
 
+export const tooltipValidationMessage = ( tip: ITip & ( ITooltip | {} ) ) => {
+	if ( !( tip as any ).content ||  ( tip as any ).content === '<p></p>' ) {
+		return 'Please enter a tip content';
+	}
+};
 export class TooltipSection extends Component<IProps, ITooltip> {
 	private tinymce?: Editor;
 
@@ -31,7 +37,7 @@ export class TooltipSection extends Component<IProps, ITooltip> {
 
 	public render() {
 		return <fieldset>
-			<label htmlFor='tip-content'></label>
+			<label htmlFor='tip-content'>Tooltip content</label>
 			<div>
 				<textarea
 					ref={ e => this.initTinyMce( e ) }

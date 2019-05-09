@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import Autocomplete from 'react-autocomplete';
 import { isNumber } from 'underscore';
 
+import { ITip } from '.';
 import { getGlossaryTermModel, GlossaryTermModel } from '../../../../models/glossary-term';
 import { jqXhrToPromise } from '../../../../utils';
 import { ETipType } from '../types';
@@ -30,6 +31,13 @@ interface IState {
 		id: number;
 	}>;
 }
+
+export const glossarytipValidationMessage = ( tip: ITip & ( IGlossarytip | {} ) ) => {
+	if ( !( tip as any ).termId || ( tip as any ).termId < 1 ) {
+		return 'Please select a glossary term';
+	}
+};
+
 export class GlossarytipSection extends Component<IProps, IState> {
 	public readonly state: IState = {
 		autocompleteSearch: '',
