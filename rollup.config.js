@@ -13,12 +13,18 @@ export default initConfig({
 		tinymce: 'tinymce',
 		underscore: '_',
 		jquery: 'jQuery',
-        'react-dom': 'ReactDOM',
-        backbone: 'Backbone',
+		'react-dom': 'ReactDOM',
+		backbone: 'Backbone',
 	},
 	virtualModules: {
 		modules: ['editor-config', '@wordpress/api'],
+		/**
+		 * @param {string} name
+		 */
 		moduleNameFactory: name => name.startsWith('@wordpress/') ? name : `~${name}`,
+		/**
+		 * @param {string} name
+		 */
 		globalNameFactory: name => name.startsWith('@wordpress/') ?
 			wpModuleToGlobal( name ) :
 			`ithoughtsTooltipGlossary_${camelCase( name )}`
