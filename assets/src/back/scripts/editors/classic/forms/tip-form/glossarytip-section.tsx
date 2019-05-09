@@ -1,9 +1,12 @@
 import autobind from 'autobind-decorator';
+import { Collection } from 'backbone';
 import { debounce } from 'debounce';
 import React, { Component } from 'react';
 import Autocomplete from 'react-autocomplete';
 import { isNumber } from 'underscore';
 
+import { getGlossaryTermModel, GlossaryTermModel } from '../../../../models/glossary-term';
+import { jqXhrToPromise } from '../../../../utils';
 import { ETipType } from '../types';
 
 export interface IGlossarytip {
@@ -27,21 +30,29 @@ interface IState {
 		id: number;
 	}>;
 }
-
-const dataset = [
-	{ title: 'apple', excerpt: 'A apple', id: 1 },
-	{ title: 'banana', excerpt: 'A banana', id: 2 },
-	{ title: 'pear', excerpt: 'A pear', id: 3 },
-];
 export class GlossarytipSection extends Component<IProps, IState> {
 	public readonly state: IState = {
-		tipData: { termId: 0, type: ETipType.Glossarytip },
 		autocompleteSearch: '',
-		autocompletes: dataset,
+		autocompletes: [],
+		tipData: { termId: 0, type: ETipType.Glossarytip },
 	};
+	private readonly glossaryTermsCollection: Promise<Collection<GlossaryTermModel>>;
 
 	public constructor( public readonly props: IProps ) {
 		super( props );
+
+		this.glossaryTermsCollection = getGlossaryTermModel()
+			.then( model => new model
+				.collections
+				.GlossaryTerm<GlossaryTermModel>( undefined, { comparator: 'title' } ) )
+			.then( collection => {
+				this.doSearch();
+				return Promise.resolve( collection );
+			 } )
+			// tslint:disable-next-line: no-console
+			.catch( e => {
+				throw e;
+			 } );
 	}
 
 	public render() {
@@ -56,7 +67,10 @@ export class GlossarytipSection extends Component<IProps, IState> {
 					renderItem={( item, isHighlighted ) =>
 						<div
 							key={item.id}
-							style={{ background: isHighlighted ? 'lightgray' : 'white' }}>{item.title}</div>
+							className={'autocomplete-item ' + ( isHighlighted ? 'active' : '' )}>
+							<p className='title'><b>{item.title}</b></p>
+							<small dangerouslySetInnerHTML={{ __html: item.excerpt }}></small>
+						</div>
 					}
 					onChange={this.onTermSearchChanged}
 					onSelect={this.onTermSelected}
@@ -94,33 +108,44 @@ export class GlossarytipSection extends Component<IProps, IState> {
 		} );
 	}
 
-	private doSearch( search: string ) {
+	// #region Search/filtering
+	private doSearch( maybeSearch?: string ) {
+		const search = maybeSearch ? maybeSearch : this.state.autocompleteSearch;
 		this.setState( { ...this.state, autocompleteSearch: search }, () => {
 			// tslint:disable-next-line: no-floating-promises
 			this.ajaxFetchDebounced( search );
 			this.filterResults( search );
 		} );
 	}
+
 	private filterResults( maybeSearch?: string ) {
 		const search = maybeSearch ? maybeSearch : this.state.autocompleteSearch;
 		this.setState( {
 			...this.state,
-			autocompletes: dataset.filter( d => d.excerpt.toLowerCase().includes( search ) ||
+			autocompletes: this.state.autocompletes.filter( d => d.excerpt.toLowerCase().includes( search ) ||
 				d.title.toLowerCase().includes( search ) ||
 				d.id.toString().includes( search ) ),
 		} );
 	}
+
 	private async ajaxFetch( maybeSearch?: string ) {
 		const search = maybeSearch ? maybeSearch : this.state.autocompleteSearch;
-		const matchingAjax = dataset.filter( d => d.excerpt.toLowerCase().includes( search ) ||
-				d.title.toLowerCase().includes( search ) ||
-				d.id.toString().includes( search ) );
-		await new Promise<void>( res => setTimeout( res, 0 ) );
+
+		const collection = await this.glossaryTermsCollection;
+		await jqXhrToPromise<void>( collection.fetch( {
+			data: { search },
+		} ) );
 		this.setState( {
 			...this.state,
 
-			autocompletes: matchingAjax,
+			autocompletes: collection.models
+				.map( term => ( {
+					excerpt: term.attributes.excerpt || term.attributes.content.slice( 0, 100 ),
+					id: term.attributes.id,
+					title: term.attributes.title,
+				} ) ),
 		},             this.filterResults );
 	}
 	private readonly ajaxFetchDebounced = debounce( this.ajaxFetch, 500 );
+	// #endregion
 }

@@ -107,5 +107,20 @@
 	// Form
 	.form-field {
 		width: 100%;
-	}
+    }
+    
+    .autocomplete-item{
+        padding: 5px;
+
+        &.active{
+            background: rgba(200, 200, 200, 0.5) none repeat scroll 0% 0%;
+        }
+        p{
+            margin: 0 0 3px;
+        }
+        > p.title{
+            margin: 0;
+            margin-bottom: 5px
+        }
+    }
 }
