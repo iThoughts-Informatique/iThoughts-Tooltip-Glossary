@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use ithoughts\TooltipGlossary\DependencyManager;
 use ithoughts\TooltipGlossary\Manifest;
 use ithoughts\TooltipGlossary\AssetRegistration\AAssetRegistration;
+use ithoughts\TooltipGlossary\Controller\GlossaryTermController;
 
 if(!class_exists( __NAMESPACE__ . '\\PostEditor' )){
     /**
@@ -43,10 +44,11 @@ if(!class_exists( __NAMESPACE__ . '\\PostEditor' )){
          */
         public function register(){
             $back_style = AAssetRegistration::get('back.css');
-            AAssetRegistration::get('back.js', ['wp-blocks', 'wp-element', 'wp-i18n', 'wp-plugins', 'wp-edit-post', 'wp-data', $back_style])
+            AAssetRegistration::get('back.js', ['wp-blocks', 'wp-element', 'wp-i18n', 'wp-plugins', 'wp-edit-post', 'wp-data', 'wp-api', $back_style])
                 ->add_data('ithoughtsTooltipGlossary_editorConfig', function(){
                     return [
-                        'manifest' => $this->manifest->get_manifest(),
+                        'manifest'            => $this->manifest->get_manifest(),
+                        'controllerNamespace' => GlossaryTermController::namespace,
                     ];
                 } )
                 ->as_block_type('glossarytip')

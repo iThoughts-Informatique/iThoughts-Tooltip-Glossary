@@ -11,6 +11,7 @@ use ithoughts\TooltipGlossary\Admin\Menu\Manager as Menu_Manager;
 use ithoughts\TooltipGlossary\ResourceType\Post\Glossary as Post_Glossary;
 use ithoughts\TooltipGlossary\ResourceType\Taxonomy\GlossaryGroup as Taxonomy_GlossaryGroup;
 use ithoughts\TooltipGlossary\Admin\PostEditor;
+use ithoughts\TooltipGlossary\Controller\GlossaryTermController;
 
 if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
     /**
@@ -136,6 +137,9 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
                 static::get(Post_Glossary::class)->register();
                 static::get(PostEditor::class)->register();
             });
+            add_action( 'rest_api_init', function() {
+                static::get(GlossaryTermController::class)->register();
+            } );
         }
     }
 }

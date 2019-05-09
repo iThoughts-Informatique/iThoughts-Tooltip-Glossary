@@ -1,6 +1,7 @@
 import { init } from '@wordpress/api';
 import { Collection, Model } from 'backbone';
 import { Dictionary, object } from 'underscore';
+import editorConfig from '~editor-config';
 
 export declare class GlossaryTermModel extends Model {
 	public readonly attributes: {
@@ -15,7 +16,7 @@ export declare class GlossaryTermModel extends Model {
 export const getGlossaryTermModel = async () => {
 	const model = await new Promise<Model>( ( res, rej ) =>
 		//
-			init( { versionString : 'ithoughts-tooltip-glossary/v1/' } )
+			init( { versionString : editorConfig.controllerNamespace + '/' } )
 				.done( res )
 				.fail( rej ) );
 	const retVal = {
