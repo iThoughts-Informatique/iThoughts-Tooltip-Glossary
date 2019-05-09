@@ -10,8 +10,10 @@ import virtual from 'rollup-plugin-virtual';
 import { jsonManifest } from 'rollup-plugin-json-manifest';
 import { string } from 'rollup-plugin-string';
 import replace from 'rollup-plugin-replace';
+import visualizer from 'rollup-plugin-visualizer';
 
 import _ from 'underscore';
+import { basename, extname } from 'path';
 
 export const camelCase = str => str.replace( /-([a-z])/g, ( [, g] ) => g.toUpperCase() );
 
@@ -49,6 +51,7 @@ export const initConfig = config => {
 
     return Object.entries( config.bundlesMap ).map( ( [inFile, outFile] ) => {
         const base = outFile.replace( /^.*?(\/|\\)(\w+)\.js/, '$2' );
+        const outFileName = basename(outFile);
         return {
             input: inFile,
             output: {
@@ -81,7 +84,7 @@ export const initConfig = config => {
                 } ),
                 scss(),
                 replace({
-                'process.env.NODE_ENV': JSON.stringify( config.environment ),
+                    'process.env.NODE_ENV': JSON.stringify( config.environment ),
                 }),
                 postcss( {
                     extract: true,
@@ -106,6 +109,10 @@ export const initConfig = config => {
                     },
                 } ),
                 jsonManifest( { outDir: 'assets/dist' } ),
+                visualizer({
+                    filename: `./stats/${basename(outFileName, extname(outFileName))}.html`,
+                    title: `Stats for ${outFileName}`,
+                })
             ].filter(v => v),
         };
     } );
