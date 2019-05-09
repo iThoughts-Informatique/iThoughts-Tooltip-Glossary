@@ -13,10 +13,11 @@ export default initConfig({
 		tinymce: 'tinymce',
 		underscore: '_',
 		jquery: 'jQuery',
-		'react-dom': 'ReactDOM',
+        'react-dom': 'ReactDOM',
+        backbone: 'Backbone',
 	},
 	virtualModules: {
-		modules: ['editor-config'],
+		modules: ['editor-config', '@wordpress/api'],
 		moduleNameFactory: name => name.startsWith('@wordpress/') ? name : `~${name}`,
 		globalNameFactory: name => name.startsWith('@wordpress/') ?
 			wpModuleToGlobal( name ) :

@@ -4,6 +4,6 @@
     ],
     "rules": {
         "completed-docs": false,
-        "no-implicit-dependencies": [true, ["@wordpress/quicktags", "~editor-config"]]
+        "no-implicit-dependencies": [true, ["@wordpress/quicktags", "@wordpress/api", "~editor-config"]]
     }
 }
