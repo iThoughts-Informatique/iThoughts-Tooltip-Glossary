@@ -19,7 +19,7 @@ export interface ITip {
 const TIP_KEYS = ['type', 'text', 'linkTarget'];
 
 export type TipFormOutput = ITip & ( ITooltip | IGlossarytip );
-type Props = IFormHandlers<TipFormOutput> & TipFormOutput;
+type Props = IFormHandlers<TipFormOutput> & ( TipFormOutput | ITip );
 
 interface IState {
 	modalIsOpen: boolean;

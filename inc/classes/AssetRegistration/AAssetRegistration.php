@@ -68,7 +68,6 @@ if(!class_exists( __NAMESPACE__ . '\\AAssetRegistration' )){
             $this->identifier = $identifier;
             $this->handle = static::identifier_to_handle($text_domain, $identifier);
             foreach ($dependencies as $dependency) {
-                bdump($dependency);
                 if($dependency instanceof AAssetRegistration){
                     $this->asset_registration_dependencies[] = $dependency;
                 } else {

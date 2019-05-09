@@ -131,11 +131,11 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
 
             add_action( 'admin_init', function(){
                 static::get(Menu_Manager::class)->register();
+                static::get(PostEditor::class)->register();
             });
             add_action( 'init', function(){
                 static::get(Taxonomy_GlossaryGroup::class)->register();
                 static::get(Post_Glossary::class)->register();
-                static::get(PostEditor::class)->register();
             });
             add_action( 'rest_api_init', function() {
                 static::get(GlossaryTermController::class)->register();
