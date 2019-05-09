@@ -2,6 +2,9 @@
 	"folders": [
         {
             "path": "."
+        },
+        {
+            "path": "/mnt/shared/Work/nodejs/rollup-plugin-json-manifest"
         }
     ],
     "settings": {

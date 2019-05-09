@@ -15,6 +15,7 @@ import visualizer from 'rollup-plugin-visualizer';
 
 import _ from 'underscore';
 import { basename, extname } from 'path';
+import { isString } from 'util';
 
 export const camelCase = str => str.replace( /-([a-z])/g, ( [, g] ) => g.toUpperCase() );
 
@@ -50,71 +51,96 @@ export const initConfig = config => {
     };
     console.log( 'Using externals %j exposed as globals %j', external, globals );
 
-    return Object.entries( config.bundlesMap ).map( ( [inFile, outFile] ) => {
-        const base = outFile.replace( /^.*?(\/|\\)(\w+)\.js/, '$2' );
-        const outFileName = basename(outFile);
-        return {
-            input: inFile,
-            output: {
-                file: outFile,
-                format: 'iife',
-                sourcemap : true,
-                globals,
-            },
-            external,
-            plugins: [
-                resolve( {
-                    jsnext: true,
-                    main: true,
-                    browser: true,
-                    preferBuiltins: false,
-                    extensions: ['.js', '.ts', '.tsx'],
-                    sourceMap : true,
-                } ),
-                string( { include: '**/*.html' } ),
-                json(),
-                commonjs( {
-                    include: [
-                        'node_modules/**',
-                    ],
-                    exclude: [
-                        'node_modules/process-es6/**',
-                    ],
-                    namedExports: _.object(config.namedExports.map(dep => [dep, Object.keys(require(dep))])),
-                    sourceMap : true,
-                } ),
-                scss(),
-                replace({
-                    'process.env.NODE_ENV': JSON.stringify( config.environment ),
-                }),
-                postcss( {
-                    extract: true,
-                    minimize: true,
-                    sourceMap: true,
-                } ),
-                babel( {
-                    exclude: 'node_modules/**',
-                    extensions: ['.js', '.jsx', '.ts', '.tsx'],
-                    sourceMap : true,
-                } ),
-                virtual( Object.keys(virtualModules).reduce( ( acc, module ) => {
-                    acc[module] = 'export default {}';
-                    return acc;
-                },                                       {} ) ),
-                config.environment === 'production' ? terser( { sourcemap: true } ) : undefined,
-                imagemin( {
-                    fileName: `${base}-[name][extname]`,
-                    svgo: {
-                        full: true,
-                        plugins: [],
-                    },
-                } ),
-                jsonManifest( { outDir: 'assets/dist' } ),
-                visualizer({
-                    filename: `./stats/${basename(outFileName, extname(outFileName))}.html`,
-                    title: `Stats for ${outFileName}`,
-                })
-            ].filter(v => v),
-        };
-    } );
+    return Object.entries( config.bundlesMap )
+        .reduce( ( acc, [inFile, outFileDesc] ) => {
+            let { file: bundleDest, asVirtualModule: virtualModuleName } = isString( outFileDesc ) ? { file: outFileDesc } : outFileDesc;
+            if( virtualModuleName ){
+                const vmn = virtualModuleName;
+                const virtualModulePathSegments = virtualModuleName.split('/');
+                const propsSegments = virtualModulePathSegments.slice(virtualModulePathSegments[0].startsWith('@') ? 2 : 1);
+                
+                virtualModuleName = 'ithoughtsTooltipGlossary_bundle_' + camelCase( propsSegments.join('-') );
+                
+                external.push( vmn );
+                globals[vmn] = virtualModuleName;
+
+                console.log( 'Aliasing file %s as module %s exposed as global %s', bundleDest, vmn, virtualModuleName );
+            }
+
+            const bundleFileName = basename(bundleDest);
+            const bundleName = basename(bundleDest, extname(bundleDest));
+
+            acc.push( [ inFile, { bundleDest, asVirtualModule: virtualModuleName, bundleName, bundleFileName } ] )
+            return acc;
+        }, [] )
+        .map( ( [inFile, { bundleDest, asVirtualModule, bundleName, bundleFileName }] ) => {
+            return {
+                input: inFile,
+                output: {
+                    file: bundleDest,
+                    format: 'iife',
+                    sourcemap : true,
+                    globals,
+                    name: asVirtualModule,
+                    extend: true
+                },
+                external,
+                plugins: [
+                    resolve( {
+                        jsnext: true,
+                        main: true,
+                        browser: true,
+                        preferBuiltins: false,
+                        extensions: ['.js', '.ts', '.tsx'],
+                        sourceMap : true,
+                    } ),
+                    string( { include: '**/*.html' } ),
+                    json(),
+                    commonjs( {
+                        include: [
+                            'node_modules/**',
+                        ],
+                        exclude: [
+                            'node_modules/process-es6/**',
+                        ],
+                        namedExports: _.object(config.namedExports.map(dep => [dep, Object.keys(require(dep))])),
+                        sourceMap : true,
+                    } ),
+                    scss(),
+                    replace({
+                        'process.env.NODE_ENV': JSON.stringify( config.environment ),
+                    }),
+                    postcss( {
+                        extract: true,
+                        minimize: true,
+                        sourceMap: true,
+                    } ),
+                    babel( {
+                        exclude: 'node_modules/**',
+                        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+                        sourceMap : true,
+                    } ),
+                    virtual( Object.keys(virtualModules)
+                        .concat( [ asVirtualModule ] )
+                        .filter( v => v )
+                        .reduce( ( acc, module ) => {
+                            acc[module] = 'export default {}';
+                            return acc;
+                        },                          {} ) ),
+                    config.environment === 'production' ? terser( { sourcemap: true } ) : undefined,
+                    imagemin( {
+                        fileName: `${bundleName}-[name][extname]`,
+                        svgo: {
+                            full: true,
+                            plugins: [],
+                        },
+                    } ),
+                    jsonManifest( { outDir: 'assets/dist' } ),
+                    visualizer({
+                        filename: `./stats/${bundleName}.html`,
+                        title: `Stats for ${bundleName}`,
+                    })
+                ].filter(v => v),
+            };
+        } );
 }

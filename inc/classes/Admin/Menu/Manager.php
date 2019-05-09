@@ -26,7 +26,7 @@ if(!class_exists( __NAMESPACE__ . '\\Manager' )){
          */
         public function __construct(string $text_domain){
             $this->pages = [
-                new RootEntry( 'iThoughts Tooltip Glossary', 'Glossary', $text_domain, 'edit_others_posts', 'back-icon.svg', DependencyManager::get(Manifest::class), null, [
+                new RootEntry( 'iThoughts Tooltip Glossary', 'Glossary', $text_domain, 'edit_others_posts', 'back-common-icon.svg', DependencyManager::get(Manifest::class), null, [
                     // Define the plugin options page.
                     new ChildEntry( 'Options', 'Options', $text_domain, 'manage_options'/*array( $this, 'options' )*/),
                     // Define the `Add new Term` page.

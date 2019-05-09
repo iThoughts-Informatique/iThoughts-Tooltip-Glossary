@@ -43,8 +43,8 @@ if(!class_exists( __NAMESPACE__ . '\\PostEditor' )){
          * @return void
          */
         public function register(){
-            $back_style = AAssetRegistration::get('back.css');
-            AAssetRegistration::get('back.js', ['wp-blocks', 'wp-element', 'wp-i18n', 'wp-plugins', 'wp-edit-post', 'wp-data', 'wp-api', $back_style])
+            $back_common_style = AAssetRegistration::get('back-common.css');
+            $back_common_script = AAssetRegistration::get('back-common.js', ['wp-blocks', 'wp-element', 'wp-i18n', 'wp-plugins', 'wp-edit-post', 'wp-data', 'wp-api', $back_common_style])
                 ->add_data('ithoughtsTooltipGlossary_editorConfig', function(){
                     return [
                         'manifest'            => $this->manifest->get_manifest(),
@@ -52,7 +52,11 @@ if(!class_exists( __NAMESPACE__ . '\\PostEditor' )){
                     ];
                 } )
                 ->as_block_type('glossarytip')
-                ->as_block_type('tooltip')
+                ->as_block_type('tooltip');
+            
+            $back_classic_style = AAssetRegistration::get('back-editor-classic.css');
+            // Register the tinymce script
+            AAssetRegistration::get('back-editor-classic.js', [$back_common_script, $back_classic_style])
                 ->as_tinymce_plugin('ithoughts-tooltip-glossary', ['add-glossarytip', 'add-tooltip', 'remove-tip', 'add-list']);
         }
     }

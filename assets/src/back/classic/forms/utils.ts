@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
 
-import { ensureArray } from '../../../utils';
+import { ensureArray } from '@ithoughts/tooltip-glossary/back/common';
+
 import { AForm, IFormHandlers } from './a-form';
 
 export const mountForm = <

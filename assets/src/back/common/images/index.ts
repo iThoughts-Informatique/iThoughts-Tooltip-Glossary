@@ -1,3 +1,3 @@
 import iconSvg from './icon.svg';
 
-export { iconSvg }
+export { iconSvg };

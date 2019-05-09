@@ -4,8 +4,15 @@ export default initConfig({
 	environment: 'development',
 	bundlesMap: {
 		'assets/src/front/index.ts': 'assets/tmp/front.js',
-		'assets/src/common/index.ts': 'assets/tmp/common.js',
-		'assets/src/back/index.ts': 'assets/tmp/back.js',
+		'assets/src/common/index.ts': {
+			file: 'assets/tmp/common.js',
+			asVirtualModule: '@ithoughts/tooltip-glossary/common',
+		},
+		'assets/src/back/common/index.ts': {
+			file: 'assets/tmp/back-common.js',
+			asVirtualModule: '@ithoughts/tooltip-glossary/back/common',
+		},
+		'assets/src/back/classic/index.ts': 'assets/tmp/back-editor-classic.js',
 	},
 	internals: ['react-modal', 'react-tabs', 'react-autocomplete', 'autobind-decorator', 'debounce'],
 	globals: {

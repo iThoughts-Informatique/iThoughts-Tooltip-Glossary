@@ -1,12 +1,12 @@
 import tinymce from 'tinymce';
 
-import { iconSvg } from '../../../images';
-import backCss from '../../../styles/tinymce-plugin.scss';
-import { ns } from '../../settings';
-import { ETipType, TipFormOutput, TipForm } from './forms';
+import { iconSvg, ns } from '@ithoughts/tooltip-glossary/back/common';
+import editorConfig from '~editor-config';
 
-const openTipForm = ( type: ETipType ) =>
-	() => {
+import { ETipType, TipForm, TipFormOutput } from './forms';
+import tinymcePluginStyles from './tinymce-plugin.scss';
+
+const openTipForm = ( type: ETipType ) => () => {
 		const form = TipForm.mount( {
 			text: '',
 			type,
@@ -18,7 +18,10 @@ const openTipForm = ( type: ETipType ) =>
 	};
 
 tinymce.PluginManager.add( 'ithoughts-tooltip-glossary', editor => {
-	editor.contentCSS.push( backCss );
+	const contentCss = editorConfig.manifest['back-editor-classic.css'];
+	if ( contentCss ) {
+		editor.contentCSS.push( contentCss );
+	}
 
 	// Add a button that opens a window
 	editor.addButton( ns( 'add-tooltip' ), {

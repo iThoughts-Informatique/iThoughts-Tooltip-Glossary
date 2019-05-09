@@ -5,9 +5,9 @@ import React, { Component } from 'react';
 import Autocomplete from 'react-autocomplete';
 import { isNumber } from 'underscore';
 
-import { ITip } from '.';
-import { getGlossaryTermModel, GlossaryTermModel } from '../../../../models/glossary-term';
-import { jqXhrToPromise } from '../../../../utils';
+import { getGlossaryTermModel, GlossaryTermModel, jqXhrToPromise } from '@ithoughts/tooltip-glossary/back/common';
+
+import { ITip } from '../tip-form';
 import { ETipType } from '../types';
 
 export interface IGlossarytip {

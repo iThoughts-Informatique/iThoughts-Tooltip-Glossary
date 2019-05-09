@@ -1,11 +1,12 @@
 import { Component } from 'react';
 import React from 'react';
 import { Editor, init } from 'tinymce';
+import { isString } from 'underscore';
 import uuidv5 from 'uuid/v5';
 
-import { isString } from 'underscore';
-import { ITip } from '.';
-import { ns } from '../../../../settings';
+import { ns } from '@ithoughts/tooltip-glossary/back/common';
+
+import { ITip } from '../tip-form';
 import { ETipType } from '../types';
 
 export interface ITooltip {

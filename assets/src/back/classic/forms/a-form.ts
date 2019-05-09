@@ -1,8 +1,7 @@
 import $ from 'jquery';
 import { Component } from 'react';
 
-import { ns } from '../../../settings';
-import { ensureArray, TMany } from '../../../utils';
+import { ensureArray, ns, TMany } from '@ithoughts/tooltip-glossary/back/common';
 
 export type TSubmitHandler<TOut> = ( value: TOut ) => void;
 export type TCloseHandler<TOut> = ( ( submit: true, value: TOut ) => void ) & ( ( submit: false ) => void );
