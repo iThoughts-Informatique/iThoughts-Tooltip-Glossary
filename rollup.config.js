@@ -1,4 +1,4 @@
-import { initConfig, camelCase } from './rollup';
+import { initConfig, camelCase, wpModuleToGlobal } from './rollup';
 
 export default initConfig({
 	environment: 'development',
@@ -17,8 +17,10 @@ export default initConfig({
 	},
 	virtualModules: {
 		modules: ['editor-config'],
-		moduleNameFactory: name => `~${name}`,
-		globalNameFactory: name => `ithoughtsTooltipGlossary_${camelCase( name )}`
+		moduleNameFactory: name => name.startsWith('@wordpress/') ? name : `~${name}`,
+		globalNameFactory: name => name.startsWith('@wordpress/') ?
+			wpModuleToGlobal( name ) :
+			`ithoughtsTooltipGlossary_${camelCase( name )}`
 	},
 	namedExports: [ 'react', 'react-dom', 'debounce' ],
 })

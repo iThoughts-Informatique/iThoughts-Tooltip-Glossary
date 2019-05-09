@@ -15,27 +15,33 @@ import _ from 'underscore';
 
 export const camelCase = str => str.replace( /-([a-z])/g, ( [, g] ) => g.toUpperCase() );
 
-const allDeps = Object.keys( require( './package.json' ).dependencies );
-const wpDeps = allDeps.filter( dep => dep.startsWith( '@wordpress' ) );
 
 const getVirtualModules = ({virtualModules: {modules, moduleNameFactory, globalNameFactory}}) => modules.reduce( ( acc, identifier ) => {
     acc[moduleNameFactory(identifier)] = globalNameFactory(identifier);
     return acc;
 },                                                                       {} )
 
+export const wpModuleToGlobal = module => {
+    if ( module === '@wordpress/i18n' ) {
+        return 'wp.i18n';
+    } else {
+        return `wp.${camelCase( module.replace( '@wordpress/', '' ) )}`;
+    }
+}
 export const initConfig = config => {
-    const external = _.reject( allDeps, dep => config.internals.includes(dep) ).concat( config.virtualModules.modules );
+    const virtualModules = getVirtualModules(config);
+    const virtualModulesNames = Object.keys(virtualModules);
+
+    const allDeps = Object.keys( require( './package.json' ).dependencies );
+    const wpDeps = allDeps.concat( virtualModulesNames ).filter( dep => dep.startsWith( '@wordpress' ) );
+    const external = _.reject( allDeps, dep => config.internals.includes(dep) ).concat( virtualModulesNames );
     const globals = {
         ...config.globals,
 
-        ...getVirtualModules(config),
+        ...virtualModules,
 
         ...wpDeps.reduce( ( acc, dep ) => {
-            if ( dep === '@wordpress/i18n' ) {
-                acc[dep] = 'wp.i18n';
-            } else {
-                acc[dep] = `wp.${camelCase( dep.replace( '@wordpress/', '' ) )}`;
-            }
+            acc[dep] = wpModuleToGlobal(dep)
             return acc;
         },               {} ),
     };
@@ -87,7 +93,7 @@ export const initConfig = config => {
                     extensions: ['.js', '.jsx', '.ts', '.tsx'],
                     sourceMap : true,
                 } ),
-                virtual( config.virtualModules.modules.reduce( ( acc, module ) => {
+                virtual( Object.keys(virtualModules).reduce( ( acc, module ) => {
                     acc[module] = 'export default {}';
                     return acc;
                 },                                       {} ) ),
