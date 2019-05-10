@@ -9,7 +9,7 @@ import { isTooltip } from './forms/tip-form/tooltip-section';
 
 import './tinymce-plugin.scss';
 
-const openTipForm = ( editor: Editor, type: ETipType ) => {
+tinymce.PluginManager.add( ns(), editor => {
 	const form = TipForm.mount( {
 		text: '',
 		type,
@@ -38,7 +38,6 @@ const getSpecializedAttributes = ( tipDesc: TipFormOutput ) => {
 	}
 };
 
-tinymce.PluginManager.add( 'ithoughts-tooltip-glossary', editor => {
 	// Avoid issue with rollup-plugin-json-manifest
 	const editorStylesheetUrl = editorConfig.manifest['back-editor-classic' + '.css'];
 	if ( editorStylesheetUrl ) {

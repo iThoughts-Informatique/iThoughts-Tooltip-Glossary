@@ -1,8 +1,10 @@
 import { isArray } from 'underscore';
 
-export const NAMESPACE = 'ithoughts-tooltip-glossary';
+export const APP_NAMESPACE = 'tooltip-glossary.ithoughts.com';
 
 export const ns = ( symbol?: string[] | string, sep = '/' ) => [
-	NAMESPACE,
+		APP_NAMESPACE,
 	...( isArray( symbol ) ? symbol : [symbol] ),
-].join( sep );
+	]
+	.filter( v => !!v )
+	.join( sep );

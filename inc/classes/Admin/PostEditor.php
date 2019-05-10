@@ -24,17 +24,17 @@ if(!class_exists( __NAMESPACE__ . '\\PostEditor' )){
         /**
          * @var string The plugin's resource namespace.
          */
-        protected $text_domain;
+        protected $app_namespace;
 
         /**
          * Create the post editor managing instance.
          *
          * @param Manifest $manifest The manifest to use for URLs resolution.
-         * @param string $text_domain The plugin's resource namespace.
+         * @param string $app_namespace The plugin's application namespace.
          */
-        public function __construct(Manifest $manifest, string $text_domain){
+        public function __construct(Manifest $manifest, string $app_namespace){
             $this->manifest = $manifest;
-            $this->text_domain = $text_domain;
+            $this->app_namespace = $app_namespace;
         }
 
         /**
@@ -57,7 +57,7 @@ if(!class_exists( __NAMESPACE__ . '\\PostEditor' )){
             $back_classic_style = AAssetRegistration::get('back-editor-classic.css');
             // Register the tinymce script
             AAssetRegistration::get('back-editor-classic.js', [$back_common_script, $back_classic_style])
-                ->as_tinymce_plugin('ithoughts-tooltip-glossary', ['add-glossarytip', 'add-tooltip', 'remove-tip', 'add-list']);
+                ->as_tinymce_plugin($this->app_namespace, ['add-glossarytip', 'add-tooltip', 'remove-tip', 'add-list']);
         }
     }
 }

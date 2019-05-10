@@ -22,5 +22,5 @@ if(!once_flag('back-dependency-config')){
 return [
     Manifest::class     => create()->constructor(get('assets-path'), get('assets-url')),
     Menu_Manager::class => create()->constructor(get('text-domain')),
-    PostEditor::class   => create()->constructor(get(Manifest::class), get('text-domain')),
+    PostEditor::class   => create()->constructor(get(Manifest::class), get('app-namespace')),
 ];
