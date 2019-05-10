@@ -14,7 +14,7 @@ export default initConfig({
 		},
 		'assets/src/back/classic/index.ts': 'assets/tmp/back-editor-classic.js',
 	},
-	internals: ['react-modal', 'react-tabs', 'react-autocomplete', 'autobind-decorator', 'debounce'],
+	internals: ['react-modal', 'react-tabs', 'react-autocomplete', 'autobind-decorator', 'debounce', 'html-element-attributes'],
 	globals: {
 		react: 'React',
 		tinymce: 'tinymce',
