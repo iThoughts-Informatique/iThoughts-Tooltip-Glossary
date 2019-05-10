@@ -2,9 +2,8 @@ import { Component } from 'react';
 import React from 'react';
 import { Editor, init } from 'tinymce';
 import { isString } from 'underscore';
-import uuidv5 from 'uuid/v5';
 
-import { ns } from '@ithoughts/tooltip-glossary/back/common';
+import { uuid } from '@ithoughts/tooltip-glossary/back/common';
 
 import { ITip } from '../tip-form';
 import { ETipType } from '../types';
@@ -65,7 +64,7 @@ export class TooltipSection extends Component<IProps, ITooltip> {
 		}
 
 		if ( !element.id ) {
-			element.id = uuidv5( 'tinymce', ns() );
+			element.id = uuid( 'tinymce' );
 		}
 		init( {
 			selector:         `#${ element.id }`,

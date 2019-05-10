@@ -1,5 +1,7 @@
 import htmlElementAttributes from 'html-element-attributes';
 import { Dictionary, isArray, object } from 'underscore';
+import uuidv5 from 'uuid/v5';
+import { APP_NAMESPACE } from './settings';
 
 export type TMany<T> = T | T[];
 export const ensureArray = <T>( v?: TMany<T> | undefined | null ) => {
@@ -150,3 +152,12 @@ export const makeHtmlTag = ( { tag, content, attributes }: ITag ): HTMLElement =
 
 	return tagElement;
 };
+
+// ... using predefined DNS namespace (for domain names)
+const uuidNs = uuidv5( APP_NAMESPACE, uuidv5.DNS );
+
+// ... using a custom namespace
+//
+// Note: Custom namespaces should be a UUID string specific to your application!
+// E.g. the one here was generated using this modules `uuid` CLI.
+export const uuid = ( name: string ) => uuidv5( name, uuidNs ); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614681'
