@@ -4,6 +4,8 @@ import uuidv5 from 'uuid/v5';
 import { APP_NAMESPACE } from './settings';
 
 export type TMany<T> = T | T[];
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 export const ensureArray = <T>( v?: TMany<T> | undefined | null ) => {
 	if ( isArray( v ) ) {
 		return v;

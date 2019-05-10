@@ -3,6 +3,7 @@ import React from 'react';
 import ReactModal from 'react-modal';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
+import { Omit } from '@ithoughts/tooltip-glossary/back/common';
 import { pick } from 'underscore';
 import { AForm, IFormHandlers } from '../a-form';
 import { ETipType } from '../types';
@@ -18,7 +19,7 @@ export interface ITip {
 }
 const TIP_KEYS = ['type', 'text', 'linkTarget'];
 
-export type TipFormOutput = ITip & ( ITooltip | IGlossarytip );
+export type TipFormOutput = ( ITip & {linkTarget: string} ) & ( ITooltip | IGlossarytip );
 type Props = IFormHandlers<TipFormOutput> & ( TipFormOutput | ITip );
 
 interface IState {
@@ -72,7 +73,7 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 		return undefined;
 	}
 
-	public get formData(): TipFormOutput {
+	private get formDataNoDefault(): ( Omit<ITip & IGlossarytip, 'linkTarget'> | Omit<ITip & ITooltip, 'linkTarget'> ) & {linkTarget?: string} {
 		if ( isGlossarytip( this.state.tip ) ) {
 			return pick( this.state.tip, TIP_KEYS.concat( GLOSSARYTIP_KEYS ) ) as ITip & IGlossarytip;
 		} else if ( isTooltip( this.state.tip ) ) {
@@ -80,6 +81,14 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 		} else {
 			throw new Error();
 		}
+	}
+
+	public get formData(): TipFormOutput {
+		return {
+			...this.formDataNoDefault,
+
+			linkTarget: this.formDataNoDefault.linkTarget || this.linkTargetPlaceholder,
+		};
 	}
 
 	public static mount( props?: Props ) {
