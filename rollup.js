@@ -1,7 +1,6 @@
 // @ts-nocheck
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import scss from 'rollup-plugin-scss';
 import babel from 'rollup-plugin-babel';
 import postcss from 'rollup-plugin-postcss';
 import json from 'rollup-plugin-json';
@@ -16,6 +15,8 @@ import visualizer from 'rollup-plugin-visualizer';
 import _ from 'underscore';
 import { basename, extname } from 'path';
 import { isString } from 'util';
+import nodeSass from 'node-sass';
+const settings = require('./settings.json');
 
 export const camelCase = str => str.replace( /-([a-z])/g, ( [, g] ) => g.toUpperCase() );
 
@@ -106,15 +107,22 @@ export const initConfig = config => {
                         namedExports: _.object(config.namedExports.map(dep => [dep, Object.keys(require(dep))])),
                         sourceMap : true,
                     } ),
-                    scss(),
-                    replace({
-                        'process.env.NODE_ENV': JSON.stringify( config.environment ),
-                    }),
                     postcss( {
                         extract: true,
                         minimize: true,
                         sourceMap: true,
+                        
+                        use: [['sass', {
+                            functions: {
+                                'namespace()': () => {
+                                    return new nodeSass.types.String( settings.cssNamespace );
+                                }
+                            }
+                        }]]
                     } ),
+                    replace({
+                        'process.env.NODE_ENV': JSON.stringify( config.environment ),
+                    }),
                     babel( {
                         exclude: 'node_modules/**',
                         extensions: ['.js', '.jsx', '.ts', '.tsx'],

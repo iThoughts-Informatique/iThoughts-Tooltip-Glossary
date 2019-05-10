@@ -29,7 +29,7 @@ $relative_assets_dir = 'assets/dist/';
 
 return [
     'text-domain'                 => 'ithoughts-tooltip-glossary',
-    'app-namespace'               => 'tooltip-glossary.ithoughts.com',
+    'app-namespace'               => json_decode(file_get_contents("${base_path}/settings.json"), true)["appNamespace"],
     'options.key'                 => 'ithoughts-tooltip-glossary',
     'options.default'             => require_once('default_config.php'),
     'base-path'                   => $base_path,
