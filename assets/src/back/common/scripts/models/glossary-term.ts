@@ -8,6 +8,7 @@ export declare class GlossaryTermModel extends Model {
 		id: number;
 		title: string;
 		content: string;
+		url: string;
 		excerpt?: string;
 	};
 }

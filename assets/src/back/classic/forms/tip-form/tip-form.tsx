@@ -23,6 +23,7 @@ export type TipFormOutput = ( ITip & {linkTarget: string} ) & ( ITooltip | IGlos
 type Props = IFormHandlers<TipFormOutput> & ( TipFormOutput | ITip );
 
 interface IState {
+	linkTargetPlaceholder: string;
 	modalIsOpen: boolean;
 	tip: ITip | TipFormOutput;
 }
@@ -33,26 +34,15 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 	public constructor( props: Props ) {
 		super( props );
 		this.state = {
+			linkTargetPlaceholder: this.getDefaultModeLinkPlaceholder( props.type ),
 			modalIsOpen: true,
 
 			tip: {
-				...{
-					text: '',
-					type: ETipType.Glossarytip,
-				},
-
 				linkTarget: props.linkTarget,
 				text: props.text,
 				type: props.type,
 			},
 		};
-	}
-
-	private get linkTargetPlaceholder() {
-		if ( this.state.tip.type === ETipType.Tooltip ) {
-			return '#';
-		}
-		return 'javascript:void';
 	}
 
 	private get isValid() {
@@ -87,7 +77,7 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 		return {
 			...this.formDataNoDefault,
 
-			linkTarget: this.formDataNoDefault.linkTarget || this.linkTargetPlaceholder,
+			linkTarget: this.formDataNoDefault.linkTarget || this.state.linkTargetPlaceholder,
 		};
 	}
 
@@ -105,13 +95,34 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 		super.submit();
 	}
 
-	@autobind
-	private changeSpecializedTooltipInfos( specializedProps: ITooltip | IGlossarytip ) {
-		this.setState( { ...this.state, tip: {
-			...this.state.tip,
+	private getDefaultModeLinkPlaceholder( mode: ETipType ) {
+		return mode === ETipType.Tooltip ? '#' : 'Link to term';
+	}
 
-			...specializedProps,
-		} } );
+	@autobind
+	private setMode( mode: ETipType ) {
+		this.setState( {
+			...this.state,
+			linkTargetPlaceholder: this.getDefaultModeLinkPlaceholder( mode ),
+			tip: {
+				...this.state.tip,
+				type: mode,
+			},
+		} );
+	}
+
+	@autobind
+	private changeSpecializedTooltipInfos( specializedProps: ITooltip | IGlossarytip, linkTargetPlaceholder?: string ) {
+		this.setState( {
+			...this.state,
+
+			linkTargetPlaceholder: typeof linkTargetPlaceholder === 'string' ? linkTargetPlaceholder : this.state.linkTargetPlaceholder,
+			tip: {
+				...this.state.tip,
+
+				...specializedProps,
+			},
+		} );
 	}
 
 	public render() {
@@ -150,7 +161,7 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 								type='text'
 								id='text'
 								className='form-field'
-								placeholder={this.linkTargetPlaceholder}
+								placeholder={this.state.linkTargetPlaceholder}
 								value={this.state.tip.linkTarget}
 								onChange={e => this.setState( {
 									...this.state,
@@ -168,19 +179,20 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 						selectedTabClassName='active'
 						selectedTabPanelClassName='active'
 						defaultIndex={this.state.tip.type}
-						onSelect={idx => void ( this.setState( {
-							...this.state,
-							tip: {
-								...this.state.tip,
-								type: idx,
-						}} ) )}>
+						onSelect={this.setMode}>
 						<TabList className='tabs-header'>
 							<Tab>Glossary tip</Tab>
 							<Tab>Tooltip</Tab>
 						</TabList>
 
-						<TabPanel><GlossarytipSection onChangeSpecializedTip={this.changeSpecializedTooltipInfos}/></TabPanel>
-						<TabPanel><TooltipSection onChangeSpecializedTip={this.changeSpecializedTooltipInfos}/></TabPanel>
+						<TabPanel>
+							<GlossarytipSection
+								onChangeSpecializedTip={this.changeSpecializedTooltipInfos}/>
+						</TabPanel>
+						<TabPanel>
+							<TooltipSection
+								onChangeSpecializedTip={this.changeSpecializedTooltipInfos}/>
+						</TabPanel>
 					</Tabs>
 				</form>
 				<button onClick={() => this.discard()}>Discard</button>

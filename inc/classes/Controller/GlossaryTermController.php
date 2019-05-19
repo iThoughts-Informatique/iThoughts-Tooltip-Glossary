@@ -153,6 +153,10 @@ if(!class_exists( __NAMESPACE__ . '\\GlossaryTermController' )){
                         'description'  => esc_html__( 'The excerpt for the object.', 'my-textdomain' ),
                         'type'         => 'string',
                     ],
+                    'url' => [
+                        'description'  => esc_html__( 'The location of the object', 'my-textdomain' ),
+                        'type'         => 'string',
+                    ],
                 ],
             ];
             
@@ -216,6 +220,15 @@ if(!class_exists( __NAMESPACE__ . '\\GlossaryTermController' )){
         
         // #region Transformations
 
+        private static function copy_schema_prop( string $prop_name, array $schema, array &$post_data, callable $get_content ){
+            if ( isset( $schema['properties'][$prop_name] ) ) {
+                $val = $get_content();
+                if($val){
+                    $post_data[$prop_name] = $val;
+                }
+            }
+        }
+
         /**
          * Matches the post data to the schema we want.
          *
@@ -228,20 +241,10 @@ if(!class_exists( __NAMESPACE__ . '\\GlossaryTermController' )){
             $schema = $this->get_item_schema( $request );
             
             // We are also renaming the fields to more understandable names.
-            if ( isset( $schema['properties']['id'] ) ) {
-                $post_data['id'] = (int) $post->ID;
-            }
-
-            if ( isset( $schema['properties']['content'] ) ) {
-                $post_data['content'] = apply_filters( 'the_content', $post->post_content, $post );
-            }
-            
-            if ( isset( $schema['properties']['excerpt'] ) ) {
-                $excerpt = apply_filters( 'the_excerpt', $post->post_excerpt, $post );
-                if ( $excerpt ) {
-                    $post_data['excerpt'] = $excerpt;
-                }
-            }
+            self::copy_schema_prop( 'id',      $schema, $post_data, function() use ($post) { return (int) $post->ID; });
+            self::copy_schema_prop( 'content', $schema, $post_data, function() use ($post) { return apply_filters( 'the_content', $post->post_content, $post ); });
+            self::copy_schema_prop( 'excerpt', $schema, $post_data, function() use ($post) { return apply_filters( 'the_excerpt', $post->post_excerpt, $post ); });
+            self::copy_schema_prop( 'url',     $schema, $post_data, function() use ($post) { return apply_filters( 'the_permalink', get_permalink( $post ), $post ); });
             
             if ( isset( $schema['properties']['title'] ) ) {
                 $post_data['title'] = apply_filters( 'the_title', $post->post_title, $post );

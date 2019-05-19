@@ -23,12 +23,13 @@ const openTipForm = ( editor: Editor, type: ETipType ) => {
 const getSpecializedAttributes = ( tipDesc: TipFormOutput ) => {
 	if ( isGlossarytip( tipDesc ) ) {
 		return {
-			href: `/term-${tipDesc.termId}`,
+			href:   tipDesc.linkTarget,
 			termId: tipDesc.termId.toString(),
 		} as const;
 	} else if ( isTooltip( tipDesc ) ) {
 		return {
 			content: tipDesc.content,
+			href:    tipDesc.linkTarget,
 		} as const;
 	} else {
 		throw new Error();

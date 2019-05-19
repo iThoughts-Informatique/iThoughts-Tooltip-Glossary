@@ -18,7 +18,7 @@ export const isTooltip = ( props: any ): props is ITooltip =>
 	props.type === ETipType.Tooltip && isString( ( props as any as ITooltip ).content );
 
 interface IProps {
-	onChangeSpecializedTip: ( props: ITooltip ) => void;
+	onChangeSpecializedTip: ( props: ITooltip, placeholder?: string ) => void;
 }
 
 export const tooltipValidationMessage = ( tip: ITip & ( ITooltip | {} ) ) => {

@@ -3,7 +3,7 @@ import { Collection } from 'backbone';
 import { debounce } from 'debounce';
 import React, { Component } from 'react';
 import Autocomplete from 'react-autocomplete';
-import { isNumber } from 'underscore';
+import { isNumber, pick } from 'underscore';
 
 import { getGlossaryTermModel, GlossaryTermModel, jqXhrToPromise } from '@ithoughts/tooltip-glossary/back/common';
 
@@ -20,16 +20,19 @@ export const isGlossarytip = ( props: any ): props is IGlossarytip =>
 	props.type === ETipType.Glossarytip && isNumber( ( props as any as IGlossarytip ).termId );
 
 interface IProps {
-	onChangeSpecializedTip: ( props: IGlossarytip ) => void;
+	onChangeSpecializedTip: ( props: IGlossarytip, placeholder?: string ) => void;
+}
+interface IAutocomplete{
+	title: string;
+	excerpt: string;
+	url: string;
+	id: number;
 }
 interface IState {
 	tipData: IGlossarytip;
 	autocompleteSearch: string;
-	autocompletes: Array<{
-		title: string;
-		excerpt: string;
-		id: number;
-	}>;
+	selectedTerm?: IAutocomplete;
+	autocompletes: IAutocomplete[];
 }
 
 export const glossarytipValidationMessage = ( tip: ITip & ( IGlossarytip | {} ) ) => {
@@ -90,7 +93,7 @@ export class GlossarytipSection extends Component<IProps, IState> {
 
 	public setState( state: IState, callback?: ( () => void ) | undefined ) {
 		super.setState( state, callback );
-		this.props.onChangeSpecializedTip( state.tipData );
+		this.props.onChangeSpecializedTip( state.tipData, state.selectedTerm ? state.selectedTerm.url : undefined );
 	}
 
 	@autobind
@@ -112,6 +115,7 @@ export class GlossarytipSection extends Component<IProps, IState> {
 		this.setState( {
 			...this.state,
 			autocompleteSearch: term.title,
+			selectedTerm: term,
 			tipData: { ...this.state.tipData, termId },
 		} );
 	}
@@ -148,9 +152,9 @@ export class GlossarytipSection extends Component<IProps, IState> {
 
 			autocompletes: collection.models
 				.map( term => ( {
-					excerpt: term.attributes.excerpt || term.attributes.content.slice( 0, 100 ),
-					id: term.attributes.id,
-					title: term.attributes.title,
+					excerpt: term.attributes.content.slice( 0, 100 ),
+
+					...pick( term.attributes, ['excerpt', 'id', 'title', 'url'] ) as Pick<( typeof term )['attributes'], 'excerpt' | 'id' | 'title' | 'url'>,
 				} ) ),
 		},             this.filterResults );
 	}
