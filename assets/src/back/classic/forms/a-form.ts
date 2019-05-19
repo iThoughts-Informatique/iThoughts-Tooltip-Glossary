@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import { Component } from 'react';
 
-import { ensureArray, ns, TMany } from '@ithoughts/tooltip-glossary/back/common';
+import { CSS_NAMESPACE, ensureArray, ns, TMany } from '@ithoughts/tooltip-glossary/back/common';
 
 export type TSubmitHandler<TOut> = ( value: TOut ) => void;
 export type TCloseHandler<TOut> = ( ( submit: true, value: TOut ) => void ) & ( ( submit: false ) => void );
@@ -14,7 +14,7 @@ export interface IFormHandlers<TOut> {
 
 export abstract class AForm<TProps extends IFormHandlers<TOut>, TState, TOut>
 	extends Component<TProps, TState> {
-	protected static appRootId = `${ns( 'form-container', '-' )}`;
+	protected static appRootId = `${CSS_NAMESPACE}-form-container`;
 	public static readonly appRoot = $( $.parseHTML( `<div id="${AForm.appRootId}"></div>` )[0] as HTMLElement )
 		.appendTo( document.body ).get( 0 );
 
