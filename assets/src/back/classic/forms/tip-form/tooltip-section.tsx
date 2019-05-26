@@ -1,21 +1,13 @@
 import { Component } from 'react';
 import React from 'react';
 import { Editor, init } from 'tinymce';
-import { isString } from 'underscore';
 
 import { uuid } from '@ithoughts/tooltip-glossary/back/common';
+import { ETipType, ITooltip } from '@ithoughts/tooltip-glossary/common';
 
 import { ITip } from '../tip-form';
-import { ETipType } from '../types';
 
-export interface ITooltip {
-	type: ETipType.Tooltip;
-	content: string;
-}
 export const TOOLTIP_KEYS = ['content'];
-
-export const isTooltip = ( props: any ): props is ITooltip =>
-	props.type === ETipType.Tooltip && isString( ( props as any as ITooltip ).content );
 
 interface IProps {
 	onChangeSpecializedTip: ( props: ITooltip, placeholder?: string ) => void;

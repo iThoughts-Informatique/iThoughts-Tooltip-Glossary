@@ -6,18 +6,11 @@ import Autocomplete from 'react-autocomplete';
 import { isNumber, pick } from 'underscore';
 
 import { getGlossaryTermModel, GlossaryTermModel, jqXhrToPromise } from '@ithoughts/tooltip-glossary/back/common';
+import { ETipType, IGlossarytip } from '@ithoughts/tooltip-glossary/common';
 
 import { ITip } from '../tip-form';
-import { ETipType } from '../types';
 
-export interface IGlossarytip {
-	type: ETipType.Glossarytip;
-	termId: number;
-}
 export const GLOSSARYTIP_KEYS = ['termId'];
-
-export const isGlossarytip = ( props: any ): props is IGlossarytip =>
-	props.type === ETipType.Glossarytip && isNumber( ( props as any as IGlossarytip ).termId );
 
 interface IProps {
 	onChangeSpecializedTip: ( props: IGlossarytip, placeholder?: string ) => void;

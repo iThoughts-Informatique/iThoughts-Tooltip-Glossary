@@ -1,10 +1,9 @@
 import { Editor } from 'tinymce';
 
 import { CSS_NAMESPACE, makeHtmlTag, ns, uuid } from '@ithoughts/tooltip-glossary/back/common';
+import { ETipType, isGlossarytip, isTooltip, makeHtmlElement } from '@ithoughts/tooltip-glossary/common';
 
-import { ETipType, TipForm, TipFormOutput } from './forms';
-import { isGlossarytip } from './forms/tip-form/glossarytip-section';
-import { isTooltip } from './forms/tip-form/tooltip-section';
+import { TipForm, TipFormOutput } from './forms';
 
 const openTipForm = ( editor: Editor, type: ETipType ) => {
 	const form = TipForm.mount( {

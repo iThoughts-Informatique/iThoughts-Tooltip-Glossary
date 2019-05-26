@@ -2,15 +2,16 @@ import autobind from 'autobind-decorator';
 import React from 'react';
 import ReactModal from 'react-modal';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import { pick } from 'underscore';
 
 import { Omit } from '@ithoughts/tooltip-glossary/back/common';
-import { pick } from 'underscore';
+import { ETipType, IGlossarytip, isGlossarytip, isTooltip, ITooltip } from '@ithoughts/tooltip-glossary/common';
+
 import { AForm, IFormHandlers } from '../a-form';
-import { ETipType } from '../types';
 import { mountForm } from '../utils';
-import { GLOSSARYTIP_KEYS, GlossarytipSection, glossarytipValidationMessage, IGlossarytip, isGlossarytip } from './glossarytip-section';
+import { GLOSSARYTIP_KEYS, GlossarytipSection, glossarytipValidationMessage } from './glossarytip-section';
 import './tip-form.scss';
-import { isTooltip, ITooltip, TOOLTIP_KEYS, TooltipSection, tooltipValidationMessage } from './tooltip-section';
+import { TOOLTIP_KEYS, TooltipSection, tooltipValidationMessage } from './tooltip-section';
 
 export interface ITip {
 	text: string;

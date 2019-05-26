@@ -1,11 +1,12 @@
 // @ts-ignore
 import { plugins } from 'tinymce';
 
+import { ETipType } from '@ithoughts/tooltip-glossary/common';
+
 jest.mock( './forms/tip-form/tip-form' );
 // @ts-ignore
 import { mount } from './forms/tip-form/tip-form';
 
-import { ETipType } from './forms';
 import './tinymce';
 
 beforeEach( () => {
