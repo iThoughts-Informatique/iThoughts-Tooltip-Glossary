@@ -3,7 +3,10 @@ import { initConfig, camelCase, wpModuleToGlobal } from './rollup';
 export default initConfig({
 	environment: 'development',
 	bundlesMap: {
-		'assets/src/front/index.ts': 'assets/tmp/front.js',
+		'assets/src/front/index.ts': {
+			file: 'assets/tmp/front.js',
+			asVirtualModule: '@ithoughts/tooltip-glossary/front',
+		},
 		'assets/src/common/index.ts': {
 			file: 'assets/tmp/common.js',
 			asVirtualModule: '@ithoughts/tooltip-glossary/common',
