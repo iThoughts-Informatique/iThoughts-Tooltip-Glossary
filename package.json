@@ -114,6 +114,7 @@
     "react-modal": "^3.8.2",
     "react-tabs": "^3.0.0",
     "tinymce": "4.9.5",
+    "tippy.js": "^4.3.4",
     "underscore": "^1.9.1",
     "uuid": "^3.3.2"
   },
