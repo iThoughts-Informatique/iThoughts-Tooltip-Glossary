@@ -1,6 +1,6 @@
 import { Editor } from 'tinymce';
 
-import { CSS_NAMESPACE, makeHtmlTag, ns, uuid } from '@ithoughts/tooltip-glossary/back/common';
+import { CSS_NAMESPACE, ns, uuid } from '@ithoughts/tooltip-glossary/back/common';
 import { ETipType, isGlossarytip, isTooltip, makeHtmlElement } from '@ithoughts/tooltip-glossary/common';
 
 import { TipForm, TipFormOutput } from './forms';
@@ -49,7 +49,7 @@ export const registerCommands = ( editor: Editor ) => {
 		};
 
 		// Could use editor.dom.createHTML, but our method is better ;)
-		const tag = makeHtmlTag( { tag: 'a', content: tipDesc.text, attributes } );
+		const tag = makeHtmlElement( { tag: 'a', content: tipDesc.text, attributes } );
 		editor.execCommand( 'mceReplaceContent', false, tag.outerHTML );
 
 		const newTip = editor.getBody().querySelector( `[data-tip-uuid="${attributes.tipUuid}"]` );

@@ -121,40 +121,6 @@ export const unescapeAttr = ( attr: string ) => {
 	return attr;
 };
 
-interface ITag {
-	tag: string;
-	attributes: Dictionary<string | true | undefined>;
-	content: string;
-}
-export const camelCaseToDash = ( myStr: string ) =>
-	myStr.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase();
-
-export const makeHtmlTag = ( { tag, content, attributes }: ITag ): HTMLElement => {
-	const tagElement = document.createElement( tag );
-
-	// Set the HTML
-	tagElement.innerHTML = content;
-
-	// Set attributes
-	const allowedAttributes = htmlElementAttributes['*'].concat( htmlElementAttributes[tag] || [] );
-	const camelCasedAttrs = object<Dictionary<string | true>>( Object.entries( attributes )
-		.filter( ( keyValuePair ): keyValuePair is [string, string|true] => typeof keyValuePair[1] !== 'undefined' )
-		.map( ( [attrName, attrValue] ) => [camelCaseToDash( attrName ), attrValue] as [string, string | true] )
-		.map( ( [attrName, attrValue] ) => {
-			if ( !attrName.startsWith( 'data-' ) && !allowedAttributes.includes( attrName ) ) {
-				return [`data-${attrName}`, attrValue];
-			} else {
-				return [attrName, attrValue];
-			}
-		} ) );
-	Object.entries( camelCasedAttrs )
-		.forEach( ( [attrName, attrVal] ) => {
-			tagElement.setAttribute( attrName, attrVal === true ? '' : attrVal );
-		} );
-
-	return tagElement;
-};
-
 // ... using predefined DNS namespace (for domain names)
 const uuidNs = uuidv5( APP_NAMESPACE, uuidv5.DNS );
 

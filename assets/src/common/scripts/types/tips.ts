@@ -17,6 +17,6 @@ export const isTooltip = ( props: any ): props is ITooltip =>
 
 
 export enum ETipType {
-	Glossarytip,
-	Tooltip,
+	Glossarytip = 'Glossarytip',
+	Tooltip = 'Tooltip',
 }
