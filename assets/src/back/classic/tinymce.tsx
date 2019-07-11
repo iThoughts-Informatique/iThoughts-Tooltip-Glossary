@@ -43,8 +43,12 @@ export const plugin = async ( editor: Editor ) => {
 		tips.forEach( tip => initTooltip( tip, tipsContainer, true ) );
 	} );
 
-	registerCommands( editor );
-	const { addTooltip, removeTip } = await registerButtons( editor );
+	registerCommands( editor, () => {
+		if ( !tipsContainer ) {
+			throw new Error( 'Tips container not yet ready.' );
+		}
+		return tipsContainer;
+	 } );
 	const { addTooltip, addGlossarytip, removeTip } = await registerButtons( editor );
 
 	removeTip.disabled( false );
