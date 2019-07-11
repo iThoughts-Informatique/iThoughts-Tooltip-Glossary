@@ -1,5 +1,7 @@
 import { Editor } from 'tinymce';
 
+import { CSS_NAMESPACE } from '@ithoughts/tooltip-glossary/back/common';
+
 export function getEditorTip( editor: Editor ): HTMLAnchorElement[];
 export function getEditorTip( editor: Editor, uuid: string ): HTMLAnchorElement;
 export function getEditorTip( editor: Editor, uuid?: string ): HTMLAnchorElement | HTMLAnchorElement[] {
@@ -12,3 +14,11 @@ export function getEditorTip( editor: Editor, uuid?: string ): HTMLAnchorElement
 		return Array.from( tips );
 	}
 }
+
+export const baseTipClass = `${CSS_NAMESPACE}-tip`;
+export const getClosestTipParent = ( element: HTMLElement | null | undefined ): HTMLElement | null => {
+	while ( element && !element.classList.contains( baseTipClass ) ) {
+		element = element.parentElement;
+	}
+	return element || null;
+};

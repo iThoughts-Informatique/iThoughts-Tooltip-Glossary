@@ -1,4 +1,4 @@
-import tinymce from 'tinymce';
+import tinymce, { Editor } from 'tinymce';
 
 import { ns, Omit } from '@ithoughts/tooltip-glossary/back/common';
 import { makeHtmlElement } from '@ithoughts/tooltip-glossary/common';
@@ -13,7 +13,8 @@ import { getEditorTip } from './utils';
 type OverridableCss = Omit<CSSStyleDeclaration, 'length' | 'parentRule'>;
 
 export let tipsContainer: HTMLElement | undefined;
-tinymce.PluginManager.add( ns(), editor => {
+export const plugin = async ( editor: Editor ) => {
+	( window as any ).editor = editor;
 	// Avoid issue with rollup-plugin-json-manifest
 	const editorStylesheetUrl = editorConfig.manifest['back-editor-classic' + '.css'];
 	if ( editorStylesheetUrl ) {
@@ -43,5 +44,9 @@ tinymce.PluginManager.add( ns(), editor => {
 	} );
 
 	registerCommands( editor );
-	registerButtons( editor );
-} );
+	const { addTooltip, removeTip } = await registerButtons( editor );
+
+	removeTip.disabled( false );
+	addTooltip.disabled( true );
+};
+tinymce.PluginManager.add( ns(), plugin );
