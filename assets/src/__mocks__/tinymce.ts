@@ -1,11 +1,15 @@
-import tinymce from 'tinymce';
-import { Dictionary } from 'underscore';
+import { Editor } from 'tinymce';
 
-export const plugins: Dictionary<( editor: tinymce.Editor, url: string ) => void> = {};
 export default {
 	PluginManager: {
-		add( id: string, init: ( editor: tinymce.Editor, url: string ) => void ) {
-			plugins[id] = init;
-		},
+		add: jest.fn(),
 	},
 } ;
+export const makeMockEditor = () => ( {
+	contentCSS: [],
+	getContentAreaContainer: jest.fn(),
+	on: jest.fn(),
+	selection: {
+		getRng: jest.fn(),
+	},
+} as any as Editor );

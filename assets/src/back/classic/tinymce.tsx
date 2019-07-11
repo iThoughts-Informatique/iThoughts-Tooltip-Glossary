@@ -45,8 +45,10 @@ export const plugin = async ( editor: Editor ) => {
 
 	registerCommands( editor );
 	const { addTooltip, removeTip } = await registerButtons( editor );
+	const { addTooltip, addGlossarytip, removeTip } = await registerButtons( editor );
 
 	removeTip.disabled( false );
 	addTooltip.disabled( true );
+	addGlossarytip.disabled( true );
 };
-tinymce.PluginManager.add( ns(), plugin );
+export const bootstrapTinymcePlugin = () => tinymce.PluginManager.add( ns(), plugin );
