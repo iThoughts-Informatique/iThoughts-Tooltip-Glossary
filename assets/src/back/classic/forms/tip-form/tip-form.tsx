@@ -21,7 +21,7 @@ export interface ITip {
 const TIP_KEYS = ['type', 'text', 'linkTarget'];
 
 export type TipFormOutput = ( ITip & {linkTarget: string} ) & ( ITooltip | IGlossarytip );
-type Props = IFormHandlers<TipFormOutput> & ( TipFormOutput | ITip );
+export type TipFormProps = IFormHandlers<TipFormOutput> & ( TipFormOutput | ITip );
 
 interface IState {
 	linkTargetPlaceholder: string;
@@ -34,20 +34,23 @@ const tipTypeTabs: {[key in ETipType]: number} = {
 	[ETipType.Tooltip]: 1,
 };
 
-export class TipForm extends AForm<Props, IState, TipFormOutput> {
+export class TipForm extends AForm<TipFormProps, IState, TipFormOutput> {
 	public readonly state: IState;
 
-	public constructor( props: Props ) {
+	public constructor( props: TipFormProps ) {
 		super( props );
+
+		// Filter out link if it is equal to the default option, and let the placeholder be used.
+		const linkTargetPlaceholder = this.getDefaultModeLinkPlaceholder( props.type );
+		if ( props.linkTarget === linkTargetPlaceholder ) {
+			props = { ...props, linkTarget: undefined };
+		}
+
 		this.state = {
-			linkTargetPlaceholder: this.getDefaultModeLinkPlaceholder( props.type ),
+			linkTargetPlaceholder,
 			modalIsOpen: true,
 
-			tip: {
-				linkTarget: props.linkTarget,
-				text: props.text,
-				type: props.type,
-			},
+			tip: props,
 		};
 	}
 
@@ -87,8 +90,8 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 		};
 	}
 
-	public static mount( props?: Props ) {
-		return mountForm<TipForm, Props, IState, TipFormOutput>( TipForm, props );
+	public static mount( props?: TipFormProps ) {
+		return mountForm<TipForm, TipFormProps, IState, TipFormOutput>( TipForm, props );
 	}
 
 	public discard() {
@@ -102,7 +105,7 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 	}
 
 	private getDefaultModeLinkPlaceholder( mode: ETipType ) {
-		return mode === ETipType.Tooltip ? '#' : 'Link to term';
+		return mode === ETipType.Tooltip ? '#' : 'Link to term'; // TODO link to term
 	}
 
 	@autobind
@@ -198,10 +201,12 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 
 						<TabPanel>
 							<GlossarytipSection
+								tip={this.state.tip}
 								onChangeSpecializedTip={this.changeSpecializedTooltipInfos}/>
 						</TabPanel>
 						<TabPanel>
 							<TooltipSection
+								tip={this.state.tip}
 								onChangeSpecializedTip={this.changeSpecializedTooltipInfos}/>
 						</TabPanel>
 					</Tabs>

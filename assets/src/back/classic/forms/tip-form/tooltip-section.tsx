@@ -11,6 +11,7 @@ export const TOOLTIP_KEYS = ['content'];
 
 interface IProps {
 	onChangeSpecializedTip: ( props: ITooltip, placeholder?: string ) => void;
+	tip: ITooltip | ITip;
 }
 
 export const tooltipValidationMessage = ( tip: ITip & ( ITooltip | {} ) ) => {
@@ -21,10 +22,11 @@ export const tooltipValidationMessage = ( tip: ITip & ( ITooltip | {} ) ) => {
 export class TooltipSection extends Component<IProps, ITooltip> {
 	private tinymce?: Editor;
 
-	public readonly state: ITooltip = { content: '', type: ETipType.Tooltip };
+	public readonly state: ITooltip;
 
 	public constructor( public readonly props: IProps ) {
 		super( props );
+		this.state = { content: '', ...props.tip, type: ETipType.Tooltip };
 	}
 
 	public render() {
@@ -59,25 +61,32 @@ export class TooltipSection extends Component<IProps, ITooltip> {
 			element.id = uuid( 'tinymce' );
 		}
 		init( {
-			selector:         `#${ element.id }`,
 			menubar:          false,
+			selector:         `#${ element.id }`,
+
 			/*external_plugins: {
 				code:      `${ itge.base_tinymce  }/code/plugin.min.js`,
 				wordcount: `${ itge.base_tinymce  }/wordcount/plugin.min.js`,
 			},*/
+
+			height:     70,
+			min_height: 70,
+			resize:     false,
+
 			plugins: 'wplink',
 			toolbar: [
 				'styleselect | bold italic underline link | bullist numlist | alignleft aligncenter alignright alignjustify | code',
 			],
-			min_height: 70,
-			height:     70,
-			resize:     false,
 
+			init_instance_callback: ed => {
+				ed.setContent( this.state.content );
+			},
 			setup: ed => {
-				this.tinymce = ed;
+				// tslint:disable-next-line: no-inferred-empty-object-type
 				ed.on( 'change', () => {
 					this.setState( { ...this.state, content: ed.getContent() } );
 				} );
+				this.tinymce = ed;
 			},
 		} );
 	}

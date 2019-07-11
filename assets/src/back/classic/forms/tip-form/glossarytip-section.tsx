@@ -14,8 +14,9 @@ export const GLOSSARYTIP_KEYS = ['termId'];
 
 interface IProps {
 	onChangeSpecializedTip: ( props: IGlossarytip, placeholder?: string ) => void;
+	tip: IGlossarytip | ITip;
 }
-interface IAutocomplete{
+interface IAutocomplete {
 	title: string;
 	excerpt: string;
 	url: string;
@@ -35,20 +36,31 @@ export const glossarytipValidationMessage = ( tip: ITip & ( IGlossarytip | {} ) 
 };
 
 export class GlossarytipSection extends Component<IProps, IState> {
-	public readonly state: IState = {
-		autocompleteSearch: '',
-		autocompletes: [],
-		tipData: { termId: 0, type: ETipType.Glossarytip },
-	};
+	public readonly state: IState;
 	private readonly glossaryTermsCollection: Promise<Collection<GlossaryTermModel>>;
 
 	public constructor( public readonly props: IProps ) {
 		super( props );
 
+		this.state = {
+			autocompleteSearch: '',
+			autocompletes: [],
+			tipData: { termId: 0, ...props.tip, type: ETipType.Glossarytip },
+		};
 		this.glossaryTermsCollection = getGlossaryTermModel()
 			.then( model => new model
 				.collections
 				.GlossaryTerm<GlossaryTermModel>( undefined, { comparator: 'title' } ) )
+			.then( collection => {
+				if(this.state.tipData.termId > 0){
+					collection.get(this.state.tipData.termId)
+						.fetch()
+						.done(m => {
+							console.log({m})
+						})
+				}
+				return collection;
+			})
 			.then( collection => {
 				this.doSearch();
 				return Promise.resolve( collection );
