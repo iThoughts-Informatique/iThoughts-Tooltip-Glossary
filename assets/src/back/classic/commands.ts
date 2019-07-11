@@ -6,7 +6,7 @@ import { initTooltip } from '@ithoughts/tooltip-glossary/front';
 
 import { isString } from 'underscore';
 import { ITip, TipForm, TipFormOutput } from './forms';
-import { baseTipClass, getClosestTipParent, getEditorTip } from './utils';
+import { baseTipClass, getEditorTip, getEditorTipUnderCursor } from './utils';
 
 const openTipForm = ( editor: Editor, tipDesc: TipFormOutput | ITip ) => {
 	const form = TipForm.mount( {
@@ -62,10 +62,7 @@ export const loadAttributesFromHtmlElement = ( element: HTMLElement ): TipFormOu
 };
 
 export const loadFromSelection = ( editor: Editor, expectedType: ETipType ): TipFormOutput | ITip => {
-	const range = editor.selection.getRng( true );
-
-	// Try to find the closest tip
-	const triedTipParent = getClosestTipParent( range.commonAncestorContainer.parentElement );
+	const triedTipParent = getEditorTipUnderCursor( editor );
 	if ( triedTipParent ) {
 		const loaded = loadAttributesFromHtmlElement( triedTipParent );
 		if ( loaded.type !== expectedType ) {
@@ -92,6 +89,12 @@ export const registerCommands = ( editor: Editor, getTipsContainer: () => HTMLEl
 
 			...getSpecializedAttributes( tipDesc ),
 		};
+
+		// Try to expand selectio if on tip.
+		const currentTip = getEditorTipUnderCursor( editor );
+		if ( currentTip ) {
+			editor.selection.select( currentTip );
+		}
 
 		// Could use editor.dom.createHTML, but our method is better ;)
 		const tag = makeHtmlElement( { tag: 'a', content: tipDesc.text, attributes } );

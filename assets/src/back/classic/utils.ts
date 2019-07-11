@@ -22,3 +22,6 @@ export const getClosestTipParent = ( element: HTMLElement | null | undefined ): 
 	}
 	return element || null;
 };
+// Try to find the closest tip
+export const getEditorTipUnderCursor = ( editor: Editor ): HTMLElement | null =>
+	getClosestTipParent( editor.selection.getRng( true ).commonAncestorContainer.parentElement );
