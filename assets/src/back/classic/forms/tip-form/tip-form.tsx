@@ -29,6 +29,11 @@ interface IState {
 	tip: ITip | TipFormOutput;
 }
 
+const tipTypeTabs: {[key in ETipType]: number} = {
+	[ETipType.Glossarytip]: 0,
+	[ETipType.Tooltip]: 1,
+};
+
 export class TipForm extends AForm<Props, IState, TipFormOutput> {
 	public readonly state: IState;
 
@@ -66,9 +71,9 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 
 	private get formDataNoDefault(): ( Omit<ITip & IGlossarytip, 'linkTarget'> | Omit<ITip & ITooltip, 'linkTarget'> ) & {linkTarget?: string} {
 		if ( isGlossarytip( this.state.tip ) ) {
-			return pick( this.state.tip, TIP_KEYS.concat( GLOSSARYTIP_KEYS ) ) as ITip & IGlossarytip;
+			return pick( this.state.tip, TIP_KEYS.concat( GLOSSARYTIP_KEYS ) as any ) as ITip & IGlossarytip;
 		} else if ( isTooltip( this.state.tip ) ) {
-			return pick( this.state.tip, TIP_KEYS.concat( TOOLTIP_KEYS ) ) as ITip & ITooltip;
+			return pick( this.state.tip, TIP_KEYS.concat( TOOLTIP_KEYS ) as any ) as ITip & ITooltip;
 		} else {
 			throw new Error();
 		}
@@ -101,7 +106,12 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 	}
 
 	@autobind
-	private setMode( mode: ETipType ) {
+	private setMode( tabIndex: number ) {
+		const modePair = Object.entries( tipTypeTabs ).find( ( [type, tab] ) => tab === tabIndex );
+		if ( !modePair ) {
+			throw new RangeError( `Unexpected tab index ${tabIndex}` );
+		}
+		const mode: ETipType = modePair[0] as any;
 		this.setState( {
 			...this.state,
 			linkTargetPlaceholder: this.getDefaultModeLinkPlaceholder( mode ),
@@ -179,7 +189,7 @@ export class TipForm extends AForm<Props, IState, TipFormOutput> {
 						className='tabs-container'
 						selectedTabClassName='active'
 						selectedTabPanelClassName='active'
-						defaultIndex={this.state.tip.type}
+						defaultIndex={tipTypeTabs[this.state.tip.type]}
 						onSelect={this.setMode}>
 						<TabList className='tabs-header'>
 							<Tab>Glossary tip</Tab>

@@ -1,7 +1,8 @@
 import $ from 'jquery';
 import { Component } from 'react';
 
-import { CSS_NAMESPACE, ensureArray, ns, TMany } from '@ithoughts/tooltip-glossary/back/common';
+import { CSS_NAMESPACE, ensureArray, TMany } from '@ithoughts/tooltip-glossary/back/common';
+import { makeHtmlElement } from '@ithoughts/tooltip-glossary/common';
 
 export type TSubmitHandler<TOut> = ( value: TOut ) => void;
 export type TCloseHandler<TOut> = ( ( submit: true, value: TOut ) => void ) & ( ( submit: false ) => void );
@@ -12,11 +13,22 @@ export interface IFormHandlers<TOut> {
 	onClose?: TMany<TCloseHandler<TOut>>;
 }
 
+export const makeAppRoot = ( appRootId: string ) => {
+	const element = makeHtmlElement( { tag: 'div', content: '', attributes: { id: appRootId }} );
+	document.body.appendChild( element );
+	return element;
+};
+
 export abstract class AForm<TProps extends IFormHandlers<TOut>, TState, TOut>
 	extends Component<TProps, TState> {
 	protected static appRootId = `${CSS_NAMESPACE}-form-container`;
-	public static readonly appRoot = $( $.parseHTML( `<div id="${AForm.appRootId}"></div>` )[0] as HTMLElement )
-		.appendTo( document.body ).get( 0 );
+	private static _appRoot: HTMLElement | undefined;
+	public static get appRoot() {
+		if ( !this._appRoot ) {
+			this._appRoot = makeAppRoot( this.appRootId );
+		}
+		return this._appRoot;
+	}
 
 	private readonly submitHandlers: Array<TSubmitHandler<TOut>> = [];
 	private readonly closeHandlers: Array<TCloseHandler<TOut>> = [];
