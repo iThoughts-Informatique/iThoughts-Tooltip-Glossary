@@ -12,6 +12,8 @@ use ithoughts\TooltipGlossary\ResourceType\Post\Glossary as Post_Glossary;
 use ithoughts\TooltipGlossary\ResourceType\Taxonomy\GlossaryGroup as Taxonomy_GlossaryGroup;
 use ithoughts\TooltipGlossary\AssetRegistration\ScriptRegistration;
 use ithoughts\TooltipGlossary\AssetRegistration\StyleRegistration;
+use ithoughts\TooltipGlossary\AssetRegistration\AAssetRegistration;
+use ithoughts\TooltipGlossary\DependencyManager;
 
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -44,4 +46,8 @@ return [
     // Assets registration
     'AssetRegistration.js'        => ScriptRegistration::class,
     'AssetRegistration.css'       => StyleRegistration::class,
+
+    'asset-common'      => function(){return AAssetRegistration::get('common.js', ['underscore']/* , [$common_style] */);},
+    'asset-front-style' => function(){return AAssetRegistration::get('front.css');},
+    'asset-front'       => function(){return AAssetRegistration::get('front.js', [DependencyManager::get('asset-common'), DependencyManager::get('asset-front-style')]);},
 ];

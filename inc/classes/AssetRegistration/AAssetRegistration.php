@@ -53,6 +53,11 @@ if(!class_exists( __NAMESPACE__ . '\\AAssetRegistration' )){
          * @var array The list of data blocks registered for the asset.
          */
         protected $script_data = [];
+
+        /**
+         * @var boolean Indicates if the asset has already been enqueued.
+         */
+        protected $has_been_enqueued = false;
         
         /**
          * Create a new asset registration, store it in the static of current registrations, and register it in Wordpress.
@@ -179,7 +184,10 @@ if(!class_exists( __NAMESPACE__ . '\\AAssetRegistration' )){
          */
         public final function enqueue(): self {
             $this->enqueue_asset_dependencies();
-            $this->enqueue_asset();
+            if(!$this->has_been_enqueued){
+                $this->has_been_enqueued = true;
+                $this->enqueue_asset();
+            }
             return $this;
         }
 

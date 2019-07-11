@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use ithoughts\TooltipGlossary\DependencyManager;
 use ithoughts\TooltipGlossary\Manifest;
-use ithoughts\TooltipGlossary\AssetRegistration\AAssetRegistration;
 use ithoughts\TooltipGlossary\Controller\GlossaryTermController;
 
 if(!class_exists( __NAMESPACE__ . '\\PostEditor' )){
@@ -43,21 +42,7 @@ if(!class_exists( __NAMESPACE__ . '\\PostEditor' )){
          * @return void
          */
         public function register(){
-            $back_common_style = AAssetRegistration::get('back-common.css');
-            $back_common_script = AAssetRegistration::get('back-common.js', ['wp-blocks', 'wp-element', 'wp-i18n', 'wp-plugins', 'wp-edit-post', 'wp-data', 'wp-api', $back_common_style])
-                ->add_data('ithoughtsTooltipGlossary_editorConfig', function(){
-                    return [
-                        'manifest'            => $this->manifest->get_manifest(),
-                        'controllerNamespace' => GlossaryTermController::namespace,
-                    ];
-                } )
-                ->as_block_type('glossarytip')
-                ->as_block_type('tooltip');
-            
-            $back_classic_style = AAssetRegistration::get('back-editor-classic.css');
-            // Register the tinymce script
-            AAssetRegistration::get('back-editor-classic.js', [$back_common_script, $back_classic_style])
-                ->as_tinymce_plugin($this->app_namespace, ['add-glossarytip', 'add-tooltip', 'remove-tip', 'add-list']);
+            DependencyManager::get('asset-back-editor-classic')->enqueue();
         }
     }
 }
