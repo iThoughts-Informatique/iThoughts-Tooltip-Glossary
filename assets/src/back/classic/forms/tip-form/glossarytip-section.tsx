@@ -101,8 +101,10 @@ export class GlossarytipSection extends Component<IProps, IState> {
 	}
 
 	public setState( state: IState, callback?: ( () => void ) | undefined ) {
+		console.log('Set state', {state, callback})
 		super.setState( state, callback );
-		this.props.onChangeSpecializedTip( state.tipData, state.selectedTerm ? state.selectedTerm.url : undefined );
+		const url = state.selectedTerm ? state.selectedTerm.url : undefined;
+		this.props.onChangeSpecializedTip( state.tipData, url );
 	}
 
 	@autobind

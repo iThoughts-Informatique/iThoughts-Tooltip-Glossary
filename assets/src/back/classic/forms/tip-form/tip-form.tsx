@@ -127,14 +127,18 @@ export class TipForm extends AForm<TipFormProps, IState, TipFormOutput> {
 
 	@autobind
 	private changeSpecializedTooltipInfos( specializedProps: ITooltip | IGlossarytip, linkTargetPlaceholder?: string ) {
+		const isDefault = !this.state.tip.linkTarget || ( this.state.tip.type === ETipType.Glossarytip && this.state.tip.linkTarget === this.state.linkTargetPlaceholder );
+		const linkTarget = isDefault ?
+			undefined :
+			this.state.tip.linkTarget;
 		this.setState( {
 			...this.state,
 
 			linkTargetPlaceholder: typeof linkTargetPlaceholder === 'string' ? linkTargetPlaceholder : this.state.linkTargetPlaceholder,
 			tip: {
 				...this.state.tip,
-
 				...specializedProps,
+				linkTarget,
 			},
 		} );
 	}
@@ -169,14 +173,14 @@ export class TipForm extends AForm<TipFormProps, IState, TipFormOutput> {
 						</div>
 					</fieldset>
 					<fieldset>
-						<label htmlFor='text'>Link target</label>
+						<label htmlFor='link-target'>Link target</label>
 						<div>
 							<input
 								type='text'
-								id='text'
+								id='link-target'
 								className='form-field'
 								placeholder={this.state.linkTargetPlaceholder}
-								value={this.state.tip.linkTarget}
+								value={this.state.tip.linkTarget || ''}
 								onChange={e => this.setState( {
 									...this.state,
 
