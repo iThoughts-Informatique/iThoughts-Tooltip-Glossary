@@ -3,9 +3,9 @@ import { Collection } from 'backbone';
 import { debounce } from 'debounce';
 import React, { Component } from 'react';
 import Autocomplete from 'react-autocomplete';
-import { isNumber, pick } from 'underscore';
+import { pick } from 'underscore';
 
-import { getGlossaryTermModel, GlossaryTermModel, jqXhrToPromise } from '@ithoughts/tooltip-glossary/back/common';
+import { getGlossaryTermModel, GlossaryTermModel, GlossaryTermModelItem, jqXhrToPromise } from '@ithoughts/tooltip-glossary/back/common';
 import { ETipType, IGlossarytip } from '@ithoughts/tooltip-glossary/common';
 
 import { ITip } from '../tip-form';
@@ -47,28 +47,28 @@ export class GlossarytipSection extends Component<IProps, IState> {
 			autocompletes: [],
 			tipData: { termId: 0, ...props.tip, type: ETipType.Glossarytip },
 		};
-		this.glossaryTermsCollection = getGlossaryTermModel()
-			.then( model => new model
+		this.glossaryTermsCollection = this.ajaxInit();
+	}
+
+	private async ajaxInit() {
+		const model = await getGlossaryTermModel();
+		const collection = new model
 				.collections
-				.GlossaryTerm<GlossaryTermModel>( undefined, { comparator: 'title' } ) )
-			.then( collection => {
-				if(this.state.tipData.termId > 0){
-					collection.get(this.state.tipData.termId)
-						.fetch()
-						.done(m => {
-							console.log({m})
-						})
-				}
-				return collection;
-			})
-			.then( collection => {
-				this.doSearch();
-				return Promise.resolve( collection );
-			 } )
-			// tslint:disable-next-line: no-console
-			.catch( e => {
-				throw e;
-			 } );
+			.GlossaryTerm<GlossaryTermModel>( undefined, { comparator: 'title' } );
+
+		if ( this.state.tipData.termId > 0 ) {
+			const modelItem = await jqXhrToPromise<GlossaryTermModelItem>( new model.models.GlossaryTerm( { id: this.state.tipData.termId } ).fetch() );
+			if ( !modelItem ) {
+				throw new Error( `Unable to find glossary term ${this.state.tipData.termId}` );
+			}
+			this.props.onChangeSpecializedTip( this.state.tipData, modelItem.url );
+			this.setState( {
+				...this.state,
+
+				autocompleteSearch: modelItem.title,
+			} );
+		}
+		return collection;
 	}
 
 	public render() {
@@ -96,6 +96,10 @@ export class GlossarytipSection extends Component<IProps, IState> {
 		</fieldset>;
 	}
 
+	private autocompletedSearch( maybeSearch?: string ) {
+		return typeof maybeSearch === 'string' ? maybeSearch : this.state.autocompleteSearch;
+	}
+
 	public setState( state: IState, callback?: ( () => void ) | undefined ) {
 		super.setState( state, callback );
 		this.props.onChangeSpecializedTip( state.tipData, state.selectedTerm ? state.selectedTerm.url : undefined );
@@ -107,6 +111,7 @@ export class GlossarytipSection extends Component<IProps, IState> {
 			...this.state,
 			autocompleteSearch: search,
 		} );
+		// tslint:disable-next-line: no-floating-promises
 		this.doSearch( search );
 	}
 
@@ -127,7 +132,7 @@ export class GlossarytipSection extends Component<IProps, IState> {
 
 	// #region Search/filtering
 	private doSearch( maybeSearch?: string ) {
-		const search = maybeSearch ? maybeSearch : this.state.autocompleteSearch;
+		const search = this.autocompletedSearch( maybeSearch );
 		this.setState( { ...this.state, autocompleteSearch: search }, () => {
 			// tslint:disable-next-line: no-floating-promises
 			this.ajaxFetchDebounced( search );
@@ -136,7 +141,7 @@ export class GlossarytipSection extends Component<IProps, IState> {
 	}
 
 	private filterResults( maybeSearch?: string ) {
-		const search = maybeSearch ? maybeSearch : this.state.autocompleteSearch;
+		const search = maybeSearch ? maybeSearch.toLowerCase() : '';
 		this.setState( {
 			...this.state,
 			autocompletes: this.state.autocompletes.filter( d => d.excerpt.toLowerCase().includes( search ) ||
@@ -146,7 +151,7 @@ export class GlossarytipSection extends Component<IProps, IState> {
 	}
 
 	private async ajaxFetch( maybeSearch?: string ) {
-		const search = maybeSearch ? maybeSearch : this.state.autocompleteSearch;
+		const search = this.autocompletedSearch( maybeSearch );
 
 		const collection = await this.glossaryTermsCollection;
 		await jqXhrToPromise<void>( collection.fetch( {
