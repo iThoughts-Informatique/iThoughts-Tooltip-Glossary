@@ -7,6 +7,8 @@ import editorConfig from '~editor-config';
 
 import { registerButtons } from './buttons';
 import { registerCommands } from './commands';
+import { editorDocumentType } from './editor-document-type';
+import { EShortcodeFormat } from './editor-document-type/shortcode-type';
 import './tinymce-plugin.scss';
 import { getEditorTip } from './utils';
 
@@ -54,5 +56,19 @@ export const plugin = async ( editor: Editor ) => {
 	removeTip.disabled( false );
 	addTooltip.disabled( true );
 	addGlossarytip.disabled( true );
+
+	// tslint:disable-next-line: no-inferred-empty-object-type
+	editor.on( 'BeforeSetcontent', function beforeSetContent( event ) { // replace from shortcode to displayable html content
+		const transformed = editorDocumentType.convert( event.content, EShortcodeFormat.QTags, EShortcodeFormat.TinyMCE );
+		console.log( { content: event.content, transformed } );
+		event.content = transformed;
+	} );
+
+	// tslint:disable-next-line: no-inferred-empty-object-type
+	editor.on( 'GetContent', function getContent( event ) { // replace from displayable html content to shortcode
+		const transformed = editorDocumentType.convert( event.content, EShortcodeFormat.TinyMCE, EShortcodeFormat.QTags );
+		console.log( { content: event.content, transformed } );
+		event.content = transformed;
+	} );
 };
 export const bootstrapTinymcePlugin = () => tinymce.PluginManager.add( ns(), plugin );

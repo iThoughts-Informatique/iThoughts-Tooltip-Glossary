@@ -49,9 +49,13 @@ describe( 'Plugin initialization', () => {
 	it( 'Should register an `oninit` function on the editor', async () => {
 		const mockEditor = makeMockEditor();
 		await plugin( mockEditor );
-		expect( mockEditor.on as jest.Mock ).toHaveBeenCalledTimes( 1 );
+		expect( mockEditor.on as jest.Mock ).toHaveBeenCalledTimes( 3 );
 		expect( ( mockEditor.on as jest.Mock ).mock.calls[0] ).toHaveLength( 2 );
 		expect( ( mockEditor.on as jest.Mock ).mock.calls[0][0] ).toBe( 'init' );
+		expect( ( mockEditor.on as jest.Mock ).mock.calls[1] ).toHaveLength( 2 );
+		expect( ( mockEditor.on as jest.Mock ).mock.calls[1][0] ).toBe( 'BeforeSetcontent' );
+		expect( ( mockEditor.on as jest.Mock ).mock.calls[2] ).toHaveLength( 2 );
+		expect( ( mockEditor.on as jest.Mock ).mock.calls[2][0] ).toBe( 'GetContent' );
 		const initFn = ( mockEditor.on as jest.Mock ).mock.calls[0][1];
 		expect( initFn ).toBeInstanceOf( Function );
 

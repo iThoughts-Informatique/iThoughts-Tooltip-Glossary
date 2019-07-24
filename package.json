@@ -71,6 +71,7 @@
     "@wordpress/components": "^8.0.0",
     "@wordpress/compose": "^3.4.0",
     "@wordpress/element": "^2.5.0",
+    "@wordpress/shortcode": "^2.3.0",
     "autobind-decorator": "^2.4.0",
     "backbone": "^1.4.0",
     "debounce": "^1.2.0",
