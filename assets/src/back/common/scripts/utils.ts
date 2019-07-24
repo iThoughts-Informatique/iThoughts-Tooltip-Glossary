@@ -1,6 +1,7 @@
-import htmlElementAttributes from 'html-element-attributes';
-import { Dictionary, isArray, object } from 'underscore';
+import { isArray } from 'underscore';
 import uuidv5 from 'uuid/v5';
+
+import escapeStringRegexp from 'escape-string-regexp';
 import { APP_NAMESPACE } from './settings';
 
 export type TMany<T> = T | T[];
@@ -23,15 +24,34 @@ export function staticImplements<T>() {
 export const jqXhrToPromise = <T>( xhr: JQueryXHR ) =>
 	new Promise<T>( ( res, rej ) => xhr.done( res ).fail( rej ) );
 
+type CharsEscapeSet = Array<[string, string]>;
+export enum ECharEscapeSet {
+	Wp,
+	Html,
+}
+const wpCharsEscape: CharsEscapeSet = [
+	['&', '&amp;'], /* This MUST be the 1st replacement. */
+	['"', '&quot;'], /* Quotes inside quotes in wp attrs should not be escaped. */
+];
+const charsEscapes: {[key in ECharEscapeSet]: CharsEscapeSet} = {
+	[ECharEscapeSet.Html]: [
+		...wpCharsEscape,
+		["'", '&apos;'], /* The 3 other predefined entities, required. */
+		['<', '&lt;'],
+		['>', '&gt;'],
+	],
+	[ECharEscapeSet.Wp]: wpCharsEscape,
+};
+
+export const escapeString = ( str: string, set: ECharEscapeSet ) => charsEscapes[set]
+	.reduce( ( s, [from, to] ) => s.replace( new RegExp( escapeStringRegexp( from ), 'g' ), to ), str );
+export const unescapeString = ( str: string, set: ECharEscapeSet ) => charsEscapes[set]
+	.reduce( ( s, [to, from] ) => s.replace( new RegExp( escapeStringRegexp( from ), 'g' ), to ), str );
+
 // From https://stackoverflow.com/a/9756789/4839162
 export const escapeAttr = ( attr: string, preserveCR = false ) => {
 	const crReturn = preserveCR ? '&#13;' : '\n';
-	return attr /* Forces the conversion to string. */
-		.replace( /&/g, '&amp;' ) /* This MUST be the 1st replacement. */
-		.replace( /'/g, '&apos;' ) /* The 4 other predefined entities, required. */
-		.replace( /"/g, '&quot;' )
-		.replace( /</g, '&lt;' )
-		.replace( />/g, '&gt;' )
+	return escapeString( attr, ECharEscapeSet.Html )
 		/*
 		You may add other replacements here for HTML only
 		(but it's not necessary).
@@ -69,11 +89,7 @@ export const unescapeAttr = ( attr: string ) => {
 		.replace( /[\r\n]/, '\n' )
 		.replace( /&#13;&#10;/g, '\n' ) /* These 3 replacements keep whitespaces. */
 		.replace( /&#1[03];/g, '\n' )
-		.replace( /&#9;/g, '\t' )
-		.replace( /&gt;/g, '>' ) /* The 4 other predefined entities required. */
-		.replace( /&lt;/g, '<' )
-		.replace( /&quot;/g, '"' )
-		.replace( /&apos;/g, "'" );
+		.replace( /&#9;/g, '\t' );
 	/*
 	You may add other replacements here for predefined HTML entities only
 	(but it's not necessary). Or for XML, only if the named entities are

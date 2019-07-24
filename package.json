@@ -74,6 +74,7 @@
     "autobind-decorator": "^2.4.0",
     "backbone": "^1.4.0",
     "debounce": "^1.2.0",
+    "escape-string-regexp": "^2.0.0",
     "html-element-attributes": "^2.1.0",
     "jquery": "^3.4.0",
     "moment": "2.22.2",

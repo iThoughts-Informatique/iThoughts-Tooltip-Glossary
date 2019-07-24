@@ -5,13 +5,13 @@ import { ITag, makeHtmlElement, parseHtmlElement } from './dom-object';
 
 describe( 'Make html element', () => {
 	it.each( [
-		['a', HTMLAnchorElement, ''],
+		['a', HTMLAnchorElement, undefined],
 		['div', HTMLDivElement, 'foo bar qux'],
 	] as Array<[string, any, string]> )( 'Should make simple tags without attributes', ( tag, instance, content ) => {
 		const htmlElement = makeHtmlElement( { tag, attributes: {}, content } );
 		expect( htmlElement ).toBeInstanceOf( instance );
 		expect( htmlElement.tagName ).toBe( tag.toUpperCase() );
-		expect( htmlElement.innerHTML ).toBe( content );
+		expect( htmlElement.innerHTML ).toBe( content || "" );
 		expect( htmlElement.getAttributeNames() ).toHaveLength( 0 );
 	} );
 	it.each( [
@@ -21,8 +21,8 @@ describe( 'Make html element', () => {
 		['foo', { class: 'bar' }],
 	] as Array<[string, ITag['attributes']]> )( 'Should support legal attributes', ( tag, attributes ) => {
 		const htmlElement = makeHtmlElement( { tag, attributes, content: '' } );
-		expect( htmlElement.getAttributeNames() ).toHaveLength( Object.keys( attributes ).length );
-		Object.entries( attributes )
+		expect( htmlElement.getAttributeNames() ).toHaveLength( Object.keys( attributes || {} ).length );
+		Object.entries( attributes || {} )
 			.forEach( ( [attrName, expectedVal] ) => {
 				expect( htmlElement.hasAttribute( attrName ) ).toBe( true );
 				const attrVal = htmlElement.getAttribute( attrName );
@@ -34,8 +34,8 @@ describe( 'Make html element', () => {
 		['div', { bar: 'foo' }],
 	] as Array<[string, ITag['attributes']]> )( 'Should escape with `data-` illegal attributes', ( tag, attributes ) => {
 		const htmlElement = makeHtmlElement( { tag, attributes, content: '' } );
-		expect( htmlElement.getAttributeNames() ).toHaveLength( Object.keys( attributes ).length );
-		Object.entries( attributes )
+		expect( htmlElement.getAttributeNames() ).toHaveLength( Object.keys( attributes || {} ).length );
+		Object.entries( attributes || {} )
 			.forEach( ( [attrName, expectedVal] ) => {
 				const prefixedAttrName = `data-${attrName}`;
 				expect( htmlElement.hasAttribute( prefixedAttrName ) ).toBe( true );
@@ -49,8 +49,8 @@ describe( 'Make html element', () => {
 		[{ disabled: true }],
 	] as Array<[ITag['attributes']]> )( 'Should support non-string types', attributes => {
 		const htmlElement = makeHtmlElement( { tag: 'button', attributes, content: '' } );
-		expect( htmlElement.getAttributeNames() ).toHaveLength( Object.keys( attributes ).length );
-		Object.entries( attributes )
+		expect( htmlElement.getAttributeNames() ).toHaveLength( Object.keys( attributes || {} ).length );
+		Object.entries( attributes || {} )
 			.forEach( ( [attrName, expectedVal] ) => {
 				expect( htmlElement.hasAttribute( attrName ) ).toBe( true );
 				const attrVal = htmlElement.getAttribute( attrName );
@@ -67,18 +67,18 @@ describe( 'Make html element', () => {
 
 describe( 'Parse html element', () => {
 	it.each( [
-		['<a></a>', { tag: 'a', content: '' }],
+		['<a></a>', { tag: 'a', content: undefined }],
 		['<div>foo</div>', { tag: 'div', content: 'foo' }],
 	] as Array<[string, ITag]> )( 'Should parse simple tags without attributes', ( html, content ) => {
 		const tag = parseHtmlElement( new JSDOM( `<!DOCTYPE html>${html}` ).window.document.body.firstElementChild as HTMLElement );
-		expect( tag ).toEqual( { ...content, attributes: {}} );
+		expect( tag ).toEqual( { ...content } );
 	} );
 	it.each( [
 		['<a href="#"></a>', { tag: 'a', attributes: { href: '#' }}],
 		['<div class="foo"></div>', { tag: 'div', attributes: { class: 'foo' }}],
 	] as Array<[string, Pick<ITag, 'attributes' | 'tag'>]> )( 'Should parse tags with legal attributes', ( html, content ) => {
 		const tag = parseHtmlElement( new JSDOM( `<!DOCTYPE html>${html}` ).window.document.body.firstElementChild as HTMLElement );
-		expect( tag ).toEqual( { ...content, content: '' } );
+		expect( tag ).toEqual( { ...content, content: undefined } );
 	} );
 	it.each( [
 		['<a data-foo="bar"></a>', { tag: 'a', attributes: { foo: 'bar' }}],
@@ -87,7 +87,7 @@ describe( 'Parse html element', () => {
 		['<a data-data-foo="bar"></a>', { tag: 'a', attributes: { dataFoo: 'bar' }}],
 	] as Array<[string, Pick<ITag, 'attributes' | 'tag'>]> )( 'Should parse tags with escaped attributes', ( html, content ) => {
 		const tag = parseHtmlElement( new JSDOM( `<!DOCTYPE html>${html}` ).window.document.body.firstElementChild as HTMLElement );
-		expect( tag ).toEqual( { ...content, content: '' } );
+		expect( tag ).toEqual( { ...content, content: undefined } );
 	} );
 	it.each( [
 		['<a data-foo="1"></a>', { tag: 'a', attributes: { foo: 1 }}],
@@ -95,6 +95,6 @@ describe( 'Parse html element', () => {
 		['<a data-foo></a>', { tag: 'a', attributes: { foo: true }}],
 	] as Array<[string, Pick<ITag, 'attributes' | 'tag'>]> )( 'Should parse tags with non-string attributes', ( html, content ) => {
 		const tag = parseHtmlElement( new JSDOM( `<!DOCTYPE html>${html}` ).window.document.body.firstElementChild as HTMLElement );
-		expect( tag ).toEqual( { ...content, content: '' } );
+		expect( tag ).toEqual( { ...content, content: undefined } );
 	} );
 } );
