@@ -27,49 +27,14 @@
     "lint": "tslint --project ./tsconfig.json",
     "lint:fix": "npm run lint -- --fix",
     "test": "grunt test",
-    "test:jest": "jest",
-    "test:jest:watch": "jest --watch",
+    "test:front": "npm run test:jest:unit && test:jest:integration",
+    "test:jest:unit": "jest -c jest.unit.js",
+    "test:jest:unit:watch": "npm run test:jest:unit -- --watch",
+    "test:jest:integration": "jest -c jest.integration.js",
+    "test:jest:integration:watch": "npm run test:jest:integration -- --watch",
     "test:prepare": "npm run test:prepare:drop-db; npm run test:prepare:init-db",
     "test:prepare:drop-db": "mysql -u root -proot -e 'DROP DATABASE `wp-test`;'",
     "test:prepare:init-db": "./bin/install-wp-tests.sh wp-test root root"
-  },
-  "jest": {
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "assets/src/**/*.[jt]s{x,}",
-      "!assets/src/__mocks__/**/*",
-      "!**/node_modules/**"
-    ],
-    "globals": {
-      "ts-jest": {
-        "diagnostics": false
-      }
-    },
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "ts",
-      "tsx"
-    ],
-    "moduleNameMapper": {
-      "(^@ithoughts/tooltip-glossary/.*$)": "<rootDir>/assets/src/__mocks__/$1",
-      "^~(.*)$": "<rootDir>/assets/src/__mocks__/@ithoughts/tooltip-glossary/config/$1"
-    },
-    "preset": "ts-jest/presets/js-with-ts",
-    "roots": [
-      "<rootDir>/assets/src",
-      "<rootDir>/assets/__tests__"
-    ],
-    "testMatch": [
-      "**/__tests__/**/*.[jt]s?(x)",
-      "!**/__tests__/helpers/**/*.[jt]s?(x)",
-      "**/?(*.)+(spec|test).[jt]s?(x)"
-    ],
-    "transform": {
-      ".*\\.ts$": "ts-jest",
-      "^.+\\.js$": "babel-jest",
-      ".*\\.(svg|s?css)$": "./assets/__tests__/helpers/default-loader.js"
-    }
   },
   "keywords": [
     "wordpress",

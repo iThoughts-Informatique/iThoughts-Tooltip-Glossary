@@ -8,6 +8,8 @@
         }
     ],
     "settings": {
-        "typescript.tsdk": "ithoughts-tooltip-glossary/node_modules/typescript/lib"
+        "typescript.tsdk": "ithoughts-tooltip-glossary/node_modules/typescript/lib",
+        "jest.pathToConfig": "./jest.unit.js",
+        "jest.disabledWorkspaceFolders": ["/mnt/shared/Work/nodejs/rollup-plugin-json-manifest"]
     }
 }
