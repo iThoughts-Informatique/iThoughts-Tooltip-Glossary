@@ -15,9 +15,12 @@ export default initConfig({
 			file: 'assets/tmp/back-common.js',
 			asVirtualModule: '@ithoughts/tooltip-glossary/back/common',
 		},
-		'assets/src/back/classic/index.ts': 'assets/tmp/back-editor-classic.js',
+		'assets/src/back/classic/index.ts': {
+			file: 'assets/tmp/back-editor-classic.js',
+			asVirtualModule: '@ithoughts/tooltip-glossary/back/classic',
+		},
 	},
-	internals: ['react-modal', 'react-tabs', 'react-autocomplete', 'autobind-decorator', 'debounce', 'html-element-attributes', 'tippy.js', 'escape-string-regexp'],
+	internals: ['react-modal', 'react-tabs', 'react-autocomplete', 'autobind-decorator', 'debounce', 'html-element-attributes', 'tippy.js', 'escape-string-regexp', 'iter-tools'],
 	globals: {
 		react: 'React',
 		tinymce: 'tinymce',

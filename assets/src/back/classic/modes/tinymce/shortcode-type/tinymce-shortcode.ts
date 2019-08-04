@@ -2,8 +2,8 @@
 import { ensureArray } from '@ithoughts/tooltip-glossary/back/common';
 import { convertCamelCaseToDashCaseAttrs, makeHtmlElement, parseHtmlElement } from '@ithoughts/tooltip-glossary/common';
 
-import { IShortcodeTypeDescriptor } from '../shortcode-type';
-import { AShortcode, IShortcodeSearchResult } from './a-shortcode';
+import { AShortcode, IShortcodeSearchResult } from '../../a-shortcode';
+import { IShortcodeTypeDescriptor } from '../../shortcode-type';
 
 export class TinyMCEShortcode extends AShortcode {
 	public toString(): string {
@@ -26,7 +26,7 @@ export class TinyMCEShortcode extends AShortcode {
 		return this.fromHtmlElement( child );
 	}
 
-	public static *findNext( htmlContent: string, selector: IShortcodeTypeDescriptor | string ): IterableIterator<IShortcodeSearchResult<TinyMCEShortcode>> {
+	public static *findNext( htmlContent: string, selector: Partial<IShortcodeTypeDescriptor> | string ): IterableIterator<IShortcodeSearchResult<TinyMCEShortcode>> {
 		const selectorDefaulted = typeof selector === 'string' ?
 			{ tag: selector } :
 			selector;

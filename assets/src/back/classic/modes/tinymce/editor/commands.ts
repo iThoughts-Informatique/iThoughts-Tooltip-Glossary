@@ -1,11 +1,11 @@
 import { Editor } from 'tinymce';
+import { isString } from 'underscore';
 
 import { CSS_NAMESPACE, ns, uuid } from '@ithoughts/tooltip-glossary/back/common';
 import { ETipType, isGlossarytip, isTooltip, makeHtmlElement, parseHtmlElement } from '@ithoughts/tooltip-glossary/common';
 import { initTooltip } from '@ithoughts/tooltip-glossary/front';
 
-import { isString } from 'underscore';
-import { ITip, TipForm, TipFormOutput } from './forms';
+import { ITip, TipForm, TipFormOutput } from '../../../forms';
 import { baseTipClass, getEditorTip, getEditorTipUnderCursor } from './utils';
 
 const openTipForm = ( editor: Editor, tipDesc: TipFormOutput | ITip ) => {
@@ -35,8 +35,9 @@ const getSpecializedAttributes = ( tipDesc: TipFormOutput ) => {
 		throw new Error();
 	}
 };
+
 export const loadAttributesFromHtmlElement = ( element: HTMLElement ): TipFormOutput => {
-	const { attributes, content } = parseHtmlElement( element );
+	const { attributes = {}, content } = parseHtmlElement( element );
 	if ( !isString( attributes.class ) ) {
 		throw new Error();
 	}
@@ -46,14 +47,14 @@ export const loadAttributesFromHtmlElement = ( element: HTMLElement ): TipFormOu
 		return {
 			content: attributes.content as string,
 			linkTarget: attributes.href as string,
-			text: content,
+			text: content || '',
 			type: ETipType.Tooltip,
 		};
 	} else if ( classes.includes( `${CSS_NAMESPACE}-${ETipType.Glossarytip}` ) ) {
 		return {
 			linkTarget: attributes.href as string,
 			termId: attributes.termId as number,
-			text: content,
+			text: content || '',
 			type: ETipType.Glossarytip,
 		};
 	} else {
@@ -75,6 +76,11 @@ export const loadFromSelection = ( editor: Editor, expectedType: ETipType ): Tip
 		text: '',
 		type: expectedType,
 	};
+};
+
+export const onOpenTipForm = ( editor: Editor, tipType: ETipType ) => {
+	openTipForm( editor, loadFromSelection( editor, tipType ) );
+	return true;
 };
 
 export const registerCommands = ( editor: Editor, getTipsContainer: () => HTMLElement ) => {
@@ -106,12 +112,6 @@ export const registerCommands = ( editor: Editor, getTipsContainer: () => HTMLEl
 		return true;
 	} ) as ( u?: boolean, v?: any ) => boolean );
 
-	editor.addCommand( ns( 'open-tooltip-form' ), value => {
-		openTipForm( editor, loadFromSelection( editor, ETipType.Tooltip ) );
-		return true;
-	} );
-	editor.addCommand( ns( 'open-glossarytip-form' ), value => {
-		openTipForm( editor, loadFromSelection( editor, ETipType.Glossarytip ) );
-		return true;
-	} );
+	editor.addCommand( ns( 'open-tooltip-form' ), onOpenTipForm.bind( undefined, editor, ETipType.Tooltip ) );
+	editor.addCommand( ns( 'open-glossarytip-form' ), onOpenTipForm.bind( undefined, editor, ETipType.Glossarytip ) );
 };

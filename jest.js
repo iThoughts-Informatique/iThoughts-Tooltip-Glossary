@@ -15,6 +15,7 @@ module.exports = {
 	},
 	"transform": {
 		".*\\.ts$": "ts-jest",
+		".*\\.tsx$": "ts-jest",
 		"^.+\\.js$": "babel-jest",
 		".*\\.(svg|s?css)$": "./assets/__tests__/helpers/default-loader.js"
 	}

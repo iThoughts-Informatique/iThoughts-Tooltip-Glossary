@@ -1,14 +1,14 @@
-import tinymce, { Editor } from 'tinymce';
+import { Editor } from 'tinymce';
 
-import { ns, Omit } from '@ithoughts/tooltip-glossary/back/common';
+import { Omit } from '@ithoughts/tooltip-glossary/back/common';
 import { makeHtmlElement } from '@ithoughts/tooltip-glossary/common';
 import { initTooltip } from '@ithoughts/tooltip-glossary/front';
 import editorConfig from '~editor-config';
 
+import { convertAllType } from '../../shortcode-transformers';
+import { EShortcodeType } from '../../shortcode-type';
 import { registerButtons } from './buttons';
 import { registerCommands } from './commands';
-import { editorDocumentType } from './editor-document-type';
-import { EShortcodeFormat } from './editor-document-type/shortcode-type';
 import './tinymce-plugin.scss';
 import { getEditorTip } from './utils';
 
@@ -24,7 +24,7 @@ export const plugin = async ( editor: Editor ) => {
 	}
 
 	// tslint:disable-next-line: no-inferred-empty-object-type
-	editor.on( 'init', ( ...args: any[] ) => {
+	editor.on( 'init', ( ) => {
 		tipsContainer = makeHtmlElement( { tag: 'div', content: '', attributes: { id: 'tips-container' }} );
 		document.body.appendChild( tipsContainer );
 
@@ -57,18 +57,19 @@ export const plugin = async ( editor: Editor ) => {
 	addTooltip.disabled( true );
 	addGlossarytip.disabled( true );
 
+	// replace from shortcode to displayable html content
 	// tslint:disable-next-line: no-inferred-empty-object-type
-	editor.on( 'BeforeSetcontent', function beforeSetContent( event ) { // replace from shortcode to displayable html content
-		const transformed = editorDocumentType.convert( event.content, EShortcodeFormat.QTags, EShortcodeFormat.TinyMCE );
-		console.log( { content: event.content, transformed } );
-		event.content = transformed;
+	editor.on( 'BeforeSetcontent', event => {
+		console.log('BeforeSetcontent')
+		event.content = convertAllType( EShortcodeType.QTags, EShortcodeType.TinyMCE, event.content )
+		return event;
 	} );
-
+	
+	// replace from displayable html content to shortcode
 	// tslint:disable-next-line: no-inferred-empty-object-type
-	editor.on( 'GetContent', function getContent( event ) { // replace from displayable html content to shortcode
-		const transformed = editorDocumentType.convert( event.content, EShortcodeFormat.TinyMCE, EShortcodeFormat.QTags );
-		console.log( { content: event.content, transformed } );
-		event.content = transformed;
+	editor.on( 'GetContent', event => {
+		console.log('GetContent')
+		event.content = convertAllType( EShortcodeType.TinyMCE, EShortcodeType.QTags, event.content )
+		return event;
 	} );
 };
-export const bootstrapTinymcePlugin = () => tinymce.PluginManager.add( ns(), plugin );

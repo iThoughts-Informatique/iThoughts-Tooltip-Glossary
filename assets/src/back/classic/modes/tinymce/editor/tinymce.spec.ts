@@ -8,13 +8,15 @@ import editorConfig from '~editor-config';
 jest.mock( '@ithoughts/tooltip-glossary/front' );
 import { initTooltip } from '@ithoughts/tooltip-glossary/front';
 jest.mock( './buttons' );
-import { registerButtons } from './buttons';
+import * as buttons from './buttons';
 jest.mock( './commands' );
 import { registerCommands } from './commands';
 jest.mock( './utils' );
 import { getEditorTip } from './utils';
 
-import { bootstrapTinymcePlugin, plugin, tipsContainer } from './tinymce';
+import { plugin, tipsContainer } from './tinymce';
+
+const bootstrapTinymcePlugin = () => tinymceMock.PluginManager.add( ns(), plugin );
 
 beforeEach( () => {
 	jest.clearAllMocks();
@@ -42,6 +44,7 @@ describe( 'Plugin initialization', () => {
 	} );
 	it( 'Should register buttons', async () => {
 		const mockEditor = makeMockEditor();
+		const registerButtons = jest.spyOn( buttons, 'registerButtons' );
 		await plugin( mockEditor );
 		expect( registerButtons ).toHaveBeenCalledTimes( 1 );
 		expect( registerButtons ).toHaveBeenCalledWith( mockEditor );
