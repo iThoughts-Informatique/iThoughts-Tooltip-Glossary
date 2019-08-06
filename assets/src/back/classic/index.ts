@@ -1,4 +1,4 @@
-import { AShortcode } from './modes/a-shortcode';
+import { AShortcode } from './modes/common/a-shortcode';
 import { qtagsPlugin } from './modes/qtags';
 import { tinymcePlugin } from './modes/tinymce';
 import { IClassicPlugin } from './modes/types';

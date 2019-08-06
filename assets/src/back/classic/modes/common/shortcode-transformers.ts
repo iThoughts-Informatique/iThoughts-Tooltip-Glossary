@@ -2,7 +2,7 @@ import { uuid } from '@ithoughts/tooltip-glossary/back/common';
 import { ETipType, ITag } from '@ithoughts/tooltip-glossary/common';
 
 import { flat, map } from 'iter-tools';
-import { shortcodesTypesRegistry } from '../shortcode-types-registry';
+import { shortcodesTypesRegistry } from '../../shortcode-types-registry';
 import { AShortcode, IShortcodeSearchResult, ShortcodeTransformer } from './a-shortcode';
 import { EShortcodeType, ShortcodeType } from './shortcode-type';
 
@@ -76,7 +76,6 @@ export const convertAllType = ( from: EShortcodeType, to: EShortcodeType, conten
 	}
 
 	const allConverted = convertAll( fromTypes, toTypes, content );
-	console.log( { content, allConverted } );
 	return allConverted;
 };
 export const convertAll = <TFrom extends AShortcode, TTo extends AShortcode>(
@@ -91,6 +90,7 @@ export const convertAll = <TFrom extends AShortcode, TTo extends AShortcode>(
 	const mappedShortcodes = map( ( { shortcodeSearchResult, type } ) => {
 		const typeTo = to.find( t => t.id === type.id );
 		if ( !typeTo ) {
+			// tslint:disable-next-line: no-console
 			console.warn( `Could not find a counterpart for type with id ${type.id}` );
 			return shortcodeSearchResult;
 		} else {
@@ -105,8 +105,6 @@ export const convertAll = <TFrom extends AShortcode, TTo extends AShortcode>(
 	// Resolve the iterable, and sort
 	const sortedShortcodes = [...mappedShortcodes]
 		.sort( ( a, b ) => a.start - b.start );
-
-	console.table( sortedShortcodes );
 
 	// Replace each source shortcodes with the replaced content.
 	const results = sortedShortcodes

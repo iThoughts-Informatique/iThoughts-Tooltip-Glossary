@@ -1,8 +1,8 @@
 import escapeStringRegexp from 'escape-string-regexp';
 
 import { bootstrap } from '@ithoughts/tooltip-glossary/back/classic';
-import { convertAllType } from '@ithoughts/tooltip-glossary/back/classic/modes/shortcode-transformers';
-import { EShortcodeType } from '@ithoughts/tooltip-glossary/back/classic/modes/shortcode-type';
+import { convertAllType } from '@ithoughts/tooltip-glossary/back/classic/modes/common/shortcode-transformers';
+import { EShortcodeType } from '@ithoughts/tooltip-glossary/back/classic/modes/common/shortcode-type';
 import { baseTipClass } from '@ithoughts/tooltip-glossary/back/classic/modes/tinymce/editor/utils';
 import { CSS_NAMESPACE } from '@ithoughts/tooltip-glossary/back/common';
 import { ETipType } from '@ithoughts/tooltip-glossary/common';

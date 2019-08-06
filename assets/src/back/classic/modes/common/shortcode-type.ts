@@ -14,22 +14,17 @@ export interface IShortcodeTypeDescriptor {
 	tag?: TMany<string>;
 	attributes?: TMany<AttrsHash>;
 }
-interface IInOutShortcodeTransforms {
+export interface IInOutShortcodeTransforms {
 	from: TCastShortcodeTransformCollection<ITag>;
 	to: TCastShortcodeTransformCollection<ITag>;
 }
-interface IBatchShortcodeResult<TShortcode extends AShortcode> {
+export interface IBatchShortcodeResult<TShortcode extends AShortcode> {
 	type: ShortcodeType<TShortcode>;
 	shortcodeSearchResult: IShortcodeSearchResult<ITag>;
 }
-type ShortcodeFactory<TShortcode extends AShortcode> = IShortcodeStatic<TShortcode> & ( new( tag: string, content?: string, attributes?: AttrsHash ) => TShortcode );
+export type ShortcodeFactory<TShortcode extends AShortcode> = IShortcodeStatic<TShortcode> & ( new( tag: string, content?: string, attributes?: AttrsHash ) => TShortcode );
 
 export class ShortcodeType<TShortcode extends AShortcode> {
-	public static createFactory<TShortcode extends AShortcode>( shortcodeFactory: ShortcodeFactory<TShortcode> ) {
-		return ( id: string, desc: Partial<IShortcodeTypeDescriptor>, transforms?: Partial<IInOutShortcodeTransforms> ) =>
-			new ShortcodeType( id, desc, shortcodeFactory, transforms );
-	}
-
 	public static wrapShortcodeOverride( override: Partial<ITag> ): ShortcodeTransformer {
 		return tag => ( {
 			...tag,

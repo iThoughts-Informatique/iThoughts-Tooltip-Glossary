@@ -5,7 +5,7 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { pick } from 'underscore';
 
 import { Omit } from '@ithoughts/tooltip-glossary/back/common';
-import { ETipType, IGlossarytip, isGlossarytip, isTooltip, ITooltip } from '@ithoughts/tooltip-glossary/common';
+import { AttrsHash, ETipType, IGlossarytip, isGlossarytip, isTooltip, ITooltip } from '@ithoughts/tooltip-glossary/common';
 
 import { AForm, IFormHandlers } from '../a-form';
 import { mountForm } from '../utils';
@@ -14,13 +14,20 @@ import './tip-form.scss';
 import { TOOLTIP_KEYS, TooltipSection, tooltipValidationMessage } from './tooltip-section';
 
 export interface ITip {
+	/** The text displayed in the link. This is typically the `innerHTML` of the `a` tag. */
 	text: string;
+	/** The value of the `href  link attribute. It may be defaulted depending on the type of the tip. */
 	linkTarget?: string;
 	type: ETipType;
+	/** Attributes of the tip that have no special meaning */
+	otherAttrs?: AttrsHash;
 }
 const TIP_KEYS = ['type', 'text', 'linkTarget'];
 
-export type TipFormOutput = ( ITip & {linkTarget: string} ) & ( ITooltip | IGlossarytip );
+export type TipFormOutput = ( ITip & {
+	/** The value of the `href  link attribute. Tip must have defaulted it, */
+	linkTarget: string;
+} ) & ( ITooltip | IGlossarytip );
 export type TipFormProps = IFormHandlers<TipFormOutput> & ( TipFormOutput | ITip );
 
 interface IState {

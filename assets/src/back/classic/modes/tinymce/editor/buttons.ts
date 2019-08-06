@@ -3,6 +3,7 @@ type Control = ui.Control;
 
 import { iconSvg, ns } from '@ithoughts/tooltip-glossary/back/common';
 import { camelCaseToDashCase, ETipType, ITag, parseHtmlElement } from '@ithoughts/tooltip-glossary/common';
+import { TinyMCEShortcode } from '../shortcode-type/tinymce-shortcode';
 import { getClosestTipParent } from './utils';
 
 interface IButtonsOptions {
@@ -17,11 +18,11 @@ interface INodeChangeEvent {
 }
 interface ITipChangeEvent extends INodeChangeEvent {
 	parentTip?: HTMLElement;
-	parentTipData?: ITag;
+	shortcode?: ITag;
 }
 
 interface ICustomButtonsOptions extends IButtonsOptions {
-	onTipChange?( button: ui.Control, { element, parentTip }: ITipChangeEvent ): void;
+	onTipChange?( button: ui.Control, { element, shortcode }: ITipChangeEvent ): void;
 	onNodeChange?( button: ui.Control, { element }: INodeChangeEvent ): void;
 }
 
@@ -68,8 +69,8 @@ export const registerButtons = async ( editor: Editor ) => {
 				title: 'Add a glossary tip',
 
 				cmd: 'open-glossarytip-form',
-				onTipChange: ( button: ui.Control, { parentTipData }: ITipChangeEvent ) => {
-					button.disabled( parentTipData && parentTipData.attributes ? parentTipData.attributes.type !== ETipType.Glossarytip : false );
+				onTipChange( button: ui.Control, { shortcode }: ITipChangeEvent ) {
+					button.disabled( shortcode && shortcode.attributes ? shortcode.attributes.tipType !== ETipType.Glossarytip : false );
 				},
 			},
 			// Add a button that opens a window for tooltip
@@ -78,8 +79,8 @@ export const registerButtons = async ( editor: Editor ) => {
 				title: 'Add a tooltip',
 
 				cmd: 'open-tooltip-form',
-				onTipChange: ( button: ui.Control, { parentTipData }: ITipChangeEvent ) => {
-					button.disabled( parentTipData && parentTipData.attributes ? parentTipData.attributes.type !== ETipType.Tooltip : false );
+				onTipChange( button: ui.Control, { shortcode }: ITipChangeEvent ) {
+					button.disabled( shortcode && shortcode.attributes ? shortcode.attributes.tipType !== ETipType.Tooltip : false );
 				},
 			},
 			// Add the tip delete button
@@ -87,10 +88,10 @@ export const registerButtons = async ( editor: Editor ) => {
 				image: iconSvg,
 				title: 'Remove a tip',
 
-				onClick: () => {
+				onClick() {
 					console.log( 'triggered' );
 				},
-				onTipChange: ( button: ui.Control, { parentTip }: ITipChangeEvent ) => {
+				onTipChange( button: ui.Control, { parentTip }: ITipChangeEvent ) {
 					button.disabled( !parentTip );
 				},
 			},
@@ -100,7 +101,7 @@ export const registerButtons = async ( editor: Editor ) => {
 				image: iconSvg,
 				title: 'Add a glossary list',
 
-				onClick: () => {
+				onClick() {
 					console.log( 'triggered' );
 				},
 			},
@@ -123,7 +124,11 @@ export const registerButtons = async ( editor: Editor ) => {
 		}
 		prevParentTip = parentTip || undefined;
 		// tslint:disable-next-line: no-inferred-empty-object-type
-		editor.fire( 'TipChange', { ...params, parentTip, parentTipData: parentTip ? parseHtmlElement( parentTip ) : undefined } );
+		editor.fire( 'TipChange', {
+			...params,
+			parentTip,
+			shortcode: parentTip ? TinyMCEShortcode.fromHtmlElement( parentTip ) : undefined,
+		} );
 	} );
 
 	// Return new buttons dictionary

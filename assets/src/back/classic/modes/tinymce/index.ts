@@ -2,7 +2,7 @@ import tinymce from 'tinymce';
 
 import { ns } from '@ithoughts/tooltip-glossary/back/common';
 
-import { EShortcodeType } from '../shortcode-type';
+import { EShortcodeType } from '../common/shortcode-type';
 import { IClassicPlugin } from '../types';
 import { plugin } from './editor';
 import { shortcodeTypes } from './shortcode-type';

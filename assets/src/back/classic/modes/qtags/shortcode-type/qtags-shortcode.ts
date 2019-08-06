@@ -4,8 +4,8 @@ import { Dictionary, isUndefined } from 'underscore';
 import { ECharEscapeSet, ensureArray, escapeString, unescapeString } from '@ithoughts/tooltip-glossary/back/common';
 import { camelCaseToDashCase, dashCaseToCamelCase, ITag, strToAttrVal } from '@ithoughts/tooltip-glossary/common';
 
-import { AShortcode, IShortcodeSearchResult } from '../../a-shortcode';
-import { IShortcodeTypeDescriptor } from '../../shortcode-type';
+import { AShortcode, IShortcodeSearchResult } from '../../common/a-shortcode';
+import { IShortcodeTypeDescriptor } from '../../common/shortcode-type';
 
 export class QTagsShortcode extends AShortcode {
 	protected shortcode: Shortcode = this.syncAttributes();

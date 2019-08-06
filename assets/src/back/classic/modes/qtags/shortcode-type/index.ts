@@ -1,33 +1,39 @@
 import { ns } from '@ithoughts/tooltip-glossary/back/common';
 import { ETipType } from '@ithoughts/tooltip-glossary/common';
 
-import { ShortcodeType } from '../../shortcode-type';
+import { ShortcodeType } from '../../common/shortcode-type';
+import { ShortcodeTypeTip } from '../../common/shortcode-type-tip';
 import { QTagsShortcode } from './qtags-shortcode';
 
-const shortcodeTypeFactory = ShortcodeType.createFactory( QTagsShortcode );
 export const shortcodeTypes = [
-	shortcodeTypeFactory(
-		ns( ETipType.Glossarytip ),
+	new ShortcodeTypeTip(
+		ETipType.Glossarytip,
 		{ tag: ['glossary', 'glossarytip'] },
+		QTagsShortcode,
+		{} as any,
 		{
 			to: [ShortcodeType.wrapShortcodeOverride( { tag: 'glossary' } )],
 		},
 	),
 
-	shortcodeTypeFactory(
-		ns( ETipType.Tooltip ),
+	new ShortcodeTypeTip(
+		ETipType.Tooltip,
 		{ tag: 'tooltip' },
+		QTagsShortcode,
+		{} as any,
 		{
 			to: [ShortcodeType.wrapShortcodeOverride( { tag: 'tooltip' } )],
 		},
 	),
 
-	shortcodeTypeFactory(
+	new ShortcodeType(
 		ns( 'glossary-term-list' ),
 		{ tag: 'span', attributes: { tipListType: 'column-list' }},
+		QTagsShortcode,
 	),
-	shortcodeTypeFactory(
+	new ShortcodeType(
 		ns( 'glossary-atoz' ),
 		{ tag: 'span', attributes: { tipListType: 'column-paged' }},
+		QTagsShortcode,
 	),
 ];

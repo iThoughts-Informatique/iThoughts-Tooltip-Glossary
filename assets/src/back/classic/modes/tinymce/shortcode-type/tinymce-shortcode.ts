@@ -2,8 +2,8 @@
 import { ensureArray } from '@ithoughts/tooltip-glossary/back/common';
 import { convertCamelCaseToDashCaseAttrs, makeHtmlElement, parseHtmlElement } from '@ithoughts/tooltip-glossary/common';
 
-import { AShortcode, IShortcodeSearchResult } from '../../a-shortcode';
-import { IShortcodeTypeDescriptor } from '../../shortcode-type';
+import { AShortcode, IShortcodeSearchResult } from '../../common/a-shortcode';
+import { IShortcodeTypeDescriptor } from '../../common/shortcode-type';
 
 export class TinyMCEShortcode extends AShortcode {
 	public toString(): string {
@@ -70,7 +70,7 @@ export class TinyMCEShortcode extends AShortcode {
 		}
 	}
 
-	private static fromHtmlElement( htmlElement: HTMLElement ): TinyMCEShortcode {
+	public static fromHtmlElement( htmlElement: HTMLElement ): TinyMCEShortcode {
 		const { tag, content, attributes } = parseHtmlElement( htmlElement );
 		return new TinyMCEShortcode( tag, content, attributes );
 	}

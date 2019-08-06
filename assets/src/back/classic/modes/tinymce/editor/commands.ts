@@ -1,117 +1,58 @@
 import { Editor } from 'tinymce';
-import { isString } from 'underscore';
 
-import { CSS_NAMESPACE, ns, uuid } from '@ithoughts/tooltip-glossary/back/common';
-import { ETipType, isGlossarytip, isTooltip, makeHtmlElement, parseHtmlElement } from '@ithoughts/tooltip-glossary/common';
+import { ns } from '@ithoughts/tooltip-glossary/back/common';
+import { ETipType } from '@ithoughts/tooltip-glossary/common';
 import { initTooltip } from '@ithoughts/tooltip-glossary/front';
 
-import { ITip, TipForm, TipFormOutput } from '../../../forms';
-import { baseTipClass, getEditorTip, getEditorTipUnderCursor } from './utils';
+import { ShortcodeTypeTip } from '../../common/shortcode-type-tip';
+import { shortcodeTypes } from '..//shortcode-type';
+import { TinyMCEShortcode } from '../shortcode-type/tinymce-shortcode';
+import { getEditorTip, getEditorTipUnderCursor } from './utils';
 
-const openTipForm = ( editor: Editor, tipDesc: TipFormOutput | ITip ) => {
-	const form = TipForm.mount( {
-		...tipDesc,
+export const onOpenTipForm = async ( editor: Editor, tipType: ETipType ) => {
+	// Get the element to select & convert it to a shortcode.
+	const tipHtmlElement = getEditorTipUnderCursor( editor );
+	const shortcode = tipHtmlElement ? TinyMCEShortcode.fromHtmlElement( tipHtmlElement ) : undefined;
 
-		onClose: ( isSubmit: boolean, data?: TipFormOutput ) => {
-			if ( isSubmit && data ) {
-				editor.execCommand( ns( 'insert-tip' ), undefined, data, data );
-			}
-		},
-	} );
-};
-
-const getSpecializedAttributes = ( tipDesc: TipFormOutput ) => {
-	if ( isGlossarytip( tipDesc ) ) {
-		return {
-			href:   tipDesc.linkTarget,
-			termId: tipDesc.termId.toString(),
-		} as const;
-	} else if ( isTooltip( tipDesc ) ) {
-		return {
-			content: tipDesc.content,
-			href:    tipDesc.linkTarget,
-		} as const;
-	} else {
-		throw new Error();
-	}
-};
-
-export const loadAttributesFromHtmlElement = ( element: HTMLElement ): TipFormOutput => {
-	const { attributes = {}, content } = parseHtmlElement( element );
-	if ( !isString( attributes.class ) ) {
-		throw new Error();
+	const type = shortcodeTypes.filter( ( t ): t is ShortcodeTypeTip<TinyMCEShortcode> => t instanceof ShortcodeTypeTip )
+		.find( t => t.id === tipType );
+	if ( !type ) {
+		throw new Error( `Type ${tipType} form is not yet implemented` );
 	}
 
-	const classes = attributes.class.split( ' ' );
-	if ( classes.includes( `${CSS_NAMESPACE}-${ETipType.Tooltip}` ) ) {
-		return {
-			content: attributes.content as string,
-			linkTarget: attributes.href as string,
-			text: content || '',
-			type: ETipType.Tooltip,
-		};
-	} else if ( classes.includes( `${CSS_NAMESPACE}-${ETipType.Glossarytip}` ) ) {
-		return {
-			linkTarget: attributes.href as string,
-			termId: attributes.termId as number,
-			text: content || '',
-			type: ETipType.Glossarytip,
-		};
-	} else {
-		throw new SyntaxError( `Could not determine the tip kind from the class list "${attributes.class}". The HTML markup may be corrupted.` );
-	}
+	const newShortcode = await type.doPromptForm( shortcode );
+	editor.execCommand( ns( 'insert-tip' ), undefined, newShortcode, newShortcode );
 };
 
-export const loadFromSelection = ( editor: Editor, expectedType: ETipType ): TipFormOutput | ITip => {
-	const triedTipParent = getEditorTipUnderCursor( editor );
-	if ( triedTipParent ) {
-		const loaded = loadAttributesFromHtmlElement( triedTipParent );
-		if ( loaded.type !== expectedType ) {
-			throw new TypeError( `Expected a tip of type ${expectedType}, but got ${loaded.type}` );
-		}
-		return loaded;
+//
+export function onInsertTip( editor: Editor, getTipsContainer: () => HTMLElement, _: any, tipDesc?: TinyMCEShortcode ) {
+	console.log( arguments );
+	console.log( tipDesc );
+	if ( !tipDesc ) {
+		return;
+	}
+	// If the returned shortcode has no UUID, then we have a problem...
+	if ( !tipDesc.attributes || !tipDesc.attributes.tipUuid || typeof tipDesc.attributes.tipUuid !== 'string' ) {
+		throw new Error( 'Missing UUID' );
 	}
 
-	return {
-		text: '',
-		type: expectedType,
-	};
-};
+	// Try to expand selectio if on tip.
+	const currentTip = getEditorTipUnderCursor( editor );
+	if ( currentTip ) {
+		editor.selection.select( currentTip );
+	}
 
-export const onOpenTipForm = ( editor: Editor, tipType: ETipType ) => {
-	openTipForm( editor, loadFromSelection( editor, tipType ) );
+	editor.execCommand( 'mceReplaceContent', false, tipDesc.toString() );
+
+	const newTip = getEditorTip( editor, tipDesc.attributes.tipUuid );
+	initTooltip( newTip, getTipsContainer() );
+
 	return true;
-};
+}
 
 export const registerCommands = ( editor: Editor, getTipsContainer: () => HTMLElement ) => {
-	editor.addCommand( ns( 'insert-tip' ), ( ( _ui, tipDesc: TipFormOutput ) => {
-		const typeName = ETipType[tipDesc.type];
-		const attributes = {
-			class: [baseTipClass, `${CSS_NAMESPACE}-${typeName}`].join( ' ' ),
-			href: tipDesc.linkTarget,
-			text: tipDesc.text,
-			tipUuid: uuid( 'tip' ),
-			type: typeName,
+	editor.addCommand( ns( 'insert-tip' ), onInsertTip.bind( undefined, editor, getTipsContainer ) as any );
 
-			...getSpecializedAttributes( tipDesc ),
-		};
-
-		// Try to expand selectio if on tip.
-		const currentTip = getEditorTipUnderCursor( editor );
-		if ( currentTip ) {
-			editor.selection.select( currentTip );
-		}
-
-		// Could use editor.dom.createHTML, but our method is better ;)
-		const tag = makeHtmlElement( { tag: 'a', content: tipDesc.text, attributes } );
-		editor.execCommand( 'mceReplaceContent', false, tag.outerHTML );
-
-		const newTip = getEditorTip( editor, attributes.tipUuid );
-		initTooltip( newTip, getTipsContainer() );
-
-		return true;
-	} ) as ( u?: boolean, v?: any ) => boolean );
-
-	editor.addCommand( ns( 'open-tooltip-form' ), onOpenTipForm.bind( undefined, editor, ETipType.Tooltip ) );
-	editor.addCommand( ns( 'open-glossarytip-form' ), onOpenTipForm.bind( undefined, editor, ETipType.Glossarytip ) );
+	editor.addCommand( ns( 'open-tooltip-form' ), onOpenTipForm.bind( undefined, editor, ETipType.Tooltip ) as any );
+	editor.addCommand( ns( 'open-glossarytip-form' ), onOpenTipForm.bind( undefined, editor, ETipType.Glossarytip ) as any );
 };
