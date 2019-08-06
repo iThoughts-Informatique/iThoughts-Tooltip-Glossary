@@ -57,6 +57,7 @@ export abstract class AForm<TProps extends IFormHandlers<TOut>, TState, TOut>
 		} while ( foundHandlerIndex !== -1 );
 	}
 	protected submit() {
+        console.log(this.formData)
 		this.submitHandlers.forEach( submitHandler => submitHandler( this.formData ) );
 		this.closeHandlers.forEach( closeHandler => closeHandler( true, this.formData ) );
 	}

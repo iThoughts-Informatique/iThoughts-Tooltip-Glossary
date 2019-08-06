@@ -94,6 +94,7 @@ export class TipForm extends AForm<TipFormProps, IState, TipFormOutput> {
 			...this.formDataNoDefault,
 
 			linkTarget: this.formDataNoDefault.linkTarget || this.state.linkTargetPlaceholder,
+			otherAttrs: this.state.tip.otherAttrs,
 		};
 	}
 
