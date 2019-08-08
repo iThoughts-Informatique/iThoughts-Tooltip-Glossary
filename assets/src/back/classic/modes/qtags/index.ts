@@ -1,4 +1,4 @@
-import { EShortcodeType } from '../common/shortcode-type';
+import { EShortcodeFormat } from '../common/shortcode-type';
 import { IClassicPlugin } from '../types';
 import { plugin } from './editor';
 import { shortcodeTypes } from './shortcode-type';
@@ -9,5 +9,5 @@ export const qtagsPlugin: IClassicPlugin<QTagsShortcode> = {
 		plugin();
 	},
 	shortcodeTypes,
-	type: EShortcodeType.QTags,
+	type: EShortcodeFormat.QTags,
 };

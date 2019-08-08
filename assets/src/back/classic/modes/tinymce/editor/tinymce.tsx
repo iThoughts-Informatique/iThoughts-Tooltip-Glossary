@@ -6,7 +6,7 @@ import { initTooltip } from '@ithoughts/tooltip-glossary/front';
 import editorConfig from '~editor-config';
 
 import { convertAllType } from '../../common/shortcode-transformers';
-import { EShortcodeType } from '../../common/shortcode-type';
+import { EShortcodeFormat } from '../../common/shortcode-type';
 import { registerButtons } from './buttons';
 import { registerCommands } from './commands';
 import './tinymce-plugin.scss';
@@ -40,9 +40,27 @@ export const plugin = async ( editor: Editor ) => {
 			tipsContainer!.style[prop] = val;
 		} );
 
+		editor.setContent( convertAllType( EShortcodeFormat.QTags, EShortcodeFormat.TinyMCE, editor.getContent() ) );
+
 		// Init existing tips
 		const tips = getEditorTip( editor );
 		tips.forEach( tip => initTooltip( tip, tipsContainer, true ) );
+
+		// replace from shortcode to displayable html content
+		// tslint:disable-next-line: no-inferred-empty-object-type
+		editor.on( 'BeforeSetcontent', event => {
+			console.log( 'BeforeSetcontent' );
+			event.content = convertAllType( EShortcodeFormat.QTags, EShortcodeFormat.TinyMCE, event.content );
+			return event;
+		} );
+
+		// replace from displayable html content to shortcode
+		// tslint:disable-next-line: no-inferred-empty-object-type
+		editor.on( 'GetContent', event => {
+			console.log( 'GetContent' );
+			event.content = convertAllType( EShortcodeFormat.TinyMCE, EShortcodeFormat.QTags, event.content );
+			return event;
+		} );
 	} );
 
 	registerCommands( editor, () => {
@@ -56,20 +74,4 @@ export const plugin = async ( editor: Editor ) => {
 	removeTip.disabled( false );
 	addTooltip.disabled( true );
 	addGlossarytip.disabled( true );
-
-	// replace from shortcode to displayable html content
-	// tslint:disable-next-line: no-inferred-empty-object-type
-	editor.on( 'BeforeSetcontent', event => {
-		console.log( 'BeforeSetcontent' );
-		event.content = convertAllType( EShortcodeType.QTags, EShortcodeType.TinyMCE, event.content );
-		return event;
-	} );
-
-	// replace from displayable html content to shortcode
-	// tslint:disable-next-line: no-inferred-empty-object-type
-	editor.on( 'GetContent', event => {
-		console.log( 'GetContent' );
-		event.content = convertAllType( EShortcodeType.TinyMCE, EShortcodeType.QTags, event.content );
-		return event;
-	} );
 };

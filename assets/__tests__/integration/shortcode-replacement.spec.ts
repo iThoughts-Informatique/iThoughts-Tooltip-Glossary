@@ -2,7 +2,7 @@ import escapeStringRegexp from 'escape-string-regexp';
 
 import { bootstrap } from '@ithoughts/tooltip-glossary/back/classic';
 import { convertAllType } from '@ithoughts/tooltip-glossary/back/classic/modes/common/shortcode-transformers';
-import { EShortcodeType } from '@ithoughts/tooltip-glossary/back/classic/modes/common/shortcode-type';
+import { EShortcodeFormat } from '@ithoughts/tooltip-glossary/back/classic/modes/common/shortcode-type';
 import { baseTipClass } from '@ithoughts/tooltip-glossary/back/classic/modes/tinymce/editor/utils';
 import { CSS_NAMESPACE } from '@ithoughts/tooltip-glossary/back/common';
 import { ETipType } from '@ithoughts/tooltip-glossary/common';
@@ -14,7 +14,7 @@ describe.each( [
 	['TinyMCE', 'QTags'],
 	['QTags', 'TinyMCE'],
 ] )( 'Should convert properly %s to %s', ( fromTypeStr, toTypeStr ) => {
-	const { fromType, toType } = { fromType: EShortcodeType[fromTypeStr as any] as any, toType: EShortcodeType[toTypeStr as any] as any };
+	const { fromType, toType } = { fromType: EShortcodeFormat[fromTypeStr as any] as any, toType: EShortcodeFormat[toTypeStr as any] as any };
 	const maybeFlip = <T>( set: Array<[T, T]> ) => set
 		.map( ( [a, b], index ) => fromTypeStr === 'TinyMCE' && toTypeStr === 'QTags' ? [index + 1, a, b] : [index + 1, b, a] ) as Array<[number, T, T]>;
 	enum EFilterType {

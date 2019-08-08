@@ -46,6 +46,7 @@ const charsEscapes: {[key in ECharEscapeSet]: CharsEscapeSet} = {
 export const escapeString = ( str: string, set: ECharEscapeSet ) => charsEscapes[set]
 	.reduce( ( s, [from, to] ) => s.replace( new RegExp( escapeStringRegexp( from ), 'g' ), to ), str );
 export const unescapeString = ( str: string, set: ECharEscapeSet ) => charsEscapes[set]
+	.reverse()
 	.reduce( ( s, [to, from] ) => s.replace( new RegExp( escapeStringRegexp( from ), 'g' ), to ), str );
 
 // From https://stackoverflow.com/a/9756789/4839162
@@ -62,7 +63,8 @@ export const escapeAttr = ( attr: string, preserveCR = false ) => {
 };
 
 // From https://stackoverflow.com/a/9756789/4839162
-export const unescapeAttr = ( attr: string ) => {
+export const unescapeAttr = ( attr: string, restoreCR = false ) => {
+	const crReturn = restoreCR ? '&#13;' : '\n';
 	/*
 	Note: this can be implemented more efficiently by a loop searching for
 	ampersands, from start to end of ssource string, and parsing the
@@ -84,12 +86,9 @@ export const unescapeAttr = ( attr: string ) => {
 	not within the detected CDATA sections.
 	*/
 	/* Decode by reversing the initial order of replacements. */
-	attr = attr
-		.replace( /\r\n/g, '\n' ) /* To do before the next replacement. */
-		.replace( /[\r\n]/, '\n' )
-		.replace( /&#13;&#10;/g, '\n' ) /* These 3 replacements keep whitespaces. */
-		.replace( /&#1[03];/g, '\n' )
-		.replace( /&#9;/g, '\t' );
+	attr = unescapeString(
+		attr.replace( crReturn, '\n' ), /* To do before the next replacement. */
+		ECharEscapeSet.Html );
 	/*
 	You may add other replacements here for predefined HTML entities only
 	(but it's not necessary). Or for XML, only if the named entities are
@@ -120,7 +119,7 @@ export const unescapeAttr = ( attr: string ) => {
 		throw new Error( 'unsafe entity found in the attribute literal content' );
 	}
 	 /* This MUST be the last replacement. */
-	attr = attr.replace( /&amp;/g, '&' );
+	// attr = attr.replace( /&amp;/g, '&' );
 	/*
 	The loop needed to support CDATA sections will end here.
 	This is where you'll concatenate the replaced sections (CDATA or

@@ -3,6 +3,7 @@ import { ETipType } from '@ithoughts/tooltip-glossary/common';
 
 import { ShortcodeType } from '../../common/shortcode-type';
 import { ShortcodeTypeTip } from '../../common/shortcode-type-tip';
+import { qTagsTipFormLoader } from './form-loader';
 import { QTagsShortcode } from './qtags-shortcode';
 
 export const shortcodeTypes = [
@@ -10,7 +11,7 @@ export const shortcodeTypes = [
 		ETipType.Glossarytip,
 		{ tag: ['glossary', 'glossarytip'] },
 		QTagsShortcode,
-		{} as any,
+		qTagsTipFormLoader,
 		{
 			to: [ShortcodeType.wrapShortcodeOverride( { tag: 'glossary' } )],
 		},
@@ -20,7 +21,7 @@ export const shortcodeTypes = [
 		ETipType.Tooltip,
 		{ tag: 'tooltip' },
 		QTagsShortcode,
-		{} as any,
+		qTagsTipFormLoader,
 		{
 			to: [ShortcodeType.wrapShortcodeOverride( { tag: 'tooltip' } )],
 		},

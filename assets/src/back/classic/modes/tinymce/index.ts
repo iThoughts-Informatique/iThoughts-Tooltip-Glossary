@@ -2,7 +2,7 @@ import tinymce from 'tinymce';
 
 import { ns } from '@ithoughts/tooltip-glossary/back/common';
 
-import { EShortcodeType } from '../common/shortcode-type';
+import { EShortcodeFormat } from '../common/shortcode-type';
 import { IClassicPlugin } from '../types';
 import { plugin } from './editor';
 import { shortcodeTypes } from './shortcode-type';
@@ -13,5 +13,5 @@ export const tinymcePlugin: IClassicPlugin<TinyMCEShortcode> = {
 		tinymce.PluginManager.add( ns(), plugin );
 	},
 	shortcodeTypes,
-	type: EShortcodeType.TinyMCE,
+	type: EShortcodeFormat.TinyMCE,
 };

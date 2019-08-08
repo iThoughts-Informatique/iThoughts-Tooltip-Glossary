@@ -8,7 +8,7 @@ export { shortcodesTypesRegistry };
 
 const registerMode = ( modePlugin: IClassicPlugin<AShortcode> ) => {
 	modePlugin.bootstrap();
-	shortcodesTypesRegistry[modePlugin.type] = modePlugin.shortcodeTypes;
+	shortcodesTypesRegistry.register( modePlugin.type, modePlugin.shortcodeTypes );
 };
 
 export const bootstrap = () => {

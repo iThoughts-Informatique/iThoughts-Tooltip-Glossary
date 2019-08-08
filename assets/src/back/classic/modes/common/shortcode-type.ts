@@ -5,7 +5,7 @@ import { AttrsHash, ITag } from '@ithoughts/tooltip-glossary/common';
 
 import { AShortcode, IShortcodeSearchResult, IShortcodeStatic, ShortcodeTransformer, TCastShortcodeTransformCollection } from './a-shortcode';
 
-export enum EShortcodeType {
+export enum EShortcodeFormat {
 	QTags,
 	TinyMCE,
 }
@@ -67,7 +67,7 @@ export class ShortcodeType<TShortcode extends AShortcode> {
 	public constructor(
 		public readonly id: string,
 		private readonly desc: Partial<IShortcodeTypeDescriptor>,
-		private readonly factory: ShortcodeFactory<TShortcode>,
+		public readonly factory: ShortcodeFactory<TShortcode>,
 		transforms: Partial<IInOutShortcodeTransforms> = { from: [], to: [] },
 	) {
 		this.transforms = {
@@ -79,7 +79,7 @@ export class ShortcodeType<TShortcode extends AShortcode> {
 	public *next( sourceText: string ): IterableIterator<IShortcodeSearchResult<ITag>> {
 		return yield* map(
 			item => {
-				const transformedTag = ShortcodeType.applyTransforms( this.transforms.from, item.tag );
+				const transformedTag = this.convertFromShortcode( item.tag );
 				return {
 					...item,
 					tag: new this.factory( transformedTag.tag, transformedTag.content, transformedTag.attributes ),
@@ -89,8 +89,20 @@ export class ShortcodeType<TShortcode extends AShortcode> {
 		);
 	}
 
-	public convert( from: ITag ): TShortcode {
-		const transformedTag = ShortcodeType.applyTransforms( this.transforms.to, from );
+	public convertFromShortcode( shortcode: TShortcode ): ITag {
+		return ShortcodeType.applyTransforms( this.transforms.from, shortcode );
+	}
+	
+	public convertToShortcode( tag: ITag ): TShortcode {
+		const transformedTag = ShortcodeType.applyTransforms( this.transforms.to, tag );
 		return new this.factory( transformedTag.tag, transformedTag.content, transformedTag.attributes );
+	}
+
+	public manages<TOther extends AShortcode>( shortcode: TOther ): this is ShortcodeType<TOther> {
+		return shortcode instanceof this.factory;
+	}
+
+	public managesFormatFactory<T extends AShortcode>( type: ShortcodeFactory<T> ): this is ShortcodeType<T> {
+		return type === this.factory as any;
 	}
 }

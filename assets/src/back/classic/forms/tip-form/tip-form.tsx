@@ -4,8 +4,8 @@ import ReactModal from 'react-modal';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { pick } from 'underscore';
 
-import { Omit } from '@ithoughts/tooltip-glossary/back/common';
-import { AttrsHash, ETipType, IGlossarytip, isGlossarytip, isTooltip, ITooltip } from '@ithoughts/tooltip-glossary/common';
+import { escapeAttr, Omit, unescapeAttr } from '@ithoughts/tooltip-glossary/back/common';
+import { AttrsHash, cleanObject, ETipType, IGlossarytip, isGlossarytip, isTooltip, ITooltip } from '@ithoughts/tooltip-glossary/common';
 
 import { AForm, IFormHandlers } from '../a-form';
 import { mountForm } from '../utils';
@@ -57,7 +57,10 @@ export class TipForm extends AForm<TipFormProps, IState, TipFormOutput> {
 			linkTargetPlaceholder,
 			modalIsOpen: true,
 
-			tip: props,
+			tip: cleanObject( {
+				...props,
+				content: props.type === ETipType.Tooltip ? unescapeAttr( ( props as any ).content ) : undefined,
+			} ) as ITip | TipFormOutput,
 		};
 	}
 
@@ -83,7 +86,10 @@ export class TipForm extends AForm<TipFormProps, IState, TipFormOutput> {
 		if ( isGlossarytip( this.state.tip ) ) {
 			return pick( this.state.tip, TIP_KEYS.concat( GLOSSARYTIP_KEYS ) as any ) as ITip & IGlossarytip;
 		} else if ( isTooltip( this.state.tip ) ) {
-			return pick( this.state.tip, TIP_KEYS.concat( TOOLTIP_KEYS ) as any ) as ITip & ITooltip;
+			return {
+				...pick( this.state.tip, TIP_KEYS.concat( TOOLTIP_KEYS ) as any ),
+				content: escapeAttr( this.state.tip.content ),
+			} as ITip & ITooltip;
 		} else {
 			throw new Error();
 		}

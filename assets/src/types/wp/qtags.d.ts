@@ -12,6 +12,7 @@ declare module '@wordpress/qtags'{
 			title?: string,
 			priority?: number,
 			instance?: QTags): void
+		static insertContent(content: string): void;
 	}
 	export default QTags;
 }

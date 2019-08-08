@@ -4,7 +4,7 @@ import { ETipType, ITag } from '@ithoughts/tooltip-glossary/common';
 import { flat, map } from 'iter-tools';
 import { shortcodesTypesRegistry } from '../../shortcode-types-registry';
 import { AShortcode, IShortcodeSearchResult, ShortcodeTransformer } from './a-shortcode';
-import { EShortcodeType, ShortcodeType } from './shortcode-type';
+import { EShortcodeFormat, ShortcodeType } from './shortcode-type';
 
 export const addTipUuid: ShortcodeTransformer = acc => ( {
 	...acc,
@@ -60,18 +60,18 @@ export const removeTipType: ShortcodeTransformer = acc => ( {
 	},
 } );
 
-export const convertAllType = ( from: EShortcodeType, to: EShortcodeType, content: string ) => {
-	const fromTypes = shortcodesTypesRegistry[from];
+export const convertAllType = ( from: EShortcodeFormat, to: EShortcodeFormat, content: string ) => {
+	const fromTypes = shortcodesTypesRegistry.getAllTypesOfFormat( from );
 	if ( !fromTypes ) {
 		// tslint:disable-next-line: no-console
-		console.warn( `Could not find a shortcode converter from type ${EShortcodeType[from]}` );
+		console.warn( `Could not find a shortcode converter from type ${EShortcodeFormat[from]}` );
 		return content;
 	}
 
-	const toTypes = shortcodesTypesRegistry[to];
+	const toTypes = shortcodesTypesRegistry.getAllTypesOfFormat( to );
 	if ( !toTypes ) {
 		// tslint:disable-next-line: no-console
-		console.warn( `Could not find a shortcode converter to type ${EShortcodeType[to]}` );
+		console.warn( `Could not find a shortcode converter to type ${EShortcodeFormat[to]}` );
 		return content;
 	}
 
@@ -94,7 +94,7 @@ export const convertAll = <TFrom extends AShortcode, TTo extends AShortcode>(
 			console.warn( `Could not find a counterpart for type with id ${type.id}` );
 			return shortcodeSearchResult;
 		} else {
-			const converted = typeTo.convert( shortcodeSearchResult.tag );
+			const converted = typeTo.convertToShortcode( shortcodeSearchResult.tag );
 			return {
 				...shortcodeSearchResult,
 				tag: converted,

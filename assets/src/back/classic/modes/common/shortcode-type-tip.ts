@@ -9,7 +9,7 @@ export interface IInOutShortcodeFormTransforms<TShortcode extends AShortcode> {
 	to: ( this: ShortcodeTypeTip<TShortcode>, formOutput: TipFormOutput ) => TShortcode;
 }
 
-export class ShortcodeTypeTip<TShortcode extends AShortcode> extends ShortcodeType<TShortcode> {
+export class ShortcodeTypeTip<TShortcode extends AShortcode = AShortcode> extends ShortcodeType<TShortcode> {
 	public constructor(
 		public readonly type: ETipType,
 		desc: Partial<IShortcodeTypeDescriptor>,
@@ -22,7 +22,7 @@ export class ShortcodeTypeTip<TShortcode extends AShortcode> extends ShortcodeTy
 
 	public async doPromptForm( shortcode?: TShortcode ): Promise<TShortcode | undefined> {
 		const props = this.formTransforms.from.call( this, shortcode );
-		console.log({props})
+		console.log( { props } );
 		const out = await new Promise<TipFormOutput | undefined>( ( res, rej ) => {
 			const form = TipForm.mount( {
 				...props,
@@ -36,11 +36,14 @@ export class ShortcodeTypeTip<TShortcode extends AShortcode> extends ShortcodeTy
 				},
 			} );
 		} );
+		console.log( { out } );
 
 		if ( !out ) {
 			return undefined;
 		} else {
-			return this.formTransforms.to.call( this, out );
+			const transformedOut = this.formTransforms.to.call( this, out );
+			console.log( { transformedOut } );
+			return transformedOut;
 		}
 	}
 }

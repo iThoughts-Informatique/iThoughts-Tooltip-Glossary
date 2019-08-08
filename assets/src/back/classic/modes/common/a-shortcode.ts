@@ -1,7 +1,7 @@
 import { ensureArray, TMany } from '@ithoughts/tooltip-glossary/back/common';
 import { AttrsHash, ITag } from '@ithoughts/tooltip-glossary/common';
 
-import { EShortcodeType, IShortcodeTypeDescriptor } from './shortcode-type';
+import { EShortcodeFormat, IShortcodeTypeDescriptor } from './shortcode-type';
 
 export type ShortcodeTransformer = ( accumulator: ITag, source: ITag ) => ITag;
 export type TCastShortcodeTransform<TShortcode extends ITag> = Partial<TShortcode> | ShortcodeTransformer;
