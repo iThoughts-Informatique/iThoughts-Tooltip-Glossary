@@ -41,7 +41,12 @@ return [
     },
     'asset-back-editor-classic-style' => function(){return AAssetRegistration::get('back-editor-classic.css');},
     'asset-back-editor-classic'       => function(){
-        return AAssetRegistration::get('back-editor-classic.js', [DependencyManager::get('asset-back-common'), DependencyManager::get('asset-front'), DependencyManager::get('asset-back-editor-classic-style')])
+        return AAssetRegistration::get('back-editor-classic.js', [
+                DependencyManager::get('asset-back-common'),
+                DependencyManager::get('asset-front'),
+                DependencyManager::get('asset-back-editor-classic-style'),
+                'quicktags',
+            ])
             ->as_tinymce_plugin(DependencyManager::get('app-namespace'), ['add-glossarytip', 'add-tooltip', 'remove-tip', 'add-list']);
     },
 ];
