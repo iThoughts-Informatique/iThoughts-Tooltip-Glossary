@@ -21,6 +21,7 @@ export default initConfig({
 		},
 	},
 	internals: ['react-modal', 'react-tabs', 'react-autocomplete', 'autobind-decorator', 'debounce', 'html-element-attributes', 'tippy.js', 'escape-string-regexp', 'iter-tools'],
+    externals: ['@wordpress/qtags'],
 	globals: {
 		react: 'React',
 		tinymce: 'tinymce',
@@ -28,6 +29,7 @@ export default initConfig({
 		jquery: 'jQuery',
 		'react-dom': 'ReactDOM',
 		backbone: 'Backbone',
+		'@wordpress/qtags': 'QTags',
 	},
 	virtualModules: {
 		modules: ['editor-config', '@wordpress/api'],

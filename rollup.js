@@ -39,7 +39,7 @@ export const initConfig = config => {
 
     const allDeps = Object.keys( require( './package.json' ).dependencies );
     const wpDeps = allDeps.concat( virtualModulesNames ).filter( dep => dep.startsWith( '@wordpress' ) );
-    const external = _.reject( allDeps, dep => config.internals.includes(dep) ).concat( virtualModulesNames );
+    const external = _.reject( allDeps, dep => config.internals.includes(dep) ).concat( virtualModulesNames ).concat( config.externals );
     const globals = {
         ...config.globals,
 
