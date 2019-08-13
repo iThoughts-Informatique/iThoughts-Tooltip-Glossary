@@ -12,7 +12,10 @@ declare module '@wordpress/qtags'{
 			title?: string,
 			priority?: number,
 			instance?: QTags): void
-		static insertContent(content: string): void;
+        static insertContent(content: string): void;
+        static instances: {[name: string]: {
+            canvas: HTMLTextAreaElement
+        } | undefined}
 	}
 	export default QTags;
 }

@@ -6,10 +6,14 @@ import { ShortcodeTypeTip } from '../../common/shortcode-type-tip';
 import { qTagsTipFormLoader } from './form-loader';
 import { QTagsShortcode } from './qtags-shortcode';
 
+export const shortcodeTags = {
+	[ETipType.Glossarytip]: ['glossary', 'glossarytip'],
+	[ETipType.Tooltip]: 'tooltip',
+};
 export const shortcodeTypes = [
 	new ShortcodeTypeTip(
 		ETipType.Glossarytip,
-		{ tag: ['glossary', 'glossarytip'] },
+		{ tag: shortcodeTags[ETipType.Glossarytip] },
 		QTagsShortcode,
 		qTagsTipFormLoader,
 		{
@@ -19,7 +23,7 @@ export const shortcodeTypes = [
 
 	new ShortcodeTypeTip(
 		ETipType.Tooltip,
-		{ tag: 'tooltip' },
+		{ tag: shortcodeTags[ETipType.Tooltip] },
 		QTagsShortcode,
 		qTagsTipFormLoader,
 		{
