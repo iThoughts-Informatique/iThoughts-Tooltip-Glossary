@@ -1,8 +1,8 @@
 import Shortcode, { next, NextMatch, ShortcodeAttrs } from '@wordpress/shortcode';
 import { Dictionary, isUndefined } from 'underscore';
 
-import { ECharEscapeSet, ensureArray, escapeString, unescapeString } from '@ithoughts/tooltip-glossary/back/common';
-import { camelCaseToDashCase, dashCaseToCamelCase, ITag, strToAttrVal } from '@ithoughts/tooltip-glossary/common';
+import { ensureArray } from '@ithoughts/tooltip-glossary/back/common';
+import { camelCaseToDashCase, dashCaseToCamelCase, ECharEscapeSet, escapeString, ITag, strToAttrVal, unescapeString } from '@ithoughts/tooltip-glossary/common';
 
 import { AShortcode, IShortcodeSearchResult } from '../../common/a-shortcode';
 import { IShortcodeTypeDescriptor } from '../../common/shortcode-type';
