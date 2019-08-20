@@ -136,6 +136,10 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
             add_action( 'init', function(){
                 static::get(Taxonomy_GlossaryGroup::class)->register();
                 static::get(Post_Glossary::class)->register();
+
+                $tipFactory = static::get('TipFactory');
+                $tipFactory('Glossarytip')->register();
+                $tipFactory('Tooltip')->register();
             });
             add_action( 'rest_api_init', function() {
                 static::get(GlossaryTermController::class)->register();

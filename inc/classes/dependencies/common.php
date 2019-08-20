@@ -14,6 +14,7 @@ use ithoughts\TooltipGlossary\AssetRegistration\ScriptRegistration;
 use ithoughts\TooltipGlossary\AssetRegistration\StyleRegistration;
 use ithoughts\TooltipGlossary\AssetRegistration\AAssetRegistration;
 use ithoughts\TooltipGlossary\DependencyManager;
+use ithoughts\TooltipGlossary\Shortcode\Tip;
 
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -32,6 +33,7 @@ $relative_assets_dir = 'assets/dist/';
 return [
     'text-domain'                 => 'ithoughts-tooltip-glossary',
     'app-namespace'               => json_decode(file_get_contents("${base_path}/settings.json"), true)["appNamespace"],
+    'css-namespace'               => json_decode(file_get_contents("${base_path}/settings.json"), true)["cssNamespace"],
     'shortcode-tags'              => json_decode(file_get_contents("${base_path}/settings.json"), true)["shortcodeTags"],
     'options.key'                 => 'ithoughts-tooltip-glossary',
     'options.default'             => require_once('default_config.php'),
@@ -43,6 +45,10 @@ return [
     Post_Glossary::class          => create()->constructor(get('text-domain'), get(OptionsManager::class)),
     Taxonomy_GlossaryGroup::class => create()->constructor(get('text-domain'), get(OptionsManager::class)),
     Manifest::class               => create()->constructor(get('assets-path'), get('assets-url')),
+
+    'TipFactory'                  => function(){ return function(string $name){
+        return new Tip($name, DependencyManager::get('css-namespace'), DependencyManager::get('shortcode-tags'));
+    };},
 
     // Assets registration
     'AssetRegistration.js'        => ScriptRegistration::class,
