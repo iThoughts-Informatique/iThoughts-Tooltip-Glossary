@@ -1,4 +1,8 @@
 {
     "appNamespace": "tooltip-glossary-ithoughts-io",
-    "cssNamespace": "itg"
+    "cssNamespace": "itg",
+    "shortcodeTags": {
+        "Glossarytip": ["glossary", "glossarytip"],
+        "Tooltip": ["tooltip"]
+    }
 }

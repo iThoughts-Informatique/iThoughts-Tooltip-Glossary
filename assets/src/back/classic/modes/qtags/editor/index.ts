@@ -1,12 +1,14 @@
 import QTags from '@wordpress/qtags';
+import { find } from 'iter-tools';
 
 import { ensureArray, ns } from '@ithoughts/tooltip-glossary/back/common';
 import { _throw, ETipType, lazyEval } from '@ithoughts/tooltip-glossary/common';
-import { find } from 'iter-tools';
+import { shortcodeTags } from '~editor-config';
+
 import { shortcodesTypesRegistry } from '../../../shortcode-types-registry';
 import { EShortcodeFormat, IBatchShortcodeResult, ShortcodeType } from '../../common/shortcode-type';
 import { ShortcodeTypeTip } from '../../common/shortcode-type-tip';
-import { shortcodeTags, shortcodeTypes } from '../shortcode-type';
+import { shortcodeTypes } from '../shortcode-type';
 import { QTagsShortcode } from '../shortcode-type/qtags-shortcode';
 
 const txtareaLazy = lazyEval( () => {

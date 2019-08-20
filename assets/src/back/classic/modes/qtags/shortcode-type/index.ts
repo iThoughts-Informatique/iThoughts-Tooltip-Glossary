@@ -1,15 +1,13 @@
 import { ns } from '@ithoughts/tooltip-glossary/back/common';
 import { ETipType } from '@ithoughts/tooltip-glossary/common';
 
+import { shortcodeTags } from '~editor-config';
+
 import { ShortcodeType } from '../../common/shortcode-type';
 import { ShortcodeTypeTip } from '../../common/shortcode-type-tip';
 import { qTagsTipFormLoader } from './form-loader';
 import { QTagsShortcode } from './qtags-shortcode';
 
-export const shortcodeTags = {
-	[ETipType.Glossarytip]: ['glossary', 'glossarytip'],
-	[ETipType.Tooltip]: 'tooltip',
-};
 export const shortcodeTypes = [
 	new ShortcodeTypeTip(
 		ETipType.Glossarytip,

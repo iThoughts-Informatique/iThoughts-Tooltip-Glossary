@@ -34,6 +34,7 @@ return [
                 return [
                     'manifest'            => DependencyManager::get(Manifest::class)->get_manifest(),
                     'controllerNamespace' => GlossaryTermController::namespace,
+                    'shortcodeTags'       => DependencyManager::get('shortcode-tags'),
                 ];
             } )
             ->as_block_type('glossarytip')
