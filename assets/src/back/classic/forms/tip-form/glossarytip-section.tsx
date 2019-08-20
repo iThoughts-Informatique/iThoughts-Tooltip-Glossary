@@ -37,7 +37,7 @@ export const glossarytipValidationMessage = ( tip: ITip & ( IGlossarytip | {} ) 
 
 export class GlossarytipSection extends Component<IProps, IState> {
 	public readonly state: IState;
-	private readonly glossaryTermsCollection: Promise<Collection<GlossaryTermModel>>;
+	private readonly repository: LazyEvaluator<Promise<IRepository<GlossaryTermModelItem>>>;
 
 	public constructor( public readonly props: IProps ) {
 		super( props );
@@ -47,20 +47,14 @@ export class GlossarytipSection extends Component<IProps, IState> {
 			autocompletes: [],
 			tipData: { termId: 0, ...props.tip, type: ETipType.Glossarytip },
 		};
-		this.glossaryTermsCollection = this.ajaxInit();
+		this.ajaxInit();
+		this.repository = glossaryTermRepository;
 	}
 
 	private async ajaxInit() {
-		const model = await getGlossaryTermModel();
-		const collection = new model
-				.collections
-			.GlossaryTerm<GlossaryTermModel>( undefined, { comparator: 'title' } );
-
 		if ( this.state.tipData.termId > 0 ) {
-			const modelItem = await jqXhrToPromise<GlossaryTermModelItem>( new model.models.GlossaryTerm( { id: this.state.tipData.termId } ).fetch() );
-			if ( !modelItem ) {
-				throw new Error( `Unable to find glossary term ${this.state.tipData.termId}` );
-			}
+			const repository = await this.repository.val;
+			const modelItem = await repository.getById( this.state.tipData.termId );
 			this.props.onChangeSpecializedTip( this.state.tipData, modelItem.url );
 			this.setState( {
 				...this.state,
@@ -68,7 +62,6 @@ export class GlossarytipSection extends Component<IProps, IState> {
 				autocompleteSearch: modelItem.title,
 			} );
 		}
-		return collection;
 	}
 
 	public render() {
@@ -101,7 +94,7 @@ export class GlossarytipSection extends Component<IProps, IState> {
 	}
 
 	public setState( state: IState, callback?: ( () => void ) | undefined ) {
-		console.log('Set state', {state, callback})
+		console.log( 'Set state', { state, callback } );
 		super.setState( state, callback );
 		const url = state.selectedTerm ? state.selectedTerm.url : undefined;
 		this.props.onChangeSpecializedTip( state.tipData, url );
@@ -154,15 +147,13 @@ export class GlossarytipSection extends Component<IProps, IState> {
 
 	private async ajaxFetch( maybeSearch?: string ) {
 		const search = this.autocompletedSearch( maybeSearch );
+		const repository = await this.repository.val;
+		const { models } = await repository.search( search );
 
-		const collection = await this.glossaryTermsCollection;
-		await jqXhrToPromise<void>( collection.fetch( {
-			data: { search },
-		} ) );
 		this.setState( {
 			...this.state,
 
-			autocompletes: collection.models
+			autocompletes: models
 				.map( term => ( {
 					excerpt: term.attributes.content.slice( 0, 100 ),
 
