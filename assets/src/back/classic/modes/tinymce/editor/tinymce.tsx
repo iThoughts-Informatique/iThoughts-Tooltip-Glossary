@@ -1,8 +1,7 @@
 import { Editor } from 'tinymce';
 
 import { Omit } from '@ithoughts/tooltip-glossary/back/common';
-import { makeHtmlElement } from '@ithoughts/tooltip-glossary/common';
-import { initTooltip } from '@ithoughts/tooltip-glossary/front';
+import { initTip, makeHtmlElement } from '@ithoughts/tooltip-glossary/common';
 import editorConfig from '~editor-config';
 
 import { convertAllType } from '../../common/shortcode-transformers';
@@ -44,7 +43,7 @@ export const plugin = async ( editor: Editor ) => {
 
 		// Init existing tips
 		const tips = getEditorTip( editor );
-		tips.forEach( tip => initTooltip( tip, tipsContainer, true ) );
+		tips.forEach( tip => initTip( tip, tipsContainer, true ) );
 
 		// replace from shortcode to displayable html content
 		// tslint:disable-next-line: no-inferred-empty-object-type

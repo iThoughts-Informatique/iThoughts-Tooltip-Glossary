@@ -1,8 +1,7 @@
 import { Editor } from 'tinymce';
 
 import { ns } from '@ithoughts/tooltip-glossary/back/common';
-import { ETipType } from '@ithoughts/tooltip-glossary/common';
-import { initTooltip } from '@ithoughts/tooltip-glossary/front';
+import { ETipType, initTip } from '@ithoughts/tooltip-glossary/common';
 
 import { shortcodesTypesRegistry } from '../../../shortcode-types-registry';
 import { EShortcodeFormat } from '../../common/shortcode-type';
@@ -42,7 +41,7 @@ export const onInsertTip = ( editor: Editor, getTipsContainer: () => HTMLElement
 	editor.execCommand( 'mceReplaceContent', false, tipDesc.toString() );
 
 	const newTip = getEditorTip( editor, tipDesc.attributes.tipUuid );
-	initTooltip( newTip, getTipsContainer() );
+	initTip( newTip, getTipsContainer() );
 
 	return true;
 };
