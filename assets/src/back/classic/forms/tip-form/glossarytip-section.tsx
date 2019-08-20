@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import Autocomplete from 'react-autocomplete';
 import { pick } from 'underscore';
 
-import { getGlossaryTermModel, GlossaryTermModel, GlossaryTermModelItem, jqXhrToPromise } from '@ithoughts/tooltip-glossary/back/common';
+import { getGlossaryTermModel, GlossaryTermModel, GlossaryTermModelItem, glossaryTermRepository, IRepository, jqXhrToPromise, LazyEvaluator } from '@ithoughts/tooltip-glossary/common';
 import { ETipType, IGlossarytip } from '@ithoughts/tooltip-glossary/common';
 
 import { ITip } from '../tip-form';

@@ -32,7 +32,7 @@ export default initConfig({
 		'@wordpress/qtags': 'QTags',
 	},
 	virtualModules: {
-		modules: ['editor-config', '@wordpress/api'],
+		modules: ['editor-config', '@wordpress/api', 'config'],
 		/**
 		 * @param {string} name
 		 */

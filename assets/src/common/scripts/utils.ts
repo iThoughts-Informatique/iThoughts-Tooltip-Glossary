@@ -22,6 +22,7 @@ export const lazyEval = <T>( cb: () => T ) => {
 		},
 	};
 };
+export type LazyEvaluator<T> = {readonly val: T};
 
 export type Nullable<T> = T | null | undefined;
 export const isNotNil = <T>( v: Nullable<T> ): v is T => typeof v !== 'undefined' && v !== null;
@@ -35,3 +36,6 @@ export const cleanObject = <T>( obj: Dictionary<T | undefined> ) => Object.entri
 		acc[k] = v;
 		return acc;
 	},       {} as Dictionary<T> );
+
+export const jqXhrToPromise = <T>( xhr: JQueryXHR ) =>
+	new Promise<T>( ( res, rej ) => xhr.done( res ).fail( rej ) );

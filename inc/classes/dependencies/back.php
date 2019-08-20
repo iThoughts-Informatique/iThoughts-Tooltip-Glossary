@@ -10,7 +10,6 @@ use ithoughts\TooltipGlossary\MultipleCallException;
 use ithoughts\TooltipGlossary\Manifest;
 use ithoughts\TooltipGlossary\Admin\Menu\Manager as Menu_Manager;
 use ithoughts\TooltipGlossary\Admin\PostEditor;
-use ithoughts\TooltipGlossary\Controller\GlossaryTermController;
 use ithoughts\TooltipGlossary\AssetRegistration\AAssetRegistration;
 use ithoughts\TooltipGlossary\DependencyManager;
 
@@ -29,11 +28,10 @@ return [
 
     'asset-back-common-style'         => function(){ return AAssetRegistration::get('back-common.css'); },
     'asset-back-common'               => function(){
-        return AAssetRegistration::get('back-common.js', ['wp-blocks', 'wp-element', 'wp-i18n', 'wp-plugins', 'wp-edit-post', 'wp-data', 'wp-api', DependencyManager::get('asset-back-common-style')])
+        return AAssetRegistration::get('back-common.js', ['wp-blocks', 'wp-element', 'wp-i18n', 'wp-plugins', 'wp-edit-post', 'wp-data', DependencyManager::get('asset-back-common-style')])
             ->add_data('ithoughtsTooltipGlossary_editorConfig', function(){
                 return [
                     'manifest'            => DependencyManager::get(Manifest::class)->get_manifest(),
-                    'controllerNamespace' => GlossaryTermController::namespace,
                     'shortcodeTags'       => DependencyManager::get('shortcode-tags'),
                 ];
             } )
@@ -44,7 +42,7 @@ return [
     'asset-back-editor-classic'       => function(){
         return AAssetRegistration::get('back-editor-classic.js', [
                 DependencyManager::get('asset-back-common'),
-                DependencyManager::get('asset-front'),
+                DependencyManager::get('asset-common'),
                 DependencyManager::get('asset-back-editor-classic-style'),
                 'quicktags',
             ])

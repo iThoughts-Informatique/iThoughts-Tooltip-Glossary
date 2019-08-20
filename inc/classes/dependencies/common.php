@@ -15,6 +15,7 @@ use ithoughts\TooltipGlossary\AssetRegistration\StyleRegistration;
 use ithoughts\TooltipGlossary\AssetRegistration\AAssetRegistration;
 use ithoughts\TooltipGlossary\DependencyManager;
 use ithoughts\TooltipGlossary\Shortcode\Tip;
+use ithoughts\TooltipGlossary\Controller\GlossaryTermController;
 
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -54,7 +55,14 @@ return [
     'AssetRegistration.js'        => ScriptRegistration::class,
     'AssetRegistration.css'       => StyleRegistration::class,
 
-    'asset-common'      => function(){return AAssetRegistration::get('common.js', ['underscore']/* , [$common_style] */);},
+    'asset-common'      => function(){
+        return AAssetRegistration::get('common.js', ['underscore', 'wp-api']/* , [$common_style] */)
+            ->add_data('ithoughtsTooltipGlossary_config', function(){
+                return [
+                    'controllerNamespace' => GlossaryTermController::namespace,
+                ];
+            } );
+    },
     'asset-front-style' => function(){return AAssetRegistration::get('front.css');},
     'asset-front'       => function(){return AAssetRegistration::get('front.js', [DependencyManager::get('asset-common'), DependencyManager::get('asset-front-style')]);},
 ];

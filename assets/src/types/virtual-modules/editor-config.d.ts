@@ -3,7 +3,6 @@ declare module '~editor-config'{
 	
 	import { ETipType } from "@ithoughts/tooltip-glossary/common";
 	
-	export const controllerNamespace: string;
 	export const manifest: Dictionary<string | undefined>;
 	export const shortcodeTags: {[key in ETipType]: string[]}
 }
