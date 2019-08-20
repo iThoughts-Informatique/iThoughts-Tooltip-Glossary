@@ -140,6 +140,7 @@ if(!class_exists( __NAMESPACE__ . '\\DependencyManager' )){
                 $tipFactory = static::get('TipFactory');
                 $tipFactory('Glossarytip')->register();
                 $tipFactory('Tooltip')->register();
+                DependencyManager::get('asset-front')->enqueue();
             });
             add_action( 'rest_api_init', function() {
                 static::get(GlossaryTermController::class)->register();

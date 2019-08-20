@@ -1,3 +1,7 @@
-export const initTooltip = ( element: HTMLAnchorElement, container: 'parent' | Element = 'parent', inEditor = false ) => {
-	console.log( 'Init tip', element, container, inEditor );
-};
+import { initTip } from '@ithoughts/tooltip-glossary/common';
+
+document.addEventListener( 'DOMContentLoaded', () => {
+	Array.from( document.querySelectorAll<HTMLAnchorElement>( 'a.itg-tip' ) ).forEach( node => {
+		initTip( node );
+	} );
+} );
